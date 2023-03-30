@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 1327038475
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c1336ea3e6e6efad8a6da9cc2a71ce20
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: fdf6c57a251b9f6ec27bdd2fe01b033c
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/AssetBundles/Prefabs/Agent/Animations/X_Bot@Hip_Hop_Dancing/anim_X_Bot@Hip_Hop_Dancing.controller
+Dependencies:
+- E:/GameProcs/depot/DongCiDaCi/DongCiDaCi/Assets/StreamingAssets/prefabs/agent/models.variant

@@ -1,0 +1,70 @@
+ManifestFileVersion: 0
+CRC: 2993364045
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 80f07c751b7ec7561bee183a6f7153f1
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 24c5b26afe37101d2ff4dfdd668a7b23
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/0319/Quinn/Textures/Color Variations/Body Albedo - Brown Hair.png
+- Assets/0319/Quinn/Textures/Color Variations/Hair Albedo - Brown.png
+- Assets/0319/Quinn/Models/Quinn_T.fbx
+- Assets/AssetBundles/Prefabs/Agent/Quinn.prefab
+- Assets/AssetBundles/Prefabs/Agent/Models/Robot Kyle/Materials/Robot_Color.mat
+- Assets/0319/Quinn/Textures/Body Reflectivity.png
+- Assets/AssetBundles/Prefabs/Agent/X_Bot@Hip_Hop_Dancing.prefab
+- Assets/AssetBundles/Prefabs/Agent/X_Bot@Dancing_Running_Man.prefab
+- Assets/0319/Quinn/Materials/Quinn Clothes.mat
+- Assets/0319/Quinn/Textures/Clothes Reflectivity.png
+- Assets/AssetBundles/Prefabs/Agent/Models/Robot Kyle/MyJumpRun.anim
+- Assets/0319/Quinn/Textures/Hair Normal.png
+- Assets/AssetBundles/Prefabs/Agent/Models/Robot Kyle/Textures/Robot_Normal.tga
+- Assets/0319/Quinn/Textures/Clothes Albedo.png
+- Assets/AssetBundles/Prefabs/Agent/Animations/AnimController_Rotot.controller
+- Assets/0319/Quinn/Textures/Body Normal.png
+- Assets/0319/Quinn/Textures/Clothes Metalness.png
+- Assets/AssetBundles/Prefabs/Agent/Robot Kyle.prefab
+- Assets/AssetBundles/Prefabs/Agent/Models/Robot Kyle/MyJumpRunRightOn.anim
+- Assets/AssetBundles/Prefabs/Agent/Models/Robot Kyle/MyJumpRunLeftOn.anim
+- Assets/AssetBundles/Prefabs/Agent/Animations/X_Bot@Dancing_Running_Man/anim_X_Bot@Dancing_Running_Man.controller
+- Assets/AssetBundles/Prefabs/Agent/Models/Robot Kyle/Model/m_Robot Kyle.fbx
+- Assets/AssetBundles/Prefabs/Agent/Models/m_X_Bot@Hip_Hop_Dancing.fbx
+- Assets/0319/Quinn/Textures/Hair Albedo.png
+- Assets/0319/Quinn/Textures/Color Variations/Body Albedo - Black Hair.png
+- Assets/AssetBundles/Prefabs/Agent/Animations/X_Bot@Hip_Hop_Dancing/anim_X_Bot@Hip_Hop_Dancing.controller
+- Assets/AssetBundles/Prefabs/Agent/Models/m_X_Bot@Dancing_Running_Man.fbx
+- Assets/0319/Quinn/Materials/Quinn Body.mat
+- Assets/0319/Quinn/Textures/Body Albedo.png
+- Assets/0319/Quinn/Textures/Color Variations/Hair Albedo - Black.png
+- Assets/0319/Quinn/Textures/Hair Reflectivity.png
+- Assets/0319/Quinn/Materials/Quinn Hair.mat
+- Assets/AssetBundles/Prefabs/Agent/Models/Robot Kyle/Textures/Robot_Color.tga
+- Assets/0319/Quinn/Textures/Clothes Normal.png
+Dependencies: []

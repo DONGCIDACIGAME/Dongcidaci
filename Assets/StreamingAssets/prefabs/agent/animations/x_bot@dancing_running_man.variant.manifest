@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 1226714710
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 02ae175e2fd939e56d3c8121dc4df4b5
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: fdf6c57a251b9f6ec27bdd2fe01b033c
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/AssetBundles/Prefabs/Agent/Animations/X_Bot@Dancing_Running_Man/anim_X_Bot@Dancing_Running_Man.controller
+Dependencies:
+- E:/GameProcs/depot/DongCiDaCi/DongCiDaCi/Assets/StreamingAssets/prefabs/agent/models.variant

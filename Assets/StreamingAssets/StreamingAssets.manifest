@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 3788779497
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: prefabs/ui.variant
+      Dependencies: {}
+    Info_1:
+      Name: audio/music.variant
+      Dependencies: {}
+    Info_2:
+      Name: prefabs/ui/musiceditor.variant
+      Dependencies: {}
+    Info_3:
+      Name: prefabs/agent.variant
+      Dependencies: {}
+    Info_4:
+      Name: prefabs.variant
+      Dependencies:
+        Dependency_0: audio/music.variant

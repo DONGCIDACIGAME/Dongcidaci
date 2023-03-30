@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 4025181121
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b37f11e895ccb1c5cbb41e1a1dc1e399
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9a2ca7bdbd1871f7131daf57de908e0c
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/AssetBundles/Audio/Music/Come And Get Your Love.mp3
+- "Assets/AssetBundles/Audio/Music/\u666E\u901A\u670B\u53CB.mp3"
+- Assets/AssetBundles/Audio/Music/Tobu - Higher.mp3
+Dependencies: []

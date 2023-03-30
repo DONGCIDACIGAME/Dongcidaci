@@ -1,0 +1,28 @@
+/**
+* @file:   HeroCfg
+* @author: Triniti Interactive Limited 
+* @brief:  这个文件是通过工具自动生成的，建议不要手动修改
+*/
+syntax = "proto3";
+
+option java_package ="com.trinitigames.server.conf.auto";
+
+package DongciDaci;
+
+message HeroBaseCfg{
+    /** ID */ 
+    uint32 ID = 1;
+    /** 名称 */ 
+    string Name = 2;
+    /** 预制体路径 */ 
+    string Prefab = 3;
+    /** 角色的移动速度 */ 
+    float Speed = 4;
+    /** 角色多少拍行动一次 */ 
+    uint32 MeterOffset = 5;
+}
+
+message HeroCfg_Data {
+   map<uint32,  HeroBaseCfg> HeroBaseCfg_items = 1;
+
+}

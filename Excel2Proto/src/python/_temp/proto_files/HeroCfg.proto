@@ -1,0 +1,24 @@
+/**
+* @file:   HeroCfg
+* @author: Triniti Interactive Limited 
+* @brief:  这个文件是通过工具自动生成的，建议不要手动修改
+*/
+syntax = "proto3";
+
+option java_package ="com.trinitigames.server.conf.auto";
+
+package ConfigData;
+
+message HeroBaseCfg{
+    /** ID */ 
+    uint32 ID = 1;
+    /** 名称 */ 
+    string name = 2;
+    /** 预制体路径 */ 
+    string prefab = 3;
+}
+
+message HeroCfg_Data {
+   map<uint32,  HeroBaseCfg> HeroBaseCfg_items = 1;
+
+}
