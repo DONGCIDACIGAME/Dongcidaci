@@ -12,13 +12,13 @@ public class DemoScene : GameScene
 
     public override void OnSceneEnter()
     {
+        AudioManager.Ins.LoadBgm("Audio/Music/Tobu - Higher");
+        AudioManager.Ins.PlayBgm(true);
         UIManager.Ins.OpenPanel<PanelDemo>("Prefabs/UI/Panel_Demo");
 
-        InputManager.Ins.RegisterInputControl(InputControlCenter.AttackInputCtl);
+        InputManager.Ins.RegisterInputControl(InputControlCenter.PlayerKeyboardInput);
 
         InputManager.Ins.AddState(InputStateDefine.GAMEDEMO_STATE);
-
-        AudioManager.Ins.LoadBgm("Audio/Music/Tobu - Higher");
 
         AgentManager.Ins.LoadHero(3);
     }

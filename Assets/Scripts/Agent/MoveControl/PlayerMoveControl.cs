@@ -9,10 +9,6 @@ public class PlayerMoveControl : AgentMoveControl
 
     }
 
-
-
-
-
     public override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);

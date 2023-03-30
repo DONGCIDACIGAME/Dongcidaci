@@ -22,12 +22,7 @@ public class AgentStatus_Idle : AgentStatus
 
     public override void OnEnter(Dictionary<string, object> context)
     {
-        if (mAgent == null)
-            return;
-
-        
-
-        //mAgent.AnimPlayer.CrossFadeToStateInNormalizedTime(AgentStatusDefine.IDLE,)
+        base.OnEnter(context);
     }
 
     public override void OnExit()
@@ -37,6 +32,6 @@ public class AgentStatus_Idle : AgentStatus
 
     public override void OnUpdate(float deltaTime)
     {
-        
+        base.OnUpdate(deltaTime);
     }
 }

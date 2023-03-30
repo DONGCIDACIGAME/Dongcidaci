@@ -31,6 +31,9 @@ public class PlayerBaseMeterHandler : IMeterHandler
         if (!mMeterTrigger.IsTriggered())
             return;
 
+
+        //TODO:--------------
+        //mHero.AnimPlayer.UpdateAnimSpeed()
     }
 
     public uint GetMeterOffset()

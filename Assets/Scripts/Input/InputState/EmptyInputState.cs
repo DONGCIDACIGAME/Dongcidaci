@@ -6,7 +6,7 @@ public class EmptyInputState : InputState
     {
         validInputCtlNames = new HashSet<string>
         {
-            InputDef.PlayerInputCtlName,
+            
         };
     }
 

@@ -23,11 +23,7 @@ public class AgentStatus_Run : AgentStatus
 
     public override void OnEnter(Dictionary<string, object> context)
     {
-        AgentStatusInfo statusInfo = mAgent.StatusGraph.GetStatusInfo(GetStatusName());
-        if (statusInfo == null)
-            return;
-
-
+        base.OnEnter(context);
     }
 
     public override void OnExit()
@@ -37,7 +33,7 @@ public class AgentStatus_Run : AgentStatus
 
     public override void OnUpdate(float deltaTime)
     {
-        
+        base.OnUpdate(deltaTime);
     }
 
 }

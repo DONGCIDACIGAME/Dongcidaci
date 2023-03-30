@@ -17,7 +17,7 @@ public class PanelDemo : UIPanel
 
     private void OnClickStart()
     {
-        AudioManager.Ins.PlayBgm(true);
+        //AudioManager.Ins.PlayBgm(true);
     }
 
     protected override void BindUINodes()

@@ -1,0 +1,30 @@
+{
+	"agentName": "Robot",
+	"agentId": 3,
+	"statusMap": {
+		"Idle": {
+			"statusName": "Idle",
+			"animStates": [{
+				"stateName": "Idle",
+				"loopTime": 0,
+				"animName": "Idle",
+				"stateMeterLen": 4,
+				"normalizedTime": 0.25,
+				"layer": 0,
+				"stateLen": 2.500
+			}]
+		},
+		"Run": {
+			"statusName": "Run",
+			"animStates": [{
+				"stateName": "Run",
+				"loopTime": 0,
+				"animName": "RunForward",
+				"stateMeterLen": 2,
+				"normalizedTime": 0.25,
+				"layer": 0,
+				"stateLen": 1.000
+			}]
+		}
+	}
+}

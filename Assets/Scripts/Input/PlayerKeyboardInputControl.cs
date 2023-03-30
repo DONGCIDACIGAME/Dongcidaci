@@ -1,25 +1,26 @@
 using UnityEngine;
 
-public class PlayerInputControl : IInputControl
+public class PlayerKeyboardInputControl : IInputControl
 {
     public string GetInputControlName()
     {
-        return InputDef.PlayerInputCtlName;
+        return InputDef.PlayerKeyboardInputCtlName;
     }
 
     private Agent mAgent;
-    public void Initialize()
-    {
-        
-    }
 
     public void BindAgent(Agent agt)
     {
-        mAgent = agt;
+        this.mAgent = agt;
     }
+
+    private Vector3 lastInputTowards;
 
     public void InputControlUpdate(float deltaTime)
     {
+        if (mAgent == null)
+            return;
+
         int agentAction = AgentActionDefine.IDLE;
 
         Vector3 towards = Vector3.zero;
@@ -47,9 +48,14 @@ public class PlayerInputControl : IInputControl
             agentAction = AgentActionDefine.RUN;
         }
 
-        if(!towards.Equals(Vector3.zero))
+        if(!towards.Equals(lastInputTowards))
         {
             mAgent.MoveControl.TurnTo(towards);
+            lastInputTowards = towards;
+        }
+
+        if(!towards.Equals(Vector3.zero))
+        {
             mAgent.MoveControl.Move(towards, deltaTime);
         }
 

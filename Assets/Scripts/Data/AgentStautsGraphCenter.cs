@@ -1,41 +1,43 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using LitJson;
 
-public class AgentStateInfoCenter
+public class AgentStautsGraphCenter
 {
-    private Dictionary<uint, AgentStatusGraph> mAgentStateInfos;
+    private Dictionary<uint, AgentStatusGraph> mAllAgentStatusGraphs;
 
     public AgentStatusGraph GetAgentStatusGraph(uint agentId)
     {
         AgentStatusGraph statesInfo;
-        mAgentStateInfos.TryGetValue(agentId, out statesInfo);
+        mAllAgentStatusGraphs.TryGetValue(agentId, out statesInfo);
         return statesInfo;
     }
 
-    private void LoadAgentStateInfo(string jsonPath)
+    private void LoadAgentStatusData(string jsonPath)
     {
         if (!FileHelper.FileExist(jsonPath))
         {
             Log.Error(LogLevel.Normal, "LoadAgentStateInfo Failed, file don¡®t exist at path:{0}", jsonPath);
             return;
         }
-
+        
         string json = FileHelper.ReadText(jsonPath, System.Text.Encoding.UTF8);
-        AgentStatusGraph agentStates = JsonUtility.FromJson<AgentStatusGraph>(json);
-        if (agentStates == null)
+        
+        AgentStatusGraph agentStatusGraph = JsonMapper.ToObject<AgentStatusGraph>(json);
+        if (agentStatusGraph == null)
         {
             Log.Error(LogLevel.Normal, "LoadAgentStateInfo Failed, parse AgentFullStatesInfo data failed at path:{0}", jsonPath);
             return;
         }
 
-        if(!mAgentStateInfos.TryAdd(agentStates.agentId, agentStates))
+        if(!mAllAgentStatusGraphs.TryAdd(agentStatusGraph.agentId, agentStatusGraph))
         {
             Log.Error(LogLevel.Normal, "LoadAgentStateInfo Failed, repeated agent id at path:{0}", jsonPath);
         }
     }
 
-    private void LoadAllAgentStateInfos(string dirPath)
+    private void LoadAllAgentStatusDatas(string dirPath)
     {
         if (string.IsNullOrEmpty(dirPath))
             return;
@@ -43,30 +45,30 @@ public class AgentStateInfoCenter
         DirectoryInfo di = new DirectoryInfo(dirPath);
         foreach(DirectoryInfo subDi in di.EnumerateDirectories())
         {
-            LoadAllAgentStateInfos(subDi.FullName);
+            LoadAllAgentStatusDatas(subDi.FullName);
         }
 
         foreach (FileInfo fi in di.EnumerateFiles("*.json"))
         {
-            LoadAgentStateInfo(fi.FullName);
+            LoadAgentStatusData(fi.FullName);
         }
     }
 
     public void Initialize()
     {
-        mAgentStateInfos = new Dictionary<uint, AgentStatusGraph>();
+        mAllAgentStatusGraphs = new Dictionary<uint, AgentStatusGraph>();
         string dirPath = null;
 #if UNITY_EDITOR
-        dirPath = PathDefine.EDITOR_DATA_DIR_PATH + "/StateInfo";
+        dirPath = PathDefine.EDITOR_DATA_DIR_PATH + "/AgentStatusData";
 #else
         dirPath = PathDefine.RELEASE_DATA_DIR_PATH + "/StateInfo";
 #endif
-        LoadAllAgentStateInfos(dirPath);
+        LoadAllAgentStatusDatas(dirPath);
     }
 
     public void Dispose()
     {
-        mAgentStateInfos = null;
+        mAllAgentStatusGraphs = null;
     }
 
 }

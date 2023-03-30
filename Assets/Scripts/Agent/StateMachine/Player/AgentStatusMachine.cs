@@ -3,39 +3,48 @@ using GameEngine;
 
 public delegate void ChangeStatusDelegate(string stateName,  Dictionary<string, object> context = null);
 
-public class PlayerStateMachine
+public class AgentStatusMachine
 {
     private IAgentStatus mCurStatus;
     private Dictionary<string, IAgentStatus> mStatusMap;
     private Agent mAgent;
 
-    public PlayerStateMachine(Agent agt)
-    {
-        mAgent = agt;
-    }
-
-    private void AddState(string stateName, AgentStatus state)
-    {
-        if(string.IsNullOrEmpty(stateName))
-        {
-            Log.Error(LogLevel.Normal, "PlayerStateMachine AddState Failed, state name is null or empty, please check!");
-            return;
-        }
-
-        if(state == null)
-        {
-            Log.Error(LogLevel.Normal, "PlayerStateMachine AddState Failed, state {0} is null, please check!", stateName);
-            return;
-        }
-
-        state.Initialize(mAgent, SwitchToStatus);
-    }
-
-    public void Initialize()
+    public AgentStatusMachine()
     {
         mStatusMap = new Dictionary<string, IAgentStatus>();
-        mStatusMap.Add(AgentStatusDefine.IDLE, new AgentStatus_Idle());
-        mStatusMap.Add(AgentStatusDefine.RUN, new AgentStatus_Run());
+    }
+
+    private void AddStatus(string statusName, AgentStatus status)
+    {
+        if(string.IsNullOrEmpty(statusName))
+        {
+            Log.Error(LogLevel.Normal, "PlayerStateMachine AddState Failed, status name is null or empty, please check!");
+            return;
+        }
+
+        if(status == null)
+        {
+            Log.Error(LogLevel.Normal, "PlayerStateMachine AddState Failed, status {0} is null, please check!", statusName);
+            return;
+        }
+
+        if(mStatusMap.ContainsKey(statusName))
+        {
+            Log.Error(LogLevel.Normal, "PlayerStateMachine AddState Failed, repeate add status {0}!", statusName);
+            return;
+        }
+
+        mStatusMap.Add(statusName, status);
+        status.Initialize(mAgent, SwitchToStatus);
+    }
+
+    public void Initialize(Agent agt)
+    {
+        mAgent = agt;
+        AddStatus(AgentStatusDefine.IDLE, new AgentStatus_Idle());
+        AddStatus(AgentStatusDefine.RUN, new AgentStatus_Run());
+
+        SwitchToStatus(AgentStatusDefine.IDLE, null);
     }
 
     public void OnAction(int action)

@@ -181,7 +181,7 @@ public class MeterManager : ModuleManager<MeterManager>
         }
     }
 
-    public float GetTimeToNextBaseMeter(uint offset)
+    public float GetTimeToNextBaseMeter(int offset)
     {
         if (mCurAudioMeterData == null)
             return -1f;

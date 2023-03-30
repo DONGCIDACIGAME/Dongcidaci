@@ -34,15 +34,21 @@ public abstract class AgentMoveControl
         }
         else
         {
-            TurnTime = Mathf.Abs(Quaternion.FromToRotation(TurnFromTowards, TurnToTowards).eulerAngles.y) / GameCommonConfig.AgentTurnSpeed;
+            float rotation = Quaternion.FromToRotation(TurnFromTowards, TurnToTowards).eulerAngles.y; 
+            if(rotation > 180)
+            {
+                rotation -= 180;
+            }
+
+            TurnTime = rotation / GameCommonConfig.AgentTurnSpeed;
         }
         TurnRecord = 0;
     }
 
     public virtual void Move(Vector3 towards, float deltaTime)
     {
-        if (TurnTime > 0 && TurnRecord < TurnTime)
-            return;
+        //if (TurnTime > 0 && TurnRecord < TurnTime)
+        //    return;
 
         // ¿ØÖÆÒÆ¶¯
         Vector3 pos = mAgent.GetPosition() + TurnToTowards * mAgent.GetSpeed() * deltaTime;
@@ -57,10 +63,7 @@ public abstract class AgentMoveControl
         if (TurnTime > 0)
         {
             TurnRecord += deltaTime;
-        }
 
-        if (TurnTime > 0)
-        {
             if (TurnRecord < TurnTime)
             {
                 Vector3 towards = Vector3.Lerp(TurnFromTowards, TurnToTowards, TurnRecord / TurnTime);

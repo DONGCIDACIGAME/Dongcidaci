@@ -74,6 +74,9 @@ public class InputManager : ModuleManager<InputManager>
         if (state == null)
             return;
 
+        if (mStateStatck.Count == 0)
+            return;
+
         IInputState toRemove = mStateStatck.Peek();
         if(toRemove != null && toRemove.GetStateName().Equals(state.GetStateName()))
         {
@@ -123,7 +126,6 @@ public class InputManager : ModuleManager<InputManager>
         }
 
         mInputControlMap.Add(ctlName, inputCtl);
-        inputCtl.Initialize();
         Log.Logic(LogLevel.Info, "Register Input Control {0} Ok", ctlName);
     }
    

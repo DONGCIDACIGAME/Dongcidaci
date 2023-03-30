@@ -30,7 +30,7 @@ public abstract class Agent : IEntity
     /// <summary>
     /// 动画状态机
     /// </summary>
-    protected PlayerStateMachine mStateMachine;
+    protected AgentStatusMachine StatusMachine;
 
     /// <summary>
     /// 移动控制
@@ -61,6 +61,10 @@ public abstract class Agent : IEntity
     public void SetPosition(Vector3 position)
     {
         mPosition = position;
+        if(mAgentGo != null)
+        {
+            mAgentGo.transform.position = position;
+        }
     }
 
     public float GetSpeed()
@@ -112,7 +116,9 @@ public abstract class Agent : IEntity
         LoadAgentCfg(mAgentId);
         LoadAgentGo();
         CustomInitialize();
-        StatusGraph = DataCenter.Ins.AgentStateInfoCenter.GetAgentStatusGraph(mAgentId);
+        StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
+        StatusMachine = new AgentStatusMachine();
+        StatusMachine.Initialize(this);
     }
 
     public virtual void Dispose()
@@ -147,9 +153,9 @@ public abstract class Agent : IEntity
 
     public void OnAction(int action)
     {
-        if(mStateMachine != null)
+        if(StatusMachine != null)
         {
-            mStateMachine.OnAction(action);
+            StatusMachine.OnAction(action);
         }
     }
 
@@ -159,6 +165,7 @@ public abstract class Agent : IEntity
     /// <param name="deltaTime"></param>
     public virtual void OnUpdate(float deltaTime)
     {
-
+        MoveControl.OnUpdate(deltaTime);
+        StatusMachine.OnUpdate(deltaTime);
     }
 }

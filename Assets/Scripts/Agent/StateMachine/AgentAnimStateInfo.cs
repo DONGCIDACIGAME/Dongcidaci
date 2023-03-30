@@ -5,5 +5,7 @@ public class AgentAnimStateInfo
     public int loopTime;
     public string animName;
     public int stateMeterLen;
+    public int layer;
+    public float normalizedTime;
     public float stateLen;
 }

@@ -14,11 +14,6 @@ public class Hero : Agent
     /// </summary>
     private CamFollowTarget mCft;
 
-    /// <summary>
-    ///  ‰»Îøÿ÷∆
-    /// </summary>
-    private PlayerInputControl mInputControl;
-
 
     protected override void LoadAgentCfg(uint agentId)
     {
@@ -83,9 +78,9 @@ public class Hero : Agent
             }
         }
 
-        mInputControl = new PlayerInputControl();
-        mInputControl.BindAgent(this);
-
+        InputControlCenter.PlayerKeyboardInput.BindAgent(this);
+        MoveControl = new PlayerMoveControl(this);
+        
         SetSpeed(mHeroCfg.Speed);
     }
 
@@ -97,11 +92,6 @@ public class Hero : Agent
     public override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);
-
-        if(mInputControl != null)
-        {
-            mInputControl.InputControlUpdate(deltaTime);
-        }
 
         if (mCft != null)
         {

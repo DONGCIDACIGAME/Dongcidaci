@@ -10,7 +10,7 @@ public class DataCenter : ModuleManager<DataCenter>
     /// <summary>
     /// 角色状态数据配置中心
     /// </summary>
-    public AgentStateInfoCenter AgentStateInfoCenter;
+    public AgentStautsGraphCenter AgentStatusGraphCenter;
 
 
     public override void Dispose()
@@ -21,10 +21,10 @@ public class DataCenter : ModuleManager<DataCenter>
             TableDataCenter = null;
         }
         
-        if(AgentStateInfoCenter != null)
+        if(AgentStatusGraphCenter != null)
         {
-            AgentStateInfoCenter.Dispose();
-            AgentStateInfoCenter = null;
+            AgentStatusGraphCenter.Dispose();
+            AgentStatusGraphCenter = null;
         }
     }
 
@@ -34,7 +34,7 @@ public class DataCenter : ModuleManager<DataCenter>
         TableDataCenter = ConfigDatabase.CreateInstance("DongciDaci");
         TableDataCenter.LoadFromLocalResources();
 
-        AgentStateInfoCenter = new AgentStateInfoCenter();
-        AgentStateInfoCenter.Initialize();
+        AgentStatusGraphCenter = new AgentStautsGraphCenter();
+        AgentStatusGraphCenter.Initialize();
     }
 }
