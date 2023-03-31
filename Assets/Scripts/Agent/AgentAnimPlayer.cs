@@ -70,26 +70,20 @@ public class AgentAnimPlayer
     /// </summary>
     /// <param name="stateName"></param>
     /// <param name="duration"></param>
-    public void UpdateAnimSpeed(float duration)
+    public void UpdateAnimSpeed(float speed)
     {
         if(mAnimator == null)
         {
             Log.Error(LogLevel.Info, "UpdateAnimSpeed Error, animator is null!");
             return;
         }
-
-        if (!mAnimInfoMap.TryGetValue(mCurStateName, out float animLen))
-        {
-            Log.Error(LogLevel.Critical, "UpdateAnimSpeed Error, state [{0}] doesn't find a anim clip with same name!", mCurStateName);
-            return;
-        }
-
-        mAnimator.speed = animLen / duration;
+  
+        mAnimator.speed = speed;
     }
 
-    private bool BeforeToAnimState(string stateName,float duration)
+    private bool BeforeChangeToAnimState(string stateName, float animLen, float duration)
     {
-        if (duration < 0)
+        if (duration <= 0)
             return false;
 
         if (mAnimator == null)
@@ -109,7 +103,8 @@ public class AgentAnimPlayer
             return false;
 
         mCurStateName = stateName;
-        UpdateAnimSpeed(duration);
+        UpdateAnimSpeed(animLen / duration);
+        Log.Logic(LogLevel.Info, "UpdateAnimSpeed----speed:{0}, animLen:{1}, duration:{2}", animLen / duration, animLen, duration) ;
         return true;
     }
 
@@ -117,19 +112,20 @@ public class AgentAnimPlayer
     /// 在规定时间(归一化)内融合至指定动画并播放完成
     /// </summary>
     /// <param name="stateName">状态名称</param>
+    /// <param name="stateLen">状态时间</param>
     /// <param name="layer">动画所在层级</param>
     /// <param name="normalizedTime">动画融合所占时间(归一化)</param>
     /// <param name="duration">新动画的预期播放时间</param>
-    public void CrossFadeToStateInNormalizedTime(string stateName, int layer, float normalizedTime, float duration)
+    public void CrossFadeToStateInNormalizedTime(string stateName, float stateLen, int layer, float normalizedTime, float duration)
     {
         // 归一化时间为0，就是不融合，直接播放
         if (normalizedTime == 0)
         {
-            PlayStateInTime(stateName, layer, 0, duration);
+            PlayStateInTime(stateName, stateLen, layer, 0, duration);
             return;
         }
 
-        if (!BeforeToAnimState(stateName, duration))
+        if (!BeforeChangeToAnimState(stateName, stateLen, duration))
             return;
 
         mAnimator.CrossFade(stateName, normalizedTime, layer);
@@ -140,19 +136,20 @@ public class AgentAnimPlayer
     /// 在规定时间(绝对时间)内融合至指定动画并播放完成
     /// </summary>
     /// <param name="stateName">状态名称</param>
+    /// <param name="stateLen">状态时间</param>
     /// <param name="layer">动画所在层级</param>
     /// <param name="time">动画融合所占时间(绝对时间)</param>
     /// <param name="duration">新动画的预期播放时间</param>
-    public void CrossFadeToStateInFixedTime(string stateName, int layer, float time, float duration)
+    public void CrossFadeToStateInFixedTime(string stateName, float stateLen, int layer, float time, float duration)
     {
         // 时间为0，就是不融合，直接播放
         if (time == 0)
         {
-            PlayStateInTime(stateName, layer, 0, duration);
+            PlayStateInTime(stateName, stateLen, layer, 0, duration);
             return;
         }
 
-        if (!BeforeToAnimState(stateName, duration))
+        if (!BeforeChangeToAnimState(stateName, stateLen, duration))
             return;
         mAnimator.CrossFadeInFixedTime(stateName, time, layer);
     }
@@ -162,15 +159,16 @@ public class AgentAnimPlayer
     /// 在规定时间内播放完指定动画
     /// </summary>
     /// <param name="stateName">状态名称</param>
+    /// <param name="stateLen">状态时间</param>
     /// <param name="layer">动画所在层级</param>
     /// <param name="normalizedTime">动画开始时间(归一化)</param>
     /// <param name="duration">新动画的预期播放时间</param>
-    public void PlayStateInTime(string stateName, int layer, float normalizedTime, float duration)
+    public void PlayStateInTime(string stateName, float stateLen, int layer, float normalizedTime, float duration)
     {
         if (duration == 0)
             return;
 
-        if (!BeforeToAnimState(stateName, duration))
+        if (!BeforeChangeToAnimState(stateName,  stateLen, duration))
             return;
 
         mAnimator.Play(stateName, layer, normalizedTime);

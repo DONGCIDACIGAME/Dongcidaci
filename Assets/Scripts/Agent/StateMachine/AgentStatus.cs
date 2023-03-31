@@ -36,7 +36,7 @@ public abstract class AgentStatus : IAgentStatus
         float duration = MeterManager.Ins.GetTimeToNextBaseMeter(state.stateMeterLen);
         if(duration > 0)
         {
-            mAgent.AnimPlayer.CrossFadeToStateInNormalizedTime(stateName,  state.layer, state.normalizedTime, duration);
+            mAgent.AnimPlayer.CrossFadeToStateInNormalizedTime(stateName, state.stateLen, state.layer, state.normalizedTime, duration);
         }
     }
 
@@ -59,7 +59,15 @@ public abstract class AgentStatus : IAgentStatus
 
     public virtual void OnUpdate(float deltaTime)
     {
-        if(mStateAnimQueue.MoveNext(deltaTime))
+        int ret = mStateAnimQueue.MoveNext(deltaTime);
+        if (ret == AgentAnimDefine.AnimQueue_AnimLoop)
+        {
+            AgentAnimStateInfo state = mStateAnimQueue.GetCurAnimState();
+            float duration = MeterManager.Ins.GetTimeToNextBaseMeter(state.stateMeterLen);
+            mAgent.AnimPlayer.UpdateAnimSpeed(state.stateLen/duration);
+        }
+
+        if(ret == AgentAnimDefine.AnimQueue_AnimChange)
         {
             AgentAnimStateInfo state = mStateAnimQueue.GetCurAnimState();
             AgentStatusCrossFadeToState(state);

@@ -70,6 +70,7 @@ public class AgentStatusMachine
             }
 
             newStatus.OnEnter(context);
+            mCurStatus = newStatus;
         }
     }
 

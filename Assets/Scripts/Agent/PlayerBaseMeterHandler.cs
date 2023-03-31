@@ -32,7 +32,6 @@ public class PlayerBaseMeterHandler : IMeterHandler
             return;
 
 
-        //TODO:--------------
         //mHero.AnimPlayer.UpdateAnimSpeed()
     }
 

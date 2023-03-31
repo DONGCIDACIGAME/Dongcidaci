@@ -135,22 +135,6 @@ public abstract class Agent : IEntity
         AnimPlayer = new AgentAnimPlayer();
     }
 
-    private int mMeterCounter = 0;
-    /// <summary>
-    /// TODO:这里需要新增一个自定义的动画状态机
-    /// </summary>
-    /// <returns></returns>
-    protected AgentAnimInfo GetAgentRunAnimInfo()
-    {
-        mMeterCounter++;
-        if (mMeterCounter%2 ==0)
-        {
-            return AgentAnimDefine.RunLeft;
-        }
-
-        return AgentAnimDefine.RunRight;
-    }
-
     public void OnAction(int action)
     {
         if(StatusMachine != null)

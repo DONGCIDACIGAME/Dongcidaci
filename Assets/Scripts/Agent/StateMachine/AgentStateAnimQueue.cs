@@ -25,46 +25,46 @@ public class AgentStateAnimQueue
         lastStateMaxTimeRecord = 0;
     }
     
-    public bool MoveNext(float deltaTime)
+    public int MoveNext(float deltaTime)
     {
         timeRecord += deltaTime;
 
         if (mAnimStates == null || mAnimStates.Length == 0)
-            return false;
+            return AgentAnimDefine.AnimQueue_Error;
 
         AgentAnimStateInfo curStateInfo = mAnimStates[curStateIndex];
         if (curStateInfo == null)
         {
             Log.Error(LogLevel.Info, "AgentStateAnimQueue MoveNext, AgentAnimStateInfo is null at index:{0}", curStateIndex);
-            return false;
+            return AgentAnimDefine.AnimQueue_Error;
         }
 
-        // 规定 loopTime = 0 为无限循环
+        if (timeRecord - lastStateMaxTimeRecord < curStateInfo.stateLen)
+            return AgentAnimDefine.AnimQueue_AnimKeep;
+
         if (curStateInfo.loopTime == 0)
-            return false;
+            return AgentAnimDefine.AnimQueue_AnimLoop;
 
 
-        if(timeRecord - lastStateMaxTimeRecord > curStateInfo.stateLen)
+        curStateLoopRecord++;
+        lastStateMaxTimeRecord += curStateInfo.stateLen;
+
+
+        if (curStateLoopRecord < curStateInfo.loopTime)
         {
-            curStateLoopRecord++;
-            lastStateMaxTimeRecord += curStateInfo.stateLen;
+            return AgentAnimDefine.AnimQueue_AnimLoop;
         }
 
-        if(curStateLoopRecord >= curStateInfo.loopTime)
+        curStateLoopRecord = 0;
+        curStateIndex++;
+
+        // 规定动画队列也是循环播放的
+        if (curStateIndex >= mAnimStates.Length)
         {
-            curStateLoopRecord = 0;
-            curStateIndex++;
-
-            // 规定动画队列也是循环播放的
-            if(curStateIndex >= mAnimStates.Length)
-            {
-                curStateIndex = 0;
-            }
-
-            return true;
+            curStateIndex = 0;
         }
 
-        return false;
+        return AgentAnimDefine.AnimQueue_AnimChange;
     }
 
 
