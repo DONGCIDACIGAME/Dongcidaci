@@ -42,15 +42,13 @@ public class AgentStateAnimQueue
         if (timeRecord - lastStateMaxTimeRecord < curStateInfo.stateLen)
             return AgentAnimDefine.AnimQueue_AnimKeep;
 
-        if (curStateInfo.loopTime == 0)
-            return AgentAnimDefine.AnimQueue_AnimLoop;
-
-
         curStateLoopRecord++;
         lastStateMaxTimeRecord += curStateInfo.stateLen;
 
+        if (curStateInfo.loopTime == 0)
+            return AgentAnimDefine.AnimQueue_AnimLoop;
 
-        if (curStateLoopRecord < curStateInfo.loopTime)
+        if (curStateLoopRecord <= curStateInfo.loopTime)
         {
             return AgentAnimDefine.AnimQueue_AnimLoop;
         }
