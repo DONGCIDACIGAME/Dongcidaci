@@ -41,6 +41,18 @@ public class MeterManager : ModuleManager<MeterManager>
         mBaseMeterHandlers.Add(unicode, handler);
     }
 
+    public void UnregiseterBaseMeterHandler(IMeterHandler handler)
+    {
+        if (handler == null)
+            return;
+
+        int unicode = handler.GetHashCode();
+        if (mBaseMeterHandlers.ContainsKey(unicode))
+        {
+            mBaseMeterHandlers.Remove(unicode);
+        }
+    }
+
     public void RegisterAttackMeterHandler(IMeterHandler handler)
     {
         if (handler == null)
@@ -51,6 +63,18 @@ public class MeterManager : ModuleManager<MeterManager>
             return;
 
         mAttackMeterHandlers.Add(unicode, handler);
+    }
+
+    public void UnregiseterAttackMeterHandler(IMeterHandler handler)
+    {
+        if (handler == null)
+            return;
+
+        int unicode = handler.GetHashCode();
+        if (mAttackMeterHandlers.ContainsKey(unicode))
+        {
+            mAttackMeterHandlers.Remove(unicode);
+        }
     }
 
     private void LoadAudioMeterInfo(string audioName)
@@ -103,7 +127,7 @@ public class MeterManager : ModuleManager<MeterManager>
         enable = true;
     }
 
-    public bool CheckMoveMeter()
+    public bool CheckBaseMeter()
     {
         if (mCurAudioMeterData == null)
             return false;
@@ -129,11 +153,11 @@ public class MeterManager : ModuleManager<MeterManager>
         return false;
     }
 
-    private void TriggerMove()
+    private void TriggerBaseMeter()
     {
         foreach(IMeterHandler handler in mBaseMeterHandlers.Values)
         {
-            handler.OnMeter();
+            handler.OnMeter(baseMeterIndex);
         }
     }
 
@@ -141,7 +165,7 @@ public class MeterManager : ModuleManager<MeterManager>
     {
         foreach (IMeterHandler handler in mAttackMeterHandlers.Values)
         {
-            handler.OnMeter();
+            handler.OnMeter(attackMeterIndex);
         }
     }
 
@@ -159,8 +183,8 @@ public class MeterManager : ModuleManager<MeterManager>
         {
             if (timeRecord >= mCurAudioMeterData.baseMeters[baseMeterIndex])
             {
-                TriggerMove();
-                // 这里自增一定要放在最后
+                TriggerBaseMeter();
+                // 这里自增一定要放在后面
                 baseMeterIndex++;
             }
         }
@@ -170,7 +194,7 @@ public class MeterManager : ModuleManager<MeterManager>
             if (timeRecord >= mCurAudioMeterData.attackMeters[attackMeterIndex])
             {
                 TriggerAttack();
-                // 这里自增一定要放在最后
+                // 这里自增一定要放在后面
                 attackMeterIndex++;
             }
         }
@@ -181,7 +205,12 @@ public class MeterManager : ModuleManager<MeterManager>
         }
     }
 
-    public float GetTimeToNextBaseMeter(int offset)
+    /// <summary>
+    /// TODO: 尾部循环
+    /// </summary>
+    /// <param name="offset"></param>
+    /// <returns></returns>
+    public float GetTimeToBaseMeter(int offset)
     {
         if (mCurAudioMeterData == null)
             return -1f;
@@ -194,6 +223,7 @@ public class MeterManager : ModuleManager<MeterManager>
             return mCurAudioMeterData.audioLen - mCurAudioMeterData.baseMeters[baseMeterIndex];
         }
 
+        Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}", baseMeterIndex, baseMeterIndex + offset);
         return mCurAudioMeterData.baseMeters[baseMeterIndex + offset] - timeRecord;
     }
 

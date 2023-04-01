@@ -26,6 +26,8 @@ public class GameManager:MonoBehaviour
     private AgentManager                AgentMgr;                                               // 角色控制器 
     private DataCenter                      DataCenter;                                             // 数据中心
     private ConfigDatabase              ConfigCenter;                                           // 配置数据中心
+    private TimerCenter                    TimerCenter;                                            // 定时器中心
+    private MeterTimerCenter          MeterTimerCenter;                                 // 节拍定时器中心
     private List<IModuleManager> mAllModuleMgrs;
 
     public GameConfig GetGameConfig()
@@ -53,8 +55,9 @@ public class GameManager:MonoBehaviour
         SceneMgr = RegisterModuleMgr(GameSceneManager.Ins);
         AudioMgr = RegisterModuleMgr(AudioManager.Ins);
         MeterMgr = RegisterModuleMgr(MeterManager.Ins);
+        TimerCenter = RegisterModuleMgr(TimerCenter.Ins);
         AgentMgr = RegisterModuleMgr(AgentManager.Ins);
-
+        MeterTimerCenter = RegisterModuleMgr(MeterTimerCenter.Ins);
         // 先做所有模块的初始化
         foreach (IModuleManager mm in mAllModuleMgrs)
         {
@@ -86,7 +89,6 @@ public class GameManager:MonoBehaviour
         mGameConf = null;
         enableUpdate = false;
         mAllModuleMgrs = null;
-        //GameScopeMgr = null;
         EventSystem = null;
         CoroutineMgr = null;
         UIMgr = null;
@@ -97,7 +99,9 @@ public class GameManager:MonoBehaviour
         AudioMgr = null;
         MeterMgr = null;
         AgentMgr = null;
+        TimerCenter = null;
         DataCenter = null;
+        MeterTimerCenter = null;
     }
 
     private T RegisterModuleMgr<T>(T mgr) where T:IModuleManager
@@ -146,6 +150,8 @@ public class GameManager:MonoBehaviour
             AudioMgr.OnUpdate(deltaTime);
             MeterMgr.OnUpdate(deltaTime);
             AgentMgr.OnUpdate(deltaTime);
+            TimerCenter.OnUpdate(deltaTime);
+            MeterTimerCenter.OnUpdate(deltaTime);
         }
 
         UIMgr.OnUpdate(deltaTime);
@@ -164,7 +170,8 @@ public class GameManager:MonoBehaviour
         UIMgr.OnLateUpdate(deltaTime);
         MeterMgr.OnLateUpdate(deltaTime);
         AgentMgr.OnLateUpdate(deltaTime);
-        //_agentMgr.LateUpdate(deltaTime);
+        TimerCenter.OnLateUpdate(deltaTime);
+        MeterTimerCenter.OnLateUpdate(deltaTime);
     }
 
     private void OnDestroy()

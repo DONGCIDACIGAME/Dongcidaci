@@ -14,6 +14,14 @@ public class AgentStatusMachine
         mStatusMap = new Dictionary<string, IAgentStatus>();
     }
 
+    public void OnMeter()
+    {
+        if(mCurStatus != null)
+        {
+            mCurStatus.OnMeter();
+        }
+    }
+
     private void AddStatus(string statusName, AgentStatus status)
     {
         if(string.IsNullOrEmpty(statusName))

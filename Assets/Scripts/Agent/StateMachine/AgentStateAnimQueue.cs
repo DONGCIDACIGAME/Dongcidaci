@@ -1,10 +1,9 @@
 public class AgentStateAnimQueue
 {
+    private bool mLoop;
     private AgentAnimStateInfo[] mAnimStates;
     private int curStateIndex;
     private int curStateLoopRecord;
-    private float timeRecord;
-    private float lastStateMaxTimeRecord;
 
     public AgentAnimStateInfo GetCurAnimState()
     {
@@ -20,16 +19,13 @@ public class AgentStateAnimQueue
             return;
 
         mAnimStates = statusInfo.animStates;
+        mLoop = statusInfo.loop;
         curStateIndex = 0;
-        curStateLoopRecord = 0;
-        lastStateMaxTimeRecord = 0;
     }
     
-    public int MoveNext(float deltaTime)
+    public int MoveNext()
     {
-        timeRecord += deltaTime;
-
-        if (mAnimStates == null || mAnimStates.Length == 0)
+        if (mAnimStates == null)
             return AgentAnimDefine.AnimQueue_Error;
 
         AgentAnimStateInfo curStateInfo = mAnimStates[curStateIndex];
@@ -39,30 +35,41 @@ public class AgentStateAnimQueue
             return AgentAnimDefine.AnimQueue_Error;
         }
 
-        if (timeRecord - lastStateMaxTimeRecord < curStateInfo.stateLen)
-            return AgentAnimDefine.AnimQueue_AnimKeep;
-
-        curStateLoopRecord++;
-        lastStateMaxTimeRecord += curStateInfo.stateLen;
-
-        if (curStateInfo.loopTime == 0)
-            return AgentAnimDefine.AnimQueue_AnimLoop;
-
-        if (curStateLoopRecord <= curStateInfo.loopTime)
+        if (curStateInfo.loopTime > 0)
         {
-            return AgentAnimDefine.AnimQueue_AnimLoop;
+            curStateLoopRecord++;
         }
 
+        // 规定循环次数设定为0时为无限循环
+        if(curStateInfo.loopTime == 0)
+        {
+            return AgentAnimDefine.AnimQueue_AnimKeep;
+        }
+
+        if (curStateLoopRecord < curStateInfo.loopTime)
+        {
+            return AgentAnimDefine.AnimQueue_AnimKeep;
+        }
+
+        // 当前动画状态的循环次数达到目标循环次数时，进入下一个动画状态
         curStateLoopRecord = 0;
         curStateIndex++;
 
         // 规定动画队列也是循环播放的
-        if (curStateIndex >= mAnimStates.Length)
+        if(curStateIndex < mAnimStates.Length)
         {
-            curStateIndex = 0;
+            return AgentAnimDefine.AnimQueue_AnimMoveNext;
         }
 
-        return AgentAnimDefine.AnimQueue_AnimChange;
+        if(mLoop)
+        {
+            curStateIndex = 0;
+            return AgentAnimDefine.AnimQueue_AnimLoop;
+        }
+        else
+        {
+            return AgentAnimDefine.AnimQueue_AnimEnd;
+        }
     }
 
 

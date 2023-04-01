@@ -18,7 +18,7 @@ public class PlayerBaseMeterHandler : IMeterHandler
     }
 
 
-    public void OnMeter()
+    public void OnMeter(int meterIndex)
     {
         if (mMeterTrigger == null)
             return;
@@ -31,8 +31,7 @@ public class PlayerBaseMeterHandler : IMeterHandler
         if (!mMeterTrigger.IsTriggered())
             return;
 
-
-        //mHero.AnimPlayer.UpdateAnimSpeed()
+        mHero.OnMeter();
     }
 
     public uint GetMeterOffset()

@@ -27,7 +27,7 @@ public class AgentStatus_Idle : AgentStatus
 
     public override void OnExit()
     {
-        
+        base.OnExit();
     }
 
     public override void OnUpdate(float deltaTime)

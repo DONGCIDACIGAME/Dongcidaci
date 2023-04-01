@@ -1,6 +1,6 @@
 public interface IMeterHandler
 {
-    void OnMeter();
+    void OnMeter(int meterIndex);
     uint GetMeterOffset();
 }
 

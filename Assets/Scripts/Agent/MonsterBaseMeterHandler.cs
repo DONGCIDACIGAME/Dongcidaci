@@ -12,7 +12,7 @@ public class MonsterBaseMeterHandler : IMeterHandler
         return meterOffset;
     }
 
-    public void OnMeter()
+    public void OnMeter(int meterIndex)
     {
         if (mMonster == null)
             return;

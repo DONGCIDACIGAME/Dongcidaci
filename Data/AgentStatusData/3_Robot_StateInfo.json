@@ -4,6 +4,7 @@
 	"statusMap": {
 		"Idle": {
 			"statusName": "Idle",
+			"loop": true,
 			"animStates": [{
 				"stateName": "Idle",
 				"loopTime": 0,
@@ -16,6 +17,7 @@
 		},
 		"Run": {
 			"statusName": "Run",
+			"loop": true,
 			"animStates": [{
 				"stateName": "Run",
 				"loopTime": 0,
