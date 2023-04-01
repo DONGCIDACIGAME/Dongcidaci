@@ -21,7 +21,7 @@ public class PlayerKeyboardInputControl : IInputControl
         if (mAgent == null)
             return;
 
-        int agentAction = AgentActionDefine.IDLE;
+        int agentAction = AgentActionDefine.EMPTY;
 
         Vector3 towards = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
@@ -60,5 +60,13 @@ public class PlayerKeyboardInputControl : IInputControl
         }
 
         mAgent.OnAction(agentAction);
+    }
+
+    public void InputControlOnMeter(int meterIndex)
+    {
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+            return;
+
+        mAgent.OnAction(AgentActionDefine.IDLE);
     }
 }

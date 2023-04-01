@@ -51,13 +51,13 @@ public class GameManager:MonoBehaviour
         UIMgr = RegisterModuleMgr(UIManager.Ins);
         CameraMgr = RegisterModuleMgr(CameraManager.Ins);
         ResMgr = RegisterModuleMgr(ResourceMgr.Ins);
+        MeterMgr = RegisterModuleMgr(MeterManager.Ins);
         InputMgr = RegisterModuleMgr(InputManager.Ins);
         SceneMgr = RegisterModuleMgr(GameSceneManager.Ins);
         AudioMgr = RegisterModuleMgr(AudioManager.Ins);
-        MeterMgr = RegisterModuleMgr(MeterManager.Ins);
         TimerCenter = RegisterModuleMgr(TimerCenter.Ins);
-        AgentMgr = RegisterModuleMgr(AgentManager.Ins);
         MeterTimerCenter = RegisterModuleMgr(MeterTimerCenter.Ins);
+        AgentMgr = RegisterModuleMgr(AgentManager.Ins);
         // 先做所有模块的初始化
         foreach (IModuleManager mm in mAllModuleMgrs)
         {

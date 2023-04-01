@@ -79,6 +79,7 @@ public class AgentAnimPlayer
         }
   
         mAnimator.speed = speed;
+        Log.Logic(LogLevel.Info, "UpdateAnimSpeed----speed:{0}", speed);
     }
 
     private bool BeforeChangeToAnimState(string stateName, float animLen, float duration)
@@ -104,7 +105,6 @@ public class AgentAnimPlayer
 
         mCurStateName = stateName;
         UpdateAnimSpeed(animLen / duration);
-        Log.Logic(LogLevel.Info, "UpdateAnimSpeed----speed:{0}, animLen:{1}, duration:{2}", animLen / duration, animLen, duration) ;
         return true;
     }
 

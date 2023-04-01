@@ -6,7 +6,7 @@ using GameEngine;
 /// TODO:这里的state添加和删除，考虑要改为状态机模式，不要做成列表叠加
 /// state应该是一个栈的结构，或者只保留一个当前state，然后做个保底state
 /// </summary>
-public class InputManager : ModuleManager<InputManager>
+public class InputManager : MeterModuleManager<InputManager>
 {
     /// <summary>
     /// 存储了所有的inputcontrol，每个inputcontrol代表一个功能模块的输入控制
@@ -32,6 +32,8 @@ public class InputManager : ModuleManager<InputManager>
         {
             mStateStatck = new Stack<IInputState>();
         }
+
+        MeterManager.Ins.RegisterBaseMeterHandler(this);
     }
 
     public override void Dispose()
@@ -149,5 +151,31 @@ public class InputManager : ModuleManager<InputManager>
             }
         }
         
+    }
+
+    public override void OnMeter(int curMeterIndex)
+    {
+        IInputState state = GetCurrrentInputState();
+        if (state == null)
+            return;
+
+        foreach (KeyValuePair<string, IInputControl> kv in mInputControlMap)
+        {
+            string ctlName = kv.Key;
+
+            if (!state.CheckInputControlEnable(ctlName))
+                continue;
+
+            IInputControl inputCtl = kv.Value;
+            if (inputCtl != null)
+            {
+                inputCtl.InputControlOnMeter(curMeterIndex);
+            }
+        }
+    }
+
+    public override uint GetMeterOffset()
+    {
+        return 1;
     }
 }

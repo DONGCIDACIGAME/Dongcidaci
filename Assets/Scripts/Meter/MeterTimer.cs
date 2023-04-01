@@ -44,9 +44,8 @@ public class MeterTimer
     public void OnMeter(int meterIndex)
     {
         curLoopRecord++;
-
         // 超过单次循环节拍数
-        if (curLoopRecord > loopMeter)
+        if (curLoopRecord >= loopMeter)
         {
             if (targetLoopTime > 0)
             {
@@ -62,5 +61,6 @@ public class MeterTimer
                 cb();
             }
         }
+        
     }
 }

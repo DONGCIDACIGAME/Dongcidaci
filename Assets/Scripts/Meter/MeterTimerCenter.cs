@@ -2,19 +2,19 @@ using GameEngine;
 using System;
 using System.Collections.Generic;
 
-public class MeterTimerCenter : MeterModuleManager<MeterTimerCenter>, IMeterHandler
+public class MeterTimerCenter : MeterModuleManager<MeterTimerCenter>
 {
     private Stack<MeterTimer> mTimerPool;
     private HashSet<MeterTimer> mWorkingTimers;
-    private List<MeterTimer> toPushTimers;
-    private List<MeterTimer> toWorkTimers;
+    private HashSet<MeterTimer> toPushTimers;
+    private HashSet<MeterTimer> toWorkTimers;
 
     public override void Initialize()
     {
         mTimerPool = new Stack<MeterTimer>();
         mWorkingTimers = new HashSet<MeterTimer>();
-        toPushTimers = new List<MeterTimer>();
-        toWorkTimers = new List<MeterTimer>();
+        toPushTimers = new HashSet<MeterTimer>();
+        toWorkTimers = new HashSet<MeterTimer>();
 
         MeterManager.Ins.RegisterBaseMeterHandler(this);
     }
@@ -54,10 +54,11 @@ public class MeterTimerCenter : MeterModuleManager<MeterTimerCenter>, IMeterHand
         if (timer == null)
             return;
 
+        if (!mWorkingTimers.Contains(timer))
+            return;
+
         mWorkingTimers.Remove(timer);
         mTimerPool.Push(timer);
-
-        Log.Error(LogLevel.Info, "push timer:{0}, working Timer Count:{1}", timer, mWorkingTimers.Count);
     }
 
 
@@ -69,7 +70,7 @@ public class MeterTimerCenter : MeterModuleManager<MeterTimerCenter>, IMeterHand
         toWorkTimers = null;
     }
 
-    public uint GetMeterOffset()
+    public override uint GetMeterOffset()
     {
         return 1;
     }

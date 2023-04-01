@@ -55,7 +55,7 @@ public class AgentStateAnimQueue
         curStateLoopRecord = 0;
         curStateIndex++;
 
-        // 规定动画队列也是循环播放的
+
         if(curStateIndex < mAnimStates.Length)
         {
             return AgentAnimDefine.AnimQueue_AnimMoveNext;

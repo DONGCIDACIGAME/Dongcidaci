@@ -1,5 +1,6 @@
 public static class AgentActionDefine
 {
+    public const int EMPTY = -1;
     /// <summary>
     /// ø’œ–
     /// </summary>

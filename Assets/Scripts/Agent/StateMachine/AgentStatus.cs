@@ -37,20 +37,13 @@ public abstract class AgentStatus : IAgentStatus
         if(duration > 0)
         {
             mAgent.AnimPlayer.CrossFadeToStateInNormalizedTime(stateName, state.stateLen, state.layer, state.normalizedTime, duration);
+            Log.Error(LogLevel.Info, "AgentStatusCrossFadeToState:{0},duration:{1} ", stateName, duration);
         }
     }
 
     private void SetTimer(int meterLen)
     {
         mTimer = MeterTimerCenter.Ins.SetTimer(meterLen, 1, OnMeterTimerEnd);
-        //if(mTimer == null)
-        //{
-        //    mTimer = MeterTimerCenter.Ins.SetTimer(meterLen, 1, OnMeterTimerEnd);
-        //}
-        //else
-        //{
-        //    mTimer.SetTimer(meterLen, 1, OnMeterTimerEnd);
-        //}
     }
 
     public virtual void OnEnter(Dictionary<string, object> context)
@@ -80,7 +73,7 @@ public abstract class AgentStatus : IAgentStatus
     private void OnMeterTimerEnd()
     {
         int ret = mStateAnimQueue.MoveNext();
-
+        Log.Error(LogLevel.Info, "ret={0}", ret);
         if (ret == AgentAnimDefine.AnimQueue_AnimKeep || ret == AgentAnimDefine.AnimQueue_AnimLoop)
         {
             AgentAnimStateInfo state = mStateAnimQueue.GetCurAnimState();
