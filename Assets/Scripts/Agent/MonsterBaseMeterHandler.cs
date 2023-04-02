@@ -17,9 +17,4 @@ public class MonsterBaseMeterHandler : IMeterHandler
         if (mMonster == null)
             return;
     }
-
-    uint IMeterHandler.GetMeterOffset()
-    {
-        return 1;
-    }
 }

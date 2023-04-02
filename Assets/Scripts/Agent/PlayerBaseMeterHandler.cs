@@ -31,11 +31,6 @@ public class PlayerBaseMeterHandler : IMeterHandler
         if (!mMeterTrigger.IsTriggered())
             return;
 
-        mHero.OnMeter();
-    }
-
-    public uint GetMeterOffset()
-    {
-        return meterOffset;
+        mHero.OnMeter(meterIndex);
     }
 }

@@ -136,9 +136,9 @@ public abstract class Agent : IEntity
         AnimPlayer = new AgentAnimPlayer();
     }
 
-    public void OnMeter()
+    public void OnMeter(int meterIndex)
     {
-        StatusMachine.OnMeter();
+        StatusMachine.OnMeter(meterIndex);
     }
 
     public void OnAction(int action)

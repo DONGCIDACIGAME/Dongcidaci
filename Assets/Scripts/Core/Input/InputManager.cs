@@ -173,9 +173,4 @@ public class InputManager : MeterModuleManager<InputManager>
             }
         }
     }
-
-    public override uint GetMeterOffset()
-    {
-        return 1;
-    }
 }

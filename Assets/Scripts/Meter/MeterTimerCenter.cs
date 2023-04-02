@@ -70,11 +70,6 @@ public class MeterTimerCenter : MeterModuleManager<MeterTimerCenter>
         toWorkTimers = null;
     }
 
-    public override uint GetMeterOffset()
-    {
-        return 1;
-    }
-
     public override void OnMeter(int meterIndex)
     {
         foreach (MeterTimer timer in mWorkingTimers)
