@@ -51,7 +51,7 @@ public abstract class AgentMoveControl
         //    return;
 
         // ¿ØÖÆÒÆ¶¯
-        Vector3 pos = mAgent.GetPosition() + TurnToTowards * mAgent.GetSpeed() * deltaTime;
+        Vector3 pos = mAgent.GetPosition() + TurnToTowards.normalized * mAgent.GetSpeed() * deltaTime;
         mAgent.SetPosition(pos);
     }
 

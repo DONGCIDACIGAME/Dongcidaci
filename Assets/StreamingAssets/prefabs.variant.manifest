@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3852255982
+CRC: 644531982
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 969f787604e195c1ea666e1024e0da02
+    Hash: e6e10339b7410ef3ce04844acbd633eb
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 3802a538375cab8d5774fd6eab999df9
+    Hash: 53aa7bae08b66c9d724f8d940b648449
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -73,4 +73,4 @@ SerializeReferenceClassIdentifiers:
 Assets:
 - Assets/AssetBundles/Prefabs/Music_Editor.prefab
 Dependencies:
-- E:/GameProcs/depot/DongCiDaCi/DongCiDaCi/Assets/StreamingAssets/audio/music.variant
+- D:/GameProcs/Dongcidaci/Assets/StreamingAssets/audio/music.variant

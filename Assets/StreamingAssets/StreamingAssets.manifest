@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3788779497
+CRC: 4072034123
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: prefabs/ui.variant
+      Name: prefabs/agent.variant
       Dependencies: {}
     Info_1:
       Name: audio/music.variant
@@ -12,7 +12,7 @@ AssetBundleManifest:
       Name: prefabs/ui/musiceditor.variant
       Dependencies: {}
     Info_3:
-      Name: prefabs/agent.variant
+      Name: prefabs/ui.variant
       Dependencies: {}
     Info_4:
       Name: prefabs.variant

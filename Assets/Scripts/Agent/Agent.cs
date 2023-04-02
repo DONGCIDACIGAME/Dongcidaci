@@ -75,6 +75,7 @@ public abstract class Agent : IEntity
     public void SetSpeed(float speed)
     {
         mSpeed = speed;
+        Log.Logic(LogLevel.Info, "set speed:{0}", speed);
     }
 
     public Vector3 GetTowards()
