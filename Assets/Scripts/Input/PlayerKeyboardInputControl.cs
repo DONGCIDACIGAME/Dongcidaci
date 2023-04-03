@@ -21,31 +21,31 @@ public class PlayerKeyboardInputControl : IInputControl
         if (mAgent == null)
             return;
 
-        int agentAction = AgentActionDefine.EMPTY;
+        byte command = AgentCommandDefine.IDLE;
 
         Vector3 towards = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
             towards += DirectionDef.up;
-            agentAction = AgentActionDefine.RUN;
+            command = AgentCommandDefine.RUN;
         }
 
         if (Input.GetKey(KeyCode.S))
         {
             towards += DirectionDef.down;
-            agentAction = AgentActionDefine.RUN;
+            command = AgentCommandDefine.RUN;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
             towards += DirectionDef.left;
-            agentAction = AgentActionDefine.RUN;
+            command = AgentCommandDefine.RUN;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
             towards += DirectionDef.right;
-            agentAction = AgentActionDefine.RUN;
+            command = AgentCommandDefine.RUN;
         }
 
         if(!towards.Equals(lastInputTowards))
@@ -59,14 +59,11 @@ public class PlayerKeyboardInputControl : IInputControl
             mAgent.MoveControl.Move(towards, deltaTime);
         }
 
-        mAgent.OnAction(agentAction);
+        mAgent.OnAction(command);
     }
 
     public void InputControlOnMeter(int meterIndex)
     {
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
-            return;
 
-        mAgent.OnAction(AgentActionDefine.IDLE);
     }
 }

@@ -5,7 +5,8 @@ public abstract class AgentStatus : IAgentStatus
     protected ChangeStatusDelegate ChangeStatus;
     protected Agent mAgent;
     protected AgentStateAnimQueue mStateAnimQueue;
-    protected MeterTimer mTimer;
+    protected int mCurAnimStateMeterLen;
+    protected int mCurAnimStateMeterRecord;
 
     /// <summary>
     /// 等待执行的指令集合
@@ -21,6 +22,20 @@ public abstract class AgentStatus : IAgentStatus
     protected void AddCommand(byte command)
     {
         commands |= command;
+    }
+
+    protected byte PeekCommand()
+    {
+        for(int i = 0;i<8;i++)
+        {
+            int ret = AgentCommandDefine.COMMANDS[i] & commands;
+            if (ret == 1)
+            {
+                return AgentCommandDefine.COMMANDS[i];
+            }
+        }
+
+        return AgentCommandDefine.EMPTY;
     }
 
     /// <summary>
@@ -49,7 +64,13 @@ public abstract class AgentStatus : IAgentStatus
 
     public abstract string GetStatusName();
 
-    public abstract void OnAction(int action);
+    public abstract void OnAction(byte action);
+
+    protected void SetAnimStateMeterTimer(int meterLen)
+    {
+        mCurAnimStateMeterLen = meterLen;
+        mCurAnimStateMeterRecord = 0;
+    }
 
     protected void AgentStatusCrossFadeToState(AgentAnimStateInfo state)
     {
@@ -74,70 +95,65 @@ public abstract class AgentStatus : IAgentStatus
         }
     }
 
-    /// <summary>
-    /// TODO：不再使用节拍定时器
-    /// 改为在节拍来到时，判断是否有可执行指令，是否可以打断
-    /// </summary>
-    /// <param name="meterLen"></param>
-    private void SetTimer(int meterLen)
-    {
-        mTimer = MeterTimerCenter.Ins.SetTimer(meterLen, 1, OnMeterTimerEnd);
-    }
-
     public virtual void OnEnter(Dictionary<string, object> context)
     {
         AgentStatusInfo statusInfo = mAgent.StatusGraph.GetStatusInfo(GetStatusName());
-        if (statusInfo == null)
-            return;
+        if (statusInfo != null)
+        {
+            StartAnimQueue(statusInfo);
+        }
 
-        mStateAnimQueue = new AgentStateAnimQueue();
-        mStateAnimQueue.Initialize(statusInfo);
-
-        AgentAnimStateInfo state = mStateAnimQueue.GetCurAnimState();
-        SetTimer(state.stateMeterLen);
-        AgentStatusCrossFadeToState(state);
     }
 
     public virtual void OnExit()
     {
-        if(mTimer != null)
-        {
-            MeterTimerCenter.Ins.RemoveTimer(mTimer);
-        }
+
     }
 
-    /// <summary>
-    /// TODO: 这里的逻辑要挪到具体的status中，每个status 单独处理
-    /// </summary>
-    private void OnMeterTimerEnd()
+    protected void StartAnimQueue(AgentStatusInfo statusInfo)
     {
+        mStateAnimQueue = new AgentStateAnimQueue();
+        mStateAnimQueue.Initialize(statusInfo);
+
+        AgentAnimStateInfo state = mStateAnimQueue.GetCurAnimState();
+        if (state == null)
+            return;
+
+        AgentStatusCrossFadeToState(state);
+        SetAnimStateMeterTimer(state.stateMeterLen);
+    }
+
+    protected void AnimQueueMoveOn()
+    {
+        if (mStateAnimQueue == null)
+            return;
+
         int ret = mStateAnimQueue.MoveNext();
-        if (ret == AgentAnimDefine.AnimQueue_AnimKeep || ret == AgentAnimDefine.AnimQueue_AnimLoop)
+        AgentAnimStateInfo state = mStateAnimQueue.GetCurAnimState();
+
+        if (state == null)
+            return;
+
+        if (ret == AgentAnimDefine.AnimQueue_AnimKeep)
         {
-            AgentAnimStateInfo state = mStateAnimQueue.GetCurAnimState();
-            
+            Log.Logic(LogLevel.Info, "UpdateAnimSpeed---------cur progress:{0}", mAgent.AnimPlayer.CurStateProgress);
             float duration = MeterManager.Ins.GetTimeToBaseMeter(state.stateMeterLen);
-            SetTimer(state.stateMeterLen);
             mAgent.AnimPlayer.UpdateAnimSpeed(state.stateLen / duration);
-            //Log.Logic(LogLevel.Info, "change speed on  state Loop ----- speed:{0},duration:{1}", state.stateLen / duration, duration);
         }
         else if (ret == AgentAnimDefine.AnimQueue_AnimMoveNext)
         {
-            AgentAnimStateInfo state = mStateAnimQueue.GetCurAnimState();
-            SetTimer(state.stateMeterLen);
             AgentStatusCrossFadeToState(state);
-            //float duration = MeterManager.Ins.GetTimeToBaseMeter(state.stateMeterLen);
-            //Log.Logic(LogLevel.Info, "change speed on chan  ge state change  ----- speed:{0}, duration:{1}", state.stateLen / duration, duration);
         }
-        else if (ret == AgentAnimDefine.AnimQueue_AnimEnd)
-        {
 
-        }
+        SetAnimStateMeterTimer(state.stateMeterLen);
     }
 
-    public void OnMeter(int meterIndex)
-    {
+    protected abstract void ActionHandleOnMeter(int meterIndex);
 
+    public virtual void OnMeter(int meterIndex)
+    {
+        ActionHandleOnMeter(meterIndex);
+        ClearCommands();
     }
 
     public virtual void OnUpdate(float deltaTime)

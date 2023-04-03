@@ -141,7 +141,7 @@ public abstract class Agent : IEntity
         StatusMachine.OnMeter(meterIndex);
     }
 
-    public void OnAction(int action)
+    public void OnAction(byte action)
     {
         if(StatusMachine != null)
         {

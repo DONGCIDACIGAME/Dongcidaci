@@ -18,12 +18,25 @@ public class AgentAnimPlayer
     /// <summary>
     /// 当前状态名称
     /// </summary>
-    private string mCurStateName;
+    public string CurStateName { get; private set; }
+
+    /// <summary>
+    /// 当前状态的播放进度
+    /// </summary>
+    public float CurStateProgress
+    {
+        get
+        {
+            return mAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        }
+    }
+
+
 
     public AgentAnimPlayer()
     {
         mAnimInfoMap = new Dictionary<string, float>();
-        mCurStateName = string.Empty;
+        CurStateName = string.Empty;
     }
 
     /// <summary>
@@ -100,10 +113,10 @@ public class AgentAnimPlayer
         }
 
         // 不能和同一个状态进行动画融合
-        if (mCurStateName.Equals(stateName))
+        if (CurStateName.Equals(stateName))
             return false;
 
-        mCurStateName = stateName;
+        CurStateName = stateName;
         UpdateAnimSpeed(animLen / duration);
         return true;
     }

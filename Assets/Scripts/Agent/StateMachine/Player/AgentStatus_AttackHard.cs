@@ -1,38 +1,40 @@
-using System.Collections.Generic;
-
-public class AgentStatus_Run : AgentStatus
+public class AgentStatus_AttackHard : AgentStatus
 {
     public override string GetStatusName()
     {
-        return AgentStatusDefine.RUN;
+        return AgentStatusDefine.ATTACK_HARD;
     }
 
     public override void OnAction(byte command)
     {
-        switch(command)
+        switch (command)
         {
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.RUN:
-                AddCommand(command);
-                break;
             case AgentCommandDefine.ATTACK_HARD:
-                ChangeStatus(AgentStatusDefine.ATTACK_HARD);
+                AddCommand(command);
                 break;
             default:
                 break;
         }
     }
 
-
     protected override void ActionHandleOnMeter(int meterIndex)
     {
         mCurAnimStateMeterRecord++;
 
         byte command = PeekCommand();
-        if(command == AgentCommandDefine.IDLE)
+        switch(command)
         {
-            ChangeStatus(AgentStatusDefine.IDLE);
-            return;
+            case AgentCommandDefine.IDLE:
+                ChangeStatus(AgentStatusDefine.IDLE);
+                return;
+            case AgentCommandDefine.RUN:
+                ChangeStatus(AgentStatusDefine.RUN);
+                return;
+            case AgentCommandDefine.EMPTY:
+            default:
+                break;
         }
 
         if (mCurAnimStateMeterRecord < mCurAnimStateMeterLen)
@@ -43,5 +45,4 @@ public class AgentStatus_Run : AgentStatus
 
         AnimQueueMoveOn();
     }
-
 }

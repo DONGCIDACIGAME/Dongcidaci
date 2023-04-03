@@ -56,20 +56,11 @@ public class AgentStateAnimQueue
         curStateIndex++;
 
 
-        if(curStateIndex < mAnimStates.Length)
-        {
-            return AgentAnimDefine.AnimQueue_AnimMoveNext;
-        }
-
-        if(mLoop)
+        if(curStateIndex >= mAnimStates.Length)
         {
             curStateIndex = 0;
-            return AgentAnimDefine.AnimQueue_AnimLoop;
         }
-        else
-        {
-            return AgentAnimDefine.AnimQueue_AnimEnd;
-        }
+        return AgentAnimDefine.AnimQueue_AnimMoveNext;
     }
 
 

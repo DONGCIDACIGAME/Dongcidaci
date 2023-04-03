@@ -10,7 +10,7 @@ public class MeterManager : ModuleManager<MeterManager>
     private AudioMeterData mCurAudioMeterData;
     
     // 当前所处的基础节奏index
-    private int baseMeterIndex;
+    public int BaseMeterIndex { get; private set; }
     // 当前所处的攻击节奏index
     private int attackMeterIndex;
 
@@ -108,7 +108,7 @@ public class MeterManager : ModuleManager<MeterManager>
     {
         timeRecord = 0;
         enable = true;
-        baseMeterIndex = 0;
+        BaseMeterIndex = 0;
         attackMeterIndex = 0;
     }
 
@@ -132,7 +132,7 @@ public class MeterManager : ModuleManager<MeterManager>
         if (mCurAudioMeterData == null)
             return false;
 
-        if (timeRecord >= mCurAudioMeterData.baseMeters[baseMeterIndex] - 0.3f && timeRecord <= mCurAudioMeterData.baseMeters[baseMeterIndex] + 0.3f)
+        if (timeRecord >= mCurAudioMeterData.baseMeters[BaseMeterIndex] - 0.3f && timeRecord <= mCurAudioMeterData.baseMeters[BaseMeterIndex] + 0.3f)
         {
             return true;
         }
@@ -157,7 +157,7 @@ public class MeterManager : ModuleManager<MeterManager>
     {
         foreach(IMeterHandler handler in mBaseMeterHandlers.Values)
         {
-            handler.OnMeter(baseMeterIndex);
+            handler.OnMeter(BaseMeterIndex);
         }
     }
 
@@ -169,6 +169,14 @@ public class MeterManager : ModuleManager<MeterManager>
         }
     }
 
+
+    /// <summary>
+    ///  TODO:这里的节拍逻辑需要调整
+    ///  1. 是否要自动添加第0拍(0s)和最后一拍（最后1s）
+    ///  2. 如果编辑的拍子不全应该怎么处理
+    ///  3. 再确认下拍子和节奏的关系是否正确
+    /// </summary>
+    /// <param name="deltaTime"></param>
     public override void OnUpdate(float deltaTime)
     {
         if (!enable)
@@ -177,31 +185,24 @@ public class MeterManager : ModuleManager<MeterManager>
         if (mCurAudioMeterData == null)
             return;
 
+        if (mCurAudioMeterData.baseMeters.Length < 2)
+            return;
+
         timeRecord += deltaTime;
-
-        if (baseMeterIndex < mCurAudioMeterData.baseMeters.Length)
-        {
-            if (timeRecord >= mCurAudioMeterData.baseMeters[baseMeterIndex])
-            {
-                TriggerBaseMeter();
-                // 这里自增一定要放在后面
-                baseMeterIndex++;
-            }
-        }
-
-        if (attackMeterIndex < mCurAudioMeterData.attackMeters.Length)
-        {
-            if (timeRecord >= mCurAudioMeterData.attackMeters[attackMeterIndex])
-            {
-                TriggerAttack();
-                // 这里自增一定要放在后面
-                attackMeterIndex++;
-            }
-        }
 
         if (timeRecord >= mCurAudioMeterData.audioLen)
         {
-            Reset();
+            timeRecord %= mCurAudioMeterData.audioLen;
+            BaseMeterIndex = 0;
+            attackMeterIndex = 0;
+        }
+        else if (timeRecord >= mCurAudioMeterData.baseMeters[BaseMeterIndex + 1])
+        {
+            BaseMeterIndex++;
+            if(BaseMeterIndex > 0)
+            {
+                TriggerBaseMeter();
+            }
         }
     }
 
@@ -215,16 +216,22 @@ public class MeterManager : ModuleManager<MeterManager>
         if (mCurAudioMeterData == null)
             return -1f;
 
-        if (baseMeterIndex >= mCurAudioMeterData.baseMeters.Length - offset + 1)
-            return -2f;
+        int targetIndex = BaseMeterIndex + offset;
 
-        if(baseMeterIndex == mCurAudioMeterData.baseMeters.Length - offset)
+        float time = 0;
+        if(targetIndex > mCurAudioMeterData.baseMeters.Length)
         {
-            return mCurAudioMeterData.audioLen - mCurAudioMeterData.baseMeters[baseMeterIndex];
+            time += mCurAudioMeterData.audioLen - timeRecord;
+            targetIndex %= mCurAudioMeterData.baseMeters.Length;
+            time += mCurAudioMeterData.baseMeters[targetIndex];
+        }
+        else
+        {
+            time = mCurAudioMeterData.baseMeters[targetIndex] - timeRecord;
         }
 
-        Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}", baseMeterIndex, baseMeterIndex + offset);
-        return mCurAudioMeterData.baseMeters[baseMeterIndex + offset] - timeRecord;
+        Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
+        return time;
     }
 
 

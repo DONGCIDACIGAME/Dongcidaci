@@ -55,7 +55,7 @@ public class AgentStatusMachine
         SwitchToStatus(AgentStatusDefine.IDLE, null);
     }
 
-    public void OnAction(int action)
+    public void OnAction(byte action)
     {
         if(mCurStatus != null)
         {

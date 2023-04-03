@@ -7,31 +7,37 @@ public class AgentStatus_Idle : AgentStatus
         return AgentStatusDefine.IDLE;
     }
 
-    public override void OnAction(int action)
+    public override void OnAction(byte command)
     {
-        if(action == AgentActionDefine.IDLE)
+        switch (command)
         {
+            case AgentCommandDefine.IDLE:
+                AddCommand(command);
+                break;
+            case AgentCommandDefine.RUN:
+                ChangeStatus(AgentStatusDefine.RUN);
+                break;
+            case AgentCommandDefine.ATTACK_HARD:
+                ChangeStatus(AgentStatusDefine.ATTACK_HARD);
+                break;
+            default:
+                break;
+        }
+    }
+
+    protected override void ActionHandleOnMeter(int meterIndex)
+    {
+        mCurAnimStateMeterRecord++;
+
+        if (mCurAnimStateMeterRecord < mCurAnimStateMeterLen)
             return;
-        }
 
-        if(action == AgentActionDefine.RUN)
+        // ½ÚÅÄ¼ÇÂ¼¹éÁã
+        mCurAnimStateMeterRecord = 0;
+
+        if (HasCommand(AgentCommandDefine.IDLE))
         {
-            ChangeStatus(AgentStatusDefine.RUN);
+            AnimQueueMoveOn();
         }
-    }
-
-    public override void OnEnter(Dictionary<string, object> context)
-    {
-        base.OnEnter(context);
-    }
-
-    public override void OnExit()
-    {
-        base.OnExit();
-    }
-
-    public override void OnUpdate(float deltaTime)
-    {
-        base.OnUpdate(deltaTime);
     }
 }
