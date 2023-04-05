@@ -7,21 +7,19 @@ public class AgentStatus_Idle : AgentStatus
         return AgentStatusDefine.IDLE;
     }
 
-    public override void OnAction(byte command)
+    public override void OnCommands(AgentCommandBuffer cmds)
     {
-        switch (command)
+        if(cmds.HasCommand(AgentCommandDefine.ATTACK_HARD))
         {
-            case AgentCommandDefine.IDLE:
-                AddCommand(command);
-                break;
-            case AgentCommandDefine.RUN:
-                ChangeStatus(AgentStatusDefine.RUN);
-                break;
-            case AgentCommandDefine.ATTACK_HARD:
-                ChangeStatus(AgentStatusDefine.ATTACK_HARD);
-                break;
-            default:
-                break;
+            ChangeStatus(AgentStatusDefine.ATTACK_HARD);
+        }
+        else if (cmds.HasCommand(AgentCommandDefine.RUN))
+        {
+            ChangeStatus(AgentStatusDefine.RUN);
+        }
+        else if(cmds.HasCommand(AgentCommandDefine.IDLE))
+        {
+            cmdBuffer.AddCommand(AgentCommandDefine.IDLE);
         }
     }
 
@@ -35,7 +33,7 @@ public class AgentStatus_Idle : AgentStatus
         // ½ÚÅÄ¼ÇÂ¼¹éÁã
         mCurAnimStateMeterRecord = 0;
 
-        if (HasCommand(AgentCommandDefine.IDLE))
+        if (cmdBuffer.HasCommand(AgentCommandDefine.IDLE))
         {
             AnimQueueMoveOn();
         }

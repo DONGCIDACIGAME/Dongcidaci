@@ -42,6 +42,11 @@ public abstract class Agent : IEntity
     /// </summary>
     public AgentStatusGraph StatusGraph;
 
+    public uint GetAgentId()
+    {
+        return mAgentId;
+    }
+
     public int GetEntityId()
     {
         return mEntityId;
@@ -141,11 +146,11 @@ public abstract class Agent : IEntity
         StatusMachine.OnMeter(meterIndex);
     }
 
-    public void OnAction(byte action)
+    public void OnCommands(AgentCommandBuffer cmds)
     {
         if(StatusMachine != null)
         {
-            StatusMachine.OnAction(action);
+            StatusMachine.OnCommands(cmds);
         }
     }
 

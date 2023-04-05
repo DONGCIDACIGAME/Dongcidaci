@@ -125,6 +125,8 @@ public class MusicTempEditor : MonoBehaviour
 
     private void SaveBaseMeter()
     {
+        if (music == null)
+            return;
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < basemeterRecords.Count; i++)
         {
@@ -135,6 +137,9 @@ public class MusicTempEditor : MonoBehaviour
 
     private void LoadMeter()
     {
+        if (music == null)
+            return;
+
         string path = Path.Combine(Application.dataPath, music.name + ".meter");
 
         if (!FileHelper.FileExist(path))
@@ -152,6 +157,8 @@ public class MusicTempEditor : MonoBehaviour
 
     private void LoadBaseMeter()
     {
+        if (music == null)
+            return;
         string path = Path.Combine(Application.dataPath, music.name + ".basemeter");
 
         if (!FileHelper.FileExist(path))

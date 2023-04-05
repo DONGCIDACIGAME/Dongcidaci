@@ -21,31 +21,38 @@ public class PlayerKeyboardInputControl : IInputControl
         if (mAgent == null)
             return;
 
-        byte command = AgentCommandDefine.IDLE;
+        // TODO: 这里需要加个缓存池
+        AgentCommandBuffer cmds = new AgentCommandBuffer();
+        cmds.AddCommand(AgentCommandDefine.IDLE);
 
         Vector3 towards = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
             towards += DirectionDef.up;
-            command = AgentCommandDefine.RUN;
+            cmds.AddCommand(AgentCommandDefine.RUN);
         }
 
         if (Input.GetKey(KeyCode.S))
         {
             towards += DirectionDef.down;
-            command = AgentCommandDefine.RUN;
+            cmds.AddCommand(AgentCommandDefine.RUN);
         }
 
         if (Input.GetKey(KeyCode.A))
         {
             towards += DirectionDef.left;
-            command = AgentCommandDefine.RUN;
+            cmds.AddCommand(AgentCommandDefine.RUN);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
             towards += DirectionDef.right;
-            command = AgentCommandDefine.RUN;
+            cmds.AddCommand(AgentCommandDefine.RUN);
+        }
+
+        if(Input.GetKey(KeyCode.K))
+        {
+            cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
         }
 
         if(!towards.Equals(lastInputTowards))
@@ -59,7 +66,7 @@ public class PlayerKeyboardInputControl : IInputControl
             mAgent.MoveControl.Move(towards, deltaTime);
         }
 
-        mAgent.OnAction(command);
+        mAgent.OnCommands(cmds);
     }
 
     public void InputControlOnMeter(int meterIndex)

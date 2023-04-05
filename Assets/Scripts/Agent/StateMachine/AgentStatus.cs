@@ -10,61 +10,23 @@ public abstract class AgentStatus : IAgentStatus
 
     /// <summary>
     /// 等待执行的指令集合
-    /// 每一位代表一个指令
-    /// 如果位数不够后续扩展为int
     /// </summary>
-    protected byte commands;
-
-    /// <summary>
-    /// 添加指令
-    /// </summary>
-    /// <param name="command"></param>
-    protected void AddCommand(byte command)
-    {
-        commands |= command;
-    }
-
-    protected byte PeekCommand()
-    {
-        for(int i = 0;i<8;i++)
-        {
-            int ret = AgentCommandDefine.COMMANDS[i] & commands;
-            if (ret == 1)
-            {
-                return AgentCommandDefine.COMMANDS[i];
-            }
-        }
-
-        return AgentCommandDefine.EMPTY;
-    }
-
-    /// <summary>
-    /// 清除指令集合
-    /// </summary>
-    protected void ClearCommands()
-    {
-        commands = 0;
-    }
-
-    /// <summary>
-    /// 判断是否有指令
-    /// </summary>
-    /// <param name="command"></param>
-    /// <returns></returns>
-    protected bool HasCommand(byte command)
-    {
-        return (commands & command) == 1;
-    }
+    protected AgentCommandBuffer cmdBuffer;
 
     public void Initialize(Agent agt, ChangeStatusDelegate cb)
     {
         ChangeStatus = cb;
-        mAgent = agt; 
+        mAgent = agt;
+        cmdBuffer = new AgentCommandBuffer();
     }
 
     public abstract string GetStatusName();
 
-    public abstract void OnAction(byte action);
+    /// <summary>
+    /// TODO：所有子状态的这个逻辑，要重构
+    /// </summary>
+    /// <param name="cmds"></param>
+    public abstract void OnCommands(AgentCommandBuffer cmds);
 
     protected void SetAnimStateMeterTimer(int meterLen)
     {
@@ -97,6 +59,7 @@ public abstract class AgentStatus : IAgentStatus
 
     public virtual void OnEnter(Dictionary<string, object> context)
     {
+        Log.Logic(LogLevel.Info, "{0} Enter Status:{1}", mAgent.GetAgentId(), GetStatusName());
         AgentStatusInfo statusInfo = mAgent.StatusGraph.GetStatusInfo(GetStatusName());
         if (statusInfo != null)
         {
@@ -138,7 +101,7 @@ public abstract class AgentStatus : IAgentStatus
         {
             Log.Logic(LogLevel.Info, "UpdateAnimSpeed---------cur progress:{0}", mAgent.AnimPlayer.CurStateProgress);
             float duration = MeterManager.Ins.GetTimeToBaseMeter(state.stateMeterLen);
-            mAgent.AnimPlayer.UpdateAnimSpeed(state.stateLen / duration);
+            mAgent.AnimPlayer.UpdateAnimSpeedWithFix(state.layer, state.stateLen, duration);
         }
         else if (ret == AgentAnimDefine.AnimQueue_AnimMoveNext)
         {
@@ -153,7 +116,7 @@ public abstract class AgentStatus : IAgentStatus
     public virtual void OnMeter(int meterIndex)
     {
         ActionHandleOnMeter(meterIndex);
-        ClearCommands();
+        cmdBuffer.ClearBuffer();
     }
 
     public virtual void OnUpdate(float deltaTime)

@@ -39,20 +39,4 @@ public static class AgentCommandDefine
     /// 受击
     /// </summary>
     public const byte BE_HIT = 1 << 6;
-
-
-    /// <summary>
-    /// 按照指令优先级排序后的指令组
-    /// </summary>
-    public static byte[] COMMANDS = new byte[]
-    {
-        EMPTY,
-        BE_HIT,
-        ATTACK_HARD,
-        ATTACK_LIGHT,
-        DASH,
-        RUN,
-        WALK,
-        IDLE
-    };
 }

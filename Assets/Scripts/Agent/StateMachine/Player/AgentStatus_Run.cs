@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 public class AgentStatus_Run : AgentStatus
 {
     public override string GetStatusName()
@@ -7,28 +5,27 @@ public class AgentStatus_Run : AgentStatus
         return AgentStatusDefine.RUN;
     }
 
-    public override void OnAction(byte command)
+    public override void OnCommands(AgentCommandBuffer cmds)
     {
-        switch(command)
+        if (cmds.HasCommand(AgentCommandDefine.ATTACK_HARD))
         {
-            case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.RUN:
-                AddCommand(command);
-                break;
-            case AgentCommandDefine.ATTACK_HARD:
-                ChangeStatus(AgentStatusDefine.ATTACK_HARD);
-                break;
-            default:
-                break;
+            ChangeStatus(AgentStatusDefine.ATTACK_HARD);
+        }
+        else if (cmds.HasCommand(AgentCommandDefine.RUN))
+        {
+            cmdBuffer.AddCommand(AgentCommandDefine.RUN);
+        }
+        else if (cmds.HasCommand(AgentCommandDefine.IDLE))
+        {
+            cmdBuffer.AddCommand(AgentCommandDefine.IDLE);
         }
     }
-
 
     protected override void ActionHandleOnMeter(int meterIndex)
     {
         mCurAnimStateMeterRecord++;
 
-        byte command = PeekCommand();
+        byte command = cmdBuffer.PeekCommand();
         if(command == AgentCommandDefine.IDLE)
         {
             ChangeStatus(AgentStatusDefine.IDLE);

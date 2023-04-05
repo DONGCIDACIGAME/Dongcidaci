@@ -5,17 +5,19 @@ public class AgentStatus_AttackHard : AgentStatus
         return AgentStatusDefine.ATTACK_HARD;
     }
 
-    public override void OnAction(byte command)
+    public override void OnCommands(AgentCommandBuffer cmds)
     {
-        switch (command)
+        if (cmds.HasCommand(AgentCommandDefine.ATTACK_HARD))
         {
-            case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.RUN:
-            case AgentCommandDefine.ATTACK_HARD:
-                AddCommand(command);
-                break;
-            default:
-                break;
+            cmdBuffer.AddCommand(AgentCommandDefine.ATTACK_HARD);
+        }
+        else if (cmds.HasCommand(AgentCommandDefine.RUN))
+        {
+            cmdBuffer.AddCommand(AgentCommandDefine.RUN);
+        }
+        else if (cmds.HasCommand(AgentCommandDefine.IDLE))
+        {
+            cmdBuffer.AddCommand(AgentCommandDefine.IDLE);
         }
     }
 
@@ -23,7 +25,7 @@ public class AgentStatus_AttackHard : AgentStatus
     {
         mCurAnimStateMeterRecord++;
 
-        byte command = PeekCommand();
+        byte command = cmdBuffer.PeekCommand();
         switch(command)
         {
             case AgentCommandDefine.IDLE:

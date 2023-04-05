@@ -51,15 +51,16 @@ public class AgentStatusMachine
         mAgent = agt;
         AddStatus(AgentStatusDefine.IDLE, new AgentStatus_Idle());
         AddStatus(AgentStatusDefine.RUN, new AgentStatus_Run());
+        AddStatus(AgentStatusDefine.ATTACK_HARD, new AgentStatus_AttackHard());
 
         SwitchToStatus(AgentStatusDefine.IDLE, null);
     }
 
-    public void OnAction(byte action)
+    public void OnCommands(AgentCommandBuffer cmds)
     {
         if(mCurStatus != null)
         {
-            mCurStatus.OnAction(action);
+            mCurStatus.OnCommands(cmds);
         }
     }
 
@@ -79,6 +80,10 @@ public class AgentStatusMachine
 
             newStatus.OnEnter(context);
             mCurStatus = newStatus;
+        }
+        else
+        {
+            Log.Error(LogLevel.Normal, "AgentStatusMachine ChangeToStatus Failed, status {0} not registered!", statusName);
         }
     }
 

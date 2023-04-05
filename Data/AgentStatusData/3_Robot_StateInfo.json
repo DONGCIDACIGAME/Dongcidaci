@@ -28,9 +28,9 @@
 				"stateLen": 1.000
 			}]
 		},
-		"Attack":{
-			"statusName": "Attack",
-			"loop": false,
+		"Attack_Hard":{
+			"statusName": "Attack_Hard",
+			"loop": true,
 			"animStates": [{
 				"stateName": "combo_01",
 				"loopTime": 1,
