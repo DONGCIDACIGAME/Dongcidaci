@@ -149,9 +149,9 @@ public class GameManager:MonoBehaviour
             EventSystem.OnUpdate(deltaTime);
             AudioMgr.OnUpdate(deltaTime);
             MeterMgr.OnUpdate(deltaTime);
-            AgentMgr.OnUpdate(deltaTime);
             TimerCenter.OnUpdate(deltaTime);
             MeterTimerCenter.OnUpdate(deltaTime);
+            AgentMgr.OnUpdate(deltaTime);
         }
 
         UIMgr.OnUpdate(deltaTime);

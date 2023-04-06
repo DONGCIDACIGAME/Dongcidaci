@@ -22,7 +22,7 @@ public class AgentCommandBuffer
         for (int i = 7; i >= 0; i--)
         {
             byte command = (byte)((1 << i) & _command);
-            if (command == 1)
+            if (command > 0)
                 return command;
         }
 

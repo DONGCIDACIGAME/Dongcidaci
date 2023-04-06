@@ -50,7 +50,7 @@ public class PlayerKeyboardInputControl : IInputControl
             cmds.AddCommand(AgentCommandDefine.RUN);
         }
 
-        if(Input.GetKey(KeyCode.K))
+        if(Input.GetKey(KeyCode.K) && MeterManager.Ins.CheckTriggerBaseMeter())
         {
             cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
         }

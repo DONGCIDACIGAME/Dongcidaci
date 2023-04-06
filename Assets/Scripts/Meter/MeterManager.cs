@@ -11,8 +11,6 @@ public class MeterManager : ModuleManager<MeterManager>
     
     // 当前所处的基础节奏index
     public int BaseMeterIndex { get; private set; }
-    // 当前所处的攻击节奏index
-    private int attackMeterIndex;
 
     // 音乐开始到当前的时间（loop）
     private float timeRecord;
@@ -21,12 +19,10 @@ public class MeterManager : ModuleManager<MeterManager>
     private bool enable;
 
     private Dictionary<int, IMeterHandler> mBaseMeterHandlers;
-    private Dictionary<int, IMeterHandler> mAttackMeterHandlers;
 
     public override void Initialize()
     {
         mBaseMeterHandlers = new Dictionary<int, IMeterHandler>();
-        mAttackMeterHandlers = new Dictionary<int, IMeterHandler>();
     }
 
     public void RegisterBaseMeterHandler(IMeterHandler handler)
@@ -50,30 +46,6 @@ public class MeterManager : ModuleManager<MeterManager>
         if (mBaseMeterHandlers.ContainsKey(unicode))
         {
             mBaseMeterHandlers.Remove(unicode);
-        }
-    }
-
-    public void RegisterAttackMeterHandler(IMeterHandler handler)
-    {
-        if (handler == null)
-            return;
-
-        int unicode = handler.GetHashCode();
-        if (mAttackMeterHandlers.ContainsKey(unicode))
-            return;
-
-        mAttackMeterHandlers.Add(unicode, handler);
-    }
-
-    public void UnregiseterAttackMeterHandler(IMeterHandler handler)
-    {
-        if (handler == null)
-            return;
-
-        int unicode = handler.GetHashCode();
-        if (mAttackMeterHandlers.ContainsKey(unicode))
-        {
-            mAttackMeterHandlers.Remove(unicode);
         }
     }
 
@@ -109,7 +81,6 @@ public class MeterManager : ModuleManager<MeterManager>
         timeRecord = 0;
         enable = true;
         BaseMeterIndex = 0;
-        attackMeterIndex = 0;
     }
 
     public void Stop()
@@ -127,25 +98,13 @@ public class MeterManager : ModuleManager<MeterManager>
         enable = true;
     }
 
-    public bool CheckBaseMeter()
+    public bool CheckTriggerBaseMeter()
     {
         if (mCurAudioMeterData == null)
             return false;
 
-        if (timeRecord >= mCurAudioMeterData.baseMeters[BaseMeterIndex] - 0.3f && timeRecord <= mCurAudioMeterData.baseMeters[BaseMeterIndex] + 0.3f)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    public bool CheckAttackMeter()
-    {
-        if (mCurAudioMeterData == null)
-            return false;
-
-        if (timeRecord >= mCurAudioMeterData.attackMeters[attackMeterIndex] - 0.3f && timeRecord <= mCurAudioMeterData.attackMeters[attackMeterIndex] + 0.3f)
+        if (timeRecord >= mCurAudioMeterData.baseMeters[BaseMeterIndex] - GamePlayDefine.MeterCheckTolerance 
+            && timeRecord <= mCurAudioMeterData.baseMeters[BaseMeterIndex] + GamePlayDefine.MeterCheckTolerance)
         {
             return true;
         }
@@ -160,15 +119,6 @@ public class MeterManager : ModuleManager<MeterManager>
             handler.OnMeter(BaseMeterIndex);
         }
     }
-
-    private void TriggerAttack()
-    {
-        foreach (IMeterHandler handler in mAttackMeterHandlers.Values)
-        {
-            handler.OnMeter(attackMeterIndex);
-        }
-    }
-
 
     /// <summary>
     ///  TODO:这里的节拍逻辑需要调整
@@ -194,7 +144,6 @@ public class MeterManager : ModuleManager<MeterManager>
         {
             timeRecord %= mCurAudioMeterData.audioLen;
             BaseMeterIndex = 0;
-            attackMeterIndex = 0;
         }
         else if (timeRecord >= mCurAudioMeterData.baseMeters[BaseMeterIndex + 1])
         {
@@ -207,7 +156,7 @@ public class MeterManager : ModuleManager<MeterManager>
     }
 
     /// <summary>
-    /// TODO: 尾部循环
+    /// 获取当前到接下来第offset拍的时间
     /// </summary>
     /// <param name="offset"></param>
     /// <returns></returns>
