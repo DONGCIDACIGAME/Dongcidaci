@@ -13,11 +13,14 @@ public abstract class AgentStatus : IAgentStatus
     /// </summary>
     protected AgentCommandBuffer cmdBuffer;
 
-    public void Initialize(Agent agt, ChangeStatusDelegate cb)
+    public virtual void Initialize(Agent agt, ChangeStatusDelegate cb)
     {
         ChangeStatus = cb;
         mAgent = agt;
         cmdBuffer = new AgentCommandBuffer();
+        mStateAnimQueue = new AgentStateAnimQueue();
+        AgentStatusInfo statusInfo = mAgent.StatusGraph.GetStatusInfo(GetStatusName());
+        mStateAnimQueue.Initialize(statusInfo);
     }
 
     public abstract string GetStatusName();
@@ -57,33 +60,26 @@ public abstract class AgentStatus : IAgentStatus
         }
     }
 
-    public virtual void OnEnter(Dictionary<string, object> context)
+    public virtual void OnEnter(Dictionary<string, object> context) 
     {
-        Log.Logic(LogLevel.Info, "{0} Enter Status:{1}", mAgent.GetAgentId(), GetStatusName());
-        AgentStatusInfo statusInfo = mAgent.StatusGraph.GetStatusInfo(GetStatusName());
-        if (statusInfo != null)
-        {
-            StartAnimQueue(statusInfo);
-        }
-
+        Log.Logic(LogLevel.Info, "OnEnter Status:{0}", GetStatusName());
     }
 
-    public virtual void OnExit()
+    public virtual void OnExit() { }
+
+    protected void StartAnimQueue()
     {
-
-    }
-
-    protected void StartAnimQueue(AgentStatusInfo statusInfo)
-    {
-        mStateAnimQueue = new AgentStateAnimQueue();
-        mStateAnimQueue.Initialize(statusInfo);
-
         AgentAnimStateInfo state = mStateAnimQueue.GetCurAnimState();
         if (state == null)
             return;
 
         AgentStatusCrossFadeToState(state);
         SetAnimStateMeterTimer(state.stateMeterLen);
+    }
+
+    protected void ResetAnimQueue()
+    {
+        mStateAnimQueue.Reset();
     }
 
     protected void AnimQueueMoveOn()
@@ -105,6 +101,7 @@ public abstract class AgentStatus : IAgentStatus
         }
         else if (ret == AgentAnimDefine.AnimQueue_AnimMoveNext)
         {
+            Log.Logic(LogLevel.Info, "AnimQueue_AnimMoveNext---------next state:{0}", state.stateName);
             AgentStatusCrossFadeToState(state);
         }
 

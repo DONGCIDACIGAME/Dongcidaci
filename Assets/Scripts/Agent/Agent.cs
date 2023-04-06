@@ -42,6 +42,12 @@ public abstract class Agent : IEntity
     /// </summary>
     public AgentStatusGraph StatusGraph;
 
+
+    /// <summary>
+    /// ½ÇÉ«ÃüÁî»º´æ³Ø
+    /// </summary>
+    public AgentCommandBufferPool CommandBufferPool;
+
     public uint GetAgentId()
     {
         return mAgentId;
@@ -123,6 +129,7 @@ public abstract class Agent : IEntity
         LoadAgentGo();
         CustomInitialize();
         StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
+        CommandBufferPool = new AgentCommandBufferPool();
         StatusMachine = new AgentStatusMachine();
         StatusMachine.Initialize(this);
     }
@@ -152,6 +159,8 @@ public abstract class Agent : IEntity
         {
             StatusMachine.OnCommands(cmds);
         }
+
+        CommandBufferPool.PushAgentCommandBuffer(cmds);
     }
 
     /// <summary>

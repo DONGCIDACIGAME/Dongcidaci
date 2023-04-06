@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class AgentStatus_Run : AgentStatus
 {
     public override string GetStatusName()
@@ -5,20 +7,30 @@ public class AgentStatus_Run : AgentStatus
         return AgentStatusDefine.RUN;
     }
 
+    public override void OnEnter(Dictionary<string, object> context)
+    {
+        base.OnEnter(context);
+
+        StartAnimQueue();
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+
+        ResetAnimQueue();
+    }
+
     public override void OnCommands(AgentCommandBuffer cmds)
     {
         if (cmds.HasCommand(AgentCommandDefine.ATTACK_HARD))
         {
             ChangeStatus(AgentStatusDefine.ATTACK_HARD);
+            return;
         }
-        else if (cmds.HasCommand(AgentCommandDefine.RUN))
-        {
-            cmdBuffer.AddCommand(AgentCommandDefine.RUN);
-        }
-        else if (cmds.HasCommand(AgentCommandDefine.IDLE))
-        {
-            cmdBuffer.AddCommand(AgentCommandDefine.IDLE);
-        }
+
+        cmdBuffer.AddCommandIfHas(cmds, AgentCommandDefine.RUN);
+        cmdBuffer.AddCommandIfHas(cmds, AgentCommandDefine.IDLE);
     }
 
     protected override void ActionHandleOnMeter(int meterIndex)

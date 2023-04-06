@@ -1,24 +1,41 @@
+using System.Collections.Generic;
+/// <summary>
+/// ÖØ»÷×´Ì¬
+/// 
+/// </summary>
 public class AgentStatus_AttackHard : AgentStatus
 {
-    public override string GetStatusName()
+    private ComboHandler mComboHandler;
+
+    public override void Initialize(Agent agt, ChangeStatusDelegate cb)
     {
-        return AgentStatusDefine.ATTACK_HARD;
+        base.Initialize(agt, cb);
+
+        mComboHandler = new ComboHandler();
+    }
+
+    public override void OnEnter(Dictionary<string, object> context)
+    {
+        base.OnEnter(context);
+
+        mComboHandler.Initialize();
+
+        StartAnimQueue();
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+
+        mComboHandler.Dispose();
     }
 
     public override void OnCommands(AgentCommandBuffer cmds)
     {
-        if (cmds.HasCommand(AgentCommandDefine.ATTACK_HARD))
-        {
-            cmdBuffer.AddCommand(AgentCommandDefine.ATTACK_HARD);
-        }
-        else if (cmds.HasCommand(AgentCommandDefine.RUN))
-        {
-            cmdBuffer.AddCommand(AgentCommandDefine.RUN);
-        }
-        else if (cmds.HasCommand(AgentCommandDefine.IDLE))
-        {
-            cmdBuffer.AddCommand(AgentCommandDefine.IDLE);
-        }
+        //Log.Logic(LogLevel.Info, "AgentStatus_AttackHard OnCommands:{0}", cmds.GetBuffer());
+        cmdBuffer.AddCommandIfHas(cmds, AgentCommandDefine.ATTACK_HARD);
+        cmdBuffer.AddCommandIfHas(cmds, AgentCommandDefine.RUN);
+        cmdBuffer.AddCommandIfHas(cmds, AgentCommandDefine.IDLE);
     }
 
     protected override void ActionHandleOnMeter(int meterIndex)
@@ -26,6 +43,7 @@ public class AgentStatus_AttackHard : AgentStatus
         mCurAnimStateMeterRecord++;
 
         byte command = cmdBuffer.PeekCommand();
+        Log.Logic(LogLevel.Info, "PeekCommand--{0}", command);
         switch(command)
         {
             case AgentCommandDefine.IDLE:
@@ -46,5 +64,17 @@ public class AgentStatus_AttackHard : AgentStatus
         mCurAnimStateMeterRecord = 0;
 
         AnimQueueMoveOn();
+    }
+
+    public override void OnUpdate(float deltaTime)
+    {
+        base.OnUpdate(deltaTime);
+
+        mComboHandler.OnUpdate(deltaTime);
+    }
+
+    public override string GetStatusName()
+    {
+        return AgentStatusDefine.ATTACK_HARD;
     }
 }

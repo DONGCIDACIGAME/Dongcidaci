@@ -1,9 +1,26 @@
+using GameEngine;
 public class AgentStateAnimQueue
 {
-    private bool mLoop;
     private AgentAnimStateInfo[] mAnimStates;
     private int curStateIndex;
     private int curStateLoopRecord;
+
+    public void Initialize()
+    {
+
+    }
+
+    public void Dispose()
+    {
+        Reset();
+        mAnimStates = null;
+    }
+
+    public void Reset()
+    {
+        curStateIndex = 0;
+        curStateLoopRecord = 0;
+    }
 
     public AgentAnimStateInfo GetCurAnimState()
     {
@@ -19,7 +36,6 @@ public class AgentStateAnimQueue
             return;
 
         mAnimStates = statusInfo.animStates;
-        mLoop = statusInfo.loop;
         curStateIndex = 0;
     }
     

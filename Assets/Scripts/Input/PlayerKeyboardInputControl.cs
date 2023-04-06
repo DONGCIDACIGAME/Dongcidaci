@@ -22,7 +22,7 @@ public class PlayerKeyboardInputControl : IInputControl
             return;
 
         // TODO: 这里需要加个缓存池
-        AgentCommandBuffer cmds = new AgentCommandBuffer();
+        AgentCommandBuffer cmds = mAgent.CommandBufferPool.PopAgentCommandBuffer() ;
         cmds.AddCommand(AgentCommandDefine.IDLE);
 
         Vector3 towards = Vector3.zero;
@@ -50,7 +50,7 @@ public class PlayerKeyboardInputControl : IInputControl
             cmds.AddCommand(AgentCommandDefine.RUN);
         }
 
-        if(Input.GetKey(KeyCode.K) && MeterManager.Ins.CheckTriggerBaseMeter())
+        if(Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerBaseMeter())
         {
             cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
         }
