@@ -5,7 +5,6 @@
 /// </summary>
 public class ComboHandler:  IMeterHandler
 {
-    //private int[] comboMeter = new int[] { };
     private int[] comboAnimList = new int[] { 0, 1, 2, 3 };
     private int comboCounter = 0;
 

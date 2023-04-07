@@ -10,6 +10,7 @@
 				"loopTime": 0,
 				"animName": "Idle",
 				"stateMeterLen": 4,
+				"minDuration": 0,
 				"normalizedTime": 0.1,
 				"layer": 0,
 				"stateLen": 2.500
@@ -28,8 +29,8 @@
 				"stateLen": 1.000
 			}]
 		},
-		"Attack_Hard":{
-			"statusName": "Attack_Hard",
+		"Attack":{
+			"statusName": "Attack",
 			"loop": true,
 			"animStates": [{
 				"stateName": "combo_01",
