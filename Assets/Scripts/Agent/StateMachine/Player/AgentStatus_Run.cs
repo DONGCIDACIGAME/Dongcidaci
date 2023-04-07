@@ -25,7 +25,7 @@ public class AgentStatus_Run : AgentStatus
     {
         if (cmds.HasCommand(AgentCommandDefine.ATTACK_HARD))
         {
-            ChangeStatus(AgentStatusDefine.ATTACK_HARD);
+            ChangeStatus(AgentStatusDefine.ATTACK);
             return;
         }
 

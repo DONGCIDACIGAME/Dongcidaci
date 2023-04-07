@@ -51,7 +51,7 @@ public class AgentStatusMachine
         mAgent = agt;
         AddStatus(AgentStatusDefine.IDLE, new AgentStatus_Idle());
         AddStatus(AgentStatusDefine.RUN, new AgentStatus_Run());
-        AddStatus(AgentStatusDefine.ATTACK_HARD, new AgentStatus_AttackHard());
+        AddStatus(AgentStatusDefine.ATTACK, new AgentStatus_Attack());
 
         SwitchToStatus(AgentStatusDefine.IDLE, null);
     }

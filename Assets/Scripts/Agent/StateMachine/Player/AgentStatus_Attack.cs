@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 /// <summary>
 /// ÖØ»÷×´Ì¬
-/// 
 /// </summary>
-public class AgentStatus_AttackHard : AgentStatus
+public class AgentStatus_Attack : AgentStatus
 {
     private ComboHandler mComboHandler;
 
@@ -18,16 +17,12 @@ public class AgentStatus_AttackHard : AgentStatus
     {
         base.OnEnter(context);
 
-        mComboHandler.Initialize();
-
         StartAnimQueue();
     }
 
     public override void OnExit()
     {
         base.OnExit();
-
-        mComboHandler.Dispose();
     }
 
     public override void OnCommands(AgentCommandBuffer cmds)
@@ -75,6 +70,6 @@ public class AgentStatus_AttackHard : AgentStatus
 
     public override string GetStatusName()
     {
-        return AgentStatusDefine.ATTACK_HARD;
+        return AgentStatusDefine.ATTACK;
     }
 }
