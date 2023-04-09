@@ -132,9 +132,14 @@ public abstract class Agent : IEntity
         CommandBufferPool = new AgentCommandBufferPool();
         StatusMachine = new AgentStatusMachine();
         StatusMachine.Initialize(this);
+        if(mBaseMeterHandler != null)
+        {
+            MeterManager.Ins.RegisterBaseMeterHandler(mBaseMeterHandler);
+        }
     }
 
     public virtual void Dispose()
+
     {
         EntityManager.Ins.RemoveEntity(this);
         mAgentGo = null;

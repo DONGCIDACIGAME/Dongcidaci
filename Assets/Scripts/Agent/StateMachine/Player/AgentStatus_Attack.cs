@@ -28,9 +28,9 @@ public class AgentStatus_Attack : AgentStatus
     public override void OnCommands(AgentCommandBuffer cmds)
     {
         //Log.Logic(LogLevel.Info, "AgentStatus_AttackHard OnCommands:{0}", cmds.GetBuffer());
-        cmdBuffer.AddCommandIfHas(cmds, AgentCommandDefine.ATTACK_HARD);
-        cmdBuffer.AddCommandIfHas(cmds, AgentCommandDefine.RUN);
-        cmdBuffer.AddCommandIfHas(cmds, AgentCommandDefine.IDLE);
+        cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.ATTACK_HARD);
+        cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.RUN);
+        cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.IDLE);
     }
 
     protected override void ActionHandleOnMeter(int meterIndex)

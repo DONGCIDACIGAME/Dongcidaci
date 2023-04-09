@@ -23,14 +23,12 @@ public class AgentStatus_Run : AgentStatus
 
     public override void OnCommands(AgentCommandBuffer cmds)
     {
-        if (cmds.HasCommand(AgentCommandDefine.ATTACK_HARD))
-        {
-            ChangeStatus(AgentStatusDefine.ATTACK);
+        if (CommonHandleOnCmd(cmds, AgentCommandDefine.ATTACK_HARD, AgentStatusDefine.ATTACK))
             return;
-        }
 
-        cmdBuffer.AddCommandIfHas(cmds, AgentCommandDefine.RUN);
-        cmdBuffer.AddCommandIfHas(cmds, AgentCommandDefine.IDLE);
+        //cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.RUN);
+        cmdBuffer.BindCommand(cmds, AgentCommandDefine.RUN);
+        cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.IDLE);
     }
 
     protected override void ActionHandleOnMeter(int meterIndex)
@@ -38,10 +36,18 @@ public class AgentStatus_Run : AgentStatus
         mCurAnimStateMeterRecord++;
 
         byte command = cmdBuffer.PeekCommand();
-        if(command == AgentCommandDefine.IDLE)
+        Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}", command, meterIndex);
+        switch (command)
         {
-            ChangeStatus(AgentStatusDefine.IDLE);
-            return;
+            case AgentCommandDefine.ATTACK_HARD:
+                ChangeStatus(AgentStatusDefine.ATTACK);
+                return;
+            case AgentCommandDefine.IDLE:
+                ChangeStatus(AgentStatusDefine.IDLE);
+                return;
+            case AgentCommandDefine.EMPTY:
+            default:
+                break;
         }
 
         if (mCurAnimStateMeterRecord < mCurAnimStateMeterLen)

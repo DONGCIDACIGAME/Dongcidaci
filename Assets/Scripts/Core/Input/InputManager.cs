@@ -40,6 +40,7 @@ public class InputManager : MeterModuleManager<InputManager>
     {
         mInputControlMap.Clear();
         mStateStatck.Clear();
+        MeterManager.Ins.UnregiseterBaseMeterHandler(this);
     }
 
     public InputManager()

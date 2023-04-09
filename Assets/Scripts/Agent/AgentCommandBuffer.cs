@@ -7,7 +7,12 @@ public class AgentCommandBuffer
         _cmdBuffer |= command;
     }
 
-    public void AddCommandIfHas(AgentCommandBuffer commands, byte command)
+    public void RemoveCommand(byte command)
+    {
+        _cmdBuffer &= (byte)(~command);
+    }
+
+    public void AddCommandIfContain(AgentCommandBuffer commands, byte command)
     {
         if (commands == null)
             return;
@@ -15,6 +20,32 @@ public class AgentCommandBuffer
         if(commands.HasCommand(command))
         {
             AddCommand(command);
+        }
+    }
+
+    public void RemoveCommandIfDoNotContain(AgentCommandBuffer commands, byte command)
+    {
+        if (commands == null)
+            return;
+
+        if (!commands.HasCommand(command))
+        {
+            RemoveCommand(command);
+        }
+    }
+
+    public void BindCommand(AgentCommandBuffer commands, byte command)
+    {
+        if (commands == null)
+            return;
+
+        if (commands.HasCommand(command))
+        {
+            AddCommand(command);
+        }
+        else
+        {
+            RemoveCommand(command);
         }
     }
 

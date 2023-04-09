@@ -64,6 +64,7 @@ public class MeterTimerCenter : MeterModuleManager<MeterTimerCenter>
 
     public override void Dispose()
     {
+        MeterManager.Ins.UnregiseterBaseMeterHandler(this);
         mTimerPool = null;
         mWorkingTimers = null;
         toPushTimers = null;

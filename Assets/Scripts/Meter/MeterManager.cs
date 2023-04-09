@@ -145,6 +145,13 @@ public class MeterManager : ModuleManager<MeterManager>
             timeRecord %= mCurAudioMeterData.audioLen;
             BaseMeterIndex = 0;
         }
+
+        if(BaseMeterIndex >= mCurAudioMeterData.baseMeters.Length - 1)
+        {
+            Log.Error(LogLevel.Critical, "MeterManager OnUpdate Error, BaseMeterIndex Index out of range!");
+            return;
+        }
+
         else if (timeRecord >= mCurAudioMeterData.baseMeters[BaseMeterIndex + 1])
         {
             BaseMeterIndex++;
@@ -165,10 +172,16 @@ public class MeterManager : ModuleManager<MeterManager>
         if (mCurAudioMeterData == null)
             return -1f;
 
+        if (BaseMeterIndex >= mCurAudioMeterData.baseMeters.Length - 1)
+        {
+            Log.Error(LogLevel.Critical, "MeterManager GetTimeToBaseMeter Error, BaseMeterIndex Index out of range!");
+            return -2f;
+        }
+
         int targetIndex = BaseMeterIndex + offset;
 
         float time = 0;
-        if(targetIndex > mCurAudioMeterData.baseMeters.Length)
+        if(targetIndex >= mCurAudioMeterData.baseMeters.Length - 1)
         {
             time += mCurAudioMeterData.audioLen - timeRecord;
             targetIndex %= mCurAudioMeterData.baseMeters.Length;
@@ -180,6 +193,59 @@ public class MeterManager : ModuleManager<MeterManager>
         }
 
         Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
+        return time;
+    }
+
+    /// <summary>
+    /// 获取当前拍子已经过去的时间
+    /// </summary>
+    /// <returns></returns>
+    public float GetCurrentMeterEclipseTime()
+    {
+        if (mCurAudioMeterData == null)
+            return -1f;
+
+        if (BaseMeterIndex >= mCurAudioMeterData.baseMeters.Length - 1)
+        {
+            Log.Error(LogLevel.Critical, "MeterManager GetCurrentMeterEclipseTime Error, BaseMeterIndex Index out of range!");
+            return -2f;
+        }
+
+        float time = timeRecord - mCurAudioMeterData.baseMeters[BaseMeterIndex];
+
+        Log.Logic(LogLevel.Info, "GetCurrentMeterTime--baseMeterIndex:{0},time:{1},", BaseMeterIndex, time);
+
+        return time;
+    }
+
+
+    /// <summary>
+    /// 获取当前拍子的总时间
+    /// </summary>
+    /// <returns></returns>
+    public float GetCurrentMeterTime()
+    {
+        //float time1 = GetCurrentMeterEclipseTime();
+        //float time2 = GetTimeToBaseMeter(1);
+        //float currentMeterTime = time1 + time2;
+
+        if (mCurAudioMeterData == null)
+            return -1f;
+
+        if (BaseMeterIndex >= mCurAudioMeterData.baseMeters.Length - 1)
+        {
+            Log.Error(LogLevel.Critical, "MeterManager GetCurrentMeterTime Error, BaseMeterIndex Index out of range!");
+            return -2f;
+        }
+
+        float time = mCurAudioMeterData.baseMeters[BaseMeterIndex + 1] - mCurAudioMeterData.baseMeters[BaseMeterIndex];
+        if(time <= 0)
+        {
+            Log.Error(LogLevel.Critical, "MeterManager GetCurrentMeterTime Error, current meter duration <= 0");
+            return -3f;
+        }
+
+        Log.Logic(LogLevel.Info, "GetCurrentMeterTime--baseMeterIndex:{0},time:{1},", BaseMeterIndex, time);
         return time;
     }
 

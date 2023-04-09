@@ -95,17 +95,50 @@ public abstract class AgentStatus : IAgentStatus
 
         if (ret == AgentAnimDefine.AnimQueue_AnimKeep)
         {
-            Log.Logic(LogLevel.Info, "UpdateAnimSpeed---------cur progress:{0}", mAgent.AnimPlayer.CurStateProgress);
+            //Log.Logic(LogLevel.Info, "UpdateAnimSpeed---------cur progress:{0}", mAgent.AnimPlayer.CurStateProgress);
             float duration = MeterManager.Ins.GetTimeToBaseMeter(state.stateMeterLen);
             mAgent.AnimPlayer.UpdateAnimSpeedWithFix(state.layer, state.stateLen, duration);
         }
         else if (ret == AgentAnimDefine.AnimQueue_AnimMoveNext)
         {
-            Log.Logic(LogLevel.Info, "AnimQueue_AnimMoveNext---------next state:{0}", state.stateName);
+            //Log.Logic(LogLevel.Info, "AnimQueue_AnimMoveNext---------next state:{0}", state.stateName);
             AgentStatusCrossFadeToState(state);
         }
 
         SetAnimStateMeterTimer(state.stateMeterLen);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="cmds">指令buffer</param>
+    /// <param name="cmd">目标指令</param>
+    /// <param name="toStatus">转换到的状态</param>
+    /// <returns>是否继续处理其他指令</returns>
+    protected bool CommonHandleOnCmd(AgentCommandBuffer cmds,byte cmd, string toStatus)
+    {
+        float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
+        float timeOfCurrentMeter = MeterManager.Ins.GetCurrentMeterTime();
+        if (timeOfCurrentMeter < 0)
+            return true;
+
+        // 如果检测到攻击
+        if (cmds.HasCommand(cmd))
+        {
+            if (timeToNextMeter / timeOfCurrentMeter >= GamePlayDefine.MinMeterProgressOnCmd)
+            {
+                ChangeStatus(toStatus);
+                return true;
+            }
+
+            else if (timeToNextMeter <= GamePlayDefine.WaitMeterMaxTimeOnCmd)
+            {
+                cmdBuffer.AddCommand(cmd);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected abstract void ActionHandleOnMeter(int meterIndex);

@@ -66,6 +66,7 @@ public class PlayerKeyboardInputControl : IInputControl
             mAgent.MoveControl.Move(towards, deltaTime);
         }
 
+        //Log.Error(LogLevel.Info, "cmds:{0}, meterIndex:{1}",cmds.GetBuffer(), MeterManager.Ins.BaseMeterIndex);
         mAgent.OnCommands(cmds);
     }
 

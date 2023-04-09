@@ -23,24 +23,34 @@ public class AgentStatus_Idle : AgentStatus
 
     public override void OnCommands(AgentCommandBuffer cmds)
     {
-        if(cmds.HasCommand(AgentCommandDefine.ATTACK_HARD))
-        {
-            ChangeStatus(AgentStatusDefine.ATTACK);
+        if (CommonHandleOnCmd(cmds, AgentCommandDefine.ATTACK_HARD, AgentStatusDefine.ATTACK))
             return;
-        }
 
-        if (cmds.HasCommand(AgentCommandDefine.RUN))
-        {
-            ChangeStatus(AgentStatusDefine.RUN);
+        if (CommonHandleOnCmd(cmds, AgentCommandDefine.RUN, AgentStatusDefine.RUN))
             return;
-        }
 
-        cmdBuffer.AddCommandIfHas(cmds, AgentCommandDefine.IDLE);
+        cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.IDLE);
     }
 
     protected override void ActionHandleOnMeter(int meterIndex)
     {
         mCurAnimStateMeterRecord++;
+
+        byte command = cmdBuffer.PeekCommand();
+        Log.Logic(LogLevel.Info, "PeekCommand--{0}", command);
+        switch (command)
+        {
+            case AgentCommandDefine.RUN:
+                ChangeStatus(AgentStatusDefine.RUN);
+                return;
+            case AgentCommandDefine.ATTACK_HARD:
+                ChangeStatus(AgentStatusDefine.ATTACK);
+                return;
+            case AgentCommandDefine.IDLE:
+            case AgentCommandDefine.EMPTY:
+            default:
+                break;
+        }
 
         if (mCurAnimStateMeterRecord < mCurAnimStateMeterLen)
             return;
@@ -48,9 +58,7 @@ public class AgentStatus_Idle : AgentStatus
         // ½ÚÅÄ¼ÇÂ¼¹éÁã
         mCurAnimStateMeterRecord = 0;
 
-        if (cmdBuffer.HasCommand(AgentCommandDefine.IDLE))
-        {
-            AnimQueueMoveOn();
-        }
+        AnimQueueMoveOn();
+
     }
 }

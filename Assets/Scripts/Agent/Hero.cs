@@ -65,7 +65,6 @@ public class Hero : Agent
         }
 
         mBaseMeterHandler = new PlayerBaseMeterHandler(this);
-        MeterManager.Ins.RegisterBaseMeterHandler(mBaseMeterHandler);
 
         if (mHeroCfg != null && mAgentGo != null)
         {
@@ -96,6 +95,16 @@ public class Hero : Agent
         if (mCft != null)
         {
             mCft.OnUpdate(deltaTime);
+        }
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        if(mBaseMeterHandler != null)
+        {
+            MeterManager.Ins.UnregiseterBaseMeterHandler(mBaseMeterHandler);
         }
     }
 }

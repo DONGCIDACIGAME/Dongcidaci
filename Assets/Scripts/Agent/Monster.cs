@@ -2,13 +2,12 @@ public class Monster : Agent
 {
     public Monster(uint agentId) : base(agentId)
     {
-        mBaseMeterHandler = new MonsterBaseMeterHandler(this);
-        MeterManager.Ins.RegisterBaseMeterHandler(mBaseMeterHandler);
+        
     }
 
     protected override void CustomInitialize()
     {
-        throw new System.NotImplementedException();
+        mBaseMeterHandler = new MonsterBaseMeterHandler(this);
     }
 
     protected override void LoadAgentCfg(uint agentId)
