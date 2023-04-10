@@ -33,7 +33,7 @@ public abstract class AgentStatus : IAgentStatus
     public abstract string GetStatusName();
 
     /// <summary>
-    /// TODO：所有子状态的这个逻辑，要重构
+    /// 收到指令后的处理逻辑
     /// </summary>
     /// <param name="cmds"></param>
     public abstract void OnCommands(AgentCommandBuffer cmds);
@@ -134,7 +134,7 @@ public abstract class AgentStatus : IAgentStatus
         if (timeOfCurrentMeter < 0)
             return true;
 
-        // 如果检测到攻击
+        // 如果检测到指令
         if (cmds.HasCommand(cmd))
         {
             if (timeToNextMeter / timeOfCurrentMeter >= GamePlayDefine.MinMeterProgressOnCmd)

@@ -6,6 +6,4 @@
         mAgent = agt;
     }
 
-
-
 }

@@ -9,6 +9,8 @@ public class AgentStatus_Attack : AgentStatus
     public override void CustomInitialize()
     {
         mComboHandler = new ComboHandler();
+        mInputHandle = new KeyboardInputHandle_Attack(mAgent);
+        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 
     public override void OnEnter(Dictionary<string, object> context)

@@ -35,8 +35,6 @@ public class AgentStatus_Idle : AgentStatus
 
         if (CommonHandleOnCmd(cmds, AgentCommandDefine.RUN, AgentStatusDefine.RUN))
             return;
-
-        cmdBuffer.MergeCommand(cmds, AgentCommandDefine.IDLE);
     }
 
     protected override void ActionHandleOnMeter(int meterIndex)

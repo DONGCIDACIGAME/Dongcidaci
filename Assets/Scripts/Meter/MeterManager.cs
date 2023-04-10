@@ -192,7 +192,7 @@ public class MeterManager : ModuleManager<MeterManager>
             time = mCurAudioMeterData.baseMeters[targetIndex] - timeRecord;
         }
 
-        Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
+        //Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
         return time;
     }
 
@@ -245,7 +245,7 @@ public class MeterManager : ModuleManager<MeterManager>
             return -3f;
         }
 
-        Log.Logic(LogLevel.Info, "GetCurrentMeterTime--baseMeterIndex:{0},time:{1},", BaseMeterIndex, time);
+        //Log.Logic(LogLevel.Info, "GetCurrentMeterTime--baseMeterIndex:{0},time:{1},", BaseMeterIndex, time);
         return time;
     }
 

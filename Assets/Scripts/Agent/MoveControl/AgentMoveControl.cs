@@ -45,13 +45,10 @@ public abstract class AgentMoveControl
         TurnRecord = 0;
     }
 
-    public virtual void Move(Vector3 towards, float deltaTime)
+    public virtual void Move(float deltaTime)
     {
-        //if (TurnTime > 0 && TurnRecord < TurnTime)
-        //    return;
-
         // ¿ØÖÆÒÆ¶¯
-        Vector3 pos = mAgent.GetPosition() + TurnToTowards.normalized * mAgent.GetSpeed() * deltaTime;
+        Vector3 pos = mAgent.GetPosition() + mAgent.GetTowards().normalized * mAgent.GetSpeed() * deltaTime;
         mAgent.SetPosition(pos);
     }
 
