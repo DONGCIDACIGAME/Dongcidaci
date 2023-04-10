@@ -139,7 +139,6 @@ public abstract class Agent : IEntity
     }
 
     public virtual void Dispose()
-
     {
         EntityManager.Ins.RemoveEntity(this);
         mAgentGo = null;

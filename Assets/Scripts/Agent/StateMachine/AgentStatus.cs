@@ -5,6 +5,8 @@ public abstract class AgentStatus : IAgentStatus
     protected ChangeStatusDelegate ChangeStatus;
     protected Agent mAgent;
     protected AgentStateAnimQueue mStateAnimQueue;
+    protected AgentMoveControl mMoveControl;
+    protected IInputHandle mInputHandle;
     protected int mCurAnimStateMeterLen;
     protected int mCurAnimStateMeterRecord;
 
@@ -13,7 +15,7 @@ public abstract class AgentStatus : IAgentStatus
     /// </summary>
     protected AgentCommandBuffer cmdBuffer;
 
-    public virtual void Initialize(Agent agt, ChangeStatusDelegate cb)
+    public void Initialize(Agent agt, ChangeStatusDelegate cb)
     {
         ChangeStatus = cb;
         mAgent = agt;
@@ -21,6 +23,11 @@ public abstract class AgentStatus : IAgentStatus
         mStateAnimQueue = new AgentStateAnimQueue();
         AgentStatusInfo statusInfo = mAgent.StatusGraph.GetStatusInfo(GetStatusName());
         mStateAnimQueue.Initialize(statusInfo);
+    }
+
+    public virtual void CustomInitialize()
+    {
+
     }
 
     public abstract string GetStatusName();
@@ -63,9 +70,14 @@ public abstract class AgentStatus : IAgentStatus
     public virtual void OnEnter(Dictionary<string, object> context) 
     {
         Log.Logic(LogLevel.Info, "OnEnter Status:{0}", GetStatusName());
+        mInputHandle.SetEnable(true);
     }
 
-    public virtual void OnExit() { }
+
+    public virtual void OnExit() 
+    {
+        mInputHandle.SetEnable(false);
+    }
 
     protected void StartAnimQueue()
     {

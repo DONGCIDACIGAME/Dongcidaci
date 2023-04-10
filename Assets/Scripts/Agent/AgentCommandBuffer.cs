@@ -34,7 +34,14 @@ public class AgentCommandBuffer
         }
     }
 
-    public void BindCommand(AgentCommandBuffer commands, byte command)
+    /// <summary>
+    /// 合并指令
+    /// 1. 如果用户指令中有目标指令，则添加该指令
+    /// 2. 如果用户指令中没有目标指令，则删除该指令
+    /// </summary>
+    /// <param name="commands">用户指令buffer</param>
+    /// <param name="command">目标指令</param>
+    public void MergeCommand(AgentCommandBuffer commands, byte command)
     {
         if (commands == null)
             return;

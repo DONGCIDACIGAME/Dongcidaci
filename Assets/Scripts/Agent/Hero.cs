@@ -77,9 +77,7 @@ public class Hero : Agent
             }
         }
 
-        InputControlCenter.PlayerKeyboardInput.BindAgent(this);
         MoveControl = new PlayerMoveControl(this);
-        
         SetSpeed(mHeroCfg.Speed);
     }
 

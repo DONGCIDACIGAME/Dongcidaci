@@ -7,6 +7,12 @@ public class AgentStatus_Run : AgentStatus
         return AgentStatusDefine.RUN;
     }
 
+    public override void CustomInitialize()
+    {
+        base.CustomInitialize();
+        //mInputHandle = new keybo
+    }
+
     public override void OnEnter(Dictionary<string, object> context)
     {
         base.OnEnter(context);
@@ -27,8 +33,8 @@ public class AgentStatus_Run : AgentStatus
             return;
 
         //cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.RUN);
-        cmdBuffer.BindCommand(cmds, AgentCommandDefine.RUN);
-        cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.IDLE);
+        cmdBuffer.MergeCommand(cmds, AgentCommandDefine.RUN);
+        cmdBuffer.MergeCommand(cmds, AgentCommandDefine.IDLE);
     }
 
     protected override void ActionHandleOnMeter(int meterIndex)

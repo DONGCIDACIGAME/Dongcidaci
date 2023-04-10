@@ -6,10 +6,8 @@ public class AgentStatus_Attack : AgentStatus
 {
     private ComboHandler mComboHandler;
 
-    public override void Initialize(Agent agt, ChangeStatusDelegate cb)
+    public override void CustomInitialize()
     {
-        base.Initialize(agt, cb);
-
         mComboHandler = new ComboHandler();
     }
 

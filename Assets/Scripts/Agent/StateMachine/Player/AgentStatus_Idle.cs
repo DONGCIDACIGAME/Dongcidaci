@@ -7,6 +7,13 @@ public class AgentStatus_Idle : AgentStatus
         return AgentStatusDefine.IDLE;
     }
 
+    public override void CustomInitialize()
+    {
+        base.CustomInitialize();
+        mInputHandle = new KeyboardInputHandle_Idle(mAgent);
+        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
+    }
+
     public override void OnEnter(Dictionary<string, object> context)
     {
         base.OnEnter(context);
@@ -29,7 +36,7 @@ public class AgentStatus_Idle : AgentStatus
         if (CommonHandleOnCmd(cmds, AgentCommandDefine.RUN, AgentStatusDefine.RUN))
             return;
 
-        cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.IDLE);
+        cmdBuffer.MergeCommand(cmds, AgentCommandDefine.IDLE);
     }
 
     protected override void ActionHandleOnMeter(int meterIndex)

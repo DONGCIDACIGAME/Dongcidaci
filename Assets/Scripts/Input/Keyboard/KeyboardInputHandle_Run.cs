@@ -1,28 +1,29 @@
-using UnityEngine;
+锘縰sing UnityEngine;
 
-public class PlayerKeyboardInputControl : IInputControl
+public class KeyboardInputHandle_Run : AgentKeyboardInputHandle
 {
-    public string GetInputControlName()
+    public KeyboardInputHandle_Run(Agent agt) : base(agt)
     {
-        return InputDef.PlayerKeyboardInputCtlName;
     }
 
-    private Agent mAgent;
-
-    public void BindAgent(Agent agt)
+    public override string GetHandleName()
     {
-        this.mAgent = agt;
+        return InputDef.KeyboardInputHandle_Run;
+    }
+
+    public override void OnMeter(int meterIndex)
+    {
+        
     }
 
     private Vector3 lastInputTowards;
 
-    public void InputControlUpdate(float deltaTime)
+    public override void OnUpdate(float deltaTime)
     {
         if (mAgent == null)
             return;
 
-        // TODO: 这里需要加个缓存池
-        AgentCommandBuffer cmds = mAgent.CommandBufferPool.PopAgentCommandBuffer() ;
+        AgentCommandBuffer cmds = mAgent.CommandBufferPool.PopAgentCommandBuffer();
         cmds.AddCommand(AgentCommandDefine.IDLE);
 
         Vector3 towards = Vector3.zero;
@@ -50,28 +51,22 @@ public class PlayerKeyboardInputControl : IInputControl
             cmds.AddCommand(AgentCommandDefine.RUN);
         }
 
-        if(Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerBaseMeter())
+        if (Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerBaseMeter())
         {
             cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
         }
 
-        if(!towards.Equals(lastInputTowards))
+        if (!towards.Equals(lastInputTowards))
         {
             mAgent.MoveControl.TurnTo(towards);
             lastInputTowards = towards;
         }
 
-        if(!towards.Equals(Vector3.zero))
+        if (!towards.Equals(Vector3.zero))
         {
             mAgent.MoveControl.Move(towards, deltaTime);
         }
 
-        //Log.Error(LogLevel.Info, "cmds:{0}, meterIndex:{1}",cmds.GetBuffer(), MeterManager.Ins.BaseMeterIndex);
         mAgent.OnCommands(cmds);
-    }
-
-    public void InputControlOnMeter(int meterIndex)
-    {
-
     }
 }

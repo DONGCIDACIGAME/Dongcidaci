@@ -129,9 +129,30 @@ public class InputManager : MeterModuleManager<InputManager>
         }
 
         mInputControlMap.Add(ctlName, inputCtl);
+        inputCtl.Initialize();
         Log.Logic(LogLevel.Info, "Register Input Control {0} Ok", ctlName);
     }
-   
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="inputCtl"></param>
+    public void UnregisterInputControl(string ctlName)
+    {
+        if (string.IsNullOrEmpty(ctlName))
+        {
+            Log.Error(LogLevel.Critical, "UnregisterInputControl failed,ctl name must not be null or empty!");
+            return;
+        }
+
+        if(mInputControlMap.TryGetValue(ctlName, out IInputControl inputCtl))
+        {
+            inputCtl.Dispose();
+            mInputControlMap.Remove(ctlName);
+        }
+        Log.Logic(LogLevel.Info, "Unregister Input Control {0} Ok", ctlName);
+    }
+
     public override void OnUpdate(float deltaTime)
     {
         IInputState state = GetCurrrentInputState();
@@ -148,7 +169,7 @@ public class InputManager : MeterModuleManager<InputManager>
             IInputControl inputCtl = kv.Value;
             if (inputCtl != null)
             {
-                inputCtl.InputControlUpdate(deltaTime);
+                inputCtl.OnUpdate(deltaTime);
             }
         }
         
@@ -170,7 +191,7 @@ public class InputManager : MeterModuleManager<InputManager>
             IInputControl inputCtl = kv.Value;
             if (inputCtl != null)
             {
-                inputCtl.InputControlOnMeter(curMeterIndex);
+                inputCtl.OnMeter(curMeterIndex);
             }
         }
     }

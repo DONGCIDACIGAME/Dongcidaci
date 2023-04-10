@@ -41,8 +41,6 @@ public class GameManager:MonoBehaviour
         enableUpdate = true;
         mAllModuleMgrs = new List<IModuleManager>();
 
-
-
         // 这里的注册顺序不要修改
         //GameScopeMgr = RegisterModuleMgr(GameScopeManager.Ins);
         DataCenter = RegisterModuleMgr(DataCenter.Ins);
@@ -64,6 +62,9 @@ public class GameManager:MonoBehaviour
             mm.__Initialize__();
             mm.Initialize();
         }
+
+        // 注册键盘输入控制
+        InputManager.Ins.RegisterInputControl(InputControlCenter.KeyboardInputCtl);
     }
 
     private void Awake()

@@ -1,4 +1,4 @@
 public static class InputControlCenter
 {
-    public static PlayerKeyboardInputControl PlayerKeyboardInput  = new PlayerKeyboardInputControl();
+    public static KeyboardInputControl KeyboardInputCtl  = new KeyboardInputControl();
 }

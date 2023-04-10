@@ -6,7 +6,7 @@ public class GameDemoInputState : InputState
     {
         validInputCtlNames = new HashSet<string>()
         {
-            InputDef.PlayerKeyboardInputCtlName,
+            InputDef.KeyboardInput,
         };
     }
 

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using GameEngine;
 
 public delegate void ChangeStatusDelegate(string stateName,  Dictionary<string, object> context = null);
 
@@ -8,6 +7,7 @@ public class AgentStatusMachine
     private IAgentStatus mCurStatus;
     private Dictionary<string, IAgentStatus> mStatusMap;
     private Agent mAgent;
+
 
     public AgentStatusMachine()
     {
@@ -44,6 +44,7 @@ public class AgentStatusMachine
 
         mStatusMap.Add(statusName, status);
         status.Initialize(mAgent, SwitchToStatus);
+        status.CustomInitialize();
     }
 
     public void Initialize(Agent agt)
@@ -87,6 +88,11 @@ public class AgentStatusMachine
         }
     }
 
+    public void UpdateInputHandle(float deltaTime)
+    {
+
+    }
+
     public void OnUpdate(float deltaTime)
     {
         if(mCurStatus != null)
@@ -94,8 +100,6 @@ public class AgentStatusMachine
             mCurStatus.OnUpdate(deltaTime);
         }
     }
-
-
 
     public void Dispose()
     {
