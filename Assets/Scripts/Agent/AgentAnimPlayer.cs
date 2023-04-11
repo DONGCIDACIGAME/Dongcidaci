@@ -99,6 +99,7 @@ public class AgentAnimPlayer
         }
 
         float timeOffset = 0;
+        // TODO: 这里的逻辑应该是有问题的，不能根据两个魔法数去判定
         // 根据上次的播放进度对动画速度进行补偿
         // 如果是 x.9xx 这种播放进度 说明上次还没有播完，需要把未播放的时间扣除掉
         // 如果是 x.0xx这种播放进度 说明上次播放超了一部分，需要补上一些不放时间
@@ -115,7 +116,7 @@ public class AgentAnimPlayer
         }
         else
         {
-            Log.Error(LogLevel.Info, "UpdateAnimSpeedWithFix Error, 播放进度出现较大偏差，请查看！");
+            Log.Error(LogLevel.Info, "UpdateAnimSpeedWithFix Error, 播放进度出现较大偏差，请查看！progressOffset:{0} ", progressOffset);
         }
 
         mAnimator.speed = stateLen / (duration + timeOffset);
@@ -183,19 +184,22 @@ public class AgentAnimPlayer
     /// <param name="layer">动画所在层级</param>
     /// <param name="normalizedTime">动画融合所占时间(归一化)</param>
     /// <param name="duration">新动画的预期播放时间</param>
-    public void CrossFadeToStateInNormalizedTime(string stateName, float stateLen, int layer, float normalizedTime, float duration)
+    public void CrossFadeToStateInNormalizedTime(string stateName, float stateLen, int layer, float normalizedTime, float duration, float progress)
     {
         // 归一化时间为0，就是不融合，直接播放
         if (normalizedTime == 0)
         {
-            PlayStateInTime(stateName, stateLen, layer, 0, duration);
+            PlayStateInTime(stateName, stateLen, layer, progress, duration);
             return;
         }
 
-        if (!BeforeChangeToAnimState(stateName, layer, stateLen, duration))
+        if (!BeforeChangeToAnimState(stateName, layer, stateLen * (1-progress), duration))
             return;
 
-        mAnimator.CrossFade(stateName, normalizedTime, layer);
+        //mAnimator.CrossFade(stateName, normalizedTime, layer);
+        //mAnimator.CrossFadeInFixedTime(stateName, normalizedTime * duration, layer, duration * progress,0);
+        mAnimator.CrossFadeInFixedTime(stateName, normalizedTime * duration, layer, 0, progress);
+        Log.Error(LogLevel.Info, "CrossFadeToStateInNormalizedTime+++++++++++++++++++++++{0}", progress);
     }
 
 

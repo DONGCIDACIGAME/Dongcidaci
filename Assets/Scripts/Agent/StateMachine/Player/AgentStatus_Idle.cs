@@ -33,8 +33,10 @@ public class AgentStatus_Idle : AgentStatus
         if (CommonHandleOnCmd(cmds, AgentCommandDefine.ATTACK_HARD, AgentStatusDefine.ATTACK))
             return;
 
-        if (CommonHandleOnCmd(cmds, AgentCommandDefine.RUN, AgentStatusDefine.RUN))
-            return;
+        if (cmds.HasCommand(AgentCommandDefine.RUN))
+            ChangeStatus(AgentStatusDefine.RUN);
+        //if (CommonHandleOnCmd(cmds, AgentCommandDefine.RUN, AgentStatusDefine.RUN))
+        //    return;
     }
 
     protected override void ActionHandleOnMeter(int meterIndex)

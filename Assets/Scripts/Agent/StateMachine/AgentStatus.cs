@@ -63,7 +63,12 @@ public abstract class AgentStatus : IAgentStatus
         float duration = MeterManager.Ins.GetTimeToBaseMeter(state.stateMeterLen);
         if(duration > 0)
         {
-            mAgent.AnimPlayer.CrossFadeToStateInNormalizedTime(stateName, state.stateLen, state.layer, state.normalizedTime, duration);
+            int curMeter = MeterManager.Ins.BaseMeterIndex;
+            int targetMeter = curMeter + state.stateMeterLen;
+            float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(curMeter, targetMeter);
+            float progress = 1 - duration / totalMeterTime;
+            mAgent.AnimPlayer.CrossFadeToStateInNormalizedTime(stateName, state.stateLen, state.layer, state.normalizedTime, duration, progress);
+            //mAgent.AnimPlayer.PlayStateInTime(stateName, state.stateLen, state.layer, 1 - (duration / totalMeterTime), duration);
         }
     }
 
@@ -130,7 +135,9 @@ public abstract class AgentStatus : IAgentStatus
     protected bool CommonHandleOnCmd(AgentCommandBuffer cmds,byte cmd, string toStatus)
     {
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
-        float timeOfCurrentMeter = MeterManager.Ins.GetCurrentMeterTime();
+        int curMeter = MeterManager.Ins.BaseMeterIndex;
+        int targetMeter = MeterManager.Ins.GetMeterIndex(curMeter, 1);
+        float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(curMeter, targetMeter);
         if (timeOfCurrentMeter < 0)
             return true;
 
@@ -159,10 +166,11 @@ public abstract class AgentStatus : IAgentStatus
     {
         ActionHandleOnMeter(meterIndex);
         cmdBuffer.ClearBuffer();
+        Log.Error(LogLevel.Info, "Meter--{0}",meterIndex);
     }
 
     public virtual void OnUpdate(float deltaTime)
     {
-
+        //Log.Error(LogLevel.Info, "OnUpdate anim progress-----------------------------------------------{0}", mAgent.AnimPlayer.CurStateProgress);
     }
 }

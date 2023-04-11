@@ -73,6 +73,5 @@ public class KeyboardInputHandle_Run : AgentKeyboardInputHandle
         }
 
         mAgent.OnCommands(cmds);
-        Log.Logic(LogLevel.Info, " cmd:{0}", cmds.GetBuffer());
     }
 }

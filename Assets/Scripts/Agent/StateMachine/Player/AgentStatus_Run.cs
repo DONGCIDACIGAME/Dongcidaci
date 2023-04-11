@@ -34,6 +34,7 @@ public class AgentStatus_Run : AgentStatus
         if (CommonHandleOnCmd(cmds, AgentCommandDefine.ATTACK_HARD, AgentStatusDefine.ATTACK))
             return;
 
+
         cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.IDLE);
         //if (CommonHandleOnCmd(cmds, AgentCommandDefine.IDLE, AgentStatusDefine.IDLE))
             //return;
@@ -61,6 +62,12 @@ public class AgentStatus_Run : AgentStatus
             return;
         }
 
+        if (command == AgentCommandDefine.IDLE)
+        {
+            ChangeStatus(AgentStatusDefine.IDLE);
+            return;
+        }
+
         //switch (command)
         //{
         //    case AgentCommandDefine.ATTACK_HARD:
@@ -80,12 +87,6 @@ public class AgentStatus_Run : AgentStatus
 
         // ½ÚÅÄ¼ÇÂ¼¹éÁã
         mCurAnimStateMeterRecord = 0;
-
-        if (command == AgentCommandDefine.IDLE)
-        {
-            ChangeStatus(AgentStatusDefine.IDLE);
-            return;
-        }
 
         AnimQueueMoveOn();
     }
