@@ -60,14 +60,14 @@ public abstract class AgentStatus : IAgentStatus
             return;
         }
 
+
         float duration = MeterManager.Ins.GetTimeToBaseMeter(state.stateMeterLen);
         if(duration > 0)
         {
             int curMeter = MeterManager.Ins.BaseMeterIndex;
             int targetMeter = curMeter + state.stateMeterLen;
             float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(curMeter, targetMeter);
-            float progress = 1 - duration / totalMeterTime;
-            mAgent.AnimPlayer.CrossFadeToStateInNormalizedTime(stateName, state.stateLen, state.layer, state.normalizedTime, duration, progress);
+            mAgent.AnimPlayer.CrossFadeToState(stateName, state.layer, state.normalizedTime, duration, state.animLen, totalMeterTime);
             //mAgent.AnimPlayer.PlayStateInTime(stateName, state.stateLen, state.layer, 1 - (duration / totalMeterTime), duration);
         }
     }
@@ -114,7 +114,8 @@ public abstract class AgentStatus : IAgentStatus
         {
             //Log.Logic(LogLevel.Info, "UpdateAnimSpeed---------cur progress:{0}", mAgent.AnimPlayer.CurStateProgress);
             float duration = MeterManager.Ins.GetTimeToBaseMeter(state.stateMeterLen);
-            mAgent.AnimPlayer.UpdateAnimSpeedWithFix(state.layer, state.stateLen, duration);
+            //mAgent.AnimPlayer.UpdateAnimSpeedWithFix(state.layer, state.stateLen, duration);
+            mAgent.AnimPlayer.UpdateAnimSpeedWithFix(state.layer,state.animLen, duration);
         }
         else if (ret == AgentAnimDefine.AnimQueue_AnimMoveNext)
         {
@@ -166,7 +167,7 @@ public abstract class AgentStatus : IAgentStatus
     {
         ActionHandleOnMeter(meterIndex);
         cmdBuffer.ClearBuffer();
-        Log.Error(LogLevel.Info, "Meter--{0}",meterIndex);
+        //Log.Error(LogLevel.Info, "Meter--{0}",meterIndex);
     }
 
     public virtual void OnUpdate(float deltaTime)

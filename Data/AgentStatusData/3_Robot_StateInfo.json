@@ -13,7 +13,7 @@
 				"minDuration": 0,
 				"normalizedTime": 0.1,
 				"layer": 0,
-				"stateLen": 2.500
+				"animLen": 2.500
 			}]
 		},
 		"Run": {
@@ -26,7 +26,7 @@
 				"stateMeterLen": 2,
 				"normalizedTime": 0.1,
 				"layer": 0,
-				"stateLen": 1.000
+				"animLen": 1.000
 			}]
 		},
 		"Attack":{
@@ -39,7 +39,7 @@
 				"stateMeterLen": 1,
 				"normalizedTime": 0.1,
 				"layer": 0,
-				"stateLen": 1.100
+				"animLen": 1.100
 			},{
 				"stateName": "combo_02",
 				"loopTime": 1,
@@ -47,7 +47,7 @@
 				"stateMeterLen": 1,
 				"normalizedTime": 0.1,
 				"layer": 0,	
-				"stateLen": 1.167
+				"animLen": 1.167
 			},{
 				"stateName": "combo_03",
 				"loopTime": 1,
@@ -55,7 +55,7 @@
 				"stateMeterLen": 1,
 				"normalizedTime": 0.1,
 				"layer": 0,
-				"stateLen": 1.200
+				"animLen": 1.200
 			},{
 				"stateName": "combo_04",
 				"loopTime": 1,
@@ -63,7 +63,7 @@
 				"stateMeterLen": 1,
 				"normalizedTime": 0.1,
 				"layer": 0,
-				"stateLen": 1.500
+				"animLen": 1.500
 			}]
 		}
 	}

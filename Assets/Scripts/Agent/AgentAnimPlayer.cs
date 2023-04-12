@@ -31,8 +31,11 @@ public class AgentAnimPlayer
         }
     }
 
-    private float mCurStateDefaultTime;
-    private float mCurStateRealTime;
+    /// <summary>
+    /// 上个状态的实际播放时间
+    /// TODO：是否要放在这里
+    /// </summary>
+    private float mLastStateLen;
 
 
 
@@ -108,11 +111,11 @@ public class AgentAnimPlayer
 
         if (progressOffset < 0.1f)
         {
-            timeOffset = progressOffset * mCurStateRealTime;
+            timeOffset = progressOffset * mLastStateLen;
         }
         else if (progressOffset > 0.9f)
         {
-            timeOffset = (progressOffset - 1) * mCurStateRealTime;
+            timeOffset = (progressOffset - 1) * mLastStateLen;
         }
         else
         {
@@ -120,12 +123,9 @@ public class AgentAnimPlayer
         }
 
         mAnimator.speed = stateLen / (duration + timeOffset);
-        //mAnimator.speed = stateLen / duration;
         Log.Logic(LogLevel.Info, "UpdateAnimSpeed----speed:{0}, progressOffset:{1}, timeOffset:{2},mCurStateRealTime:{3}, duration:{4}",
-            mAnimator.speed, progressOffset, timeOffset, mCurStateRealTime, duration);
-
-        mCurStateDefaultTime = stateLen;
-        mCurStateRealTime = duration;
+            mAnimator.speed, progressOffset, timeOffset, mLastStateLen, duration);
+        mLastStateLen = duration;
     }
 
     /// <summary>
@@ -134,10 +134,13 @@ public class AgentAnimPlayer
     /// <param name="layer"></param>
     /// <param name="stateLen"></param>
     /// <param name="duration"></param>
-    public void UpdateAnimSpeed(float stateLen, float duration)
+    public void UpdateAnimSpeed(float speed)
     {
-        if (duration == 0)
+        if(speed < 0)
+        {
+            Log.Error(LogLevel.Info, "UpdateAnimSpeed Error, anim speed can not be negtive!");
             return;
+        }
 
         if (mAnimator == null)
         {
@@ -145,102 +148,98 @@ public class AgentAnimPlayer
             return;
         }
 
-        mAnimator.speed = stateLen / duration;
-        mCurStateDefaultTime = stateLen;
-        mCurStateRealTime = duration;
-    }
-
-    private bool BeforeChangeToAnimState(string stateName, int layer, float stateLen, float duration)
-    {
-        if (duration <= 0)
-            return false;
-
-        if (mAnimator == null)
-        {
-            Log.Error(LogLevel.Critical, "CrossFadeAnimInTime Error, mAnimator is null!");
-            return false;
-        }
-
-        if (string.IsNullOrEmpty(stateName))
-        {
-            Log.Error(LogLevel.Critical, "CrossFadeToStateInTime Error, target state name is null or empty!");
-            return false;
-        }
-
-        // 不能和同一个状态进行动画融合
-        if (CurStateName.Equals(stateName))
-            return false;
-
-        CurStateName = stateName;
-        UpdateAnimSpeed(stateLen, duration);
-        return true;
+        mAnimator.speed = speed;
     }
 
     /// <summary>
     /// 在规定时间(归一化)内融合至指定动画并播放完成
     /// </summary>
     /// <param name="stateName">状态名称</param>
-    /// <param name="stateLen">状态时间</param>
     /// <param name="layer">动画所在层级</param>
     /// <param name="normalizedTime">动画融合所占时间(归一化)</param>
-    /// <param name="duration">新动画的预期播放时间</param>
-    public void CrossFadeToStateInNormalizedTime(string stateName, float stateLen, int layer, float normalizedTime, float duration, float progress)
+    /// <param name="targetDuration">新动画的预期播放时间</param>
+    /// <param name="animLen">动画的原始时长（播放速度为1时）</param>
+    /// <param name="totalMeterLen">播放动画的节拍总时长</param>
+    public void CrossFadeToState(string stateName, int layer, float normalizedTime, float targetDuration, float animLen, float totalMeterLen)
     {
-        // 归一化时间为0，就是不融合，直接播放
-        if (normalizedTime == 0)
+        if (totalMeterLen <= 0)
         {
-            PlayStateInTime(stateName, stateLen, layer, progress, duration);
+            Log.Error(LogLevel.Normal, "CrossFadeToState Error, total meter len must be greater than 0!");
             return;
         }
 
-        if (!BeforeChangeToAnimState(stateName, layer, stateLen * (1-progress), duration))
+        if (targetDuration <= 0)
+        {
+            Log.Error(LogLevel.Normal, "CrossFadeToState Error, targetDuration must be greater than 0!");
+            return;
+        }
+
+        // 不能和同一个状态进行动画融合
+        if (CurStateName.Equals(stateName))
             return;
 
-        //mAnimator.CrossFade(stateName, normalizedTime, layer);
-        //mAnimator.CrossFadeInFixedTime(stateName, normalizedTime * duration, layer, duration * progress,0);
-        mAnimator.CrossFadeInFixedTime(stateName, normalizedTime * duration, layer, 0, progress);
-        Log.Error(LogLevel.Info, "CrossFadeToStateInNormalizedTime+++++++++++++++++++++++{0}", progress);
+        // 归一化时间为0，就是不融合，直接播放
+        if (normalizedTime == 0)
+        {
+            PlayState(stateName, animLen, layer, 0, targetDuration);
+            return;
+        }
+
+        // 按照配置文件中的节拍时长设置动画速度
+        float animSpeed = animLen / totalMeterLen;
+
+        // 更新动画播放速度
+        UpdateAnimSpeed(animSpeed);
+
+        /*
+         *  假如是一个2拍的动画
+         *  1.原始动画时长
+         * |------------------------------|------------------------------|
+         * 
+         *  2.按照节拍播完的时长
+         * |-----------------|-----------------|
+         * 
+         * 3.游戏进程  0:开始融合  >:融合过程
+         * |-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|
+         * |-------0>>-----|-----------------|
+         *  A动画     B动画
+         *                  |-----------------------| inTime（想要动画播放的时长）
+         *                  |-----------------|-----------------|totalMeterLen（B动画原始时长）
+         *                                                    |-----------|timeOffset（把B动画向前移动的时长）
+         *                                                    
+         * 由1，2可以计算出一个动画播放的速度，按照这个速度播放可以保证动画在游戏的两拍内播完
+         * 由3可以计算出动画的偏移时长，向前偏移后可以保证动画在节拍处播放完成
+         * 动画的融合时间是一个独立值，只是融合过程需要花多久，上面两步是保证卡点的关键计算
+         */
+
+        // 计算新动画的偏移时长（即按照上面的播放速度去播放动画又需要在结束拍卡点时，新动画的融合起点时间需要后移）
+        float timeOffset = totalMeterLen - targetDuration;
+        mAnimator.CrossFadeInFixedTime(stateName, normalizedTime * targetDuration, layer, timeOffset);
     }
-
-
-    ///// <summary>
-    ///// 在规定时间(绝对时间)内融合至指定动画并播放完成
-    ///// </summary>
-    ///// <param name="stateName">状态名称</param>
-    ///// <param name="stateLen">状态时间</param>
-    ///// <param name="layer">动画所在层级</param>
-    ///// <param name="time">动画融合所占时间(绝对时间)</param>
-    ///// <param name="duration">新动画的预期播放时间</param>
-    //public void CrossFadeToStateInFixedTime(string stateName, float stateLen, int layer, float time, float duration)
-    //{
-    //    // 时间为0，就是不融合，直接播放
-    //    if (time == 0)
-    //    {
-    //        PlayStateInTime(stateName, stateLen, layer, 0, duration);
-    //        return;
-    //    }
-
-    //    if (!BeforeChangeToAnimState(stateName, layer, stateLen, duration))
-    //        return;
-    //    mAnimator.CrossFadeInFixedTime(stateName, time, layer);
-    //}
 
 
     /// <summary>
     /// 在规定时间内播放完指定动画
     /// </summary>
     /// <param name="stateName">状态名称</param>
-    /// <param name="stateLen">状态时间</param>
+    /// <param name="animLen">动画的原始时长（播放速度为1时）</param>
     /// <param name="layer">动画所在层级</param>
     /// <param name="normalizedTime">动画开始时间(归一化)</param>
-    /// <param name="duration">新动画的预期播放时间</param>
-    public void PlayStateInTime(string stateName, float stateLen, int layer, float normalizedTime, float duration)
+    /// <param name="targetDuration">新动画的预期播放时间</param>
+    public void PlayState(string stateName, float animLen, int layer, float normalizedTime, float targetDuration)
     {
-        if (duration == 0)
+        if (targetDuration <= 0)
+        {
+            Log.Error(LogLevel.Normal, "PlayStateInTime Error,  mush greater than 0!");
             return;
+        }
 
-        if (!BeforeChangeToAnimState(stateName, layer, stateLen*(1-normalizedTime), duration))
-            return;
+        // 按照播放进度计算，剩余动画的播放完成的原始动画时间
+        float animTime = animLen * (1-normalizedTime);
+        // 计算动画播放速度
+        float speed = animTime / targetDuration;
+        // 更新动画播放速度
+        UpdateAnimSpeed(speed);
 
         mAnimator.Play(stateName, layer, normalizedTime);
     }

@@ -7,5 +7,5 @@ public class AgentAnimStateInfo
     public int stateMeterLen;
     public int layer;
     public float normalizedTime;
-    public float stateLen;
+    public float animLen;
 }
