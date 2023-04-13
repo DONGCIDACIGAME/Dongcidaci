@@ -31,11 +31,30 @@ public class AgentStatus_Run : AgentStatus
 
     public override void OnCommands(AgentCommandBuffer cmds)
     {
-        if (CommonHandleOnCmd(cmds, AgentCommandDefine.ATTACK_HARD, AgentStatusDefine.ATTACK))
-            return;
+        byte cmd = cmds.PeekCommand();
+
+        if (cmd == AgentCommandDefine.BE_HIT)
+        {
+            ExcuteCommand(cmd);
+        }
+        else if (cmd == AgentCommandDefine.ATTACK_HARD)
+        {
+            ProgressWaitOnCommand(0.5f, cmd);
+        }
+        else if (cmd == AgentCommandDefine.RUN)
+        {
+            DelayToMeterExcuteCommand(cmd);
+        }
+        else if (cmd == AgentCommandDefine.IDLE)
+        {
+            ExcuteCommand(cmd);
+        }
+
+        //if (CommonHandleOnCmd(cmds, AgentCommandDefine.ATTACK_HARD, AgentStatusDefine.ATTACK))
+        //    return;
 
 
-        cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.IDLE);
+        //cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.IDLE);
         //if (CommonHandleOnCmd(cmds, AgentCommandDefine.IDLE, AgentStatusDefine.IDLE))
             //return;
 
@@ -49,44 +68,26 @@ public class AgentStatus_Run : AgentStatus
         //cmdBuffer.MergeCommand(cmds, AgentCommandDefine.IDLE);
     }
 
-    protected override void ActionHandleOnMeter(int meterIndex)
+    protected override void CommandHandleOnMeter(int meterIndex)
     {
-        mCurAnimStateMeterRecord++;
+        byte cmd = cmdBuffer.PeekCommand();
+        Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}", cmd, meterIndex);
 
-        byte command = cmdBuffer.PeekCommand();
-        Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}", command, meterIndex);
-
-        if (command == AgentCommandDefine.ATTACK_HARD)
+        switch (cmd)
         {
-            ChangeStatus(AgentStatusDefine.ATTACK);
-            return;
+            case AgentCommandDefine.ATTACK_HARD:
+            case AgentCommandDefine.ATTACK_LIGHT:
+            case AgentCommandDefine.IDLE:
+                ExcuteCommand(cmd);
+                return;
+            case AgentCommandDefine.RUN:
+            case AgentCommandDefine.EMPTY:
+            default:
+                break;
         }
 
-        if (command == AgentCommandDefine.IDLE)
-        {
-            ChangeStatus(AgentStatusDefine.IDLE);
+        if (meterIndex < mCurAnimStateEndMeter)
             return;
-        }
-
-        //switch (command)
-        //{
-        //    case AgentCommandDefine.ATTACK_HARD:
-        //        ChangeStatus(AgentStatusDefine.ATTACK);
-        //        return;
-        //    case AgentCommandDefine.IDLE:
-        //        ChangeStatus(AgentStatusDefine.IDLE);
-        //        return;
-        //    case AgentCommandDefine.RUN:
-        //    case AgentCommandDefine.EMPTY:
-        //    default:
-        //        break;
-        //}
-
-        if (mCurAnimStateMeterRecord < mCurAnimStateMeterLen)
-            return;
-
-        // ½ÚÅÄ¼ÇÂ¼¹éÁã
-        mCurAnimStateMeterRecord = 0;
 
         AnimQueueMoveOn();
     }

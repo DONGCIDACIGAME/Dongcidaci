@@ -28,35 +28,40 @@ public class AgentStatus_Attack : AgentStatus
     public override void OnCommands(AgentCommandBuffer cmds)
     {
         //Log.Logic(LogLevel.Info, "AgentStatus_AttackHard OnCommands:{0}", cmds.GetBuffer());
-        cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.ATTACK_HARD);
-        cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.RUN);
-        cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.IDLE);
+        //cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.ATTACK_HARD);
+        //cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.RUN);
+        //cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.IDLE);
+
+        byte cmd = cmds.PeekCommand();
+        if(cmd == AgentCommandDefine.BE_HIT)
+        {
+            ExcuteCommand(cmd);
+        }
+        else
+        {
+            DelayToMeterExcuteCommand(cmd);
+        }
     }
 
-    protected override void ActionHandleOnMeter(int meterIndex)
+    protected override void CommandHandleOnMeter(int meterIndex)
     {
-        mCurAnimStateMeterRecord++;
+        if (meterIndex < mCurAnimStateEndMeter)
+            return;
 
-        byte command = cmdBuffer.PeekCommand();
-        Log.Logic(LogLevel.Info, "PeekCommand--{0}", command);
-        switch(command)
+        byte cmd = cmdBuffer.PeekCommand();
+        Log.Logic(LogLevel.Info, "PeekCommand--{0}", cmd);
+        switch(cmd)
         {
             case AgentCommandDefine.IDLE:
-                ChangeStatus(AgentStatusDefine.IDLE);
-                return;
             case AgentCommandDefine.RUN:
-                ChangeStatus(AgentStatusDefine.RUN);
+                ExcuteCommand(cmd);
                 return;
+            case AgentCommandDefine.ATTACK_HARD:
+            case AgentCommandDefine.ATTACK_LIGHT:
             case AgentCommandDefine.EMPTY:
             default:
                 break;
         }
-
-        if (mCurAnimStateMeterRecord < mCurAnimStateMeterLen)
-            return;
-
-        // ½ÚÅÄ¼ÇÂ¼¹éÁã
-        mCurAnimStateMeterRecord = 0;
 
         AnimQueueMoveOn();
     }

@@ -30,28 +30,43 @@ public class AgentStatus_Idle : AgentStatus
 
     public override void OnCommands(AgentCommandBuffer cmds)
     {
-        if (CommonHandleOnCmd(cmds, AgentCommandDefine.ATTACK_HARD, AgentStatusDefine.ATTACK))
-            return;
+        byte cmd = cmds.PeekCommand();
 
-        if (cmds.HasCommand(AgentCommandDefine.RUN))
-            ChangeStatus(AgentStatusDefine.RUN);
+        if (cmd == AgentCommandDefine.BE_HIT)
+        {
+            ExcuteCommand(cmd);
+        }
+        else if (cmd == AgentCommandDefine.ATTACK_HARD)
+        {
+            ProgressWaitOnCommand(0.5f, cmd);
+        }
+        else if (cmd == AgentCommandDefine.RUN)
+        {
+            ExcuteCommand(cmd);
+        }
+        else if(cmd == AgentCommandDefine.IDLE)
+        {
+            DelayToMeterExcuteCommand(cmd);
+        }
+
+        //if (CommonHandleOnCmd(cmds, AgentCommandDefine.ATTACK_HARD, AgentStatusDefine.ATTACK))
+        //    return;
+
+        //if (cmds.HasCommand(AgentCommandDefine.RUN))
+        //    ChangeStatus(AgentStatusDefine.RUN);
         //if (CommonHandleOnCmd(cmds, AgentCommandDefine.RUN, AgentStatusDefine.RUN))
         //    return;
     }
 
-    protected override void ActionHandleOnMeter(int meterIndex)
+    protected override void CommandHandleOnMeter(int meterIndex)
     {
-        mCurAnimStateMeterRecord++;
-
-        byte command = cmdBuffer.PeekCommand();
-        Log.Logic(LogLevel.Info, "PeekCommand--{0}", command);
-        switch (command)
+        byte cmd = cmdBuffer.PeekCommand();
+        Log.Logic(LogLevel.Info, "PeekCommand--{0}", cmd);
+        switch (cmd)
         {
             case AgentCommandDefine.RUN:
-                ChangeStatus(AgentStatusDefine.RUN);
-                return;
             case AgentCommandDefine.ATTACK_HARD:
-                ChangeStatus(AgentStatusDefine.ATTACK);
+                ExcuteCommand(cmd);
                 return;
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.EMPTY:
@@ -59,13 +74,9 @@ public class AgentStatus_Idle : AgentStatus
                 break;
         }
 
-        if (mCurAnimStateMeterRecord < mCurAnimStateMeterLen)
+        if (meterIndex < mCurAnimStateEndMeter)
             return;
 
-        // ½ÚÅÄ¼ÇÂ¼¹éÁã
-        mCurAnimStateMeterRecord = 0;
-
         AnimQueueMoveOn();
-
     }
 }
