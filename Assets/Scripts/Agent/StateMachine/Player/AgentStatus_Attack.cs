@@ -27,11 +27,6 @@ public class AgentStatus_Attack : AgentStatus
 
     public override void OnCommands(AgentCommandBuffer cmds)
     {
-        //Log.Logic(LogLevel.Info, "AgentStatus_AttackHard OnCommands:{0}", cmds.GetBuffer());
-        //cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.ATTACK_HARD);
-        //cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.RUN);
-        //cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.IDLE);
-
         byte cmd = cmds.PeekCommand();
         if(cmd == AgentCommandDefine.BE_HIT)
         {

@@ -114,18 +114,48 @@ public class MeterManager : ModuleManager<MeterManager>
         enable = true;
     }
 
-    public bool CheckTriggerBaseMeter()
+    public bool CheckTriggerMeter(int meterIndex)
     {
         if (mCurAudioMeterData == null)
             return false;
 
-        if (timeRecord >= mCurAudioMeterData.baseMeters[BaseMeterIndex] - GamePlayDefine.MeterCheckTolerance 
-            && timeRecord <= mCurAudioMeterData.baseMeters[BaseMeterIndex] + GamePlayDefine.MeterCheckTolerance)
+        if(meterIndex < 0 || meterIndex > totalMeterLen-1)
         {
-            return true;
+            return false;
         }
 
-        return false;
+        // 对于音乐起始拍和结束拍的特殊处理
+        if(meterIndex == 0 || meterIndex == totalMeterLen - 1)
+        {
+            return (timeRecord >= mCurAudioMeterData.baseMeters[totalMeterLen - 1] - GamePlayDefine.MeterCheckTolerance)
+                        && timeRecord <= mCurAudioMeterData.baseMeters[0] + GamePlayDefine.MeterCheckTolerance;
+        }
+
+        return timeRecord >= mCurAudioMeterData.baseMeters[meterIndex] - GamePlayDefine.MeterCheckTolerance
+                    && timeRecord <= mCurAudioMeterData.baseMeters[meterIndex] + GamePlayDefine.MeterCheckTolerance;
+    }
+
+    public bool CheckTriggerCurrentMeter()
+    {
+        if (mCurAudioMeterData == null)
+            return false;
+
+       int nextMeter = GetMeterIndex(BaseMeterIndex, 1);
+
+        /*
+         *          触发检测
+         *   |---------------------|---------------------|
+         *    000                 000
+         *   检测触发时，只有本拍的开始段和本拍的结束段是可以触发的区域
+         *   注意不能使用上一拍，因为上一拍已经过去了，再怎么检测也是触发不了的
+         */
+
+        float trigger1_Start = mCurAudioMeterData.baseMeters[BaseMeterIndex];
+        float trigger1_End = trigger1_Start + GamePlayDefine.MeterCheckTolerance;
+        float trigger2_End = mCurAudioMeterData.baseMeters[nextMeter];
+        float trigger2_Start = trigger2_End - GamePlayDefine.MeterCheckTolerance;
+
+        return (timeRecord >= trigger1_Start && timeRecord <= trigger1_End) || (timeRecord >= trigger2_Start && timeRecord <= trigger2_End);
     }
 
     private void TriggerBaseMeter()
@@ -171,10 +201,17 @@ public class MeterManager : ModuleManager<MeterManager>
         else if (timeRecord >= mCurAudioMeterData.baseMeters[BaseMeterIndex + 1])
         {
             BaseMeterIndex++;
+
+            if(BaseMeterIndex == totalMeterLen - 1)
+            {
+                BaseMeterIndex = 0;
+            }
+
             if(BaseMeterIndex > 0)
             {
                 TriggerBaseMeter();
             }
+
         }
     }
 
@@ -221,7 +258,7 @@ public class MeterManager : ModuleManager<MeterManager>
     public int GetMeterIndex(int from, int offset)
     {
         int targetIndex = from + offset;
-        if(targetIndex > totalMeterLen - 1)
+        if(targetIndex >= totalMeterLen)
         {
             targetIndex %= totalMeterLen;
         }

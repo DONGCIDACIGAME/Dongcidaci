@@ -23,6 +23,7 @@ public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
             return;
 
         AgentCommandBuffer cmds = mAgent.CommandBufferPool.PopAgentCommandBuffer();
+
         cmds.AddCommand(AgentCommandDefine.IDLE);
 
         // 检测到移动的按键
@@ -32,7 +33,7 @@ public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
             cmds.AddCommand(AgentCommandDefine.RUN);
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerBaseMeter())
+        if (Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerCurrentMeter())
         {
             cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
         }
