@@ -55,7 +55,7 @@ public class KeyboardInputHandle_Run : AgentKeyboardInputHandle
             hasCmd = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerCurrentMeter())
+        if (Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
         {
             cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
             hasCmd = true;

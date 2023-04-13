@@ -112,42 +112,6 @@ public abstract class AgentStatus : IAgentStatus
             AgentStatusCrossFadeToState(state);
         }
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="cmds">指令buffer</param>
-    /// <param name="cmd">目标指令</param>
-    /// <param name="toStatus">转换到的状态</param>
-    /// <returns>是否继续处理其他指令</returns>
-    protected bool CommonHandleOnCmd(AgentCommandBuffer cmds,byte cmd, string toStatus)
-    {
-        float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
-        int curMeter = MeterManager.Ins.BaseMeterIndex;
-        int targetMeter = MeterManager.Ins.GetMeterIndex(curMeter, 1);
-        float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(curMeter, targetMeter);
-        if (timeOfCurrentMeter < 0)
-            return true;
-
-        // 如果检测到指令
-        if (cmds.HasCommand(cmd))
-        {
-            if (timeToNextMeter / timeOfCurrentMeter >= GamePlayDefine.MinMeterProgressOnCmd)
-            {
-                ChangeStatus(toStatus);
-                return true;
-            }
-
-            else if (timeToNextMeter <= GamePlayDefine.WaitMeterMaxTimeOnCmd)
-            {
-                cmdBuffer.AddCommand(cmd);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     protected abstract void CommandHandleOnMeter(int meterIndex);
 
     public virtual void OnMeter(int meterIndex)

@@ -53,9 +53,10 @@ public class AgentStatus_Attack : AgentStatus
                 return;
             case AgentCommandDefine.ATTACK_HARD:
             case AgentCommandDefine.ATTACK_LIGHT:
+                break;
             case AgentCommandDefine.EMPTY:
             default:
-                break;
+                return;
         }
 
         AnimQueueMoveOn();

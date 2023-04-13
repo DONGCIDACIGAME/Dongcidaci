@@ -32,7 +32,7 @@ public class KeyboardInputHandle_Idle : AgentKeyboardInputHandle
             cmds.AddCommand(AgentCommandDefine.RUN);
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerCurrentMeter())
+        if (Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
         {
             cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
         }
