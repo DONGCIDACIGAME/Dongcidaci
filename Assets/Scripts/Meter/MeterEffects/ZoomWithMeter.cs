@@ -2,37 +2,60 @@ using UnityEngine;
 
 public class ZoomWithMeter : WithMeter
 {
+    /// <summary>
+    /// 缩放起始值
+    /// </summary>
     public Vector3 zoomFrom;
+
+    /// <summary>
+    /// 缩放终止值
+    /// </summary>
     public Vector3 zoomTo;
+
+    /// <summary>
+    /// 奇数拍是否触发
+    /// </summary>
     public bool OddTriggered;
+
+    /// <summary>
+    /// 偶数拍是否触发
+    /// </summary>
     public bool EvenTriggered;
-    private bool beginZoom;
-    public float zoomDuration { get; private set; }
-    private float timeRecord;
-    public AnimationCurve Curve;
- 
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+
+        this.transform.localScale = zoomFrom;
+    }
+
 
     public override void OnUpdate(float deltaTime)
     {
-        if (!beginZoom)
+        if (timeRecord >= meterDuration)
+        {
             return;
-        float progress = Curve.Evaluate((timeRecord % zoomDuration)/zoomDuration);
+        }
+
+        // 通过时间（归一化）查出出当前的缩放进度（归一化）
+        float progress = Curve.Evaluate((timeRecord % meterDuration)/meterDuration);
+        // 计算缩放的比例
         Vector3 scale = Vector3.Lerp(zoomFrom, zoomTo, progress);
         this.transform.localScale = scale;
         timeRecord += deltaTime;
-        if (timeRecord > zoomDuration)
-            beginZoom = false;
     }
 
     public override void OnMeter(int meterIndex)
     {
+        // 本拍为偶数拍
         if (meterIndex % 2 == 0 && !EvenTriggered)
             return;
 
+        // 本拍为奇数拍
         if (meterIndex % 2 == 1 && !OddTriggered)
             return;
-        beginZoom = true;
-        zoomDuration = MeterManager.Ins.GetCurrentMeterTime();
+
+        meterDuration = MeterManager.Ins.GetCurrentMeterTime();
         this.transform.localScale = zoomFrom;
         timeRecord = 0;
     }

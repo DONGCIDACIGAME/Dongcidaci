@@ -9,60 +9,42 @@ using System.Collections.Generic;
 /// </summary>
 public class UpdateCenter : ModuleManager<UpdateCenter>
 {
-    private List<IGameUpdate> mToUpdates;
-    private SimpleQueue<int> mValidIndexs;
-
-    // 容量不足时单次补充的容量大小
-    private int Capacity = 1024;
-
+    private HashSet<IGameUpdate> mUpdates;
     public override void Initialize()
     {
         Log.Logic(LogLevel.Critical, "UpdateCenter Initialized...");
-        mToUpdates = new List<IGameUpdate>(Capacity);
-        mValidIndexs = new SimpleQueue<int>();
+        mUpdates = new HashSet<IGameUpdate>();
     }
 
-    public int RegisterUpdater(IGameUpdate updater)
+    public void RegisterUpdater(IGameUpdate updater)
     {
-        // 如果没有可用的空位，则一次性补出Capacity个空位出来
-        if (mValidIndexs.Count <= 0)
-        {
-            int curCapacity = mToUpdates.Count;
+        if (updater == null)
+            return;
 
-            for (int i = 0; i < Capacity; i++)
-            {
-                int indexAdd = curCapacity + i;
-                mValidIndexs.Enqueue(indexAdd);
-                mToUpdates.Add(null);
-            }
-        }
+        if(!mUpdates.Contains(updater))
+            mUpdates.Add(updater);
 
-        // 把updater放在首个出队的空位上
-        int index = mValidIndexs.Dequeue();
-        mToUpdates[index] = updater;
-        return index;
     }
 
-    public void UnregisterUpdater(int index)
+    public void UnregisterUpdater(IGameUpdate updater)
     {
-        mToUpdates[index] = null;
-        mValidIndexs.Enqueue(index);
+        if (mUpdates.Contains(updater))
+            mUpdates.Remove(updater);
     }
 
     public override void OnUpdate(float deltaTime)
     {
-        for(int i=0;i<mToUpdates.Count;i++)
+        foreach(IGameUpdate updater in mUpdates)
         {
-            if(mToUpdates[i] != null)
+            if(updater != null)
             {
-                mToUpdates[i].OnUpdate(deltaTime);
+                updater.OnUpdate(deltaTime);
             }
         }
     }
 
     public override void Dispose()
     {
-        mToUpdates = null;
-        mValidIndexs = null;
+        mUpdates = null;
     }
 }

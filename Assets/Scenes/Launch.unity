@@ -233,11 +233,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96b5112e1e90954b92f8402133bf1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomFrom: {x: 1, y: 1, z: 1}
-  zoomTo: {x: 2, y: 2, z: 2}
-  OddTriggered: 0
-  EvenTriggered: 1
-  zoomDuration: 0.5
   Curve:
     serializedVersion: 2
     m_Curve:
@@ -280,6 +275,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  zoomFrom: {x: 1, y: 1, z: 1}
+  zoomTo: {x: 2, y: 2, z: 2}
+  OddTriggered: 0
+  EvenTriggered: 1
 --- !u!1 &92840396
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,11 +389,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96b5112e1e90954b92f8402133bf1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomFrom: {x: 1, y: 1, z: 1}
-  zoomTo: {x: 2, y: 2, z: 2}
-  OddTriggered: 1
-  EvenTriggered: 0
-  zoomDuration: 0.5
   Curve:
     serializedVersion: 2
     m_Curve:
@@ -437,6 +431,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  zoomFrom: {x: 1, y: 1, z: 1}
+  zoomTo: {x: 2, y: 2, z: 2}
+  OddTriggered: 1
+  EvenTriggered: 0
 --- !u!1 &133544588
 GameObject:
   m_ObjectHideFlags: 0
@@ -582,6 +580,7 @@ GameObject:
   - component: {fileID: 332924745}
   - component: {fileID: 332924744}
   - component: {fileID: 332924747}
+  - component: {fileID: 332924748}
   m_Layer: 0
   m_Name: Cube (5)
   m_TagString: Untagged
@@ -679,11 +678,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96b5112e1e90954b92f8402133bf1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomFrom: {x: 1, y: 1, z: 1}
-  zoomTo: {x: 2, y: 2, z: 2}
-  OddTriggered: 1
-  EvenTriggered: 0
-  zoomDuration: 0.5
   Curve:
     serializedVersion: 2
     m_Curve:
@@ -726,6 +720,58 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  zoomFrom: {x: 1, y: 1, z: 1}
+  zoomTo: {x: 2, y: 2, z: 2}
+  OddTriggered: 0
+  EvenTriggered: 0
+--- !u!114 &332924748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332924742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cd4d405bf0bf214e9dd8b2cbefcabd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.0047187805
+      inSlope: 1.9799143
+      outSlope: 1.9799143
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5006004
+      value: 0.9958647
+      inSlope: -0.0070717335
+      outSlope: -0.0070717335
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.99765015
+      value: 0.0047187805
+      inSlope: -1.9940578
+      outSlope: -1.9940578
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  MoveOffset: {x: 2, y: 0, z: 0}
+  OddTriggered: 1
+  EvenTriggered: 1
 --- !u!1 &340188158
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,11 +1447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96b5112e1e90954b92f8402133bf1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomFrom: {x: 1, y: 1, z: 1}
-  zoomTo: {x: 2, y: 2, z: 2}
-  OddTriggered: 1
-  EvenTriggered: 0
-  zoomDuration: 0.5
   Curve:
     serializedVersion: 2
     m_Curve:
@@ -1448,6 +1489,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  zoomFrom: {x: 1, y: 1, z: 1}
+  zoomTo: {x: 2, y: 2, z: 2}
+  OddTriggered: 1
+  EvenTriggered: 0
 --- !u!1 &619432328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2341,11 +2386,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96b5112e1e90954b92f8402133bf1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomFrom: {x: 1, y: 1, z: 1}
-  zoomTo: {x: 2, y: 2, z: 2}
-  OddTriggered: 0
-  EvenTriggered: 1
-  zoomDuration: 0.5
   Curve:
     serializedVersion: 2
     m_Curve:
@@ -2388,6 +2428,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  zoomFrom: {x: 1, y: 1, z: 1}
+  zoomTo: {x: 2, y: 2, z: 2}
+  OddTriggered: 0
+  EvenTriggered: 1
 --- !u!1 &1040395344
 GameObject:
   m_ObjectHideFlags: 0
@@ -3042,11 +3086,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96b5112e1e90954b92f8402133bf1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomFrom: {x: 1, y: 1, z: 1}
-  zoomTo: {x: 2, y: 2, z: 2}
-  OddTriggered: 0
-  EvenTriggered: 1
-  zoomDuration: 0.5
   Curve:
     serializedVersion: 2
     m_Curve:
@@ -3089,6 +3128,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  zoomFrom: {x: 1, y: 1, z: 1}
+  zoomTo: {x: 2, y: 2, z: 2}
+  OddTriggered: 0
+  EvenTriggered: 1
 --- !u!1 &1784275145
 GameObject:
   m_ObjectHideFlags: 0
