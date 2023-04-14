@@ -12,16 +12,6 @@ public class ZoomWithMeter : WithMeter
     /// </summary>
     public Vector3 zoomTo;
 
-    /// <summary>
-    /// 奇数拍是否触发
-    /// </summary>
-    public bool OddTriggered;
-
-    /// <summary>
-    /// 偶数拍是否触发
-    /// </summary>
-    public bool EvenTriggered;
-
     protected override void Initialize()
     {
         base.Initialize();
@@ -47,12 +37,7 @@ public class ZoomWithMeter : WithMeter
 
     public override void OnMeter(int meterIndex)
     {
-        // 本拍为偶数拍
-        if (meterIndex % 2 == 0 && !EvenTriggered)
-            return;
-
-        // 本拍为奇数拍
-        if (meterIndex % 2 == 1 && !OddTriggered)
+        if (!CheckTrigger(meterIndex))
             return;
 
         meterDuration = MeterManager.Ins.GetCurrentMeterTime();

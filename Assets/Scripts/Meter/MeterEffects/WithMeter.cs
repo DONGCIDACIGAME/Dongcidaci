@@ -12,6 +12,21 @@ public abstract class WithMeter : MonoBehaviour, IGameUpdate, IMeterHandler
     protected float timeRecord;
 
     /// <summary>
+    /// 3拍音乐的触发设置
+    /// </summary>
+    public int[] Trigger_3Beat;
+
+    /// <summary>
+    /// 4拍音乐的触发设置
+    /// </summary>
+    public int[] Trigger_4Beat;
+
+    /// <summary>
+    /// 8拍音乐的触发设置
+    /// </summary>
+    public int[] Trigger_8Beat;
+
+    /// <summary>
     /// 缩放曲线 
     /// 横轴表示时间的归一化
     /// 纵轴表示缩放进度的归一化
@@ -28,6 +43,33 @@ public abstract class WithMeter : MonoBehaviour, IGameUpdate, IMeterHandler
         UpdateCenter.Ins.RegisterUpdater(this);
         MeterManager.Ins.RegisterMeterHandler(this);
         Initialize();
+    }
+
+    protected bool CheckTrigger(int meterIndex)
+    {
+        int rhythmType = MeterManager.Ins.GetCurrentMusicRhythmType();
+        if (rhythmType == MeterDefine.RhythmType_Unknown)
+            return false;
+
+        if(rhythmType == MeterDefine.RhythmType_3Beat && Trigger_3Beat != null && Trigger_3Beat.Length == 3)
+        {
+            int localIndex = meterIndex % 3;
+            return Trigger_3Beat[localIndex] == 1;
+        }
+
+        if (rhythmType == MeterDefine.RhythmType_4Beat && Trigger_4Beat != null && Trigger_4Beat.Length == 4)
+        {
+            int localIndex = meterIndex % 4;
+            return Trigger_4Beat[localIndex] == 1;
+        }
+
+        if (rhythmType == MeterDefine.RhythmType_8Beat && Trigger_8Beat != null && Trigger_8Beat.Length == 8)
+        {
+            int localIndex = meterIndex % 8;
+            return Trigger_8Beat[localIndex] == 1;
+        }
+
+        return false;
     }
 
     private void OnDestroy()

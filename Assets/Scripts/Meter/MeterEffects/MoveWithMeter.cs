@@ -8,15 +8,6 @@ public class MoveWithMeter : WithMeter
 
     public Vector3 MoveOffset;
 
-    /// <summary>
-    /// 奇数拍是否触发
-    /// </summary>
-    public bool OddTriggered;
-
-    /// <summary>
-    /// 偶数拍是否触发
-    /// </summary>
-    public bool EvenTriggered;
     protected override void Initialize()
     {
         base.Initialize();
@@ -24,12 +15,7 @@ public class MoveWithMeter : WithMeter
 
     public override void OnMeter(int meterIndex)
     {
-        // 本拍为偶数拍
-        if (meterIndex % 2 == 0 && !EvenTriggered)
-            return;
-
-        // 本拍为奇数拍
-        if (meterIndex % 2 == 1 && !OddTriggered)
+        if (!CheckTrigger(meterIndex))
             return;
 
         meterDuration = MeterManager.Ins.GetCurrentMeterTime();
@@ -39,6 +25,8 @@ public class MoveWithMeter : WithMeter
 
     public override void OnUpdate(float deltaTime)
     {
+
+
         if (timeRecord >= meterDuration)
         {
             return;

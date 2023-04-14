@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using GameEngine;
 using System.Text;
-using System;
 using UnityEngine;
 
 public class MeterManager : ModuleManager<MeterManager>
@@ -60,6 +59,14 @@ public class MeterManager : ModuleManager<MeterManager>
         {
             mBaseMeterHandlers.Remove(unicode);
         }
+    }
+
+    public int GetCurrentMusicRhythmType()
+    {
+        if (mCurAudioMeterData == null)
+            return MeterDefine.RhythmType_Unknown;
+
+        return mCurAudioMeterData.rhythmType;
     }
 
     private void LoadAudioMeterInfo(string audioName)
