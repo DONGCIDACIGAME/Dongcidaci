@@ -24,18 +24,18 @@ namespace DongciDaci {
     static HeroCfgReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg1IZXJvQ2ZnLnByb3RvEgpEb25nY2lEYWNpIlsKC0hlcm9CYXNlQ2ZnEgoK",
+            "Cg1IZXJvQ2ZnLnByb3RvEgpEb25nY2lEYWNpIlwKC0hlcm9CYXNlQ2ZnEgoK",
             "AklEGAEgASgNEgwKBE5hbWUYAiABKAkSDgoGUHJlZmFiGAMgASgJEg0KBVNw",
-            "ZWVkGAQgASgCEhMKC01ldGVyT2Zmc2V0GAUgASgNIqsBCgxIZXJvQ2ZnX0Rh",
-            "dGESSQoRSGVyb0Jhc2VDZmdfaXRlbXMYASADKAsyLi5Eb25nY2lEYWNpLkhl",
-            "cm9DZmdfRGF0YS5IZXJvQmFzZUNmZ0l0ZW1zRW50cnkaUAoVSGVyb0Jhc2VD",
-            "ZmdJdGVtc0VudHJ5EgsKA2tleRgBIAEoDRImCgV2YWx1ZRgCIAEoCzIXLkRv",
-            "bmdjaURhY2kuSGVyb0Jhc2VDZmc6AjgBQiMKIWNvbS50cmluaXRpZ2FtZXMu",
-            "c2VydmVyLmNvbmYuYXV0b2IGcHJvdG8z"));
+            "ZWVkGAQgASgCEhQKDERhc2hEaXN0YW5jZRgFIAEoAiKrAQoMSGVyb0NmZ19E",
+            "YXRhEkkKEUhlcm9CYXNlQ2ZnX2l0ZW1zGAEgAygLMi4uRG9uZ2NpRGFjaS5I",
+            "ZXJvQ2ZnX0RhdGEuSGVyb0Jhc2VDZmdJdGVtc0VudHJ5GlAKFUhlcm9CYXNl",
+            "Q2ZnSXRlbXNFbnRyeRILCgNrZXkYASABKA0SJgoFdmFsdWUYAiABKAsyFy5E",
+            "b25nY2lEYWNpLkhlcm9CYXNlQ2ZnOgI4AUIjCiFjb20udHJpbml0aWdhbWVz",
+            "LnNlcnZlci5jb25mLmF1dG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::DongciDaci.HeroBaseCfg), global::DongciDaci.HeroBaseCfg.Parser, new[]{ "ID", "Name", "Prefab", "Speed", "MeterOffset" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DongciDaci.HeroBaseCfg), global::DongciDaci.HeroBaseCfg.Parser, new[]{ "ID", "Name", "Prefab", "Speed", "DashDistance" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::DongciDaci.HeroCfg_Data), global::DongciDaci.HeroCfg_Data.Parser, new[]{ "HeroBaseCfgItems" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, })
           }));
     }
@@ -81,7 +81,7 @@ namespace DongciDaci {
       name_ = other.name_;
       prefab_ = other.prefab_;
       speed_ = other.speed_;
-      meterOffset_ = other.meterOffset_;
+      dashDistance_ = other.dashDistance_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -151,18 +151,18 @@ namespace DongciDaci {
       }
     }
 
-    /// <summary>Field number for the "MeterOffset" field.</summary>
-    public const int MeterOffsetFieldNumber = 5;
-    private uint meterOffset_;
+    /// <summary>Field number for the "DashDistance" field.</summary>
+    public const int DashDistanceFieldNumber = 5;
+    private float dashDistance_;
     /// <summary>
-    ///* 角色多少拍行动一次 
+    ///* 角色的冲刺距离 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint MeterOffset {
-      get { return meterOffset_; }
+    public float DashDistance {
+      get { return dashDistance_; }
       set {
-        meterOffset_ = value;
+        dashDistance_ = value;
       }
     }
 
@@ -185,7 +185,7 @@ namespace DongciDaci {
       if (Name != other.Name) return false;
       if (Prefab != other.Prefab) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Speed, other.Speed)) return false;
-      if (MeterOffset != other.MeterOffset) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(DashDistance, other.DashDistance)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -197,7 +197,7 @@ namespace DongciDaci {
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Prefab.Length != 0) hash ^= Prefab.GetHashCode();
       if (Speed != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Speed);
-      if (MeterOffset != 0) hash ^= MeterOffset.GetHashCode();
+      if (DashDistance != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(DashDistance);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -232,9 +232,9 @@ namespace DongciDaci {
         output.WriteRawTag(37);
         output.WriteFloat(Speed);
       }
-      if (MeterOffset != 0) {
-        output.WriteRawTag(40);
-        output.WriteUInt32(MeterOffset);
+      if (DashDistance != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(DashDistance);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -262,9 +262,9 @@ namespace DongciDaci {
         output.WriteRawTag(37);
         output.WriteFloat(Speed);
       }
-      if (MeterOffset != 0) {
-        output.WriteRawTag(40);
-        output.WriteUInt32(MeterOffset);
+      if (DashDistance != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(DashDistance);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -288,8 +288,8 @@ namespace DongciDaci {
       if (Speed != 0F) {
         size += 1 + 4;
       }
-      if (MeterOffset != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MeterOffset);
+      if (DashDistance != 0F) {
+        size += 1 + 4;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -315,8 +315,8 @@ namespace DongciDaci {
       if (other.Speed != 0F) {
         Speed = other.Speed;
       }
-      if (other.MeterOffset != 0) {
-        MeterOffset = other.MeterOffset;
+      if (other.DashDistance != 0F) {
+        DashDistance = other.DashDistance;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -349,8 +349,8 @@ namespace DongciDaci {
             Speed = input.ReadFloat();
             break;
           }
-          case 40: {
-            MeterOffset = input.ReadUInt32();
+          case 45: {
+            DashDistance = input.ReadFloat();
             break;
           }
         }
@@ -384,8 +384,8 @@ namespace DongciDaci {
             Speed = input.ReadFloat();
             break;
           }
-          case 40: {
-            MeterOffset = input.ReadUInt32();
+          case 45: {
+            DashDistance = input.ReadFloat();
             break;
           }
         }

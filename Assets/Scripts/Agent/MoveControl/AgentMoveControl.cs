@@ -19,8 +19,6 @@ public abstract class AgentMoveControl
         if (mAgent == null)
             return;
 
-        TurnFromTowards = mAgent.GetTowards();
-        TurnToTowards = towards;
         if (towards.Equals(Vector3.zero))
         {
             TurnTime = 0;
@@ -28,6 +26,10 @@ public abstract class AgentMoveControl
             return;
         }
 
+        TurnFromTowards = mAgent.GetTowards();
+        TurnToTowards = towards;
+
+        Log.Logic("Turn");
         if (GameCommonConfig.AgentTurnSpeed == 0)
         {
             TurnTime = 0;
@@ -43,6 +45,27 @@ public abstract class AgentMoveControl
             TurnTime = rotation / GameCommonConfig.AgentTurnSpeed;
         }
         TurnRecord = 0;
+    }
+
+
+    private Vector3 MoveToPos;
+    private Vector3 MoveFromPos;
+    private float MoveTime;
+    private float MoveRecord;
+    public virtual void Dash(float distance, float duration)
+    {
+        Vector3 offset = mAgent.GetTowards() * distance;
+        MoveFromPos = mAgent.GetPosition();
+        MoveToPos = MoveFromPos + offset;
+
+        if (duration == 0)
+        {
+            mAgent.SetPosition(MoveToPos);
+            return;
+        }
+
+        MoveTime = duration;
+        MoveRecord = 0;
     }
 
     public virtual void Move(float deltaTime)
@@ -71,6 +94,23 @@ public abstract class AgentMoveControl
                 TurnTime = 0;
                 TurnRecord = 0;
                 mAgent.SetTowards(TurnToTowards);
+            }
+        }
+
+        if(MoveTime > 0)
+        {
+            MoveRecord += deltaTime;
+
+            if (MoveRecord < MoveTime)
+            {
+                Vector3 pos = Vector3.Lerp(MoveFromPos, MoveToPos, MoveRecord / MoveTime);
+                mAgent.SetPosition(pos);
+            }
+            else
+            {
+                MoveTime = 0;
+                MoveRecord = 0;
+                mAgent.SetPosition(MoveToPos);
             }
         }
     }

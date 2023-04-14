@@ -64,8 +64,6 @@ public class Hero : Agent
             AnimPlayer.BindAnimator(mAgentGo.GetComponent<Animator>());
         }
 
-        mBaseMeterHandler = new PlayerBaseMeterHandler(this);
-
         if (mHeroCfg != null && mAgentGo != null)
         {
             mAgentGo.name = mHeroCfg.Name;
@@ -79,6 +77,7 @@ public class Hero : Agent
 
         MoveControl = new PlayerMoveControl(this);
         SetSpeed(mHeroCfg.Speed);
+        SetDashDistance(mHeroCfg.DashDistance);
     }
 
     public Hero(uint agentId) : base(agentId)
@@ -99,10 +98,5 @@ public class Hero : Agent
     public override void Dispose()
     {
         base.Dispose();
-
-        if(mBaseMeterHandler != null)
-        {
-            MeterManager.Ins.UnregiseterMeterHandler(mBaseMeterHandler);
-        }
     }
 }

@@ -1,17 +1,10 @@
 using System.Collections.Generic;
 
-public class AgentStatus_Idle : AgentStatus
+public class AgentStatus_BeHit : AgentStatus
 {
     public override string GetStatusName()
     {
-        return AgentStatusDefine.IDLE;
-    }
-
-    public override void CustomInitialize()
-    {
-        base.CustomInitialize();
-        mInputHandle = new KeyboardInputHandle_Idle(mAgent);
-        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
+        return AgentStatusDefine.BE_HIT;
     }
 
     public override void OnEnter(Dictionary<string, object> context)
@@ -38,46 +31,47 @@ public class AgentStatus_Idle : AgentStatus
         }
         else if (cmd == AgentCommandDefine.ATTACK_HARD)
         {
-            ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
+            DelayToMeterExcuteCommand(cmd);
         }
         else if (cmd == AgentCommandDefine.RUN)
         {
-            ExcuteCommand(cmd);
+            DelayToMeterExcuteCommand(cmd);
         }
         else if (cmd == AgentCommandDefine.DASH)
         {
-            ExcuteCommand(cmd);
+            DelayToMeterExcuteCommand(cmd);
         }
-        else if(cmd == AgentCommandDefine.IDLE)
+        else if (cmd == AgentCommandDefine.IDLE)
         {
             DelayToMeterExcuteCommand(cmd);
         }
         else
         {
-            Log.Error(LogLevel.Info, "AgentStatus_Idle - undefined cmd handle:{0}", cmd);
+            Log.Error(LogLevel.Info, "AgentStatus_BeHit - undefined cmd handle:{0}", cmd);
         }
     }
 
     protected override void CommandHandleOnMeter(int meterIndex)
     {
+        if (meterIndex < mCurAnimStateEndMeter)
+            return;
+
         byte cmd = cmdBuffer.PeekCommand();
-        Log.Logic(LogLevel.Info, "PeekCommand--{0}", cmd);
+        Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}", cmd, meterIndex);
+
         switch (cmd)
         {
-            case AgentCommandDefine.RUN:
             case AgentCommandDefine.ATTACK_HARD:
+            case AgentCommandDefine.IDLE:
             case AgentCommandDefine.DASH:
-            case AgentCommandDefine.BE_HIT:
+            case AgentCommandDefine.RUN:
                 ExcuteCommand(cmd);
                 return;
-            case AgentCommandDefine.IDLE:
+            case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.EMPTY:
             default:
                 break;
         }
-
-        if (meterIndex < mCurAnimStateEndMeter)
-            return;
 
         AnimQueueMoveOn();
     }

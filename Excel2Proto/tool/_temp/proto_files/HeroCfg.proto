@@ -18,8 +18,8 @@ message HeroBaseCfg{
     string Prefab = 3;
     /** 角色的移动速度 */ 
     float Speed = 4;
-    /** 角色多少拍行动一次 */ 
-    uint32 MeterOffset = 5;
+    /** 角色的冲刺距离 */ 
+    float DashDistance = 5;
 }
 
 message HeroCfg_Data {

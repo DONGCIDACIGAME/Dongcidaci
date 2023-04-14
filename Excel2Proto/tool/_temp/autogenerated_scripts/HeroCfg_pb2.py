@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rHeroCfg.proto\x12\nDongciDaci\"[\n\x0bHeroBaseCfg\x12\n\n\x02ID\x18\x01 \x01(\r\x12\x0c\n\x04Name\x18\x02 \x01(\t\x12\x0e\n\x06Prefab\x18\x03 \x01(\t\x12\r\n\x05Speed\x18\x04 \x01(\x02\x12\x13\n\x0bMeterOffset\x18\x05 \x01(\r\"\xab\x01\n\x0cHeroCfg_Data\x12I\n\x11HeroBaseCfg_items\x18\x01 \x03(\x0b\x32..DongciDaci.HeroCfg_Data.HeroBaseCfgItemsEntry\x1aP\n\x15HeroBaseCfgItemsEntry\x12\x0b\n\x03key\x18\x01 \x01(\r\x12&\n\x05value\x18\x02 \x01(\x0b\x32\x17.DongciDaci.HeroBaseCfg:\x02\x38\x01\x42#\n!com.trinitigames.server.conf.autob\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rHeroCfg.proto\x12\nDongciDaci\"\\\n\x0bHeroBaseCfg\x12\n\n\x02ID\x18\x01 \x01(\r\x12\x0c\n\x04Name\x18\x02 \x01(\t\x12\x0e\n\x06Prefab\x18\x03 \x01(\t\x12\r\n\x05Speed\x18\x04 \x01(\x02\x12\x14\n\x0c\x44\x61shDistance\x18\x05 \x01(\x02\"\xab\x01\n\x0cHeroCfg_Data\x12I\n\x11HeroBaseCfg_items\x18\x01 \x03(\x0b\x32..DongciDaci.HeroCfg_Data.HeroBaseCfgItemsEntry\x1aP\n\x15HeroBaseCfgItemsEntry\x12\x0b\n\x03key\x18\x01 \x01(\r\x12&\n\x05value\x18\x02 \x01(\x0b\x32\x17.DongciDaci.HeroBaseCfg:\x02\x38\x01\x42#\n!com.trinitigames.server.conf.autob\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -25,9 +25,9 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _HEROCFG_DATA_HEROBASECFGITEMSENTRY._options = None
   _HEROCFG_DATA_HEROBASECFGITEMSENTRY._serialized_options = b'8\001'
   _globals['_HEROBASECFG']._serialized_start=29
-  _globals['_HEROBASECFG']._serialized_end=120
-  _globals['_HEROCFG_DATA']._serialized_start=123
-  _globals['_HEROCFG_DATA']._serialized_end=294
-  _globals['_HEROCFG_DATA_HEROBASECFGITEMSENTRY']._serialized_start=214
-  _globals['_HEROCFG_DATA_HEROBASECFGITEMSENTRY']._serialized_end=294
+  _globals['_HEROBASECFG']._serialized_end=121
+  _globals['_HEROCFG_DATA']._serialized_start=124
+  _globals['_HEROCFG_DATA']._serialized_end=295
+  _globals['_HEROCFG_DATA_HEROBASECFGITEMSENTRY']._serialized_start=215
+  _globals['_HEROCFG_DATA_HEROBASECFGITEMSENTRY']._serialized_end=295
 # @@protoc_insertion_point(module_scope)

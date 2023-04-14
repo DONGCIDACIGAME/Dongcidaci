@@ -37,6 +37,11 @@ public class KeyboardInputHandle_Idle : AgentKeyboardInputHandle
             cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
         }
 
+        if (Input.GetKeyDown(KeyCode.J) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.DashMeterCheckTolerance))
+        {
+            cmds.AddCommand(AgentCommandDefine.DASH);
+        }
+
         mAgent.OnCommands(cmds);
     }
 }

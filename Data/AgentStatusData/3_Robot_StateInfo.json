@@ -65,6 +65,19 @@
 				"layer": 0,
 				"animLen": 1.500
 			}]
+		},
+		"Dash": {
+			"statusName": "Dash",
+			"loop": false,
+			"animStates": [{
+				"stateName": "Dash",
+				"loopTime": 1,
+				"animName": "combo_01",
+				"stateMeterLen": 1,
+				"normalizedTime": 0.1,
+				"layer": 0,
+				"animLen": 1.100
+			}]
 		}
 	}
 }

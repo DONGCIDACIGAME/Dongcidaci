@@ -209,6 +209,10 @@ public abstract class AgentStatus : IAgentStatus
         {
             ChangeStatus(AgentStatusDefine.RUN);
         }
+        else if (cmd == AgentCommandDefine.DASH)
+        {
+            ChangeStatus(AgentStatusDefine.DASH);
+        }
         else if (cmd == AgentCommandDefine.ATTACK_HARD || cmd == AgentCommandDefine.ATTACK_LIGHT)
         {
             ChangeStatus(AgentStatusDefine.ATTACK);

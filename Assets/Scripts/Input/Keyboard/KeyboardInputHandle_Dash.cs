@@ -1,21 +1,19 @@
-ï»¿using UnityEngine;
+using UnityEngine;
 
-public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
+public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
 {
-    public KeyboardInputHandle_Attack(Agent agt) : base(agt)
+    public KeyboardInputHandle_Dash(Agent agt) : base(agt)
     {
-
     }
 
     public override string GetHandleName()
     {
-        return InputDef.KeyboardInputHandle_Attack;
+        return InputDef.KeyboardInputHandle_Dash;
     }
-
 
     public override void OnMeter(int meterIndex)
     {
-        // åœ¨èŠ‚æ‹å¤„æ£€æµ‹æ–¹å‘ï¼Œå¯ä»¥åœ¨èŠ‚æ‹å¤„æ”¹å˜æ”»å‡»çš„æ–¹å‘
+        // ÔÚ½ÚÅÄ´¦¼ì²â·½Ïò£¬¿ÉÒÔÔÚ½ÚÅÄ´¦¸Ä±ä¹¥»÷µÄ·½Ïò
         Vector3 towards = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
@@ -50,15 +48,18 @@ public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
 
         AgentCommandBuffer cmds = mAgent.CommandBufferPool.PopAgentCommandBuffer();
 
-        float tolerance = Mathf.Min(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.EmptyStatusMaxTime);
-        bool inMeterTrigger = MeterManager.Ins.IsInMeterWithTolorance(MeterManager.Ins.MeterIndex, tolerance);
-        if(inMeterTrigger)
+        cmds.AddCommand(AgentCommandDefine.IDLE);
+
+        if (Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
         {
-            cmds.AddCommand(AgentCommandDefine.EMPTY);
+            cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
         }
-        else
+
+        // ¼ì²âµ½ÒÆ¶¯µÄ°´¼ü
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
-            cmds.AddCommand(AgentCommandDefine.IDLE);
+            // Ìí¼ÓÒÆ¶¯Ö¸Áî
+            cmds.AddCommand(AgentCommandDefine.RUN);
         }
 
         if (Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
@@ -71,14 +72,7 @@ public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
             cmds.AddCommand(AgentCommandDefine.DASH);
         }
 
-        // æ£€æµ‹åˆ°ç§»åŠ¨çš„æŒ‰é”®
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
-        {
-            // æ·»åŠ ç§»åŠ¨æŒ‡ä»¤
-            cmds.AddCommand(AgentCommandDefine.RUN);
-        }
 
         mAgent.OnCommands(cmds);
     }
 }
-

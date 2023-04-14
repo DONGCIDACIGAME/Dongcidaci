@@ -80,13 +80,13 @@ public final class HeroCfg {
 
     /**
      * <pre>
-     ** 角色多少拍行动一次 
+     ** 角色的冲刺距离 
      * </pre>
      *
-     * <code>uint32 MeterOffset = 5;</code>
-     * @return The meterOffset.
+     * <code>float DashDistance = 5;</code>
+     * @return The dashDistance.
      */
-    int getMeterOffset();
+    float getDashDistance();
   }
   /**
    * Protobuf type {@code DongciDaci.HeroBaseCfg}
@@ -249,19 +249,19 @@ public final class HeroCfg {
       return speed_;
     }
 
-    public static final int METEROFFSET_FIELD_NUMBER = 5;
-    private int meterOffset_ = 0;
+    public static final int DASHDISTANCE_FIELD_NUMBER = 5;
+    private float dashDistance_ = 0F;
     /**
      * <pre>
-     ** 角色多少拍行动一次 
+     ** 角色的冲刺距离 
      * </pre>
      *
-     * <code>uint32 MeterOffset = 5;</code>
-     * @return The meterOffset.
+     * <code>float DashDistance = 5;</code>
+     * @return The dashDistance.
      */
     @java.lang.Override
-    public int getMeterOffset() {
-      return meterOffset_;
+    public float getDashDistance() {
+      return dashDistance_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -290,8 +290,8 @@ public final class HeroCfg {
       if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
         output.writeFloat(4, speed_);
       }
-      if (meterOffset_ != 0) {
-        output.writeUInt32(5, meterOffset_);
+      if (java.lang.Float.floatToRawIntBits(dashDistance_) != 0) {
+        output.writeFloat(5, dashDistance_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -316,9 +316,9 @@ public final class HeroCfg {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(4, speed_);
       }
-      if (meterOffset_ != 0) {
+      if (java.lang.Float.floatToRawIntBits(dashDistance_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(5, meterOffset_);
+          .computeFloatSize(5, dashDistance_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -344,8 +344,9 @@ public final class HeroCfg {
       if (java.lang.Float.floatToIntBits(getSpeed())
           != java.lang.Float.floatToIntBits(
               other.getSpeed())) return false;
-      if (getMeterOffset()
-          != other.getMeterOffset()) return false;
+      if (java.lang.Float.floatToIntBits(getDashDistance())
+          != java.lang.Float.floatToIntBits(
+              other.getDashDistance())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -366,8 +367,9 @@ public final class HeroCfg {
       hash = (37 * hash) + SPEED_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getSpeed());
-      hash = (37 * hash) + METEROFFSET_FIELD_NUMBER;
-      hash = (53 * hash) + getMeterOffset();
+      hash = (37 * hash) + DASHDISTANCE_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getDashDistance());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -501,7 +503,7 @@ public final class HeroCfg {
         name_ = "";
         prefab_ = "";
         speed_ = 0F;
-        meterOffset_ = 0;
+        dashDistance_ = 0F;
         return this;
       }
 
@@ -548,7 +550,7 @@ public final class HeroCfg {
           result.speed_ = speed_;
         }
         if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.meterOffset_ = meterOffset_;
+          result.dashDistance_ = dashDistance_;
         }
       }
 
@@ -580,8 +582,8 @@ public final class HeroCfg {
         if (other.getSpeed() != 0F) {
           setSpeed(other.getSpeed());
         }
-        if (other.getMeterOffset() != 0) {
-          setMeterOffset(other.getMeterOffset());
+        if (other.getDashDistance() != 0F) {
+          setDashDistance(other.getDashDistance());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -629,11 +631,11 @@ public final class HeroCfg {
                 bitField0_ |= 0x00000008;
                 break;
               } // case 37
-              case 40: {
-                meterOffset_ = input.readUInt32();
+              case 45: {
+                dashDistance_ = input.readFloat();
                 bitField0_ |= 0x00000010;
                 break;
-              } // case 40
+              } // case 45
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -923,46 +925,46 @@ public final class HeroCfg {
         return this;
       }
 
-      private int meterOffset_ ;
+      private float dashDistance_ ;
       /**
        * <pre>
-       ** 角色多少拍行动一次 
+       ** 角色的冲刺距离 
        * </pre>
        *
-       * <code>uint32 MeterOffset = 5;</code>
-       * @return The meterOffset.
+       * <code>float DashDistance = 5;</code>
+       * @return The dashDistance.
        */
       @java.lang.Override
-      public int getMeterOffset() {
-        return meterOffset_;
+      public float getDashDistance() {
+        return dashDistance_;
       }
       /**
        * <pre>
-       ** 角色多少拍行动一次 
+       ** 角色的冲刺距离 
        * </pre>
        *
-       * <code>uint32 MeterOffset = 5;</code>
-       * @param value The meterOffset to set.
+       * <code>float DashDistance = 5;</code>
+       * @param value The dashDistance to set.
        * @return This builder for chaining.
        */
-      public Builder setMeterOffset(int value) {
+      public Builder setDashDistance(float value) {
 
-        meterOffset_ = value;
+        dashDistance_ = value;
         bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       ** 角色多少拍行动一次 
+       ** 角色的冲刺距离 
        * </pre>
        *
-       * <code>uint32 MeterOffset = 5;</code>
+       * <code>float DashDistance = 5;</code>
        * @return This builder for chaining.
        */
-      public Builder clearMeterOffset() {
+      public Builder clearDashDistance() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        meterOffset_ = 0;
+        dashDistance_ = 0F;
         onChanged();
         return this;
       }
@@ -1737,15 +1739,15 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rHeroCfg.proto\022\nDongciDaci\"[\n\013HeroBaseC" +
+      "\n\rHeroCfg.proto\022\nDongciDaci\"\\\n\013HeroBaseC" +
       "fg\022\n\n\002ID\030\001 \001(\r\022\014\n\004Name\030\002 \001(\t\022\016\n\006Prefab\030\003" +
-      " \001(\t\022\r\n\005Speed\030\004 \001(\002\022\023\n\013MeterOffset\030\005 \001(\r" +
-      "\"\253\001\n\014HeroCfg_Data\022I\n\021HeroBaseCfg_items\030\001" +
-      " \003(\0132..DongciDaci.HeroCfg_Data.HeroBaseC" +
-      "fgItemsEntry\032P\n\025HeroBaseCfgItemsEntry\022\013\n" +
-      "\003key\030\001 \001(\r\022&\n\005value\030\002 \001(\0132\027.DongciDaci.H" +
-      "eroBaseCfg:\0028\001B#\n!com.trinitigames.serve" +
-      "r.conf.autob\006proto3"
+      " \001(\t\022\r\n\005Speed\030\004 \001(\002\022\024\n\014DashDistance\030\005 \001(" +
+      "\002\"\253\001\n\014HeroCfg_Data\022I\n\021HeroBaseCfg_items\030" +
+      "\001 \003(\0132..DongciDaci.HeroCfg_Data.HeroBase" +
+      "CfgItemsEntry\032P\n\025HeroBaseCfgItemsEntry\022\013" +
+      "\n\003key\030\001 \001(\r\022&\n\005value\030\002 \001(\0132\027.DongciDaci." +
+      "HeroBaseCfg:\0028\001B#\n!com.trinitigames.serv" +
+      "er.conf.autob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1756,7 +1758,7 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
     internal_static_DongciDaci_HeroBaseCfg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DongciDaci_HeroBaseCfg_descriptor,
-        new java.lang.String[] { "ID", "Name", "Prefab", "Speed", "MeterOffset", });
+        new java.lang.String[] { "ID", "Name", "Prefab", "Speed", "DashDistance", });
     internal_static_DongciDaci_HeroCfg_Data_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_DongciDaci_HeroCfg_Data_fieldAccessorTable = new

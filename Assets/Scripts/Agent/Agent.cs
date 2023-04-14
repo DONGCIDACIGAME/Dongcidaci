@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Agent : IEntity
+public abstract class Agent : IEntity, IMeterHandler
 {
     /// <summary>
     /// 角色id
@@ -14,10 +14,6 @@ public abstract class Agent : IEntity
     /// 角色的游戏体
     /// </summary>
     protected GameObject mAgentGo;
-    /// <summary>
-    /// 基础节奏处理器
-    /// </summary>
-    protected IMeterHandler mBaseMeterHandler;
 
     // 相机追随的虚拟目标(防止动画自身位置)
     //protected VirtualCamTarget mVirtualCamTarget;
@@ -59,6 +55,8 @@ public abstract class Agent : IEntity
     }
     // 角色移动速度
     protected float mSpeed;
+    // 角色的冲刺速度
+    protected float mDashDistance;
     // 角色朝向
     protected Vector3 mTowards;
     // 角色位置
@@ -89,9 +87,19 @@ public abstract class Agent : IEntity
         Log.Logic(LogLevel.Info, "set speed:{0}", speed);
     }
 
+    public float GetDashDistance()
+    {
+        return mDashDistance;
+    }
+
+    public void SetDashDistance(float dashDistance)
+    {
+        this.mDashDistance = dashDistance;
+    }
+
     public Vector3 GetTowards()
     {
-        return mTowards;
+        return mTowards.normalized;
     }
 
     public void SetTowards(Vector3 towards)
@@ -132,10 +140,7 @@ public abstract class Agent : IEntity
         CommandBufferPool = new AgentCommandBufferPool();
         StatusMachine = new AgentStatusMachine();
         StatusMachine.Initialize(this);
-        if(mBaseMeterHandler != null)
-        {
-            MeterManager.Ins.RegisterMeterHandler(mBaseMeterHandler);
-        }
+        MeterManager.Ins.RegisterMeterHandler(this);
     }
 
     public virtual void Dispose()

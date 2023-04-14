@@ -107,19 +107,23 @@ public class AgentAnimPlayer
         // 如果是 x.9xx 这种播放进度 说明上次还没有播完，需要把未播放的时间扣除掉
         // 如果是 x.0xx这种播放进度 说明上次播放超了一部分，需要补上一些不放时间
         // 超出这两个的范围，说明这次播放遇到了问题，导致播放进度出现了较大的偏差，需要输出错误日志以便查看
-        float progressOffset = mAnimator.GetCurrentAnimatorStateInfo(layer).normalizedTime % 1;
 
-        if (progressOffset < 0.1f)
-        {
+        AnimatorStateInfo stateInfo = mAnimator.GetCurrentAnimatorStateInfo(layer);
+        float progressOffset = stateInfo.normalizedTime % 1;
+
+        if (progressOffset < 0.2f)
+        { 
             timeOffset = progressOffset * mLastStateLen;
         }
-        else if (progressOffset > 0.9f)
+        else if (progressOffset > 0.8f)
         {
             timeOffset = (progressOffset - 1) * mLastStateLen;
         }
         else
         {
-            Log.Error(LogLevel.Info, "UpdateAnimSpeedWithFix Error, 播放进度出现较大偏差，请查看！progressOffset:{0} ", progressOffset);
+            // 出现较大偏差，强制将动画定格至最后一帧
+            mAnimator.Play(stateInfo.fullPathHash, layer, 1);
+            Log.Error(LogLevel.Info, "UpdateAnimSpeedWithFix Error, 播放进度出现较大偏差，请查看！progressOffset:{0}, anim state:{1}", progressOffset, stateInfo.ToString());
         }
 
         mAnimator.speed = stateLen / (duration + timeOffset);

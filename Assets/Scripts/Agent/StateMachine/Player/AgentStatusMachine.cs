@@ -53,6 +53,7 @@ public class AgentStatusMachine
         AddStatus(AgentStatusDefine.IDLE, new AgentStatus_Idle());
         AddStatus(AgentStatusDefine.RUN, new AgentStatus_Run());
         AddStatus(AgentStatusDefine.ATTACK, new AgentStatus_Attack());
+        AddStatus(AgentStatusDefine.DASH, new AgentStatus_Dash());
 
         SwitchToStatus(AgentStatusDefine.IDLE, null);
     }

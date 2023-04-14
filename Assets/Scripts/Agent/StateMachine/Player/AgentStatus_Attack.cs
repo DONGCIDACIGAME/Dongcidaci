@@ -28,13 +28,29 @@ public class AgentStatus_Attack : AgentStatus
     public override void OnCommands(AgentCommandBuffer cmds)
     {
         byte cmd = cmds.PeekCommand();
-        if(cmd == AgentCommandDefine.BE_HIT)
+        if (cmd == AgentCommandDefine.BE_HIT)
         {
             ExcuteCommand(cmd);
         }
-        else
+        else if (cmd == AgentCommandDefine.DASH)
+        {
+            ExcuteCommand(cmd);
+        }
+        else if (cmd == AgentCommandDefine.ATTACK_HARD)
         {
             DelayToMeterExcuteCommand(cmd);
+        }
+        else if (cmd == AgentCommandDefine.RUN)
+        {
+            DelayToMeterExcuteCommand(cmd);
+        }
+        else if (cmd == AgentCommandDefine.IDLE)
+        {
+            DelayToMeterExcuteCommand(cmd);
+        }
+        else
+        {
+            Log.Error(LogLevel.Info, "AgentStatus_Attack - undefined cmd handle:{0}", cmd);
         }
     }
 
@@ -49,6 +65,7 @@ public class AgentStatus_Attack : AgentStatus
         {
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.RUN:
+            case AgentCommandDefine.DASH:
                 ExcuteCommand(cmd);
                 return;
             case AgentCommandDefine.ATTACK_HARD:

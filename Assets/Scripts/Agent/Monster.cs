@@ -7,7 +7,7 @@ public class Monster : Agent
 
     protected override void CustomInitialize()
     {
-        mBaseMeterHandler = new MonsterBaseMeterHandler(this);
+        
     }
 
     protected override void LoadAgentCfg(uint agentId)

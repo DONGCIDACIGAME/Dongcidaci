@@ -55,6 +55,11 @@ public class KeyboardInputHandle_Run : AgentKeyboardInputHandle
             cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
         }
 
+        if (Input.GetKeyDown(KeyCode.J) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.DashMeterCheckTolerance))
+        {
+            cmds.AddCommand(AgentCommandDefine.DASH);
+        }
+
         if (!towards.Equals(lastInputTowards))
         {
             mAgent.MoveControl.TurnTo(towards);

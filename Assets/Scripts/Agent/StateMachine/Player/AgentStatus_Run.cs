@@ -45,27 +45,18 @@ public class AgentStatus_Run : AgentStatus
         {
             DelayToMeterExcuteCommand(cmd);
         }
+        else if (cmd == AgentCommandDefine.DASH)
+        {
+            ExcuteCommand(cmd);
+        }
         else if (cmd == AgentCommandDefine.IDLE)
         {
             ExcuteCommand(cmd);
         }
-
-        //if (CommonHandleOnCmd(cmds, AgentCommandDefine.ATTACK_HARD, AgentStatusDefine.ATTACK))
-        //    return;
-
-
-        //cmdBuffer.AddCommandIfContain(cmds, AgentCommandDefine.IDLE);
-        //if (CommonHandleOnCmd(cmds, AgentCommandDefine.IDLE, AgentStatusDefine.IDLE))
-            //return;
-
-        //if(cmds.HasCommand(AgentCommandDefine.IDLE))
-        //{
-        //    ChangeStatus(AgentStatusDefine.IDLE);
-        //    return;
-        //}    
-
-        //cmdBuffer.MergeCommand(cmds, AgentCommandDefine.RUN);
-        //cmdBuffer.MergeCommand(cmds, AgentCommandDefine.IDLE);
+        else
+        {
+            Log.Error(LogLevel.Info, "AgentStatus_Run - undefined cmd handle:{0}", cmd);
+        }
     }
 
     protected override void CommandHandleOnMeter(int meterIndex)
@@ -76,8 +67,9 @@ public class AgentStatus_Run : AgentStatus
         switch (cmd)
         {
             case AgentCommandDefine.ATTACK_HARD:
-            case AgentCommandDefine.ATTACK_LIGHT:
             case AgentCommandDefine.IDLE:
+            case AgentCommandDefine.BE_HIT:
+            case AgentCommandDefine.DASH:
                 ExcuteCommand(cmd);
                 return;
             case AgentCommandDefine.RUN:
