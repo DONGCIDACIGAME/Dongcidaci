@@ -12,9 +12,9 @@ public class MeterManager : ModuleManager<MeterManager>
     private AudioMeterData mCurAudioMeterData;
 
     /// <summary>
-    /// 当前所处的基础节奏index
+    /// 当前所处的节奏index
     /// </summary>
-    public int BaseMeterIndex { get; private set; }
+    public int MeterIndex { get; private set; }
 
     /// <summary>
     /// 音乐开始到当前的时间（loop）
@@ -38,7 +38,7 @@ public class MeterManager : ModuleManager<MeterManager>
         mBaseMeterHandlers = new Dictionary<int, IMeterHandler>();
     }
 
-    public void RegisterBaseMeterHandler(IMeterHandler handler)
+    public void RegisterMeterHandler(IMeterHandler handler)
     {
         if (handler == null)
             return;
@@ -50,7 +50,7 @@ public class MeterManager : ModuleManager<MeterManager>
         mBaseMeterHandlers.Add(unicode, handler);
     }
 
-    public void UnregiseterBaseMeterHandler(IMeterHandler handler)
+    public void UnregiseterMeterHandler(IMeterHandler handler)
     {
         if (handler == null)
             return;
@@ -96,7 +96,7 @@ public class MeterManager : ModuleManager<MeterManager>
     {
         timeRecord = 0;
         enable = true;
-        BaseMeterIndex = 0;
+        MeterIndex = 0;
     }
 
     public void Stop()
@@ -116,16 +116,21 @@ public class MeterManager : ModuleManager<MeterManager>
 
     public bool CheckTriggerMeter(int meterIndex, float tolerance)
     {
+        return IsInMeterWithTolorance(meterIndex, tolerance);
+    }
+
+    public bool IsInMeterWithTolorance(int meterIndex, float tolerance)
+    {
         if (mCurAudioMeterData == null)
             return false;
 
-        if(meterIndex < 0 || meterIndex > totalMeterLen-1)
+        if (meterIndex < 0 || meterIndex > totalMeterLen - 1)
         {
             return false;
         }
 
         // 对于音乐起始拍和结束拍的特殊处理
-        if(meterIndex == 0 || meterIndex == totalMeterLen - 1)
+        if (meterIndex == 0 || meterIndex == totalMeterLen - 1)
         {
             return (timeRecord >= mCurAudioMeterData.baseMeters[totalMeterLen - 1] - tolerance)
                         && timeRecord <= mCurAudioMeterData.baseMeters[0] + tolerance;
@@ -135,35 +140,12 @@ public class MeterManager : ModuleManager<MeterManager>
                     && timeRecord <= mCurAudioMeterData.baseMeters[meterIndex] + tolerance;
     }
 
-    public bool IsInMeterTrigger()
-    {
-        if (mCurAudioMeterData == null)
-            return false;
-
-        int nextMeter = GetMeterIndex(BaseMeterIndex, 1);
-
-        /*
-         *          触发检测
-         *   |---------------------|---------------------|
-         *    000                 000
-         *   检测触发时，只有本拍的开始段和本拍的结束段是可以触发的区域
-         *   注意不能使用上一拍，因为上一拍已经过去了，再怎么检测也是触发不了的
-         */
-
-        float trigger1_Start = mCurAudioMeterData.baseMeters[BaseMeterIndex];
-        float trigger1_End = trigger1_Start + GamePlayDefine.AttackMeterCheckTolerance;
-        float trigger2_End = mCurAudioMeterData.baseMeters[nextMeter];
-        float trigger2_Start = trigger2_End - GamePlayDefine.AttackMeterCheckTolerance;
-
-        return (timeRecord >= trigger1_Start && timeRecord <= trigger1_End) || (timeRecord >= trigger2_Start && timeRecord <= trigger2_End);
-    }
-
     public bool CheckTriggerCurrentMeter(float tolerance)
     {
         if (mCurAudioMeterData == null)
             return false;
 
-       int nextMeter = GetMeterIndex(BaseMeterIndex, 1);
+       int nextMeter = GetMeterIndex(MeterIndex, 1);
 
         /*
          *          触发检测
@@ -173,7 +155,7 @@ public class MeterManager : ModuleManager<MeterManager>
          *   注意不能使用上一拍，因为上一拍已经过去了，再怎么检测也是触发不了的
          */
 
-        float trigger1_Start = mCurAudioMeterData.baseMeters[BaseMeterIndex];
+        float trigger1_Start = mCurAudioMeterData.baseMeters[MeterIndex];
         float trigger1_End = trigger1_Start + tolerance;
         float trigger2_End = mCurAudioMeterData.baseMeters[nextMeter];
         float trigger2_Start = trigger2_End - tolerance;
@@ -185,7 +167,7 @@ public class MeterManager : ModuleManager<MeterManager>
     {
         foreach(IMeterHandler handler in mBaseMeterHandlers.Values)
         {
-            handler.OnMeter(BaseMeterIndex);
+            handler.OnMeter(MeterIndex);
         }
     }
 
@@ -212,25 +194,25 @@ public class MeterManager : ModuleManager<MeterManager>
         if (timeRecord >= mCurAudioMeterData.audioLen)
         {
             timeRecord %= mCurAudioMeterData.audioLen;
-            BaseMeterIndex = 0;
+            MeterIndex = 0;
         }
 
-        if(BaseMeterIndex >= totalMeterLen - 1)
+        if(MeterIndex >= totalMeterLen - 1)
         {
             Log.Error(LogLevel.Critical, "MeterManager OnUpdate Error, BaseMeterIndex Index out of range!");
             return;
         }
 
-        else if (timeRecord >= mCurAudioMeterData.baseMeters[BaseMeterIndex + 1])
+        else if (timeRecord >= mCurAudioMeterData.baseMeters[MeterIndex + 1])
         {
-            BaseMeterIndex++;
+            MeterIndex++;
 
-            if(BaseMeterIndex == totalMeterLen - 1)
+            if(MeterIndex == totalMeterLen - 1)
             {
-                BaseMeterIndex = 0;
+                MeterIndex = 0;
             }
 
-            if(BaseMeterIndex > 0)
+            if(MeterIndex > 0)
             {
                 TriggerBaseMeter();
             }
@@ -248,13 +230,13 @@ public class MeterManager : ModuleManager<MeterManager>
         if (mCurAudioMeterData == null)
             return -1f;
 
-        if (BaseMeterIndex >= totalMeterLen - 1)
+        if (MeterIndex >= totalMeterLen - 1)
         {
             Log.Error(LogLevel.Critical, "MeterManager GetTimeToBaseMeter Error, BaseMeterIndex Index out of range!");
             return -2f;
         }
 
-        int targetIndex = BaseMeterIndex + offset;
+        int targetIndex = MeterIndex + offset;
 
         float time = 0;
         if(targetIndex >= totalMeterLen - 1)
@@ -329,8 +311,8 @@ public class MeterManager : ModuleManager<MeterManager>
     /// <returns></returns>
     public float GetCurrentMeterTime()
     {
-        int targetMeter = GetMeterIndex(BaseMeterIndex, 1);
-        return GetTotalMeterTime(BaseMeterIndex, targetMeter);
+        int targetMeter = GetMeterIndex(MeterIndex, 1);
+        return GetTotalMeterTime(MeterIndex, targetMeter);
     }
 
 

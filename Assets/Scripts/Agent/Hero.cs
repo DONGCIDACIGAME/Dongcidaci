@@ -102,7 +102,7 @@ public class Hero : Agent
 
         if(mBaseMeterHandler != null)
         {
-            MeterManager.Ins.UnregiseterBaseMeterHandler(mBaseMeterHandler);
+            MeterManager.Ins.UnregiseterMeterHandler(mBaseMeterHandler);
         }
     }
 }

@@ -134,7 +134,7 @@ public abstract class Agent : IEntity
         StatusMachine.Initialize(this);
         if(mBaseMeterHandler != null)
         {
-            MeterManager.Ins.RegisterBaseMeterHandler(mBaseMeterHandler);
+            MeterManager.Ins.RegisterMeterHandler(mBaseMeterHandler);
         }
     }
 

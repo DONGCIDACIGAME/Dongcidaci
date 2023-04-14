@@ -56,8 +56,8 @@ public abstract class AgentStatus : IAgentStatus
         float duration = MeterManager.Ins.GetTimeToBaseMeter(state.stateMeterLen);
         if(duration > 0)
         {
-            mCurAnimStateEndMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.BaseMeterIndex, state.stateMeterLen);
-            float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.BaseMeterIndex, mCurAnimStateEndMeter);
+            mCurAnimStateEndMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, state.stateMeterLen);
+            float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, mCurAnimStateEndMeter);
             mAgent.AnimPlayer.CrossFadeToState(stateName, state.layer, state.normalizedTime, duration, state.animLen, totalMeterTime);
         }
     }
@@ -103,7 +103,7 @@ public abstract class AgentStatus : IAgentStatus
         {
             //Log.Logic(LogLevel.Info, "UpdateAnimSpeed---------cur progress:{0}", mAgent.AnimPlayer.CurStateProgress);
             float duration = MeterManager.Ins.GetTimeToBaseMeter(state.stateMeterLen);
-            mCurAnimStateEndMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.BaseMeterIndex, state.stateMeterLen);
+            mCurAnimStateEndMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, state.stateMeterLen);
             mAgent.AnimPlayer.UpdateAnimSpeedWithFix(state.layer,state.animLen, duration);
         }
         else if (ret == AgentAnimDefine.AnimQueue_AnimMoveNext)
@@ -138,11 +138,11 @@ public abstract class AgentStatus : IAgentStatus
         // 当前拍的剩余时间
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
         // 当前拍的总时间
-        float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.BaseMeterIndex, MeterManager.Ins.BaseMeterIndex+1);
+        float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex+1);
 
         if (timeOfCurrentMeter <= 0)
         {
-            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, 当前拍的总时间<=0, 当前拍:{0}", MeterManager.Ins.BaseMeterIndex);
+            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, 当前拍的总时间<=0, 当前拍:{0}", MeterManager.Ins.MeterIndex);
             return;
         }
 
@@ -170,7 +170,7 @@ public abstract class AgentStatus : IAgentStatus
 
         if (timeToNextMeter <= 0)
         {
-            Log.Error(LogLevel.Normal, "TimeWaitOnCommand Error, 当前拍的总时间<=0, 当前拍:{0}", MeterManager.Ins.BaseMeterIndex);
+            Log.Error(LogLevel.Normal, "TimeWaitOnCommand Error, 当前拍的总时间<=0, 当前拍:{0}", MeterManager.Ins.MeterIndex);
             return;
         }
 

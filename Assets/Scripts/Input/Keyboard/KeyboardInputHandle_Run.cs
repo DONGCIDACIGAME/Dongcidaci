@@ -24,46 +24,35 @@ public class KeyboardInputHandle_Run : AgentKeyboardInputHandle
             return;
 
         AgentCommandBuffer cmds = mAgent.CommandBufferPool.PopAgentCommandBuffer();
-        cmds.AddCommand(AgentCommandDefine.EMPTY);
-        bool hasCmd = false;
+        cmds.AddCommand(AgentCommandDefine.IDLE);
         Vector3 towards = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
             towards += DirectionDef.up;
             cmds.AddCommand(AgentCommandDefine.RUN);
-            hasCmd = true;
         }
 
         if (Input.GetKey(KeyCode.S))
         {
             towards += DirectionDef.down;
             cmds.AddCommand(AgentCommandDefine.RUN);
-            hasCmd = true;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
             towards += DirectionDef.left;
             cmds.AddCommand(AgentCommandDefine.RUN);
-            hasCmd = true;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
             towards += DirectionDef.right;
             cmds.AddCommand(AgentCommandDefine.RUN);
-            hasCmd = true;
         }
 
         if (Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
         {
             cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
-            hasCmd = true;
-        }
-
-        if(!hasCmd)
-        {
-            cmds.AddCommand(AgentCommandDefine.IDLE);
         }
 
         if (!towards.Equals(lastInputTowards))

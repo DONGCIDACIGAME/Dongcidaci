@@ -33,14 +33,14 @@ public class InputManager : MeterModuleManager<InputManager>
             mStateStatck = new Stack<IInputState>();
         }
 
-        MeterManager.Ins.RegisterBaseMeterHandler(this);
+        MeterManager.Ins.RegisterMeterHandler(this);
     }
 
     public override void Dispose()
     {
         mInputControlMap.Clear();
         mStateStatck.Clear();
-        MeterManager.Ins.UnregiseterBaseMeterHandler(this);
+        MeterManager.Ins.UnregiseterMeterHandler(this);
     }
 
     public InputManager()

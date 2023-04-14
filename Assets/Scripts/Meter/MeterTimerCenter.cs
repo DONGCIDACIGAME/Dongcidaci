@@ -16,7 +16,7 @@ public class MeterTimerCenter : MeterModuleManager<MeterTimerCenter>
         toPushTimers = new HashSet<MeterTimer>();
         toWorkTimers = new HashSet<MeterTimer>();
 
-        MeterManager.Ins.RegisterBaseMeterHandler(this);
+        MeterManager.Ins.RegisterMeterHandler(this);
     }
 
     private MeterTimer PopTimer()
@@ -64,7 +64,7 @@ public class MeterTimerCenter : MeterModuleManager<MeterTimerCenter>
 
     public override void Dispose()
     {
-        MeterManager.Ins.UnregiseterBaseMeterHandler(this);
+        MeterManager.Ins.UnregiseterMeterHandler(this);
         mTimerPool = null;
         mWorkingTimers = null;
         toPushTimers = null;

@@ -12,9 +12,35 @@ public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
         return InputDef.KeyboardInputHandle_Attack;
     }
 
+
     public override void OnMeter(int meterIndex)
     {
+        // 在节拍处检测攻击方向，可以在节拍处改变攻击的方向
+        Vector3 towards = Vector3.zero;
+        if (Input.GetKey(KeyCode.W))
+        {
+            towards += DirectionDef.up;
+        }
 
+        if (Input.GetKey(KeyCode.S))
+        {
+            towards += DirectionDef.down;
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            towards += DirectionDef.left;
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            towards += DirectionDef.right;
+        }
+
+        if (!towards.Equals(mAgent.GetTowards()))
+        {
+            mAgent.MoveControl.TurnTo(towards);
+        }
     }
 
     public override void OnUpdate(float deltaTime)
@@ -24,20 +50,20 @@ public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
 
         AgentCommandBuffer cmds = mAgent.CommandBufferPool.PopAgentCommandBuffer();
 
-        bool inMeterTrigger = MeterManager.Ins.IsInMeterTrigger();
+        float tolerance = Mathf.Min(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.EmptyStatusMaxTime);
+        bool inMeterTrigger = MeterManager.Ins.IsInMeterWithTolorance(MeterManager.Ins.MeterIndex, tolerance);
         if(inMeterTrigger)
         {
             cmds.AddCommand(AgentCommandDefine.EMPTY);
-
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
-            }
         }
         else
         {
             cmds.AddCommand(AgentCommandDefine.IDLE);
+        }
 
+        if (Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
+        {
+            cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
         }
 
         // 检测到移动的按键
@@ -46,8 +72,6 @@ public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
             // 添加移动指令
             cmds.AddCommand(AgentCommandDefine.RUN);
         }
-
-
 
         mAgent.OnCommands(cmds);
     }

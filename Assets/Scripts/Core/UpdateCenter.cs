@@ -2,10 +2,12 @@ using GameEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// 如果需要临时性的使用update功能，可以注册到CommonUpdateCenter中
 /// 注册进CommonUpdateCenter得updater，更新顺序和注册顺序无关
+/// TODO:
+/// 1.这里需要搞这么复杂么，是否用个hashset就可以了
+/// 2.其他模块的update是否也放在这里驱动？有个问题就是这里的update目前是无序的，可能会有问题
 /// </summary>
-public class CommonUpdateCenter : ModuleManager<CommonUpdateCenter>
+public class UpdateCenter : ModuleManager<UpdateCenter>
 {
     private List<IGameUpdate> mToUpdates;
     private SimpleQueue<int> mValidIndexs;
@@ -15,6 +17,7 @@ public class CommonUpdateCenter : ModuleManager<CommonUpdateCenter>
 
     public override void Initialize()
     {
+        Log.Logic(LogLevel.Critical, "UpdateCenter Initialized...");
         mToUpdates = new List<IGameUpdate>(Capacity);
         mValidIndexs = new SimpleQueue<int>();
     }
