@@ -1,16 +1,15 @@
 using UnityEngine;
 
-public abstract class WithMeter : MonoBehaviour, IGameUpdate, IMeterHandler
+public abstract class BehaviourWithMeter : MonoBehaviour, IGameUpdate, IMeterHandler
 {
-    /// <summary>
-    /// 时长（本节拍时长）
-    /// </summary>
-    protected float meterDuration;
+    public bool UpdateEnable;
+
+    protected bool meterTriggered;
+
     /// <summary>
     /// 计时器
     /// </summary>
     protected float timeRecord;
-
     /// <summary>
     /// 3拍音乐的触发设置
     /// </summary>
@@ -26,12 +25,6 @@ public abstract class WithMeter : MonoBehaviour, IGameUpdate, IMeterHandler
     /// </summary>
     public int[] Trigger_8Beat;
 
-    /// <summary>
-    /// 缩放曲线 
-    /// 横轴表示时间的归一化
-    /// 纵轴表示缩放进度的归一化
-    /// </summary>
-    public AnimationCurve Curve;
 
     public abstract void OnUpdate(float deltaTime);
     protected virtual void Initialize() { }

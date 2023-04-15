@@ -1,7 +1,12 @@
 using UnityEngine;
 
-public class ZoomWithMeter : WithMeter
+public class ZoomWithMeter : BehaviourWithMeter
 {
+    /// <summary>
+    /// 时长（本节拍时长）
+    /// </summary>
+    protected float meterDuration;
+
     /// <summary>
     /// 缩放起始值
     /// </summary>
@@ -12,6 +17,12 @@ public class ZoomWithMeter : WithMeter
     /// </summary>
     public Vector3 zoomTo;
 
+    /// <summary>
+    /// 缩放曲线 
+    /// 横轴表示时间的归一化
+    /// 纵轴表示缩放进度的归一化
+    /// </summary>
+    public AnimationCurve Curve;
     protected override void Initialize()
     {
         base.Initialize();
@@ -22,10 +33,11 @@ public class ZoomWithMeter : WithMeter
 
     public override void OnUpdate(float deltaTime)
     {
-        if (timeRecord >= meterDuration)
-        {
+        if (!UpdateEnable || !meterTriggered)
             return;
-        }
+
+        if (timeRecord >= meterDuration)
+            return;
 
         // 通过时间（归一化）查出出当前的缩放进度（归一化）
         float progress = Curve.Evaluate((timeRecord % meterDuration)/meterDuration);
@@ -37,7 +49,8 @@ public class ZoomWithMeter : WithMeter
 
     public override void OnMeter(int meterIndex)
     {
-        if (!CheckTrigger(meterIndex))
+        meterTriggered = CheckTrigger(meterIndex);
+        if (!meterTriggered)
             return;
 
         meterDuration = MeterManager.Ins.GetCurrentMeterTime();

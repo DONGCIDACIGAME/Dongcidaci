@@ -1,42 +1,55 @@
 using UnityEngine;
-public class MoveWithMeter : WithMeter
+
+public class ContinueMoveWithMeter : BehaviourWithMeter
 {
     /// <summary>
     /// 原始位置
     /// </summary>
     private Vector3 mOriPos;
 
+    /// <summary>
+    /// 偏移的位移
+    /// </summary>
     public Vector3 MoveOffset;
+
+    /// <summary>
+    /// 移动的时间
+    /// </summary>
+    public float MoveDuration;
 
     protected override void Initialize()
     {
         base.Initialize();
+        mOriPos = this.transform.position;
     }
 
     public override void OnMeter(int meterIndex)
     {
-        if (!CheckTrigger(meterIndex))
+        meterTriggered = CheckTrigger(meterIndex);
+        if (!meterTriggered)
             return;
 
-        meterDuration = MeterManager.Ins.GetCurrentMeterTime();
         mOriPos = this.transform.position;
         timeRecord = 0;
     }
 
     public override void OnUpdate(float deltaTime)
     {
-
-
-        if (timeRecord >= meterDuration)
-        {
+        if (!UpdateEnable || !meterTriggered)
             return;
-        }
 
-        // 通过时间（归一化）查出出当前的缩放进度（归一化）
-        float progress = Curve.Evaluate((timeRecord % meterDuration) / meterDuration);
+        if (timeRecord >= MoveDuration)
+            return;
+
+        float progress = timeRecord / MoveDuration;
+
         // 计算缩放的比例
         Vector3 offset = Vector3.Lerp(Vector3.zero, MoveOffset, progress);
         this.transform.position = mOriPos + offset;
         timeRecord += deltaTime;
+        if(timeRecord >= MoveDuration)
+        {
+            this.transform.position = mOriPos + MoveOffset;
+        }
     }
 }

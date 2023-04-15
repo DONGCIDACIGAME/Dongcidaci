@@ -48,6 +48,10 @@ public class AgentStatus_Attack : AgentStatus
         {
             DelayToMeterExcuteCommand(cmd);
         }
+        else if(cmd == AgentCommandDefine.EMPTY)
+        {
+            // EMTPY 里什么都不做
+        }
         else
         {
             Log.Error(LogLevel.Info, "AgentStatus_Attack - undefined cmd handle:{0}", cmd);
