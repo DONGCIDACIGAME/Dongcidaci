@@ -121,6 +121,20 @@ public class MeterManager : ModuleManager<MeterManager>
         enable = true;
     }
 
+    public bool CheckTriggerSceneBehaviour(int meterIndex)
+    {
+        if (mCurAudioMeterData == null)
+            return false;
+
+        if (meterIndex < 0 || meterIndex > totalMeterLen - 1)
+        {
+            return false;
+        }
+
+        int localIndex = meterIndex % mCurAudioMeterData.sceneBehaviourMeterTrigger.Length;
+        return mCurAudioMeterData.sceneBehaviourMeterTrigger[localIndex] == 1;
+    }
+
     public bool CheckTriggerMeter(int meterIndex, float tolerance)
     {
         return IsInMeterWithTolorance(meterIndex, tolerance);

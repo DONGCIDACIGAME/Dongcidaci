@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ZoomWithMeter : BehaviourWithMeter
+public class LoopZoomWithMeter : BehaviourWithMeter
 {
     /// <summary>
     /// 时长（本节拍时长）

@@ -2,29 +2,31 @@ using UnityEngine;
 
 public abstract class BehaviourWithMeter : MonoBehaviour, IGameUpdate, IMeterHandler
 {
-    public bool UpdateEnable;
 
+    /// <summary>
+    /// 是否允许Update
+    /// </summary>
+    public bool UpdateEnable = true;
+
+    /// <summary>
+    /// 拍子是否触发
+    /// </summary>
     protected bool meterTriggered;
+
+    /// <summary>
+    /// 是否使用自定义节拍触发
+    /// </summary>
+    public bool UseCustomMeterTrigger;
+
+    /// <summary>
+    /// 自定义的节拍触发
+    /// </summary>
+    public int[] CustomBehaviourMeterTrigger;
 
     /// <summary>
     /// 计时器
     /// </summary>
     protected float timeRecord;
-    /// <summary>
-    /// 3拍音乐的触发设置
-    /// </summary>
-    public int[] Trigger_3Beat;
-
-    /// <summary>
-    /// 4拍音乐的触发设置
-    /// </summary>
-    public int[] Trigger_4Beat;
-
-    /// <summary>
-    /// 8拍音乐的触发设置
-    /// </summary>
-    public int[] Trigger_8Beat;
-
 
     public abstract void OnUpdate(float deltaTime);
     protected virtual void Initialize() { }
@@ -40,29 +42,20 @@ public abstract class BehaviourWithMeter : MonoBehaviour, IGameUpdate, IMeterHan
 
     protected bool CheckTrigger(int meterIndex)
     {
-        int rhythmType = MeterManager.Ins.GetCurrentMusicRhythmType();
-        if (rhythmType == MeterDefine.RhythmType_Unknown)
-            return false;
-
-        if(rhythmType == MeterDefine.RhythmType_3Beat && Trigger_3Beat != null && Trigger_3Beat.Length == 3)
+        if(UseCustomMeterTrigger)
         {
-            int localIndex = meterIndex % 3;
-            return Trigger_3Beat[localIndex] == 1;
-        }
+            if(CustomBehaviourMeterTrigger == null || CustomBehaviourMeterTrigger.Length == 0)
+            {
+                return false;
+            }
 
-        if (rhythmType == MeterDefine.RhythmType_4Beat && Trigger_4Beat != null && Trigger_4Beat.Length == 4)
+            int localIndex = meterIndex % CustomBehaviourMeterTrigger.Length;
+            return CustomBehaviourMeterTrigger[localIndex] == 1;
+        }
+        else
         {
-            int localIndex = meterIndex % 4;
-            return Trigger_4Beat[localIndex] == 1;
+            return MeterManager.Ins.CheckTriggerSceneBehaviour(meterIndex);
         }
-
-        if (rhythmType == MeterDefine.RhythmType_8Beat && Trigger_8Beat != null && Trigger_8Beat.Length == 8)
-        {
-            int localIndex = meterIndex % 8;
-            return Trigger_8Beat[localIndex] == 1;
-        }
-
-        return false;
     }
 
     private void OnDestroy()

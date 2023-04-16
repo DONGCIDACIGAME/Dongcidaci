@@ -234,9 +234,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpdateEnable: 1
-  Trigger_3Beat: 010000000100000000000000
-  Trigger_4Beat: 01000000010000000000000000000000
-  Trigger_8Beat: 0100000000000000010000000000000000000000000000000100000000000000
+  UseCustomMeterTrigger: 0
+  CustomBehaviourMeterTrigger: 
   zoomFrom: {x: 1, y: 1, z: 1}
   zoomTo: {x: 2, y: 2, z: 2}
   Curve:
@@ -294,6 +293,7 @@ GameObject:
   - component: {fileID: 92840399}
   - component: {fileID: 92840398}
   - component: {fileID: 92840401}
+  - component: {fileID: 92840402}
   m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Untagged
@@ -386,15 +386,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 92840396}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a96b5112e1e90954b92f8402133bf1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UpdateEnable: 1
-  Trigger_3Beat: 010000000100000000000000
-  Trigger_4Beat: 01000000010000000000000000000000
-  Trigger_8Beat: 0100000000000000010000000000000000000000000000000100000000000000
+  UseCustomMeterTrigger: 0
+  CustomBehaviourMeterTrigger: 
   zoomFrom: {x: 1, y: 1, z: 1}
   zoomTo: {x: 2, y: 2, z: 2}
   Curve:
@@ -439,6 +438,23 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &92840402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92840396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e227be0d234a2b849b71a53f49434cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpdateEnable: 1
+  UseCustomMeterTrigger: 0
+  CustomBehaviourMeterTrigger: 
+  RotationOffset: {x: 0, y: 30, z: 0}
+  RotateDuration: 0.2
 --- !u!1 &133544588
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,9 +700,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpdateEnable: 1
-  Trigger_3Beat: 010000000100000000000000
-  Trigger_4Beat: 01000000010000000000000000000000
-  Trigger_8Beat: 0100000000000000010000000000000000000000000000000100000000000000
+  UseCustomMeterTrigger: 0
+  CustomBehaviourMeterTrigger: 
   zoomFrom: {x: 1, y: 1, z: 1}
   zoomTo: {x: 2, y: 2, z: 2}
   Curve:
@@ -744,9 +759,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpdateEnable: 1
-  Trigger_3Beat: 000000000000000000000000
-  Trigger_4Beat: 01000000010000000000000000000000
-  Trigger_8Beat: 0100000000000000010000000000000000000000000000000100000000000000
+  UseCustomMeterTrigger: 0
+  CustomBehaviourMeterTrigger: 
   MoveOffset: {x: 2, y: 0, z: 0}
   MoveDuration: 0.2
 --- !u!114 &332924749
@@ -762,9 +776,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpdateEnable: 1
-  Trigger_3Beat: 000000000000000000000000
-  Trigger_4Beat: 01000000010000000000000000000000
-  Trigger_8Beat: 0000000000000000000000000000000000000000000000000000000000000000
+  UseCustomMeterTrigger: 0
+  CustomBehaviourMeterTrigger: 
   MoveOffset: {x: 1, y: 0, z: 0}
   MoveDuration: 0.2
 --- !u!1 &340188158
@@ -1345,6 +1358,7 @@ GameObject:
   - component: {fileID: 572737301}
   - component: {fileID: 572737300}
   - component: {fileID: 572737303}
+  - component: {fileID: 572737304}
   m_Layer: 0
   m_Name: Cube (4)
   m_TagString: Untagged
@@ -1437,15 +1451,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 572737298}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a96b5112e1e90954b92f8402133bf1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UpdateEnable: 1
-  Trigger_3Beat: 010000000100000000000000
-  Trigger_4Beat: 01000000010000000000000000000000
-  Trigger_8Beat: 0100000000000000010000000000000000000000000000000100000000000000
+  UseCustomMeterTrigger: 0
+  CustomBehaviourMeterTrigger: 
   zoomFrom: {x: 1, y: 1, z: 1}
   zoomTo: {x: 2, y: 2, z: 2}
   Curve:
@@ -1490,6 +1503,23 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &572737304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572737298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e4a69f9d1ede245aaa2544ab796e49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpdateEnable: 1
+  UseCustomMeterTrigger: 0
+  CustomBehaviourMeterTrigger: 
+  RotationOffset: {x: 0, y: 30, z: 0}
+  RotateDuration: 0.2
 --- !u!1 &619432328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2384,9 +2414,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpdateEnable: 1
-  Trigger_3Beat: 010000000100000000000000
-  Trigger_4Beat: 01000000010000000000000000000000
-  Trigger_8Beat: 0100000000000000010000000000000000000000000000000100000000000000
+  UseCustomMeterTrigger: 0
+  CustomBehaviourMeterTrigger: 
   zoomFrom: {x: 1, y: 1, z: 1}
   zoomTo: {x: 2, y: 2, z: 2}
   Curve:
@@ -2489,6 +2518,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SwitchTo: SceneSelect
+--- !u!1001 &1082542443
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5713859552239900022, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_Name
+      value: Quinn
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713859552239900022, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030180967207847062, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030180967207847062, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030180967207847062, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030180967207847062, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030180967207847062, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030180967207847062, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030180967207847062, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030180967207847062, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030180967207847062, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030180967207847062, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030180967207847062, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 26768a353e838144c8426860e53b4a43, type: 3}
 --- !u!1 &1105248332
 GameObject:
   m_ObjectHideFlags: 0
@@ -3086,9 +3176,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpdateEnable: 1
-  Trigger_3Beat: 010000000100000000000000
-  Trigger_4Beat: 01000000010000000000000000000000
-  Trigger_8Beat: 0100000000000000010000000000000000000000000000000100000000000000
+  UseCustomMeterTrigger: 0
+  CustomBehaviourMeterTrigger: 
   zoomFrom: {x: 1, y: 1, z: 1}
   zoomTo: {x: 2, y: 2, z: 2}
   Curve:

@@ -37,33 +37,33 @@
 				"loopTime": 1,
 				"animName": "combo_01",
 				"stateMeterLen": 1,
-				"normalizedTime": 0.1,
+				"normalizedTime": 0.2,
 				"layer": 0,
-				"animLen": 1.100
+				"animLen": 0.3
 			},{
 				"stateName": "combo_02",
 				"loopTime": 1,
 				"animName": "combo_02",
 				"stateMeterLen": 1,
-				"normalizedTime": 0.1,
+				"normalizedTime": 0.2,
 				"layer": 0,	
-				"animLen": 1.167
+				"animLen": 0.467
 			},{
 				"stateName": "combo_03",
 				"loopTime": 1,
 				"animName": "combo_03",
 				"stateMeterLen": 1,
-				"normalizedTime": 0.1,
+				"normalizedTime": 0.2,
 				"layer": 0,
-				"animLen": 1.200
+				"animLen": 0.367
 			},{
 				"stateName": "combo_04",
 				"loopTime": 1,
 				"animName": "combo_04",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.1,
+				"stateMeterLen": 3,
+				"normalizedTime": 0.2,
 				"layer": 0,
-				"animLen": 1.500
+				"animLen": 0.833
 			}]
 		},
 		"Dash": {
