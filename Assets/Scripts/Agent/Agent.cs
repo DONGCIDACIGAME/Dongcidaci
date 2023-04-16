@@ -108,6 +108,7 @@ public abstract class Agent : IEntity, IMeterHandler
         if(mAgentGo != null)
         {
             mAgentGo.transform.rotation = Quaternion.LookRotation(towards);
+            Log.Logic(LogLevel.Info, "SetTowards-----{0}", towards);
         }
     }
 
