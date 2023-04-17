@@ -109,7 +109,6 @@ public class AgentCommandBuffer
 
     /// <summary>
     /// 清除指令集合
-    /// TODO: 目前是全清buffer，是不对的，应该有个缓存，如果不是刚好卡在节拍上按下了攻击键，就会被清理为idle状态
     /// </summary>
     public void ClearBuffer()
     {

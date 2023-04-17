@@ -41,14 +41,6 @@
 				"layer": 0,
 				"animLen": 0.3
 			},{
-				"stateName": "combo_03",
-				"loopTime": 1,
-				"animName": "combo_03",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
-				"layer": 0,
-				"animLen": 0.367
-			},{
 				"stateName": "combo_02",
 				"loopTime": 1,
 				"animName": "combo_02",
@@ -56,6 +48,14 @@
 				"normalizedTime": 0.2,
 				"layer": 0,	
 				"animLen": 0.467
+			},{
+				"stateName": "combo_03",
+				"loopTime": 1,
+				"animName": "combo_03",
+				"stateMeterLen": 1,
+				"normalizedTime": 0.2,
+				"layer": 0,
+				"animLen": 0.367
 			},{
 				"stateName": "combo_04",
 				"loopTime": 1,
