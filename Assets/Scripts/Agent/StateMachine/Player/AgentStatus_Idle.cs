@@ -36,7 +36,7 @@ public class AgentStatus_Idle : AgentStatus
         {
             ExcuteCommand(cmd);
         }
-        else if (cmd == AgentCommandDefine.ATTACK_HARD)
+        else if (cmd == AgentCommandDefine.ATTACK_HARD || cmd == AgentCommandDefine.ATTACK_LIGHT)
         {
             ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
         }

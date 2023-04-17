@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class AgentAnimPlayer
 {
-    private Animator mAnimator;
+    public Animator mAnimator;
 
     /// <summary>
     /// 所有动画信息
@@ -219,6 +219,8 @@ public class AgentAnimPlayer
         // 计算新动画的偏移时长（即按照上面的播放速度去播放动画又需要在结束拍卡点时，新动画的融合起点时间需要后移）
         float timeOffset = totalMeterLen - targetDuration;
         mAnimator.CrossFadeInFixedTime(stateName, normalizedTime * targetDuration, layer, timeOffset);
+
+
     }
 
 

@@ -2525,6 +2525,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5149656053297802665, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5713859552239900022, guid: 26768a353e838144c8426860e53b4a43, type: 3}
       propertyPath: m_Name
       value: Quinn
@@ -2533,6 +2537,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6059622009047310182, guid: 26768a353e838144c8426860e53b4a43, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 39241a7abc159d448b09c953b8f5058f, type: 2}
     - target: {fileID: 8030180967207847062, guid: 26768a353e838144c8426860e53b4a43, type: 3}
       propertyPath: m_RootOrder
       value: 1

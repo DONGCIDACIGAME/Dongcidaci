@@ -61,12 +61,17 @@ public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
             cmds.AddCommand(AgentCommandDefine.IDLE);
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
+        if (Input.GetKeyDown(InputDef.LightAttackKeyCode) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
+        {
+            cmds.AddCommand(AgentCommandDefine.ATTACK_LIGHT);
+        }
+
+        if (Input.GetKeyDown(InputDef.HardAttackKeyCode) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
         {
             cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
         }
 
-        if (Input.GetKeyDown(KeyCode.J) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.DashMeterCheckTolerance))
+        if (Input.GetKeyDown(InputDef.DashKeyCode) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.DashMeterCheckTolerance))
         {
             cmds.AddCommand(AgentCommandDefine.DASH);
         }
