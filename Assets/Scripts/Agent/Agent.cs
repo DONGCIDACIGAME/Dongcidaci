@@ -38,12 +38,6 @@ public abstract class Agent : IEntity, IMeterHandler
     /// </summary>
     public AgentStatusGraph StatusGraph;
 
-
-    /// <summary>
-    /// ½ÇÉ«ÃüÁî»º´æ³Ø
-    /// </summary>
-    public AgentCommandBufferPool CommandBufferPool;
-
     public uint GetAgentId()
     {
         return mAgentId;
@@ -138,7 +132,6 @@ public abstract class Agent : IEntity, IMeterHandler
         LoadAgentGo();
         CustomInitialize();
         StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
-        CommandBufferPool = new AgentCommandBufferPool();
         StatusMachine = new AgentStatusMachine();
         StatusMachine.Initialize(this);
         MeterManager.Ins.RegisterMeterHandler(this);
@@ -162,15 +155,14 @@ public abstract class Agent : IEntity, IMeterHandler
     {
         StatusMachine.OnMeter(meterIndex);
     }
-
-    public void OnCommands(AgentCommandBuffer cmds)
+    public void OnCommand(AgentInputCommand cmd)
     {
-        if(StatusMachine != null)
+        if (StatusMachine != null)
         {
-            StatusMachine.OnCommands(cmds);
+            StatusMachine.OnCommand(cmd);
         }
 
-        CommandBufferPool.PushAgentCommandBuffer(cmds);
+        AgentInputCommandPool.Ins.PushAgentInputCommand(cmd);
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 /// <summary>
 /// 重击状态
 /// </summary>
@@ -25,30 +26,31 @@ public class AgentStatus_Attack : AgentStatus
         base.OnExit();
     }
 
-    public override void OnCommands(AgentCommandBuffer cmds)
+    protected override void CustomOnCommand(AgentInputCommand cmd)
     {
-        byte cmd = cmds.PeekCommand();
-        if (cmd == AgentCommandDefine.BE_HIT)
+        base.CustomOnCommand(cmd);
+
+        if (cmd.CmdType == AgentCommandDefine.BE_HIT)
         {
             ExcuteCommand(cmd);
         }
-        else if (cmd == AgentCommandDefine.DASH)
+        else if (cmd.CmdType == AgentCommandDefine.DASH)
         {
             ExcuteCommand(cmd);
         }
-        else if (cmd == AgentCommandDefine.ATTACK_HARD)
+        else if (cmd.CmdType == AgentCommandDefine.ATTACK_HARD)
         {
             DelayToMeterExcuteCommand(cmd);
         }
-        else if (cmd == AgentCommandDefine.RUN)
+        else if (cmd.CmdType == AgentCommandDefine.RUN)
         {
             DelayToMeterExcuteCommand(cmd);
         }
-        else if (cmd == AgentCommandDefine.IDLE)
+        else if (cmd.CmdType == AgentCommandDefine.IDLE)
         {
             DelayToMeterExcuteCommand(cmd);
         }
-        else if(cmd == AgentCommandDefine.EMPTY)
+        else if (cmd.CmdType == AgentCommandDefine.EMPTY)
         {
             // EMTPY 里什么都不做
         }
@@ -63,24 +65,26 @@ public class AgentStatus_Attack : AgentStatus
         if (meterIndex < mCurAnimStateEndMeter)
             return;
 
-        byte cmd = cmdBuffer.PeekCommand();
-        Log.Logic(LogLevel.Info, "PeekCommand--{0}", cmd);
-        switch(cmd)
+        if (_cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
-            case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.RUN:
-            case AgentCommandDefine.DASH:
-                ExcuteCommand(cmd);
-                return;
-            case AgentCommandDefine.ATTACK_HARD:
-            case AgentCommandDefine.ATTACK_LIGHT:
-                break;
-            case AgentCommandDefine.EMPTY:
-            default:
-                return;
-        }
+            Log.Logic(LogLevel.Info, "PeekCommand--{0}", cmdType);
+            switch (cmdType)
+            {
+                case AgentCommandDefine.IDLE:
+                case AgentCommandDefine.RUN:
+                case AgentCommandDefine.DASH:
+                    ExcuteCommand(cmdType, towards);
+                    return;
+                case AgentCommandDefine.ATTACK_HARD:
+                case AgentCommandDefine.ATTACK_LIGHT:
+                    break;
+                case AgentCommandDefine.EMPTY:
+                default:
+                    return;
+            }
 
-        AnimQueueMoveOn();
+            AnimQueueMoveOn();
+        }
     }
 
     public override void OnUpdate(float deltaTime)

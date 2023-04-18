@@ -58,11 +58,11 @@ public class AgentStatusMachine
         SwitchToStatus(AgentStatusDefine.IDLE, null);
     }
 
-    public void OnCommands(AgentCommandBuffer cmds)
+    public void OnCommand(AgentInputCommand cmd)
     {
-        if(mCurStatus != null)
+        if (mCurStatus != null)
         {
-            mCurStatus.OnCommands(cmds);
+            mCurStatus.OnCommand(cmd);
         }
     }
 

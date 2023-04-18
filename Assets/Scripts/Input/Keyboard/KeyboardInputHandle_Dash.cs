@@ -46,38 +46,13 @@ public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
         if (mAgent == null)
             return;
 
-        AgentCommandBuffer cmds = mAgent.CommandBufferPool.PopAgentCommandBuffer();
-
-        cmds.AddCommand(AgentCommandDefine.IDLE);
-
-        if (Input.GetKeyDown(KeyCode.K) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
+        AgentInputCommand cmd;
+        bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
+        if (!hasCmd)
         {
-            cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
+            cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
+            cmd.Initialize(AgentCommandDefine.IDLE, GamePlayDefine.InputDirection_NONE);
         }
-
-        // 检测到移动的按键
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
-        {
-            // 添加移动指令
-            cmds.AddCommand(AgentCommandDefine.RUN);
-        }
-
-        if (Input.GetKeyDown(InputDef.LightAttackKeyCode) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
-        {
-            cmds.AddCommand(AgentCommandDefine.ATTACK_LIGHT);
-        }
-
-        if (Input.GetKeyDown(InputDef.HardAttackKeyCode) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
-        {
-            cmds.AddCommand(AgentCommandDefine.ATTACK_HARD);
-        }
-
-        if (Input.GetKeyDown(InputDef.DashKeyCode) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.DashMeterCheckTolerance))
-        {
-            cmds.AddCommand(AgentCommandDefine.DASH);
-        }
-
-
-        mAgent.OnCommands(cmds);
+        mAgent.OnCommand(cmd);
     }
 }

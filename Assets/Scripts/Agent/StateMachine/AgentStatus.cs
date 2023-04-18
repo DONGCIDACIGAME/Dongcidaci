@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class AgentStatus : IAgentStatus
 {
@@ -12,13 +13,12 @@ public abstract class AgentStatus : IAgentStatus
     /// <summary>
     /// 等待执行的指令集合
     /// </summary>
-    protected AgentCommandBuffer cmdBuffer;
+    protected AgentInputCommandBuffer _cmdBuffer;
 
     public void Initialize(Agent agt, ChangeStatusDelegate cb)
     {
         ChangeStatus = cb;
         mAgent = agt;
-        cmdBuffer = new AgentCommandBuffer();
         mStateAnimQueue = new AgentStateAnimQueue();
         AgentStatusInfo statusInfo = mAgent.StatusGraph.GetStatusInfo(GetStatusName());
         mStateAnimQueue.Initialize(statusInfo);
@@ -30,12 +30,6 @@ public abstract class AgentStatus : IAgentStatus
     }
 
     public abstract string GetStatusName();
-
-    /// <summary>
-    /// 收到指令后的处理逻辑
-    /// </summary>
-    /// <param name="cmds"></param>
-    public abstract void OnCommands(AgentCommandBuffer cmds);
 
     protected void AgentStatusCrossFadeToState(AgentAnimStateInfo state)
     {
@@ -117,7 +111,7 @@ public abstract class AgentStatus : IAgentStatus
     public virtual void OnMeter(int meterIndex)
     {
         CommandHandleOnMeter(meterIndex);
-        cmdBuffer.ClearBuffer();
+        _cmdBuffer.ClearCommandBuffer();
         //Log.Error(LogLevel.Info, "Meter--{0}",meterIndex);
     }
 
@@ -133,7 +127,7 @@ public abstract class AgentStatus : IAgentStatus
     /// 其他情况等待下一拍执行
     /// </summary>
     /// <param name="waitMeterProgress"></param>
-    public void ProgressWaitOnCommand(float waitMeterProgress, byte cmd)
+    public void ProgressWaitOnCommand(float waitMeterProgress, AgentInputCommand cmd)
     {
         // 当前拍的剩余时间
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
@@ -163,7 +157,7 @@ public abstract class AgentStatus : IAgentStatus
     /// 如果本拍剩余时间<waitTime,就直接执行，否则等待下一拍执行
     /// </summary>
     /// <param name="waitTime"></param>
-    public void TimeWaitOnCommand(float waitTime, byte cmd)
+    public void TimeWaitOnCommand(float waitTime, AgentInputCommand cmd)
     {
         // 当前拍的剩余时间
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
@@ -184,42 +178,66 @@ public abstract class AgentStatus : IAgentStatus
         }
     }
 
-    /// <summary>
-    /// 延迟到节拍处执行指令
-    /// </summary>
-    /// <param name="cmd"></param>
-    public void DelayToMeterExcuteCommand(byte cmd)
+    public void DelayToMeterExcuteCommand(AgentInputCommand cmd)
     {
-        // 将指令存入指令缓存区
-        // 节拍来到的时候会处理指令缓存区中的指令
-        cmdBuffer.AddCommand(cmd);
+        _cmdBuffer.AddInputCommand(cmd);
     }
 
-    /// <summary>
-    /// 立即执行指令
-    /// </summary>
-    /// <param name="cmd"></param>
-    public void ExcuteCommand(byte cmd)
+    protected void ExcuteCommand(AgentInputCommand cmd)
     {
-        if(cmd == AgentCommandDefine.IDLE)
+        if (cmd == null)
+            return;
+
+        ExcuteCommand(cmd.CmdType, cmd.Towards);
+    }
+
+    protected void ExcuteCommand(byte cmdType, Vector3 towards)
+    {
+        if (cmdType == AgentCommandDefine.IDLE)
         {
             ChangeStatus(AgentStatusDefine.IDLE);
         }
-        else if (cmd == AgentCommandDefine.RUN)
+        else if (cmdType == AgentCommandDefine.RUN)
         {
-            ChangeStatus(AgentStatusDefine.RUN);
+            Dictionary<string, object> args = new Dictionary<string, object>();
+            args.Add("triggerCmd", cmdType);
+            args.Add("towards", towards);
+            ChangeStatus(AgentStatusDefine.RUN, args);
         }
-        else if (cmd == AgentCommandDefine.DASH)
+        else if (cmdType == AgentCommandDefine.DASH)
         {
-            ChangeStatus(AgentStatusDefine.DASH);
+            Dictionary<string, object> args = new Dictionary<string, object>();
+            args.Add("triggerCmd", cmdType);
+            args.Add("towards", towards);
+            ChangeStatus(AgentStatusDefine.DASH, args);
         }
-        else if (cmd == AgentCommandDefine.ATTACK_HARD || cmd == AgentCommandDefine.ATTACK_LIGHT)
+        else if (cmdType == AgentCommandDefine.ATTACK_HARD || cmdType == AgentCommandDefine.ATTACK_LIGHT)
         {
-            ChangeStatus(AgentStatusDefine.ATTACK);
+            Dictionary<string, object> args = new Dictionary<string, object>();
+            args.Add("triggerCmd", cmdType);
+            args.Add("towards", towards);
+            ChangeStatus(AgentStatusDefine.ATTACK, args);
         }
-        else if (cmd == AgentCommandDefine.BE_HIT)
+        else if (cmdType == AgentCommandDefine.BE_HIT)
         {
             ChangeStatus(AgentStatusDefine.BE_HIT);
         }
+    }
+
+    protected virtual void CustomOnCommand(AgentInputCommand cmd) { }
+
+    private AgentInputCommand lastInputCmd;
+    public void OnCommand(AgentInputCommand cmd)
+    {
+        if (cmd == null)
+            return;
+
+        // idle不重复处理
+        if (lastInputCmd.CmdType == AgentCommandDefine.IDLE && cmd.CmdType == AgentCommandDefine.IDLE)
+            return;
+
+        CustomOnCommand(cmd);
+
+        lastInputCmd = cmd;
     }
 }

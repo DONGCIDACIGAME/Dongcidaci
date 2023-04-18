@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AgentInputCommand
@@ -12,9 +11,17 @@ public class AgentInputCommand
         this.Towards = towards;
     }
 
-    public void Dispose()
+    public bool Equals(AgentInputCommand other)
+    {
+        if (other == null)
+            return false;
+
+        return CmdType == other.CmdType && Towards.Equals(other.Towards);
+    }
+
+    public void Clear()
     {
         this.CmdType = AgentCommandDefine.EMPTY;
-        this.Towards = Vector3.zero;
+        this.Towards = GamePlayDefine.InputDirection_NONE;
     }
 }

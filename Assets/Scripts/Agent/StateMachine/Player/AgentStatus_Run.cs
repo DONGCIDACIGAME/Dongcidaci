@@ -29,59 +29,32 @@ public class AgentStatus_Run : AgentStatus
         ResetAnimQueue();
     }
 
-    public override void OnCommands(AgentCommandBuffer cmds)
-    {
-        byte cmd = cmds.PeekCommand();
-
-        if (cmd == AgentCommandDefine.BE_HIT)
-        {
-            ExcuteCommand(cmd);
-        }
-        else if (cmd == AgentCommandDefine.ATTACK_HARD)
-        {
-            ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
-        }
-        else if (cmd == AgentCommandDefine.RUN)
-        {
-            DelayToMeterExcuteCommand(cmd);
-        }
-        else if (cmd == AgentCommandDefine.DASH)
-        {
-            ExcuteCommand(cmd);
-        }
-        else if (cmd == AgentCommandDefine.IDLE)
-        {
-            ExcuteCommand(cmd);
-        }
-        else
-        {
-            Log.Error(LogLevel.Info, "AgentStatus_Run - undefined cmd handle:{0}", cmd);
-        }
-    }
-
     protected override void CommandHandleOnMeter(int meterIndex)
     {
-        byte cmd = cmdBuffer.PeekCommand();
-        Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}", cmd, meterIndex);
-
-        switch (cmd)
+        if(_cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
-            case AgentCommandDefine.ATTACK_HARD:
-            case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.BE_HIT:
-            case AgentCommandDefine.DASH:
-                ExcuteCommand(cmd);
+            Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}", cmdType, meterIndex);
+            switch (cmdType)
+            {
+                case AgentCommandDefine.ATTACK_HARD:
+                case AgentCommandDefine.IDLE:
+                case AgentCommandDefine.BE_HIT:
+                case AgentCommandDefine.DASH:
+                    ExcuteCommand(cmdType, towards);
+                    return;
+                case AgentCommandDefine.RUN:
+                case AgentCommandDefine.EMPTY:
+                default:
+                    break;
+            }
+
+            if (meterIndex < mCurAnimStateEndMeter)
                 return;
-            case AgentCommandDefine.RUN:
-            case AgentCommandDefine.EMPTY:
-            default:
-                break;
+
+            AnimQueueMoveOn();
         }
 
-        if (meterIndex < mCurAnimStateEndMeter)
-            return;
 
-        AnimQueueMoveOn();
     }
 
 

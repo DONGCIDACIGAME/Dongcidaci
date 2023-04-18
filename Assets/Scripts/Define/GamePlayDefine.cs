@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public static class GamePlayDefine
 {
     /// <summary>
@@ -31,5 +33,10 @@ public static class GamePlayDefine
     /// 冲刺时间
     /// </summary>
     public const float DashDuration = 0.2f;
+
+    /// <summary>
+    /// 空参数
+    /// </summary>
+    public static Vector3 InputDirection_NONE = Vector3.zero;
 
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class AgentStatus_Dash : AgentStatus
 {
@@ -35,27 +36,27 @@ public class AgentStatus_Dash : AgentStatus
         base.OnUpdate(deltaTime);
     }
 
-    public override void OnCommands(AgentCommandBuffer cmds)
+    protected override void CustomOnCommand(AgentInputCommand cmd)
     {
-        byte cmd = cmds.PeekCommand();
+        base.CustomOnCommand(cmd);
 
-        if (cmd == AgentCommandDefine.BE_HIT)
+        if (cmd.CmdType == AgentCommandDefine.BE_HIT)
         {
             ExcuteCommand(cmd);
         }
-        else if (cmd == AgentCommandDefine.ATTACK_HARD)
+        else if (cmd.CmdType == AgentCommandDefine.ATTACK_HARD)
         {
             DelayToMeterExcuteCommand(cmd);
         }
-        else if (cmd == AgentCommandDefine.RUN)
+        else if (cmd.CmdType == AgentCommandDefine.RUN)
         {
             DelayToMeterExcuteCommand(cmd);
         }
-        else if (cmd == AgentCommandDefine.DASH)
+        else if (cmd.CmdType == AgentCommandDefine.DASH)
         {
             DelayToMeterExcuteCommand(cmd);
         }
-        else if (cmd == AgentCommandDefine.IDLE)
+        else if (cmd.CmdType == AgentCommandDefine.IDLE)
         {
             DelayToMeterExcuteCommand(cmd);
         }
@@ -70,24 +71,26 @@ public class AgentStatus_Dash : AgentStatus
         if (meterIndex < mCurAnimStateEndMeter)
             return;
 
-        byte cmd = cmdBuffer.PeekCommand();
-        Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}", cmd, meterIndex);
-
-        switch (cmd)
+        if (_cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
-            case AgentCommandDefine.ATTACK_HARD:
-            case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.BE_HIT:
-            case AgentCommandDefine.RUN:
-                ExcuteCommand(cmd);
-                return;
-            case AgentCommandDefine.DASH:
-                break;
-            case AgentCommandDefine.EMPTY:
-            default:
-                break;
-        }
+            Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}", cmdType, meterIndex);
 
-        AnimQueueMoveOn();
+            switch (cmdType)
+            {
+                case AgentCommandDefine.ATTACK_HARD:
+                case AgentCommandDefine.IDLE:
+                case AgentCommandDefine.BE_HIT:
+                case AgentCommandDefine.RUN:
+                    ExcuteCommand(cmdType, towards);
+                    return;
+                case AgentCommandDefine.DASH:
+                    break;
+                case AgentCommandDefine.EMPTY:
+                default:
+                    break;
+            }
+
+            AnimQueueMoveOn();
+        }
     }
 }
