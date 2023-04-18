@@ -33,29 +33,23 @@ public class AgentStatus_Idle : AgentStatus
     {
         base.CustomOnCommand(cmd);
 
-        if (cmd.CmdType == AgentCommandDefine.BE_HIT)
+        switch (cmd.CmdType)
         {
-            
-        }
-        else if (cmd.CmdType == AgentCommandDefine.ATTACK_HARD || cmd.CmdType == AgentCommandDefine.ATTACK_LIGHT)
-        {
-            
-        }
-        else if (cmd.CmdType == AgentCommandDefine.RUN)
-        {
-            ExcuteCommand(cmd);
-        }
-        else if (cmd.CmdType == AgentCommandDefine.DASH)
-        {
-            ExcuteCommand(cmd);
-        }
-        else if (cmd.CmdType == AgentCommandDefine.IDLE)
-        {
-            DelayToMeterExcuteCommand(cmd);
-        }
-        else
-        {
-            Log.Error(LogLevel.Info, "AgentStatus_Idle - undefined cmd handle:{0}", cmd);
+            case AgentCommandDefine.BE_HIT:
+            case AgentCommandDefine.RUN:
+            case AgentCommandDefine.DASH:
+                ExcuteCommand(cmd);
+                break;
+            case AgentCommandDefine.ATTACK_HARD:
+            case AgentCommandDefine.ATTACK_LIGHT:
+                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
+                break;
+            case AgentCommandDefine.IDLE:
+                DelayToMeterExcuteCommand(cmd);
+                break;
+            case AgentCommandDefine.EMPTY:
+            default:
+                break;
         }
     }
 

@@ -30,33 +30,23 @@ public class AgentStatus_Attack : AgentStatus
     {
         base.CustomOnCommand(cmd);
 
-        if (cmd.CmdType == AgentCommandDefine.BE_HIT)
+        switch (cmd.CmdType)
         {
-            ExcuteCommand(cmd);
-        }
-        else if (cmd.CmdType == AgentCommandDefine.DASH)
-        {
-            ExcuteCommand(cmd);
-        }
-        else if (cmd.CmdType == AgentCommandDefine.ATTACK_HARD)
-        {
-            DelayToMeterExcuteCommand(cmd);
-        }
-        else if (cmd.CmdType == AgentCommandDefine.RUN)
-        {
-            DelayToMeterExcuteCommand(cmd);
-        }
-        else if (cmd.CmdType == AgentCommandDefine.IDLE)
-        {
-            DelayToMeterExcuteCommand(cmd);
-        }
-        else if (cmd.CmdType == AgentCommandDefine.EMPTY)
-        {
-            // EMTPY 里什么都不做
-        }
-        else
-        {
-            Log.Error(LogLevel.Info, "AgentStatus_Attack - undefined cmd handle:{0}", cmd);
+            case AgentCommandDefine.BE_HIT:
+                ExcuteCommand(cmd);
+                break;
+            case AgentCommandDefine.DASH:
+            case AgentCommandDefine.RUN:
+            case AgentCommandDefine.IDLE:
+                DelayToMeterExcuteCommand(cmd);
+                break;
+            case AgentCommandDefine.ATTACK_HARD:
+            case AgentCommandDefine.ATTACK_LIGHT:
+                DelayToMeterExcuteCommand(cmd);
+                break;
+            case AgentCommandDefine.EMPTY:
+            default:
+                break;
         }
     }
 
@@ -77,6 +67,7 @@ public class AgentStatus_Attack : AgentStatus
                     return;
                 case AgentCommandDefine.ATTACK_HARD:
                 case AgentCommandDefine.ATTACK_LIGHT:
+                    mAgent.MoveControl.TurnTo(towards);
                     break;
                 case AgentCommandDefine.EMPTY:
                 default:

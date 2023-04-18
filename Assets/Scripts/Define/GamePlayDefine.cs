@@ -25,11 +25,6 @@ public static class GamePlayDefine
     public const float AttackMeterProgressWait = 0.5f;
 
     /// <summary>
-    /// 冲刺指令执行的节拍进度判定
-    /// </summary>
-    public const float DashMeterProgressWait = 0.5f;
-
-    /// <summary>
     /// 冲刺时间
     /// </summary>
     public const float DashDuration = 0.2f;

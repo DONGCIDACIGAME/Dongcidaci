@@ -29,6 +29,30 @@ public class AgentStatus_Run : AgentStatus
         ResetAnimQueue();
     }
 
+    protected override void CustomOnCommand(AgentInputCommand cmd)
+    {
+        base.CustomOnCommand(cmd);
+
+        switch (cmd.CmdType)
+        {
+            case AgentCommandDefine.BE_HIT:
+            case AgentCommandDefine.DASH:
+            case AgentCommandDefine.IDLE:
+                ExcuteCommand(cmd);
+                break;
+            case AgentCommandDefine.ATTACK_HARD:
+            case AgentCommandDefine.ATTACK_LIGHT:
+                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
+                break;
+            case AgentCommandDefine.RUN:
+                DelayToMeterExcuteCommand(cmd);
+                break;
+            case AgentCommandDefine.EMPTY:
+            default:
+                break;
+        }
+    }
+
     protected override void CommandHandleOnMeter(int meterIndex)
     {
         if(_cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
@@ -36,13 +60,16 @@ public class AgentStatus_Run : AgentStatus
             Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}", cmdType, meterIndex);
             switch (cmdType)
             {
-                case AgentCommandDefine.ATTACK_HARD:
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.DASH:
+                case AgentCommandDefine.ATTACK_HARD:
+                case AgentCommandDefine.ATTACK_LIGHT:
                     ExcuteCommand(cmdType, towards);
                     return;
                 case AgentCommandDefine.RUN:
+                    mAgent.MoveControl.TurnTo(towards);
+                    break;
                 case AgentCommandDefine.EMPTY:
                 default:
                     break;

@@ -40,29 +40,23 @@ public class AgentStatus_Dash : AgentStatus
     {
         base.CustomOnCommand(cmd);
 
-        if (cmd.CmdType == AgentCommandDefine.BE_HIT)
+        switch (cmd.CmdType)
         {
-            ExcuteCommand(cmd);
-        }
-        else if (cmd.CmdType == AgentCommandDefine.ATTACK_HARD)
-        {
-            DelayToMeterExcuteCommand(cmd);
-        }
-        else if (cmd.CmdType == AgentCommandDefine.RUN)
-        {
-            DelayToMeterExcuteCommand(cmd);
-        }
-        else if (cmd.CmdType == AgentCommandDefine.DASH)
-        {
-            DelayToMeterExcuteCommand(cmd);
-        }
-        else if (cmd.CmdType == AgentCommandDefine.IDLE)
-        {
-            DelayToMeterExcuteCommand(cmd);
-        }
-        else
-        {
-            Log.Error(LogLevel.Info, "AgentStatus_Dash - undefined cmd handle:{0}", cmd);
+            case AgentCommandDefine.BE_HIT:
+            case AgentCommandDefine.IDLE:
+            case AgentCommandDefine.RUN:
+                ExcuteCommand(cmd);
+                break;
+            case AgentCommandDefine.ATTACK_HARD:
+            case AgentCommandDefine.ATTACK_LIGHT:
+                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
+                break;
+            case AgentCommandDefine.DASH:
+                DelayToMeterExcuteCommand(cmd);
+                break;
+            case AgentCommandDefine.EMPTY:
+            default:
+                break;
         }
     }
 
@@ -84,6 +78,7 @@ public class AgentStatus_Dash : AgentStatus
                     ExcuteCommand(cmdType, towards);
                     return;
                 case AgentCommandDefine.DASH:
+                    mAgent.MoveControl.TurnTo(towards);
                     break;
                 case AgentCommandDefine.EMPTY:
                 default:
