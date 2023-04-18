@@ -24,6 +24,7 @@ public class AgentStatus_Attack : AgentStatus
     public override void OnExit()
     {
         base.OnExit();
+        ResetAnimQueue();
     }
 
     protected override void CustomOnCommand(AgentInputCommand cmd)

@@ -75,7 +75,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         cmd = null;
         Vector3 towards = GetInputDirection();
 
-        if(!towards.Equals(Vector3.zero))
+        if(!towards.Equals(GamePlayDefine.InputDirection_NONE))
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
             cmd.Initialize(AgentCommandDefine.RUN, towards);

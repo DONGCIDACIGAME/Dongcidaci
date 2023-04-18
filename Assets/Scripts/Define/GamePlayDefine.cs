@@ -25,9 +25,9 @@ public static class GamePlayDefine
     public const float AttackMeterProgressWait = 0.5f;
 
     /// <summary>
-    /// 冲刺时间
+    /// 冲刺时间占一拍时间的百分比
     /// </summary>
-    public const float DashDuration = 0.2f;
+    public const float DashMeterTime = 0.8f;
 
     /// <summary>
     /// 空参数

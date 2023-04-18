@@ -21,7 +21,8 @@ public class AgentStatus_Dash : AgentStatus
 
         StartAnimQueue();
 
-        mAgent.MoveControl.Dash(mAgent.GetDashDistance(), GamePlayDefine.DashDuration);
+        float meterTime = MeterManager.Ins.GetCurrentMeterTime();
+        mAgent.MoveControl.Dash(mAgent.GetDashDistance(), GamePlayDefine.DashMeterTime * meterTime);
     }
 
     public override void OnExit()
@@ -43,15 +44,15 @@ public class AgentStatus_Dash : AgentStatus
         switch (cmd.CmdType)
         {
             case AgentCommandDefine.BE_HIT:
-            case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.RUN:
                 ExcuteCommand(cmd);
                 break;
             case AgentCommandDefine.ATTACK_HARD:
             case AgentCommandDefine.ATTACK_LIGHT:
                 ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
                 break;
+            case AgentCommandDefine.RUN:
             case AgentCommandDefine.DASH:
+            case AgentCommandDefine.IDLE:
                 DelayToMeterExcuteCommand(cmd);
                 break;
             case AgentCommandDefine.EMPTY:
@@ -72,9 +73,9 @@ public class AgentStatus_Dash : AgentStatus
             switch (cmdType)
             {
                 case AgentCommandDefine.ATTACK_HARD:
-                case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.RUN:
+                case AgentCommandDefine.IDLE:
                     ExcuteCommand(cmdType, towards);
                     return;
                 case AgentCommandDefine.DASH:

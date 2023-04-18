@@ -16,6 +16,10 @@ public abstract class AgentMoveControl
 
     public void TurnTo(Vector3 towards)
     {
+        if (towards.Equals(TurnToTowards))
+            return;
+
+        //Log.Error(LogLevel.Info, "TurnTo-{0}", towards);
         if (mAgent == null)
             return;
 
@@ -29,7 +33,6 @@ public abstract class AgentMoveControl
         TurnFromTowards = mAgent.GetTowards();
         TurnToTowards = towards;
 
-        Log.Logic("Turn");
         if (GameCommonConfig.AgentTurnSpeed == 0)
         {
             TurnTime = 0;

@@ -227,18 +227,18 @@ public abstract class AgentStatus : IAgentStatus
 
     protected virtual void CustomOnCommand(AgentInputCommand cmd) { }
 
-    private AgentInputCommand lastInputCmd;
+    //private AgentInputCommand lastInputCmd;
     public void OnCommand(AgentInputCommand cmd)
     {
         if (cmd == null)
             return;
 
-        // idle不重复处理
-        if (cmd.CmdType == AgentCommandDefine.IDLE && cmd.Equals(lastInputCmd))
-            return;
+        //// idle不重复处理
+        //if (cmd.CmdType == AgentCommandDefine.IDLE && cmd.Equals(lastInputCmd))
+        //    return;
 
         CustomOnCommand(cmd);
 
-        lastInputCmd = cmd;
+        //lastInputCmd = cmd;
     }
 }

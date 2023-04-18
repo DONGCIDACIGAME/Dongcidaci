@@ -47,12 +47,12 @@ public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
             return;
 
         AgentInputCommand cmd;
-        bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
-        if (!hasCmd)
-        {
+        //bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
+        //if (!hasCmd)
+        //{
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
             cmd.Initialize(AgentCommandDefine.IDLE, GamePlayDefine.InputDirection_NONE);
-        }
+        //}
         mAgent.OnCommand(cmd);
     }
 }
