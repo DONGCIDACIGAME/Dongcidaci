@@ -65,7 +65,7 @@ public class AgentStatus_Dash : AgentStatus
         if (meterIndex < mCurAnimStateEndMeter)
             return;
 
-        if (_cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
+        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
             Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}", cmdType, meterIndex);
 

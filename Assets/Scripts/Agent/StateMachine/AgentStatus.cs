@@ -13,7 +13,7 @@ public abstract class AgentStatus : IAgentStatus
     /// <summary>
     /// 等待执行的指令集合
     /// </summary>
-    protected AgentInputCommandBuffer _cmdBuffer;
+    protected AgentInputCommandBuffer cmdBuffer;
 
     public void Initialize(Agent agt, ChangeStatusDelegate cb)
     {
@@ -21,6 +21,7 @@ public abstract class AgentStatus : IAgentStatus
         mAgent = agt;
         mStateAnimQueue = new AgentStateAnimQueue();
         AgentStatusInfo statusInfo = mAgent.StatusGraph.GetStatusInfo(GetStatusName());
+        cmdBuffer = new AgentInputCommandBuffer();
         mStateAnimQueue.Initialize(statusInfo);
     }
 
@@ -111,7 +112,7 @@ public abstract class AgentStatus : IAgentStatus
     public virtual void OnMeter(int meterIndex)
     {
         CommandHandleOnMeter(meterIndex);
-        _cmdBuffer.ClearCommandBuffer();
+        cmdBuffer.ClearCommandBuffer();
         //Log.Error(LogLevel.Info, "Meter--{0}",meterIndex);
     }
 
@@ -180,7 +181,7 @@ public abstract class AgentStatus : IAgentStatus
 
     public void DelayToMeterExcuteCommand(AgentInputCommand cmd)
     {
-        _cmdBuffer.AddInputCommand(cmd);
+        cmdBuffer.AddInputCommand(cmd);
     }
 
     protected void ExcuteCommand(AgentInputCommand cmd)
@@ -233,7 +234,7 @@ public abstract class AgentStatus : IAgentStatus
             return;
 
         // idle不重复处理
-        if (lastInputCmd.CmdType == AgentCommandDefine.IDLE && cmd.CmdType == AgentCommandDefine.IDLE)
+        if (cmd.CmdType == AgentCommandDefine.IDLE && cmd.Equals(lastInputCmd))
             return;
 
         CustomOnCommand(cmd);

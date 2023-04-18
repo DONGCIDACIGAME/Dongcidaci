@@ -55,7 +55,7 @@ public class AgentStatus_Idle : AgentStatus
 
     protected override void CommandHandleOnMeter(int meterIndex)
     {
-        if (_cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
+        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
             Log.Logic(LogLevel.Info, "PeekCommand--{0}", cmdType);
             switch (cmdType)

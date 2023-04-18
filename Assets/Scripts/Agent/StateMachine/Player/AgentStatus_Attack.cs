@@ -55,7 +55,7 @@ public class AgentStatus_Attack : AgentStatus
         if (meterIndex < mCurAnimStateEndMeter)
             return;
 
-        if (_cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
+        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
             Log.Logic(LogLevel.Info, "PeekCommand--{0}", cmdType);
             switch (cmdType)
