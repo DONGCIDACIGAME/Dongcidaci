@@ -5,7 +5,6 @@ public abstract class AgentStatus : IAgentStatus
 {
     protected ChangeStatusDelegate ChangeStatus;
     protected Agent mAgent;
-    protected AgentStateAnimQueue mStateAnimQueue;
     protected AgentMoveControl mMoveControl;
     protected IInputHandle mInputHandle;
     protected int mCurAnimStateEndMeter;
@@ -19,10 +18,7 @@ public abstract class AgentStatus : IAgentStatus
     {
         ChangeStatus = cb;
         mAgent = agt;
-        mStateAnimQueue = new AgentStateAnimQueue();
-        AgentStatusInfo statusInfo = mAgent.StatusGraph.GetStatusInfo(GetStatusName());
         cmdBuffer = new AgentInputCommandBuffer();
-        mStateAnimQueue.Initialize(statusInfo);
     }
 
     public virtual void CustomInitialize()
@@ -53,7 +49,7 @@ public abstract class AgentStatus : IAgentStatus
         {
             mCurAnimStateEndMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, state.stateMeterLen);
             float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, mCurAnimStateEndMeter);
-            mAgent.AnimPlayer.CrossFadeToState(stateName, state.layer, state.normalizedTime, duration, state.animLen, totalMeterTime);
+            mAgent.AnimPlayer.CrossFadeToStateDynamic(stateName, state.layer, state.normalizedTime, duration, state.animLen, totalMeterTime);
         }
     }
 
@@ -69,44 +65,6 @@ public abstract class AgentStatus : IAgentStatus
         mInputHandle.SetEnable(false);
     }
 
-    protected void StartAnimQueue()
-    {
-        AgentAnimStateInfo state = mStateAnimQueue.GetCurAnimState();
-        if (state == null)
-            return;
-
-        AgentStatusCrossFadeToState(state);
-    }
-
-    protected void ResetAnimQueue()
-    {
-        mStateAnimQueue.Reset();
-    }
-
-    protected void AnimQueueMoveOn()
-    {
-        if (mStateAnimQueue == null)
-            return;
-
-        int ret = mStateAnimQueue.MoveNext();
-        AgentAnimStateInfo state = mStateAnimQueue.GetCurAnimState();
-
-        if (state == null)
-            return;
-
-        if (ret == AgentAnimDefine.AnimQueue_AnimKeep)
-        {
-            //Log.Logic(LogLevel.Info, "UpdateAnimSpeed---------cur progress:{0}", mAgent.AnimPlayer.CurStateProgress);
-            float duration = MeterManager.Ins.GetTimeToBaseMeter(state.stateMeterLen);
-            mCurAnimStateEndMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, state.stateMeterLen);
-            mAgent.AnimPlayer.UpdateAnimSpeedWithFix(state.layer,state.animLen, duration);
-        }
-        else if (ret == AgentAnimDefine.AnimQueue_AnimMoveNext)
-        {
-            //Log.Logic(LogLevel.Info, "AnimQueue_AnimMoveNext---------next state:{0}", state.stateName);
-            AgentStatusCrossFadeToState(state);
-        }
-    }
     protected abstract void CommandHandleOnMeter(int meterIndex);
 
     public virtual void OnMeter(int meterIndex)

@@ -18,13 +18,13 @@ public class AgentStatus_Attack : AgentStatus
     {
         base.OnEnter(context);
 
-        StartAnimQueue();
+        //StartAnimQueue();
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        ResetAnimQueue();
+        //ResetAnimQueue();
     }
 
     protected override void CustomOnCommand(AgentInputCommand cmd)
@@ -75,7 +75,7 @@ public class AgentStatus_Attack : AgentStatus
                     return;
             }
 
-            AnimQueueMoveOn();
+            //AnimQueueMoveOn();
         }
     }
 

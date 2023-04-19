@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class AgentStatus_Dash : AgentStatus
 {
+    private StepAnimDriver animDriver;
     public override string GetStatusName()
     {
         return AgentStatusDefine.DASH;
@@ -13,23 +14,22 @@ public class AgentStatus_Dash : AgentStatus
         base.CustomInitialize();
         mInputHandle = new KeyboardInputHandle_Dash(mAgent);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
+        animDriver = new StepAnimDriver(mAgent, GetStatusName());
     }
 
     public override void OnEnter(Dictionary<string, object> context)
     {
         base.OnEnter(context);
-
-        StartAnimQueue();
-
         float meterTime = MeterManager.Ins.GetCurrentMeterTime();
         mAgent.MoveControl.Dash(mAgent.GetDashDistance(), GamePlayDefine.DashMeterTime * meterTime);
+        mCurAnimStateEndMeter = animDriver.MoveNext();
     }
 
     public override void OnExit()
     {
         base.OnExit();
 
-        ResetAnimQueue();
+        animDriver.Reset();
     }
 
     public override void OnUpdate(float deltaTime)
@@ -86,7 +86,7 @@ public class AgentStatus_Dash : AgentStatus
                     break;
             }
 
-            AnimQueueMoveOn();
+            mCurAnimStateEndMeter = animDriver.MoveNext();
         }
     }
 }

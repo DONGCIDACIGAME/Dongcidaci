@@ -9,13 +9,6 @@ public class AgentAnimPlayer
     public Animator mAnimator;
 
     /// <summary>
-    /// 所有动画信息
-    /// 约定所有动画名称和状态机中的状态名称保持一致
-    /// 这样读取到所有的动画时长后即可知道对应的状态默认动画时长
-    /// </summary>
-    private Dictionary<string, float> mAnimInfoMap;
-
-    /// <summary>
     /// 当前状态名称
     /// </summary>
     public string CurStateName { get; private set; }
@@ -41,7 +34,6 @@ public class AgentAnimPlayer
 
     public AgentAnimPlayer()
     {
-        mAnimInfoMap = new Dictionary<string, float>();
         CurStateName = string.Empty;
     }
 
@@ -57,31 +49,15 @@ public class AgentAnimPlayer
             return;
         }
         mAnimator = animator;
-
-        AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
-        if(clips != null)
-        {
-            for (int i = 0; i < clips.Length; i++)
-            {
-                AnimationClip clip = clips[i];
-                string animName = clip.name;
-                float animLen = clip.length;
-
-                if(!mAnimInfoMap.ContainsKey(animName))
-                {
-                    mAnimInfoMap.Add(animName, animLen);
-                }
-            }
-        }
     }
 
-    public bool IsAnim(int layer, string animName)
+    public bool IsState(int layer, string stateName)
     {
         if (mAnimator == null)
             return false;
 
         AnimatorStateInfo state = mAnimator.GetCurrentAnimatorStateInfo(layer);
-        return state.IsName(animName);
+        return state.IsName(stateName);
     }
 
     /// <summary>
@@ -157,24 +133,19 @@ public class AgentAnimPlayer
 
     /// <summary>
     /// 在规定时间(归一化)内融合至指定动画并播放完成
+    /// 该方法的融合后动画的起始帧固定的
     /// </summary>
     /// <param name="stateName">状态名称</param>
     /// <param name="layer">动画所在层级</param>
     /// <param name="normalizedTime">动画融合所占时间(归一化)</param>
+    /// <param name="newStateStartProgress">新状态的起始帧在动画中的比例</param>
     /// <param name="targetDuration">新动画的预期播放时间</param>
     /// <param name="animLen">动画的原始时长（播放速度为1时）</param>
-    /// <param name="totalMeterLen">播放动画的节拍总时长</param>
-    public void CrossFadeToState(string stateName, int layer, float normalizedTime, float targetDuration, float animLen, float totalMeterLen)
+    public void CrossFadeToStateStatic(string stateName, int layer, float normalizedTime, float newStateStartProgress, float targetDuration, float animLen)
     {
-        if (totalMeterLen <= 0)
-        {
-            Log.Error(LogLevel.Normal, "CrossFadeToState Error, total meter len must be greater than 0!");
-            return;
-        }
-
         if (targetDuration <= 0)
         {
-            Log.Error(LogLevel.Normal, "CrossFadeToState Error, targetDuration must be greater than 0!");
+            Log.Error(LogLevel.Normal, "CrossFadeToStateStatic Error, targetDuration must be greater than 0!");
             return;
         }
 
@@ -190,7 +161,54 @@ public class AgentAnimPlayer
         }
 
         // 按照配置文件中的节拍时长设置动画速度
-        float animSpeed = animLen / totalMeterLen;
+        float animSpeed = animLen / targetDuration;
+
+        // 更新动画播放速度
+        UpdateAnimSpeed(animSpeed);
+
+        // 计算新动画的偏移时长
+        float timeOffset =  targetDuration * newStateStartProgress;
+        mAnimator.CrossFadeInFixedTime(stateName, normalizedTime * targetDuration, layer, timeOffset);
+    }
+
+
+    /// <summary>
+    /// 在规定时间(归一化)内融合至指定动画并播放完成
+    /// 该方法的融合后动画的起始帧是动态的
+    /// </summary>
+    /// <param name="stateName">状态名称</param>
+    /// <param name="layer">动画所在层级</param>
+    /// <param name="normalizedTime">动画融合所占时间(归一化)</param>
+    /// <param name="targetDuration">新动画的预期播放时间</param>
+    /// <param name="animLen">动画的原始时长（播放速度为1时）</param>
+    /// <param name="targetFullTime">动画完全播完所需要的预期时长（即假设融合后从第0帧开始播放）</param>
+    public void CrossFadeToStateDynamic(string stateName, int layer, float normalizedTime, float targetDuration, float animLen, float targetFullTime)
+    {
+        if (targetFullTime <= 0)
+        {
+            Log.Error(LogLevel.Normal, "CrossFadeToStateDynamic Error, targetFullTime must be greater than 0!");
+            return;
+        }
+
+        if (targetDuration <= 0)
+        {
+            Log.Error(LogLevel.Normal, "CrossFadeToStateDynamic Error, targetDuration must be greater than 0!");
+            return;
+        }
+
+        // 不能和同一个状态进行动画融合
+        if (CurStateName.Equals(stateName))
+            return;
+
+        // 归一化时间为0，就是不融合，直接播放
+        if (normalizedTime == 0)
+        {
+            PlayState(stateName, animLen, layer, 0, targetDuration);
+            return;
+        }
+
+        // 按照配置文件中的节拍时长设置动画速度
+        float animSpeed = animLen / targetFullTime;
 
         // 更新动画播放速度
         UpdateAnimSpeed(animSpeed);
@@ -217,10 +235,8 @@ public class AgentAnimPlayer
          */
 
         // 计算新动画的偏移时长（即按照上面的播放速度去播放动画又需要在结束拍卡点时，新动画的融合起点时间需要后移）
-        float timeOffset = totalMeterLen - targetDuration;
+        float timeOffset = targetFullTime - targetDuration;
         mAnimator.CrossFadeInFixedTime(stateName, normalizedTime * targetDuration, layer, timeOffset);
-
-
     }
 
 

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class AgentStatus_BeHit : AgentStatus
 {
+    private StepAnimDriver animDriver;
+
     public override string GetStatusName()
     {
         return AgentStatusDefine.BE_HIT;
@@ -12,14 +14,14 @@ public class AgentStatus_BeHit : AgentStatus
     {
         base.OnEnter(context);
 
-        StartAnimQueue();
+        mCurAnimStateEndMeter = animDriver.MoveNext();
     }
 
     public override void OnExit()
     {
         base.OnExit();
 
-        ResetAnimQueue();
+        animDriver.Reset();
     }
 
     protected override void CustomOnCommand(AgentInputCommand cmd)
@@ -69,7 +71,7 @@ public class AgentStatus_BeHit : AgentStatus
                     break;
             }
 
-            AnimQueueMoveOn();
+            mCurAnimStateEndMeter = animDriver.MoveNext();
         }
     }
 }
