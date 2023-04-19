@@ -14,11 +14,30 @@ public class AgentStatus_Attack : AgentStatus
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 
+    private void OnCombo(Combo cmb)
+    {
+        string stateName = cmb.animStateList[cmb.animStateList.Length - 1];
+        AgentAnimStateInfo state = mAgent.GetStateInfo("Attack",stateName);
+        /// TODO: 自定义的动画驱动器
+    }
+
     public override void OnEnter(Dictionary<string, object> context)
     {
         base.OnEnter(context);
 
-        //StartAnimQueue();
+        byte triggerCmd = (byte)context["triggerCmd"];
+        Vector3 towards = (Vector3)context["towards"];
+
+        if(towards != GamePlayDefine.InputDirection_NONE)
+        {
+            mAgent.MoveControl.TurnTo(towards);
+        }
+
+        Combo cmb = mComboHandler.OnInput(triggerCmd);
+        if(cmb != null)
+        {
+            OnCombo(cmb);
+        }
     }
 
     public override void OnExit()
@@ -83,7 +102,7 @@ public class AgentStatus_Attack : AgentStatus
     {
         base.OnUpdate(deltaTime);
 
-        mComboHandler.OnUpdate(deltaTime);
+        
     }
 
     public override string GetStatusName()

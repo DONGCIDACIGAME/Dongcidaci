@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
 using LitJson;
 
 public class AgentStautsGraphCenter
@@ -61,7 +60,7 @@ public class AgentStautsGraphCenter
 #if UNITY_EDITOR
         dirPath = PathDefine.EDITOR_DATA_DIR_PATH + "/AgentStatusData";
 #else
-        dirPath = PathDefine.RELEASE_DATA_DIR_PATH + "/StateInfo";
+        dirPath = PathDefine.RELEASE_DATA_DIR_PATH + "/AgentStatusData";
 #endif
         LoadAllAgentStatusDatas(dirPath);
     }

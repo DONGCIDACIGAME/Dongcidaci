@@ -151,6 +151,53 @@ public abstract class Agent : IEntity, IMeterHandler
         AnimPlayer = new AgentAnimPlayer();
     }
 
+    public AgentAnimStateInfo GetStateInfo(string statusName, string stateName)
+    {
+        AgentStatusInfo statusInfo = GetStatusInfo(statusName);
+        if (statusInfo == null)
+            return null;
+
+        if(statusInfo.animStates == null || statusInfo.animStates.Length == 0)
+        {
+            Log.Error(LogLevel.Normal, "GetStateInfo Failed, statusInfo.animStates is null or empty!");
+            return null;
+        }
+
+        for(int i = 0; i < statusInfo.animStates.Length; i++)
+        {
+            AgentAnimStateInfo stateInfo = statusInfo.animStates[i];
+            if (stateInfo.stateName == stateName)
+            {
+                return stateInfo;
+            }
+        }
+
+        return null;
+    }
+
+    public AgentStatusInfo GetStatusInfo(string statusName)
+    {
+        if (StatusGraph == null)
+        {
+            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, StatusGraph is null!");
+            return null;
+        }
+
+        if(StatusGraph.statusMap == null)
+        {
+            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, StatusGraph.statusMap is null!");
+            return null;
+        }
+
+        AgentStatusInfo statusInfo;
+        if (!StatusGraph.statusMap.TryGetValue(statusName, out statusInfo))
+        {
+            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, no status info named {0}", statusName);
+        }
+
+        return statusInfo;
+    }
+
     public void OnMeter(int meterIndex)
     {
         StatusMachine.OnMeter(meterIndex);

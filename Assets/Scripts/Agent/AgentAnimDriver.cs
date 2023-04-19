@@ -8,7 +8,7 @@
         mAgent = agt;
         if(agt != null)
         {
-            AgentStatusInfo statusInfo = agt.StatusGraph.GetStatusInfo(statusName);
+            AgentStatusInfo statusInfo = agt.GetStatusInfo(statusName);
             if(statusInfo != null)
             {
                 mAnimStates = statusInfo.animStates;

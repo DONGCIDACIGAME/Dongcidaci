@@ -1,0 +1,22 @@
+{
+	"agentName": "Robot",
+	"agentId": 3,
+	"combos": {
+		"attackLight": {
+			"comboName": "attackLight",
+			"inputList": [16],
+			"animStateList": ["attackLight"]
+		},
+		"attackHard": {
+			"comboName": "attackHard",
+			"inputList": [32],
+			"animStateList": ["attackHard"]
+		},
+		"test2": {
+			"comboName": "test2",
+			"inputList": [16,32],
+			"animStateList": ["attackLight","attackHard"]
+		}]
+		}
+	}
+}
