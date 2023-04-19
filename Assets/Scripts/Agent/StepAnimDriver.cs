@@ -1,4 +1,9 @@
-﻿public class StepAnimDriver : AgentAnimDriver
+﻿/// <summary>
+/// 步进式动画驱动
+/// 完全按照配置驱动动画进行
+/// 步进式的动画驱动，动画将会按照配置自动循环，即走完一遍配置的动画循环后从头开始
+/// </summary>
+public class StepAnimDriver : AgentAnimDriver
 {
     private int curStateIndex;
     private int curStateLoopRecord;
