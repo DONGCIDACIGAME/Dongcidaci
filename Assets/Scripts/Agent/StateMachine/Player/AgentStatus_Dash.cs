@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AgentStatus_Dash : AgentStatus
 {
-    private StepAnimDriver animDriver;
+    private StepLoopAnimDriver animDriver;
     public override string GetStatusName()
     {
         return AgentStatusDefine.DASH;
@@ -14,7 +14,7 @@ public class AgentStatus_Dash : AgentStatus
         base.CustomInitialize();
         mInputHandle = new KeyboardInputHandle_Dash(mAgent);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
-        animDriver = new StepAnimDriver(mAgent, GetStatusName());
+        animDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
     }
 
     public override void OnEnter(Dictionary<string, object> context)

@@ -3,10 +3,23 @@ using UnityEngine;
 
 public abstract class AgentStatus : IAgentStatus
 {
+    /// <summary>
+    /// 切换状态的代理方法
+    /// </summary>
     protected ChangeStatusDelegate ChangeStatus;
+
+
     protected Agent mAgent;
-    protected AgentMoveControl mMoveControl;
+
+    /// <summary>
+    /// 输入处理器
+    /// </summary>
     protected IInputHandle mInputHandle;
+
+    /// <summary>
+    /// 当前动画状态的结束拍
+    /// TODO:这里是否可以不放在这里
+    /// </summary>
     protected int mCurAnimStateEndMeter;
 
     /// <summary>
@@ -63,6 +76,19 @@ public abstract class AgentStatus : IAgentStatus
     public virtual void OnExit() 
     {
         mInputHandle.SetEnable(false);
+    }
+
+    public virtual void Dispose()
+    {
+        ChangeStatus = null;
+        mAgent = null;
+        mInputHandle = null;
+        mCurAnimStateEndMeter = 0;
+        if(cmdBuffer != null)
+        {
+            cmdBuffer.Dispose();
+            cmdBuffer = null;
+        }
     }
 
     protected abstract void CommandHandleOnMeter(int meterIndex);

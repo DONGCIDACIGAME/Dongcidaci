@@ -15,5 +15,5 @@
 
     public abstract void OnMeter(int meterIndex);
 
-    public abstract void OnUpdate(float deltaTime); 
+    public abstract void OnUpdate(float deltaTime);
 }

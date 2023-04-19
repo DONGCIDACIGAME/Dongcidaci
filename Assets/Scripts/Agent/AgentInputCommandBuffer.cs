@@ -1,6 +1,6 @@
 using UnityEngine;
-
-public class AgentInputCommandBuffer
+using GameEngine;
+public class AgentInputCommandBuffer : IGameDisposable
 {
     private byte cmdList;
     private Vector3[] directionList;
@@ -77,5 +77,11 @@ public class AgentInputCommandBuffer
         {
             directionList[i] = GamePlayDefine.InputDirection_NONE;
         }
+    }
+
+    public void Dispose()
+    {
+        cmdList = 0;
+        directionList = null;
     }
 }

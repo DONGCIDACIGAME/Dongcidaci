@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AgentStatus_Idle : AgentStatus
 {
-    private StepAnimDriver animDriver;
+    private StepLoopAnimDriver animDriver;
 
     public override string GetStatusName()
     {
@@ -15,7 +15,7 @@ public class AgentStatus_Idle : AgentStatus
         base.CustomInitialize();
         mInputHandle = new KeyboardInputHandle_Idle(mAgent);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
-        animDriver = new StepAnimDriver(mAgent, GetStatusName());
+        animDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
     }
 
     public override void OnEnter(Dictionary<string, object> context)
@@ -40,8 +40,10 @@ public class AgentStatus_Idle : AgentStatus
         {
             case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.RUN:
-            case AgentCommandDefine.DASH:
                 ExcuteCommand(cmd);
+                break;
+            case AgentCommandDefine.DASH:
+                ProgressWaitOnCommand(GamePlayDefine.DashMeterProgressWait, cmd);
                 break;
             case AgentCommandDefine.ATTACK_HARD:
             case AgentCommandDefine.ATTACK_LIGHT:
@@ -79,6 +81,15 @@ public class AgentStatus_Idle : AgentStatus
                 return;
 
             mCurAnimStateEndMeter = animDriver.MoveNext();
+        }
+    }
+
+    public override void Dispose()
+    {
+        if (animDriver != null)
+        {
+            animDriver.Dispose();
+            animDriver = null;
         }
     }
 }

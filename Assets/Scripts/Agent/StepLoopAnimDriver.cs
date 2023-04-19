@@ -3,29 +3,30 @@
 /// 完全按照配置驱动动画进行
 /// 步进式的动画驱动，动画将会按照配置自动循环，即走完一遍配置的动画循环后从头开始
 /// </summary>
-public class StepAnimDriver : AgentAnimDriver
+public class StepLoopAnimDriver : AgentAnimDriver
 {
     private int curStateIndex;
     private int curStateLoopRecord;
+    private bool inDriving;
 
-    public StepAnimDriver(Agent agt, string statusName) : base(agt, statusName)
+    public StepLoopAnimDriver(Agent agt, string statusName) : base(agt, statusName)
     {
         curStateIndex = 0;
         curStateLoopRecord = 0;
     }
 
-    protected int AnimKeepPlay()
+    protected int AnimRepeatePlay()
     {
         if (mCurAnimState == null)
         {
-            Log.Error(LogLevel.Normal, "AnimKeepPlay Error, mCurAnimState is null!");
+            Log.Error(LogLevel.Normal, "AnimRepeatePlay Error, mCurAnimState is null!");
             return MeterManager.Ins.MeterIndex;
         }
 
         float duration = MeterManager.Ins.GetTimeToBaseMeter(mCurAnimState.stateMeterLen);
         if (duration == 0)
         {
-            Log.Error(LogLevel.Normal, "AnimKeepPlay Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
+            Log.Error(LogLevel.Normal, "AnimRepeatePlay Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
             return MeterManager.Ins.MeterIndex;
         }
 
@@ -77,20 +78,22 @@ public class StepAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        if (mCurAnimState.loopTime > 0)
+        if(!inDriving)
         {
-            curStateLoopRecord++;
+            inDriving = true;
+            return AnimMoveNextPlay();
         }
 
-        // 规定循环次数设定为0时为无限循环
+        // 规定循环次数设定为0时为无限循环，不再记录循环次数
         if (mCurAnimState.loopTime == 0)
         {
-            return AnimKeepPlay();
+            return AnimRepeatePlay();
         }
 
-        if (curStateLoopRecord <= mCurAnimState.loopTime)
+        curStateLoopRecord++;
+        if (curStateLoopRecord < mCurAnimState.loopTime)
         {
-            return AnimKeepPlay();
+            return AnimRepeatePlay();
         }
 
         // 当前动画状态的循环次数达到目标循环次数时，进入下一个动画状态
@@ -117,6 +120,7 @@ public class StepAnimDriver : AgentAnimDriver
         curStateIndex = 0;
         curStateLoopRecord = 0;
         mCurAnimState = null;
+        inDriving = false;
     }
 
 }

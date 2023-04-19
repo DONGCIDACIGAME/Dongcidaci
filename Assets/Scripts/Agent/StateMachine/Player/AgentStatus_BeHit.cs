@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AgentStatus_BeHit : AgentStatus
 {
-    private StepAnimDriver animDriver;
+    private StepLoopAnimDriver animDriver;
 
     public override string GetStatusName()
     {

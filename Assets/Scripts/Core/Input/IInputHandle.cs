@@ -1,3 +1,4 @@
+using GameEngine;
 public interface IInputHandle
 {
     void OnUpdate(float deltaTime);
