@@ -35,7 +35,7 @@ public class AgentStatus_Attack : AgentStatus
     {
         string stateName = cmb.animStateList[cmb.animStateList.Length - 1];
         mCurAnimStateEndMeter = animDriver.PlayAnimState(stateName);
-        Log.Logic(LogLevel.Info, "OnCombo----{0}--{1}--cur meter:{2}, end meter:{3}", cmb.comboName, stateName, MeterManager.Ins.MeterIndex, mCurAnimStateEndMeter);
+        Log.Error(LogLevel.Info, "OnCombo----{0}--{1}--cur meter:{2}, end meter:{3}", cmb.comboName, stateName, MeterManager.Ins.MeterIndex, mCurAnimStateEndMeter);
     }
 
     public override void OnEnter(Dictionary<string, object> context)
@@ -50,7 +50,7 @@ public class AgentStatus_Attack : AgentStatus
             mAgent.MoveControl.TurnTo(towards);
         }
 
-        Combo cmb = mComboHandler.OnInput(triggerCmd);
+        Combo cmb = mComboHandler.OnCmd(triggerCmd);
         if (cmb != null)
         {
             OnCombo(cmb);
@@ -95,7 +95,7 @@ public class AgentStatus_Attack : AgentStatus
         if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
-            Combo cmb = mComboHandler.OnInput(cmdType);
+            Combo cmb = mComboHandler.OnCmd(cmdType);
             // 如果触发了combo，就走combo的配置
             if (cmb != null)
             {

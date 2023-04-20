@@ -16,11 +16,10 @@ public abstract class AgentMoveControl
 
     public void TurnTo(Vector3 towards)
     {
+        // 和上次的目标转向一致时不做重复处理
         if (towards.Equals(TurnToTowards))
             return;
 
-        if (towards.Equals(mAgent.GetTowards()))
-            return;
 
         //Log.Error(LogLevel.Info, "TurnTo-{0}", towards);
         if (mAgent == null)

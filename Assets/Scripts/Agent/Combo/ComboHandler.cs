@@ -76,17 +76,25 @@ public class ComboHandler
     /// <returns></returns>
     private bool CheckMatchCombo(byte newInput, List<byte> inputRecord, Combo cmb)
     {
-        if (cmb.inputList.Length > inputRecord.Count + 1)
+        if (cmb.inputList == null || cmb.inputList.Length == 0)
+        {
+            Log.Error(LogLevel.Info, "CheckMatchCombo Error, cmb.inputList null or empty!");
+            return false;
+        }
+
+        int len = cmb.inputList.Length;
+
+        if (len > inputRecord.Count + 1)
             return false;
 
-        if (newInput != cmb.inputList[0])
+        if (newInput != cmb.inputList[len-1])
             return false;
 
         if(inputRecord.Count > 0)
         {
-            for (int i = 1; i < cmb.inputList.Length; i++)
+            for (int i = 0; i < len-1; i++)
             {
-                if (cmb.inputList[i] != inputRecord[i - 1])
+                if (cmb.inputList[i] != inputRecord[i])
                     return false;
             }
         }
@@ -103,10 +111,14 @@ public class ComboHandler
         }
     }
 
-    public Combo OnInput(byte input)
+    public Combo OnCmd(byte cmd)
     {
         if (mSortedCombos == null || mSortedCombos.Count == 0)
+        {
+            Log.Error(LogLevel.Info, "ComboHandler OnInput  Error, mSortedCombos null or empty!");
             return null;
+        }
+
 
         for (int i = 0; i < mSortedCombos.Count; i++)
         {
@@ -115,13 +127,14 @@ public class ComboHandler
             if (cmb == null)
                 continue;
 
-            if(CheckMatchCombo(input, mComboRecord, cmb))
+            if(CheckMatchCombo(cmd, mComboRecord, cmb))
             {
                 ResetRecord(cmb);
                 return cmb;
             }
         }
 
+        Log.Error(LogLevel.Info, "ComboHandler OnInput  Error, no match combo with cmd:{0}", cmd);
         return null;
     }
 

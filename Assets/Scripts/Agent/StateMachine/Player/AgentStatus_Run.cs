@@ -81,9 +81,9 @@ public class AgentStatus_Run : AgentStatus
                 case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.ATTACK_HARD:
-                case AgentCommandDefine.ATTACK_LIGHT:
                     ExcuteCommand(cmdType, towards);
                     return;
+                case AgentCommandDefine.ATTACK_LIGHT:
                 case AgentCommandDefine.RUN:
                     mAgent.MoveControl.TurnTo(towards);
                     break;

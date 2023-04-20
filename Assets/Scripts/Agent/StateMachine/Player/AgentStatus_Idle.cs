@@ -66,6 +66,7 @@ public class AgentStatus_Idle : AgentStatus
             switch (cmdType)
             {
                 case AgentCommandDefine.RUN:
+                case AgentCommandDefine.ATTACK_LIGHT:
                 case AgentCommandDefine.ATTACK_HARD:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT:
