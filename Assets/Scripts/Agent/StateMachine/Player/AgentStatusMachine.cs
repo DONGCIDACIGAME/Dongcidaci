@@ -7,7 +7,7 @@ public class AgentStatusMachine
     private IAgentStatus mCurStatus;
     private Dictionary<string, IAgentStatus> mStatusMap;
     private Agent mAgent;
-
+    private AgentInputCommand lastInputCmd;
 
     public AgentStatusMachine()
     {
@@ -62,8 +62,17 @@ public class AgentStatusMachine
     {
         if (mCurStatus != null)
         {
+            // 不处理相同指令
+            // 相同指令即 同一拍同一个方向的同一个指令类型
+            if (cmd != null && cmd.Equals(lastInputCmd))
+            {
+                return;
+            }
+
             mCurStatus.OnCommand(cmd);
         }
+
+        lastInputCmd = AgentInputCommandPool.Ins.CreateAgentInputCommandCopy(cmd);
     }
 
     public void SwitchToStatus(string statusName, Dictionary<string, object> context)

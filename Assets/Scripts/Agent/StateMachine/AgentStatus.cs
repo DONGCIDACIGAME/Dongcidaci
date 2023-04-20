@@ -68,7 +68,7 @@ public abstract class AgentStatus : IAgentStatus
 
     public virtual void OnEnter(Dictionary<string, object> context) 
     {
-        Log.Logic(LogLevel.Info, "OnEnter Status:{0}", GetStatusName());
+        Log.Logic(LogLevel.Info, "OnEnter Status:{0}--cur meter:{1}", GetStatusName(), MeterManager.Ins.MeterIndex);
         mInputHandle.SetEnable(true);
     }
 
@@ -211,18 +211,11 @@ public abstract class AgentStatus : IAgentStatus
 
     protected virtual void CustomOnCommand(AgentInputCommand cmd) { }
 
-    //private AgentInputCommand lastInputCmd;
     public void OnCommand(AgentInputCommand cmd)
     {
         if (cmd == null)
             return;
 
-        //// idle不重复处理
-        //if (cmd.CmdType == AgentCommandDefine.IDLE && cmd.Equals(lastInputCmd))
-        //    return;
-
         CustomOnCommand(cmd);
-
-        //lastInputCmd = cmd;
     }
 }

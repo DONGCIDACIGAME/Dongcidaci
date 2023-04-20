@@ -9,6 +9,7 @@ public class StepLoopAnimDriver : AgentAnimDriver
     private int curStateLoopRecord;
     private bool inDriving;
 
+
     public StepLoopAnimDriver(Agent agt, string statusName) : base(agt, statusName)
     {
         curStateIndex = 0;

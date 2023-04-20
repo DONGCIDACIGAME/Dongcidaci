@@ -32,6 +32,11 @@ public class MeterManager : ModuleManager<MeterManager>
     /// </summary>
     private int totalMeterLen;
 
+    public int GetCurAudioTotalMeterLen()
+    {
+        return totalMeterLen;
+    }
+
     public override void Initialize()
     {
         mBaseMeterHandlers = new Dictionary<int, IMeterHandler>();
@@ -161,8 +166,9 @@ public class MeterManager : ModuleManager<MeterManager>
                     && timeRecord <= mCurAudioMeterData.baseMeters[meterIndex] + tolerance;
     }
 
-    public bool CheckTriggerCurrentMeter(float tolerance)
+    public bool CheckTriggered(float tolerance, out int triggerMeter)
     {
+        triggerMeter = 0;
         if (mCurAudioMeterData == null)
             return false;
 
@@ -181,7 +187,19 @@ public class MeterManager : ModuleManager<MeterManager>
         float trigger2_End = mCurAudioMeterData.baseMeters[nextMeter];
         float trigger2_Start = trigger2_End - tolerance;
 
-        return (timeRecord >= trigger1_Start && timeRecord <= trigger1_End) || (timeRecord >= trigger2_Start && timeRecord <= trigger2_End);
+        if(timeRecord >= trigger1_Start && timeRecord <= trigger1_End)
+        {
+            triggerMeter = MeterIndex;
+            return true;
+        }
+
+        if (timeRecord >= trigger2_Start && timeRecord <= trigger2_End)
+        {
+            triggerMeter = GetMeterIndex(MeterIndex, 1);
+            return true;
+        }
+
+        return false;
     }
 
     private void TriggerBaseMeter()

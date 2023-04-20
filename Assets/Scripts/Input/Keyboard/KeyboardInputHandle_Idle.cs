@@ -27,7 +27,7 @@ public class KeyboardInputHandle_Idle : AgentKeyboardInputHandle
         if (!hasCmd)
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
-            cmd.Initialize(AgentCommandDefine.IDLE, GamePlayDefine.InputDirection_NONE);
+            cmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, GamePlayDefine.InputDirection_NONE);
         }
         mAgent.OnCommand(cmd);
     }

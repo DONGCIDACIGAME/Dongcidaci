@@ -1,8 +1,9 @@
 ﻿public class AgentAnimDriver
 {
     protected Agent mAgent;
-    protected AgentAnimStateInfo[] mAnimStates;
     protected AgentAnimStateInfo mCurAnimState;
+    protected AgentAnimStateInfo[] mAnimStates;
+
     public AgentAnimDriver(Agent agt, string statusName)
     {
         mAgent = agt;

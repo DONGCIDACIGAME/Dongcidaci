@@ -64,6 +64,22 @@
 				"normalizedTime": 0.2,
 				"layer": 0,
 				"animLen": 0.833
+			},{
+				"stateName": "attackLight",
+				"loopTime": 1,
+				"animName": "attackSlight 1",
+				"stateMeterLen": 1,
+				"normalizedTime": 0.2,
+				"layer": 0,
+				"animLen": 0.5
+			},{
+				"stateName": "attackHard",
+				"loopTime": 1,
+				"animName": "attackHeavy 1",
+				"stateMeterLen": 1,
+				"normalizedTime": 0.2,
+				"layer": 0,
+				"animLen": 0.733
 			}]
 		},
 		"Dash": {

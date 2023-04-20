@@ -38,10 +38,10 @@ public abstract class AgentKeyboardInputHandle : InputHandle
     {
         cmd = null;
         Vector3 towards = GetInputDirection();
-        if (Input.GetKeyDown(InputDef.DashKeyCode) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.DashMeterCheckTolerance))
+        if (Input.GetKeyDown(InputDef.DashKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.DashMeterCheckTolerance, out int triggerMeter))
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
-            cmd.Initialize(AgentCommandDefine.DASH, towards);
+            cmd.Initialize(AgentCommandDefine.DASH, triggerMeter, towards);
             return true;
         }
 
@@ -51,19 +51,20 @@ public abstract class AgentKeyboardInputHandle : InputHandle
     protected bool GetAttackInputCmd(out AgentInputCommand cmd)
     {
         cmd = null;
+        int triggerMeter = -1;
         Vector3 towards = GetInputDirection();
 
-        if (Input.GetKeyDown(InputDef.LightAttackKeyCode) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
+        if (Input.GetKeyDown(InputDef.LightAttackKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, out triggerMeter))
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
-            cmd.Initialize(AgentCommandDefine.ATTACK_HARD, towards);
+            cmd.Initialize(AgentCommandDefine.ATTACK_LIGHT, triggerMeter, towards);
             return true;
         }
 
-        if (Input.GetKeyDown(InputDef.HardAttackKeyCode) && MeterManager.Ins.CheckTriggerCurrentMeter(GamePlayDefine.AttackMeterCheckTolerance))
+        if (Input.GetKeyDown(InputDef.HardAttackKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, out triggerMeter))
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
-            cmd.Initialize(AgentCommandDefine.ATTACK_HARD, towards);
+            cmd.Initialize(AgentCommandDefine.ATTACK_HARD, triggerMeter, towards);
             return true;
         }
 
@@ -78,7 +79,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         if(!towards.Equals(GamePlayDefine.InputDirection_NONE))
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
-            cmd.Initialize(AgentCommandDefine.RUN, towards);
+            cmd.Initialize(AgentCommandDefine.RUN, MeterManager.Ins.MeterIndex, towards);
             return true;
         }
 

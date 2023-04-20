@@ -6,19 +6,36 @@ using UnityEngine;
 public class AgentStatus_Attack : AgentStatus
 {
     private ComboHandler mComboHandler;
+    private CustomAnimDriver animDriver;
+    private bool[] mTriggerRecord;
 
     public override void CustomInitialize()
     {
         mComboHandler = new ComboHandler();
+        ComboGraph cg = DataCenter.Ins.AgentComboGraphCenter.GetAgentComboGraph(mAgent.GetAgentId());
+        mComboHandler.Initialize(cg);
         mInputHandle = new KeyboardInputHandle_Attack(mAgent);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
+        animDriver = new CustomAnimDriver(mAgent, GetStatusName());
+        mTriggerRecord = new bool[MeterManager.Ins.GetCurAudioTotalMeterLen()];
+    }
+
+    private void ResetTriggerRecord()
+    {
+        if (mTriggerRecord == null)
+            return;
+
+        for(int i = 0;i<mTriggerRecord.Length;i++)
+        {
+            mTriggerRecord[i] = false;
+        }
     }
 
     private void OnCombo(Combo cmb)
     {
         string stateName = cmb.animStateList[cmb.animStateList.Length - 1];
-        AgentAnimStateInfo state = mAgent.GetStateInfo("Attack",stateName);
-        /// TODO: 自定义的动画驱动器
+        mCurAnimStateEndMeter = animDriver.PlayAnimState(stateName);
+        Log.Logic(LogLevel.Info, "OnCombo----{0}--{1}--cur meter:{2}, end meter:{3}", cmb.comboName, stateName, MeterManager.Ins.MeterIndex, mCurAnimStateEndMeter);
     }
 
     public override void OnEnter(Dictionary<string, object> context)
@@ -34,7 +51,7 @@ public class AgentStatus_Attack : AgentStatus
         }
 
         Combo cmb = mComboHandler.OnInput(triggerCmd);
-        if(cmb != null)
+        if (cmb != null)
         {
             OnCombo(cmb);
         }
@@ -43,7 +60,6 @@ public class AgentStatus_Attack : AgentStatus
     public override void OnExit()
     {
         base.OnExit();
-        //ResetAnimQueue();
     }
 
     protected override void CustomOnCommand(AgentInputCommand cmd)
@@ -62,6 +78,7 @@ public class AgentStatus_Attack : AgentStatus
                 break;
             case AgentCommandDefine.ATTACK_HARD:
             case AgentCommandDefine.ATTACK_LIGHT:
+
                 DelayToMeterExcuteCommand(cmd);
                 break;
             case AgentCommandDefine.EMPTY:
@@ -77,7 +94,15 @@ public class AgentStatus_Attack : AgentStatus
 
         if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
-            Log.Logic(LogLevel.Info, "PeekCommand--{0}", cmdType);
+            Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
+            Combo cmb = mComboHandler.OnInput(cmdType);
+            // 如果触发了combo，就走combo的配置
+            if (cmb != null)
+            {
+                OnCombo(cmb);
+                return;
+            }
+
             switch (cmdType)
             {
                 case AgentCommandDefine.IDLE:
@@ -93,8 +118,16 @@ public class AgentStatus_Attack : AgentStatus
                 default:
                     return;
             }
+        }
+    }
 
-            //AnimQueueMoveOn();
+    public override void OnMeter(int meterIndex)
+    {
+        base.OnMeter(meterIndex);
+
+        if(meterIndex == 0)
+        {
+            ResetTriggerRecord();
         }
     }
 
@@ -108,5 +141,16 @@ public class AgentStatus_Attack : AgentStatus
     public override string GetStatusName()
     {
         return AgentStatusDefine.ATTACK;
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        if(animDriver != null)
+        {
+            animDriver.Dispose();
+            animDriver = null;
+        }
     }
 }

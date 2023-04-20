@@ -17,16 +17,27 @@ public class AgentInputCommandPool : Singleton<AgentInputCommandPool>
         mPool.Push(cmd);
     }
 
+    public AgentInputCommand CreateAgentInputCommandCopy(AgentInputCommand cmd)
+    {
+        if (cmd == null)
+            return null;
+
+        AgentInputCommand newCmd = PopAgentInputCommand();
+        newCmd.Copy(cmd);
+        return newCmd;
+    }
+
     public AgentInputCommand PopAgentInputCommand()
     {
-        if (mPool.Count == 0)
-            return new AgentInputCommand();
+        if(mPool.TryPop(out AgentInputCommand cmd))
+        {
+            if (cmd != null)
+            {
+                cmd.Clear();
+                return cmd;
+            }
+        }
 
-        AgentInputCommand cmd = mPool.Pop();
-        if (cmd == null)
-            return new AgentInputCommand();
-
-        cmd.Clear();
-        return cmd;
+        return new AgentInputCommand();
     }
 }

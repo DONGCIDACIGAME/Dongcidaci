@@ -19,6 +19,9 @@ public abstract class AgentMoveControl
         if (towards.Equals(TurnToTowards))
             return;
 
+        if (towards.Equals(mAgent.GetTowards()))
+            return;
+
         //Log.Error(LogLevel.Info, "TurnTo-{0}", towards);
         if (mAgent == null)
             return;

@@ -33,11 +33,11 @@ public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
             bool inMeterTrigger = MeterManager.Ins.IsInMeterWithTolorance(MeterManager.Ins.MeterIndex, tolerance);
             if (inMeterTrigger)
             {
-                cmd.Initialize(AgentCommandDefine.EMPTY, GamePlayDefine.InputDirection_NONE);
+                cmd.Initialize(AgentCommandDefine.EMPTY, MeterManager.Ins.MeterIndex, GamePlayDefine.InputDirection_NONE);
             }
             else
             {
-                cmd.Initialize(AgentCommandDefine.IDLE, GamePlayDefine.InputDirection_NONE);
+                cmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, GamePlayDefine.InputDirection_NONE);
             }
         }
         mAgent.OnCommand(cmd);
