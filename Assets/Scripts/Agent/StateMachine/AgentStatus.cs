@@ -76,6 +76,7 @@ public abstract class AgentStatus : IAgentStatus
     public virtual void OnExit() 
     {
         mInputHandle.SetEnable(false);
+        cmdBuffer.ClearCommandBuffer();
     }
 
     public virtual void Dispose()

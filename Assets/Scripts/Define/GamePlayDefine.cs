@@ -6,13 +6,13 @@ public static class GamePlayDefine
     /// 攻击指令的节拍检测容差
     /// 向前和向后各
     /// </summary>
-    public const float AttackMeterCheckTolerance = 0.3f;
+    public const float AttackMeterCheckTolerance = 0.15f;
 
     /// <summary>
     /// 冲刺指令的节拍检测容差
     /// 向前和向后各
     /// </summary>
-    public const float DashMeterCheckTolerance = 0.3f;
+    public const float DashMeterCheckTolerance = 0.15f;
 
     /// <summary>
     /// 处于输入检测阶段，空状态的最长时间

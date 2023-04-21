@@ -74,16 +74,16 @@ public class AgentStatus_Run : AgentStatus
     {
         if(cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
-            Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}", cmdType, meterIndex);
+            Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}, towards:{2}", cmdType, meterIndex, towards);
             switch (cmdType)
             {
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.DASH:
+                case AgentCommandDefine.ATTACK_LIGHT:
                 case AgentCommandDefine.ATTACK_HARD:
                     ExcuteCommand(cmdType, towards);
                     return;
-                case AgentCommandDefine.ATTACK_LIGHT:
                 case AgentCommandDefine.RUN:
                     mAgent.MoveControl.TurnTo(towards);
                     break;

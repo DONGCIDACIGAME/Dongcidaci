@@ -46,13 +46,17 @@ public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
         if (mAgent == null)
             return;
 
+        //AgentInputCommand cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
+        //cmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, GamePlayDefine.InputDirection_NONE);
+        //mAgent.OnCommand(cmd);
+
         AgentInputCommand cmd;
-        //bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
-        //if (!hasCmd)
-        //{
+        bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
+        if (!hasCmd)
+        {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
             cmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, GamePlayDefine.InputDirection_NONE);
-        //}
+        }
         mAgent.OnCommand(cmd);
     }
 }

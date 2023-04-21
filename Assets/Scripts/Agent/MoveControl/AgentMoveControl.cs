@@ -3,76 +3,20 @@ using UnityEngine;
 public abstract class AgentMoveControl
 {
     protected Agent mAgent;
+    protected MoveControl mMoveCtl;
+    protected TurnControl mTurnCtl;
     public AgentMoveControl(Agent agt)
     {
         mAgent = agt;
+        mMoveCtl = new MoveControl(agt);
+        mTurnCtl = new TurnControl(agt);
     }
 
-
-    private Vector3 TurnFromTowards;
-    private Vector3 TurnToTowards;
-    private float TurnTime;
-    private float TurnRecord;
-
-    public void TurnTo(Vector3 towards)
-    {
-        // 和上次的目标转向一致时不做重复处理
-        if (towards.Equals(TurnToTowards))
-            return;
-
-
-        //Log.Error(LogLevel.Info, "TurnTo-{0}", towards);
-        if (mAgent == null)
-            return;
-
-        if (towards.Equals(Vector3.zero))
-        {
-            TurnTime = 0;
-            TurnRecord = 0;
-            return;
-        }
-
-        TurnFromTowards = mAgent.GetTowards();
-        TurnToTowards = towards;
-
-        if (GameCommonConfig.AgentTurnSpeed == 0)
-        {
-            TurnTime = 0;
-        }
-        else
-        {
-            float rotation = Quaternion.FromToRotation(TurnFromTowards, TurnToTowards).eulerAngles.y; 
-            if(rotation > 180)
-            {
-                rotation -= 180;
-            }
-
-            TurnTime = rotation / GameCommonConfig.AgentTurnSpeed;
-        }
-        TurnRecord = 0;
-    }
-
-
-    private Vector3 MoveToPos;
-    private Vector3 MoveFromPos;
-    private float MoveTime;
-    private float MoveRecord;
-    public virtual void Dash(float distance, float duration)
-    {
-        Vector3 offset = mAgent.GetTowards() * distance;
-        MoveFromPos = mAgent.GetPosition();
-        MoveToPos = MoveFromPos + offset;
-
-        if (duration == 0)
-        {
-            mAgent.SetPosition(MoveToPos);
-            return;
-        }
-
-        MoveTime = duration;
-        MoveRecord = 0;
-    }
-
+    /// <summary>
+    /// 移动（由外部驱动）
+    /// 由外部驱动的好处是可以根据状态来控制，只有需要移动的状态才驱动进行移动
+    /// </summary>
+    /// <param name="deltaTime">移动间隔时间</param>
     public virtual void Move(float deltaTime)
     {
         // 控制移动
@@ -80,43 +24,41 @@ public abstract class AgentMoveControl
         mAgent.SetPosition(pos);
     }
 
+    public void Dash(float distance, float duration)
+    {
+        Vector3 towards = GamePlayDefine.InputDirection_NONE;
+        // 获取转向控件的目标转向
+        if (mTurnCtl != null)
+            towards = mTurnCtl.GetTowards();
+
+        // 如果没有目标转向，则使用角色当前朝向
+        if (towards.Equals(GamePlayDefine.InputDirection_NONE))
+            towards = mAgent.GetTowards();
+
+        if (mMoveCtl != null)
+            mMoveCtl.MoveTo(towards, distance, duration);
+    }
+
+    /// <summary>
+    /// 转向
+    /// </summary>
+    /// <param name="towards">目标朝向</param>
+    public void TurnTo(Vector3 towards)
+    {
+        if (mTurnCtl != null)
+            mTurnCtl.TurnTo(towards);
+    }
+
+
     public virtual void OnUpdate(float deltaTime)
     {
         if (mAgent == null)
             return;
 
-        if (TurnTime > 0)
-        {
-            TurnRecord += deltaTime;
+        if (mMoveCtl != null)
+            mMoveCtl.OnUpdate(deltaTime);
 
-            if (TurnRecord < TurnTime)
-            {
-                Vector3 towards = Vector3.Lerp(TurnFromTowards, TurnToTowards, TurnRecord / TurnTime);
-                mAgent.SetTowards(towards);
-            }
-            else
-            {
-                TurnTime = 0;
-                TurnRecord = 0;
-                mAgent.SetTowards(TurnToTowards);
-            }
-        }
-
-        if(MoveTime > 0)
-        {
-            MoveRecord += deltaTime;
-
-            if (MoveRecord < MoveTime)
-            {
-                Vector3 pos = Vector3.Lerp(MoveFromPos, MoveToPos, MoveRecord / MoveTime);
-                mAgent.SetPosition(pos);
-            }
-            else
-            {
-                MoveTime = 0;
-                MoveRecord = 0;
-                mAgent.SetPosition(MoveToPos);
-            }
-        }
+        if (mTurnCtl != null)
+            mTurnCtl.OnUpdate(deltaTime);
     }
 }

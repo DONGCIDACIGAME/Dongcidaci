@@ -99,6 +99,7 @@ public class AgentStatus_Attack : AgentStatus
             // 如果触发了combo，就走combo的配置
             if (cmb != null)
             {
+                mAgent.MoveControl.TurnTo(towards);
                 OnCombo(cmb);
                 return;
             }

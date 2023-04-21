@@ -17,11 +17,16 @@ public class AgentStatus_Dash : AgentStatus
         animDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
     }
 
+    private void Dash()
+    {
+        float meterTime = MeterManager.Ins.GetCurrentMeterTime();
+        mAgent.MoveControl.Dash(mAgent.GetDashDistance(), GamePlayDefine.DashMeterTime * meterTime);
+    }
+
     public override void OnEnter(Dictionary<string, object> context)
     {
         base.OnEnter(context);
-        float meterTime = MeterManager.Ins.GetCurrentMeterTime();
-        mAgent.MoveControl.Dash(mAgent.GetDashDistance(), GamePlayDefine.DashMeterTime * meterTime);
+        Dash();
         mCurAnimStateEndMeter = animDriver.MoveNext();
     }
 
@@ -72,13 +77,15 @@ public class AgentStatus_Dash : AgentStatus
 
             switch (cmdType)
             {
-                case AgentCommandDefine.ATTACK_HARD:
                 case AgentCommandDefine.BE_HIT:
+                case AgentCommandDefine.ATTACK_LIGHT:
+                case AgentCommandDefine.ATTACK_HARD:
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.IDLE:
                     ExcuteCommand(cmdType, towards);
                     return;
                 case AgentCommandDefine.DASH:
+                    Dash();
                     mAgent.MoveControl.TurnTo(towards);
                     break;
                 case AgentCommandDefine.EMPTY:
