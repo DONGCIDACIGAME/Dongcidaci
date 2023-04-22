@@ -5,6 +5,7 @@ public abstract class AgentMoveControl
     protected Agent mAgent;
     protected MoveControl mMoveCtl;
     protected TurnControl mTurnCtl;
+
     public AgentMoveControl(Agent agt)
     {
         mAgent = agt;
