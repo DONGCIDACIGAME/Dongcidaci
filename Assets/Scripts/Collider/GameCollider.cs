@@ -4,6 +4,7 @@ public class GameCollider
 {
     private Vector2 mPos;
     private Rect mArea;
+    public int ColliderType;
 
     public GameCollider(Vector2 pos, Rect area)
     {
