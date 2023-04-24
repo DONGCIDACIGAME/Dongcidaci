@@ -76,7 +76,7 @@
 				"stateName": "attackHard",
 				"loopTime": 1,
 				"animName": "attackHeavy 1",
-				"stateMeterLen": 1,
+				"stateMeterLen": 2,
 				"normalizedTime": 0.2,
 				"layer": 0,
 				"animLen": 0.5

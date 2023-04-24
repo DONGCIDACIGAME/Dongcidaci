@@ -24,7 +24,6 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>uint32 ID = 1;</code>
-     * @return The iD.
      */
     int getID();
 
@@ -34,7 +33,6 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Name = 2;</code>
-     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -43,7 +41,6 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Name = 2;</code>
-     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -54,7 +51,6 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Prefab = 3;</code>
-     * @return The prefab.
      */
     java.lang.String getPrefab();
     /**
@@ -63,7 +59,6 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Prefab = 3;</code>
-     * @return The bytes for prefab.
      */
     com.google.protobuf.ByteString
         getPrefabBytes();
@@ -74,7 +69,6 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>float Speed = 4;</code>
-     * @return The speed.
      */
     float getSpeed();
 
@@ -84,14 +78,13 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>float DashDistance = 5;</code>
-     * @return The dashDistance.
      */
     float getDashDistance();
   }
   /**
    * Protobuf type {@code DongciDaci.HeroBaseCfg}
    */
-  public static final class HeroBaseCfg extends
+  public  static final class HeroBaseCfg extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:DongciDaci.HeroBaseCfg)
       HeroBaseCfgOrBuilder {
@@ -101,15 +94,11 @@ public final class HeroCfg {
       super(builder);
     }
     private HeroBaseCfg() {
+      iD_ = 0;
       name_ = "";
       prefab_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new HeroBaseCfg();
+      speed_ = 0F;
+      dashDistance_ = 0F;
     }
 
     @java.lang.Override
@@ -125,6 +114,7 @@ public final class HeroCfg {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -163,7 +153,7 @@ public final class HeroCfg {
               break;
             }
             default: {
-              if (!parseUnknownField(
+              if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -202,9 +192,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>uint32 ID = 1;</code>
-     * @return The iD.
      */
-    @java.lang.Override
     public int getID() {
       return iD_;
     }
@@ -217,9 +205,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Name = 2;</code>
-     * @return The name.
      */
-    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -238,9 +224,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Name = 2;</code>
-     * @return The bytes for name.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -263,9 +247,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Prefab = 3;</code>
-     * @return The prefab.
      */
-    @java.lang.Override
     public java.lang.String getPrefab() {
       java.lang.Object ref = prefab_;
       if (ref instanceof java.lang.String) {
@@ -284,9 +266,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Prefab = 3;</code>
-     * @return The bytes for prefab.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getPrefabBytes() {
       java.lang.Object ref = prefab_;
@@ -309,9 +289,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>float Speed = 4;</code>
-     * @return The speed.
      */
-    @java.lang.Override
     public float getSpeed() {
       return speed_;
     }
@@ -324,9 +302,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>float DashDistance = 5;</code>
-     * @return The dashDistance.
      */
-    @java.lang.Override
     public float getDashDistance() {
       return dashDistance_;
     }
@@ -402,20 +378,23 @@ public final class HeroCfg {
       }
       com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg other = (com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg) obj;
 
-      if (getID()
-          != other.getID()) return false;
-      if (!getName()
-          .equals(other.getName())) return false;
-      if (!getPrefab()
-          .equals(other.getPrefab())) return false;
-      if (java.lang.Float.floatToIntBits(getSpeed())
-          != java.lang.Float.floatToIntBits(
-              other.getSpeed())) return false;
-      if (java.lang.Float.floatToIntBits(getDashDistance())
-          != java.lang.Float.floatToIntBits(
-              other.getDashDistance())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && (getID()
+          == other.getID());
+      result = result && getName()
+          .equals(other.getName());
+      result = result && getPrefab()
+          .equals(other.getPrefab());
+      result = result && (
+          java.lang.Float.floatToIntBits(getSpeed())
+          == java.lang.Float.floatToIntBits(
+              other.getSpeed()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getDashDistance())
+          == java.lang.Float.floatToIntBits(
+              other.getDashDistance()));
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -617,35 +596,35 @@ public final class HeroCfg {
 
       @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -712,9 +691,7 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>uint32 ID = 1;</code>
-       * @return The iD.
        */
-      @java.lang.Override
       public int getID() {
         return iD_;
       }
@@ -724,8 +701,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>uint32 ID = 1;</code>
-       * @param value The iD to set.
-       * @return This builder for chaining.
        */
       public Builder setID(int value) {
         
@@ -739,7 +714,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>uint32 ID = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearID() {
         
@@ -755,7 +729,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
-       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -775,7 +748,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
-       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -796,8 +768,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
-       * @param value The name to set.
-       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -815,7 +785,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -829,8 +798,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
-       * @param value The bytes for name to set.
-       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -851,7 +818,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Prefab = 3;</code>
-       * @return The prefab.
        */
       public java.lang.String getPrefab() {
         java.lang.Object ref = prefab_;
@@ -871,7 +837,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Prefab = 3;</code>
-       * @return The bytes for prefab.
        */
       public com.google.protobuf.ByteString
           getPrefabBytes() {
@@ -892,8 +857,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Prefab = 3;</code>
-       * @param value The prefab to set.
-       * @return This builder for chaining.
        */
       public Builder setPrefab(
           java.lang.String value) {
@@ -911,7 +874,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Prefab = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPrefab() {
         
@@ -925,8 +887,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Prefab = 3;</code>
-       * @param value The bytes for prefab to set.
-       * @return This builder for chaining.
        */
       public Builder setPrefabBytes(
           com.google.protobuf.ByteString value) {
@@ -947,9 +907,7 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float Speed = 4;</code>
-       * @return The speed.
        */
-      @java.lang.Override
       public float getSpeed() {
         return speed_;
       }
@@ -959,8 +917,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float Speed = 4;</code>
-       * @param value The speed to set.
-       * @return This builder for chaining.
        */
       public Builder setSpeed(float value) {
         
@@ -974,7 +930,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float Speed = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSpeed() {
         
@@ -990,9 +945,7 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float DashDistance = 5;</code>
-       * @return The dashDistance.
        */
-      @java.lang.Override
       public float getDashDistance() {
         return dashDistance_;
       }
@@ -1002,8 +955,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float DashDistance = 5;</code>
-       * @param value The dashDistance to set.
-       * @return This builder for chaining.
        */
       public Builder setDashDistance(float value) {
         
@@ -1017,7 +968,6 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float DashDistance = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDashDistance() {
         
@@ -1028,7 +978,7 @@ public final class HeroCfg {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
       @java.lang.Override
@@ -1119,7 +1069,7 @@ public final class HeroCfg {
   /**
    * Protobuf type {@code DongciDaci.HeroCfg_Data}
    */
-  public static final class HeroCfg_Data extends
+  public  static final class HeroCfg_Data extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:DongciDaci.HeroCfg_Data)
       HeroCfg_DataOrBuilder {
@@ -1129,13 +1079,6 @@ public final class HeroCfg {
       super(builder);
     }
     private HeroCfg_Data() {
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new HeroCfg_Data();
     }
 
     @java.lang.Override
@@ -1163,7 +1106,7 @@ public final class HeroCfg {
               done = true;
               break;
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
                 heroBaseCfgItems_ = com.google.protobuf.MapField.newMapField(
                     HeroBaseCfgItemsDefaultEntryHolder.defaultEntry);
                 mutable_bitField0_ |= 0x00000001;
@@ -1176,7 +1119,7 @@ public final class HeroCfg {
               break;
             }
             default: {
-              if (!parseUnknownField(
+              if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -1249,7 +1192,6 @@ public final class HeroCfg {
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
 
-    @java.lang.Override
     public boolean containsHeroBaseCfgItems(
         int key) {
       
@@ -1258,7 +1200,6 @@ public final class HeroCfg {
     /**
      * Use {@link #getHeroBaseCfgItemsMap()} instead.
      */
-    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> getHeroBaseCfgItems() {
       return getHeroBaseCfgItemsMap();
@@ -1266,7 +1207,6 @@ public final class HeroCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
-    @java.lang.Override
 
     public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> getHeroBaseCfgItemsMap() {
       return internalGetHeroBaseCfgItems().getMap();
@@ -1274,7 +1214,6 @@ public final class HeroCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
-    @java.lang.Override
 
     public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
         int key,
@@ -1287,7 +1226,6 @@ public final class HeroCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
-    @java.lang.Override
 
     public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrThrow(
         int key) {
@@ -1354,10 +1292,11 @@ public final class HeroCfg {
       }
       com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data other = (com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data) obj;
 
-      if (!internalGetHeroBaseCfgItems().equals(
-          other.internalGetHeroBaseCfgItems())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && internalGetHeroBaseCfgItems().equals(
+          other.internalGetHeroBaseCfgItems());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -1562,35 +1501,35 @@ public final class HeroCfg {
 
       @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1666,7 +1605,6 @@ public final class HeroCfg {
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
 
-      @java.lang.Override
       public boolean containsHeroBaseCfgItems(
           int key) {
         
@@ -1675,7 +1613,6 @@ public final class HeroCfg {
       /**
        * Use {@link #getHeroBaseCfgItemsMap()} instead.
        */
-      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> getHeroBaseCfgItems() {
         return getHeroBaseCfgItemsMap();
@@ -1683,7 +1620,6 @@ public final class HeroCfg {
       /**
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
-      @java.lang.Override
 
       public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> getHeroBaseCfgItemsMap() {
         return internalGetHeroBaseCfgItems().getMap();
@@ -1691,7 +1627,6 @@ public final class HeroCfg {
       /**
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
-      @java.lang.Override
 
       public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
           int key,
@@ -1704,7 +1639,6 @@ public final class HeroCfg {
       /**
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
-      @java.lang.Override
 
       public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrThrow(
           int key) {
@@ -1766,7 +1700,7 @@ public final class HeroCfg {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
       @java.lang.Override
@@ -1850,10 +1784,18 @@ public final class HeroCfg {
       "HeroBaseCfg:\0028\001B#\n!com.trinitigames.serv" +
       "er.conf.autob\006proto3"
     };
-    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
+    com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        });
+        }, assigner);
     internal_static_DongciDaci_HeroBaseCfg_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_DongciDaci_HeroBaseCfg_fieldAccessorTable = new
