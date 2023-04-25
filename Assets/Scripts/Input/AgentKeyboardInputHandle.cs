@@ -38,7 +38,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
     {
         cmd = null;
         Vector3 towards = GetInputDirection();
-        if (Input.GetKeyDown(InputDef.DashKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.DashMeterCheckTolerance, out int triggerMeter))
+        if (Input.GetKeyDown(InputDef.DashKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.DashMeterCheckTolerance, GamePlayDefine.DashMeterCheckOffset, out int triggerMeter))
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
             cmd.Initialize(AgentCommandDefine.DASH, triggerMeter, towards);
@@ -54,7 +54,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         int triggerMeter = -1;
         Vector3 towards = GetInputDirection();
 
-        if (Input.GetKeyDown(InputDef.LightAttackKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, out triggerMeter))
+        if (Input.GetKeyDown(InputDef.LightAttackKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset, out triggerMeter))
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
             cmd.Initialize(AgentCommandDefine.ATTACK_LIGHT, triggerMeter, towards);
@@ -62,7 +62,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
             return true;
         }
 
-        if (Input.GetKeyDown(InputDef.HardAttackKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, out triggerMeter))
+        if (Input.GetKeyDown(InputDef.HardAttackKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset, out triggerMeter))
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
             cmd.Initialize(AgentCommandDefine.ATTACK_HARD, triggerMeter, towards);

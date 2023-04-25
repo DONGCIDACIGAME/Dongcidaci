@@ -3,21 +3,27 @@ using UnityEngine;
 public static class GamePlayDefine
 {
     /// <summary>
-    /// 攻击指令的节拍检测容差
-    /// 向前和向后各
+    /// 攻击指令的节拍检测总容差
     /// </summary>
-    public const float AttackMeterCheckTolerance = 0.15f;
+    public const float AttackMeterCheckTolerance = 0.3f;
+    /// <summary>
+    /// 攻击指令的节拍检测偏移
+    /// </summary>
+    public const float AttackMeterCheckOffset = 0.1f;
 
     /// <summary>
-    /// 冲刺指令的节拍检测容差
-    /// 向前和向后各
+    /// 冲刺指令的节拍检测总容差
     /// </summary>
-    public const float DashMeterCheckTolerance = 0.15f;
+    public const float DashMeterCheckTolerance = 0.3f;
+    /// <summary>
+    /// 冲刺指令的节拍检测偏移
+    /// </summary>
+    public const float DashMeterCheckOffset = 0.1f;
 
     /// <summary>
     /// 处于输入检测阶段，空状态的最长时间
     /// </summary>
-    public const float EmptyStatusMaxTime = 0.3f;
+    public const float EmptyStatusMaxTime = 0.6f;
 
     /// <summary>
     /// 攻击指令执行的节拍进度判定

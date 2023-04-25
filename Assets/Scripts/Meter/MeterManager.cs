@@ -140,12 +140,18 @@ public class MeterManager : ModuleManager<MeterManager>
         return mCurAudioMeterData.sceneBehaviourMeterTrigger[localIndex] == 1;
     }
 
-    public bool CheckTriggerMeter(int meterIndex, float tolerance)
+    public bool CheckTriggerMeter(int meterIndex, float tolerance, float offset)
     {
-        return IsInMeterWithTolorance(meterIndex, tolerance);
+        return IsInMeterWithTolerance(meterIndex, tolerance, offset);
     }
 
-    public bool IsInMeterWithTolorance(int meterIndex, float tolerance)
+    /// <summary>
+    /// 是否在节拍的指定容差范围内
+    /// </summary>
+    /// <param name="meterIndex"></param>
+    /// <param name="tolerance"></param>
+    /// <returns></returns>
+    public bool IsInMeterWithTolerance(int meterIndex, float tolerance, float offset)
     {
         if (mCurAudioMeterData == null)
             return false;
@@ -158,15 +164,22 @@ public class MeterManager : ModuleManager<MeterManager>
         // 对于音乐起始拍和结束拍的特殊处理
         if (meterIndex == 0 || meterIndex == totalMeterLen - 1)
         {
-            return (timeRecord >= mCurAudioMeterData.baseMeters[totalMeterLen - 1] - tolerance)
-                        && timeRecord <= mCurAudioMeterData.baseMeters[0] + tolerance;
+            return (timeRecord >= mCurAudioMeterData.baseMeters[totalMeterLen - 1] - tolerance/2 + offset)
+                        && timeRecord <= mCurAudioMeterData.baseMeters[0] + tolerance/2 + offset;
         }
 
-        return timeRecord >= mCurAudioMeterData.baseMeters[meterIndex] - tolerance
-                    && timeRecord <= mCurAudioMeterData.baseMeters[meterIndex] + tolerance;
+        return timeRecord >= mCurAudioMeterData.baseMeters[meterIndex] - tolerance/2 + offset
+                    && timeRecord <= mCurAudioMeterData.baseMeters[meterIndex] + tolerance/2 + offset;
     }
 
-    public bool CheckTriggered(float tolerance, out int triggerMeter)
+    /// <summary>
+    /// 检测在本拍的时间内是否触发
+    /// </summary>
+    /// <param name="tolerance">检测的容差</param>
+    /// <param name="offset">检测时的偏移</param>
+    /// <param name="triggerMeter">触发的节奏index</param>
+    /// <returns>是否触发</returns>
+    public bool CheckTriggered(float tolerance, float offset, out int triggerMeter)
     {
         triggerMeter = 0;
         if (mCurAudioMeterData == null)
@@ -177,15 +190,17 @@ public class MeterManager : ModuleManager<MeterManager>
         /*
          *          触发检测
          *   |---------------------|---------------------|
-         *    000                 000
+         *    0000                 00
+         *    000：检测部分
          *   检测触发时，只有本拍的开始段和本拍的结束段是可以触发的区域
          *   注意不能使用上一拍，因为上一拍已经过去了，再怎么检测也是触发不了的
+         *   检测的容差可以传入偏移
          */
 
         float trigger1_Start = mCurAudioMeterData.baseMeters[MeterIndex];
-        float trigger1_End = trigger1_Start + tolerance;
+        float trigger1_End = trigger1_Start + tolerance/2f + offset;
         float trigger2_End = mCurAudioMeterData.baseMeters[nextMeter];
-        float trigger2_Start = trigger2_End - tolerance;
+        float trigger2_Start = trigger2_End - tolerance/2f + offset;
 
         if(timeRecord >= trigger1_Start && timeRecord <= trigger1_End)
         {
