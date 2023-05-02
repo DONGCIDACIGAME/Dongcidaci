@@ -5,7 +5,7 @@ public static class GamePlayDefine
     /// <summary>
     /// ¹¥»÷Ö¸ÁîµÄ½ÚÅÄ¼ì²â×ÜÈİ²î
     /// </summary>
-    public const float AttackMeterCheckTolerance = 0.5f;
+    public const float AttackMeterCheckTolerance = 0.3f;
     /// <summary>
     /// ¹¥»÷Ö¸ÁîµÄ½ÚÅÄ¼ì²âÆ«ÒÆ
     /// </summary>
