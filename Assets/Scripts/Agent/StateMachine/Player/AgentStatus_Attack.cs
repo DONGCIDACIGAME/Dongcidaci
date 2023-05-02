@@ -6,7 +6,7 @@ using UnityEngine;
 public class AgentStatus_Attack : AgentStatus
 {
     private ComboHandler mComboHandler;
-    private CustomAnimDriver animDriver;
+    private AttackAnimDriver animDriver;
     private bool[] mTriggerRecord;
 
     public override void CustomInitialize()
@@ -16,7 +16,7 @@ public class AgentStatus_Attack : AgentStatus
         mComboHandler.Initialize(cg);
         mInputHandle = new KeyboardInputHandle_Attack(mAgent);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
-        animDriver = new CustomAnimDriver(mAgent, GetStatusName());
+        animDriver = new AttackAnimDriver(mAgent, GetStatusName());
         mTriggerRecord = new bool[MeterManager.Ins.GetCurAudioTotalMeterLen()];
     }
 
@@ -78,8 +78,11 @@ public class AgentStatus_Attack : AgentStatus
                 break;
             case AgentCommandDefine.ATTACK_HARD:
             case AgentCommandDefine.ATTACK_LIGHT:
-
-                DelayToMeterExcuteCommand(cmd);
+                Combo cmb = mComboHandler.OnCmd(cmd.CmdType);
+                OnCombo(cmb);
+                mAgent.MoveControl.TurnTo(cmd.Towards);
+                //ExcuteCommand(cmd);
+                //DelayToMeterExcuteCommand(cmd);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
