@@ -168,10 +168,8 @@ public class MeterManager : ModuleManager<MeterManager>
                         && timeRecord <= mCurAudioMeterData.baseMeters[0] + tolerance/2 + offset;
         }
 
-        //return timeRecord >= mCurAudioMeterData.baseMeters[meterIndex] - tolerance/2 + offset
-        //            && timeRecord <= mCurAudioMeterData.baseMeters[meterIndex] + tolerance/2 + offset;
-
-        return timeRecord >= mCurAudioMeterData.baseMeters[meterIndex] - tolerance / 2 + offset;
+        return timeRecord >= mCurAudioMeterData.baseMeters[meterIndex] - tolerance / 2 + offset
+                    && timeRecord <= mCurAudioMeterData.baseMeters[meterIndex] + tolerance/2 + offset;
     }
 
     /// <summary>

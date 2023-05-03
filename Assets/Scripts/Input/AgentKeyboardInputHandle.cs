@@ -58,7 +58,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
             cmd.Initialize(AgentCommandDefine.ATTACK_LIGHT, triggerMeter, towards);
-            Log.Error(LogLevel.Info, "Trigger light attack--------------------------------------------------{0}", triggerMeter);
+            //Log.Error(LogLevel.Info, "Trigger light attack--------------------------------------------------{0}", triggerMeter);
             return true;
         }
 
