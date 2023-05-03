@@ -5,7 +5,7 @@ public static class GamePlayDefine
     /// <summary>
     /// 攻击指令的节拍检测总容差
     /// </summary>
-    public const float AttackMeterCheckTolerance = 0.3f;
+    public const float AttackMeterCheckTolerance = 0.4f;
     /// <summary>
     /// 攻击指令的节拍检测偏移
     /// </summary>
@@ -14,7 +14,7 @@ public static class GamePlayDefine
     /// <summary>
     /// 冲刺指令的节拍检测总容差
     /// </summary>
-    public const float DashMeterCheckTolerance = 0.3f;
+    public const float DashMeterCheckTolerance = 0.4f;
     /// <summary>
     /// 冲刺指令的节拍检测偏移
     /// </summary>

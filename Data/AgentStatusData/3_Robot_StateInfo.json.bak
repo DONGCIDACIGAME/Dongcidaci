@@ -11,7 +11,7 @@
 				"animName": "Idle",
 				"stateMeterLen": 2,
 				"minDuration": 0,
-				"normalizedTime": 0.1,
+				"normalizedTime": 0.2,
 				"layer": 0,
 				"animLen": 1.0
 			}]
@@ -76,7 +76,7 @@
 				"stateName": "attackHard",
 				"loopTime": 1,
 				"animName": "attackHeavy 1",
-				"stateMeterLen": 2,
+				"stateMeterLen": 1,
 				"normalizedTime": 0.2,
 				"layer": 0,
 				"animLen": 0.5
