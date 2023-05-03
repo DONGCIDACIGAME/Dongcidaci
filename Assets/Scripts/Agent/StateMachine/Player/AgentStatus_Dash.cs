@@ -53,8 +53,7 @@ public class AgentStatus_Dash : AgentStatus
                 break;
             case AgentCommandDefine.ATTACK_HARD:
             case AgentCommandDefine.ATTACK_LIGHT:
-                //ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
-                ExcuteCommand(cmd);
+                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
                 break;
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.DASH:

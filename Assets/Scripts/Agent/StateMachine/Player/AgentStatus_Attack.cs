@@ -31,12 +31,6 @@ public class AgentStatus_Attack : AgentStatus
         }
     }
 
-    private void OnCombo(Combo cmb)
-    {
-        string stateName = cmb.animStateList[cmb.animStateList.Length - 1];
-        mCurAnimStateEndMeter = animDriver.PlayAnimState(stateName);
-        Log.Error(LogLevel.Info, "OnCombo----{0}--{1}--cur meter:{2}, end meter:{3}", cmb.comboName, stateName, MeterManager.Ins.MeterIndex, mCurAnimStateEndMeter);
-    }
 
     public override void OnEnter(Dictionary<string, object> context)
     {
@@ -44,22 +38,20 @@ public class AgentStatus_Attack : AgentStatus
 
         byte triggerCmd = (byte)context["triggerCmd"];
         Vector3 towards = (Vector3)context["towards"];
+        int triggerMeter = (int)context["triggerMeter"];
 
         if(towards != GamePlayDefine.InputDirection_NONE)
         {
             mAgent.MoveControl.TurnTo(towards);
         }
 
-        Combo cmb = mComboHandler.OnCmd(triggerCmd);
-        if (cmb != null)
-        {
-            OnCombo(cmb);
-        }
+        TryTriggerCombo(triggerMeter, triggerCmd, towards);
     }
 
     public override void OnExit()
     {
         base.OnExit();
+        mComboHandler.ClearComboActionRecord();
     }
 
     protected override void CustomOnCommand(AgentInputCommand cmd)
@@ -78,22 +70,40 @@ public class AgentStatus_Attack : AgentStatus
                 break;
             case AgentCommandDefine.ATTACK_HARD:
             case AgentCommandDefine.ATTACK_LIGHT:
-                if (cmd.TriggerIndex < mCurAnimStateEndMeter)
+                if(cmd.TriggerIndex < mCurAnimStateEndMeter)
                 {
-                    Log.Error(LogLevel.Info,"-----------------------------------------------------------");
-                    break;
+                    DelayToMeterExcuteCommand(cmd);
                 }
-                Combo cmb = mComboHandler.OnCmd(cmd.CmdType);
-                OnCombo(cmb);
-                mAgent.MoveControl.TurnTo(cmd.Towards);
-                //ExcuteCommand(cmd);
-                //DelayToMeterExcuteCommand(cmd);
+                else
+                {
+                    TryTriggerCombo(cmd.TriggerIndex, cmd.CmdType, cmd.Towards);
+                }
                 break;
             case AgentCommandDefine.EMPTY:
             default:
                 break;
         }
     }
+
+    private int lastComboMeterIndex;
+    protected bool TryTriggerCombo(int triggerIndex, byte cmdType, Vector2 towards)
+    {
+        if (lastComboMeterIndex == triggerIndex)
+            return false;
+
+        if(mComboHandler.OnCmd(cmdType, out Combo combo, out ComboMove comboMove))
+        {
+            mAgent.MoveControl.TurnTo(towards);
+            string stateName = comboMove.animState;
+            mCurAnimStateEndMeter = animDriver.PlayAnimState(stateName);
+            Log.Error(LogLevel.Info, "OnCombo----{0}--{1}--cur meter:{2}, end meter:{3}", combo.comboName, stateName, MeterManager.Ins.MeterIndex, mCurAnimStateEndMeter);
+            lastComboMeterIndex = triggerIndex;
+            return true;
+        }
+
+        return false;
+    }
+
 
     protected override void CommandHandleOnMeter(int meterIndex)
     {
@@ -103,12 +113,8 @@ public class AgentStatus_Attack : AgentStatus
         if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
-            Combo cmb = mComboHandler.OnCmd(cmdType);
-            // 如果触发了combo，就走combo的配置
-            if (cmb != null)
+            if(TryTriggerCombo(meterIndex, cmdType, towards))
             {
-                mAgent.MoveControl.TurnTo(towards);
-                OnCombo(cmb);
                 return;
             }
 

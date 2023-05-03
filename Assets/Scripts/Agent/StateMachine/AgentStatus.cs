@@ -202,6 +202,7 @@ public abstract class AgentStatus : IAgentStatus
             Dictionary<string, object> args = new Dictionary<string, object>();
             args.Add("triggerCmd", cmdType);
             args.Add("towards", towards);
+            args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
             ChangeStatus(AgentStatusDefine.ATTACK, args);
         }
         else if (cmdType == AgentCommandDefine.BE_HIT)
