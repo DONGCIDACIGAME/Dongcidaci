@@ -5,11 +5,11 @@ public static class GamePlayDefine
     /// <summary>
     /// ¹¥»÷Ö¸ÁîµÄ½ÚÅÄ¼ì²â×ÜÈİ²î
     /// </summary>
-    public const float AttackMeterCheckTolerance = 0.3f;
+    public const float AttackMeterCheckTolerance = 0.4f;
     /// <summary>
     /// ¹¥»÷Ö¸ÁîµÄ½ÚÅÄ¼ì²âÆ«ÒÆ
     /// </summary>
-    public const float AttackMeterCheckOffset = 0f;
+    public const float AttackMeterCheckOffset = -0.1f;
 
     /// <summary>
     /// ³å´ÌÖ¸ÁîµÄ½ÚÅÄ¼ì²â×ÜÈİ²î

@@ -78,6 +78,11 @@ public class AgentStatus_Attack : AgentStatus
                 break;
             case AgentCommandDefine.ATTACK_HARD:
             case AgentCommandDefine.ATTACK_LIGHT:
+                if (cmd.TriggerIndex < mCurAnimStateEndMeter)
+                {
+                    Log.Error(LogLevel.Info,"-----------------------------------------------------------");
+                    break;
+                }
                 Combo cmb = mComboHandler.OnCmd(cmd.CmdType);
                 OnCombo(cmb);
                 mAgent.MoveControl.TurnTo(cmd.Towards);
@@ -138,8 +143,6 @@ public class AgentStatus_Attack : AgentStatus
     public override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);
-
-        
     }
 
     public override string GetStatusName()
