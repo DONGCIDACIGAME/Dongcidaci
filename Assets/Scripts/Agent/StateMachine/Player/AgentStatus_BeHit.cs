@@ -36,11 +36,11 @@ public class AgentStatus_BeHit : AgentStatus
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-                DelayToMeterExcuteCommand(cmd);
+                DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
                 break;
             case AgentCommandDefine.ATTACK_HARD:
             case AgentCommandDefine.ATTACK_LIGHT:
-                DelayToMeterExcuteCommand(cmd);
+                DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -64,7 +64,7 @@ public class AgentStatus_BeHit : AgentStatus
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.BE_HIT:
-                    ExcuteCommand(cmdType, towards);
+                    ExcuteCommand(cmdType, towards, meterIndex);
                     return;
                 case AgentCommandDefine.EMPTY:
                 default:

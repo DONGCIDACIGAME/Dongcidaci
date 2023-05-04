@@ -62,7 +62,7 @@ public class AgentStatus_Run : AgentStatus
                 break;
             case AgentCommandDefine.RUN:
                 mAgent.MoveControl.TurnTo(cmd.Towards);
-                DelayToMeterExcuteCommand(cmd);
+                DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -82,7 +82,7 @@ public class AgentStatus_Run : AgentStatus
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.ATTACK_LIGHT:
                 case AgentCommandDefine.ATTACK_HARD:
-                    ExcuteCommand(cmdType, towards);
+                    ExcuteCommand(cmdType, towards, meterIndex);
                     return;
                 case AgentCommandDefine.RUN:
                     mAgent.MoveControl.TurnTo(towards);

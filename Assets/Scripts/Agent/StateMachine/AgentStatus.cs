@@ -134,7 +134,7 @@ public abstract class AgentStatus : IAgentStatus
         }
         else
         {
-            DelayToMeterExcuteCommand(cmd);
+            DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
         }
     }
 
@@ -160,13 +160,13 @@ public abstract class AgentStatus : IAgentStatus
         }
         else
         {
-            DelayToMeterExcuteCommand(cmd);
+            DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
         }
     }
 
-    public void DelayToMeterExcuteCommand(AgentInputCommand cmd)
+    public void DelayToMeterExcuteCommand(byte cmdType, Vector3 towards)
     {
-        cmdBuffer.AddInputCommand(cmd);
+        cmdBuffer.AddInputCommand(cmdType, towards);
     }
 
     protected void ExcuteCommand(AgentInputCommand cmd)
@@ -174,10 +174,10 @@ public abstract class AgentStatus : IAgentStatus
         if (cmd == null)
             return;
 
-        ExcuteCommand(cmd.CmdType, cmd.Towards);
+        ExcuteCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter);
     }
 
-    protected void ExcuteCommand(byte cmdType, Vector3 towards)
+    protected void ExcuteCommand(byte cmdType, Vector3 towards, int triggerMeter)
     {
         if (cmdType == AgentCommandDefine.IDLE)
         {
@@ -202,7 +202,7 @@ public abstract class AgentStatus : IAgentStatus
             Dictionary<string, object> args = new Dictionary<string, object>();
             args.Add("triggerCmd", cmdType);
             args.Add("towards", towards);
-            args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
+            args.Add("triggerMeter", triggerMeter);
             ChangeStatus(AgentStatusDefine.ATTACK, args);
         }
         else if (cmdType == AgentCommandDefine.BE_HIT)

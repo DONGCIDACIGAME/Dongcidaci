@@ -48,19 +48,20 @@ public class ComboHandler
                 continue;
             }
 
-            int addIndex = mSortedCombos.Count;
-            for(int j = 0; j < mSortedCombos.Count; j++)
+            for(int j = mSortedCombos.Count-1; j >=0 ; j--)
             {
                 Combo _cmb = mSortedCombos[j];
-                if(cmb.comboMoves.Length > _cmb.comboMoves.Length)
+                if(_cmb.comboMoves.Length <= cmb.comboMoves.Length)
                 {
-                    addIndex = j;
+                    mSortedCombos.Insert(j, cmb);
                     break;
                 }
             }
 
-            mSortedCombos.Insert(addIndex, cmb);
+            mSortedCombos.Add(cmb);
         }
+
+
     }
 
     /// <summary>
@@ -70,8 +71,10 @@ public class ComboHandler
     /// <param name="inputRecord"></param>
     /// <param name="cmb"></param>
     /// <returns></returns>
-    private bool CheckMatchCombo(byte newInput, Combo cmb)
+    private bool CheckMatchCombo(byte newInput, Combo cmb, out ComboMove cm)
     {
+        cm = null;
+
         if (cmb.comboMoves == null || cmb.comboMoves.Length == 0)
         {
             Log.Error(LogLevel.Info, "CheckMatchCombo Error, cmb.comboMoves null or empty!");
@@ -80,21 +83,24 @@ public class ComboHandler
 
         int len = cmb.comboMoves.Length;
 
-        if (len > mTriggeredComboActions.Count + 1)
+        if (len < mTriggeredComboActions.Count + 1)
             return false;
 
-        if (newInput != cmb.comboMoves[len-1].moveType)
-            return false;
-
-        if(mTriggeredComboActions.Count > 0)
+        int index;
+        for(index = 0; index < mTriggeredComboActions.Count; index++)
         {
-            for (int i = 0; i < len-1; i++)
+            if(cmb.comboMoves[index].moveType != mTriggeredComboActions[index].moveType)
             {
-                if (cmb.comboMoves[i].moveType != mTriggeredComboActions[i].moveType)
-                    return false;
+                return false;
             }
         }
+    
+        if(newInput != cmb.comboMoves[index].moveType)
+        {
+            return false;
+        }
 
+        cm = cmb.comboMoves[index];
         return true;
     }
 
@@ -126,10 +132,10 @@ public class ComboHandler
             if (cmb == null)
                 continue;
 
-            if(CheckMatchCombo(cmd, cmb))
+            if(CheckMatchCombo(cmd, cmb, out ComboMove cm))
             {
                 combo = cmb;
-                comboMove = cmb.comboMoves[cmb.comboMoves.Length - 1];
+                comboMove = cm;
                 if(comboMove.endFlag)
                 {
                     ClearComboActionRecord();

@@ -16,6 +16,7 @@ public class AttackAnimDriver : AgentAnimDriver
 
     public int PlayAnimState(string stateName)
     {
+        Log.Error(LogLevel.Info, "PlayAnimState----{0}", stateName);
         if (string.IsNullOrEmpty(stateName))
         {
             Log.Error(LogLevel.Normal, "PlayAnimState Error, stateName is null or empty!");
@@ -53,21 +54,6 @@ public class AttackAnimDriver : AgentAnimDriver
         // 原来的逻辑，直接融合
         mAgent.AnimPlayer.CrossFadeToStateDynamic(stateName, mCurAnimState.layer, mCurAnimState.normalizedTime, duration, mCurAnimState.animLen, totalMeterTime);
         return endMeterIndex;
-        //// 新逻辑
-        //// 如果输入是在节拍的前50%，就卡下一拍，直接播放，带截断
-        //// 如果输入是在节拍的后50%，就卡下下拍，直接播放，不带截断
-        //float progress = duration / totalMeterTime;
-        //if(progress <= 0.5f)
-        //{
-        //    mAgent.AnimPlayer.CrossFadeToStateDynamic(stateName, mCurAnimState.layer, mCurAnimState.normalizedTime, duration, mCurAnimState.animLen, totalMeterTime);
-        //    return endMeterIndex;
-        //}
-        //else
-        //{
-        //    float newDuration = MeterManager.Ins.GetTimeToBaseMeter(mCurAnimState.stateMeterLen+1);
-        //    mAgent.AnimPlayer.CrossFadeToStateStatic(stateName, mCurAnimState.layer, mCurAnimState.normalizedTime * (1 + progress), 0, newDuration, mCurAnimState.animLen);
-        //    return endMeterIndex+1;
-        //}
     }
 
 }

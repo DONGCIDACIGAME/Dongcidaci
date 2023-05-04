@@ -80,6 +80,38 @@
 				"normalizedTime": 0.2,
 				"layer": 0,
 				"animLen": 0.5
+			},{
+				"stateName": "AttackBegin",
+				"loopTime": 1,
+				"animName": "attackBegin1",
+				"stateMeterLen": 1,
+				"normalizedTime": 0.2,
+				"layer": 0,
+				"animLen": 0.5
+			},{
+				"stateName": "Combo_1_With_Empty",
+				"loopTime": 1,
+				"animName": "3combo_1_withEmpty",
+				"stateMeterLen": 1,
+				"normalizedTime": 0.2,
+				"layer": 0,
+				"animLen": 0.5
+			},{
+				"stateName": "Combo_2_With_Empty",
+				"loopTime": 1,
+				"animName": "3Combo2_WithEmpty",
+				"stateMeterLen": 1,
+				"normalizedTime": 0.2,
+				"layer": 0,
+				"animLen": 0.5
+			},{
+				"stateName": "Combo_3_With_Empty",
+				"loopTime": 1,
+				"animName": "3Combo_3_WithEmpty",
+				"stateMeterLen": 1,
+				"normalizedTime": 0.2,
+				"layer": 0,
+				"animLen": 0.5
 			}]
 		},
 		"Dash": {

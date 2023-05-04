@@ -47,10 +47,11 @@ public class AgentStatus_Idle : AgentStatus
                 break;
             case AgentCommandDefine.ATTACK_HARD:
             case AgentCommandDefine.ATTACK_LIGHT:
-                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
+                ExcuteCommand(cmd);
+                //ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
                 break;
             case AgentCommandDefine.IDLE:
-                DelayToMeterExcuteCommand(cmd);
+                DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -70,7 +71,7 @@ public class AgentStatus_Idle : AgentStatus
                 case AgentCommandDefine.ATTACK_HARD:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT:
-                    ExcuteCommand(cmdType, towards);
+                    ExcuteCommand(cmdType, towards, meterIndex);
                     return;
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.EMPTY:

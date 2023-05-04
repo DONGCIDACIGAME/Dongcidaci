@@ -3,13 +3,13 @@ using UnityEngine;
 public class AgentInputCommand
 {
     public byte CmdType { get; private set; }
-    public int TriggerIndex { get; private set; }
+    public int TriggerMeter { get; private set; }
     public Vector3 Towards { get; private set; }
 
-    public void Initialize(byte cmdType, int triggerIndex,Vector3 towards)
+    public void Initialize(byte cmdType, int triggerMeter,Vector3 towards)
     {
         this.CmdType = cmdType;
-        this.TriggerIndex = triggerIndex;
+        this.TriggerMeter = triggerMeter;
         this.Towards = towards;
     }
 
@@ -18,7 +18,7 @@ public class AgentInputCommand
         if (other == null)
             return false;
 
-        return CmdType == other.CmdType && TriggerIndex == other.TriggerIndex && Towards.Equals(other.Towards);
+        return CmdType == other.CmdType && TriggerMeter == other.TriggerMeter && Towards.Equals(other.Towards);
     }
 
     public void Clear()
@@ -33,7 +33,7 @@ public class AgentInputCommand
             return;
 
         CmdType = other.CmdType;
-        TriggerIndex = other.TriggerIndex;
+        TriggerMeter = other.TriggerMeter;
         Towards = other.Towards;
     }
 }

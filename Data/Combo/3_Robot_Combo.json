@@ -4,22 +4,23 @@
 	"combos": 
 	[
 		{
-			"comboName": "attackLight",
+			"comboName": "attack1",
 			"comboMoves": [
-				{"moveType": 16, "animState": "attackLight", "moveEffect": 0, "endFlag": false}
+				{"moveType": 16, "animState": "Combo_1_With_Empty", "moveEffect": 0, "endFlag": false}
 			]
 		},
 		{
-			"comboName": "attackHard",
+			"comboName": "attack2",
 			"comboMoves": [
-				{"moveType": 32, "animState": "attackHard", "moveEffect": 0, "endFlag": false}
+				{"moveType": 32, "animState": "Combo_2_With_Empty", "moveEffect": 0, "endFlag": false}
 			]
 		},
 		{
-			"comboName": "test2",
+			"comboName": "attack3",
 			"comboMoves": [
-				{"moveType": 16, "animState": "attackLight", "moveEffect": 0, "endFlag": false},
-				{"moveType": 32, "animState": "attackHard", "moveEffect": 0, "endFlag": true}
+				{"moveType": 16, "animState": "Combo_1_With_Empty", "moveEffect": 0, "endFlag": false},
+				{"moveType": 16, "animState": "Combo_2_With_Empty", "moveEffect": 0, "endFlag": false},
+				{"moveType": 16, "animState": "Combo_3_With_Empty", "moveEffect": 0, "endFlag": true}
 			]
 		}
 	]

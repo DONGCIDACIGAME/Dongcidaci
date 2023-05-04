@@ -29,7 +29,7 @@ public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
 
-            float tolerance = Mathf.Min(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.EmptyStatusMaxTime);
+            float tolerance = Mathf.Min(GamePlayDefine.AttackMeterCheckTolerance/2f+GamePlayDefine.AttackMeterCheckOffset, GamePlayDefine.EmptyStatusMaxTime);
             bool inMeterTrigger = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, tolerance, 0);
             if (inMeterTrigger)
             {

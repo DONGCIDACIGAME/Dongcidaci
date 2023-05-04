@@ -54,12 +54,19 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         int triggerMeter = -1;
         Vector3 towards = GetInputDirection();
 
-        if (Input.GetKeyDown(InputDef.LightAttackKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset, out triggerMeter))
+        if (Input.GetKeyDown(InputDef.LightAttackKeyCode))
         {
-            cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
-            cmd.Initialize(AgentCommandDefine.ATTACK_LIGHT, triggerMeter, towards);
-            //Log.Error(LogLevel.Info, "Trigger light attack--------------------------------------------------{0}", triggerMeter);
-            return true;
+            if(MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset, out triggerMeter))
+            {
+                cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
+                cmd.Initialize(AgentCommandDefine.ATTACK_LIGHT, triggerMeter, towards);
+                //Log.Error(LogLevel.Info, "Trigger light attack--------------------------------------------------{0}", triggerMeter);
+                return true;
+            }
+            else
+            {
+                Log.Error(LogLevel.Info, "---------------------------Trigger light attack FAILED{0}----------------------------", triggerMeter);
+            }
         }
 
         if (Input.GetKeyDown(InputDef.HardAttackKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset, out triggerMeter))

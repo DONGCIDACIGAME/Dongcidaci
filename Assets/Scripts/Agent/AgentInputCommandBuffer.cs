@@ -23,16 +23,13 @@ public class AgentInputCommandBuffer : IGameDisposable
 
         return -1;
     }
-    public void AddInputCommand(AgentInputCommand cmd)
+    public void AddInputCommand(byte cmdType, Vector3 towards)
     {
-        if (cmd == null)
-            return;
-
-        cmdList |= cmd.CmdType;
-        int index = GetBufferIndex(cmd.CmdType);
+        cmdList |= cmdType;
+        int index = GetBufferIndex(cmdType);
         if(index >= 0 && index < 8)
         {
-            directionList[index] = cmd.Towards;
+            directionList[index] = towards;
         }
     }
 
