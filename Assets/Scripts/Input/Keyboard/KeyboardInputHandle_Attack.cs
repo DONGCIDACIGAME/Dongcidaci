@@ -29,16 +29,16 @@ public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
 
-            //float tolerance = Mathf.Min(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.EmptyStatusMaxTime);
-            //bool inMeterTrigger = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, tolerance, 0);
-            //if (inMeterTrigger)
-            //{
-            //    cmd.Initialize(AgentCommandDefine.EMPTY, MeterManager.Ins.MeterIndex, GamePlayDefine.InputDirection_NONE);
-            //}
-            //else
-            //{
+            float tolerance = Mathf.Min(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.EmptyStatusMaxTime);
+            bool inMeterTrigger = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, tolerance, 0);
+            if (inMeterTrigger)
+            {
+                cmd.Initialize(AgentCommandDefine.EMPTY, MeterManager.Ins.MeterIndex, GamePlayDefine.InputDirection_NONE);
+            }
+            else
+            {
                 cmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, GamePlayDefine.InputDirection_NONE);
-            //}
+            }
         }
         mAgent.OnCommand(cmd);
     }

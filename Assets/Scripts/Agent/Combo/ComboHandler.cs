@@ -8,16 +8,12 @@ public class ComboHandler
     /// </summary>
     private List<Combo> mSortedCombos;
 
-    /// <summary>
-    /// 已经打出来的有效的输入记录
-    /// 如果mComboRecord+新的输入组成的招数，跟所有出招表都匹配不上， 则判定出招失败，清空出招记录
-    /// </summary>
-    private List<byte> mComboRecord;
+    private List<ComboMove> mTriggeredComboActions;
 
     public ComboHandler()
     {
         mSortedCombos = new List<Combo>();
-        mComboRecord = new List<byte>();
+        mTriggeredComboActions = new List<ComboMove>();
     }
 
 
@@ -46,9 +42,9 @@ public class ComboHandler
                 continue;
             }
 
-            if (cmb.inputList == null || cmb.inputList.Length == 0)
+            if (cmb.comboMoves == null || cmb.comboMoves.Length == 0)
             {
-                Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combo input list is null or emtpty, combo name: {0}, agent id:{1}, agent Name:{2}", cmb.comboName, comboGraph.agentId, comboGraph.agentName);
+                Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combo comboMoves is null or emtpty, combo name: {0}, agent id:{1}, agent Name:{2}", cmb.comboName, comboGraph.agentId, comboGraph.agentName);
                 continue;
             }
 
@@ -56,7 +52,7 @@ public class ComboHandler
             for(int j = 0; j < mSortedCombos.Count; j++)
             {
                 Combo _cmb = mSortedCombos[j];
-                if(cmb.inputList.Length > _cmb.inputList.Length)
+                if(cmb.comboMoves.Length > _cmb.comboMoves.Length)
                 {
                     addIndex = j;
                     break;
@@ -74,27 +70,27 @@ public class ComboHandler
     /// <param name="inputRecord"></param>
     /// <param name="cmb"></param>
     /// <returns></returns>
-    private bool CheckMatchCombo(byte newInput, List<byte> inputRecord, Combo cmb)
+    private bool CheckMatchCombo(byte newInput, Combo cmb)
     {
-        if (cmb.inputList == null || cmb.inputList.Length == 0)
+        if (cmb.comboMoves == null || cmb.comboMoves.Length == 0)
         {
-            Log.Error(LogLevel.Info, "CheckMatchCombo Error, cmb.inputList null or empty!");
+            Log.Error(LogLevel.Info, "CheckMatchCombo Error, cmb.comboMoves null or empty!");
             return false;
         }
 
-        int len = cmb.inputList.Length;
+        int len = cmb.comboMoves.Length;
 
-        if (len > inputRecord.Count + 1)
+        if (len > mTriggeredComboActions.Count + 1)
             return false;
 
-        if (newInput != cmb.inputList[len-1])
+        if (newInput != cmb.comboMoves[len-1].moveType)
             return false;
 
-        if(inputRecord.Count > 0)
+        if(mTriggeredComboActions.Count > 0)
         {
             for (int i = 0; i < len-1; i++)
             {
-                if (cmb.inputList[i] != inputRecord[i])
+                if (cmb.comboMoves[i].moveType != mTriggeredComboActions[i].moveType)
                     return false;
             }
         }
@@ -102,23 +98,26 @@ public class ComboHandler
         return true;
     }
 
-    private void ResetRecord(Combo cmb)
+    private void AddComboActionRecord(ComboMove cm)
     {
-        mComboRecord.Clear();
-        for(int i = 0;i<cmb.inputList.Length;i++)
-        {
-            mComboRecord.Add(cmb.inputList[i]);
-        }
+        mTriggeredComboActions.Add(cm);
     }
 
-    public Combo OnCmd(byte cmd)
+    public void ClearComboActionRecord()
     {
+        mTriggeredComboActions.Clear();
+    }
+
+    public bool OnCmd(byte cmd, out Combo combo, out ComboMove comboMove)
+    {
+        combo = null;
+        comboMove = null;
+
         if (mSortedCombos == null || mSortedCombos.Count == 0)
         {
             Log.Error(LogLevel.Info, "ComboHandler OnInput  Error, mSortedCombos null or empty!");
-            return null;
+            return false;
         }
-
 
         for (int i = 0; i < mSortedCombos.Count; i++)
         {
@@ -127,15 +126,24 @@ public class ComboHandler
             if (cmb == null)
                 continue;
 
-            if(CheckMatchCombo(cmd, mComboRecord, cmb))
+            if(CheckMatchCombo(cmd, cmb))
             {
-                ResetRecord(cmb);
-                return cmb;
+                combo = cmb;
+                comboMove = cmb.comboMoves[cmb.comboMoves.Length - 1];
+                if(comboMove.endFlag)
+                {
+                    ClearComboActionRecord();
+                }
+                else
+                {
+                    AddComboActionRecord(comboMove);
+                }
+                return true;
             }
         }
-
+        
         //Log.Error(LogLevel.Info, "ComboHandler OnInput  Error, no match combo with cmd:{0}", cmd);
-        return null;
+        return false;
     }
 
 }

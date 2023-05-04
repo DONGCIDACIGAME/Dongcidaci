@@ -5,18 +5,22 @@
 	[
 		{
 			"comboName": "attackLight",
-			"inputList": [16],
-			"animStateList": ["attackLight"]
+			"comboMoves": [
+				{"moveType": 16, "animState": "attackLight", "moveEffect": 0, "endFlag": false}
+			]
 		},
 		{
 			"comboName": "attackHard",
-			"inputList": [32],
-			"animStateList": ["attackHard"]
+			"comboMoves": [
+				{"moveType": 32, "animState": "attackHard", "moveEffect": 0, "endFlag": false}
+			]
 		},
 		{
 			"comboName": "test2",
-			"inputList": [16,32],
-			"animStateList": ["attackLight","attackHard"]
+			"comboMoves": [
+				{"moveType": 16, "animState": "attackLight", "moveEffect": 0, "endFlag": false},
+				{"moveType": 32, "animState": "attackHard", "moveEffect": 0, "endFlag": true}
+			]
 		}
 	]
 }
