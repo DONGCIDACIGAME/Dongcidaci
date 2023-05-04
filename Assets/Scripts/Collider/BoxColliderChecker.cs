@@ -1,24 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class GameCollider
+public class BoxColliderChecker
 {
-    private Vector2 mPos;
-    private Rect mArea;
-    public int ColliderType;
-
-    public GameCollider(Vector2 pos, Rect area)
-    {
-        this.mPos = pos;
-        this.mArea = area;
-    }
-
     public bool CheckPosInCollider(Vector2 pos)
     {
         return pos.x >= mPos.x + mArea.x - mArea.width / 2 && pos.x <= mPos.x + mArea.x + mArea.width / 2
             && pos.y >= mPos.y + mArea.y - mArea.height / 2 && pos.y <= mPos.y + mArea.y + mArea.height / 2;
     }
 
-    public bool CheckCollapse(GameCollider other)
+    public bool CheckCollapse(GameCollider2D other)
     {
         float offsetX = Mathf.Abs(mPos.x - other.mPos.x);
         float offsetY = Mathf.Abs(mPos.y - other.mPos.y);
