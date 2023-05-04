@@ -52,10 +52,10 @@ public class AgentStatus_Attack : AgentStatus
 
         float progress = timeToNextMeter / timeOfCurrentMeter;
 
-        if (progress >= GamePlayDefine.AttackMeterProgressWait)
-        {
-            animDriver.PlayAnimState("AttackBegin");
-        }
+        //if (progress >= GamePlayDefine.AttackMeterProgressWait)
+        //{
+        //    animDriver.PlayAnimState("AttackBegin");
+        //}
 
         DelayToMeterExcuteCommand(triggerCmd, towards);
         //ProgressWaitOnAtk(triggerCmd, towards, triggerMeter);
@@ -109,6 +109,8 @@ public class AgentStatus_Attack : AgentStatus
             case AgentCommandDefine.ATTACK_HARD:
             case AgentCommandDefine.ATTACK_LIGHT:
                 DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
+                Log.Logic(LogLevel.Info, "++++++++++++++++++++DelayToMeterExcuteCommand Add Atk----{0} ", MeterManager.Ins.MeterIndex);
+                //ProgressWaitOnAttack(cmd.CmdType, cmd.Towards, cmd.TriggerMeter);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -129,6 +131,7 @@ public class AgentStatus_Attack : AgentStatus
             mCurAnimStateEndMeter = animDriver.PlayAnimState(stateName);
             Log.Error(LogLevel.Info, "OnCombo----{0}--{1}--cur meter:{2}, end meter:{3}", combo.comboName, stateName, MeterManager.Ins.MeterIndex, mCurAnimStateEndMeter);
             lastComboMeterIndex = triggerIndex;
+            cmdBuffer.ClearCommandBuffer();
             return true;
         }
 

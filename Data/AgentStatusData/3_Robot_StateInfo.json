@@ -83,7 +83,7 @@
 			},{
 				"stateName": "AttackBegin",
 				"loopTime": 1,
-				"animName": "attackBegin1",
+				"animName": "attackBegin2",
 				"stateMeterLen": 1,
 				"normalizedTime": 0.2,
 				"layer": 0,

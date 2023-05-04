@@ -212,6 +212,8 @@ public abstract class Agent : IEntity, IMeterHandler
         AgentInputCommandPool.Ins.PushAgentInputCommand(cmd);
     }
 
+    float record;
+
     /// <summary>
     /// update
     /// </summary>
@@ -220,5 +222,21 @@ public abstract class Agent : IEntity, IMeterHandler
     {
         MoveControl.OnUpdate(deltaTime);
         StatusMachine.OnUpdate(deltaTime);
+
+        record += deltaTime;
+
+        if(record >= 1.7f && record <= 1.8f)
+        {
+            var cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
+            cmd.Initialize(AgentCommandDefine.ATTACK_LIGHT, 4, GamePlayDefine.InputDirection_NONE);
+            OnCommand(cmd);
+        }
+
+        if (record >= 2.30f && record <= 2.35f)
+        {
+            var cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
+            cmd.Initialize(AgentCommandDefine.ATTACK_LIGHT, 6, GamePlayDefine.InputDirection_NONE);
+            OnCommand(cmd);
+        }
     }
 }
