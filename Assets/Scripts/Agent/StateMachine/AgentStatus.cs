@@ -17,6 +17,16 @@ public abstract class AgentStatus : IAgentStatus
     protected IInputHandle mInputHandle;
 
     /// <summary>
+    /// 步进循环动画播放器
+    /// </summary>
+    protected StepLoopAnimDriver mStepLoopAnimDriver;
+
+    /// <summary>
+    /// 自定义动画驱动器
+    /// </summary>
+    protected CustomAnimDriver mCustomAnimDriver;
+
+    /// <summary>
     /// 当前动画状态的结束拍
     /// TODO:这里是否可以不放在这里
     /// </summary>
@@ -32,6 +42,8 @@ public abstract class AgentStatus : IAgentStatus
         ChangeStatus = cb;
         mAgent = agt;
         cmdBuffer = new AgentInputCommandBuffer();
+        mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
+        mCustomAnimDriver = new CustomAnimDriver(mAgent, GetStatusName());
     }
 
     public virtual void CustomInitialize()
@@ -77,19 +89,43 @@ public abstract class AgentStatus : IAgentStatus
     {
         mInputHandle.SetEnable(false);
         cmdBuffer.ClearCommandBuffer();
+        mStepLoopAnimDriver.Reset();
     }
 
-    public virtual void Dispose()
+    protected virtual void CustomDispose() { }
+
+    public void Dispose()
     {
         ChangeStatus = null;
         mAgent = null;
-        mInputHandle = null;
         mCurAnimStateEndMeter = 0;
+
+        if(mInputHandle != null)
+        {
+            
+            mInputHandle = null;
+        }
+
+
         if(cmdBuffer != null)
         {
             cmdBuffer.Dispose();
             cmdBuffer = null;
         }
+
+        if (mStepLoopAnimDriver != null)
+        {
+            mStepLoopAnimDriver.Dispose();
+            mStepLoopAnimDriver = null;
+        }
+
+        if (mCustomAnimDriver != null)
+        {
+            mCustomAnimDriver.Dispose();
+            mCustomAnimDriver = null;
+        }
+
+        CustomDispose();
     }
 
     protected abstract void CommandHandleOnMeter(int meterIndex);
@@ -219,5 +255,18 @@ public abstract class AgentStatus : IAgentStatus
             return;
 
         CustomOnCommand(cmd);
+    }
+
+    protected virtual void CustomOnComboMove(Combo combo, ComboMove comboMove, Vector3 towards) { }
+    
+    public void OnComboMove(Combo combo, ComboMove comboMove, Vector3 towards)
+    {
+        if (combo == null)
+            return;
+
+        if (comboMove == null)
+            return;
+
+        CustomOnComboMove(combo, comboMove, towards);
     }
 }

@@ -1,14 +1,21 @@
 using System.Collections.Generic;
 
+/// <summary>
+///  TODO-后面改为事件
+/// </summary>
+/// <param name="stateName"></param>
+/// <param name="context"></param>
 public delegate void ChangeStatusDelegate(string stateName,  Dictionary<string, object> context = null);
 
 public class AgentStatusMachine
 {
-    private IAgentStatus mCurStatus;
+    public IAgentStatus CurStatus { get; private set; }
     private Dictionary<string, IAgentStatus> mStatusMap;
     private Agent mAgent;
-    private AgentInputCommand lastInputCmd;
 
+
+    private AgentInputCommand lastInputCmd;
+    
     public AgentStatusMachine()
     {
         mStatusMap = new Dictionary<string, IAgentStatus>();
@@ -16,9 +23,9 @@ public class AgentStatusMachine
 
     public void OnMeter(int meterIndex)
     {
-        if(mCurStatus != null)
+        if(CurStatus != null)
         {
-            mCurStatus.OnMeter(meterIndex);
+            CurStatus.OnMeter(meterIndex);
         }
     }
 
@@ -58,39 +65,23 @@ public class AgentStatusMachine
         SwitchToStatus(AgentStatusDefine.IDLE, null);
     }
 
-    public void OnCommand(AgentInputCommand cmd)
-    {
-        if (mCurStatus != null)
-        {
-            // 不处理相同指令
-            // 相同指令即 同一拍同一个方向的同一个指令类型
-            if (cmd != null && cmd.Equals(lastInputCmd))
-            {
-                return;
-            }
-
-            mCurStatus.OnCommand(cmd);
-        }
-
-        lastInputCmd = AgentInputCommandPool.Ins.CreateAgentInputCommandCopy(cmd);
-    }
 
     public void SwitchToStatus(string statusName, Dictionary<string, object> context)
     {
-        if(mCurStatus != null && mCurStatus.GetStatusName().Equals(statusName))
+        if(CurStatus != null && CurStatus.GetStatusName().Equals(statusName))
         {
             return;
         }
 
         if(mStatusMap.TryGetValue(statusName,out IAgentStatus newStatus))
         {
-            if (mCurStatus != null)
+            if (CurStatus != null)
             {
-                mCurStatus.OnExit();
+                CurStatus.OnExit();
             }
 
             newStatus.OnEnter(context);
-            mCurStatus = newStatus;
+            CurStatus = newStatus;
         }
         else
         {
@@ -105,15 +96,15 @@ public class AgentStatusMachine
 
     public void OnUpdate(float deltaTime)
     {
-        if(mCurStatus != null)
+        if(CurStatus != null)
         {
-            mCurStatus.OnUpdate(deltaTime);
+            CurStatus.OnUpdate(deltaTime);
         }
     }
 
     public void Dispose()
     {
-        mCurStatus = null;
+        CurStatus = null;
         mStatusMap = null;
     }
 }

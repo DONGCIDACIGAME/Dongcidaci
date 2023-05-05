@@ -61,7 +61,7 @@ public class Hero : Agent
             SetPosition(new Vector3(0, 1, 0));
             // 初始化角色朝向
             SetTowards(new Vector3(0, 0, 1));
-            AnimPlayer.BindAnimator(mAgentGo.GetComponent<Animator>());
+            AnimPlayer.Initialize(mAgentGo.GetComponent<Animator>());
         }
 
         if (mHeroCfg != null && mAgentGo != null)

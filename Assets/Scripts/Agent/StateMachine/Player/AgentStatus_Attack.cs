@@ -5,30 +5,10 @@ using UnityEngine;
 /// </summary>
 public class AgentStatus_Attack : AgentStatus
 {
-    private ComboHandler mComboHandler;
-    private AttackAnimDriver animDriver;
-    private bool[] mTriggerRecord;
-
     public override void CustomInitialize()
     {
-        mComboHandler = new ComboHandler();
-        ComboGraph cg = DataCenter.Ins.AgentComboGraphCenter.GetAgentComboGraph(mAgent.GetAgentId());
-        mComboHandler.Initialize(cg);
         mInputHandle = new KeyboardInputHandle_Attack(mAgent);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
-        animDriver = new AttackAnimDriver(mAgent, GetStatusName());
-        mTriggerRecord = new bool[MeterManager.Ins.GetCurAudioTotalMeterLen()];
-    }
-
-    private void ResetTriggerRecord()
-    {
-        if (mTriggerRecord == null)
-            return;
-
-        for(int i = 0;i<mTriggerRecord.Length;i++)
-        {
-            mTriggerRecord[i] = false;
-        }
     }
 
     public override void OnEnter(Dictionary<string, object> context)
@@ -58,13 +38,12 @@ public class AgentStatus_Attack : AgentStatus
         //}
 
         DelayToMeterExcuteCommand(triggerCmd, towards);
-        //ProgressWaitOnAtk(triggerCmd, towards, triggerMeter);
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        mComboHandler.ClearComboActionRecord();
+        //mComboHandler.ClearComboActionRecord();
     }
 
     private void ProgressWaitOnAttack(byte cmdType, Vector3 towards, int triggerMeter)
@@ -84,7 +63,7 @@ public class AgentStatus_Attack : AgentStatus
 
         if (progress >= GamePlayDefine.AttackMeterProgressWait)
         {
-            TryTriggerCombo(triggerMeter, cmdType, towards);
+            //TryTriggerCombo(triggerMeter, cmdType, towards);
         }
         else
         {
@@ -118,24 +97,27 @@ public class AgentStatus_Attack : AgentStatus
         }
     }
 
-    private int lastComboMeterIndex;
-    protected bool TryTriggerCombo(int triggerIndex, byte cmdType, Vector3 towards)
+    //protected bool TryTriggerCombo(int triggerIndex, byte cmdType, Vector3 towards)
+    //{
+    //    if(mComboHandler.OnCmd(cmdType, out Combo combo, out ComboMove comboMove))
+    //    {
+    //        mAgent.MoveControl.TurnTo(towards);
+    //        string stateName = comboMove.animState;
+    //        mCurAnimStateEndMeter = animDriver.PlayAnimState(stateName);
+    //        Log.Error(LogLevel.Info, "OnCombo----{0}--{1}--cur meter:{2}, end meter:{3}", combo.comboName, stateName, MeterManager.Ins.MeterIndex, mCurAnimStateEndMeter);
+    //        cmdBuffer.ClearCommandBuffer();
+    //        return true;
+    //    }
+
+    //    return false;
+    //}
+
+    protected override void CustomOnComboMove(Combo combo, ComboMove comboMove, Vector3 towards)
     {
-        if (lastComboMeterIndex == triggerIndex)
-            return false;
-
-        if(mComboHandler.OnCmd(cmdType, out Combo combo, out ComboMove comboMove))
-        {
-            mAgent.MoveControl.TurnTo(towards);
-            string stateName = comboMove.animState;
-            mCurAnimStateEndMeter = animDriver.PlayAnimState(stateName);
-            Log.Error(LogLevel.Info, "OnCombo----{0}--{1}--cur meter:{2}, end meter:{3}", combo.comboName, stateName, MeterManager.Ins.MeterIndex, mCurAnimStateEndMeter);
-            lastComboMeterIndex = triggerIndex;
-            cmdBuffer.ClearCommandBuffer();
-            return true;
-        }
-
-        return false;
+        base.CustomOnComboMove(combo, comboMove, towards);
+        mAgent.MoveControl.TurnTo(towards);
+        string stateName = comboMove.animState;
+        mCurAnimStateEndMeter = mCustomAnimDriver.PlayAnimState(stateName);
     }
 
 
@@ -148,10 +130,6 @@ public class AgentStatus_Attack : AgentStatus
         if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
-            if(TryTriggerCombo(meterIndex, cmdType, towards))
-            {
-                return;
-            }
 
             switch (cmdType)
             {
@@ -174,11 +152,6 @@ public class AgentStatus_Attack : AgentStatus
     public override void OnMeter(int meterIndex)
     {
         base.OnMeter(meterIndex);
-
-        if(meterIndex == 0)
-        {
-            ResetTriggerRecord();
-        }
     }
 
     public override void OnUpdate(float deltaTime)
@@ -189,16 +162,5 @@ public class AgentStatus_Attack : AgentStatus
     public override string GetStatusName()
     {
         return AgentStatusDefine.ATTACK;
-    }
-
-    public override void Dispose()
-    {
-        base.Dispose();
-
-        if(animDriver != null)
-        {
-            animDriver.Dispose();
-            animDriver = null;
-        }
     }
 }

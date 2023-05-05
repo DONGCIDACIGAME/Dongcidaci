@@ -37,11 +37,17 @@ public class AgentAnimPlayer
         CurStateName = string.Empty;
     }
 
+    public void Dispose()
+    {
+        mAnimator = null;
+        mLastStateLen = 0;
+    }
+
     /// <summary>
     /// 绑定动画控制器
     /// </summary>
     /// <param name="animator">动画控制器</param>
-    public void BindAnimator(Animator animator)
+    public void Initialize(Animator animator)
     {
         if(animator == null)
         {

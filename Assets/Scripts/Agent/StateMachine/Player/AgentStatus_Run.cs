@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class AgentStatus_Run : AgentStatus
 {
-    private StepLoopAnimDriver animDriver;
-
     public override string GetStatusName()
     {
         return AgentStatusDefine.RUN;
@@ -15,7 +13,6 @@ public class AgentStatus_Run : AgentStatus
         base.CustomInitialize();
         mInputHandle = new KeyboardInputHandle_Run(mAgent);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
-        animDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
     }
 
     public override void OnEnter(Dictionary<string, object> context)
@@ -33,14 +30,12 @@ public class AgentStatus_Run : AgentStatus
             mAgent.MoveControl.TurnTo(towards);
         }
 
-        mCurAnimStateEndMeter = animDriver.MoveNext();
+        mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
     }
 
     public override void OnExit()
     {
         base.OnExit();
-
-        animDriver.Reset();
     }
 
     protected override void CustomOnCommand(AgentInputCommand cmd)
@@ -95,7 +90,7 @@ public class AgentStatus_Run : AgentStatus
             if (meterIndex < mCurAnimStateEndMeter)
                 return;
 
-            mCurAnimStateEndMeter = animDriver.MoveNext();
+            mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
         }
     }
 

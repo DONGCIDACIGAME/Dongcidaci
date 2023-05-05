@@ -38,6 +38,11 @@ public abstract class Agent : IEntity, IMeterHandler
     /// </summary>
     public AgentStatusGraph StatusGraph;
 
+    /// <summary>
+    /// Combo管理器
+    /// </summary>
+    public ComboHandler ComboHandler;
+
     public uint GetAgentId()
     {
         return mAgentId;
@@ -131,17 +136,43 @@ public abstract class Agent : IEntity, IMeterHandler
         LoadAgentCfg(mAgentId);
         LoadAgentGo();
         CustomInitialize();
+
         StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
+
         StatusMachine = new AgentStatusMachine();
         StatusMachine.Initialize(this);
         MeterManager.Ins.RegisterMeterHandler(this);
+
+        ComboHandler = new ComboHandler();
+        ComboGraph cg = DataCenter.Ins.AgentComboGraphCenter.GetAgentComboGraph(mAgentId);
+        ComboHandler.Initialize(cg);
     }
 
+    /// <summary>
+    /// 销毁
+    /// </summary>
     public virtual void Dispose()
     {
         EntityManager.Ins.RemoveEntity(this);
         mAgentGo = null;
-        AnimPlayer = null;
+
+        if(AnimPlayer != null)
+        {
+            AnimPlayer.Dispose();
+            AnimPlayer = null;
+        }
+
+        if(ComboHandler != null)
+        {
+            ComboHandler.Dispose();
+            ComboHandler = null;
+        }
+
+        if(StatusMachine != null)
+        {
+            StatusMachine.Dispose();
+            StatusMachine = null;
+        }
     }
 
     public Agent(uint agentId)
@@ -202,11 +233,59 @@ public abstract class Agent : IEntity, IMeterHandler
     {
         StatusMachine.OnMeter(meterIndex);
     }
+
+    /// <summary>
+    /// 记录上一个指令
+    /// 这是上一个输入指令的一份数据拷贝
+    /// </summary>
+    private AgentInputCommand lastInputCmd;
+
     public void OnCommand(AgentInputCommand cmd)
     {
-        if (StatusMachine != null)
+        if(cmd == null)
         {
-            StatusMachine.OnCommand(cmd);
+            Log.Error(LogLevel.Normal, "Agent OnCommand Error, AgentInputCommand is null!");
+            return;
+        }
+
+        // 对于同一拍的同一个指令不做处理
+        if (cmd.Equals(lastInputCmd))
+        {
+            AgentInputCommandPool.Ins.PushAgentInputCommand(cmd);
+            return;
+        }
+
+        // 记录这次的指令数据
+        AgentInputCommandPool.Ins.PushAgentInputCommand(lastInputCmd);
+        lastInputCmd = AgentInputCommandPool.Ins.CreateAgentInputCommandCopy(cmd);
+
+        if (StatusMachine == null)
+        {
+            Log.Error(LogLevel.Normal, "Agent OnCommand Error, StatusMachine is null!");
+            AgentInputCommandPool.Ins.PushAgentInputCommand(cmd);
+            return;
+        }
+
+        // 获取当前的status
+        IAgentStatus curStatus = StatusMachine.CurStatus;
+        if(curStatus == null)
+        {
+            Log.Error(LogLevel.Normal, "Agent OnCommand Error, cur status is null!");
+            AgentInputCommandPool.Ins.PushAgentInputCommand(cmd);
+            return;
+        }
+
+        // 如果触发了combo，就执行combo逻辑，否则执行单个指令的逻辑
+        // $$$$$$$$$$$$$$$这里的逻辑不对，应该是combohandler通过对指令进行匹配，查出来一个匹配的combomove，然后附带给cmd，传给status
+        // 否则触发了combo的指令就无法正确执行指令的逻辑了
+
+        if (ComboHandler.TryTriggerCombo(cmd.CmdType, cmd.TriggerMeter, out Combo combo, out ComboMove comboMove))
+        {
+            curStatus.OnComboMove(combo, comboMove, cmd.Towards);
+        }
+        else
+        {
+            curStatus.OnCommand(cmd);
         }
 
         AgentInputCommandPool.Ins.PushAgentInputCommand(cmd);

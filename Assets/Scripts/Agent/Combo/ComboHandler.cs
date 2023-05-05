@@ -4,11 +4,19 @@ public class ComboHandler
 {
     /// <summary>
     /// 出招表
-    /// 按照要求的出招数量进行了降序排列
+    /// 按照要求的出招数量进行了升序排列
     /// </summary>
     private List<Combo> mSortedCombos;
 
+    /// <summary>
+    /// 已经触发的招式队列
+    /// </summary>
     private List<ComboMove> mTriggeredComboActions;
+
+    /// <summary>
+    /// 上次触发combo的节拍index
+    /// </summary>
+    private int lastComboMeterIndex;
 
     public ComboHandler()
     {
@@ -114,10 +122,14 @@ public class ComboHandler
         mTriggeredComboActions.Clear();
     }
 
-    public bool OnCmd(byte cmd, out Combo combo, out ComboMove comboMove)
+    public bool TryTriggerCombo(byte cmd, int meterIndex, out Combo combo, out ComboMove comboMove)
     {
         combo = null;
         comboMove = null;
+
+        // 同一拍只能触发一个combo
+        if (meterIndex == lastComboMeterIndex)
+            return false;
 
         if (mSortedCombos == null || mSortedCombos.Count == 0)
         {
@@ -144,6 +156,7 @@ public class ComboHandler
                 {
                     AddComboActionRecord(comboMove);
                 }
+                lastComboMeterIndex = meterIndex;
                 return true;
             }
         }
@@ -152,4 +165,10 @@ public class ComboHandler
         return false;
     }
 
+    public void Dispose()
+    {
+        mSortedCombos = null;
+        mTriggeredComboActions = null;
+        lastComboMeterIndex = -1;
+    }
 }
