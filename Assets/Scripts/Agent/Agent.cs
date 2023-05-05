@@ -225,6 +225,7 @@ public abstract class Agent : IEntity, IMeterHandler
 
         record += deltaTime;
 
+        // 4 6 拍为何让这玩意儿打两下?
         if(record >= 1.7f && record <= 1.8f)
         {
             var cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
@@ -239,4 +240,6 @@ public abstract class Agent : IEntity, IMeterHandler
             OnCommand(cmd);
         }
     }
+
+
 }

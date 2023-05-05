@@ -11,6 +11,7 @@ public class Hero : Agent
     /// <summary>
     /// 相机跟随
     /// TODO：这里想一下是否需要从Hero里挪出去
+    /// Weng: 需要挪出去--
     /// </summary>
     private CamFollowTarget mCft;
 

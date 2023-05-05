@@ -20,11 +20,27 @@ public class MeterManager : ModuleManager<MeterManager>
     /// </summary>
     private float timeRecord;
 
+
+    /// <summary>
+    /// Added by Weng 2023/05/05
+    /// 当前距离这1拍索引已经经过的时间
+    /// </summary>
+    public float CrtMeterPassedTime {
+
+        get
+        {
+            //Added By Weng 2023/05/05
+            var gap = (timeRecord - mCurAudioMeterData.baseMeters[MeterIndex]);
+            return gap > 0 ? gap : 0;
+        }
+    }
+
     /// <summary>
     /// 节奏控制器是否启用
     /// </summary>
     private bool enable;
 
+    // Added By Weng 存放拍点触发的事件，感觉无必要用字典，因为不存在单个索引读取
     private Dictionary<int, IMeterHandler> mBaseMeterHandlers;
 
     /// <summary>
@@ -42,15 +58,26 @@ public class MeterManager : ModuleManager<MeterManager>
         mBaseMeterHandlers = new Dictionary<int, IMeterHandler>();
     }
 
+
     public void RegisterMeterHandler(IMeterHandler handler)
     {
         if (handler == null)
             return;
 
+        // 此处用 hash code有概率会产生bug,因为可能产生相同的hashcode,导致事件无法被注册
+        /**
         int unicode = handler.GetHashCode();
         if (mBaseMeterHandlers.ContainsKey(unicode))
             return;
+        */
 
+        // change by weng 2023/05/05
+        foreach (var meterHandler in mBaseMeterHandlers.Values)
+        {
+            if (meterHandler == handler) return;
+        }
+
+        int unicode = handler.GetHashCode();
         mBaseMeterHandlers.Add(unicode, handler);
     }
 
@@ -217,6 +244,9 @@ public class MeterManager : ModuleManager<MeterManager>
         return false;
     }
 
+    /// <summary>
+    /// 触发在拍子上需要执行的操作
+    /// </summary>
     private void TriggerBaseMeter()
     {
         foreach(IMeterHandler handler in mBaseMeterHandlers.Values)
@@ -257,7 +287,7 @@ public class MeterManager : ModuleManager<MeterManager>
             return;
         }
 
-        else if (timeRecord >= mCurAudioMeterData.baseMeters[MeterIndex + 1])
+        if (timeRecord >= mCurAudioMeterData.baseMeters[MeterIndex + 1])
         {
             MeterIndex++;
 
@@ -272,7 +302,13 @@ public class MeterManager : ModuleManager<MeterManager>
             }
 
         }
+
+        
+
     }
+
+
+
 
     /// <summary>
     /// 获取当前到接下来第offset拍的时间
@@ -309,7 +345,7 @@ public class MeterManager : ModuleManager<MeterManager>
     }
 
     /// <summary>
-    /// 
+    /// 获取从哪个拍子开始，偏移的拍子索引
     /// </summary>
     /// <param name="from"></param>
     /// <param name="offset"></param>
