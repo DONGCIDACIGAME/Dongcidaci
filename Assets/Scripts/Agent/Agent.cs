@@ -3,38 +3,38 @@ using UnityEngine;
 public abstract class Agent : IEntity, IMeterHandler
 {
     /// <summary>
-    /// ½ÇÉ«id
+    /// è§’è‰²id
     /// </summary>
     protected uint mAgentId;
     /// <summary>
-    /// ÊµÌåid
+    /// å®ä½“id
     /// </summary>
     protected int mEntityId;
     /// <summary>
-    /// ½ÇÉ«µÄÓÎÏ·Ìå
+    /// è§’è‰²çš„æ¸¸æˆä½“
     /// </summary>
     protected GameObject mAgentGo;
 
-    // Ïà»ú×·ËæµÄĞéÄâÄ¿±ê(·ÀÖ¹¶¯»­×ÔÉíÎ»ÖÃ)
+    // ç›¸æœºè¿½éšçš„è™šæ‹Ÿç›®æ ‡(é˜²æ­¢åŠ¨ç”»è‡ªèº«ä½ç½®)
     //protected VirtualCamTarget mVirtualCamTarget;
 
     /// <summary>
-    /// ¶¯»­²¥·Å¿ØÖÆÆ÷
+    /// åŠ¨ç”»æ’­æ”¾æ§åˆ¶å™¨
     /// </summary>
     public AgentAnimPlayer AnimPlayer;
 
     /// <summary>
-    /// ¶¯»­×´Ì¬»ú
+    /// åŠ¨ç”»çŠ¶æ€æœº
     /// </summary>
     protected AgentStatusMachine StatusMachine;
 
     /// <summary>
-    /// ÒÆ¶¯¿ØÖÆ
+    /// ç§»åŠ¨æ§åˆ¶
     /// </summary>
     public AgentMoveControl MoveControl;
 
     /// <summary>
-    /// ½ÇÉ«×´Ì¬ĞÅÏ¢±í
+    /// è§’è‰²çŠ¶æ€ä¿¡æ¯è¡¨
     /// </summary>
     public AgentStatusGraph StatusGraph;
 
@@ -47,13 +47,13 @@ public abstract class Agent : IEntity, IMeterHandler
     {
         return mEntityId;
     }
-    // ½ÇÉ«ÒÆ¶¯ËÙ¶È
+    // è§’è‰²ç§»åŠ¨é€Ÿåº¦
     protected float mSpeed;
-    // ½ÇÉ«µÄ³å´ÌËÙ¶È
+    // è§’è‰²çš„å†²åˆºé€Ÿåº¦
     protected float mDashDistance;
-    // ½ÇÉ«³¯Ïò
+    // è§’è‰²æœå‘
     protected Vector3 mTowards;
-    // ½ÇÉ«Î»ÖÃ
+    // è§’è‰²ä½ç½®
     protected Vector3 mPosition;
 
     public Vector3 GetPosition()
@@ -108,25 +108,25 @@ public abstract class Agent : IEntity, IMeterHandler
 
 
     /// <summary>
-    /// ¼ÓÔØ½ÇÉ«ÅäÖÃĞÅÏ¢
+    /// åŠ è½½è§’è‰²é…ç½®ä¿¡æ¯
     /// </summary>
     /// <param name="agentId"></param>
     protected abstract void LoadAgentCfg(uint agentId);
 
     /// <summary>
-    /// ¼ÓÔØ½ÇÉ«Îï¼ş
+    /// åŠ è½½è§’è‰²ç‰©ä»¶
     /// </summary>
     protected abstract void LoadAgentGo();
 
     /// <summary>
-    /// ×Ô¶¨ÒåµÄ³õÊ¼»¯
+    /// è‡ªå®šä¹‰çš„åˆå§‹åŒ–
     /// </summary>
     protected abstract void CustomInitialize();
 
     /// <summary>
-    /// ³õÊ¼»¯
+    /// åˆå§‹åŒ–
     /// </summary>
-    public void Initialize()
+    public virtual void Initialize()
     {
         LoadAgentCfg(mAgentId);
         LoadAgentGo();
@@ -198,10 +198,12 @@ public abstract class Agent : IEntity, IMeterHandler
         return statusInfo;
     }
 
-    public void OnMeter(int meterIndex)
+    public virtual void OnMeter(int meterIndex)
     {
         StatusMachine.OnMeter(meterIndex);
     }
+
+
     public void OnCommand(AgentInputCommand cmd)
     {
         if (StatusMachine != null)
@@ -225,7 +227,7 @@ public abstract class Agent : IEntity, IMeterHandler
 
         record += deltaTime;
 
-        // 4 6 ÅÄÎªºÎÈÃÕâÍæÒâ¶ù´òÁ½ÏÂ?
+        // 4 6 æ‹ä¸ºä½•è®©è¿™ç©æ„å„¿æ‰“ä¸¤ä¸‹?
         if(record >= 1.7f && record <= 1.8f)
         {
             var cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();

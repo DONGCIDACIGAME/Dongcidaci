@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class AgentStatus : IAgentStatus
 {
     /// <summary>
-    /// ÇĞ»»×´Ì¬µÄ´úÀí·½·¨
+    /// åˆ‡æ¢çŠ¶æ€çš„ä»£ç†æ–¹æ³•
     /// </summary>
     protected ChangeStatusDelegate ChangeStatus;
 
@@ -12,18 +12,18 @@ public abstract class AgentStatus : IAgentStatus
     protected Agent mAgent;
 
     /// <summary>
-    /// ÊäÈë´¦ÀíÆ÷
+    /// è¾“å…¥å¤„ç†å™¨
     /// </summary>
     protected IInputHandle mInputHandle;
 
     /// <summary>
-    /// µ±Ç°¶¯»­×´Ì¬µÄ½áÊøÅÄ
-    /// TODO:ÕâÀïÊÇ·ñ¿ÉÒÔ²»·ÅÔÚÕâÀï
+    /// å½“å‰åŠ¨ç”»çŠ¶æ€çš„ç»“æŸæ‹
+    /// TODO:è¿™é‡Œæ˜¯å¦å¯ä»¥ä¸æ”¾åœ¨è¿™é‡Œ
     /// </summary>
     protected int mCurAnimStateEndMeter;
 
     /// <summary>
-    /// µÈ´ıÖ´ĞĞµÄÖ¸Áî¼¯ºÏ
+    /// ç­‰å¾…æ‰§è¡Œçš„æŒ‡ä»¤é›†åˆ
     /// </summary>
     protected AgentInputCommandBuffer cmdBuffer;
 
@@ -108,21 +108,21 @@ public abstract class AgentStatus : IAgentStatus
 
 
     /// <summary>
-    /// ¸ù¾İ½ÚÅÄ½ø¶È¶ÔÃüÁî´¦ÀíµÄÌõ¼şµÈ´ı
-    /// Èç¹û±¾ÅÄµÄÊ£ÓàÊ±¼äÕ¼±È>=waitMeterProgress,¾ÍÖ±½ÓÖ´ĞĞ,·ñÔòµÈÏÂÅÄÖ´ĞĞ
-    /// ÆäËûÇé¿öµÈ´ıÏÂÒ»ÅÄÖ´ĞĞ
+    /// æ ¹æ®èŠ‚æ‹è¿›åº¦å¯¹å‘½ä»¤å¤„ç†çš„æ¡ä»¶ç­‰å¾…
+    /// å¦‚æœæœ¬æ‹çš„å‰©ä½™æ—¶é—´å æ¯”>=waitMeterProgress,å°±ç›´æ¥æ‰§è¡Œ,å¦åˆ™ç­‰ä¸‹æ‹æ‰§è¡Œ
+    /// å…¶ä»–æƒ…å†µç­‰å¾…ä¸‹ä¸€æ‹æ‰§è¡Œ
     /// </summary>
     /// <param name="waitMeterProgress"></param>
     public void ProgressWaitOnCommand(float waitMeterProgress, AgentInputCommand cmd)
     {
-        // µ±Ç°ÅÄµÄÊ£ÓàÊ±¼ä
+        // å½“å‰æ‹çš„å‰©ä½™æ—¶é—´
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
-        // µ±Ç°ÅÄµÄ×ÜÊ±¼ä
+        // å½“å‰æ‹çš„æ€»æ—¶é—´
         float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex+1);
 
         if (timeOfCurrentMeter <= 0)
         {
-            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, µ±Ç°ÅÄµÄ×ÜÊ±¼ä<=0, µ±Ç°ÅÄ:{0}", MeterManager.Ins.MeterIndex);
+            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, å½“å‰æ‹çš„æ€»æ—¶é—´<=0, å½“å‰æ‹:{0}", MeterManager.Ins.MeterIndex);
             return;
         }
 
@@ -139,18 +139,18 @@ public abstract class AgentStatus : IAgentStatus
     }
 
     /// <summary>
-    /// ¸ù¾İ±¾ÅÄÊ£ÓàÊ±¼ä¶ÔÃüÁî´¦ÀíµÄÌõ¼şµÈ´ı
-    /// Èç¹û±¾ÅÄÊ£ÓàÊ±¼ä<waitTime,¾ÍÖ±½ÓÖ´ĞĞ£¬·ñÔòµÈ´ıÏÂÒ»ÅÄÖ´ĞĞ
+    /// æ ¹æ®æœ¬æ‹å‰©ä½™æ—¶é—´å¯¹å‘½ä»¤å¤„ç†çš„æ¡ä»¶ç­‰å¾…
+    /// å¦‚æœæœ¬æ‹å‰©ä½™æ—¶é—´<waitTime,å°±ç›´æ¥æ‰§è¡Œï¼Œå¦åˆ™ç­‰å¾…ä¸‹ä¸€æ‹æ‰§è¡Œ
     /// </summary>
     /// <param name="waitTime"></param>
     public void TimeWaitOnCommand(float waitTime, AgentInputCommand cmd)
     {
-        // µ±Ç°ÅÄµÄÊ£ÓàÊ±¼ä
+        // å½“å‰æ‹çš„å‰©ä½™æ—¶é—´
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
 
         if (timeToNextMeter <= 0)
         {
-            Log.Error(LogLevel.Normal, "TimeWaitOnCommand Error, µ±Ç°ÅÄµÄ×ÜÊ±¼ä<=0, µ±Ç°ÅÄ:{0}", MeterManager.Ins.MeterIndex);
+            Log.Error(LogLevel.Normal, "TimeWaitOnCommand Error, å½“å‰æ‹çš„æ€»æ—¶é—´<=0, å½“å‰æ‹:{0}", MeterManager.Ins.MeterIndex);
             return;
         }
 
