@@ -21,13 +21,23 @@
             return;
 
         AgentInputCommand cmd;
+
+        // 攻击判断>冲刺判断>跑动判断
+        // 存在逻辑短路
+
         bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
+
+        // 没有新的cmd 回到idle
         if (!hasCmd)
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
             cmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, GamePlayDefine.InputDirection_NONE);
         }
+
+        // 执行cmd的操作
         mAgent.OnCommand(cmd);
+
     }
+
 }
 

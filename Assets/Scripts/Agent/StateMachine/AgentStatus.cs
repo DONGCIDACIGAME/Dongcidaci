@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class AgentStatus : IAgentStatus
 {
     /// <summary>
-    /// 切换状态的代理方法
+    /// 鍒囨崲鐘舵�佺殑浠ｇ悊鏂规硶
     /// </summary>
     protected ChangeStatusDelegate ChangeStatus;
 
@@ -12,7 +12,7 @@ public abstract class AgentStatus : IAgentStatus
     protected Agent mAgent;
 
     /// <summary>
-    /// 输入处理器
+    /// 杈撳叆澶勭悊鍣?
     /// </summary>
     protected IInputHandle mInputHandle;
 
@@ -33,7 +33,7 @@ public abstract class AgentStatus : IAgentStatus
     protected int mCurAnimStateEndMeter;
 
     /// <summary>
-    /// 等待执行的指令集合
+    /// 绛夊緟鎵ц鐨勬寚浠ら泦鍚?
     /// </summary>
     protected AgentInputCommandBuffer cmdBuffer;
 
@@ -144,21 +144,21 @@ public abstract class AgentStatus : IAgentStatus
 
 
     /// <summary>
-    /// 根据节拍进度对命令处理的条件等待
-    /// 如果本拍的剩余时间占比>=waitMeterProgress,就直接执行,否则等下拍执行
-    /// 其他情况等待下一拍执行
+    /// 鏍规嵁鑺傛媿杩涘害瀵瑰懡浠ゅ鐞嗙殑鏉′欢绛夊緟
+    /// 濡傛灉鏈媿鐨勫墿浣欐椂闂村崰姣?=waitMeterProgress,灏辩洿鎺ユ墽琛?鍚﹀垯绛変笅鎷嶆墽琛?
+    /// 鍏朵粬鎯呭喌绛夊緟涓嬩竴鎷嶆墽琛?
     /// </summary>
     /// <param name="waitMeterProgress"></param>
     public void ProgressWaitOnCommand(float waitMeterProgress, AgentInputCommand cmd)
     {
-        // 当前拍的剩余时间
+        // 褰撳墠鎷嶇殑鍓╀綑鏃堕棿
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
-        // 当前拍的总时间
+        // 褰撳墠鎷嶇殑鎬绘椂闂?
         float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex+1);
 
         if (timeOfCurrentMeter <= 0)
         {
-            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, 当前拍的总时间<=0, 当前拍:{0}", MeterManager.Ins.MeterIndex);
+            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, 褰撳墠鎷嶇殑鎬绘椂闂?=0, 褰撳墠鎷?{0}", MeterManager.Ins.MeterIndex);
             return;
         }
 
@@ -175,18 +175,18 @@ public abstract class AgentStatus : IAgentStatus
     }
 
     /// <summary>
-    /// 根据本拍剩余时间对命令处理的条件等待
-    /// 如果本拍剩余时间<waitTime,就直接执行，否则等待下一拍执行
+    /// 鏍规嵁鏈媿鍓╀綑鏃堕棿瀵瑰懡浠ゅ鐞嗙殑鏉′欢绛夊緟
+    /// 濡傛灉鏈媿鍓╀綑鏃堕棿<waitTime,灏辩洿鎺ユ墽琛岋紝鍚﹀垯绛夊緟涓嬩竴鎷嶆墽琛?
     /// </summary>
     /// <param name="waitTime"></param>
     public void TimeWaitOnCommand(float waitTime, AgentInputCommand cmd)
     {
-        // 当前拍的剩余时间
+        // 褰撳墠鎷嶇殑鍓╀綑鏃堕棿
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
 
         if (timeToNextMeter <= 0)
         {
-            Log.Error(LogLevel.Normal, "TimeWaitOnCommand Error, 当前拍的总时间<=0, 当前拍:{0}", MeterManager.Ins.MeterIndex);
+            Log.Error(LogLevel.Normal, "TimeWaitOnCommand Error, 褰撳墠鎷嶇殑鎬绘椂闂?=0, 褰撳墠鎷?{0}", MeterManager.Ins.MeterIndex);
             return;
         }
 
