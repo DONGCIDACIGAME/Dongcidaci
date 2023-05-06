@@ -112,7 +112,7 @@ public class AgentStatus_Attack : AgentStatus
     //    return false;
     //}
 
-    protected override void CustomOnComboMove(Combo combo, ComboMove comboMove, Vector3 towards)
+    protected override void CustomOnComboMove(Combo combo, ComboStep comboMove, Vector3 towards)
     {
         base.CustomOnComboMove(combo, comboMove, towards);
         mAgent.MoveControl.TurnTo(towards);

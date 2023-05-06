@@ -5,22 +5,22 @@
 	[
 		{
 			"comboName": "attack1",
-			"comboMoves": [
-				{"moveType": 16, "animState": "Combo_1_With_Empty", "moveEffect": 0, "endFlag": false}
+			"comboSteps": [
+				{"input": 16, "animState": "Combo_1_With_Empty", "effect": 0, "endFlag": false}
 			]
 		},
 		{
 			"comboName": "attack2",
-			"comboMoves": [
-				{"moveType": 32, "animState": "Combo_2_With_Empty", "moveEffect": 0, "endFlag": false}
+			"comboSteps": [
+				{"input": 32, "animState": "Combo_2_With_Empty", "effect": 0, "endFlag": false}
 			]
 		},
 		{
 			"comboName": "attack3",
-			"comboMoves": [
-				{"moveType": 16, "animState": "Combo_1_With_Empty", "moveEffect": 0, "endFlag": false},
-				{"moveType": 16, "animState": "Combo_2_With_Empty", "moveEffect": 0, "endFlag": false},
-				{"moveType": 16, "animState": "Combo_3_With_Empty", "moveEffect": 0, "endFlag": true}
+			"comboSteps": [
+				{"input": 16, "animState": "Combo_1_With_Empty", "effect": 0, "endFlag": false},
+				{"input": 16, "animState": "Combo_2_With_Empty", "effect": 0, "endFlag": false},
+				{"input": 16, "animState": "Combo_3_With_Empty", "effect": 0, "endFlag": true}
 			]
 		}
 	]

@@ -1,8 +1,8 @@
 [System.Serializable]
-public class ComboMove
+public class ComboStep
 {
-    public byte moveType;
+    public byte input;
     public string animState;
-    public int moveEffect;
+    public int effect;
     public bool endFlag;
 }

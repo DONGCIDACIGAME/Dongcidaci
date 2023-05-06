@@ -279,13 +279,13 @@ public abstract class Agent : IEntity, IMeterHandler
         // $$$$$$$$$$$$$$$这里的逻辑不对，应该是combohandler通过对指令进行匹配，查出来一个匹配的combomove，然后附带给cmd，传给status
         // 否则触发了combo的指令就无法正确执行指令的逻辑了
 
-        if (ComboHandler.TryTriggerCombo(cmd.CmdType, cmd.TriggerMeter, out Combo combo, out ComboMove comboMove))
+        if (ComboHandler.TryTriggerCombo(cmd.CmdType, cmd.TriggerMeter, out Combo combo, out ComboStep comboMove))
         {
-            curStatus.OnComboMove(combo, comboMove, cmd.Towards);
+            curStatus.OnComboCommand(cmd, combo, comboMove);
         }
         else
         {
-            curStatus.OnCommand(cmd);
+            curStatus.OnNormalCommand(cmd);
         }
 
         AgentInputCommandPool.Ins.PushAgentInputCommand(cmd);

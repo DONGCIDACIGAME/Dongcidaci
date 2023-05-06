@@ -2,5 +2,5 @@
 public class Combo
 {
     public string comboName;
-    public ComboMove[] comboMoves;
+    public ComboStep[] comboSteps;
 }

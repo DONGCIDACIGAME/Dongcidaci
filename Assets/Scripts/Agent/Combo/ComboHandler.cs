@@ -11,7 +11,7 @@ public class ComboHandler
     /// <summary>
     /// 已经触发的招式队列
     /// </summary>
-    private List<ComboMove> mTriggeredComboActions;
+    private List<ComboStep> mTriggeredComboActions;
 
     /// <summary>
     /// 上次触发combo的节拍index
@@ -21,7 +21,7 @@ public class ComboHandler
     public ComboHandler()
     {
         mSortedCombos = new List<Combo>();
-        mTriggeredComboActions = new List<ComboMove>();
+        mTriggeredComboActions = new List<ComboStep>();
     }
 
 
@@ -50,7 +50,7 @@ public class ComboHandler
                 continue;
             }
 
-            if (cmb.comboMoves == null || cmb.comboMoves.Length == 0)
+            if (cmb.comboSteps == null || cmb.comboSteps.Length == 0)
             {
                 Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combo comboMoves is null or emtpty, combo name: {0}, agent id:{1}, agent Name:{2}", cmb.comboName, comboGraph.agentId, comboGraph.agentName);
                 continue;
@@ -59,7 +59,7 @@ public class ComboHandler
             for(int j = mSortedCombos.Count-1; j >=0 ; j--)
             {
                 Combo _cmb = mSortedCombos[j];
-                if(_cmb.comboMoves.Length <= cmb.comboMoves.Length)
+                if(_cmb.comboSteps.Length <= cmb.comboSteps.Length)
                 {
                     mSortedCombos.Insert(j, cmb);
                     break;
@@ -79,17 +79,17 @@ public class ComboHandler
     /// <param name="inputRecord"></param>
     /// <param name="cmb"></param>
     /// <returns></returns>
-    private bool CheckMatchCombo(byte newInput, Combo cmb, out ComboMove cm)
+    private bool CheckMatchCombo(byte newInput, Combo cmb, out ComboStep cm)
     {
         cm = null;
 
-        if (cmb.comboMoves == null || cmb.comboMoves.Length == 0)
+        if (cmb.comboSteps == null || cmb.comboSteps.Length == 0)
         {
             Log.Error(LogLevel.Info, "CheckMatchCombo Error, cmb.comboMoves null or empty!");
             return false;
         }
 
-        int len = cmb.comboMoves.Length;
+        int len = cmb.comboSteps.Length;
 
         if (len < mTriggeredComboActions.Count + 1)
             return false;
@@ -97,22 +97,22 @@ public class ComboHandler
         int index;
         for(index = 0; index < mTriggeredComboActions.Count; index++)
         {
-            if(cmb.comboMoves[index].moveType != mTriggeredComboActions[index].moveType)
+            if(cmb.comboSteps[index].input != mTriggeredComboActions[index].input)
             {
                 return false;
             }
         }
     
-        if(newInput != cmb.comboMoves[index].moveType)
+        if(newInput != cmb.comboSteps[index].input)
         {
             return false;
         }
 
-        cm = cmb.comboMoves[index];
+        cm = cmb.comboSteps[index];
         return true;
     }
 
-    private void AddComboActionRecord(ComboMove cm)
+    private void AddComboActionRecord(ComboStep cm)
     {
         mTriggeredComboActions.Add(cm);
     }
@@ -122,7 +122,7 @@ public class ComboHandler
         mTriggeredComboActions.Clear();
     }
 
-    public bool TryTriggerCombo(byte cmd, int meterIndex, out Combo combo, out ComboMove comboMove)
+    public bool TryTriggerCombo(byte cmd, int meterIndex, out Combo combo, out ComboStep comboMove)
     {
         combo = null;
         comboMove = null;
@@ -144,7 +144,7 @@ public class ComboHandler
             if (cmb == null)
                 continue;
 
-            if(CheckMatchCombo(cmd, cmb, out ComboMove cm))
+            if(CheckMatchCombo(cmd, cmb, out ComboStep cm))
             {
                 combo = cmb;
                 comboMove = cm;

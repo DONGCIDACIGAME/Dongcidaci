@@ -249,7 +249,7 @@ public abstract class AgentStatus : IAgentStatus
 
     protected virtual void CustomOnCommand(AgentInputCommand cmd) { }
 
-    public void OnCommand(AgentInputCommand cmd)
+    public void OnNormalCommand(AgentInputCommand cmd)
     {
         if (cmd == null)
             return;
@@ -257,9 +257,9 @@ public abstract class AgentStatus : IAgentStatus
         CustomOnCommand(cmd);
     }
 
-    protected virtual void CustomOnComboMove(Combo combo, ComboMove comboMove, Vector3 towards) { }
+    protected virtual void CustomOnComboMove(Combo combo, ComboStep comboMove, Vector3 towards) { }
     
-    public void OnComboMove(Combo combo, ComboMove comboMove, Vector3 towards)
+    public void OnComboCommand(AgentInputCommand cmd, Combo combo, ComboStep comboMove)
     {
         if (combo == null)
             return;
@@ -267,6 +267,6 @@ public abstract class AgentStatus : IAgentStatus
         if (comboMove == null)
             return;
 
-        CustomOnComboMove(combo, comboMove, towards);
+        CustomOnComboMove(combo, comboMove, cmd.Towards);
     }
 }
