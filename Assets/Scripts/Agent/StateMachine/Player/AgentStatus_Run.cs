@@ -21,7 +21,7 @@ public class AgentStatus_Run : AgentStatus
 
         if(context == null)
         {
-            Log.Error(LogLevel.Critical, "AgentStatus_Run OnEnter Error, ´«ÈëµÄ²ÎÊıÎª¿Õ£¬Çë¼ì²é!");
+            Log.Error(LogLevel.Critical, "AgentStatus_Run OnEnter Error, ä¼ å…¥çš„å‚æ•°ä¸ºç©ºï¼Œè¯·æ£€æŸ¥!");
         }
 
         if(context.TryGetValue("towards", out object arg))
@@ -38,9 +38,9 @@ public class AgentStatus_Run : AgentStatus
         base.OnExit();
     }
 
-    protected override void CustomOnCommand(AgentInputCommand cmd)
+    protected override void CustomOnNormalCommand(AgentInputCommand cmd)
     {
-        base.CustomOnCommand(cmd);
+        base.CustomOnNormalCommand(cmd);
 
         switch (cmd.CmdType)
         {

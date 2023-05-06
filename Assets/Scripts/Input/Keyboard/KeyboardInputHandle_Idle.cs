@@ -1,4 +1,4 @@
-﻿public class KeyboardInputHandle_Idle : AgentKeyboardInputHandle
+public class KeyboardInputHandle_Idle : AgentKeyboardInputHandle
 {
     public KeyboardInputHandle_Idle(Agent agt) : base(agt)
     {

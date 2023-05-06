@@ -1,4 +1,4 @@
-﻿public abstract class InputHandle : IInputHandle
+public abstract class InputHandle : IInputHandle
 {
     protected bool mEnable;
     public bool CheckEnable()

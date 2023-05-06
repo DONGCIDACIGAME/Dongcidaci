@@ -38,9 +38,9 @@ public class AgentStatus_Dash : AgentStatus
         base.OnUpdate(deltaTime);
     }
 
-    protected override void CustomOnCommand(AgentInputCommand cmd)
+    protected override void CustomOnNormalCommand(AgentInputCommand cmd)
     {
-        base.CustomOnCommand(cmd);
+        base.CustomOnNormalCommand(cmd);
 
         switch (cmd.CmdType)
         {

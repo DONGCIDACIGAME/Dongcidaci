@@ -12,28 +12,27 @@ public abstract class AgentStatus : IAgentStatus
     protected Agent mAgent;
 
     /// <summary>
-    /// 输入处理�?
+    /// 输入处理器
     /// </summary>
     protected IInputHandle mInputHandle;
 
     /// <summary>
-    /// ����ѭ������������
+    /// 步进式动画驱动器
     /// </summary>
     protected StepLoopAnimDriver mStepLoopAnimDriver;
 
     /// <summary>
-    /// �Զ��嶯��������
+    /// 自定义动画驱动器
     /// </summary>
     protected CustomAnimDriver mCustomAnimDriver;
 
     /// <summary>
-    /// ��ǰ����״̬�Ľ�����
-    /// TODO:�����Ƿ���Բ���������
+    /// 当前动画结束节拍index
     /// </summary>
     protected int mCurAnimStateEndMeter;
 
     /// <summary>
-    /// 等待执行的指令集�?
+    /// 等待执行的指令集缓存区
     /// </summary>
     protected AgentInputCommandBuffer cmdBuffer;
 
@@ -102,7 +101,6 @@ public abstract class AgentStatus : IAgentStatus
 
         if(mInputHandle != null)
         {
-            
             mInputHandle = null;
         }
 
@@ -145,20 +143,20 @@ public abstract class AgentStatus : IAgentStatus
 
     /// <summary>
     /// 根据节拍进度对命令处理的条件等待
-    /// 如果本拍的剩余时间占�?=waitMeterProgress,就直接执�?否则等下拍执�?
-    /// 其他情况等待下一拍执�?
+    /// 如果本拍的剩余时间占比=waitMeterProgress,就直接执指令，否则等下拍执行指令
+    /// 其他情况等待下一拍执行
     /// </summary>
     /// <param name="waitMeterProgress"></param>
     public void ProgressWaitOnCommand(float waitMeterProgress, AgentInputCommand cmd)
     {
         // 当前拍的剩余时间
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
-        // 当前拍的总时�?
+        // 当前拍的总时长
         float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex+1);
 
         if (timeOfCurrentMeter <= 0)
         {
-            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, 当前拍的总时�?=0, 当前�?{0}", MeterManager.Ins.MeterIndex);
+            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, 当前拍的总时长=0, 当前节拍：{0}", MeterManager.Ins.MeterIndex);
             return;
         }
 
@@ -176,7 +174,7 @@ public abstract class AgentStatus : IAgentStatus
 
     /// <summary>
     /// 根据本拍剩余时间对命令处理的条件等待
-    /// 如果本拍剩余时间<waitTime,就直接执行，否则等待下一拍执�?
+    /// 如果本拍剩余时间<waitTime,就直接执行，否则等待下一拍执行
     /// </summary>
     /// <param name="waitTime"></param>
     public void TimeWaitOnCommand(float waitTime, AgentInputCommand cmd)
@@ -186,7 +184,7 @@ public abstract class AgentStatus : IAgentStatus
 
         if (timeToNextMeter <= 0)
         {
-            Log.Error(LogLevel.Normal, "TimeWaitOnCommand Error, 当前拍的总时�?=0, 当前�?{0}", MeterManager.Ins.MeterIndex);
+            Log.Error(LogLevel.Normal, "TimeWaitOnCommand Error, 当前拍的总时长=0, 当前节拍：{0}", MeterManager.Ins.MeterIndex);
             return;
         }
 
@@ -247,26 +245,35 @@ public abstract class AgentStatus : IAgentStatus
         }
     }
 
-    protected virtual void CustomOnCommand(AgentInputCommand cmd) { }
+    protected virtual void CustomOnNormalCommand(AgentInputCommand cmd) { }
 
     public void OnNormalCommand(AgentInputCommand cmd)
     {
         if (cmd == null)
+        {
+            Log.Error(LogLevel.Normal, "OnNormalCommand Error, cmd is null!");
             return;
+        }
 
-        CustomOnCommand(cmd);
+        CustomOnNormalCommand(cmd);
     }
 
-    protected virtual void CustomOnComboMove(Combo combo, ComboStep comboMove, Vector3 towards) { }
-    
-    public void OnComboCommand(AgentInputCommand cmd, Combo combo, ComboStep comboMove)
+    protected virtual void CustomOnComboCommand(AgentInputCommand cmd, TriggerableCombo combo) { }
+   
+    public void OnComboCommand(AgentInputCommand cmd, TriggerableCombo combo)
     {
+        if (cmd == null)
+        {
+            Log.Error(LogLevel.Normal, "OnComboCommand Error, cmd is null!");
+            return;
+        }
+
         if (combo == null)
+        {
+            Log.Error(LogLevel.Normal, "OnComboCommand Error, combo is null!");
             return;
+        }
 
-        if (comboMove == null)
-            return;
-
-        CustomOnComboMove(combo, comboMove, cmd.Towards);
+        CustomOnComboCommand(cmd, combo);
     }
 }

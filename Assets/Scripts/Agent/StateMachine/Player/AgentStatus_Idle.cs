@@ -30,9 +30,9 @@ public class AgentStatus_Idle : AgentStatus
         base.OnExit();
     }
 
-    protected override void CustomOnCommand(AgentInputCommand cmd)
+    protected override void CustomOnNormalCommand(AgentInputCommand cmd)
     {
-        base.CustomOnCommand(cmd);
+        base.CustomOnNormalCommand(cmd);
 
         switch (cmd.CmdType)
         {

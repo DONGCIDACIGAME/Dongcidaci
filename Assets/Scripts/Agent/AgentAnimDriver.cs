@@ -1,4 +1,4 @@
-﻿public class AgentAnimDriver
+public class AgentAnimDriver
 {
     protected Agent mAgent;
     protected AgentAnimStateInfo mCurAnimState;

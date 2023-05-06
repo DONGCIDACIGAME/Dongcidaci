@@ -1,23 +1,23 @@
 {
 	"agentName": "Robot",
 	"agentId": 3,
-	"combos": 
+	"comboDatas": 
 	[
 		{
 			"comboName": "attack1",
-			"comboSteps": [
+			"comboStepDatas": [
 				{"input": 16, "animState": "Combo_1_With_Empty", "effect": 0, "endFlag": false}
 			]
 		},
 		{
 			"comboName": "attack2",
-			"comboSteps": [
+			"comboStepDatas": [
 				{"input": 32, "animState": "Combo_2_With_Empty", "effect": 0, "endFlag": false}
 			]
 		},
 		{
 			"comboName": "attack3",
-			"comboSteps": [
+			"comboStepDatas": [
 				{"input": 16, "animState": "Combo_1_With_Empty", "effect": 0, "endFlag": false},
 				{"input": 16, "animState": "Combo_2_With_Empty", "effect": 0, "endFlag": false},
 				{"input": 16, "animState": "Combo_3_With_Empty", "effect": 0, "endFlag": true}

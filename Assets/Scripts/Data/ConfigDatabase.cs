@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Author:   Triniti Interactive
  * Copyright (c) Triniti Interactive All rights reserved.
  * 2018-12-7 

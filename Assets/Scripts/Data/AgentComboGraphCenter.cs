@@ -4,11 +4,11 @@ using System.IO;
 
 public class AgentComboGraphCenter 
 {
-    private Dictionary<uint, ComboGraph> mAllAgentComboGraphs;
+    private Dictionary<uint, ComboDataGraph> mAllAgentComboGraphs;
 
-    public ComboGraph GetAgentComboGraph(uint agentId)
+    public ComboDataGraph GetAgentComboGraph(uint agentId)
     {
-        ComboGraph comboGraph;
+        ComboDataGraph comboGraph;
         mAllAgentComboGraphs.TryGetValue(agentId, out comboGraph);
         return comboGraph;
     }
@@ -17,13 +17,13 @@ public class AgentComboGraphCenter
     {
         if (!FileHelper.FileExist(jsonPath))
         {
-            Log.Error(LogLevel.Normal, "LoadAgentComboGraph Failed, file don¡®t exist at path:{0}", jsonPath);
+            Log.Error(LogLevel.Normal, "LoadAgentComboGraph Failed, file donâ€˜t exist at path:{0}", jsonPath);
             return;
         }
 
         string json = FileHelper.ReadText(jsonPath, System.Text.Encoding.UTF8);
 
-        ComboGraph comboGraph = JsonMapper.ToObject<ComboGraph>(json);
+        ComboDataGraph comboGraph = JsonMapper.ToObject<ComboDataGraph>(json);
         if (comboGraph == null)
         {
             Log.Error(LogLevel.Normal, "LoadAgentComboGraph Failed, parse combo graph data failed at path:{0}", jsonPath);
@@ -55,7 +55,7 @@ public class AgentComboGraphCenter
 
     public void Initialize()
     {
-        mAllAgentComboGraphs = new Dictionary<uint, ComboGraph>();
+        mAllAgentComboGraphs = new Dictionary<uint, ComboDataGraph>();
         string dirPath = null;
 #if UNITY_EDITOR
         dirPath = PathDefine.EDITOR_DATA_DIR_PATH + "/Combo";

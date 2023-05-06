@@ -20,9 +20,9 @@ public class AgentStatus_BeHit : AgentStatus
         base.OnExit();
     }
 
-    protected override void CustomOnCommand(AgentInputCommand cmd)
+    protected override void CustomOnNormalCommand(AgentInputCommand cmd)
     {
-        base.CustomOnCommand(cmd);
+        base.CustomOnNormalCommand(cmd);
 
         switch (cmd.CmdType)
         {

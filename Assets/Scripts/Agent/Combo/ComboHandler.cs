@@ -2,30 +2,20 @@ using System.Collections.Generic;
 
 public class ComboHandler
 {
-    /// <summary>
-    /// ³öÕĞ±í
-    /// °´ÕÕÒªÇóµÄ³öÕĞÊıÁ¿½øĞĞÁËÉıĞòÅÅÁĞ
-    /// </summary>
-    private List<Combo> mSortedCombos;
+    private List<TriggerableCombo> mSortedTriggerableCombos;
 
     /// <summary>
-    /// ÒÑ¾­´¥·¢µÄÕĞÊ½¶ÓÁĞ
+    /// ä¸Šæ¬¡è§¦å‘comboçš„èŠ‚æ‹index
     /// </summary>
-    private List<ComboStep> mTriggeredComboActions;
-
-    /// <summary>
-    /// ÉÏ´Î´¥·¢comboµÄ½ÚÅÄindex
-    /// </summary>
-    private int lastComboMeterIndex;
+    private int lastTriggeredMeter;
 
     public ComboHandler()
     {
-        mSortedCombos = new List<Combo>();
-        mTriggeredComboActions = new List<ComboStep>();
+
     }
 
 
-    public void Initialize(ComboGraph comboGraph)
+    public void Initialize(ComboDataGraph comboGraph)
     {
         if (comboGraph == null)
         {
@@ -33,142 +23,97 @@ public class ComboHandler
             return;
         }
 
-        if(comboGraph.combos == null)
+        if(comboGraph.comboDatas == null)
         {
             Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combos is null, agentId:{0},  agentName:{1}",comboGraph.agentId, comboGraph.agentName);
             return;
         }
 
-        mSortedCombos.Clear();
+        mSortedTriggerableCombos = new List<TriggerableCombo>();
 
-        for(int i = 0; i < comboGraph.combos.Length;i++)
+        for(int i = 0; i < comboGraph.comboDatas.Length;i++)
         {
-            Combo cmb = comboGraph.combos[i];
-            if (cmb == null)
+            ComboData comboData = comboGraph.comboDatas[i];
+            if (comboData == null)
             {
                 Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, ComboGraph has null combo at index {0}, agent id:{1}, agent Name:{2}", i, comboGraph.agentId, comboGraph.agentName);
                 continue;
             }
 
-            if (cmb.comboSteps == null || cmb.comboSteps.Length == 0)
+            if (comboData.comboStepDatas == null || comboData.comboStepDatas.Length == 0)
             {
-                Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combo comboMoves is null or emtpty, combo name: {0}, agent id:{1}, agent Name:{2}", cmb.comboName, comboGraph.agentId, comboGraph.agentName);
+                Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combo [{0}] comboStepDatas is null or emtpty, agent id:{1}, agent Name:{2}", comboData.comboName, comboGraph.agentId, comboGraph.agentName);
                 continue;
             }
 
-            for(int j = mSortedCombos.Count-1; j >=0 ; j--)
+            TriggerableCombo tc = null;
+            for (int j = mSortedTriggerableCombos.Count-1; j >=0 ; j--)
             {
-                Combo _cmb = mSortedCombos[j];
-                if(_cmb.comboSteps.Length <= cmb.comboSteps.Length)
+                TriggerableCombo triggerableCombo = mSortedTriggerableCombos[j];
+                if(triggerableCombo.GetComboStepCount() <= comboData.comboStepDatas.Length)
                 {
-                    mSortedCombos.Insert(j, cmb);
-                    break;
+                    tc = new TriggerableCombo(comboData);
+                    mSortedTriggerableCombos.Insert(j, tc);
+                    return ;
                 }
             }
 
-            mSortedCombos.Add(cmb);
+            tc = new TriggerableCombo(comboData);
+            mSortedTriggerableCombos.Add(tc);
         }
-
-
     }
 
     /// <summary>
-    /// ³öÕĞÆ¥Åä¼ì²â
+    /// å‡ºæ‹›åŒ¹é…æ£€æµ‹
     /// </summary>
-    /// <param name="newInput"></param>
-    /// <param name="inputRecord"></param>
-    /// <param name="cmb"></param>
-    /// <returns></returns>
-    private bool CheckMatchCombo(byte newInput, Combo cmb, out ComboStep cm)
+    /// <param name="newInput">è¾“å…¥</param>
+    /// <param name="meterIndex">è¾“å…¥å¯¹åº”çš„èŠ‚æ‹index</param>
+    /// <returns>è¿”å›ç¬¬ä¸€ä¸ªè¢«è§¦å‘çš„combo</returns>
+    public TriggerableCombo OnNewInput(byte newInput, int meterIndex)
     {
-        cm = null;
+        // åŒä¸€æ‹åªèƒ½è§¦å‘ä¸€æ¬¡combo
+        if (meterIndex == lastTriggeredMeter)
+            return null;
 
-        if (cmb.comboSteps == null || cmb.comboSteps.Length == 0)
+        TriggerableCombo firstTriggeredCombo = null;
+
+        // æ‰€æœ‰çš„comboéƒ½è¿‡ä¸€éæ–°çš„è¾“å…¥
+        for (int i = 0; i < mSortedTriggerableCombos.Count; i++)
         {
-            Log.Error(LogLevel.Info, "CheckMatchCombo Error, cmb.comboMoves null or empty!");
-            return false;
-        }
+            TriggerableCombo tc = mSortedTriggerableCombos[i];
 
-        int len = cmb.comboSteps.Length;
+            bool triggered = tc.TryTriggerOnNewInput(newInput);
 
-        if (len < mTriggeredComboActions.Count + 1)
-            return false;
-
-        int index;
-        for(index = 0; index < mTriggeredComboActions.Count; index++)
-        {
-            if(cmb.comboSteps[index].input != mTriggeredComboActions[index].input)
+            // æˆåŠŸè§¦å‘comboæ—¶ï¼Œè®°å½•ç¬¬ä¸€ä¸ªè¢«è§¦å‘çš„combo
+            if (triggered && firstTriggeredCombo == null)
             {
-                return false;
+               firstTriggeredCombo = tc;
             }
         }
-    
-        if(newInput != cmb.comboSteps[index].input)
+
+        if(firstTriggeredCombo != null)
         {
-            return false;
+            lastTriggeredMeter = meterIndex;
         }
 
-        cm = cmb.comboSteps[index];
-        return true;
+        // è¿”å›ç¬¬ä¸€ä¸ªè¢«è§¦å‘çš„combo
+        return firstTriggeredCombo;
     }
 
-    private void AddComboActionRecord(ComboStep cm)
+    /// <summary>
+    /// ä¸€ä¸ªå®Œæ•´çš„comboæ‰“å®Œæ—¶ï¼Œè¦é‡ç½®ä¸€ä¸‹combohandlerï¼Œé‡æ–°å¼€å§‹ä¸‹ä¸€æ¬¡çš„comboå¤„ç†
+    /// </summary>
+    public void Reset()
     {
-        mTriggeredComboActions.Add(cm);
-    }
-
-    public void ClearComboActionRecord()
-    {
-        mTriggeredComboActions.Clear();
-    }
-
-    public bool TryTriggerCombo(byte cmd, int meterIndex, out Combo combo, out ComboStep comboMove)
-    {
-        combo = null;
-        comboMove = null;
-
-        // Í¬Ò»ÅÄÖ»ÄÜ´¥·¢Ò»¸öcombo
-        if (meterIndex == lastComboMeterIndex)
-            return false;
-
-        if (mSortedCombos == null || mSortedCombos.Count == 0)
+        for(int i = 0;i<mSortedTriggerableCombos.Count;i++)
         {
-            Log.Error(LogLevel.Info, "ComboHandler OnInput  Error, mSortedCombos null or empty!");
-            return false;
+            mSortedTriggerableCombos[i].Reset();
         }
-
-        for (int i = 0; i < mSortedCombos.Count; i++)
-        {
-            Combo cmb = mSortedCombos[i];
-
-            if (cmb == null)
-                continue;
-
-            if(CheckMatchCombo(cmd, cmb, out ComboStep cm))
-            {
-                combo = cmb;
-                comboMove = cm;
-                if(comboMove.endFlag)
-                {
-                    ClearComboActionRecord();
-                }
-                else
-                {
-                    AddComboActionRecord(comboMove);
-                }
-                lastComboMeterIndex = meterIndex;
-                return true;
-            }
-        }
-        
-        //Log.Error(LogLevel.Info, "ComboHandler OnInput  Error, no match combo with cmd:{0}", cmd);
-        return false;
     }
 
     public void Dispose()
     {
-        mSortedCombos = null;
-        mTriggeredComboActions = null;
-        lastComboMeterIndex = -1;
+        mSortedTriggerableCombos = null;
+        lastTriggeredMeter = -1;
     }
 }

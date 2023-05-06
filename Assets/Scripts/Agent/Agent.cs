@@ -144,7 +144,7 @@ public abstract class Agent : IEntity, IMeterHandler
         MeterManager.Ins.RegisterMeterHandler(this);
 
         ComboHandler = new ComboHandler();
-        ComboGraph cg = DataCenter.Ins.AgentComboGraphCenter.GetAgentComboGraph(mAgentId);
+        ComboDataGraph cg = DataCenter.Ins.AgentComboGraphCenter.GetAgentComboGraph(mAgentId);
         ComboHandler.Initialize(cg);
     }
 
@@ -255,8 +255,9 @@ public abstract class Agent : IEntity, IMeterHandler
             return;
         }
 
-        // 记录这次的指令数据
+        // 上次记录的指令归还指令池
         AgentInputCommandPool.Ins.PushAgentInputCommand(lastInputCmd);
+        // 记录这次的指令数据
         lastInputCmd = AgentInputCommandPool.Ins.CreateAgentInputCommandCopy(cmd);
 
         if (StatusMachine == null)
@@ -275,23 +276,22 @@ public abstract class Agent : IEntity, IMeterHandler
             return;
         }
 
-        // 如果触发了combo，就执行combo逻辑，否则执行单个指令的逻辑
-        // $$$$$$$$$$$$$$$这里的逻辑不对，应该是combohandler通过对指令进行匹配，查出来一个匹配的combomove，然后附带给cmd，传给status
-        // 否则触发了combo的指令就无法正确执行指令的逻辑了
-
-        if (ComboHandler.TryTriggerCombo(cmd.CmdType, cmd.TriggerMeter, out Combo combo, out ComboStep comboMove))
+        // 新的输入尝试触发combo
+        TriggerableCombo combo = ComboHandler.OnNewInput(cmd.CmdType, cmd.TriggerMeter);
+        // 如果触发了combo，就需要同时处理指令和combo的逻辑
+        if(combo != null)
         {
-            curStatus.OnComboCommand(cmd, combo, comboMove);
+            curStatus.OnComboCommand(cmd, combo);
         }
-        else
+        else // 否则只用单纯处理指令逻辑即可
         {
             curStatus.OnNormalCommand(cmd);
         }
 
+        // 指令归还指令池
         AgentInputCommandPool.Ins.PushAgentInputCommand(cmd);
     }
 
-    float record;
 
     /// <summary>
     /// update
@@ -301,23 +301,6 @@ public abstract class Agent : IEntity, IMeterHandler
     {
         MoveControl.OnUpdate(deltaTime);
         StatusMachine.OnUpdate(deltaTime);
-
-        record += deltaTime;
-
-        // 4 6 拍为何让这玩意儿打两下?
-        if(record >= 1.7f && record <= 1.8f)
-        {
-            var cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
-            cmd.Initialize(AgentCommandDefine.ATTACK_LIGHT, 4, GamePlayDefine.InputDirection_NONE);
-            OnCommand(cmd);
-        }
-
-        if (record >= 2.30f && record <= 2.35f)
-        {
-            var cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
-            cmd.Initialize(AgentCommandDefine.ATTACK_LIGHT, 6, GamePlayDefine.InputDirection_NONE);
-            OnCommand(cmd);
-        }
     }
 
 

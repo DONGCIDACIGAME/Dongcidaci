@@ -1,7 +1,7 @@
 [System.Serializable]
-public class ComboGraph
+public class ComboDataGraph
 {
     public string agentName;
     public uint agentId;
-    public Combo[] combos;
+    public ComboData[] comboDatas;
 }

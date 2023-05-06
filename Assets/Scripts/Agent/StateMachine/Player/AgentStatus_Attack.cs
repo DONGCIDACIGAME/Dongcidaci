@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// ÖØ»÷×´Ì¬
+/// é‡å‡»çŠ¶æ€
 /// </summary>
 public class AgentStatus_Attack : AgentStatus
 {
@@ -19,14 +19,14 @@ public class AgentStatus_Attack : AgentStatus
         Vector3 towards = (Vector3)context["towards"];
         int triggerMeter = (int)context["triggerMeter"];
 
-        // µ±Ç°ÅÄµÄÊ£ÓàÊ±¼ä
+        // å½“å‰æ‹çš„å‰©ä½™æ—¶é—´
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
-        // µ±Ç°ÅÄµÄ×ÜÊ±¼ä
+        // å½“å‰æ‹çš„æ€»æ—¶é—´
         float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex + 1);
 
         if (timeOfCurrentMeter <= 0)
         {
-            Log.Error(LogLevel.Normal, "CmdHandleOnEnterAttack Error, µ±Ç°ÅÄµÄ×ÜÊ±¼ä<=0, µ±Ç°ÅÄ:{0}", MeterManager.Ins.MeterIndex);
+            Log.Error(LogLevel.Normal, "CmdHandleOnEnterAttack Error, å½“å‰æ‹çš„æ€»æ—¶é—´<=0, å½“å‰æ‹:{0}", MeterManager.Ins.MeterIndex);
             return;
         }
 
@@ -48,14 +48,14 @@ public class AgentStatus_Attack : AgentStatus
 
     private void ProgressWaitOnAttack(byte cmdType, Vector3 towards, int triggerMeter)
     {
-        // µ±Ç°ÅÄµÄÊ£ÓàÊ±¼ä
+        // å½“å‰æ‹çš„å‰©ä½™æ—¶é—´
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
-        // µ±Ç°ÅÄµÄ×ÜÊ±¼ä
+        // å½“å‰æ‹çš„æ€»æ—¶é—´
         float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex + 1);
 
         if (timeOfCurrentMeter <= 0)
         {
-            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, µ±Ç°ÅÄµÄ×ÜÊ±¼ä<=0, µ±Ç°ÅÄ:{0}", MeterManager.Ins.MeterIndex);
+            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, å½“å‰æ‹çš„æ€»æ—¶é—´<=0, å½“å‰æ‹:{0}", MeterManager.Ins.MeterIndex);
             return;
         }
 
@@ -71,9 +71,9 @@ public class AgentStatus_Attack : AgentStatus
         }
     }
 
-    protected override void CustomOnCommand(AgentInputCommand cmd)
+    protected override void CustomOnNormalCommand(AgentInputCommand cmd)
     {
-        base.CustomOnCommand(cmd);
+        base.CustomOnNormalCommand(cmd);
 
         switch (cmd.CmdType)
         {
@@ -112,12 +112,12 @@ public class AgentStatus_Attack : AgentStatus
     //    return false;
     //}
 
-    protected override void CustomOnComboMove(Combo combo, ComboStep comboMove, Vector3 towards)
+    protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggerableCombo combo)
     {
-        base.CustomOnComboMove(combo, comboMove, towards);
-        mAgent.MoveControl.TurnTo(towards);
-        string stateName = comboMove.animState;
-        mCurAnimStateEndMeter = mCustomAnimDriver.PlayAnimState(stateName);
+        base.CustomOnComboCommand(cmd, combo);
+        //mAgent.MoveControl.TurnTo(towards);
+        //string stateName = comboMove.animState;
+        //mCurAnimStateEndMeter = mCustomAnimDriver.PlayAnimState(stateName);
     }
 
 
