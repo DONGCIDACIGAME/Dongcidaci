@@ -4,14 +4,12 @@ using GameEngine;
 public class Hero : Agent
 {
     /// <summary>
-    /// ÅäÖÃÊı¾İ
+    /// è‹±é›„é…ç½®æ•°æ®
     /// </summary>
     private DongciDaci.HeroBaseCfg mHeroCfg;
 
     /// <summary>
-    /// Ïà»ú¸úËæ
-    /// TODO£ºÕâÀïÏëÒ»ÏÂÊÇ·ñĞèÒª´ÓHeroÀïÅ²³öÈ¥
-    /// Weng: ĞèÒªÅ²³öÈ¥--
+    /// ç›¸æœºè·Ÿéš
     /// </summary>
     private CamFollowTarget mCft;
 
@@ -58,9 +56,9 @@ public class Hero : Agent
     {
         if (mAgentGo != null)
         {
-            // ³õÊ¼»¯½ÇÉ«Î»ÖÃ
+            // ä½ç½®åˆå§‹åŒ–
             SetPosition(new Vector3(0, 1, 0));
-            // ³õÊ¼»¯½ÇÉ«³¯Ïò
+            // æœå‘åˆå§‹åŒ–
             SetTowards(new Vector3(0, 0, 1));
             AnimPlayer.Initialize(mAgentGo.GetComponent<Animator>());
         }
@@ -79,6 +77,8 @@ public class Hero : Agent
         MoveControl = new PlayerMoveControl(this);
         SetSpeed(mHeroCfg.Speed);
         SetDashDistance(mHeroCfg.DashDistance);
+
+        ComboHandler.SetComboActive("attack3", true);
     }
 
     public Hero(uint agentId) : base(agentId)

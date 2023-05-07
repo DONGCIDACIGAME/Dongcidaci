@@ -15,6 +15,12 @@ public class TriggerableCombo
     /// </summary>
     private int triggeredAt;
 
+    /// <summary>
+    /// 是否激活（只有激活的combo才能响应输入）
+    /// 和triggerable的区别在于，triggerable在combo打完时重置为true，active在装备combo时激活
+    /// </summary>
+    private bool active;
+
     public void Reset()
     {
         triggerable = true;
@@ -24,7 +30,23 @@ public class TriggerableCombo
     public TriggerableCombo(ComboData comboData)
     {
         this.comboData = comboData;
+        active = false;
         Reset();
+    }
+
+    public void SetActive(bool active)
+    {
+        this.active = active;
+    }
+
+    public bool IsCombo(string comboName)
+    {
+        return comboData.comboName.Equals(comboName);
+    }
+
+    public string GetComboName()
+    {
+        return comboData.comboName;
     }
 
     public int GetComboStepCount()
@@ -50,6 +72,12 @@ public class TriggerableCombo
             return null;
         }
 
+        if (!active)
+            return null;
+
+        if (!triggerable)
+            return null;
+
         if (triggeredAt < 0)
             return null;
 
@@ -66,6 +94,9 @@ public class TriggerableCombo
     /// <returns></returns>
     public bool TryTriggerOnNewInput(byte input)
     {
+        if (!active)
+            return false;
+
         if (!triggerable)
             return false;
 
@@ -90,7 +121,7 @@ public class TriggerableCombo
             return true;
         }
 
-        triggerable = false;
+        //triggerable = false;
         return false;
     }
 }

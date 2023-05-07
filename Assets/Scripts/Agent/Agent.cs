@@ -135,17 +135,19 @@ public abstract class Agent : IEntity, IMeterHandler
     {
         LoadAgentCfg(mAgentId);
         LoadAgentGo();
-        CustomInitialize();
-
-        StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
-
-        StatusMachine = new AgentStatusMachine();
-        StatusMachine.Initialize(this);
-        MeterManager.Ins.RegisterMeterHandler(this);
 
         ComboHandler = new ComboHandler();
         ComboDataGraph cg = DataCenter.Ins.AgentComboGraphCenter.GetAgentComboGraph(mAgentId);
         ComboHandler.Initialize(cg);
+        MeterManager.Ins.RegisterMeterHandler(this);
+
+        StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
+        StatusMachine = new AgentStatusMachine();
+        StatusMachine.Initialize(this);
+
+        CustomInitialize();
+
+        StatusMachine.SwitchToStatus(AgentStatusDefine.IDLE, null);
     }
 
     /// <summary>

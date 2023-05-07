@@ -19,35 +19,53 @@ public class AgentStatus_Attack : AgentStatus
         Vector3 towards = (Vector3)context["towards"];
         int triggerMeter = (int)context["triggerMeter"];
 
-        // 当前拍的剩余时间
-        float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
-        // 当前拍的总时间
-        float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex + 1);
-
-        if (timeOfCurrentMeter <= 0)
+        if(context.TryGetValue("combo", out object obj))
         {
-            Log.Error(LogLevel.Normal, "CmdHandleOnEnterAttack Error, 当前拍的总时间<=0, 当前拍:{0}", MeterManager.Ins.MeterIndex);
-            return;
+            TriggerableCombo combo = obj as TriggerableCombo;
+
+            if(combo != null)
+            {
+                // 当前拍的剩余时间
+                float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
+                // 当前拍的总时间
+                float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex + 1);
+
+                if (timeOfCurrentMeter == 0)
+                {
+                    ComboStepData comboStep = combo.GetCurrentComboStep();
+                    mCurAnimStateEndMeter = mCustomAnimDriver.PlayAnimState(comboStep.animState);
+                    return;
+                }
+
+                float progress = timeToNextMeter / timeOfCurrentMeter;
+
+                //if (progress >= GamePlayDefine.AttackMeterProgressWait)
+                //{
+                //    animDriver.PlayAnimState("AttackBegin");
+                //}
+
+                PushInputCommandToBuffer(triggerCmd, towards);
+            }
         }
 
-        float progress = timeToNextMeter / timeOfCurrentMeter;
 
-        //if (progress >= GamePlayDefine.AttackMeterProgressWait)
-        //{
-        //    animDriver.PlayAnimState("AttackBegin");
-        //}
 
-        DelayToMeterExcuteCommand(triggerCmd, towards);
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        //mComboHandler.ClearComboActionRecord();
     }
 
-    private void ProgressWaitOnAttack(byte cmdType, Vector3 towards, int triggerMeter)
+    private void ProgressWaitOnAttack(byte cmdType, Vector3 towards, int triggerMeter, TriggerableCombo combo)
     {
+        if (combo == null)
+            return;
+
+        ComboStepData comboStep = combo.GetCurrentComboStep();
+        if (comboStep == null)
+            return;
+
         // 当前拍的剩余时间
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
         // 当前拍的总时间
@@ -63,11 +81,12 @@ public class AgentStatus_Attack : AgentStatus
 
         if (progress >= GamePlayDefine.AttackMeterProgressWait)
         {
-            //TryTriggerCombo(triggerMeter, cmdType, towards);
+            string stateName = comboStep.animState;
+            mCurAnimStateEndMeter = mCustomAnimDriver.PlayAnimState(stateName);
         }
         else
         {
-            DelayToMeterExcuteCommand(cmdType, towards);
+            PushInputCommandToBuffer(cmdType, towards);
         }
     }
 
@@ -78,18 +97,19 @@ public class AgentStatus_Attack : AgentStatus
         switch (cmd.CmdType)
         {
             case AgentCommandDefine.BE_HIT:
-                ExcuteCommand(cmd);
+                ChangeStatusOnNormalCommand(cmd);
                 break;
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-                DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
                 break;
-            case AgentCommandDefine.ATTACK_HARD:
-            case AgentCommandDefine.ATTACK_LIGHT:
-                DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
-                Log.Logic(LogLevel.Info, "++++++++++++++++++++DelayToMeterExcuteCommand Add Atk----{0} ", MeterManager.Ins.MeterIndex);
+            case AgentCommandDefine.ATTACK_LONG:
+            case AgentCommandDefine.ATTACK_SHORT:
+                //PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
+                //Log.Logic(LogLevel.Info, "++++++++++++++++++++DelayToMeterExcuteCommand Add Atk----{0} ", MeterManager.Ins.MeterIndex);
                 //ProgressWaitOnAttack(cmd.CmdType, cmd.Towards, cmd.TriggerMeter);
+                Log.Error(LogLevel.Normal, "CustomOnNormalCommand Error，所有攻击模式应该都能匹配上combo！");
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -97,27 +117,11 @@ public class AgentStatus_Attack : AgentStatus
         }
     }
 
-    //protected bool TryTriggerCombo(int triggerIndex, byte cmdType, Vector3 towards)
-    //{
-    //    if(mComboHandler.OnCmd(cmdType, out Combo combo, out ComboMove comboMove))
-    //    {
-    //        mAgent.MoveControl.TurnTo(towards);
-    //        string stateName = comboMove.animState;
-    //        mCurAnimStateEndMeter = animDriver.PlayAnimState(stateName);
-    //        Log.Error(LogLevel.Info, "OnCombo----{0}--{1}--cur meter:{2}, end meter:{3}", combo.comboName, stateName, MeterManager.Ins.MeterIndex, mCurAnimStateEndMeter);
-    //        cmdBuffer.ClearCommandBuffer();
-    //        return true;
-    //    }
-
-    //    return false;
-    //}
-
     protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggerableCombo combo)
     {
         base.CustomOnComboCommand(cmd, combo);
-        //mAgent.MoveControl.TurnTo(towards);
-        //string stateName = comboMove.animState;
-        //mCurAnimStateEndMeter = mCustomAnimDriver.PlayAnimState(stateName);
+        mAgent.MoveControl.TurnTo(cmd.Towards);
+        ProgressWaitOnAttack(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, combo);
     }
 
 
@@ -136,11 +140,22 @@ public class AgentStatus_Attack : AgentStatus
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.DASH:
-                    ExcuteCommand(cmdType, towards, meterIndex);
+                    ChangeStatusOnNormalCommand(cmdType, towards, meterIndex);
                     return;
-                case AgentCommandDefine.ATTACK_HARD:
-                case AgentCommandDefine.ATTACK_LIGHT:
-                    mAgent.MoveControl.TurnTo(towards);
+                case AgentCommandDefine.ATTACK_LONG:
+                case AgentCommandDefine.ATTACK_SHORT:
+                    TriggerableCombo combo = mAgent.ComboHandler.GetCurTriggeredCombo();
+                    if(combo != null)
+                    {
+                        ComboStepData comboStep = combo.GetCurrentComboStep();
+                        if (comboStep != null)
+                        {
+                            mAgent.MoveControl.TurnTo(towards);
+
+                            mCurAnimStateEndMeter = mCustomAnimDriver.PlayAnimState(comboStep.animState);
+                        }
+                    }
+
                     break;
                 case AgentCommandDefine.EMPTY:
                 default:

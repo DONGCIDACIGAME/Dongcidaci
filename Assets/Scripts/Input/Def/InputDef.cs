@@ -11,7 +11,7 @@ public static class InputDef
     public const string KeyboardInputHandle_BeHit = "KeyboardInputHandle_BeHit";
 
     public static KeyCode DashKeyCode = KeyCode.Space;
-    public static KeyCode LightAttackKeyCode = KeyCode.J;
-    public static KeyCode HardAttackKeyCode = KeyCode.K;
+    public static KeyCode AttackShortKeyCode = KeyCode.J;
+    public static KeyCode AttackLongKeyCode = KeyCode.K;
 
 }

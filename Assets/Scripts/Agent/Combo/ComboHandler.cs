@@ -9,11 +9,33 @@ public class ComboHandler
     /// </summary>
     private int lastTriggeredMeter;
 
+    /// <summary>
+    /// 当前触发的combo
+    /// </summary>
+    private TriggerableCombo mCurTriggeredCombo;
+
     public ComboHandler()
     {
-
+        mSortedTriggerableCombos = new List<TriggerableCombo>();
     }
 
+    public void SetComboActive(string comboName, bool active)
+    {
+        for(int i = 0;i<mSortedTriggerableCombos.Count;i++)
+        {
+            TriggerableCombo tc = mSortedTriggerableCombos[i];
+            if(tc.IsCombo(comboName))
+            {
+                tc.SetActive(active);
+                return;
+            }
+        }
+    }
+
+    public TriggerableCombo GetCurTriggeredCombo()
+    {
+        return mCurTriggeredCombo;
+    }
 
     public void Initialize(ComboDataGraph comboGraph)
     {
@@ -29,9 +51,10 @@ public class ComboHandler
             return;
         }
 
-        mSortedTriggerableCombos = new List<TriggerableCombo>();
+        mSortedTriggerableCombos.Clear();
+        lastTriggeredMeter = -1;
 
-        for(int i = 0; i < comboGraph.comboDatas.Length;i++)
+        for (int i = 0; i < comboGraph.comboDatas.Length;i++)
         {
             ComboData comboData = comboGraph.comboDatas[i];
             if (comboData == null)
@@ -47,19 +70,24 @@ public class ComboHandler
             }
 
             TriggerableCombo tc = null;
+            bool added = false;
             for (int j = mSortedTriggerableCombos.Count-1; j >=0 ; j--)
             {
                 TriggerableCombo triggerableCombo = mSortedTriggerableCombos[j];
-                if(triggerableCombo.GetComboStepCount() <= comboData.comboStepDatas.Length)
+                if(comboData.comboStepDatas.Length < triggerableCombo.GetComboStepCount())
                 {
                     tc = new TriggerableCombo(comboData);
                     mSortedTriggerableCombos.Insert(j, tc);
-                    return ;
+                    added = true;
+                    break ;
                 }
             }
 
-            tc = new TriggerableCombo(comboData);
-            mSortedTriggerableCombos.Add(tc);
+            if(!added)
+            {
+                tc = new TriggerableCombo(comboData);
+                mSortedTriggerableCombos.Add(tc);
+            }
         }
     }
 
@@ -75,7 +103,7 @@ public class ComboHandler
         if (meterIndex == lastTriggeredMeter)
             return null;
 
-        TriggerableCombo firstTriggeredCombo = null;
+        mCurTriggeredCombo = null;
 
         // 所有的combo都过一遍新的输入
         for (int i = 0; i < mSortedTriggerableCombos.Count; i++)
@@ -85,19 +113,19 @@ public class ComboHandler
             bool triggered = tc.TryTriggerOnNewInput(newInput);
 
             // 成功触发combo时，记录第一个被触发的combo
-            if (triggered && firstTriggeredCombo == null)
+            if (triggered && mCurTriggeredCombo == null)
             {
-               firstTriggeredCombo = tc;
+                mCurTriggeredCombo = tc;
             }
         }
 
-        if(firstTriggeredCombo != null)
+        if(mCurTriggeredCombo != null)
         {
             lastTriggeredMeter = meterIndex;
         }
 
         // 返回第一个被触发的combo
-        return firstTriggeredCombo;
+        return mCurTriggeredCombo;
     }
 
     /// <summary>
@@ -109,11 +137,12 @@ public class ComboHandler
         {
             mSortedTriggerableCombos[i].Reset();
         }
+        lastTriggeredMeter = -1;
     }
 
     public void Dispose()
     {
+        Reset();
         mSortedTriggerableCombos = null;
-        lastTriggeredMeter = -1;
     }
 }

@@ -164,11 +164,11 @@ public abstract class AgentStatus : IAgentStatus
 
         if(progress >= waitMeterProgress)
         {
-            ExcuteCommand(cmd);
+            ChangeStatusOnNormalCommand(cmd);
         }
         else
         {
-            DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
+            PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
         }
     }
 
@@ -190,28 +190,39 @@ public abstract class AgentStatus : IAgentStatus
 
         if (timeToNextMeter <= waitTime)
         {
-            ExcuteCommand(cmd);
+            ChangeStatusOnNormalCommand(cmd);
         }
         else
         {
-            DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
+            PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
         }
     }
 
-    public void DelayToMeterExcuteCommand(byte cmdType, Vector3 towards)
+    /// <summary>
+    /// 输入指令暂存到buffer里，等待后续处理
+    /// </summary>
+    /// <param name="cmdType"></param>
+    /// <param name="towards"></param>
+    public void PushInputCommandToBuffer(byte cmdType, Vector3 towards)
     {
         cmdBuffer.AddInputCommand(cmdType, towards);
     }
 
-    protected void ExcuteCommand(AgentInputCommand cmd)
+    protected void ChangeStatusOnNormalCommand(AgentInputCommand cmd)
     {
         if (cmd == null)
             return;
 
-        ExcuteCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter);
+        ChangeStatusOnNormalCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter);
     }
 
-    protected void ExcuteCommand(byte cmdType, Vector3 towards, int triggerMeter)
+    /// <summary>
+    /// 接受到指令时，切换到新状态
+    /// </summary>
+    /// <param name="cmdType"></param>
+    /// <param name="towards"></param>
+    /// <param name="triggerMeter"></param>
+    protected void ChangeStatusOnNormalCommand(byte cmdType, Vector3 towards, int triggerMeter)
     {
         if (cmdType == AgentCommandDefine.IDLE)
         {
@@ -231,7 +242,7 @@ public abstract class AgentStatus : IAgentStatus
             args.Add("towards", towards);
             ChangeStatus(AgentStatusDefine.DASH, args);
         }
-        else if (cmdType == AgentCommandDefine.ATTACK_HARD || cmdType == AgentCommandDefine.ATTACK_LIGHT)
+        else if (cmdType == AgentCommandDefine.ATTACK_LONG || cmdType == AgentCommandDefine.ATTACK_SHORT)
         {
             Dictionary<string, object> args = new Dictionary<string, object>();
             args.Add("triggerCmd", cmdType);
@@ -242,6 +253,46 @@ public abstract class AgentStatus : IAgentStatus
         else if (cmdType == AgentCommandDefine.BE_HIT)
         {
             ChangeStatus(AgentStatusDefine.BE_HIT);
+        }
+    }
+
+    protected void ChangeStatusOnComboCommand(AgentInputCommand cmd, TriggerableCombo combo)
+    {
+        if (cmd == null)
+            return;
+
+        if (combo == null)
+            return;
+
+        ChangeStatusOnComboCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, combo);
+    }
+
+    protected void ChangeStatusOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggerableCombo combo)
+    {
+        if (cmdType == AgentCommandDefine.IDLE || cmdType == AgentCommandDefine.RUN
+            || cmdType == AgentCommandDefine.BE_HIT)
+        {
+            ChangeStatusOnNormalCommand(cmdType, towards, triggerMeter);
+            Log.Error(LogLevel.Normal, "ChangeStatusOnComboCommand Exception, 指令类型[{0}]应该不是combo的触发指令, 错误触发的combo:{0}", cmdType, combo.GetComboName());
+            return;
+        }
+
+        if (cmdType == AgentCommandDefine.DASH)
+        {
+            Dictionary<string, object> args = new Dictionary<string, object>();
+            args.Add("triggerCmd", cmdType);
+            args.Add("towards", towards);
+            args.Add("TriggeredCombo", combo);
+            ChangeStatus(AgentStatusDefine.DASH, args);
+        }
+        else if (cmdType == AgentCommandDefine.ATTACK_LONG || cmdType == AgentCommandDefine.ATTACK_SHORT)
+        {
+            Dictionary<string, object> args = new Dictionary<string, object>();
+            args.Add("triggerCmd", cmdType);
+            args.Add("towards", towards);
+            args.Add("triggerMeter", triggerMeter);
+            args.Add("combo", combo);
+            ChangeStatus(AgentStatusDefine.ATTACK, args);
         }
     }
 

@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class AgentStatus_Idle : AgentStatus
 {
-    //private StepLoopAnimDriver animDriver;
-
     public override string GetStatusName()
     {
         return AgentStatusDefine.IDLE;
@@ -21,7 +19,8 @@ public class AgentStatus_Idle : AgentStatus
     public override void OnEnter(Dictionary<string, object> context)
     {
         base.OnEnter(context);
-
+        // 进入idle状态会打断combo，即combo要从头开始触发
+        mAgent.ComboHandler.Reset();
         mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
     }
 
@@ -38,18 +37,43 @@ public class AgentStatus_Idle : AgentStatus
         {
             case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.RUN:
-                ExcuteCommand(cmd);
+                ChangeStatusOnNormalCommand(cmd);
                 break;
             case AgentCommandDefine.DASH:
                 ProgressWaitOnCommand(GamePlayDefine.DashMeterProgressWait, cmd);
                 break;
-            case AgentCommandDefine.ATTACK_HARD:
-            case AgentCommandDefine.ATTACK_LIGHT:
-                ExcuteCommand(cmd);
-                //ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
+            case AgentCommandDefine.ATTACK_LONG:
+            case AgentCommandDefine.ATTACK_SHORT:
+                ChangeStatusOnNormalCommand(cmd);
                 break;
             case AgentCommandDefine.IDLE:
-                DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
+                break;
+            case AgentCommandDefine.EMPTY:
+            default:
+                break;
+        }
+    }
+
+    protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggerableCombo combo)
+    {
+        base.CustomOnComboCommand(cmd, combo);
+
+        switch (cmd.CmdType)
+        {
+            case AgentCommandDefine.BE_HIT:
+            case AgentCommandDefine.RUN:
+                ChangeStatusOnNormalCommand(cmd);
+                break;
+            case AgentCommandDefine.DASH:
+                ProgressWaitOnCommand(GamePlayDefine.DashMeterProgressWait, cmd);
+                break;
+            case AgentCommandDefine.ATTACK_LONG:
+            case AgentCommandDefine.ATTACK_SHORT:
+                ChangeStatusOnComboCommand(cmd, combo);
+                break;
+            case AgentCommandDefine.IDLE:
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -65,11 +89,11 @@ public class AgentStatus_Idle : AgentStatus
             switch (cmdType)
             {
                 case AgentCommandDefine.RUN:
-                case AgentCommandDefine.ATTACK_LIGHT:
-                case AgentCommandDefine.ATTACK_HARD:
+                case AgentCommandDefine.ATTACK_SHORT:
+                case AgentCommandDefine.ATTACK_LONG:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT:
-                    ExcuteCommand(cmdType, towards, meterIndex);
+                    ChangeStatusOnNormalCommand(cmdType, towards, meterIndex);
                     return;
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.EMPTY:

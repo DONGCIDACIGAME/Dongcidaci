@@ -54,12 +54,12 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         int triggerMeter = -1;
         Vector3 towards = GetInputDirection();
 
-        if (Input.GetKeyDown(InputDef.LightAttackKeyCode))
+        if (Input.GetKeyDown(InputDef.AttackShortKeyCode))
         {
             if(MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset, out triggerMeter))
             {
                 cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
-                cmd.Initialize(AgentCommandDefine.ATTACK_LIGHT, triggerMeter, towards);
+                cmd.Initialize(AgentCommandDefine.ATTACK_SHORT, triggerMeter, towards);
                 //Log.Error(LogLevel.Info, "Trigger light attack--------------------------------------------------{0}", triggerMeter);
                 return true;
             }
@@ -69,10 +69,10 @@ public abstract class AgentKeyboardInputHandle : InputHandle
             }
         }
 
-        if (Input.GetKeyDown(InputDef.HardAttackKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset, out triggerMeter))
+        if (Input.GetKeyDown(InputDef.AttackLongKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset, out triggerMeter))
         {
             cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
-            cmd.Initialize(AgentCommandDefine.ATTACK_HARD, triggerMeter, towards);
+            cmd.Initialize(AgentCommandDefine.ATTACK_LONG, triggerMeter, towards);
             //Log.Error(LogLevel.Info, "Trigger hard attack+++++++++++++++++++++++++++++++{0}", triggerMeter);
             return true;
         }

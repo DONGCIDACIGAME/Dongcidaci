@@ -26,14 +26,14 @@ public static class AgentCommandDefine
     public const byte DASH = 1 << 3;
 
     /// <summary>
-    /// Çá»÷
+    /// ¶Ì°´¹¥»÷
     /// </summary>
-    public const byte ATTACK_LIGHT = 1 << 4;
+    public const byte ATTACK_SHORT = 1 << 4;
 
     /// <summary>
-    /// ÖØ»÷
+    /// ³¤°´¹¥»÷
     /// </summary>
-    public const byte ATTACK_HARD = 1 << 5;
+    public const byte ATTACK_LONG = 1 << 5;
 
     /// <summary>
     /// ÊÜ»÷

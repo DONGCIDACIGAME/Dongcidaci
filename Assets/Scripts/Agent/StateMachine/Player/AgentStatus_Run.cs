@@ -30,6 +30,7 @@ public class AgentStatus_Run : AgentStatus
             mAgent.MoveControl.TurnTo(towards);
         }
 
+        mAgent.ComboHandler.Reset();
         mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
     }
 
@@ -46,18 +47,18 @@ public class AgentStatus_Run : AgentStatus
         {
             case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.IDLE:
-                ExcuteCommand(cmd);
+                ChangeStatusOnNormalCommand(cmd);
                 break;
             case AgentCommandDefine.DASH:
                 ProgressWaitOnCommand(GamePlayDefine.DashMeterProgressWait, cmd);
                 break;
-            case AgentCommandDefine.ATTACK_HARD:
-            case AgentCommandDefine.ATTACK_LIGHT:
+            case AgentCommandDefine.ATTACK_LONG:
+            case AgentCommandDefine.ATTACK_SHORT:
                 ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
                 break;
             case AgentCommandDefine.RUN:
                 mAgent.MoveControl.TurnTo(cmd.Towards);
-                DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -75,9 +76,9 @@ public class AgentStatus_Run : AgentStatus
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.DASH:
-                case AgentCommandDefine.ATTACK_LIGHT:
-                case AgentCommandDefine.ATTACK_HARD:
-                    ExcuteCommand(cmdType, towards, meterIndex);
+                case AgentCommandDefine.ATTACK_SHORT:
+                case AgentCommandDefine.ATTACK_LONG:
+                    ChangeStatusOnNormalCommand(cmdType, towards, meterIndex);
                     return;
                 case AgentCommandDefine.RUN:
                     mAgent.MoveControl.TurnTo(towards);

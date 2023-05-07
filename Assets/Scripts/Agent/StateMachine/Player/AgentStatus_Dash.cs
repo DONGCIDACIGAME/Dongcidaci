@@ -45,16 +45,16 @@ public class AgentStatus_Dash : AgentStatus
         switch (cmd.CmdType)
         {
             case AgentCommandDefine.BE_HIT:
-                ExcuteCommand(cmd);
+                ChangeStatusOnNormalCommand(cmd);
                 break;
-            case AgentCommandDefine.ATTACK_HARD:
-            case AgentCommandDefine.ATTACK_LIGHT:
+            case AgentCommandDefine.ATTACK_LONG:
+            case AgentCommandDefine.ATTACK_SHORT:
                 ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
                 break;
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.IDLE:
-                DelayToMeterExcuteCommand(cmd.CmdType, cmd.Towards);
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -74,11 +74,11 @@ public class AgentStatus_Dash : AgentStatus
             switch (cmdType)
             {
                 case AgentCommandDefine.BE_HIT:
-                case AgentCommandDefine.ATTACK_LIGHT:
-                case AgentCommandDefine.ATTACK_HARD:
+                case AgentCommandDefine.ATTACK_SHORT:
+                case AgentCommandDefine.ATTACK_LONG:
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.IDLE:
-                    ExcuteCommand(cmdType, towards, meterIndex);
+                    ChangeStatusOnNormalCommand(cmdType, towards, meterIndex);
                     return;
                 case AgentCommandDefine.DASH:
                     Dash();

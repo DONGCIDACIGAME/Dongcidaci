@@ -18,11 +18,6 @@ public static class GamePlayDefine
     public const float DashMeterCheckOffset = 0.1f;
 
     /// <summary>
-    /// 处于输入检测阶段，空状态的最长时间
-    /// </summary>
-    public const float EmptyStatusMaxTime = 0.2f;
-
-    /// <summary>
     /// 攻击指令执行的节拍进度判定
     /// </summary>
     public const float AttackMeterProgressWait = 0.5f;
