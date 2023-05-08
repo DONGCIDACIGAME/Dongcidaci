@@ -99,6 +99,13 @@ public class ComboHandler
     /// <returns>返回第一个被触发的combo</returns>
     public TriggerableCombo OnNewInput(byte newInput, int meterIndex)
     {
+        // idle，run，be_hit都不是能够触发combo的命令类型
+        if(newInput == AgentCommandDefine.IDLE || newInput == AgentCommandDefine.RUN 
+            || newInput == AgentCommandDefine.BE_HIT)
+        {
+            return null;
+        }
+
         // 同一拍只能触发一次combo
         if (meterIndex == lastTriggeredMeter)
             return null;
@@ -124,6 +131,7 @@ public class ComboHandler
             lastTriggeredMeter = meterIndex;
         }
 
+        
         // 返回第一个被触发的combo
         return mCurTriggeredCombo;
     }

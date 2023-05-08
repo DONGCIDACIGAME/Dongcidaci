@@ -121,7 +121,8 @@ public class TriggerableCombo
             return true;
         }
 
-        //triggerable = false;
+        // 错误的combo输入会打断combo
+        triggerable = false;
         return false;
     }
 }
