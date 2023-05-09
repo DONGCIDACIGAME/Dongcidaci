@@ -39,9 +39,9 @@ public abstract class Agent : IEntity, IMeterHandler
     public AgentStatusGraph StatusGraph;
 
     /// <summary>
-    /// Combo管理器
+    /// Combo嗅探器
     /// </summary>
-    public ComboHandler ComboHandler;
+    public ComboDetector CmbDetector;
 
     public uint GetAgentId()
     {
@@ -136,9 +136,9 @@ public abstract class Agent : IEntity, IMeterHandler
         LoadAgentCfg(mAgentId);
         LoadAgentGo();
 
-        ComboHandler = new ComboHandler();
+        CmbDetector = new ComboDetector();
         ComboDataGraph cg = DataCenter.Ins.AgentComboGraphCenter.GetAgentComboGraph(mAgentId);
-        ComboHandler.Initialize(cg);
+        CmbDetector.Initialize(cg);
         MeterManager.Ins.RegisterMeterHandler(this);
 
         StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
@@ -164,10 +164,10 @@ public abstract class Agent : IEntity, IMeterHandler
             AnimPlayer = null;
         }
 
-        if(ComboHandler != null)
+        if(CmbDetector != null)
         {
-            ComboHandler.Dispose();
-            ComboHandler = null;
+            CmbDetector.Dispose();
+            CmbDetector = null;
         }
 
         if(StatusMachine != null)
@@ -233,6 +233,7 @@ public abstract class Agent : IEntity, IMeterHandler
 
     public virtual void OnMeter(int meterIndex)
     {
+        CmbDetector.OnMeter(meterIndex);
         StatusMachine.OnMeter(meterIndex);
     }
 
@@ -279,13 +280,15 @@ public abstract class Agent : IEntity, IMeterHandler
         }
 
         // 新的输入尝试触发combo
-        TriggerableCombo combo = ComboHandler.OnNewInput(cmd.CmdType, cmd.TriggerMeter);
+        int result = CmbDetector.OnNewInput(cmd.CmdType, cmd.TriggerMeter);
+
         // 如果触发了combo，就需要同时处理指令和combo的逻辑
-        if(combo != null)
+        if (result == ComboDefine.ComboTriggerResult_Succeed)
         {
+            TriggerableCombo combo = CmbDetector.GetCurTriggeredCombo();
             curStatus.OnComboCommand(cmd, combo);
         }
-        else // 否则只用单纯处理指令逻辑即可
+        else if(result == ComboDefine.ComboTriggerResult_Failed)
         {
             curStatus.OnNormalCommand(cmd);
         }

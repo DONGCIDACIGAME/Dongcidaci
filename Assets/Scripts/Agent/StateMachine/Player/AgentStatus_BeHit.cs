@@ -12,7 +12,7 @@ public class AgentStatus_BeHit : AgentStatus
     {
         base.OnEnter(context);
 
-        mAgent.ComboHandler.Reset();
+        mAgent.CmbDetector.Reset();
         mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
     }
 

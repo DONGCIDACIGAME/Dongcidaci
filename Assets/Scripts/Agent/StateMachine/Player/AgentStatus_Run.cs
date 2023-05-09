@@ -30,7 +30,7 @@ public class AgentStatus_Run : AgentStatus
             mAgent.MoveControl.TurnTo(towards);
         }
 
-        mAgent.ComboHandler.Reset();
+        mAgent.CmbDetector.Reset();
         mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
     }
 

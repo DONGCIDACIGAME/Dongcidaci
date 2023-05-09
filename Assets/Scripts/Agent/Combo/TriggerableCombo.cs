@@ -13,7 +13,7 @@ public class TriggerableCombo
     /// <summary>
     /// 当前触发的招式index
     /// </summary>
-    private int triggeredAt;
+    public int triggeredAt { get; private set; }
 
     /// <summary>
     /// 是否激活（只有激活的combo才能响应输入）
@@ -107,7 +107,6 @@ public class TriggerableCombo
         }
 
         ComboStepData nextStep = comboData.comboStepDatas[triggeredAt + 1];
-
         if(nextStep == null)
         {
             Log.Error(LogLevel.Normal, "TryTriggerOnNewInput Error, Combo [{0}] has null step at {1}", comboData.comboName, triggeredAt + 1);

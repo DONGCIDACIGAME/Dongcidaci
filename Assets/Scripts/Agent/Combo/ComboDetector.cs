@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class ComboHandler
+public class ComboDetector : IMeterHandler
 {
     private List<TriggerableCombo> mSortedTriggerableCombos;
 
@@ -14,7 +14,7 @@ public class ComboHandler
     /// </summary>
     private TriggerableCombo mCurTriggeredCombo;
 
-    public ComboHandler()
+    public ComboDetector()
     {
         mSortedTriggerableCombos = new List<TriggerableCombo>();
     }
@@ -96,19 +96,21 @@ public class ComboHandler
     /// </summary>
     /// <param name="newInput">输入</param>
     /// <param name="meterIndex">输入对应的节拍index</param>
-    /// <returns>返回第一个被触发的combo</returns>
-    public TriggerableCombo OnNewInput(byte newInput, int meterIndex)
+    /// <returns>触发combo的结果</returns>
+    public int OnNewInput(byte newInput, int meterIndex)
     {
         // idle，run，be_hit都不是能够触发combo的命令类型
-        if(newInput == AgentCommandDefine.IDLE || newInput == AgentCommandDefine.RUN 
+        if (newInput == AgentCommandDefine.IDLE
+            || newInput == AgentCommandDefine.EMPTY 
+            ||newInput == AgentCommandDefine.RUN 
             || newInput == AgentCommandDefine.BE_HIT)
         {
-            return null;
+            return ComboDefine.ComboTriggerResult_Failed;
         }
 
         // 同一拍只能触发一次combo
         if (meterIndex == lastTriggeredMeter)
-            return null;
+            return ComboDefine.ComboTriggerResult_RepeateMeter;
 
         mCurTriggeredCombo = null;
 
@@ -131,9 +133,15 @@ public class ComboHandler
             lastTriggeredMeter = meterIndex;
         }
 
-        
-        // 返回第一个被触发的combo
-        return mCurTriggeredCombo;
+        if(mCurTriggeredCombo != null)
+        {
+            return ComboDefine.ComboTriggerResult_Succeed;
+        }
+        else
+        {
+            Log.Error(LogLevel.Info, "--------------------------------newInput trigger combo failed,input:{0}", newInput);
+            return ComboDefine.ComboTriggerResult_Failed;
+        }
     }
 
     /// <summary>
@@ -145,12 +153,21 @@ public class ComboHandler
         {
             mSortedTriggerableCombos[i].Reset();
         }
-        lastTriggeredMeter = -1;
+        mCurTriggeredCombo = null;
     }
 
     public void Dispose()
     {
         Reset();
+        lastTriggeredMeter = -1;
         mSortedTriggerableCombos = null;
+    }
+
+    public void OnMeter(int meterIndex)
+    {
+        if(meterIndex != lastTriggeredMeter && mCurTriggeredCombo != null && mCurTriggeredCombo.GetCurrentComboStep().endFlag)
+        {
+            Reset();
+        }
     }
 }
