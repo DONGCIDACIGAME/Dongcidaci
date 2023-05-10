@@ -5,9 +5,9 @@ public class ComboDetector : IMeterHandler
     private List<TriggerableCombo> mSortedTriggerableCombos;
 
     /// <summary>
-    /// 上次触发combo的节拍index
+    /// combo的逻辑完成拍
     /// </summary>
-    private int lastTriggeredMeter;
+    private int comboEndMeter;
 
     /// <summary>
     /// 当前触发的combo
@@ -52,7 +52,7 @@ public class ComboDetector : IMeterHandler
         }
 
         mSortedTriggerableCombos.Clear();
-        lastTriggeredMeter = -1;
+        comboEndMeter = -1;
 
         for (int i = 0; i < comboGraph.comboDatas.Length;i++)
         {
@@ -105,12 +105,12 @@ public class ComboDetector : IMeterHandler
             ||newInput == AgentCommandDefine.RUN 
             || newInput == AgentCommandDefine.BE_HIT)
         {
-            return ComboDefine.ComboTriggerResult_Failed;
+            return ComboDefine.ComboTriggerResult_NotComboTrigger;
         }
 
-        // 同一拍只能触发一次combo
-        if (meterIndex == lastTriggeredMeter)
-            return ComboDefine.ComboTriggerResult_RepeateMeter;
+        // combo结束前的输入都会被丢弃
+        if (meterIndex < comboEndMeter)
+            return ComboDefine.ComboTriggerResult_ComboExcuting;
 
         mCurTriggeredCombo = null;
 
@@ -130,7 +130,7 @@ public class ComboDetector : IMeterHandler
 
         if(mCurTriggeredCombo != null)
         {
-            lastTriggeredMeter = meterIndex;
+            comboEndMeter = meterIndex + mCurTriggeredCombo.GetCurrentComboStep().meterLen;
         }
 
         if(mCurTriggeredCombo != null)
@@ -140,14 +140,15 @@ public class ComboDetector : IMeterHandler
         else
         {
             Log.Error(LogLevel.Info, "--------------------------------newInput trigger combo failed,input:{0}", newInput);
-            return ComboDefine.ComboTriggerResult_Failed;
+            return ComboDefine.ComboTriggerResult_NoSuchCombo;
         }
     }
 
     /// <summary>
     /// 一个完整的combo打完时，要重置一下combohandler，重新开始下一次的combo处理
+    /// 但是记录的上次combo的触发拍和结束拍不能清除，否则会导致重复触发
     /// </summary>
-    public void Reset()
+    public void ResetAllCombo()
     {
         for(int i = 0;i<mSortedTriggerableCombos.Count;i++)
         {
@@ -158,16 +159,17 @@ public class ComboDetector : IMeterHandler
 
     public void Dispose()
     {
-        Reset();
-        lastTriggeredMeter = -1;
+        ResetAllCombo();
+        comboEndMeter = -1;
         mSortedTriggerableCombos = null;
     }
 
     public void OnMeter(int meterIndex)
     {
-        if(meterIndex != lastTriggeredMeter && mCurTriggeredCombo != null && mCurTriggeredCombo.GetCurrentComboStep().endFlag)
+        // combo结束拍，且当前combo的招式是结束招式，就清除所有combo的状态重新检测combo
+        if(meterIndex == comboEndMeter && mCurTriggeredCombo != null && mCurTriggeredCombo.GetCurrentComboStep().endFlag)
         {
-            Reset();
+            ResetAllCombo();
         }
     }
 }

@@ -20,4 +20,9 @@ public class ComboStepData
     /// 结束combo的标志
     /// </summary>
     public bool endFlag;
+
+    /// <summary>
+    /// 节拍长度
+    /// </summary>
+    public int meterLen;
 }

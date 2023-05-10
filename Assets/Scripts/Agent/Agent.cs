@@ -288,9 +288,22 @@ public abstract class Agent : IEntity, IMeterHandler
             TriggerableCombo combo = CmbDetector.GetCurTriggeredCombo();
             curStatus.OnComboCommand(cmd, combo);
         }
-        else if(result == ComboDefine.ComboTriggerResult_Failed)
+        // 如果不是combo的触发命令类型，就直接执行指令
+        else if(result == ComboDefine.ComboTriggerResult_NotComboTrigger)
         {
             curStatus.OnNormalCommand(cmd);
+        }
+        // 是combo的触发命令类型，但是上一个combo的执行还未完成
+        else if(result == ComboDefine.ComboTriggerResult_ComboExcuting)
+        {
+            Log.Logic(LogLevel.Info, "##上一个combo还未执行完成，请降低输入频率");
+            // 后面可能会在这里做一些UI提示
+        }
+        // 是combo的触发命令类型，但是没有触发combo，说明是错误的combo输入
+        else if(result == ComboDefine.ComboTriggerResult_NoSuchCombo)
+        {
+            Log.Logic(LogLevel.Info, "##错误的combo输入");
+            // 后面可能会在这里做一些UI提示，或者加上一些小的惩罚
         }
 
         // 指令归还指令池
@@ -307,6 +320,4 @@ public abstract class Agent : IEntity, IMeterHandler
         MoveControl.OnUpdate(deltaTime);
         StatusMachine.OnUpdate(deltaTime);
     }
-
-
 }

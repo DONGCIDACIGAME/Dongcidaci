@@ -6,21 +6,21 @@
 		{
 			"comboName": "attack1",
 			"comboStepDatas": [
-				{"input": 16, "animState": "Combo_1_With_Empty", "effect": 0, "endFlag": false}
+				{"input": 16, "animState": "Combo_1_With_Empty", "effect": 0, "endFlag": false, "meterLen": 1}
 			]
 		},
 		{
 			"comboName": "attack2",
 			"comboStepDatas": [
-				{"input": 32, "animState": "Combo_2_With_Empty", "effect": 0, "endFlag": false}
+				{"input": 32, "animState": "Combo_2_With_Empty", "effect": 0, "endFlag": false, "meterLen": 1}
 			]
 		},
 		{
 			"comboName": "attack3",
 			"comboStepDatas": [
-				{"input": 16, "animState": "Combo_1_With_Empty", "effect": 0, "endFlag": false},
-				{"input": 16, "animState": "Combo_2_With_Empty", "effect": 0, "endFlag": false},
-				{"input": 16, "animState": "Combo_3_With_Empty", "effect": 0, "endFlag": true}
+				{"input": 16, "animState": "Combo_1_With_Empty", "effect": 0, "endFlag": false, "meterLen": 1},
+				{"input": 16, "animState": "Combo_2_With_Empty", "effect": 0, "endFlag": false, "meterLen": 1},
+				{"input": 16, "animState": "Combo_3_With_Empty", "effect": 0, "endFlag": true,  "meterLen": 1}
 			]
 		}
 	]
