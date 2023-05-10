@@ -33,7 +33,7 @@ public class AgentStatus_Attack : AgentStatus
                 if (timeOfCurrentMeter == 0)
                 {
                     ComboStepData comboStep = combo.GetCurrentComboStep();
-                    mCurAnimStateEndMeter = mCustomAnimDriver.PlayAnimState(comboStep.animState);
+                    mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimState(comboStep.animState);
                     return;
                 }
 
@@ -82,7 +82,7 @@ public class AgentStatus_Attack : AgentStatus
         if (progress >= GamePlayDefine.AttackMeterProgressWait)
         {
             string stateName = comboStep.animState;
-            mCurAnimStateEndMeter = mCustomAnimDriver.PlayAnimState(stateName);
+            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimState(stateName);
         }
         else
         {
@@ -128,7 +128,7 @@ public class AgentStatus_Attack : AgentStatus
 
     protected override void CommandHandleOnMeter(int meterIndex)
     {
-        if (meterIndex < mCurAnimStateEndMeter)
+        if (meterIndex < mCurLogicStateEndMeter)
             return;
 
         if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
@@ -152,7 +152,7 @@ public class AgentStatus_Attack : AgentStatus
                         {
                             mAgent.MoveControl.TurnTo(towards);
 
-                            mCurAnimStateEndMeter = mCustomAnimDriver.PlayAnimState(comboStep.animState);
+                            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimState(comboStep.animState);
                         }
                     }
 

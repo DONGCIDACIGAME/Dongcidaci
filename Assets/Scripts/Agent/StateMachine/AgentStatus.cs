@@ -27,9 +27,9 @@ public abstract class AgentStatus : IAgentStatus
     protected CustomAnimDriver mCustomAnimDriver;
 
     /// <summary>
-    /// 当前动画结束节拍index
+    /// 当前逻辑状态结束节拍index
     /// </summary>
-    protected int mCurAnimStateEndMeter;
+    protected int mCurLogicStateEndMeter;
 
     /// <summary>
     /// 等待执行的指令集缓存区
@@ -71,8 +71,8 @@ public abstract class AgentStatus : IAgentStatus
         float duration = MeterManager.Ins.GetTimeToBaseMeter(state.stateMeterLen);
         if(duration > 0)
         {
-            mCurAnimStateEndMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, state.stateMeterLen);
-            float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, mCurAnimStateEndMeter);
+            mCurLogicStateEndMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, state.stateMeterLen);
+            float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, mCurLogicStateEndMeter);
             mAgent.AnimPlayer.CrossFadeToStateDynamic(stateName, state.layer, state.normalizedTime, duration, state.animLen, totalMeterTime);
         }
     }
@@ -97,7 +97,7 @@ public abstract class AgentStatus : IAgentStatus
     {
         ChangeStatus = null;
         mAgent = null;
-        mCurAnimStateEndMeter = 0;
+        mCurLogicStateEndMeter = 0;
 
         if(mInputHandle != null)
         {

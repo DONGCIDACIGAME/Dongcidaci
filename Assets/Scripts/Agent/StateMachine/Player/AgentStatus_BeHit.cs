@@ -13,7 +13,7 @@ public class AgentStatus_BeHit : AgentStatus
         base.OnEnter(context);
 
         mAgent.CmbDetector.ResetAllCombo();
-        mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
+        mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
     }
 
     public override void OnExit()
@@ -46,7 +46,7 @@ public class AgentStatus_BeHit : AgentStatus
     }
     protected override void CommandHandleOnMeter(int meterIndex)
     {
-        if (meterIndex < mCurAnimStateEndMeter)
+        if (meterIndex < mCurLogicStateEndMeter)
             return;
 
         if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
@@ -68,7 +68,7 @@ public class AgentStatus_BeHit : AgentStatus
                     break;
             }
 
-            mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
+            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
         }
     }
 }

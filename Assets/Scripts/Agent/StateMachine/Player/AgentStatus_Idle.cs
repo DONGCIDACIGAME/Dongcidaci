@@ -21,7 +21,7 @@ public class AgentStatus_Idle : AgentStatus
         base.OnEnter(context);
         // 进入idle状态会打断combo，即combo要从头开始触发
         mAgent.CmbDetector.ResetAllCombo();
-        mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
+        mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
     }
 
     public override void OnExit()
@@ -101,10 +101,10 @@ public class AgentStatus_Idle : AgentStatus
                     break;
             }
 
-            if (meterIndex < mCurAnimStateEndMeter)
+            if (meterIndex < mCurLogicStateEndMeter)
                 return;
 
-            mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
+            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
         }
     }
 }

@@ -25,7 +25,7 @@ public class AgentStatus_Dash : AgentStatus
     {
         base.OnEnter(context);
         Dash();
-        mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
+        mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
     }
 
     public override void OnExit()
@@ -64,7 +64,7 @@ public class AgentStatus_Dash : AgentStatus
 
     protected override void CommandHandleOnMeter(int meterIndex)
     {
-        if (meterIndex < mCurAnimStateEndMeter)
+        if (meterIndex < mCurLogicStateEndMeter)
             return;
 
         if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
@@ -89,7 +89,7 @@ public class AgentStatus_Dash : AgentStatus
                     break;
             }
 
-            mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
+            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
         }
     }
 }

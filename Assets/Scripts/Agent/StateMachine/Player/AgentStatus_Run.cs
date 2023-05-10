@@ -31,7 +31,7 @@ public class AgentStatus_Run : AgentStatus
         }
 
         mAgent.CmbDetector.ResetAllCombo();
-        mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
+        mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
     }
 
     public override void OnExit()
@@ -88,10 +88,10 @@ public class AgentStatus_Run : AgentStatus
                     break;
             }
 
-            if (meterIndex < mCurAnimStateEndMeter)
+            if (meterIndex < mCurLogicStateEndMeter)
                 return;
 
-            mCurAnimStateEndMeter = mStepLoopAnimDriver.MoveNext();
+            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
         }
     }
 

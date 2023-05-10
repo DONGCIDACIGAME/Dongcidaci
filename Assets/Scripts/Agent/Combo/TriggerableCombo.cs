@@ -124,4 +124,10 @@ public class TriggerableCombo
         triggerable = false;
         return false;
     }
+
+    //public override string ToString()
+    //{
+    //    string str = "";
+
+    //}
 }
