@@ -39,9 +39,11 @@ public abstract class Agent : IEntity, IMeterHandler
     public AgentStatusGraph StatusGraph;
 
     /// <summary>
-    /// Combo嗅探器
+    /// Comboc触发器
     /// </summary>
-    public ComboDetector CmbDetector;
+    public ComboTrigger ComboTrigger;
+
+
 
     public uint GetAgentId()
     {
@@ -136,9 +138,9 @@ public abstract class Agent : IEntity, IMeterHandler
         LoadAgentCfg(mAgentId);
         LoadAgentGo();
 
-        CmbDetector = new ComboDetector();
+        ComboTrigger = new ComboTrigger();
         ComboDataGraph cg = DataCenter.Ins.AgentComboGraphCenter.GetAgentComboGraph(mAgentId);
-        CmbDetector.Initialize(cg);
+        ComboTrigger.Initialize(cg);
         MeterManager.Ins.RegisterMeterHandler(this);
 
         StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
@@ -164,10 +166,10 @@ public abstract class Agent : IEntity, IMeterHandler
             AnimPlayer = null;
         }
 
-        if(CmbDetector != null)
+        if(ComboTrigger != null)
         {
-            CmbDetector.Dispose();
-            CmbDetector = null;
+            ComboTrigger.Dispose();
+            ComboTrigger = null;
         }
 
         if(StatusMachine != null)
@@ -233,7 +235,7 @@ public abstract class Agent : IEntity, IMeterHandler
 
     public virtual void OnMeter(int meterIndex)
     {
-        CmbDetector.OnMeter(meterIndex);
+        ComboTrigger.OnMeter(meterIndex);
         StatusMachine.OnMeter(meterIndex);
     }
 
@@ -280,16 +282,21 @@ public abstract class Agent : IEntity, IMeterHandler
         }
 
         // 新的输入尝试触发combo
-        int result = CmbDetector.OnNewInput(cmd.CmdType, cmd.TriggerMeter);
+        int result = ComboTrigger.OnNewInput(cmd.CmdType, cmd.TriggerMeter);
 
         // 如果触发了combo，就需要同时处理指令和combo的逻辑
         if (result == ComboDefine.ComboTriggerResult_Succeed)
         {
-            TriggerableCombo combo = CmbDetector.GetCurTriggeredCombo();
+            TriggerableCombo combo = ComboTrigger.GetCurTriggeredCombo();
             curStatus.OnComboCommand(cmd, combo);
         }
         // 如果不是combo的触发命令类型，就直接执行指令
         else if(result == ComboDefine.ComboTriggerResult_NotComboTrigger)
+        {
+            curStatus.OnNormalCommand(cmd);
+        }
+        // 是combo的触发命令类型，但是没有匹配到combo，就按照正常指令执行
+        else if(result == ComboDefine.ComboTriggerResult_Failed)
         {
             curStatus.OnNormalCommand(cmd);
         }
@@ -298,12 +305,6 @@ public abstract class Agent : IEntity, IMeterHandler
         {
             Log.Logic(LogLevel.Info, "##上一个combo还未执行完成，请降低输入频率");
             // 后面可能会在这里做一些UI提示
-        }
-        // 是combo的触发命令类型，但是没有触发combo，说明是错误的combo输入
-        else if(result == ComboDefine.ComboTriggerResult_NoSuchCombo)
-        {
-            Log.Logic(LogLevel.Info, "##错误的combo输入");
-            // 后面可能会在这里做一些UI提示，或者加上一些小的惩罚
         }
 
         // 指令归还指令池

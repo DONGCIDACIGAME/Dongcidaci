@@ -20,7 +20,7 @@ public class AgentStatus_Idle : AgentStatus
     {
         base.OnEnter(context);
         // 进入idle状态会打断combo，即combo要从头开始触发
-        mAgent.CmbDetector.ResetAllCombo();
+        mAgent.ComboTrigger.ResetAllCombo();
         mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
     }
 

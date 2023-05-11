@@ -12,9 +12,15 @@ public class ComboStepData
     public string animState;
 
     /// <summary>
+    /// 0:独占模式
+    /// 1:叠加模式
+    /// </summary>
+    public int mode;
+
+    /// <summary>
     /// 招式效果
     /// </summary>
-    public int effect;
+    public ComboStepEffect[] effects;
 
     /// <summary>
     /// 结束combo的标志

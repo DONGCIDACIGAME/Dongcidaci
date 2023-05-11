@@ -132,7 +132,6 @@ public abstract class AgentStatus : IAgentStatus
     {
         CommandHandleOnMeter(meterIndex);
         cmdBuffer.ClearCommandBuffer();
-
         //Log.Error(LogLevel.Info, "Meter--{0}",meterIndex);
     }
 

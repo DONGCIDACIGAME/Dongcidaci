@@ -144,7 +144,7 @@ public class AgentStatus_Attack : AgentStatus
                     return;
                 case AgentCommandDefine.ATTACK_LONG:
                 case AgentCommandDefine.ATTACK_SHORT:
-                    TriggerableCombo combo = mAgent.CmbDetector.GetCurTriggeredCombo();
+                    TriggerableCombo combo = mAgent.ComboTrigger.GetCurTriggeredCombo();
                     if(combo != null)
                     {
                         ComboStepData comboStep = combo.GetCurrentComboStep();

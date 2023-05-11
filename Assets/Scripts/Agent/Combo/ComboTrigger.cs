@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 
-public class ComboDetector : IMeterHandler
+/// <summary>
+/// Combo触发器
+/// </summary>
+public class ComboTrigger : IMeterHandler
 {
     private List<TriggerableCombo> mSortedTriggerableCombos;
 
@@ -14,7 +17,7 @@ public class ComboDetector : IMeterHandler
     /// </summary>
     private TriggerableCombo mCurTriggeredCombo;
 
-    public ComboDetector()
+    public ComboTrigger()
     {
         mSortedTriggerableCombos = new List<TriggerableCombo>();
     }
@@ -99,11 +102,8 @@ public class ComboDetector : IMeterHandler
     /// <returns>触发combo的结果</returns>
     public int OnNewInput(byte newInput, int meterIndex)
     {
-        // idle，run，be_hit都不是能够触发combo的命令类型
-        if (newInput == AgentCommandDefine.IDLE
-            || newInput == AgentCommandDefine.EMPTY 
-            ||newInput == AgentCommandDefine.RUN 
-            || newInput == AgentCommandDefine.BE_HIT)
+        // be_hit不是combo触发器，而且be_hit不会等待combo结束，在be_hit时立即处理
+        if (newInput == AgentCommandDefine.BE_HIT)
         {
             return ComboDefine.ComboTriggerResult_NotComboTrigger;
         }
@@ -112,8 +112,16 @@ public class ComboDetector : IMeterHandler
         if (meterIndex < comboLogicEndMeter)
             return ComboDefine.ComboTriggerResult_ComboExcuting;
 
+        // idle，empty，run都不是combo触发器
+        if (newInput == AgentCommandDefine.IDLE
+            || newInput == AgentCommandDefine.EMPTY
+            || newInput == AgentCommandDefine.RUN)
+        {
+            return ComboDefine.ComboTriggerResult_NotComboTrigger;
+        }
+
         // 如果前一个combo的招式是结束招式，就重置combo嗅探器，重新开始检测combo
-        if(mCurTriggeredCombo != null && mCurTriggeredCombo.GetCurrentComboStep().endFlag)
+        if (mCurTriggeredCombo != null && mCurTriggeredCombo.GetCurrentComboStep().endFlag)
         {
             ResetAllCombo();
         }
@@ -143,8 +151,7 @@ public class ComboDetector : IMeterHandler
         }
         else
         {
-            Log.Error(LogLevel.Info, "--------------------------------newInput trigger combo failed,input:{0}", newInput);
-            return ComboDefine.ComboTriggerResult_NoSuchCombo;
+            return ComboDefine.ComboTriggerResult_Failed;
         }
     }
 

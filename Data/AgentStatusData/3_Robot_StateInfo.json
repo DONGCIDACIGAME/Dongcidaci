@@ -31,7 +31,7 @@
 		},
 		"Attack":{
 			"statusName": "Attack",
-			"loop": true,
+			"loop": false,
 			"animStates": [{
 				"stateName": "combo_01",
 				"loopTime": 1,
