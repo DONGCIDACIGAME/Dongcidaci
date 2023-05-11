@@ -61,10 +61,6 @@ public class AgentStatus_Idle : AgentStatus
 
         switch (cmd.CmdType)
         {
-            case AgentCommandDefine.BE_HIT:
-            case AgentCommandDefine.RUN:
-                ChangeStatusOnNormalCommand(cmd);
-                break;
             case AgentCommandDefine.DASH:
                 ProgressWaitOnCommand(GamePlayDefine.DashMeterProgressWait, cmd);
                 break;
@@ -72,10 +68,6 @@ public class AgentStatus_Idle : AgentStatus
             case AgentCommandDefine.ATTACK_SHORT:
                 ChangeStatusOnComboCommand(cmd, combo);
                 break;
-            case AgentCommandDefine.IDLE:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
-                break;
-            case AgentCommandDefine.EMPTY:
             default:
                 break;
         }

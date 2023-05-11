@@ -7,9 +7,14 @@ public class ComboStepData
     public byte input;
 
     /// <summary>
-    /// 播放的动画state
+    /// 状态名称
     /// </summary>
-    public string animState;
+    public string statusName;
+
+    /// <summary>
+    /// 状态的动画名称
+    /// </summary>
+    public string stateName;
 
     /// <summary>
     /// 0:独占模式
@@ -26,9 +31,4 @@ public class ComboStepData
     /// 结束combo的标志
     /// </summary>
     public bool endFlag;
-
-    /// <summary>
-    /// 节拍长度
-    /// </summary>
-    public int meterLen;
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class ComboTrigger : IMeterHandler
 {
     private List<TriggerableCombo> mSortedTriggerableCombos;
+    private Agent mAgent;
 
     /// <summary>
     /// combo的逻辑完成拍
@@ -24,10 +25,10 @@ public class ComboTrigger : IMeterHandler
 
     public void SetComboActive(string comboName, bool active)
     {
-        for(int i = 0;i<mSortedTriggerableCombos.Count;i++)
+        for (int i = 0; i < mSortedTriggerableCombos.Count; i++)
         {
             TriggerableCombo tc = mSortedTriggerableCombos[i];
-            if(tc.IsCombo(comboName))
+            if (tc.IsCombo(comboName))
             {
                 tc.SetActive(active);
                 return;
@@ -40,24 +41,32 @@ public class ComboTrigger : IMeterHandler
         return mCurTriggeredCombo;
     }
 
-    public void Initialize(ComboDataGraph comboGraph)
+    public void Initialize(Agent agent)
     {
+        if (agent == null)
+        {
+            Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, agent is null!");
+            return;
+        }
+
+        mAgent = agent;
+        ComboDataGraph comboGraph = DataCenter.Ins.AgentComboGraphCenter.GetAgentComboGraph(agent.GetAgentId());
         if (comboGraph == null)
         {
             Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, comboGraph is null!");
             return;
         }
 
-        if(comboGraph.comboDatas == null)
+        if (comboGraph.comboDatas == null)
         {
-            Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combos is null, agentId:{0},  agentName:{1}",comboGraph.agentId, comboGraph.agentName);
+            Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combos is null, agentId:{0},  agentName:{1}", comboGraph.agentId, comboGraph.agentName);
             return;
         }
 
         mSortedTriggerableCombos.Clear();
         comboLogicEndMeter = -1;
 
-        for (int i = 0; i < comboGraph.comboDatas.Length;i++)
+        for (int i = 0; i < comboGraph.comboDatas.Length; i++)
         {
             ComboData comboData = comboGraph.comboDatas[i];
             if (comboData == null)
@@ -74,19 +83,19 @@ public class ComboTrigger : IMeterHandler
 
             TriggerableCombo tc = null;
             bool added = false;
-            for (int j = mSortedTriggerableCombos.Count-1; j >=0 ; j--)
+            for (int j = mSortedTriggerableCombos.Count - 1; j >= 0; j--)
             {
                 TriggerableCombo triggerableCombo = mSortedTriggerableCombos[j];
-                if(comboData.comboStepDatas.Length < triggerableCombo.GetComboStepCount())
+                if (comboData.comboStepDatas.Length < triggerableCombo.GetComboStepCount())
                 {
                     tc = new TriggerableCombo(comboData);
                     mSortedTriggerableCombos.Insert(j, tc);
                     added = true;
-                    break ;
+                    break;
                 }
             }
 
-            if(!added)
+            if (!added)
             {
                 tc = new TriggerableCombo(comboData);
                 mSortedTriggerableCombos.Add(tc);
@@ -103,7 +112,10 @@ public class ComboTrigger : IMeterHandler
     public int OnNewInput(byte newInput, int meterIndex)
     {
         // be_hit不是combo触发器，而且be_hit不会等待combo结束，在be_hit时立即处理
-        if (newInput == AgentCommandDefine.BE_HIT)
+        if (newInput == AgentCommandDefine.BE_HIT
+            || newInput == AgentCommandDefine.IDLE
+            || newInput == AgentCommandDefine.EMPTY
+            || newInput == AgentCommandDefine.RUN)
         {
             return ComboDefine.ComboTriggerResult_NotComboTrigger;
         }
@@ -111,14 +123,6 @@ public class ComboTrigger : IMeterHandler
         // combo结束前的输入都会被丢弃
         if (meterIndex < comboLogicEndMeter)
             return ComboDefine.ComboTriggerResult_ComboExcuting;
-
-        // idle，empty，run都不是combo触发器
-        if (newInput == AgentCommandDefine.IDLE
-            || newInput == AgentCommandDefine.EMPTY
-            || newInput == AgentCommandDefine.RUN)
-        {
-            return ComboDefine.ComboTriggerResult_NotComboTrigger;
-        }
 
         // 如果前一个combo的招式是结束招式，就重置combo嗅探器，重新开始检测combo
         if (mCurTriggeredCombo != null && mCurTriggeredCombo.GetCurrentComboStep().endFlag)
@@ -142,11 +146,9 @@ public class ComboTrigger : IMeterHandler
 
         if(mCurTriggeredCombo != null)
         {
-            comboLogicEndMeter = meterIndex + mCurTriggeredCombo.GetCurrentComboStep().meterLen;
-        }
+            ComboStepData csd = mCurTriggeredCombo.GetCurrentComboStep();
 
-        if(mCurTriggeredCombo != null)
-        {
+            comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, csd.statusName, csd.stateName);
             return ComboDefine.ComboTriggerResult_Succeed;
         }
         else

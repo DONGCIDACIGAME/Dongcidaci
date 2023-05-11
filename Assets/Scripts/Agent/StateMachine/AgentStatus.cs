@@ -282,7 +282,7 @@ public abstract class AgentStatus : IAgentStatus
             Dictionary<string, object> args = new Dictionary<string, object>();
             args.Add("triggerCmd", cmdType);
             args.Add("towards", towards);
-            args.Add("TriggeredCombo", combo);
+            args.Add("combo", combo);
             ChangeStatus(AgentStatusDefine.DASH, args);
         }
         else if (cmdType == AgentCommandDefine.ATTACK_LONG || cmdType == AgentCommandDefine.ATTACK_SHORT)

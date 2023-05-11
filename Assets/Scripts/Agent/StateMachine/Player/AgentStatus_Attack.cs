@@ -33,16 +33,16 @@ public class AgentStatus_Attack : AgentStatus
                 if (timeOfCurrentMeter == 0)
                 {
                     ComboStepData comboStep = combo.GetCurrentComboStep();
-                    mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimState(comboStep.animState);
+                    mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimState(comboStep.stateName);
                     return;
                 }
 
                 float progress = timeToNextMeter / timeOfCurrentMeter;
 
-                //if (progress >= GamePlayDefine.AttackMeterProgressWait)
-                //{
-                //    animDriver.PlayAnimState("AttackBegin");
-                //}
+                if (progress >= GamePlayDefine.AttackMeterProgressWait)
+                {
+                    mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimState("AttackBegin");
+                }
 
                 PushInputCommandToBuffer(triggerCmd, towards);
             }
@@ -81,7 +81,7 @@ public class AgentStatus_Attack : AgentStatus
 
         if (progress >= GamePlayDefine.AttackMeterProgressWait)
         {
-            string stateName = comboStep.animState;
+            string stateName = comboStep.stateName;
             mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimState(stateName);
         }
         else
@@ -121,7 +121,19 @@ public class AgentStatus_Attack : AgentStatus
     {
         base.CustomOnComboCommand(cmd, combo);
         mAgent.MoveControl.TurnTo(cmd.Towards);
-        ProgressWaitOnAttack(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, combo);
+
+        switch (cmd.CmdType)
+        {
+            case AgentCommandDefine.DASH:
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
+                break;
+            case AgentCommandDefine.ATTACK_LONG:
+            case AgentCommandDefine.ATTACK_SHORT:
+                ProgressWaitOnAttack(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, combo);
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -152,7 +164,7 @@ public class AgentStatus_Attack : AgentStatus
                         {
                             mAgent.MoveControl.TurnTo(towards);
 
-                            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimState(comboStep.animState);
+                            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimState(comboStep.stateName);
                         }
                     }
 

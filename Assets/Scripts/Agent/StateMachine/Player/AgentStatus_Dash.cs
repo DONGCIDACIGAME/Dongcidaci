@@ -62,6 +62,24 @@ public class AgentStatus_Dash : AgentStatus
         }
     }
 
+    protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggerableCombo combo)
+    {
+        base.CustomOnComboCommand(cmd, combo);
+
+        switch (cmd.CmdType)
+        {
+            case AgentCommandDefine.ATTACK_LONG:
+            case AgentCommandDefine.ATTACK_SHORT:
+                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
+                break;
+            case AgentCommandDefine.DASH:
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
+                break;
+            default:
+                break;
+        }
+    }
+
     protected override void CommandHandleOnMeter(int meterIndex)
     {
         if (meterIndex < mCurLogicStateEndMeter)

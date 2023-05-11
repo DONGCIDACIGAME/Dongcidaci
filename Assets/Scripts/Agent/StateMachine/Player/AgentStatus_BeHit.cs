@@ -44,6 +44,25 @@ public class AgentStatus_BeHit : AgentStatus
                 break;
         }
     }
+
+    protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggerableCombo combo)
+    {
+        base.CustomOnComboCommand(cmd, combo);
+
+        switch (cmd.CmdType)
+        {
+            case AgentCommandDefine.DASH:
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
+                break;
+            case AgentCommandDefine.ATTACK_LONG:
+            case AgentCommandDefine.ATTACK_SHORT:
+                ChangeStatusOnComboCommand(cmd, combo);
+                break;
+            default:
+                break;
+        }
+    }
+
     protected override void CommandHandleOnMeter(int meterIndex)
     {
         if (meterIndex < mCurLogicStateEndMeter)

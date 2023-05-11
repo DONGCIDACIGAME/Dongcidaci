@@ -18,7 +18,7 @@ public static class Log
     
     public static void Logic(LogLevel level,string str, params object[] args)
     {
-        Debug.LogFormat(str,args);
+        Debug.LogFormat(TimeMgr.Ins.FrameIndex +  "|" + str,args);
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public static class Log
 
     public static void Error(LogLevel level, string str, params object[] args)
     {
-        Debug.LogErrorFormat(str,args);
+        Debug.LogErrorFormat(TimeMgr.Ins.FrameIndex + "|" + str, args);
     }
 
     public static void Warning(string str)
@@ -43,7 +43,7 @@ public static class Log
 
     public static void Warning(string str, params object[] args)
     {
-        Debug.LogWarningFormat(str,args);
+        Debug.LogWarningFormat(TimeMgr.Ins.FrameIndex + "|" + str, args);
     }
 
     public static void Assert(bool condition,string msg)

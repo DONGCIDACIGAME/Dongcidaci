@@ -8,27 +8,27 @@
 			"comboStepDatas": [
 				{
 					"input": 16, 
-					"animState": "Combo_1_With_Empty", 
+					"statusName": "Attack",
+					"stateName": "Combo_1_With_Empty", 
 					"mode": 0,
 					"effects": [{"progress": 1.0, "effect": 0}],
-					"endFlag": false, 
-					"meterLen": 1
+					"endFlag": false
 				},
 				{
 					"input": 16,
-					"animState": "Combo_2_With_Empty",
+					"statusName": "Attack",
+					"stateName": "Combo_2_With_Empty",
 					"mode": 0,
 					"effects": [{"progress": 1.0, "effect": 0}],
-					"endFlag": false,
-					"meterLen": 1
+					"endFlag": false
 				},
 				{
 					"input": 16,
-					"animState": "Combo_3_With_Empty",
+					"statusName": "Attack",
+					"stateName": "Combo_3_With_Empty",
 					"mode": 0,
 					"effects": [{"progress": 1.0, "effect": 0}],
-					"endFlag": true,
-					"meterLen": 1
+					"endFlag": true
 				}
 			]
 		}

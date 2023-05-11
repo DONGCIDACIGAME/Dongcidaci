@@ -29,6 +29,7 @@ public class GameManager:MonoBehaviour
     private TimerCenter                    TimerCenter;                                            // 定时器中心
     private MeterTimerCenter          MeterTimerCenter;                                 // 节拍定时器中心
     private UpdateCenter                  UpdateCenter;                                        // Update驱动中心
+    private TimeMgr                          TimeMgr;                                                 // 时间中心
     private List<IModuleManager> mAllModuleMgrs;
 
     public GameConfig GetGameConfig()
@@ -44,6 +45,7 @@ public class GameManager:MonoBehaviour
 
         // 这里的注册顺序不要修改
         //GameScopeMgr = RegisterModuleMgr(GameScopeManager.Ins);
+        TimeMgr = RegisterModuleMgr(TimeMgr.Ins);
         UpdateCenter = RegisterModuleMgr(UpdateCenter.Ins);
         DataCenter = RegisterModuleMgr(DataCenter.Ins);
         EventSystem = RegisterModuleMgr(GameEventSystem.Ins);
@@ -105,6 +107,7 @@ public class GameManager:MonoBehaviour
         TimerCenter = null;
         DataCenter = null;
         MeterTimerCenter = null;
+        TimeMgr = null;
     }
 
     private T RegisterModuleMgr<T>(T mgr) where T:IModuleManager
@@ -144,6 +147,7 @@ public class GameManager:MonoBehaviour
         
         if(enableUpdate)
         {
+            TimeMgr.OnUpdate(deltaTime);
             ResMgr.OnUpdate(deltaTime);
             CoroutineMgr.OnUpdate(deltaTime);
             SceneMgr.OnUpdate(deltaTime);
