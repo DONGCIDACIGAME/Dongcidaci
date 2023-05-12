@@ -20,14 +20,14 @@ public class StepLoopAnimDriver : AgentAnimDriver
     {
         if (mCurAnimState == null)
         {
-            Log.Error(LogLevel.Normal, "AnimRepeatePlay Error, mCurAnimState is null!");
+            Log.Error(LogLevel.Normal, "StepLoopAnimDriver AnimRepeatePlay Error, mCurAnimState is null!");
             return MeterManager.Ins.MeterIndex;
         }
 
         float duration = MeterManager.Ins.GetTimeToBaseMeter(mCurAnimState.stateMeterLen);
         if (duration == 0)
         {
-            Log.Error(LogLevel.Normal, "AnimRepeatePlay Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
+            Log.Error(LogLevel.Normal, "StepLoopAnimDriver AnimRepeatePlay Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
             return MeterManager.Ins.MeterIndex;
         }
 
@@ -40,21 +40,21 @@ public class StepLoopAnimDriver : AgentAnimDriver
     {
         if (mCurAnimState == null)
         {
-            Log.Error(LogLevel.Normal, "AnimMoveNextPlay Error, mCurAnimState is null!");
+            Log.Error(LogLevel.Normal, "StepLoopAnimDriver AnimMoveNextPlay Error, mCurAnimState is null!");
             return MeterManager.Ins.MeterIndex;
         }
 
         string stateName = mCurAnimState.stateName;
         if (string.IsNullOrEmpty(stateName))
         {
-            Log.Error(LogLevel.Normal, "AnimMoveNextPlay Error, mCurAnimState.stateName is null or empty!");
+            Log.Error(LogLevel.Normal, "StepLoopAnimDriver AnimMoveNextPlay Error, mCurAnimState.stateName is null or empty!");
             return MeterManager.Ins.MeterIndex;
         }
 
         float duration = MeterManager.Ins.GetTimeToBaseMeter(mCurAnimState.stateMeterLen);
         if (duration == 0)
         {
-            Log.Error(LogLevel.Normal, "AnimMoveNextPlay Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
+            Log.Error(LogLevel.Normal, "StepLoopAnimDriver AnimMoveNextPlay Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
             return MeterManager.Ins.MeterIndex;
         }
 
@@ -68,14 +68,14 @@ public class StepLoopAnimDriver : AgentAnimDriver
     {
         if (mAnimStates == null)
         {
-            Log.Error(LogLevel.Info, "StepAnimDriver MoveNext Error, mAnimStates is null!");
+            Log.Error(LogLevel.Info, "StepLoopAnimDriver StepAnimDriver MoveNext Error, mAnimStates is null!");
             return MeterManager.Ins.MeterIndex;
         }
 
         mCurAnimState = mAnimStates[curStateIndex];
         if (mCurAnimState == null)
         {
-            Log.Error(LogLevel.Info, "StepAnimDriver MoveNext, AgentAnimStateInfo is null at index:{0}", curStateIndex);
+            Log.Error(LogLevel.Info, "StepLoopAnimDriver StepAnimDriver MoveNext, AgentAnimStateInfo is null at index:{0}", curStateIndex);
             return MeterManager.Ins.MeterIndex;
         }
 
@@ -110,9 +110,9 @@ public class StepLoopAnimDriver : AgentAnimDriver
         return AnimMoveNextPlay();
     }
 
-    public void Dispose()
+    public override void Dispose()
     {
-        mAnimStates = null;
+        base.Dispose();
         Reset();
     }
 

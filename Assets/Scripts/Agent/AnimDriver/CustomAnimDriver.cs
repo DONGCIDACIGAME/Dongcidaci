@@ -8,18 +8,11 @@ public class CustomAnimDriver : AgentAnimDriver
 
     }
 
-    public void Dispose()
-    {
-        mAnimStates = null;
-        mCurAnimState = null;
-    }
-
     public int PlayAnimState(string stateName)
     {
-        Log.Error(LogLevel.Info, "PlayAnimState----{0}", stateName);
         if (string.IsNullOrEmpty(stateName))
         {
-            Log.Error(LogLevel.Normal, "PlayAnimState Error, stateName is null or empty!");
+            Log.Error(LogLevel.Normal, "CustomAnimDriver PlayAnimState Error, stateName is null or empty!");
             return MeterManager.Ins.MeterIndex;
         }
 
@@ -37,14 +30,14 @@ public class CustomAnimDriver : AgentAnimDriver
 
         if (mCurAnimState == null)
         {
-            Log.Error(LogLevel.Normal, "PlayAnimState Error, no state named {0}!", stateName);
+            Log.Error(LogLevel.Normal, "CustomAnimDriver PlayAnimState Error, no state named {0}!", stateName);
             return MeterManager.Ins.MeterIndex;
         }
 
         float duration = MeterManager.Ins.GetTimeToBaseMeter(mCurAnimState.stateMeterLen);
         if (duration == 0)
         {
-            Log.Error(LogLevel.Normal, "PlayAnimState Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
+            Log.Error(LogLevel.Normal, "CustomAnimDriver PlayAnimState Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
             return MeterManager.Ins.MeterIndex;
         }
 

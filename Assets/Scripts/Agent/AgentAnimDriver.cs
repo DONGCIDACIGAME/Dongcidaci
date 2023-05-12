@@ -22,4 +22,11 @@ public class AgentAnimDriver
     {
         return mCurAnimState;
     }
+
+    public virtual void Dispose()
+    {
+        mAgent = null;
+        mCurAnimState = null;
+        mAnimStates = null;
+    }
 }

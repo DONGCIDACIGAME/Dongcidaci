@@ -47,9 +47,6 @@ public class AgentStatus_Attack : AgentStatus
                 PushInputCommandToBuffer(triggerCmd, towards);
             }
         }
-
-
-
     }
 
     public override void OnExit()
@@ -57,15 +54,8 @@ public class AgentStatus_Attack : AgentStatus
         base.OnExit();
     }
 
-    private void ProgressWaitOnAttack(byte cmdType, Vector3 towards, int triggerMeter, TriggerableCombo combo)
+    private void ProgressWaitOnAttack(byte cmdType, Vector3 towards, int triggerMeter, string stateName)
     {
-        if (combo == null)
-            return;
-
-        ComboStepData comboStep = combo.GetCurrentComboStep();
-        if (comboStep == null)
-            return;
-
         // 当前拍的剩余时间
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
         // 当前拍的总时间
@@ -78,16 +68,26 @@ public class AgentStatus_Attack : AgentStatus
         }
 
         float progress = timeToNextMeter / timeOfCurrentMeter;
-
         if (progress >= GamePlayDefine.AttackMeterProgressWait)
         {
-            string stateName = comboStep.stateName;
             mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimState(stateName);
         }
         else
         {
             PushInputCommandToBuffer(cmdType, towards);
         }
+    }
+
+    private void ProgressWaitOnAttack(byte cmdType, Vector3 towards, int triggerMeter, TriggerableCombo combo)
+    {
+        if (combo == null)
+            return;
+
+        ComboStepData comboStep = combo.GetCurrentComboStep();
+        if (comboStep == null)
+            return;
+
+        ProgressWaitOnAttack(cmdType, towards, triggerMeter, comboStep.stateName);
     }
 
     protected override void CustomOnNormalCommand(AgentInputCommand cmd)
@@ -106,9 +106,7 @@ public class AgentStatus_Attack : AgentStatus
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                //PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
-                //Log.Logic(LogLevel.Info, "++++++++++++++++++++DelayToMeterExcuteCommand Add Atk----{0} ", MeterManager.Ins.MeterIndex);
-                //ProgressWaitOnAttack(cmd.CmdType, cmd.Towards, cmd.TriggerMeter);
+                ProgressWaitOnAttack(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, mDefaultStateAnimDriver.GetDefaultStateName());
                 Log.Error(LogLevel.Normal, "CustomOnNormalCommand Error，所有攻击模式应该都能匹配上combo！");
                 break;
             case AgentCommandDefine.EMPTY:
@@ -135,8 +133,6 @@ public class AgentStatus_Attack : AgentStatus
                 break;
         }
     }
-
-
 
     protected override void CommandHandleOnMeter(int meterIndex)
     {

@@ -27,6 +27,13 @@ public abstract class AgentStatus : IAgentStatus
     protected CustomAnimDriver mCustomAnimDriver;
 
     /// <summary>
+    /// 默认状态动画驱动器（只会播放第一个动画状态）
+    /// </summary>
+    protected DefaultStateAnimDriver mDefaultStateAnimDriver;
+
+    //protected 
+
+    /// <summary>
     /// 当前逻辑状态结束节拍index
     /// </summary>
     protected int mCurLogicStateEndMeter;
@@ -43,6 +50,7 @@ public abstract class AgentStatus : IAgentStatus
         cmdBuffer = new AgentInputCommandBuffer();
         mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
         mCustomAnimDriver = new CustomAnimDriver(mAgent, GetStatusName());
+        mDefaultStateAnimDriver = new DefaultStateAnimDriver(mAgent, GetStatusName());
     }
 
     public virtual void CustomInitialize()
@@ -121,6 +129,12 @@ public abstract class AgentStatus : IAgentStatus
         {
             mCustomAnimDriver.Dispose();
             mCustomAnimDriver = null;
+        }
+
+        if(mDefaultStateAnimDriver != null)
+        {
+            mDefaultStateAnimDriver.Dispose();
+            mDefaultStateAnimDriver = null;
         }
 
         CustomDispose();
