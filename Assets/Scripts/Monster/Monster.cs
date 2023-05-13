@@ -3,7 +3,7 @@ public class Monster : Agent
     public Monster(uint agentId) : base(agentId){ Initialize(); }
 
     /// <summary>
-    /// ³õÊ¼»¯
+    /// é‡å†™åˆå§‹åŒ–
     /// </summary>
     public override void Initialize()
     {
