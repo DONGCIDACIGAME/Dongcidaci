@@ -10,27 +10,26 @@
 					"input": 16, 
 					"statusName": "Attack",
 					"stateName": "Combo_1_With_Empty", 
-					"mode": 0,
-					"effects": [{"progress": 1.0, "effect": 0}],
+					"effects": [{"mode": 0, "effectType": 0, "effectValue": 0}],
 					"endFlag": false
 				},
 				{
 					"input": 16,
 					"statusName": "Attack",
 					"stateName": "Combo_2_With_Empty",
-					"mode": 0,
-					"effects": [{"progress": 1.0, "effect": 0}],
+					"effects": [{"mode": 0, "effectType": 0, "effectValue": 0}],
 					"endFlag": false
 				},
 				{
 					"input": 16,
 					"statusName": "Attack",
 					"stateName": "Combo_3_With_Empty",
-					"mode": 0,
-					"effects": [{"progress": 1.0, "effect": 0}],
+					"effects": [{"mode": 0, "effectType": 0, "effectValue": 0}],
 					"endFlag": true
 				}
-			]
+			],
+			"transferStateName": "DefaultTransfer",
+			"transferStateDuration": 0.5
 		}
 	]
 }

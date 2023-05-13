@@ -13,7 +13,8 @@
 				"minDuration": 0,
 				"normalizedTime": 0.5,
 				"layer": 0,
-				"animLen": 1.0
+				"animLen": 1.0,
+				"hitPoints": []
 			}]
 		},
 		"Run": {
@@ -26,68 +27,22 @@
 				"stateMeterLen": 2,
 				"normalizedTime": 0.1,
 				"layer": 0,
-				"animLen": 1.000
+				"animLen": 1.000,
+				"hitPoints": []
 			}]
 		},
 		"Attack":{
 			"statusName": "Attack",
 			"loop": false,
 			"animStates": [{
-				"stateName": "combo_01",
-				"loopTime": 1,
-				"animName": "combo_01",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
-				"layer": 0,
-				"animLen": 0.3
-			},{
-				"stateName": "combo_02",
-				"loopTime": 1,
-				"animName": "combo_02",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
-				"layer": 0,	
-				"animLen": 0.467
-			},{
-				"stateName": "combo_03",
-				"loopTime": 1,
-				"animName": "combo_03",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
-				"layer": 0,
-				"animLen": 0.367
-			},{
-				"stateName": "combo_04",
-				"loopTime": 1,
-				"animName": "combo_04",
-				"stateMeterLen": 3,
-				"normalizedTime": 0.2,
-				"layer": 0,
-				"animLen": 0.833
-			},{
-				"stateName": "attackLight",
-				"loopTime": 1,
-				"animName": "attackSlight 1",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
-				"layer": 0,
-				"animLen": 0.5
-			},{
-				"stateName": "attackHard",
-				"loopTime": 1,
-				"animName": "attackHeavy 1",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
-				"layer": 0,
-				"animLen": 0.5
-			},{
 				"stateName": "AttackBegin",
 				"loopTime": 1,
 				"animName": "attackBegin2",
 				"stateMeterLen": 1,
 				"normalizedTime": 0.2,
 				"layer": 0,
-				"animLen": 0.5
+				"animLen": 0.5,
+				"hitPoints": [{"progress": 1}]
 			},{
 				"stateName": "Combo_1_With_Empty",
 				"loopTime": 1,
@@ -95,7 +50,8 @@
 				"stateMeterLen": 1,
 				"normalizedTime": 0,
 				"layer": 0,
-				"animLen": 0.5
+				"animLen": 0.5,
+				"hitPoints": [{"progress": 1}]
 			},{
 				"stateName": "Combo_2_With_Empty",
 				"loopTime": 1,
@@ -103,7 +59,8 @@
 				"stateMeterLen": 1,
 				"normalizedTime": 0,
 				"layer": 0,
-				"animLen": 0.5
+				"animLen": 0.5,
+				"hitPoints": [{"progress": 1}]
 			},{
 				"stateName": "Combo_3_With_Empty",
 				"loopTime": 1,
@@ -111,7 +68,8 @@
 				"stateMeterLen": 1,
 				"normalizedTime": 0,
 				"layer": 0,
-				"animLen": 0.5
+				"animLen": 0.5,
+				"hitPoints": [{"progress": 1}]
 			}]
 		},
 		"Dash": {
@@ -124,7 +82,22 @@
 				"stateMeterLen": 2,
 				"normalizedTime": 0.1,
 				"layer": 0,
-				"animLen": 1.0
+				"animLen": 1.0,
+				"hitPoints": [{"progress": 1}]
+			}]
+		},
+		"Transfer": {
+			"statusName": "Transfer",
+			"loop": false,
+			"animStates": [{
+				"stateName": "DefaultTransfer",
+				"loopTime": 1,
+				"animName": "DefaultTransfer",
+				"stateMeterLen": 1,
+				"normalizedTime": 0.5,
+				"layer": 0,
+				"animLen": 0.5,
+				"hitPoints": []
 			}]
 		}
 	}

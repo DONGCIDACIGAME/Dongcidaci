@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class AgentStatus_Dash : AgentStatus
 {
+    /// <summary>
+    /// 自定义动画驱动器
+    /// </summary>
+    protected CustomAnimDriver mCustomAnimDriver;
+
     public override string GetStatusName()
     {
         return AgentStatusDefine.DASH;
@@ -13,6 +18,17 @@ public class AgentStatus_Dash : AgentStatus
         base.CustomInitialize();
         mInputHandle = new KeyboardInputHandle_Dash(mAgent);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
+        mCustomAnimDriver = new CustomAnimDriver(mAgent, GetStatusName());
+    }
+
+    protected override void CustomDispose()
+    {
+        base.CustomDispose();
+        if (mCustomAnimDriver != null)
+        {
+            mCustomAnimDriver.Dispose();
+            mCustomAnimDriver = null;
+        }
     }
 
     private void Dash()
@@ -25,7 +41,7 @@ public class AgentStatus_Dash : AgentStatus
     {
         base.OnEnter(context);
         Dash();
-        mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
+        mCustomAnimDriver.PlayAnimState(AgentAnimDefine.DefaultAnimName_Dash);
     }
 
     public override void OnExit()
@@ -49,12 +65,12 @@ public class AgentStatus_Dash : AgentStatus
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
+                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd, null);
                 break;
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.IDLE:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, null);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -70,10 +86,10 @@ public class AgentStatus_Dash : AgentStatus
         {
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd);
+                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd, combo);
                 break;
             case AgentCommandDefine.DASH:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, combo);
                 break;
             default:
                 break;
@@ -82,32 +98,6 @@ public class AgentStatus_Dash : AgentStatus
 
     protected override void CommandHandleOnMeter(int meterIndex)
     {
-        if (meterIndex < mCurLogicStateEndMeter)
-            return;
 
-        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
-        {
-            Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}", cmdType, meterIndex);
-
-            switch (cmdType)
-            {
-                case AgentCommandDefine.BE_HIT:
-                case AgentCommandDefine.ATTACK_SHORT:
-                case AgentCommandDefine.ATTACK_LONG:
-                case AgentCommandDefine.RUN:
-                case AgentCommandDefine.IDLE:
-                    ChangeStatusOnNormalCommand(cmdType, towards, meterIndex);
-                    return;
-                case AgentCommandDefine.DASH:
-                    Dash();
-                    mAgent.MoveControl.TurnTo(towards);
-                    break;
-                case AgentCommandDefine.EMPTY:
-                default:
-                    break;
-            }
-
-            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
-        }
     }
 }

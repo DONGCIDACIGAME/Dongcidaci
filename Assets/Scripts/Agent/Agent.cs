@@ -15,9 +15,6 @@ public abstract class Agent : IEntity, IMeterHandler
     /// </summary>
     protected GameObject mAgentGo;
 
-    // 相机追随的虚拟目标(防止动画自身位置)
-    //protected VirtualCamTarget mVirtualCamTarget;
-
     /// <summary>
     /// 动画播放控制器
     /// </summary>
@@ -138,14 +135,9 @@ public abstract class Agent : IEntity, IMeterHandler
         LoadAgentCfg(mAgentId);
         LoadAgentGo();
 
-        ComboTrigger = new ComboTrigger();
         ComboTrigger.Initialize(this);
         MeterManager.Ins.RegisterMeterHandler(this);
-
-        StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
-        StatusMachine = new AgentStatusMachine();
         StatusMachine.Initialize(this);
-
         CustomInitialize();
 
         StatusMachine.SwitchToStatus(AgentStatusDefine.IDLE, null);
@@ -183,59 +175,16 @@ public abstract class Agent : IEntity, IMeterHandler
         mAgentId = agentId;
         mEntityId = EntityManager.Ins.AddEntity(this);
         AnimPlayer = new AgentAnimPlayer();
+        StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
+        StatusMachine = new AgentStatusMachine();
+        ComboTrigger = new ComboTrigger();
     }
 
-    public AgentAnimStateInfo GetStateInfo(string statusName, string stateName)
-    {
-        AgentStatusInfo statusInfo = GetStatusInfo(statusName);
-        if (statusInfo == null)
-            return null;
-
-        if(statusInfo.animStates == null || statusInfo.animStates.Length == 0)
-        {
-            Log.Error(LogLevel.Normal, "GetStateInfo Failed, statusInfo.animStates is null or empty!");
-            return null;
-        }
-
-        for(int i = 0; i < statusInfo.animStates.Length; i++)
-        {
-            AgentAnimStateInfo stateInfo = statusInfo.animStates[i];
-            if (stateInfo.stateName == stateName)
-            {
-                return stateInfo;
-            }
-        }
-
-        return null;
-    }
-
-    public AgentStatusInfo GetStatusInfo(string statusName)
-    {
-        if (StatusGraph == null)
-        {
-            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, StatusGraph is null!");
-            return null;
-        }
-
-        if(StatusGraph.statusMap == null)
-        {
-            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, StatusGraph.statusMap is null!");
-            return null;
-        }
-
-        AgentStatusInfo statusInfo;
-        if (!StatusGraph.statusMap.TryGetValue(statusName, out statusInfo))
-        {
-            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, no status info named {0}", statusName);
-        }
-
-        return statusInfo;
-    }
 
     public virtual void OnMeter(int meterIndex)
     {
-        ComboTrigger.OnMeter(meterIndex);
         StatusMachine.OnMeter(meterIndex);
+        ComboTrigger.OnMeter(meterIndex);
     }
 
     /// <summary>
@@ -281,12 +230,12 @@ public abstract class Agent : IEntity, IMeterHandler
         }
 
         // 新的输入尝试触发combo
-        int result = ComboTrigger.OnNewInput(cmd.CmdType, cmd.TriggerMeter);
+        int result = ComboTrigger.OnNewInput(cmd.CmdType, cmd.TriggerMeter, out TriggerableCombo combo);
 
         // 如果触发了combo，就需要同时处理指令和combo的逻辑
         if (result == ComboDefine.ComboTriggerResult_Succeed)
         {
-            TriggerableCombo combo = ComboTrigger.GetCurTriggeredCombo();
+            Log.Error(LogLevel.Info, "Trigger combo {0}-{1}", combo.GetComboName(), combo.GetCurrentComboStep().stateName);
             curStatus.OnComboCommand(cmd, combo);
         }
         // 如果不是combo的触发命令类型，就直接执行指令
@@ -320,4 +269,52 @@ public abstract class Agent : IEntity, IMeterHandler
         MoveControl.OnUpdate(deltaTime);
         StatusMachine.OnUpdate(deltaTime);
     }
+
+    public AgentAnimStateInfo GetStateInfo(string statusName, string stateName)
+    {
+        AgentStatusInfo statusInfo = GetStatusInfo(statusName);
+        if (statusInfo == null)
+            return null;
+
+        if (statusInfo.animStates == null || statusInfo.animStates.Length == 0)
+        {
+            Log.Error(LogLevel.Normal, "GetStateInfo Failed, statusInfo.animStates is null or empty!");
+            return null;
+        }
+
+        for (int i = 0; i < statusInfo.animStates.Length; i++)
+        {
+            AgentAnimStateInfo stateInfo = statusInfo.animStates[i];
+            if (stateInfo.stateName == stateName)
+            {
+                return stateInfo;
+            }
+        }
+
+        return null;
+    }
+
+    public AgentStatusInfo GetStatusInfo(string statusName)
+    {
+        if (StatusGraph == null)
+        {
+            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, StatusGraph is null!");
+            return null;
+        }
+
+        if (StatusGraph.statusMap == null)
+        {
+            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, StatusGraph.statusMap is null!");
+            return null;
+        }
+
+        AgentStatusInfo statusInfo;
+        if (!StatusGraph.statusMap.TryGetValue(statusName, out statusInfo))
+        {
+            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, no status info named {0}", statusName);
+        }
+
+        return statusInfo;
+    }
+
 }

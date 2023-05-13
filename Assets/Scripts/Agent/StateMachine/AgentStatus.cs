@@ -5,6 +5,7 @@ public abstract class AgentStatus : IAgentStatus
 {
     /// <summary>
     /// 切换状态的代理方法
+    /// 后面考虑改为事件
     /// </summary>
     protected ChangeStatusDelegate ChangeStatus;
 
@@ -17,23 +18,6 @@ public abstract class AgentStatus : IAgentStatus
     protected IInputHandle mInputHandle;
 
     /// <summary>
-    /// 步进式动画驱动器
-    /// </summary>
-    protected StepLoopAnimDriver mStepLoopAnimDriver;
-
-    /// <summary>
-    /// 自定义动画驱动器
-    /// </summary>
-    protected CustomAnimDriver mCustomAnimDriver;
-
-    /// <summary>
-    /// 默认状态动画驱动器（只会播放第一个动画状态）
-    /// </summary>
-    protected DefaultStateAnimDriver mDefaultStateAnimDriver;
-
-    //protected 
-
-    /// <summary>
     /// 当前逻辑状态结束节拍index
     /// </summary>
     protected int mCurLogicStateEndMeter;
@@ -43,14 +27,16 @@ public abstract class AgentStatus : IAgentStatus
     /// </summary>
     protected AgentInputCommandBuffer cmdBuffer;
 
+    /// <summary>
+    /// 当前触发的combo
+    /// </summary>
+    protected TriggerableCombo mCurTriggeredCombo;
+
     public void Initialize(Agent agt, ChangeStatusDelegate cb)
     {
         ChangeStatus = cb;
         mAgent = agt;
         cmdBuffer = new AgentInputCommandBuffer();
-        mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
-        mCustomAnimDriver = new CustomAnimDriver(mAgent, GetStatusName());
-        mDefaultStateAnimDriver = new DefaultStateAnimDriver(mAgent, GetStatusName());
     }
 
     public virtual void CustomInitialize()
@@ -96,7 +82,7 @@ public abstract class AgentStatus : IAgentStatus
     {
         mInputHandle.SetEnable(false);
         cmdBuffer.ClearCommandBuffer();
-        mStepLoopAnimDriver.Reset();
+        mCurTriggeredCombo = null;
     }
 
     protected virtual void CustomDispose() { }
@@ -117,24 +103,6 @@ public abstract class AgentStatus : IAgentStatus
         {
             cmdBuffer.Dispose();
             cmdBuffer = null;
-        }
-
-        if (mStepLoopAnimDriver != null)
-        {
-            mStepLoopAnimDriver.Dispose();
-            mStepLoopAnimDriver = null;
-        }
-
-        if (mCustomAnimDriver != null)
-        {
-            mCustomAnimDriver.Dispose();
-            mCustomAnimDriver = null;
-        }
-
-        if(mDefaultStateAnimDriver != null)
-        {
-            mDefaultStateAnimDriver.Dispose();
-            mDefaultStateAnimDriver = null;
         }
 
         CustomDispose();
@@ -161,7 +129,7 @@ public abstract class AgentStatus : IAgentStatus
     /// 其他情况等待下一拍执行
     /// </summary>
     /// <param name="waitMeterProgress"></param>
-    public void ProgressWaitOnCommand(float waitMeterProgress, AgentInputCommand cmd)
+    public void ProgressWaitOnCommand(float waitMeterProgress, AgentInputCommand cmd, TriggerableCombo combo)
     {
         // 当前拍的剩余时间
         float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
@@ -178,37 +146,18 @@ public abstract class AgentStatus : IAgentStatus
 
         if(progress >= waitMeterProgress)
         {
-            ChangeStatusOnNormalCommand(cmd);
+            if(combo != null)
+            {
+                ChangeStatusOnComboCommand(cmd, combo);
+            }
+            else
+            {
+                ChangeStatusOnNormalCommand(cmd);
+            }
         }
         else
         {
-            PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
-        }
-    }
-
-    /// <summary>
-    /// 根据本拍剩余时间对命令处理的条件等待
-    /// 如果本拍剩余时间<waitTime,就直接执行，否则等待下一拍执行
-    /// </summary>
-    /// <param name="waitTime"></param>
-    public void TimeWaitOnCommand(float waitTime, AgentInputCommand cmd)
-    {
-        // 当前拍的剩余时间
-        float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
-
-        if (timeToNextMeter <= 0)
-        {
-            Log.Error(LogLevel.Normal, "TimeWaitOnCommand Error, 当前拍的总时长=0, 当前节拍：{0}", MeterManager.Ins.MeterIndex);
-            return;
-        }
-
-        if (timeToNextMeter <= waitTime)
-        {
-            ChangeStatusOnNormalCommand(cmd);
-        }
-        else
-        {
-            PushInputCommandToBuffer(cmd.CmdType, cmd.Towards);
+            PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, combo);
         }
     }
 
@@ -217,9 +166,23 @@ public abstract class AgentStatus : IAgentStatus
     /// </summary>
     /// <param name="cmdType"></param>
     /// <param name="towards"></param>
-    public void PushInputCommandToBuffer(byte cmdType, Vector3 towards)
+    public void PushInputCommandToBuffer(byte cmdType, Vector3 towards, TriggerableCombo combo)
     {
         cmdBuffer.AddInputCommand(cmdType, towards);
+        if(combo != null)
+        {
+            SetCurTriggeredCombo(combo);
+        }
+    }
+
+    public TriggerableCombo GetCurTriggeredCombo()
+    {
+        return mCurTriggeredCombo;
+    }
+
+    public void SetCurTriggeredCombo(TriggerableCombo combo)
+    {
+        mCurTriggeredCombo = combo;
     }
 
     protected void ChangeStatusOnNormalCommand(AgentInputCommand cmd)

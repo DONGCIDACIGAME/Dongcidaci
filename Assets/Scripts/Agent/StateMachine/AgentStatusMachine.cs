@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 /// <summary>
-///  TODO-后面改为事件
+///  TODO-鍚庨潰鏀逛负浜嬩欢
 /// </summary>
 /// <param name="stateName"></param>
 /// <param name="context"></param>
@@ -61,6 +61,7 @@ public class AgentStatusMachine
         AddStatus(AgentStatusDefine.RUN, new AgentStatus_Run());
         AddStatus(AgentStatusDefine.ATTACK, new AgentStatus_Attack());
         AddStatus(AgentStatusDefine.DASH, new AgentStatus_Dash());
+        AddStatus(AgentStatusDefine.TRANSFER, new AgentStatus_Transfer());
     }
 
 

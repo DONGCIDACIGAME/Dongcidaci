@@ -14,9 +14,9 @@ public class ComboTrigger : IMeterHandler
     private int comboLogicEndMeter;
 
     /// <summary>
-    /// 当前触发的combo
+    /// 重置标志
     /// </summary>
-    private TriggerableCombo mCurTriggeredCombo;
+    private bool resetFlag;
 
     public ComboTrigger()
     {
@@ -34,11 +34,6 @@ public class ComboTrigger : IMeterHandler
                 return;
             }
         }
-    }
-
-    public TriggerableCombo GetCurTriggeredCombo()
-    {
-        return mCurTriggeredCombo;
     }
 
     public void Initialize(Agent agent)
@@ -109,8 +104,10 @@ public class ComboTrigger : IMeterHandler
     /// <param name="newInput">输入</param>
     /// <param name="meterIndex">输入对应的节拍index</param>
     /// <returns>触发combo的结果</returns>
-    public int OnNewInput(byte newInput, int meterIndex)
+    public int OnNewInput(byte newInput, int meterIndex, out TriggerableCombo combo)
     {
+        combo = null;
+
         // be_hit不是combo触发器，而且be_hit不会等待combo结束，在be_hit时立即处理
         if (newInput == AgentCommandDefine.BE_HIT
             || newInput == AgentCommandDefine.IDLE
@@ -124,12 +121,6 @@ public class ComboTrigger : IMeterHandler
         if (meterIndex < comboLogicEndMeter)
             return ComboDefine.ComboTriggerResult_ComboExcuting;
 
-        // 如果前一个combo的招式是结束招式，就重置combo嗅探器，重新开始检测combo
-        if (mCurTriggeredCombo != null && mCurTriggeredCombo.GetCurrentComboStep().endFlag)
-        {
-            ResetAllCombo();
-        }
-
         // 所有的combo都过一遍新的输入
         for (int i = 0; i < mSortedTriggerableCombos.Count; i++)
         {
@@ -138,17 +129,22 @@ public class ComboTrigger : IMeterHandler
             bool triggered = tc.TryTriggerOnNewInput(newInput);
 
             // 成功触发combo时，记录第一个被触发的combo
-            if (triggered && mCurTriggeredCombo == null)
+            if (triggered && combo == null)
             {
-                mCurTriggeredCombo = tc;
+                combo = tc;
             }
         }
 
-        if(mCurTriggeredCombo != null)
+        if(combo != null)
         {
-            ComboStepData csd = mCurTriggeredCombo.GetCurrentComboStep();
-
+            ComboStepData csd = combo.GetCurrentComboStep();
             comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, csd.statusName, csd.stateName);
+
+            // 如果是结束招式，就做个reset标记，在节拍到了的时候重新开始combo检测
+            if(csd.endFlag)
+            {
+                resetFlag = true;
+            }
             return ComboDefine.ComboTriggerResult_Succeed;
         }
         else
@@ -167,7 +163,6 @@ public class ComboTrigger : IMeterHandler
         {
             mSortedTriggerableCombos[i].Reset();
         }
-        mCurTriggeredCombo = null;
     }
 
     public void Dispose()
@@ -179,6 +174,9 @@ public class ComboTrigger : IMeterHandler
 
     public void OnMeter(int meterIndex)
     {
-
+        if(meterIndex == comboLogicEndMeter && resetFlag)
+        {
+            ResetAllCombo();
+        }
     }
 }

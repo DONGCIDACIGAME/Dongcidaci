@@ -13,7 +13,7 @@ public class TriggerableCombo
     /// <summary>
     /// 当前触发的招式index
     /// </summary>
-    public int triggeredAt { get; private set; }
+    private int triggeredAt;
 
     /// <summary>
     /// 是否激活（只有激活的combo才能响应输入）
@@ -42,6 +42,16 @@ public class TriggerableCombo
     public bool IsCombo(string comboName)
     {
         return comboData.comboName.Equals(comboName);
+    }
+
+    public string GetComboTransferStateName()
+    {
+        return comboData.transferStateName;
+    }
+
+    public float GetComboTransferDuration()
+    {
+        return comboData.transferStateDuration;
     }
 
     public string GetComboName()
