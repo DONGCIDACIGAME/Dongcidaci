@@ -6,24 +6,24 @@ using UnityEngine;
 public class MeterManager : ModuleManager<MeterManager>
 {
     /// <summary>
-    /// å½“å‰éŸ³ä¹çš„èŠ‚å¥æ•°æ®
+    /// µ±Ç°ÒôÀÖµÄ½Ú×àÊı¾İ
     /// </summary>
     private AudioMeterData mCurAudioMeterData;
 
     /// <summary>
-    /// å½“å‰æ‰€å¤„çš„èŠ‚å¥index
+    /// µ±Ç°Ëù´¦µÄ½Ú×àindex
     /// </summary>
     public int MeterIndex { get; private set; }
 
     /// <summary>
-    /// éŸ³ä¹å¼€å§‹åˆ°å½“å‰çš„æ—¶é—´ï¼ˆloopï¼‰
+    /// ÒôÀÖ¿ªÊ¼µ½µ±Ç°µÄÊ±¼ä£¨loop£©
     /// </summary>
     private float timeRecord;
 
 
     /// <summary>
     /// Added by Weng 2023/05/05
-    /// å½“å‰è·ç¦»è¿™1æ‹ç´¢å¼•å·²ç»ç»è¿‡çš„æ—¶é—´
+    /// µ±Ç°¾àÀëÕâ1ÅÄË÷ÒıÒÑ¾­¾­¹ıµÄÊ±¼ä
     /// </summary>
     public float CrtMeterPassedTime {
 
@@ -36,15 +36,15 @@ public class MeterManager : ModuleManager<MeterManager>
     }
 
     /// <summary>
-    /// èŠ‚å¥æ§åˆ¶å™¨æ˜¯å¦å¯ç”¨
+    /// ½Ú×à¿ØÖÆÆ÷ÊÇ·ñÆôÓÃ
     /// </summary>
     private bool enable;
 
-    // Added By Weng å­˜æ”¾æ‹ç‚¹è§¦å‘çš„äº‹ä»¶ï¼Œæ„Ÿè§‰æ— å¿…è¦ç”¨å­—å…¸ï¼Œå› ä¸ºä¸å­˜åœ¨å•ä¸ªç´¢å¼•è¯»å–
+    // Added By Weng ´æ·ÅÅÄµã´¥·¢µÄÊÂ¼ş£¬¸Ğ¾õÎŞ±ØÒªÓÃ×Öµä£¬ÒòÎª²»´æÔÚµ¥¸öË÷Òı¶ÁÈ¡
     private Dictionary<int, IMeterHandler> mBaseMeterHandlers;
 
     /// <summary>
-    /// èŠ‚æ‹æ€»æ•°é‡
+    /// ½ÚÅÄ×ÜÊıÁ¿
     /// </summary>
     private int totalMeterLen;
 
@@ -64,7 +64,7 @@ public class MeterManager : ModuleManager<MeterManager>
         if (handler == null)
             return;
 
-        // æ­¤å¤„ç”¨ hash codeæœ‰æ¦‚ç‡ä¼šäº§ç”Ÿbug,å› ä¸ºå¯èƒ½äº§ç”Ÿç›¸åŒçš„hashcode,å¯¼è‡´äº‹ä»¶æ— æ³•è¢«æ³¨å†Œ
+        // ´Ë´¦ÓÃ hash codeÓĞ¸ÅÂÊ»á²úÉúbug,ÒòÎª¿ÉÄÜ²úÉúÏàÍ¬µÄhashcode,µ¼ÖÂÊÂ¼şÎŞ·¨±»×¢²á
         /**
         int unicode = handler.GetHashCode();
         if (mBaseMeterHandlers.ContainsKey(unicode))
@@ -173,7 +173,7 @@ public class MeterManager : ModuleManager<MeterManager>
     }
 
     /// <summary>
-    /// æ˜¯å¦åœ¨èŠ‚æ‹çš„æŒ‡å®šå®¹å·®èŒƒå›´å†…
+    /// ÊÇ·ñÔÚ½ÚÅÄµÄÖ¸¶¨Èİ²î·¶Î§ÄÚ
     /// </summary>
     /// <param name="meterIndex"></param>
     /// <param name="tolerance"></param>
@@ -188,7 +188,7 @@ public class MeterManager : ModuleManager<MeterManager>
             return false;
         }
 
-        // å¯¹äºéŸ³ä¹èµ·å§‹æ‹å’Œç»“æŸæ‹çš„ç‰¹æ®Šå¤„ç†
+        // ¶ÔÓÚÒôÀÖÆğÊ¼ÅÄºÍ½áÊøÅÄµÄÌØÊâ´¦Àí
         if (meterIndex == 0 || meterIndex == totalMeterLen - 1)
         {
             return (timeRecord >= mCurAudioMeterData.baseMeters[totalMeterLen - 1] - tolerance/2 + offset)
@@ -200,12 +200,12 @@ public class MeterManager : ModuleManager<MeterManager>
     }
 
     /// <summary>
-    /// æ£€æµ‹åœ¨æœ¬æ‹çš„æ—¶é—´å†…æ˜¯å¦è§¦å‘
+    /// ¼ì²âÔÚ±¾ÅÄµÄÊ±¼äÄÚÊÇ·ñ´¥·¢
     /// </summary>
-    /// <param name="tolerance">æ£€æµ‹çš„å®¹å·®</param>
-    /// <param name="offset">æ£€æµ‹æ—¶çš„åç§»</param>
-    /// <param name="triggerMeter">è§¦å‘çš„èŠ‚å¥index</param>
-    /// <returns>æ˜¯å¦è§¦å‘</returns>
+    /// <param name="tolerance">¼ì²âµÄÈİ²î</param>
+    /// <param name="offset">¼ì²âÊ±µÄÆ«ÒÆ</param>
+    /// <param name="triggerMeter">´¥·¢µÄ½Ú×àindex</param>
+    /// <returns>ÊÇ·ñ´¥·¢</returns>
     public bool CheckTriggered(float tolerance, float offset, out int triggerMeter)
     {
         triggerMeter = 0;
@@ -215,13 +215,13 @@ public class MeterManager : ModuleManager<MeterManager>
        int nextMeter = GetMeterIndex(MeterIndex, 1);
 
         /*
-         *          è§¦å‘æ£€æµ‹
+         *          ´¥·¢¼ì²â
          *   |---------------------|---------------------|
          *    0000                 00
-         *    000ï¼šæ£€æµ‹éƒ¨åˆ†
-         *   æ£€æµ‹è§¦å‘æ—¶ï¼Œåªæœ‰æœ¬æ‹çš„å¼€å§‹æ®µå’Œæœ¬æ‹çš„ç»“æŸæ®µæ˜¯å¯ä»¥è§¦å‘çš„åŒºåŸŸ
-         *   æ³¨æ„ä¸èƒ½ä½¿ç”¨ä¸Šä¸€æ‹ï¼Œå› ä¸ºä¸Šä¸€æ‹å·²ç»è¿‡å»äº†ï¼Œå†æ€ä¹ˆæ£€æµ‹ä¹Ÿæ˜¯è§¦å‘ä¸äº†çš„
-         *   æ£€æµ‹çš„å®¹å·®å¯ä»¥ä¼ å…¥åç§»
+         *    000£º¼ì²â²¿·Ö
+         *   ¼ì²â´¥·¢Ê±£¬Ö»ÓĞ±¾ÅÄµÄ¿ªÊ¼¶ÎºÍ±¾ÅÄµÄ½áÊø¶ÎÊÇ¿ÉÒÔ´¥·¢µÄÇøÓò
+         *   ×¢Òâ²»ÄÜÊ¹ÓÃÉÏÒ»ÅÄ£¬ÒòÎªÉÏÒ»ÅÄÒÑ¾­¹ıÈ¥ÁË£¬ÔÙÔõÃ´¼ì²âÒ²ÊÇ´¥·¢²»ÁËµÄ
+         *   ¼ì²âµÄÈİ²î¿ÉÒÔ´«ÈëÆ«ÒÆ
          */
 
         float trigger1_Start = mCurAudioMeterData.baseMeters[MeterIndex];
@@ -245,7 +245,7 @@ public class MeterManager : ModuleManager<MeterManager>
     }
 
     /// <summary>
-    /// è§¦å‘åœ¨æ‹å­ä¸Šéœ€è¦æ‰§è¡Œçš„æ“ä½œ
+    /// ´¥·¢ÔÚÅÄ×ÓÉÏĞèÒªÖ´ĞĞµÄ²Ù×÷
     /// </summary>
     private void TriggerBaseMeter()
     {
@@ -256,10 +256,10 @@ public class MeterManager : ModuleManager<MeterManager>
     }
 
     /// <summary>
-    ///  TODO:è¿™é‡Œçš„èŠ‚æ‹é€»è¾‘éœ€è¦è°ƒæ•´
-    ///  1. æ˜¯å¦è¦è‡ªåŠ¨æ·»åŠ ç¬¬0æ‹(0s)å’Œæœ€åä¸€æ‹ï¼ˆæœ€å1sï¼‰
-    ///  2. å¦‚æœç¼–è¾‘çš„æ‹å­ä¸å…¨åº”è¯¥æ€ä¹ˆå¤„ç†
-    ///  3. å†ç¡®è®¤ä¸‹æ‹å­å’ŒèŠ‚å¥çš„å…³ç³»æ˜¯å¦æ­£ç¡®
+    ///  TODO:ÕâÀïµÄ½ÚÅÄÂß¼­ĞèÒªµ÷Õû
+    ///  1. ÊÇ·ñÒª×Ô¶¯Ìí¼ÓµÚ0ÅÄ(0s)ºÍ×îºóÒ»ÅÄ£¨×îºó1s£©
+    ///  2. Èç¹û±à¼­µÄÅÄ×Ó²»È«Ó¦¸ÃÔõÃ´´¦Àí
+    ///  3. ÔÙÈ·ÈÏÏÂÅÄ×ÓºÍ½Ú×àµÄ¹ØÏµÊÇ·ñÕıÈ·
     /// </summary>
     /// <param name="deltaTime"></param>
     public override void OnUpdate(float deltaTime)
@@ -311,7 +311,7 @@ public class MeterManager : ModuleManager<MeterManager>
 
 
     /// <summary>
-    /// è·å–å½“å‰åˆ°æ¥ä¸‹æ¥ç¬¬offsetæ‹çš„æ—¶é—´
+    /// »ñÈ¡µ±Ç°µ½½ÓÏÂÀ´µÚoffsetÅÄµÄÊ±¼ä
     /// </summary>
     /// <param name="offset"></param>
     /// <returns></returns>
@@ -345,7 +345,7 @@ public class MeterManager : ModuleManager<MeterManager>
     }
 
     /// <summary>
-    /// è·å–ä»å“ªä¸ªæ‹å­å¼€å§‹ï¼Œåç§»çš„æ‹å­ç´¢å¼•
+    /// »ñÈ¡´ÓÄÄ¸öÅÄ×Ó¿ªÊ¼£¬Æ«ÒÆµÄÅÄ×ÓË÷Òı
     /// </summary>
     /// <param name="from"></param>
     /// <param name="offset"></param>
@@ -362,11 +362,11 @@ public class MeterManager : ModuleManager<MeterManager>
     }
 
     /// <summary>
-    /// è·å–ä»ä¸¤ä¸ªæ‹å­ä¹‹é—´çš„æ—¶é—´é—´éš”
+    /// »ñÈ¡´ÓÁ½¸öÅÄ×ÓÖ®¼äµÄÊ±¼ä¼ä¸ô
     /// </summary>
-    /// <param name="from">èµ·å§‹æ‹</param>
-    /// <param name="to">ç»“æŸæ‹</param>
-    /// <returns>æ—¶é—´é—´éš”</returns>
+    /// <param name="from">ÆğÊ¼ÅÄ</param>
+    /// <param name="to">½áÊøÅÄ</param>
+    /// <returns>Ê±¼ä¼ä¸ô</returns>
     public float GetTotalMeterTime(int from, int to)
     {
         if (mCurAudioMeterData == null)
@@ -379,7 +379,7 @@ public class MeterManager : ModuleManager<MeterManager>
         }
 
         float time = 0f;
-        // å¦‚æœç»“æŸæ‹çš„index<èµ·å§‹æ‹ï¼Œè¯´æ˜ç»“æŸæ‹æ˜¯loopè¿‡æ¥çš„
+        // Èç¹û½áÊøÅÄµÄindex<ÆğÊ¼ÅÄ£¬ËµÃ÷½áÊøÅÄÊÇloop¹ıÀ´µÄ
         if (to < from)
         {
             time = mCurAudioMeterData.audioLen - mCurAudioMeterData.baseMeters[from] + mCurAudioMeterData.baseMeters[to];
@@ -396,7 +396,7 @@ public class MeterManager : ModuleManager<MeterManager>
 
 
     /// <summary>
-    /// è·å–å½“å‰æ‹å­çš„æ€»æ—¶é—´
+    /// »ñÈ¡µ±Ç°ÅÄ×ÓµÄ×ÜÊ±¼ä
     /// </summary>
     /// <returns></returns>
     public float GetCurrentMeterTime()
