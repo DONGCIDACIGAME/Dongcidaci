@@ -44,11 +44,6 @@ public class TriggerableCombo
         return comboData.comboName.Equals(comboName);
     }
 
-    public string GetComboTransferStateName()
-    {
-        return comboData.transferStateName;
-    }
-
     public float GetComboTransferDuration()
     {
         return comboData.transferStateDuration;

@@ -3,11 +3,6 @@ using System.Collections.Generic;
 public class AgentStatus_Transfer : AgentStatus
 {
     /// <summary>
-    /// 自定义动画驱动器
-    /// </summary>
-    protected CustomAnimDriver mCustomAnimDriver;
-
-    /// <summary>
     /// 状态持续时间
     /// </summary>
     private float mStateDuration;
@@ -27,17 +22,11 @@ public class AgentStatus_Transfer : AgentStatus
         base.CustomInitialize();
         mInputHandle = new KeyboardInputHandle_Transfer(mAgent);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
-        mCustomAnimDriver = new CustomAnimDriver(mAgent, GetStatusName());
     }
 
     protected override void CustomDispose()
     {
         base.CustomDispose();
-        if(mCustomAnimDriver != null)
-        {
-            mCustomAnimDriver.Dispose();
-            mCustomAnimDriver = null;
-        }
     }
 
     public override void OnEnter(Dictionary<string, object> context)
@@ -47,15 +36,9 @@ public class AgentStatus_Transfer : AgentStatus
         mTime = 0;
         if (context != null)
         {
-            if (context.TryGetValue("stateName", out object obj1))
+            if (context.TryGetValue("duration", out object obj))
             {
-                string stateName = obj1 as string;
-                mCustomAnimDriver.PlayAnimState(stateName);
-            }
-
-            if (context.TryGetValue("duration", out object obj2))
-            {
-                float duration = (float)obj2;
+                float duration = (float)obj;
                 mStateDuration = MeterManager.Ins.GetCurrentMeterTime() * duration;
             }
         }

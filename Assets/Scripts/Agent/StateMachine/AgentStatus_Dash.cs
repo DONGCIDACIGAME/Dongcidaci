@@ -41,7 +41,7 @@ public class AgentStatus_Dash : AgentStatus
     {
         base.OnEnter(context);
         Dash();
-        mCustomAnimDriver.PlayAnimState(AgentAnimDefine.DefaultAnimName_Dash);
+        mCustomAnimDriver.PlayAnimStateWithCut(AgentAnimDefine.DefaultAnimName_Dash);
     }
 
     public override void OnExit()

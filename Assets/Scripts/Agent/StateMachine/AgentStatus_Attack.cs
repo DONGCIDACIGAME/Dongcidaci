@@ -55,16 +55,16 @@ public class AgentStatus_Attack : AgentStatus
                 if (timeOfCurrentMeter == 0)
                 {
                     ComboStepData comboStep = combo.GetCurrentComboStep();
-                    mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimState(comboStep.stateName);
+                    mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(comboStep.stateName);
                     return;
                 }
 
                 float progress = timeToNextMeter / timeOfCurrentMeter;
 
-                if (progress >= GamePlayDefine.AttackMeterProgressWait)
-                {
-                    mCustomAnimDriver.PlayAnimState("AttackBegin");
-                }
+                //if (progress >= GamePlayDefine.AttackMeterProgressWait)
+                //{
+                    //mCustomAnimDriver.PlayAnimStateWithoutCut("AttackBegin");
+                //}
 
                 PushInputCommandToBuffer(triggerCmd, towards, combo);
             }
@@ -93,7 +93,7 @@ public class AgentStatus_Attack : AgentStatus
         float progress = timeToNextMeter / timeOfCurrentMeter;
         if (progress >= GamePlayDefine.AttackMeterProgressWait)
         {
-            mCustomAnimDriver.PlayAnimState(stateName);
+            mCustomAnimDriver.PlayAnimStateWithCut(stateName);
         }
         else
         {
@@ -124,7 +124,7 @@ public class AgentStatus_Attack : AgentStatus
         float progress = timeToNextMeter / timeOfCurrentMeter;
         if (progress >= GamePlayDefine.AttackMeterProgressWait)
         {
-            mCustomAnimDriver.PlayAnimState(comboStep.stateName);
+            mCustomAnimDriver.PlayAnimStateWithCut(comboStep.stateName);
         }
         else
         {
@@ -187,8 +187,6 @@ public class AgentStatus_Attack : AgentStatus
         if (changeToTransferState)
         {
             Dictionary<string, object> args = new Dictionary<string, object>();
-            string stateName = combo.GetComboTransferStateName();
-            args.Add("stateName", stateName);
             float duration = combo.GetComboTransferDuration();
             args.Add("duration", duration);
             ChangeStatus(AgentStatusDefine.TRANSFER, args);
@@ -214,13 +212,13 @@ public class AgentStatus_Attack : AgentStatus
                         ComboStepData comboStep = combo.GetCurrentComboStep();
                         if (comboStep != null)
                         {
-                            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimState(comboStep.stateName);
+                            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(comboStep.stateName);
                             changeToTransferState = comboStep.endFlag;
                         }
                     }
                     else
                     {
-                        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimState(AgentAnimDefine.DefaultAnimName_AttackShort);
+                        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(AgentAnimDefine.DefaultAnimName_AttackShort);
                     }
                     break;
                 case AgentCommandDefine.ATTACK_LONG:

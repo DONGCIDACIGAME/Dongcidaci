@@ -28,7 +28,6 @@
 					"endFlag": true
 				}
 			],
-			"transferStateName": "DefaultTransfer",
 			"transferStateDuration": 0.5
 		}
 	]

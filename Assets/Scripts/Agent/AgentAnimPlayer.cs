@@ -2,19 +2,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-///  ��ɫ����������
+///  角色动画播放器
 /// </summary>
 public class AgentAnimPlayer
 {
     public Animator mAnimator;
 
     /// <summary>
-    /// ��ǰ״̬����
+    /// 当前状态名称
     /// </summary>
     public string CurStateName { get; private set; }
 
     /// <summary>
-    /// ��ǰ״̬�Ĳ��Ž���
+    /// 当前状态的播放进度
     /// </summary>
     public float CurStateProgress
     {
@@ -25,8 +25,8 @@ public class AgentAnimPlayer
     }
 
     /// <summary>
-    /// �ϸ�״̬��ʵ�ʲ���ʱ��
-    /// TODO���Ƿ�Ҫ��������
+    /// 上个状态的实际播放时间
+    /// TODO：是否要放在这里
     /// </summary>
     private float mLastStateLen;
 
@@ -44,9 +44,9 @@ public class AgentAnimPlayer
     }
 
     /// <summary>
-    /// �󶨶���������
+    /// 绑定动画控制器
     /// </summary>
-    /// <param name="animator">����������</param>
+    /// <param name="animator">动画控制器</param>
     public void Initialize(Animator animator)
     {
         if(animator == null)
@@ -67,7 +67,7 @@ public class AgentAnimPlayer
     }
 
     /// <summary>
-    /// ���¶��������ٶȣ���������
+    /// 更新动画播放速度（带补偿）
     /// </summary>
     /// <param name="layer"></param>
     /// <param name="stateLen"></param>
@@ -84,11 +84,11 @@ public class AgentAnimPlayer
         }
 
         float timeOffset = 0;
-        // TODO: ������߼�Ӧ����������ģ����ܸ�������ħ����ȥ�ж�
-        // �����ϴεĲ��Ž��ȶԶ����ٶȽ��в���
-        // ����� x.9xx ���ֲ��Ž��� ˵���ϴλ�û�в��꣬��Ҫ��δ���ŵ�ʱ��۳���
-        // ����� x.0xx���ֲ��Ž��� ˵���ϴβ��ų���һ���֣���Ҫ����һЩ����ʱ��
-        // �����������ķ�Χ��˵����β������������⣬���²��Ž��ȳ����˽ϴ��ƫ���Ҫ���������־�Ա�鿴
+        // TODO: 这里的逻辑应该是有问题的，不能根据两个魔法数去判定
+        // 根据上次的播放进度对动画速度进行补偿
+        // 如果是 x.9xx 这种播放进度 说明上次还没有播完，需要把未播放的时间扣除掉
+        // 如果是 x.0xx这种播放进度 说明上次播放超了一部分，需要补上一些不放时间
+        // 超出这两个的范围，说明这次播放遇到了问题，导致播放进度出现了较大的偏差，需要输出错误日志以便查看
 
         AnimatorStateInfo stateInfo = mAnimator.GetCurrentAnimatorStateInfo(layer);
         float progressOffset = stateInfo.normalizedTime % 1;
@@ -103,9 +103,9 @@ public class AgentAnimPlayer
         }
         else
         {
-            // ���ֽϴ�ƫ�ǿ�ƽ��������������һ֡
+            // 出现较大偏差，强制将动画定格至最后一帧
             mAnimator.Play(stateInfo.fullPathHash, layer, 1);
-            Log.Error(LogLevel.Info, "UpdateAnimSpeedWithFix Error, ���Ž��ȳ��ֽϴ�ƫ���鿴��progressOffset:{0}, anim state:{1}", progressOffset, stateInfo.ToString());
+            Log.Error(LogLevel.Info, "UpdateAnimSpeedWithFix Error, 播放进度出现较大偏差，请查看！progressOffset:{0}, anim state:{1}", progressOffset, stateInfo.ToString());
         }
 
         mAnimator.speed = stateLen / (duration + timeOffset);
@@ -115,7 +115,7 @@ public class AgentAnimPlayer
     }
 
     /// <summary>
-    /// ���¶��������ٶ�
+    /// 更新动画播放速度
     /// </summary>
     /// <param name="layer"></param>
     /// <param name="stateLen"></param>
@@ -138,15 +138,15 @@ public class AgentAnimPlayer
     }
 
     /// <summary>
-    /// �ڹ涨ʱ��(��һ��)���ں���ָ���������������
-    /// �÷������ںϺ󶯻�����ʼ֡�̶���
+    /// 在规定时间(归一化)内融合至指定动画并播放完成
+    /// 该方法的融合后动画的起始帧固定的
     /// </summary>
-    /// <param name="stateName">״̬����</param>
-    /// <param name="layer">�������ڲ㼶</param>
-    /// <param name="normalizedTime">�����ں���ռʱ��(��һ��)</param>
-    /// <param name="newStateStartProgress">��״̬����ʼ֡�ڶ����еı���</param>
-    /// <param name="targetDuration">�¶�����Ԥ�ڲ���ʱ��</param>
-    /// <param name="animLen">������ԭʼʱ���������ٶ�Ϊ1ʱ��</param>
+    /// <param name="stateName">状态名称</param>
+    /// <param name="layer">动画所在层级</param>
+    /// <param name="normalizedTime">动画融合所占时间(归一化)</param>
+    /// <param name="newStateStartProgress">新状态的起始帧在动画中的比例</param>
+    /// <param name="targetDuration">新动画的预期播放时间</param>
+    /// <param name="animLen">动画的原始时长（播放速度为1时）</param>
     public void CrossFadeToStateStatic(string stateName, int layer, float normalizedTime, float newStateStartProgress, float targetDuration, float animLen)
     {
         if (targetDuration <= 0)
@@ -155,39 +155,39 @@ public class AgentAnimPlayer
             return;
         }
 
-        // ���ܺ�ͬһ��״̬���ж����ں�
+        // 不能和同一个状态进行动画融合
         if (CurStateName.Equals(stateName))
             return;
 
-        // ��һ��ʱ��Ϊ0�����ǲ��ںϣ�ֱ�Ӳ���
+        // 归一化时间为0，就是不融合，直接播放
         if (normalizedTime == 0)
         {
             PlayState(stateName, animLen, layer, 0, targetDuration);
             return;
         }
 
-        // ���������ļ��еĽ���ʱ�����ö����ٶ�
+        // 按照配置文件中的节拍时长设置动画速度
         float animSpeed = animLen / targetDuration;
 
-        // ���¶��������ٶ�
+        // 更新动画播放速度
         UpdateAnimSpeed(animSpeed);
 
-        // �����¶�����ƫ��ʱ��
+        // 计算新动画的偏移时长
         float timeOffset =  targetDuration * newStateStartProgress;
         mAnimator.CrossFadeInFixedTime(stateName, normalizedTime * targetDuration, layer, timeOffset);
     }
 
 
     /// <summary>
-    /// �ڹ涨ʱ��(��һ��)���ں���ָ���������������
-    /// �÷������ںϺ󶯻�����ʼ֡�Ƕ�̬��
+    /// 在规定时间(归一化)内融合至指定动画并播放完成
+    /// 该方法的融合后动画的起始帧是动态的
     /// </summary>
-    /// <param name="stateName">״̬����</param>
-    /// <param name="layer">�������ڲ㼶</param>
-    /// <param name="normalizedTime">�����ں���ռʱ��(��һ��)</param>
-    /// <param name="targetDuration">�¶�����Ԥ�ڲ���ʱ��</param>
-    /// <param name="animLen">������ԭʼʱ���������ٶ�Ϊ1ʱ��</param>
-    /// <param name="targetFullTime">������ȫ��������Ҫ��Ԥ��ʱ�����������ںϺ�ӵ�0֡��ʼ���ţ�</param>
+    /// <param name="stateName">状态名称</param>
+    /// <param name="layer">动画所在层级</param>
+    /// <param name="normalizedTime">动画融合所占时间(归一化)</param>
+    /// <param name="targetDuration">新动画的预期播放时间</param>
+    /// <param name="animLen">动画的原始时长（播放速度为1时）</param>
+    /// <param name="targetFullTime">动画完全播完所需要的预期时长（即假设融合后从第0帧开始播放）</param>
     public void CrossFadeToStateDynamic(string stateName, int layer, float normalizedTime, float targetDuration, float animLen, float targetFullTime)
     {
         if (targetFullTime <= 0)
@@ -202,58 +202,58 @@ public class AgentAnimPlayer
             return;
         }
 
-        // ���ܺ�ͬһ��״̬���ж����ں�
+        // 不能和同一个状态进行动画融合
         if (CurStateName.Equals(stateName))
             return;
 
-        // ��һ��ʱ��Ϊ0�����ǲ��ںϣ�ֱ�Ӳ���
+        // 归一化时间为0，就是不融合，直接播放
         if (normalizedTime == 0)
         {
             PlayState(stateName, animLen, layer, 0, targetDuration);
             return;
         }
 
-        // ���������ļ��еĽ���ʱ�����ö����ٶ�
+        // 按照配置文件中的节拍时长设置动画速度
         float animSpeed = animLen / targetFullTime;
 
-        // ���¶��������ٶ�
+        // 更新动画播放速度
         UpdateAnimSpeed(animSpeed);
 
         /*
-         *  ������һ��2�ĵĶ���
-         *  1.ԭʼ����ʱ��
+         *  假如是一个2拍的动画
+         *  1.原始动画时长
          * |------------------------------|------------------------------|
          * 
-         *  2.���ս��Ĳ����ʱ��
+         *  2.按照节拍播完的时长
          * |-----------------|-----------------|
          * 
-         * 3.��Ϸ����  0:��ʼ�ں�  >:�ںϹ���
+         * 3.游戏进程  0:开始融合  >:融合过程
          * |-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|
          * |-------0>>-----|-----------------|
-         *  A����     B����
-         *                  |-----------------------| inTime����Ҫ�������ŵ�ʱ����
-         *                  |-----------------|-----------------|totalMeterLen��B����ԭʼʱ����
-         *                                                    |-----------|timeOffset����B������ǰ�ƶ���ʱ����
+         *  A动画     B动画
+         *                  |-----------------------| inTime（想要动画播放的时长）
+         *                  |-----------------|-----------------|totalMeterLen（B动画原始时长）
+         *                                                    |-----------|timeOffset（把B动画向前移动的时长）
          *                                                    
-         * ��1��2���Լ����һ���������ŵ��ٶȣ���������ٶȲ��ſ��Ա�֤��������Ϸ�������ڲ���
-         * ��3���Լ����������ƫ��ʱ������ǰƫ�ƺ���Ա�֤�����ڽ��Ĵ��������
-         * �������ں�ʱ����һ������ֵ��ֻ���ںϹ�����Ҫ����ã����������Ǳ�֤����Ĺؼ�����
+         * 由1，2可以计算出一个动画播放的速度，按照这个速度播放可以保证动画在游戏的两拍内播完
+         * 由3可以计算出动画的偏移时长，向前偏移后可以保证动画在节拍处播放完成
+         * 动画的融合时间是一个独立值，只是融合过程需要花多久，上面两步是保证卡点的关键计算
          */
 
-        // �����¶�����ƫ��ʱ��������������Ĳ����ٶ�ȥ���Ŷ�������Ҫ�ڽ����Ŀ���ʱ���¶������ں����ʱ����Ҫ���ƣ�
+        // 计算新动画的偏移时长（即按照上面的播放速度去播放动画又需要在结束拍卡点时，新动画的融合起点时间需要后移）
         float timeOffset = targetFullTime - targetDuration;
         mAnimator.CrossFadeInFixedTime(stateName, normalizedTime * targetDuration, layer, timeOffset);
     }
 
 
     /// <summary>
-    /// �ڹ涨ʱ���ڲ�����ָ������
+    /// 在规定时间内播放完指定动画
     /// </summary>
-    /// <param name="stateName">״̬����</param>
-    /// <param name="animLen">������ԭʼʱ���������ٶ�Ϊ1ʱ��</param>
-    /// <param name="layer">�������ڲ㼶</param>
-    /// <param name="normalizedTime">������ʼʱ��(��һ��)</param>
-    /// <param name="targetDuration">�¶�����Ԥ�ڲ���ʱ��</param>
+    /// <param name="stateName">状态名称</param>
+    /// <param name="animLen">动画的原始时长（播放速度为1时）</param>
+    /// <param name="layer">动画所在层级</param>
+    /// <param name="normalizedTime">动画开始时间(归一化)</param>
+    /// <param name="targetDuration">新动画的预期播放时间</param>
     public void PlayState(string stateName, float animLen, int layer, float normalizedTime, float targetDuration)
     {
         if (targetDuration <= 0)
@@ -262,11 +262,11 @@ public class AgentAnimPlayer
             return;
         }
 
-        // ���ղ��Ž��ȼ��㣬ʣ�ද���Ĳ�����ɵ�ԭʼ����ʱ��
+        // 按照播放进度计算，剩余动画的播放完成的原始动画时间
         float animTime = animLen * (1-normalizedTime);
-        // ���㶯�������ٶ�
+        // 计算动画播放速度
         float speed = animTime / targetDuration;
-        // ���¶��������ٶ�
+        // 更新动画播放速度
         UpdateAnimSpeed(speed);
 
         mAnimator.Play(stateName, layer, normalizedTime);
