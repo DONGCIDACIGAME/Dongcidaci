@@ -4,27 +4,27 @@ public abstract class BehaviourWithMeter : MonoBehaviour, IGameUpdate, IMeterHan
 {
 
     /// <summary>
-    /// ÊÇ·ñÔÊĞíUpdate
+    /// æ˜¯å¦å…è®¸Update
     /// </summary>
     public bool UpdateEnable = true;
 
     /// <summary>
-    /// ÅÄ×ÓÊÇ·ñ´¥·¢
+    /// æ‹å­æ˜¯å¦è§¦å‘
     /// </summary>
     protected bool meterTriggered;
 
     /// <summary>
-    /// ÊÇ·ñÊ¹ÓÃ×Ô¶¨Òå½ÚÅÄ´¥·¢
+    /// æ˜¯å¦ä½¿ç”¨è‡ªå®šä¹‰èŠ‚æ‹è§¦å‘
     /// </summary>
     public bool UseCustomMeterTrigger;
 
     /// <summary>
-    /// ×Ô¶¨ÒåµÄ½ÚÅÄ´¥·¢
+    /// è‡ªå®šä¹‰çš„èŠ‚æ‹è§¦å‘
     /// </summary>
     public int[] CustomBehaviourMeterTrigger;
 
     /// <summary>
-    /// ¼ÆÊ±Æ÷
+    /// è®¡æ—¶å™¨
     /// </summary>
     protected float timeRecord;
 

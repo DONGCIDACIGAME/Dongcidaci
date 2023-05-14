@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace GameEngine
 {
@@ -9,9 +9,16 @@ namespace GameEngine
     {
         private Dictionary<string, GameEvent> mEventMap;
 
+        private int indexer;
+
         public override void Initialize()
         {
             mEventMap = new Dictionary<string, GameEvent>();
+        }
+
+        public int PopEventListenId()
+        {
+            return indexer++;
         }
 
         public override void Dispose()
@@ -19,9 +26,7 @@ namespace GameEngine
             mEventMap.Clear();
         }
 
-
-
-        public void AddEventListen(object listener, string evtName, GameEventAction callback)
+        public void AddEventListen(int listenerId, string evtName, GameEventAction callback)
         {
             if (string.IsNullOrEmpty(evtName))
             {
@@ -29,9 +34,9 @@ namespace GameEngine
                 return;
             }
 
-            if(listener == null)
+            if(listenerId == 0)
             {
-                Log.Error(LogLevel.Critical, "AddListener Failed, listener is null! event name:{0}", evtName);
+                Log.Error(LogLevel.Critical, "AddListener Failed, listener id is invalid event name:{0}", evtName);
                 return;
             }
 
@@ -42,7 +47,6 @@ namespace GameEngine
                 return;
             }
 
-            int listenerUniqueKey = listener.GetHashCode();
             GameEvent evt;
             if (!mEventMap.TryGetValue(evtName, out evt))
             {
@@ -50,7 +54,7 @@ namespace GameEngine
                 mEventMap.Add(evtName, evt);
             }
 
-            evt.AddListener(listenerUniqueKey, callback);
+            evt.AddListener(listenerId, callback);
         }
 
         public void Fire(string evtName, params GameEventArgs[] args)
@@ -65,18 +69,17 @@ namespace GameEngine
         /// 移除事件监听
         /// </summary>
         /// <param name="evtName">事件名</param>
-        public void RemoveEventListen(object listener,string evtName)
+        public void RemoveEventListen(int listenerId, string evtName)
         {
-            if (listener == null)
+            if (listenerId == 0)
             {
-                Log.Error(LogLevel.Critical, "GameEventSystem RemoveListener Failed, listener is null!");
+                Log.Error(LogLevel.Critical, "GameEventSystem RemoveListener Failed, listener id is invalid, event name:{0}!", evtName);
                 return;
             }
 
             if (mEventMap.TryGetValue(evtName, out GameEvent evt))
             {
-                int listenerUniqueKey = listener.GetHashCode();
-                evt.RemoveListener(listenerUniqueKey);
+                evt.RemoveListener(listenerId);
             }
         }
     }

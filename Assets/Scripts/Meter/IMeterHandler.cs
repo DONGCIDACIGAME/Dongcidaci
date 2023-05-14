@@ -2,7 +2,7 @@ public interface IMeterHandler
 {
     void OnMeter(int meterIndex);
 
-    //TODO: 要加一个音乐切换的处理方法
+    //TODO: 瑕佸姞涓�涓煶涔愬垏鎹㈢殑澶勭悊鏂规硶
     //void OnAudioChange();
 }
 

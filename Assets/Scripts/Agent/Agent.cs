@@ -1,15 +1,12 @@
 using UnityEngine;
 
-public abstract class Agent : IEntity, IMeterHandler
+public abstract class Agent : Entity, IMeterHandler
 {
     /// <summary>
     /// 角色id
     /// </summary>
     protected uint mAgentId;
-    /// <summary>
-    /// 实体id
-    /// </summary>
-    protected int mEntityId;
+
     /// <summary>
     /// 角色的游戏体
     /// </summary>
@@ -40,17 +37,6 @@ public abstract class Agent : IEntity, IMeterHandler
     /// </summary>
     public ComboTrigger ComboTrigger;
 
-
-
-    public uint GetAgentId()
-    {
-        return mAgentId;
-    }
-
-    public int GetEntityId()
-    {
-        return mEntityId;
-    }
     // 角色移动速度
     protected float mSpeed;
     // 角色的冲刺速度
@@ -59,6 +45,12 @@ public abstract class Agent : IEntity, IMeterHandler
     protected Vector3 mTowards;
     // 角色位置
     protected Vector3 mPosition;
+
+    public uint GetAgentId()
+    {
+        return mAgentId;
+    }
+
 
     public Vector3 GetPosition()
     {
@@ -149,6 +141,7 @@ public abstract class Agent : IEntity, IMeterHandler
     public virtual void Dispose()
     {
         EntityManager.Ins.RemoveEntity(this);
+        MeterManager.Ins.UnregiseterMeterHandler(this);
         mAgentGo = null;
 
         if(AnimPlayer != null)
@@ -173,7 +166,7 @@ public abstract class Agent : IEntity, IMeterHandler
     public Agent(uint agentId)
     {
         mAgentId = agentId;
-        mEntityId = EntityManager.Ins.AddEntity(this);
+        EntityManager.Ins.AddEntity(this);
         AnimPlayer = new AgentAnimPlayer();
         StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
         StatusMachine = new AgentStatusMachine();
@@ -316,5 +309,4 @@ public abstract class Agent : IEntity, IMeterHandler
 
         return statusInfo;
     }
-
 }

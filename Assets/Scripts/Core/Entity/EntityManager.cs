@@ -5,36 +5,34 @@ public class EntityManager : Singleton<EntityManager>
 {
     private List<IEntity[]> mEntityMap;
     private int mIndexer;
-    private HashSet<int> mEntityRecord;
     private Queue<int> validEntityId;
 
     public EntityManager()
     {
         mEntityMap = new List<IEntity[]>();
-        mEntityRecord = new HashSet<int>();
         validEntityId = new Queue<int>();
     }
 
-    public int  AddEntity(IEntity entity)
+    public void AddEntity(IEntity entity)
     {
         if(entity == null)
         {
-            return -1;
+            return;
         }
 
-        int uniqueId = entity.GetHashCode();
-        if(mEntityRecord.Contains(uniqueId))
+        if(entity.GetEntityId() > 0)
         {
-            return -1;
+            return;
         }
 
-        int entityId = -1;
+        int entityId = 0;
         if (validEntityId.Count > 0)
         {
             entityId = validEntityId.Dequeue();
         }
         else
         {
+            mIndexer++;
             entityId = mIndexer;
         }
 
@@ -48,9 +46,7 @@ public class EntityManager : Singleton<EntityManager>
 
         IEntity[] innerMap = mEntityMap[outerIndex];
         innerMap[innerIndex] = entity;
-        mEntityRecord.Add(uniqueId);
-        mIndexer++;
-        return entityId;
+        entity.SetEntityId(entityId);
     }
 
     public IEntity GetEntity(int entityId)
@@ -70,10 +66,7 @@ public class EntityManager : Singleton<EntityManager>
         if (entity == null)
             return;
 
-        int uniqueId = entity.GetHashCode();
         int entityId = entity.GetEntityId();
-
-        mEntityRecord.Remove(uniqueId);
 
         int outerIndex = entityId / EntityDefine.ENTITY_COLUME;
         int innerIndex = entityId % EntityDefine.ENTITY_COLUME;
@@ -84,5 +77,6 @@ public class EntityManager : Singleton<EntityManager>
         }
 
         validEntityId.Enqueue(entityId);
+        entity.SetEntityId(0);
     }
 }

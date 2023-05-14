@@ -1,4 +1,4 @@
-﻿namespace GameEngine
+namespace GameEngine
 {
 
     /// <summary>
@@ -51,10 +51,6 @@
             {
                 Enlarge();
             }
-
-            //int validIndex = GetValidIndex();
-            //mIndexArray[validIndex] = obj.GetHashCode();
-            //mObjArray[validIndex] = obj;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using GameEngine;
 
 
@@ -20,6 +20,7 @@ public class InputManager : MeterModuleManager<InputManager>
     /// 当前存在所有输入状态
     /// </summary>
     private Stack<IInputState> mStateStatck;
+
 
     public override void Initialize()
     {

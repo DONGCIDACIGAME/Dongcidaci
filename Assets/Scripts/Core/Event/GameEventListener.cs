@@ -4,9 +4,11 @@ using GameEngine;
 public class GameEventListener : IGameEventListen
 {
     private Dictionary<string, GameEventAction> mGameEvents;
+    private int mListenerId;
     public GameEventListener()
     {
         mGameEvents = new Dictionary<string, GameEventAction>();
+        mListenerId = GameEventSystem.Ins.PopEventListenId();
     }
 
 
@@ -36,7 +38,7 @@ public class GameEventListener : IGameEventListen
             return;
         }
 
-        GameEventSystem.Ins.AddEventListen(this, evtName, action);
+        GameEventSystem.Ins.AddEventListen(mListenerId, evtName, action);
     }
 
     public void RemoveEvent(string evtName)
@@ -56,7 +58,7 @@ public class GameEventListener : IGameEventListen
         if (mGameEvents.ContainsKey(evtName))
         {
             mGameEvents.Remove(evtName);
-            GameEventSystem.Ins.RemoveEventListen(this, evtName);
+            GameEventSystem.Ins.RemoveEventListen(mListenerId, evtName);
         }
 
     }
@@ -68,7 +70,7 @@ public class GameEventListener : IGameEventListen
 
         foreach (string evtName in mGameEvents.Keys)
         {
-            GameEventSystem.Ins.RemoveEventListen(this, evtName);
+            GameEventSystem.Ins.RemoveEventListen(mListenerId, evtName);
         }
     }
 }

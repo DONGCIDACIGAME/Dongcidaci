@@ -7,13 +7,19 @@ public class Monster : Agent
     /// </summary>
     public override void Initialize()
     {
+        base.Initialize();
+
         LoadAgentCfg(mAgentId);
         LoadAgentGo();
         CustomInitialize();
-        //StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
-        //StatusMachine = new AgentStatusMachine();
-        //StatusMachine.Initialize(this);
         MeterManager.Ins.RegisterMeterHandler(this);
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        MeterManager.Ins.UnregiseterMeterHandler(this);
     }
 
     protected override void LoadAgentCfg(uint agentId)

@@ -49,13 +49,18 @@ namespace GameEngine
 
         protected GameEventListener mEventListener;
 
+        private int mUIEntityID;
 
         protected virtual Dictionary<string, GameEventAction> GetVisibleEvents()
         {
             return null;
         }
 
-        protected UIEntity() { } // 构造函数
+        // 构造函数
+        protected UIEntity() 
+        {
+            mUIEntityID = UIManager.Ins.PopUIEntityId();
+        } 
 
         public void Initialize(string resPath, GameObject rootGo, GameObject parent, UIEntity holder) 
         {
@@ -295,6 +300,11 @@ namespace GameEngine
                     childEntity.Update(deltaTime);
                 }
             }
+        }
+
+        public override int GetHashCode()
+        {
+            return mUIEntityID;
         }
     }
 }

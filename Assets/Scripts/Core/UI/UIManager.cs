@@ -37,6 +37,12 @@ namespace GameEngine
         /// </summary>
         private GameObject mUIPoolNode;
 
+        private int entityIndexer;
+        public int PopUIEntityId()
+        {
+            return entityIndexer++;
+        }
+
         /// <summary>
         /// 注册UI面板的挂载层
         /// </summary>

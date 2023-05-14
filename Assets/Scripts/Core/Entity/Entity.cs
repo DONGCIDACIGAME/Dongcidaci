@@ -6,4 +6,9 @@ public abstract class Entity : IEntity
     {
         return mEntityId;
     }
+
+    public void SetEntityId(int entityId)
+    {
+        mEntityId = entityId;
+    }
 }

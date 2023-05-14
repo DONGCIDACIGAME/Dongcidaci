@@ -40,8 +40,10 @@ public class MeterManager : ModuleManager<MeterManager>
     /// </summary>
     private bool enable;
 
-    // Added By Weng 存放拍点触发的事件，感觉无必要用字典，因为不存在单个索引读取
-    private Dictionary<int, IMeterHandler> mBaseMeterHandlers;
+    /// <summary>
+    /// 所有的节拍处理器
+    /// </summary>
+    private HashSet<IMeterHandler> mMeterHandlers;
 
     /// <summary>
     /// 节拍总数量
@@ -55,41 +57,38 @@ public class MeterManager : ModuleManager<MeterManager>
 
     public override void Initialize()
     {
-        mBaseMeterHandlers = new Dictionary<int, IMeterHandler>();
+        mMeterHandlers = new HashSet<IMeterHandler>();
     }
 
 
     public void RegisterMeterHandler(IMeterHandler handler)
     {
         if (handler == null)
-            return;
-
-        // 此处用 hash code有概率会产生bug,因为可能产生相同的hashcode,导致事件无法被注册
-        /**
-        int unicode = handler.GetHashCode();
-        if (mBaseMeterHandlers.ContainsKey(unicode))
-            return;
-        */
-
-        // change by weng 2023/05/05
-        foreach (var meterHandler in mBaseMeterHandlers.Values)
         {
-            if (meterHandler == handler) return;
+            Log.Error(LogLevel.Normal, "RegisterMeterHandler Error, meter handler is null!");
+            return;
         }
 
-        int unicode = handler.GetHashCode();
-        mBaseMeterHandlers.Add(unicode, handler);
+        if(mMeterHandlers.Contains(handler))
+        {
+            Log.Error(LogLevel.Normal, "RegisterMeterHandler Error, repeate register meter handler!");
+            return;
+        }
+
+        mMeterHandlers.Add(handler);
     }
 
     public void UnregiseterMeterHandler(IMeterHandler handler)
     {
         if (handler == null)
-            return;
-
-        int unicode = handler.GetHashCode();
-        if (mBaseMeterHandlers.ContainsKey(unicode))
         {
-            mBaseMeterHandlers.Remove(unicode);
+            Log.Error(LogLevel.Info, "UnregiseterMeterHandler Error, meter handler is null!");
+            return;
+        }
+
+        if(mMeterHandlers.Contains(handler))
+        {
+            mMeterHandlers.Remove(handler);
         }
     }
 
@@ -249,17 +248,13 @@ public class MeterManager : ModuleManager<MeterManager>
     /// </summary>
     private void TriggerBaseMeter()
     {
-        foreach(IMeterHandler handler in mBaseMeterHandlers.Values)
+        foreach(IMeterHandler handler in mMeterHandlers)
         {
             handler.OnMeter(MeterIndex);
         }
     }
 
     /// <summary>
-    ///  TODO:这里的节拍逻辑需要调整
-    ///  1. 是否要自动添加第0拍(0s)和最后一拍（最后1s）
-    ///  2. 如果编辑的拍子不全应该怎么处理
-    ///  3. 再确认下拍子和节奏的关系是否正确
     /// </summary>
     /// <param name="deltaTime"></param>
     public override void OnUpdate(float deltaTime)
