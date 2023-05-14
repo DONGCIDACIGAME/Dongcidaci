@@ -41,7 +41,7 @@ public class CustomAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        float duration = MeterManager.Ins.GetTimeToBaseMeter(mCurAnimState.stateMeterLen);
+        float duration = MeterManager.Ins.GetTimeToMeter(mCurAnimState.stateMeterLen);
         if (duration == 0)
         {
             Log.Error(LogLevel.Normal, "PlayAnimStateWithoutCut PlayAnimState Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
@@ -89,7 +89,7 @@ public class CustomAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        float duration = MeterManager.Ins.GetTimeToBaseMeter(mCurAnimState.stateMeterLen);
+        float duration = MeterManager.Ins.GetTimeToMeter(mCurAnimState.stateMeterLen);
         if (duration == 0)
         {
             Log.Error(LogLevel.Normal, "PlayAnimStateWithCut PlayAnimState Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);

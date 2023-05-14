@@ -246,7 +246,7 @@ public class MeterManager : ModuleManager<MeterManager>
     /// <summary>
     /// 触发在拍子上需要执行的操作
     /// </summary>
-    private void TriggerBaseMeter()
+    private void TriggerMeter()
     {
         foreach(IMeterHandler handler in mMeterHandlers)
         {
@@ -268,7 +268,8 @@ public class MeterManager : ModuleManager<MeterManager>
         if (totalMeterLen < 2)
             return;
 
-        timeRecord += deltaTime;
+
+        timeRecord = AudioManager.Ins.GetCurBgmTime();
 
         if (timeRecord >= mCurAudioMeterData.audioLen)
         {
@@ -293,16 +294,12 @@ public class MeterManager : ModuleManager<MeterManager>
 
             if(MeterIndex > 0)
             {
-                TriggerBaseMeter();
+                TriggerMeter();
             }
-
         }
 
-        
-
+        //Log.Logic(LogLevel.Info, "~~~~~~~~~bgm time:{0}, meter time:{1}", AudioManager.Ins.GetCurBgmTime(), timeRecord);
     }
-
-
 
 
     /// <summary>
@@ -310,7 +307,7 @@ public class MeterManager : ModuleManager<MeterManager>
     /// </summary>
     /// <param name="offset"></param>
     /// <returns></returns>
-    public float GetTimeToBaseMeter(int offset)
+    public float GetTimeToMeter(int offset)
     {
         if (mCurAudioMeterData == null)
             return -1f;

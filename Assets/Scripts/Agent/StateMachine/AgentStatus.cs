@@ -62,7 +62,7 @@ public abstract class AgentStatus : IAgentStatus
             return;
         }
 
-        float duration = MeterManager.Ins.GetTimeToBaseMeter(state.stateMeterLen);
+        float duration = MeterManager.Ins.GetTimeToMeter(state.stateMeterLen);
         if(duration > 0)
         {
             mCurLogicStateEndMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, state.stateMeterLen);
@@ -132,7 +132,7 @@ public abstract class AgentStatus : IAgentStatus
     public void ProgressWaitOnCommand(float waitMeterProgress, AgentInputCommand cmd, TriggerableCombo combo)
     {
         // 当前拍的剩余时间
-        float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
+        float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
         // 当前拍的总时长
         float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex+1);
 

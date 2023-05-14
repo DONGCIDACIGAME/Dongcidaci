@@ -48,7 +48,7 @@ public class AgentStatus_Attack : AgentStatus
             if(combo != null)
             {
                 // 当前拍的剩余时间
-                float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
+                float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
                 // 当前拍的总时间
                 float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex + 1);
 
@@ -59,14 +59,7 @@ public class AgentStatus_Attack : AgentStatus
                     return;
                 }
 
-                float progress = timeToNextMeter / timeOfCurrentMeter;
-
-                //if (progress >= GamePlayDefine.AttackMeterProgressWait)
-                //{
-                    //mCustomAnimDriver.PlayAnimStateWithoutCut("AttackBegin");
-                //}
-
-                PushInputCommandToBuffer(triggerCmd, towards, combo);
+                ProgressWaitOnComboAttack(triggerCmd, towards, triggerMeter, combo);
             }
         }
     }
@@ -80,7 +73,7 @@ public class AgentStatus_Attack : AgentStatus
     private void ProgressWaitOnNormalAttack(byte cmdType, Vector3 towards, int triggerMeter, string stateName)
     {
         // 当前拍的剩余时间
-        float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
+        float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
         // 当前拍的总时间
         float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex + 1);
 
@@ -111,7 +104,7 @@ public class AgentStatus_Attack : AgentStatus
             return;
 
         // 当前拍的剩余时间
-        float timeToNextMeter = MeterManager.Ins.GetTimeToBaseMeter(1);
+        float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
         // 当前拍的总时间
         float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex + 1);
 

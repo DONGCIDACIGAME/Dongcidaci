@@ -65,7 +65,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
             }
             else
             {
-                Log.Error(LogLevel.Info, "---------------------------Trigger light attack FAILED{0}----------------------------", triggerMeter);
+                Log.Error(LogLevel.Info, "---------------------------Trigger light attack FAILED{0}---------------{1}", triggerMeter, AudioManager.Ins.GetCurBgmTime());
             }
         }
 

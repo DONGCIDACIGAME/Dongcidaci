@@ -24,7 +24,7 @@ public class StepLoopAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        float duration = MeterManager.Ins.GetTimeToBaseMeter(mCurAnimState.stateMeterLen);
+        float duration = MeterManager.Ins.GetTimeToMeter(mCurAnimState.stateMeterLen);
         if (duration == 0)
         {
             Log.Error(LogLevel.Normal, "StepLoopAnimDriver AnimRepeatePlay Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
@@ -51,7 +51,7 @@ public class StepLoopAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        float duration = MeterManager.Ins.GetTimeToBaseMeter(mCurAnimState.stateMeterLen);
+        float duration = MeterManager.Ins.GetTimeToMeter(mCurAnimState.stateMeterLen);
         if (duration == 0)
         {
             Log.Error(LogLevel.Normal, "StepLoopAnimDriver AnimMoveNextPlay Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);

@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using GameEngine;
-using System.Text;
-using System.IO;
-using System;
+using System.Collections;
 
 public class AudioManager : ModuleManager<AudioManager>
 {
@@ -71,12 +67,9 @@ public class AudioManager : ModuleManager<AudioManager>
         if (BGMPlayer == null)
             return;
 
-        
-        
         if (mCurBgm != null)
         {
             MeterManager.Ins.Start(mCurBgm.name);
-
             BGMPlayer.Stop();
             BGMPlayer.clip = mCurBgm;
             BGMPlayer.loop = loop;
@@ -84,13 +77,14 @@ public class AudioManager : ModuleManager<AudioManager>
         }
     }
 
-
+    public float GetCurBgmTime()
+    {
+        return BGMPlayer.time;
+    }
 
     public override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);
-
-
     }
 
 }
