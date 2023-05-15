@@ -15,7 +15,6 @@ public class ComboStepData
 
     /// <summary>
     /// 状态的动画名称
-    /// 如果不配置stateName，就使用status的第一个state
     /// </summary>
     public string stateName;
 

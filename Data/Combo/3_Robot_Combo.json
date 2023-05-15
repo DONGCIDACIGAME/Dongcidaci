@@ -10,21 +10,39 @@
 					"input": 16, 
 					"statusName": "Attack",
 					"stateName": "Combo_1_With_Empty", 
-					"effects": [{"mode": 0, "effectType": 0, "effectValue": 0}],
+					"effects": [
+						{
+							"hitEffects": [
+								{ "effectType": 0, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+							]
+						}
+					],
 					"endFlag": false
 				},
 				{
 					"input": 16,
 					"statusName": "Attack",
 					"stateName": "Combo_2_With_Empty",
-					"effects": [{"mode": 0, "effectType": 0, "effectValue": 0}],
+					"effects": [
+						{
+							"hitEffects": [
+								{ "effectType": 0, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+							]
+						}
+					],
 					"endFlag": false
 				},
 				{
 					"input": 16,
 					"statusName": "Attack",
 					"stateName": "Combo_3_With_Empty",
-					"effects": [{"mode": 0, "effectType": 0, "effectValue": 0}],
+					"effects": [
+						{
+							"hitEffects": [
+								{ "effectType": 0, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+							]
+						}
+					],
 					"endFlag": true
 				}
 			],
