@@ -14,6 +14,10 @@ public class AgentInputCommandPool : Singleton<AgentInputCommandPool>
     {
         if (cmd == null)
             return;
+
+        if (mPool.Contains(cmd))
+            return;
+
         mPool.Push(cmd);
     }
 
@@ -33,7 +37,6 @@ public class AgentInputCommandPool : Singleton<AgentInputCommandPool>
         {
             if (cmd != null)
             {
-                cmd.Clear();
                 return cmd;
             }
         }

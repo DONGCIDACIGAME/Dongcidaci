@@ -1,6 +1,7 @@
+using GameEngine;
 using UnityEngine;
 
-public class AgentInputCommand
+public class AgentInputCommand : IRecycle
 {
     public byte CmdType { get; private set; }
     public int TriggerMeter { get; private set; }
@@ -35,5 +36,11 @@ public class AgentInputCommand
         CmdType = other.CmdType;
         TriggerMeter = other.TriggerMeter;
         Towards = other.Towards;
+    }
+
+    public void Recycle()
+    {
+        Clear();
+        AgentInputCommandPool.Ins.PushAgentInputCommand(this);
     }
 }

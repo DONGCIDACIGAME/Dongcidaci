@@ -1,4 +1,5 @@
 using UnityEngine;
+using GameEngine;
 
 public abstract class BehaviourWithMeter : MonoBehaviour, IGameUpdate, IMeterHandler
 {

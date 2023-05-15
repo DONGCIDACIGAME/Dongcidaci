@@ -18,7 +18,7 @@ public abstract class Agent : Entity, IMeterHandler
     public AgentAnimPlayer AnimPlayer;
 
     /// <summary>
-    /// 动画状态机
+    /// 状态机
     /// </summary>
     protected AgentStatusMachine StatusMachine;
 
@@ -197,19 +197,19 @@ public abstract class Agent : Entity, IMeterHandler
         // 对于同一拍的同一个指令不做处理
         if (cmd.Equals(lastInputCmd))
         {
-            AgentInputCommandPool.Ins.PushAgentInputCommand(cmd);
+            cmd.Recycle();
             return;
         }
 
         // 上次记录的指令归还指令池
-        AgentInputCommandPool.Ins.PushAgentInputCommand(lastInputCmd);
+        lastInputCmd.Recycle();
         // 记录这次的指令数据
         lastInputCmd = AgentInputCommandPool.Ins.CreateAgentInputCommandCopy(cmd);
 
         if (StatusMachine == null)
         {
             Log.Error(LogLevel.Normal, "Agent OnCommand Error, StatusMachine is null!");
-            AgentInputCommandPool.Ins.PushAgentInputCommand(cmd);
+            cmd.Recycle();
             return;
         }
 
@@ -218,7 +218,7 @@ public abstract class Agent : Entity, IMeterHandler
         if(curStatus == null)
         {
             Log.Error(LogLevel.Normal, "Agent OnCommand Error, cur status is null!");
-            AgentInputCommandPool.Ins.PushAgentInputCommand(cmd);
+            cmd.Recycle();
             return;
         }
 
@@ -249,7 +249,7 @@ public abstract class Agent : Entity, IMeterHandler
         }
 
         // 指令归还指令池
-        AgentInputCommandPool.Ins.PushAgentInputCommand(cmd);
+        cmd.Recycle();
     }
 
 
@@ -261,52 +261,5 @@ public abstract class Agent : Entity, IMeterHandler
     {
         MoveControl.OnUpdate(deltaTime);
         StatusMachine.OnUpdate(deltaTime);
-    }
-
-    public AgentAnimStateInfo GetStateInfo(string statusName, string stateName)
-    {
-        AgentStatusInfo statusInfo = GetStatusInfo(statusName);
-        if (statusInfo == null)
-            return null;
-
-        if (statusInfo.animStates == null || statusInfo.animStates.Length == 0)
-        {
-            Log.Error(LogLevel.Normal, "GetStateInfo Failed, statusInfo.animStates is null or empty!");
-            return null;
-        }
-
-        for (int i = 0; i < statusInfo.animStates.Length; i++)
-        {
-            AgentAnimStateInfo stateInfo = statusInfo.animStates[i];
-            if (stateInfo.stateName == stateName)
-            {
-                return stateInfo;
-            }
-        }
-
-        return null;
-    }
-
-    public AgentStatusInfo GetStatusInfo(string statusName)
-    {
-        if (StatusGraph == null)
-        {
-            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, StatusGraph is null!");
-            return null;
-        }
-
-        if (StatusGraph.statusMap == null)
-        {
-            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, StatusGraph.statusMap is null!");
-            return null;
-        }
-
-        AgentStatusInfo statusInfo;
-        if (!StatusGraph.statusMap.TryGetValue(statusName, out statusInfo))
-        {
-            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, no status info named {0}", statusName);
-        }
-
-        return statusInfo;
     }
 }

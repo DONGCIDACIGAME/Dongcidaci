@@ -31,4 +31,57 @@ public static class AgentHelper
         Log.Error(LogLevel.Normal, "GetAgentStateMeterLen Failed,agent Id:{0} , status name:{1},  don't have a state named:{2} ", agt.GetAgentId(), statusName, stateName);
         return 0;
     }
+
+    public static AgentAnimStateInfo GetStateInfo(Agent agt, string statusName, string stateName)
+    {
+        AgentStatusInfo statusInfo = GetStatusInfo(agt, statusName);
+        if (statusInfo == null)
+            return null;
+
+        if (statusInfo.animStates == null || statusInfo.animStates.Length == 0)
+        {
+            Log.Error(LogLevel.Normal, "GetStateInfo Failed, statusInfo.animStates is null or empty!");
+            return null;
+        }
+
+        for (int i = 0; i < statusInfo.animStates.Length; i++)
+        {
+            AgentAnimStateInfo stateInfo = statusInfo.animStates[i];
+            if (stateInfo.stateName == stateName)
+            {
+                return stateInfo;
+            }
+        }
+
+        return null;
+    }
+
+    public static AgentStatusInfo GetStatusInfo(Agent agt, string statusName)
+    {
+        if(agt == null)
+        {
+            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, agt is null!");
+            return null;
+        }
+
+        if (agt.StatusGraph == null)
+        {
+            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, StatusGraph is null!");
+            return null;
+        }
+
+        if (agt.StatusGraph.statusMap == null)
+        {
+            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, StatusGraph.statusMap is null!");
+            return null;
+        }
+
+        AgentStatusInfo statusInfo;
+        if (!agt.StatusGraph.statusMap.TryGetValue(statusName, out statusInfo))
+        {
+            Log.Error(LogLevel.Normal, "GetStatusInfo Failed, no status info named {0}", statusName);
+        }
+
+        return statusInfo;
+    }
 }

@@ -370,7 +370,7 @@ public class MeterManager : ModuleManager<MeterManager>
             return -2f;
         }
 
-        float time = 0f;
+        float time;
         // 如果结束拍的index<起始拍，说明结束拍是loop过来的
         if (to < from)
         {

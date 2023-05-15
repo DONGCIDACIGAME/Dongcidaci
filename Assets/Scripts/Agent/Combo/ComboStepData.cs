@@ -21,7 +21,7 @@ public class ComboStepData
     /// <summary>
     /// 招式效果
     /// </summary>
-    public ComboStepEffect[] effects;
+    public ComboHitEffect[] effects;
 
     /// <summary>
     /// 结束combo的标志

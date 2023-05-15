@@ -1,4 +1,9 @@
-public interface IGameUpdate
+namespace GameEngine
 {
-    void OnUpdate(float deltaTime);
+    public interface IGameUpdate
+    {
+        void OnUpdate(float deltaTime);
+    }
 }
+
+

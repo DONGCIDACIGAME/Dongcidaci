@@ -9,7 +9,7 @@ public class AgentAnimDriver
         mAgent = agt;
         if(agt != null)
         {
-            AgentStatusInfo statusInfo = agt.GetStatusInfo(statusName);
+            AgentStatusInfo statusInfo = AgentHelper.GetStatusInfo(agt, statusName);
             if(statusInfo != null)
             {
                 mAnimStates = statusInfo.animStates;
