@@ -159,6 +159,7 @@ public class AgentAnimPlayer
         if (CurStateName.Equals(stateName))
             return;
 
+        CurStateName = stateName;
         // 归一化时间为0，就是不融合，直接播放
         if (normalizedTime == 0)
         {
@@ -206,6 +207,7 @@ public class AgentAnimPlayer
         if (CurStateName.Equals(stateName))
             return;
 
+        CurStateName = stateName;
         // 归一化时间为0，就是不融合，直接播放
         if (normalizedTime == 0)
         {
@@ -262,6 +264,7 @@ public class AgentAnimPlayer
             return;
         }
 
+        CurStateName = stateName;
         // 按照播放进度计算，剩余动画的播放完成的原始动画时间
         float animTime = animLen * (1-normalizedTime);
         // 计算动画播放速度

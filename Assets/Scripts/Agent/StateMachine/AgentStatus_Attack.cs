@@ -54,8 +54,8 @@ public class AgentStatus_Attack : AgentStatus
 
                 if (timeOfCurrentMeter == 0)
                 {
-                    ComboStepData comboStep = combo.GetCurrentComboStep();
-                    mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(comboStep.stateName);
+                    ComboActionData actionData = combo.GetCurrentComboAction();
+                    mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(actionData.stateName);
                     return;
                 }
 
@@ -99,8 +99,8 @@ public class AgentStatus_Attack : AgentStatus
         if (combo == null)
             return;
 
-        ComboStepData comboStep = combo.GetCurrentComboStep();
-        if (comboStep == null)
+        ComboActionData actionData = combo.GetCurrentComboAction();
+        if (actionData == null)
             return;
 
         // 当前拍的剩余时间
@@ -117,7 +117,8 @@ public class AgentStatus_Attack : AgentStatus
         float progress = timeToNextMeter / timeOfCurrentMeter;
         if (progress >= GamePlayDefine.AttackMeterProgressWait)
         {
-            mCustomAnimDriver.PlayAnimStateWithCut(comboStep.stateName);
+            mCustomAnimDriver.PlayAnimStateWithCut(actionData.stateName);
+            mAgent.ComboEffectsExcutor.Start(combo);
         }
         else
         {
@@ -146,6 +147,7 @@ public class AgentStatus_Attack : AgentStatus
                 ProgressWaitOnNormalAttack(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, AgentAnimDefine.DefaultAnimName_AttackShort);
                 break;
             case AgentCommandDefine.EMPTY:
+                break;
             default:
                 break;
         }
@@ -173,6 +175,8 @@ public class AgentStatus_Attack : AgentStatus
 
     protected override void CommandHandleOnMeter(int meterIndex)
     {
+        Log.Error(LogLevel.Info, "-------------------------------meter {0}---------------------------------", meterIndex);
+
         if (meterIndex < mCurLogicStateEndMeter)
             return;
 
@@ -186,7 +190,7 @@ public class AgentStatus_Attack : AgentStatus
             return;
         }
 
-        changeToTransferState = true;
+        changeToTransferState = false;
         if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
@@ -202,11 +206,12 @@ public class AgentStatus_Attack : AgentStatus
                 case AgentCommandDefine.ATTACK_SHORT:
                     if(combo != null)
                     {
-                        ComboStepData comboStep = combo.GetCurrentComboStep();
-                        if (comboStep != null)
+                        ComboActionData actionData = combo.GetCurrentComboAction();
+                        if (actionData != null)
                         {
-                            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(comboStep.stateName);
-                            changeToTransferState = comboStep.endFlag;
+                            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(actionData.stateName);
+                            mAgent.ComboEffectsExcutor.Start(combo);
+                            changeToTransferState = actionData.endFlag;
                         }
                     }
                     else
@@ -221,13 +226,25 @@ public class AgentStatus_Attack : AgentStatus
                     break;
             }
         }
-
-
     }
 
     public override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);
+
+        if(MeterManager.Ins.MeterIndex == mCurLogicStateEndMeter && !cmdBuffer.HasCommand())
+        {
+            // 是否在输入的容差时间内
+            bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset);
+
+            // 超过输入的容差时间，进入idle
+            if (!inInputTime)
+            {
+                ChangeToIdle();
+            }
+        }
+
+        Log.Logic(LogLevel.Info, "cur anim state:{0}, progress:{1}", mAgent.AnimPlayer.CurStateName, mAgent.AnimPlayer.CurStateProgress);
     }
 
     public override string GetStatusName()

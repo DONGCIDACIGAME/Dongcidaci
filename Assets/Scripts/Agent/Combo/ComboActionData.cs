@@ -1,5 +1,8 @@
+/// <summary>
+/// Combo的一个招式数据
+/// </summary>
 [System.Serializable]
-public class ComboStepData
+public class ComboActionData
 {
     /// <summary>
     /// 输入类型
@@ -14,12 +17,12 @@ public class ComboStepData
     public string statusName;
 
     /// <summary>
-    /// 状态的动画名称
+    /// 动画名称
     /// </summary>
     public string stateName;
 
     /// <summary>
-    /// 招式效果
+    /// 招式在所有击打点上的效果数组
     /// </summary>
     public ComboHitEffect[] effects;
 

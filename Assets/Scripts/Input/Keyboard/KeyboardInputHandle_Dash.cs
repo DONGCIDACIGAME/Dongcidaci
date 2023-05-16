@@ -13,7 +13,7 @@ public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
 
     public override void OnMeter(int meterIndex)
     {
-        // ÔÚ½ÚÅÄ´¦¼ì²â·½Ïò£¬¿ÉÒÔÔÚ½ÚÅÄ´¦¸Ä±ä¹¥»÷µÄ·½Ïò
+        // åœ¨èŠ‚æ‹å¤„æ£€æµ‹æ–¹å‘ï¼Œå¯ä»¥åœ¨èŠ‚æ‹å¤„æ”¹å˜æ”»å‡»çš„æ–¹å‘
         Vector3 towards = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
@@ -46,17 +46,11 @@ public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
         if (mAgent == null)
             return;
 
-        //AgentInputCommand cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
-        //cmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, GamePlayDefine.InputDirection_NONE);
-        //mAgent.OnCommand(cmd);
-
         AgentInputCommand cmd;
         bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
-        if (!hasCmd)
+        if(hasCmd)
         {
-            cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
-            cmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, GamePlayDefine.InputDirection_NONE);
+            mAgent.OnCommand(cmd);
         }
-        mAgent.OnCommand(cmd);
     }
 }

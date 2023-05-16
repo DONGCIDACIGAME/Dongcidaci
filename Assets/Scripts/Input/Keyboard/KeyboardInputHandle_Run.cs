@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class KeyboardInputHandle_Run : AgentKeyboardInputHandle
 {
     public KeyboardInputHandle_Run(Agent agt) : base(agt)

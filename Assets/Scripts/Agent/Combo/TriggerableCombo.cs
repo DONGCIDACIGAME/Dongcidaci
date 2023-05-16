@@ -13,7 +13,7 @@ public class TriggerableCombo
     /// <summary>
     /// 当前触发的招式index
     /// </summary>
-    private int triggeredAt;
+    public int triggeredAt { get; private set; }
 
     /// <summary>
     /// 是否激活（只有激活的combo才能响应输入）
@@ -56,14 +56,14 @@ public class TriggerableCombo
 
     public int GetComboStepCount()
     {
-        return comboData.comboStepDatas.Length;
+        return comboData.comboActionDatas.Length;
     }
 
     /// <summary>
     /// 获取当前触发的招式信息
     /// </summary>
     /// <returns></returns>
-    public ComboStepData GetCurrentComboStep()
+    public ComboActionData GetCurrentComboAction()
     {
         if(comboData == null)
         {
@@ -71,7 +71,7 @@ public class TriggerableCombo
             return null;
         }
 
-        if(comboData.comboStepDatas == null || comboData.comboStepDatas.Length == 0)
+        if(comboData.comboActionDatas == null || comboData.comboActionDatas.Length == 0)
         {
             Log.Error(LogLevel.Normal, "GetCurrentComboStep Error, comboStepDatas is null or empty! combo name:{0}", comboData.comboName);
             return null;
@@ -86,10 +86,10 @@ public class TriggerableCombo
         if (triggeredAt < 0)
             return null;
 
-        if (triggeredAt >= comboData.comboStepDatas.Length)
+        if (triggeredAt >= comboData.comboActionDatas.Length)
             return null;
 
-        return comboData.comboStepDatas[triggeredAt];
+        return comboData.comboActionDatas[triggeredAt];
     }
 
     /// <summary>
@@ -105,21 +105,21 @@ public class TriggerableCombo
         if (!triggerable)
             return false;
 
-        if(triggeredAt >= comboData.comboStepDatas.Length-1)
+        if(triggeredAt >= comboData.comboActionDatas.Length-1)
         {
             triggerable = false;
             return false;
         }
 
-        ComboStepData nextStep = comboData.comboStepDatas[triggeredAt + 1];
-        if(nextStep == null)
+        ComboActionData nextAction = comboData.comboActionDatas[triggeredAt + 1];
+        if(nextAction == null)
         {
-            Log.Error(LogLevel.Normal, "TryTriggerOnNewInput Error, Combo [{0}] has null step at {1}", comboData.comboName, triggeredAt + 1);
+            Log.Error(LogLevel.Normal, "TryTriggerOnNewInput Error, Combo [{0}] has null action at {1}", comboData.comboName, triggeredAt + 1);
             triggerable = false;
             return false;
         }
 
-        if(input == nextStep.input)
+        if(input == nextAction.input)
         {
             triggeredAt++;
             return true;

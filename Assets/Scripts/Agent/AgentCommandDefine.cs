@@ -1,42 +1,37 @@
 public static class AgentCommandDefine
 {
     /// <summary>
-    /// ¿ÕÖ¸Áî
+    /// ç©ºæŒ‡ä»¤
     /// </summary>
     public const byte EMPTY = 0;
 
     /// <summary>
-    /// ¿ÕÏĞ
+    /// ç©ºé—²
     /// </summary>
     public const byte IDLE = 1 << 0;
 
     /// <summary>
-    /// ×ß
+    /// è·‘
     /// </summary>
-    public const byte WALK = 1 << 1;
+    public const byte RUN = 1 << 1;
 
     /// <summary>
-    /// ÅÜ
+    /// å†²åˆº
     /// </summary>
-    public const byte RUN = 1 << 2;
+    public const byte DASH = 1 << 2;
 
     /// <summary>
-    /// ³å´Ì
+    /// çŸ­æŒ‰æ”»å‡»
     /// </summary>
-    public const byte DASH = 1 << 3;
+    public const byte ATTACK_SHORT = 1 << 3;
 
     /// <summary>
-    /// ¶Ì°´¹¥»÷
+    /// é•¿æŒ‰æ”»å‡»
     /// </summary>
-    public const byte ATTACK_SHORT = 1 << 4;
+    public const byte ATTACK_LONG = 1 << 4;
 
     /// <summary>
-    /// ³¤°´¹¥»÷
+    /// å—å‡»
     /// </summary>
-    public const byte ATTACK_LONG = 1 << 5;
-
-    /// <summary>
-    /// ÊÜ»÷
-    /// </summary>
-    public const byte BE_HIT = 1 << 6;
+    public const byte BE_HIT = 1 << 5;
 }

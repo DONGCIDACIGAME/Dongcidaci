@@ -193,6 +193,11 @@ public abstract class AgentStatus : IAgentStatus
         ChangeStatusOnNormalCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter);
     }
 
+    protected void ChangeToIdle()
+    {
+        ChangeStatus(AgentStatusDefine.IDLE, null);
+    }
+
     /// <summary>
     /// 接受到指令时，切换到新状态
     /// </summary>

@@ -11,6 +11,11 @@ public class AgentInputCommandBuffer : IGameDisposable
         this.directionList = new Vector3[8];
     }
 
+    public bool HasCommand()
+    {
+        return cmdList != AgentCommandDefine.EMPTY;
+    }
+
     private int GetBufferIndex(byte cmdType)
     {
         for(int i = 7; i >= 0; i--)

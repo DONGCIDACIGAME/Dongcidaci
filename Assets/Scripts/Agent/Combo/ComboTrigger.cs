@@ -18,11 +18,6 @@ public class ComboTrigger : IMeterHandler
     /// </summary>
     private bool resetFlag;
 
-    public ComboTrigger()
-    {
-        mSortedTriggerableCombos = new List<TriggerableCombo>();
-    }
-
     public void SetComboActive(string comboName, bool active)
     {
         for (int i = 0; i < mSortedTriggerableCombos.Count; i++)
@@ -45,6 +40,8 @@ public class ComboTrigger : IMeterHandler
         }
 
         mAgent = agent;
+        mSortedTriggerableCombos = new List<TriggerableCombo>();
+
         ComboDataGraph comboGraph = DataCenter.Ins.AgentComboGraphCenter.GetAgentComboGraph(agent.GetAgentId());
         if (comboGraph == null)
         {
@@ -70,7 +67,7 @@ public class ComboTrigger : IMeterHandler
                 continue;
             }
 
-            if (comboData.comboStepDatas == null || comboData.comboStepDatas.Length == 0)
+            if (comboData.comboActionDatas == null || comboData.comboActionDatas.Length == 0)
             {
                 Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combo [{0}] comboStepDatas is null or emtpty, agent id:{1}, agent Name:{2}", comboData.comboName, comboGraph.agentId, comboGraph.agentName);
                 continue;
@@ -81,7 +78,7 @@ public class ComboTrigger : IMeterHandler
             for (int j = mSortedTriggerableCombos.Count - 1; j >= 0; j--)
             {
                 TriggerableCombo triggerableCombo = mSortedTriggerableCombos[j];
-                if (comboData.comboStepDatas.Length < triggerableCombo.GetComboStepCount())
+                if (comboData.comboActionDatas.Length < triggerableCombo.GetComboStepCount())
                 {
                     tc = new TriggerableCombo(comboData);
                     mSortedTriggerableCombos.Insert(j, tc);
@@ -137,11 +134,11 @@ public class ComboTrigger : IMeterHandler
 
         if(combo != null)
         {
-            ComboStepData csd = combo.GetCurrentComboStep();
-            comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, csd.statusName, csd.stateName);
+            ComboActionData actionData = combo.GetCurrentComboAction();
+            comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, actionData.statusName, actionData.stateName);
 
             // 如果是结束招式，就做个reset标记，在节拍到了的时候重新开始combo检测
-            if(csd.endFlag)
+            if(actionData.endFlag)
             {
                 resetFlag = true;
             }

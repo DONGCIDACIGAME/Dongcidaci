@@ -33,9 +33,14 @@ public abstract class Agent : Entity, IMeterHandler
     public AgentStatusGraph StatusGraph;
 
     /// <summary>
-    /// Comboc触发器
+    /// Combo触发器
     /// </summary>
     public ComboTrigger ComboTrigger;
+
+    /// <summary>
+    /// combo招式效果执行器
+    /// </summary>
+    public ComboActionEffectsExcutor ComboEffectsExcutor;
 
     // 角色移动速度
     protected float mSpeed;
@@ -128,6 +133,8 @@ public abstract class Agent : Entity, IMeterHandler
         LoadAgentGo();
 
         ComboTrigger.Initialize(this);
+        ComboEffectsExcutor.Initialize(this);
+
         MeterManager.Ins.RegisterMeterHandler(this);
         StatusMachine.Initialize(this);
         CustomInitialize();
@@ -156,6 +163,12 @@ public abstract class Agent : Entity, IMeterHandler
             ComboTrigger = null;
         }
 
+        if(ComboEffectsExcutor != null)
+        {
+            ComboEffectsExcutor.Dispose();
+            ComboEffectsExcutor = null;
+        }
+
         if(StatusMachine != null)
         {
             StatusMachine.Dispose();
@@ -171,14 +184,11 @@ public abstract class Agent : Entity, IMeterHandler
         StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
         StatusMachine = new AgentStatusMachine();
         ComboTrigger = new ComboTrigger();
+        ComboEffectsExcutor = new ComboActionEffectsExcutor();
     }
 
 
-    public virtual void OnMeter(int meterIndex)
-    {
-        StatusMachine.OnMeter(meterIndex);
-        ComboTrigger.OnMeter(meterIndex);
-    }
+
 
     /// <summary>
     /// 记录上一个指令
@@ -233,7 +243,7 @@ public abstract class Agent : Entity, IMeterHandler
         // 如果触发了combo，就需要同时处理指令和combo的逻辑
         if (result == ComboDefine.ComboTriggerResult_Succeed)
         {
-            Log.Error(LogLevel.Info, "Trigger combo {0}-{1}", combo.GetComboName(), combo.GetCurrentComboStep().stateName);
+            Log.Error(LogLevel.Info, "Trigger combo {0}-{1}", combo.GetComboName(), combo.GetCurrentComboAction().stateName);
             curStatus.OnComboCommand(cmd, combo);
         }
         // 如果不是combo的触发命令类型，就直接执行指令
@@ -257,6 +267,13 @@ public abstract class Agent : Entity, IMeterHandler
         cmd.Recycle();
     }
 
+    public virtual void OnMeter(int meterIndex)
+    {
+        StatusMachine.OnMeter(meterIndex);
+        ComboTrigger.OnMeter(meterIndex);
+        ComboEffectsExcutor.OnMeter(meterIndex);
+    }
+
 
     /// <summary>
     /// update
@@ -266,5 +283,6 @@ public abstract class Agent : Entity, IMeterHandler
     {
         MoveControl.OnUpdate(deltaTime);
         StatusMachine.OnUpdate(deltaTime);
+        ComboEffectsExcutor.OnUpdate(deltaTime);
     }
 }

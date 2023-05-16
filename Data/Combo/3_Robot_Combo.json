@@ -5,7 +5,7 @@
 	[
 		{
 			"comboName": "JJJ",
-			"comboStepDatas": [
+			"comboActionDatas": [
 				{
 					"input": 16, 
 					"statusName": "Attack",
@@ -26,7 +26,7 @@
 					"effects": [
 						{
 							"hitEffects": [
-								{ "effectType": 0, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+								{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
 							]
 						}
 					],
@@ -39,7 +39,7 @@
 					"effects": [
 						{
 							"hitEffects": [
-								{ "effectType": 0, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+								{ "effectType": 2, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
 							]
 						}
 					],

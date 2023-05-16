@@ -27,6 +27,9 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
     /// </summary>
     private RectEffect mEffect;
 
+
+    public bool Active { get; private set; }
+
     /// <summary>
     /// 启动一个角色在击打点的效果执行器
     /// </summary>
@@ -39,10 +42,12 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
         mAgt = agt;
         mExcuteTime = excuteTime;
         mEffect = effect;
+        Active = true;
     }
 
     public void Dispose()
     {
+        Active = false;
         mTimer = 0;
         mExcuteTime = 0;
         mAgt = null;
@@ -51,7 +56,7 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
 
     private void Excute(Agent agt, RectEffect effect)
     {
-
+        Log.Logic(LogLevel.Info, "{0} excute effect {1}", agt.GetAgentId(), effect.effectType);
     }
 
     public void Recycle()
@@ -62,6 +67,9 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
 
     public void OnUpdate(float deltaTime)
     {
+        if (mExcuteTime == 0)
+            return;
+
         mTimer += deltaTime;
 
         if(mTimer >= mExcuteTime)

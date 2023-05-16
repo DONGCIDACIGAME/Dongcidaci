@@ -52,6 +52,18 @@ public class AgentStatus_Dash : AgentStatus
     public override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);
+
+        if (MeterManager.Ins.MeterIndex == mCurLogicStateEndMeter && !cmdBuffer.HasCommand())
+        {
+            // 是否在输入的容差时间内
+            bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.DashMeterCheckTolerance, GamePlayDefine.DashMeterCheckOffset);
+
+            // 超过输入的容差时间，进入idle
+            if (!inInputTime)
+            {
+                ChangeToIdle();
+            }
+        }
     }
 
     protected override void CustomOnNormalCommand(AgentInputCommand cmd)
@@ -100,4 +112,5 @@ public class AgentStatus_Dash : AgentStatus
     {
 
     }
+
 }

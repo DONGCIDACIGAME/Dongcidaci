@@ -32,9 +32,9 @@ public static class AgentHelper
         return 0;
     }
 
-    public static AgentAnimStateInfo GetStateInfo(Agent agt, string statusName, string stateName)
+    public static AgentAnimStateInfo GetAgentAnimStateInfo(Agent agt, string statusName, string stateName)
     {
-        AgentStatusInfo statusInfo = GetStatusInfo(agt, statusName);
+        AgentStatusInfo statusInfo = GetAgentStatusInfo(agt, statusName);
         if (statusInfo == null)
             return null;
 
@@ -56,7 +56,7 @@ public static class AgentHelper
         return null;
     }
 
-    public static AgentStatusInfo GetStatusInfo(Agent agt, string statusName)
+    public static AgentStatusInfo GetAgentStatusInfo(Agent agt, string statusName)
     {
         if(agt == null)
         {
