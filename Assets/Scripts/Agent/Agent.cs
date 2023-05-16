@@ -202,7 +202,12 @@ public abstract class Agent : Entity, IMeterHandler
         }
 
         // 上次记录的指令归还指令池
-        lastInputCmd.Recycle();
+        // modified by weng 0516 1720
+        if (lastInputCmd!=null)
+        {
+            lastInputCmd.Recycle();
+        }
+        
         // 记录这次的指令数据
         lastInputCmd = AgentInputCommandPool.Ins.CreateAgentInputCommandCopy(cmd);
 
