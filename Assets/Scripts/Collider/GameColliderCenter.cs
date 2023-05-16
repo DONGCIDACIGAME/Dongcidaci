@@ -16,7 +16,7 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
 
     /// <summary>
     /// 每个碰撞体所在的区块index
-    /// key: hash value of collider
+    /// key: unique hash value of collider
     /// value: index of map area
     /// 每个碰撞体位置变化时，需要把原来所在的区块里，这个碰撞体删除，然后根据位置重新算一下所在区块
     /// </summary>
@@ -27,6 +27,12 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
         mAllCollidersRecord = new Dictionary<int, List<int>>();
     }
 
+    /// <summary>
+    /// 根据地图的信息重置所有的碰撞
+    /// </summary>
+    /// <param name="mapWidth"></param>
+    /// <param name="mapHeight"></param>
+    /// <param name="cellSize"></param>
     public void ResetWithMapInfo(int mapWidth, int mapHeight, int cellSize)
     {
         int colNum = (mapWidth % cellSize) == 0 ? (mapWidth / cellSize) : (mapWidth / cellSize) + 1;
