@@ -1,3 +1,5 @@
+using GameEngine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
@@ -44,21 +46,8 @@ public class AgentStatus_Attack : AgentStatus
         if(context.TryGetValue("combo", out object obj))
         {
             TriggerableCombo combo = obj as TriggerableCombo;
-
             if(combo != null)
             {
-                // 当前拍的剩余时间
-                float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
-                // 当前拍的总时间
-                float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex + 1);
-
-                if (timeOfCurrentMeter == 0)
-                {
-                    ComboActionData actionData = combo.GetCurrentComboAction();
-                    mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(actionData.stateName);
-                    return;
-                }
-
                 ProgressWaitOnComboAttack(triggerCmd, towards, triggerMeter, combo);
             }
         }
@@ -72,6 +61,9 @@ public class AgentStatus_Attack : AgentStatus
 
     private void ProgressWaitOnNormalAttack(byte cmdType, Vector3 towards, int triggerMeter, string stateName)
     {
+        Log.Error(LogLevel.Normal, "ProgressWaitOnNormalAttack Error, all attack input must trigger combo!");
+        return;
+
         // 当前拍的剩余时间
         float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
         // 当前拍的总时间
@@ -96,13 +88,6 @@ public class AgentStatus_Attack : AgentStatus
 
     private void ProgressWaitOnComboAttack(byte cmdType, Vector3 towards, int triggerMeter, TriggerableCombo combo)
     {
-        if (combo == null)
-            return;
-
-        ComboActionData actionData = combo.GetCurrentComboAction();
-        if (actionData == null)
-            return;
-
         // 当前拍的剩余时间
         float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
         // 当前拍的总时间
@@ -117,8 +102,7 @@ public class AgentStatus_Attack : AgentStatus
         float progress = timeToNextMeter / timeOfCurrentMeter;
         if (progress >= GamePlayDefine.AttackMeterProgressWait)
         {
-            mCustomAnimDriver.PlayAnimStateWithCut(actionData.stateName);
-            mAgent.ComboEffectsExcutor.Start(combo);
+            ExcuteCombo(combo);
         }
         else
         {
@@ -141,16 +125,41 @@ public class AgentStatus_Attack : AgentStatus
                 PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, null);
                 break;
             case AgentCommandDefine.ATTACK_LONG:
-                ProgressWaitOnNormalAttack(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, AgentAnimDefine.DefaultAnimName_AttackLong);
-                break;
             case AgentCommandDefine.ATTACK_SHORT:
-                ProgressWaitOnNormalAttack(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, AgentAnimDefine.DefaultAnimName_AttackShort);
+                Log.Error(LogLevel.Normal, "CustomOnNormalCommand Error, all attack input must trigger combo!");
                 break;
             case AgentCommandDefine.EMPTY:
                 break;
             default:
                 break;
         }
+    }
+
+    private void ExcuteCombo(TriggerableCombo combo)
+    {
+        if (combo == null)
+        {
+            Log.Error(LogLevel.Normal, "ExcuteCombo Error, combo is null!");
+            return;
+        }
+
+        ComboActionData actionData = combo.GetCurrentComboAction();
+        if (actionData == null)
+        {
+            Log.Error(LogLevel.Normal, "ExcuteCombo Error, ComboActionData is null, combo name:{0}, index:{1}!",combo.GetComboName(), combo.triggeredAt);
+            return;
+        }
+
+        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(actionData.stateName);
+        mAgent.ComboEffectsExcutor.Start(combo);
+        if(actionData.endFlag)
+        {
+            //mChangeToTransfer = true;
+            //transferDuration = combo.GetComboTransferDuration();
+            mAgent.ComboTrigger.ResetAllCombo();
+        }
+
+        mCurTriggeredCombo = null;
     }
 
     protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggerableCombo combo)
@@ -172,25 +181,23 @@ public class AgentStatus_Attack : AgentStatus
         }
     }
 
+    private bool mChangeToTransfer;
+    private float transferDuration;
 
     protected override void CommandHandleOnMeter(int meterIndex)
     {
-        Log.Error(LogLevel.Info, "-------------------------------meter {0}---------------------------------", meterIndex);
-
         if (meterIndex < mCurLogicStateEndMeter)
             return;
 
+        //if(mChangeToTransfer)
+        //{
+        //    Dictionary<string, object> args = new Dictionary<string, object>();
+        //    args.Add("duration", transferDuration);
+        //    ChangeStatus(AgentStatusDefine.IDLE, args);
+        //    return;
+        //}
+        
         TriggerableCombo combo = GetCurTriggeredCombo();
-        if (changeToTransferState)
-        {
-            Dictionary<string, object> args = new Dictionary<string, object>();
-            float duration = combo.GetComboTransferDuration();
-            args.Add("duration", duration);
-            ChangeStatus(AgentStatusDefine.TRANSFER, args);
-            return;
-        }
-
-        changeToTransferState = false;
         if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
@@ -204,19 +211,14 @@ public class AgentStatus_Attack : AgentStatus
                     ChangeStatusOnNormalCommand(cmdType, towards, meterIndex);
                     return;
                 case AgentCommandDefine.ATTACK_SHORT:
-                    if(combo != null)
+                    if(combo == null)
                     {
-                        ComboActionData actionData = combo.GetCurrentComboAction();
-                        if (actionData != null)
-                        {
-                            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(actionData.stateName);
-                            mAgent.ComboEffectsExcutor.Start(combo);
-                            changeToTransferState = actionData.endFlag;
-                        }
+                        Log.Error(LogLevel.Normal, "CommandHandleOnMeter Error, all attack input must trigger combo!");
+                        //mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(AgentAnimDefine.DefaultAnimName_AttackShort);
                     }
                     else
                     {
-                        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(AgentAnimDefine.DefaultAnimName_AttackShort);
+                        ExcuteCombo(combo);
                     }
                     break;
                 case AgentCommandDefine.ATTACK_LONG:
@@ -232,19 +234,19 @@ public class AgentStatus_Attack : AgentStatus
     {
         base.OnUpdate(deltaTime);
 
-        if(MeterManager.Ins.MeterIndex == mCurLogicStateEndMeter && !cmdBuffer.HasCommand())
-        {
-            // 是否在输入的容差时间内
-            bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset);
+        //if (MeterManager.Ins.MeterIndex == mCurLogicStateEndMeter && !cmdBuffer.HasCommand())
+        //{
+        //    // 是否在输入的容差时间内
+        //    bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset);
 
-            // 超过输入的容差时间，进入idle
-            if (!inInputTime)
-            {
-                ChangeToIdle();
-            }
-        }
+        //    // 超过输入的容差时间，进入idle
+        //    if (!inInputTime)
+        //    {
+        //        ChangeToIdle();
+        //    }
+        //}
 
-        Log.Logic(LogLevel.Info, "cur anim state:{0}, progress:{1}", mAgent.AnimPlayer.CurStateName, mAgent.AnimPlayer.CurStateProgress);
+        //Log.Logic(LogLevel.Info, "cur anim state:{0}, progress:{1}", mAgent.AnimPlayer.CurStateName, mAgent.AnimPlayer.CurStateProgress);
     }
 
     public override string GetStatusName()

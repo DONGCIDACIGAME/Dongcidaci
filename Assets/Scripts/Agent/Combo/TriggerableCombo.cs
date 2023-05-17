@@ -130,9 +130,10 @@ public class TriggerableCombo
         return false;
     }
 
-    //public override string ToString()
-    //{
-    //    string str = "";
+    public override string ToString()
+    {
+        string str = string.Format("combo name:{0}, active:{1}, triggerable:{2}, triggeredAt:{3}", comboData.comboName, active, triggerable, triggeredAt);
+        return str;
 
-    //}
+    }
 }

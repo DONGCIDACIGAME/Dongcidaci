@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,6 +32,8 @@ public abstract class AgentStatus : IAgentStatus
     /// 当前触发的combo
     /// </summary>
     protected TriggerableCombo mCurTriggeredCombo;
+
+
 
     public void Initialize(Agent agt, ChangeStatusDelegate cb)
     {
@@ -197,6 +200,8 @@ public abstract class AgentStatus : IAgentStatus
     {
         ChangeStatus(AgentStatusDefine.IDLE, null);
     }
+
+
 
     /// <summary>
     /// 接受到指令时，切换到新状态

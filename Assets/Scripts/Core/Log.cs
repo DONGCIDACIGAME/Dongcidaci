@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public enum LogLevel
 {    
@@ -28,7 +28,7 @@ public static class Log
     /// <param name="level">0级:致命错误  1:严重错误  2:一般错误  3: 提示性错误</param>
     public static void Error(LogLevel level, string str)
     {
-        Debug.LogError(str);
+        Debug.LogErrorFormat(TimeMgr.Ins.FrameIndex + "|" + str);
     }
 
     public static void Error(LogLevel level, string str, params object[] args)

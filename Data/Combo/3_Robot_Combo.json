@@ -7,7 +7,7 @@
 			"comboName": "JJJ",
 			"comboActionDatas": [
 				{
-					"input": 16, 
+					"input": 8, 
 					"statusName": "Attack",
 					"stateName": "Combo_1_With_Empty", 
 					"effects": [
@@ -20,7 +20,7 @@
 					"endFlag": false
 				},
 				{
-					"input": 16,
+					"input": 8,
 					"statusName": "Attack",
 					"stateName": "Combo_2_With_Empty",
 					"effects": [
@@ -33,7 +33,7 @@
 					"endFlag": false
 				},
 				{
-					"input": 16,
+					"input": 8,
 					"statusName": "Attack",
 					"stateName": "Combo_3_With_Empty",
 					"effects": [

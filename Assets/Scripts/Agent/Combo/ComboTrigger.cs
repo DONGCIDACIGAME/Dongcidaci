@@ -13,11 +13,6 @@ public class ComboTrigger : IMeterHandler
     /// </summary>
     private int comboLogicEndMeter;
 
-    /// <summary>
-    /// 重置标志
-    /// </summary>
-    private bool resetFlag;
-
     public void SetComboActive(string comboName, bool active)
     {
         for (int i = 0; i < mSortedTriggerableCombos.Count; i++)
@@ -114,8 +109,11 @@ public class ComboTrigger : IMeterHandler
             return ComboDefine.ComboTriggerResult_NotComboTrigger;
         }
 
-        // combo结束前的输入都会被丢弃
-        if (meterIndex < comboLogicEndMeter)
+        // 如果输入的触发节拍index不是上一个combo招式的结束拍，则该输入就被丢弃
+        // |---a-----------b---|
+        // 对于输入a，应该属于前面那个竖杠的拍子，对于输入b，应该属于后面竖杠的按个拍子
+        // 所以这里的输入丢弃逻辑应该没有问题
+        if (comboLogicEndMeter >= 0 && meterIndex != comboLogicEndMeter)
             return ComboDefine.ComboTriggerResult_ComboExcuting;
 
         // 所有的combo都过一遍新的输入
@@ -136,23 +134,21 @@ public class ComboTrigger : IMeterHandler
         {
             ComboActionData actionData = combo.GetCurrentComboAction();
             comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, actionData.statusName, actionData.stateName);
-
-            // 如果是结束招式，就做个reset标记，在节拍到了的时候重新开始combo检测
-            if(actionData.endFlag)
-            {
-                resetFlag = true;
-            }
             return ComboDefine.ComboTriggerResult_Succeed;
         }
         else
         {
+            Log.Error(LogLevel.Info, "Trigger Combo failed!");
+            for(int i =0;i<mSortedTriggerableCombos.Count;i++)
+            {
+                Log.Error(LogLevel.Info, mSortedTriggerableCombos[i].ToString());
+            }
             return ComboDefine.ComboTriggerResult_Failed;
         }
     }
 
     /// <summary>
     /// 一个完整的combo打完时，要重置一下combohandler，重新开始下一次的combo处理
-    /// 但是记录的上次combo的触发拍和结束拍不能清除，否则会导致重复触发
     /// </summary>
     public void ResetAllCombo()
     {
@@ -160,6 +156,7 @@ public class ComboTrigger : IMeterHandler
         {
             mSortedTriggerableCombos[i].Reset();
         }
+        comboLogicEndMeter = -1;
     }
 
     public void Dispose()
@@ -171,9 +168,6 @@ public class ComboTrigger : IMeterHandler
 
     public void OnMeter(int meterIndex)
     {
-        if(meterIndex == comboLogicEndMeter && resetFlag)
-        {
-            ResetAllCombo();
-        }
+       
     }
 }

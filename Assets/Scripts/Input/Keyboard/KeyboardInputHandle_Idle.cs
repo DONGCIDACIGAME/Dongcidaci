@@ -36,7 +36,6 @@ public class KeyboardInputHandle_Idle : AgentKeyboardInputHandle
 
         // 执行cmd的操作
         mAgent.OnCommand(cmd);
-
     }
 
 }
