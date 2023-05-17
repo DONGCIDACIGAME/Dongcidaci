@@ -2,15 +2,27 @@ using UnityEngine;
 
 public interface IGameCollider
 {
-    int GetColliderType();
-    void OnColliderEnter(IGameCollider other);
+    /// <summary>
+    /// 获取当前碰撞体的类别
+    /// </summary>
+    /// <returns></returns>
+    public GameColliderType GetColliderType();
+
+    /// <summary>
+    /// 当碰撞体触发时
+    /// </summary>
+    /// <param name="other"></param>
+    public void OnColliderEnter(IGameCollider other);
+
+
+
 }
 
 
 public interface IGameCollider2D : IGameCollider
 {
-    bool CheckPosInCollider(Vector2 pos);
-    bool CheckCollapse(Rect rect);
+    public bool CheckPosInCollider(Vector2 pos);
+    public bool CheckCollapse(Rect rect);
 }
 
 
