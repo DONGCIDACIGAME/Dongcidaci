@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using GameEngine;
 using UnityEngine;
+using System;
 
 public struct MapGridInfo
 {
@@ -23,6 +24,14 @@ public struct MapGridInfo
 
 
         return 0;
+    }
+
+    public int[] GetIndexsWithColsAndRows(ValueTuple<int,int> colsRange,ValueTuple<int,int> rowsRange)
+    {
+        if (colsRange.Item1 > colsRange.Item2 || colsRange.Item2 > this.colNum) return null;
+        if (rowsRange.Item1 > rowsRange.Item2) return null;
+
+        return new int[3];
     }
 
 }
@@ -83,8 +92,9 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
         // 获取最大的包络，通过最大矩形包络快速索引可能产生交差的地图块
         collider.GetMaxEnvelopeArea(out Vector2 envelopPos, out Vector2 envelopSize);
         float minEnvelopX = envelopPos.x - envelopSize.x / 2f;
-        int startColIndex = 0;
-        
+        float maxEnvelopX = envelopPos.x + envelopSize.x / 2f;
+        int startColIndex = (minEnvelopX > 0) ? Mathf.RoundToInt(minEnvelopX / _mapGridConfig.cellWidth):0;
+        int endColIndex = (maxEnvelopX > 0) ? Mathf.RoundToInt(maxEnvelopX / _mapGridConfig.cellWidth) : 0;
 
 
 
