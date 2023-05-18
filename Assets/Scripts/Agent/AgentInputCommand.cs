@@ -19,6 +19,9 @@ public class AgentInputCommand : IRecycle
         if (other == null)
             return false;
 
+        if (other.CmdType == AgentCommandDefine.ATTACK_SHORT)
+            return false;
+
         return CmdType == other.CmdType && TriggerMeter == other.TriggerMeter && Towards.Equals(other.Towards);
     }
 

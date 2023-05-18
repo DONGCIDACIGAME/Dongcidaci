@@ -6,5 +6,5 @@ public class GamePoolCenter : Singleton<GamePoolCenter>
 
     public GeneralGamePool<AgentInputCommand> AgentInputCommandPool = new GeneralGamePool<AgentInputCommand>();
 
-    public GeneralGamePool<ExcutiveComboAction> ExcutiveComboActionPool = new GeneralGamePool<ExcutiveComboAction>();
+    public GeneralGamePool<TriggeredComboAction> TriggeredComboActionPool = new GeneralGamePool<TriggeredComboAction>();
 }

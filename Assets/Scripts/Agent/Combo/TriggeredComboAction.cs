@@ -1,34 +1,40 @@
 using GameEngine;
 
-public class ExcutiveComboAction : IRecycle
+public class TriggeredComboAction : IRecycle
 {
     /// <summary>
     /// combo action data
     /// </summary>
-    public ComboActionData actionData;
+    public ComboActionData actionData { get; private set; }
 
     /// <summary>
     /// agent id
     /// </summary>
-    public uint agentId;
+    public uint agentId { get; private set; }
 
     /// <summary>
     /// combo name
     /// </summary>
-    public string comboName;
+    public string comboName { get; private set; }
+
+    /// <summary>
+    /// which meter is the combo action triggered
+    /// </summary>
+    public int triggeredMeter { get; private set; }
 
 
     /// <summary>
     /// action index in combo
     /// </summary>
-    public int actionIndex;
+    public int actionIndex { get; private set; }
 
-    public ExcutiveComboAction()
+    public TriggeredComboAction()
     {
         this.agentId = 0;
         this.comboName = string.Empty;
         this.actionIndex = -1;
         this.actionData = null;
+        this.triggeredMeter = -1;
     }
 
     /// <summary>
@@ -38,11 +44,12 @@ public class ExcutiveComboAction : IRecycle
     /// <param name="comboName"></param>
     /// <param name="actionIndex"></param>
     /// <param name="comboAction"></param>
-    public void Initialize(uint agentId, string comboName, int actionIndex, ComboActionData comboAction)
+    public void Initialize(uint agentId, string comboName, int actionIndex, int triggerMeter, ComboActionData comboAction)
     {
         this.agentId = agentId;
         this.comboName = comboName;
         this.actionIndex = actionIndex;
+        this.triggeredMeter = triggeredMeter;
         this.actionData = comboAction;
     }
 
@@ -51,6 +58,7 @@ public class ExcutiveComboAction : IRecycle
         this.agentId = 0;
         this.comboName = string.Empty;
         this.actionIndex = -1;
+        this.triggeredMeter = -1;
         this.actionData = null;
     }
 
@@ -58,6 +66,6 @@ public class ExcutiveComboAction : IRecycle
     {
         Dispose();
 
-        GamePoolCenter.Ins.ExcutiveComboActionPool.Push(this);
+        GamePoolCenter.Ins.TriggeredComboActionPool.Push(this);
     }
 }

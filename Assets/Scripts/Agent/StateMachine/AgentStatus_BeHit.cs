@@ -65,18 +65,18 @@ public class AgentStatus_BeHit : AgentStatus
         }
     }
 
-    protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggerableCombo combo)
+    protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggeredComboAction triggeredComboAction)
     {
-        base.CustomOnComboCommand(cmd, combo);
+        base.CustomOnComboCommand(cmd, triggeredComboAction);
 
         switch (cmd.CmdType)
         {
             case AgentCommandDefine.DASH:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, combo);
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, triggeredComboAction);
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                ChangeStatusOnComboCommand(cmd, combo);
+                ChangeStatusOnComboCommand(cmd, triggeredComboAction);
                 break;
             default:
                 break;

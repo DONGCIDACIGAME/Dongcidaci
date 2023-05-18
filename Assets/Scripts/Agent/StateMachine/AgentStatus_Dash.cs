@@ -90,18 +90,18 @@ public class AgentStatus_Dash : AgentStatus
         }
     }
 
-    protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggerableCombo combo)
+    protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggeredComboAction triggeredComboAction)
     {
-        base.CustomOnComboCommand(cmd, combo);
+        base.CustomOnComboCommand(cmd, triggeredComboAction);
 
         switch (cmd.CmdType)
         {
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd, combo);
+                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd, triggeredComboAction);
                 break;
             case AgentCommandDefine.DASH:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, combo);
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, triggeredComboAction);
                 break;
             default:
                 break;

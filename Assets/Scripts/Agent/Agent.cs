@@ -204,8 +204,8 @@ public abstract class Agent : Entity, IMeterHandler
             return;
         }
 
-        // 对于同一拍的同一个指令不做处理
-        if (cmd.Equals(lastInputCmd))
+        // 对于可优化的指令，同一拍的同一个指令不做处理
+        if (AgentCommandDefine.IsOptimizable(cmd.CmdType) && cmd.Equals(lastInputCmd))
         {
             cmd.Recycle();
             return;
@@ -238,12 +238,12 @@ public abstract class Agent : Entity, IMeterHandler
         }
 
         // 新的输入尝试触发combo
-        int result = ComboTrigger.OnNewInput(cmd.CmdType, cmd.TriggerMeter, out TriggerableCombo combo);
+        int result = ComboTrigger.OnNewInput(cmd.CmdType, cmd.TriggerMeter, out TriggeredComboAction combo);
 
         // 如果触发了combo，就需要同时处理指令和combo的逻辑
         if (result == ComboDefine.ComboTriggerResult_Succeed)
         {
-            Log.Error(LogLevel.Info, "Trigger combo {0}-{1}", combo.GetComboName(), combo.GetCurrentComboAction().stateName);
+            Log.Error(LogLevel.Info, "Trigger combo {0}-{1}", combo.comboName, combo.actionData.stateName);
             curStatus.OnComboCommand(cmd, combo);
         }
         // 如果不是combo的触发命令类型，就直接执行指令

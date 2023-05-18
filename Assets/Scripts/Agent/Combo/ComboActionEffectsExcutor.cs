@@ -18,15 +18,15 @@ public class ComboActionEffectsExcutor : IGameUpdate, IMeterHandler
     }
 
 
-    public void Start(TriggerableCombo combo)
+    public void Start(TriggeredComboAction triggeredComboAction)
     {
-        if(combo == null)
+        if(triggeredComboAction == null)
         {
             Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, combo is null!");
             return;
         }
 
-        ComboActionData actionData = combo.GetCurrentComboAction();
+        ComboActionData actionData = triggeredComboAction.actionData;
         if (actionData == null)
         {
             Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, ComboActionData is null!");
@@ -58,7 +58,7 @@ public class ComboActionEffectsExcutor : IGameUpdate, IMeterHandler
 
         if(actionData.effects == null || actionData.effects.Length == 0)
         {
-            Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, hit point effects is null or empty, comboName:{0}, action Index:{1}!", combo.GetComboName(), combo.triggeredAt);
+            Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, hit point effects is null or empty, comboName:{0}, action Index:{1}!", triggeredComboAction.comboName, triggeredComboAction.actionIndex);
             return;
         }
 

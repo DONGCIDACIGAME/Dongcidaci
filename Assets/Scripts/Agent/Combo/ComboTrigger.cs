@@ -26,6 +26,11 @@ public class ComboTrigger : IMeterHandler
         }
     }
 
+    /// <summary>
+    /// 初始化
+    /// 将所有的combo按照招式数量升序排列
+    /// </summary>
+    /// <param name="agent"></param>
     public void Initialize(Agent agent)
     {
         if (agent == null)
@@ -96,25 +101,25 @@ public class ComboTrigger : IMeterHandler
     /// <param name="newInput">输入</param>
     /// <param name="meterIndex">输入对应的节拍index</param>
     /// <returns>触发combo的结果</returns>
-    public int OnNewInput(byte newInput, int meterIndex, out ExcutiveComboAction action)
+    public int OnNewInput(byte newInput, int meterIndex, out TriggeredComboAction action)
     {
         action = null;
 
-        // be_hit不是combo触发器，而且be_hit不会等待combo结束，在be_hit时立即处理
-        if (newInput == AgentCommandDefine.BE_HIT
-            || newInput == AgentCommandDefine.IDLE
-            || newInput == AgentCommandDefine.EMPTY
-            || newInput == AgentCommandDefine.RUN)
+        // 不能触发combo的指令
+        if (!AgentCommandDefine.IsComboTrigger(newInput))
         {
             return ComboDefine.ComboTriggerResult_NotComboTrigger;
         }
 
-        // 如果输入的触发节拍index不是上一个combo招式的结束拍，则该输入就被丢弃
+        // 如果已经在combo招式的执行过程中，且新的输入的触发节拍不是在当前combo招式的结束拍，则该输入就被丢弃
         // |---a-----------b---|
         // 对于输入a，应该属于前面那个竖杠的拍子，对于输入b，应该属于后面竖杠的按个拍子
         // 所以这里的输入丢弃逻辑应该没有问题
         if (comboLogicEndMeter >= 0 && meterIndex != comboLogicEndMeter)
             return ComboDefine.ComboTriggerResult_ComboExcuting;
+
+        // 重新开始触发，或者在触发在上一个combo的结束拍
+        comboLogicEndMeter = -1;
 
         // 所有的combo都过一遍新的输入
         for (int i = 0; i < mSortedTriggerableCombos.Count; i++)
@@ -126,14 +131,23 @@ public class ComboTrigger : IMeterHandler
             // 成功触发combo时，记录第一个被触发的combo
             if (triggered && action == null)
             {
-                action = GamePoolCenter.Ins.ExcutiveComboActionPool.Pop();
-                action.Initialize(mAgent.GetAgentId(), tc.GetComboName(), tc.triggeredAt, tc.GetCurrentComboAction());
+                // get from pool
+                action = GamePoolCenter.Ins.TriggeredComboActionPool.Pop();
+
+                // 记录这个被触发的招式，记录时不仅要记录招式数据，还要记录是谁触发的，combo的名字，招式的index, 触发在那一拍
+                action.Initialize(mAgent.GetAgentId(), tc.GetComboName(), tc.triggeredAt, meterIndex, tc.GetCurrentComboAction());
             }
         }
 
         if(action != null)
         {
             comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, action.actionData.statusName, action.actionData.stateName);
+            
+            // 如果当前触发的combo招式是combo的最后一招，就重置所有的combo再次开始检测
+            if(action.actionData.endFlag)
+            {
+                ResetAllCombo();
+            }
             return ComboDefine.ComboTriggerResult_Succeed;
         }
         else
@@ -148,7 +162,8 @@ public class ComboTrigger : IMeterHandler
     }
 
     /// <summary>
-    /// 一个完整的combo打完时，要重置一下combohandler，重新开始下一次的combo处理
+    /// 重置所有的combo
+    /// 用于重新开始combo检测
     /// </summary>
     public void ResetAllCombo()
     {
@@ -168,6 +183,9 @@ public class ComboTrigger : IMeterHandler
 
     public void OnMeter(int meterIndex)
     {
-       
+       if(meterIndex == comboLogicEndMeter)
+        {
+            comboLogicEndMeter = -1;
+        }
     }
 }
