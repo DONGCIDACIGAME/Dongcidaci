@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace GameEngine
 {
-    public class GamePool<T>
+    public class UIEntityPool<T>
     {
         private Stack<T> pool;
 
-        public GamePool()
+        public UIEntityPool()
         {
             this.pool = new Stack<T>();
         }

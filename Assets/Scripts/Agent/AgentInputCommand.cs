@@ -28,19 +28,20 @@ public class AgentInputCommand : IRecycle
         this.Towards = GamePlayDefine.InputDirection_NONE;
     }
 
-    public void Copy(AgentInputCommand other)
+    public AgentInputCommand Copy(AgentInputCommand other)
     {
         if (other == null)
-            return;
+            return null;
 
         CmdType = other.CmdType;
         TriggerMeter = other.TriggerMeter;
         Towards = other.Towards;
+        return this;
     }
 
     public void Recycle()
     {
         Clear();
-        AgentInputCommandPool.Ins.PushAgentInputCommand(this);
+        GamePoolCenter.Ins.AgentInputCommandPool.Push(this);
     }
 }

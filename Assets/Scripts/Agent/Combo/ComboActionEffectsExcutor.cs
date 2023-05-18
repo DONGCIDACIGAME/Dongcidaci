@@ -77,7 +77,7 @@ public class ComboActionEffectsExcutor : IGameUpdate, IMeterHandler
 
             for(int j = 0; j < hitEffect.hitEffects.Length; j++)
             {
-                RectEffectExcutor excutor = RectEffectExcutorPool.Ins.PopExcutor();
+                RectEffectExcutor excutor = GamePoolCenter.Ins.RectEffectExcutorPool.Pop();
                 excutor.Initialize(mAgt, hitpoint.progress * totalTime, hitEffect.hitEffects[j]);
                 effectExcutors.Add(excutor);
             }

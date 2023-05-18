@@ -40,7 +40,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         Vector3 towards = GetInputDirection();
         if (Input.GetKeyDown(InputDef.DashKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.DashMeterCheckTolerance, GamePlayDefine.DashMeterCheckOffset, out int triggerMeter))
         {
-            cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
+            cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
             cmd.Initialize(AgentCommandDefine.DASH, triggerMeter, towards);
             return true;
         }
@@ -58,7 +58,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         {
             if(MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset, out triggerMeter))
             {
-                cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
+                cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
                 cmd.Initialize(AgentCommandDefine.ATTACK_SHORT, triggerMeter, towards);
                 //Log.Error(LogLevel.Info, "Trigger light attack--------------------------------------------------{0}", triggerMeter);
                 return true;
@@ -71,7 +71,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
 
         if (Input.GetKeyDown(InputDef.AttackLongKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset, out triggerMeter))
         {
-            cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
+            cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
             cmd.Initialize(AgentCommandDefine.ATTACK_LONG, triggerMeter, towards);
             //Log.Error(LogLevel.Info, "Trigger hard attack+++++++++++++++++++++++++++++++{0}", triggerMeter);
             return true;
@@ -87,7 +87,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
 
         if(!towards.Equals(GamePlayDefine.InputDirection_NONE))
         {
-            cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
+            cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
             cmd.Initialize(AgentCommandDefine.RUN, MeterManager.Ins.MeterIndex, towards);
             return true;
         }

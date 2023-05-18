@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameEngine
@@ -25,7 +25,7 @@ namespace GameEngine
         /// <summary>
         /// UI实体缓存池
         /// </summary>
-        private Dictionary<System.Type, GamePool<UIEntity>> mUIEntityPools;
+        private Dictionary<System.Type, UIEntityPool<UIEntity>> mUIEntityPools;
 
         /// <summary>
         /// UI GameObject 缓存池
@@ -79,7 +79,7 @@ namespace GameEngine
             mLoadingPanels = new SimpleQueue<UILoadingPanel>();
             mLayers = new Dictionary<string, GameObject>();
             mAllOpenPanels = new Dictionary<System.Type, UIPanel>();
-            mUIEntityPools = new Dictionary<System.Type, GamePool<UIEntity>>();
+            mUIEntityPools = new Dictionary<System.Type, UIEntityPool<UIEntity>>();
             mUIObjectPool = new Dictionary<string, GameObjectPool>();
 
             GameObject UIRoot = GameObject.Find(UIPathDef.UI_ROOT);
@@ -109,7 +109,7 @@ namespace GameEngine
         {
             T entity = null;
 
-            GamePool<UIEntity> pool;
+            UIEntityPool<UIEntity> pool;
             if (mUIEntityPools.TryGetValue(typeof(T), out pool))
             {
                 if (pool != null)
@@ -133,19 +133,19 @@ namespace GameEngine
         /// <param name="entity"></param>
         private void PushUIEntity<T>(T entity) where T : UIEntity
         {
-            GamePool<UIEntity> pool;
+            UIEntityPool<UIEntity> pool;
 
             System.Type type = entity.GetType();
             if (mUIEntityPools.TryGetValue(type, out pool))
             {
                 if (pool == null)
                 {
-                    pool = new GamePool<UIEntity>();
+                    pool = new UIEntityPool<UIEntity>();
                 }
             }
             else
             {
-                pool = new GamePool<UIEntity>();
+                pool = new UIEntityPool<UIEntity>();
                 mUIEntityPools.Add(type, pool);
             }
 

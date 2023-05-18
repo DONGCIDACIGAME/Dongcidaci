@@ -62,7 +62,7 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
     public void Recycle()
     {
         Dispose();
-        RectEffectExcutorPool.Ins.PushExcutor(this);
+        GamePoolCenter.Ins.RectEffectExcutorPool.Push(this);
     }
 
     public void OnUpdate(float deltaTime)

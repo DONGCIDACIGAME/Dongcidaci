@@ -30,7 +30,7 @@ public class KeyboardInputHandle_Idle : AgentKeyboardInputHandle
         // 没有新的cmd 回到idle
         if (!hasCmd)
         {
-            cmd = AgentInputCommandPool.Ins.PopAgentInputCommand();
+            cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
             cmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, GamePlayDefine.InputDirection_NONE);
         }
 

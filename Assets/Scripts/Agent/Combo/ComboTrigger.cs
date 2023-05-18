@@ -96,9 +96,9 @@ public class ComboTrigger : IMeterHandler
     /// <param name="newInput">输入</param>
     /// <param name="meterIndex">输入对应的节拍index</param>
     /// <returns>触发combo的结果</returns>
-    public int OnNewInput(byte newInput, int meterIndex, out TriggerableCombo combo)
+    public int OnNewInput(byte newInput, int meterIndex, out ExcutiveComboAction action)
     {
-        combo = null;
+        action = null;
 
         // be_hit不是combo触发器，而且be_hit不会等待combo结束，在be_hit时立即处理
         if (newInput == AgentCommandDefine.BE_HIT
@@ -124,16 +124,16 @@ public class ComboTrigger : IMeterHandler
             bool triggered = tc.TryTriggerOnNewInput(newInput);
 
             // 成功触发combo时，记录第一个被触发的combo
-            if (triggered && combo == null)
+            if (triggered && action == null)
             {
-                combo = tc;
+                action = GamePoolCenter.Ins.ExcutiveComboActionPool.Pop();
+                action.Initialize(mAgent.GetAgentId(), tc.GetComboName(), tc.triggeredAt, tc.GetCurrentComboAction());
             }
         }
 
-        if(combo != null)
+        if(action != null)
         {
-            ComboActionData actionData = combo.GetCurrentComboAction();
-            comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, actionData.statusName, actionData.stateName);
+            comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, action.actionData.statusName, action.actionData.stateName);
             return ComboDefine.ComboTriggerResult_Succeed;
         }
         else

@@ -217,9 +217,9 @@ public abstract class Agent : Entity, IMeterHandler
         {
             lastInputCmd.Recycle();
         }
-        
+
         // 记录这次的指令数据
-        lastInputCmd = AgentInputCommandPool.Ins.CreateAgentInputCommandCopy(cmd);
+        lastInputCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop().Copy(cmd);
 
         if (StatusMachine == null)
         {
