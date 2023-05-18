@@ -152,6 +152,12 @@ public class AgentStatus_Attack : AgentStatus
 
     protected override void CommandHandleOnMeter(int meterIndex)
     {
+        if(!cmdBuffer.HasCommand())
+        {
+            mCurLogicStateEndMeter = 0;
+            return;
+        }
+
         if (mCurLogicStateEndMeter > 0 && meterIndex != mCurLogicStateEndMeter)
         {
             Log.Error(LogLevel.Info, "CommandHandleOnMeter cur meter index:{0}, logic state end meter index:{1}", meterIndex, mCurLogicStateEndMeter);

@@ -171,7 +171,7 @@ public class ComboTrigger : IMeterHandler
         {
             mSortedTriggerableCombos[i].Reset();
         }
-        comboLogicEndMeter = -1;
+        //comboLogicEndMeter = -1;
     }
 
     public void Dispose()

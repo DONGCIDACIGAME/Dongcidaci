@@ -86,6 +86,7 @@ public abstract class AgentStatus : IAgentStatus
         mInputHandle.SetEnable(false);
         cmdBuffer.ClearCommandBuffer();
         mCurTriggeredComboAction = null;
+        mCurLogicStateEndMeter = 0;
     }
 
     protected virtual void CustomDispose() { }
