@@ -1,50 +1,92 @@
 using System.Collections;
 using System.Collections.Generic;
 using GameEngine;
+using UnityEngine;
 
-/// <summary>
-/// TODO: 这里要优化一下，根据地图划分块，做检测的时候只检测某个区域内的
-/// 区块粒度要想一下
-/// 划分依据应该是根据位置和包围盒大小
-/// </summary>
+public struct MapGridInfo
+{
+    public int colNum;
+    public int rowNum;
+    public float cellWidth;
+    public float cellHeight;
+
+    public MapGridInfo(int colNumber, int rowNumber, float cellWidth, float cellHeight)
+    {
+        this.colNum = colNumber;
+        this.rowNum = rowNumber;
+        this.cellWidth = cellWidth;
+        this.cellHeight = cellHeight;
+    }
+
+    public int GetIndexByColAndRow(int colIndex, int rowIndex)
+    {
+
+
+        return 0;
+    }
+
+}
+
+
 public class GameColliderCenter : ModuleManager<GameColliderCenter>
 {
+    private MapGridInfo _mapGridConfig;
+
+
     /// <summary>
     /// 所有区块的碰撞体
+    /// 数组的索引对应地图上某一块,通过索引获取地图上某一块中包含的所有2d碰撞体
     /// </summary>
-    private HashSet<GameCollider2D>[,] mAllGameColliders;
+    private HashSet<GameCollider2D>[] mAllGameColliders;
 
     /// <summary>
     /// 每个碰撞体所在的区块index
-    /// key: unique hash value of collider
+    /// key: GameCollider2D
     /// value: index of map area
     /// 每个碰撞体位置变化时，需要把原来所在的区块里，这个碰撞体删除，然后根据位置重新算一下所在区块
     /// </summary>
-    private Dictionary<int, List<int>> mAllCollidersRecord;
+    private Dictionary<GameCollider2D, List<int>> mAllCollidersRecord;
 
     public override void Initialize()
     {
-        mAllCollidersRecord = new Dictionary<int, List<int>>();
+        mAllCollidersRecord = new Dictionary<GameCollider2D, List<int>>();
     }
 
+
     /// <summary>
-    /// 根据地图的信息重置所有的碰撞
+    /// 根据地图的基本信息初始化
+    /// 原点从左下角开始
+    /// 5 6 7 8 9...
+    /// 0 1 2 3 4...
+    /// 第一个cell的基准坐标 0，0
     /// </summary>
     /// <param name="mapWidth"></param>
     /// <param name="mapHeight"></param>
-    /// <param name="cellSize"></param>
-    public void ResetWithMapInfo(int mapWidth, int mapHeight, int cellSize)
+    /// <param name="cellWidth"></param>
+    /// <param name="cellHeight"></param>
+    public void InitWithMapInfo(float mapWidth, float mapHeight, float cellWidth, float cellHeight)
     {
-        int colNum = (mapWidth % cellSize) == 0 ? (mapWidth / cellSize) : (mapWidth / cellSize) + 1;
-        int rowNum = (mapHeight % cellSize) == 0 ? (mapHeight / cellSize) : (mapHeight / cellSize) + 1;
+        int colNum = Mathf.CeilToInt(mapWidth/cellWidth);
+        int rowNum = Mathf.CeilToInt(mapHeight/cellHeight);
 
-        mAllGameColliders = new HashSet<GameCollider2D>[colNum, rowNum];
+        mAllGameColliders = new HashSet<GameCollider2D>[colNum*rowNum];
         mAllCollidersRecord.Clear();
+
+        this._mapGridConfig = new MapGridInfo(colNum,rowNum,cellWidth,cellHeight);
+
     }
+
 
     public void RegisterGameCollider(GameCollider2D collider)
     {
         // 1. 添加到所有对应的区块里 -- mAllGameColliders
+        // 获取最大的包络，通过最大矩形包络快速索引可能产生交差的地图块
+        collider.GetMaxEnvelopeArea(out Vector2 envelopPos, out Vector2 envelopSize);
+        float minEnvelopX = envelopPos.x - envelopSize.x / 2f;
+        int startColIndex = 0;
+        
+
+
 
         // 2. 更新这个碰撞体所在的区块信息--mAllCollidersRecord
     }
