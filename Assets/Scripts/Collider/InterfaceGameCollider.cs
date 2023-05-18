@@ -26,7 +26,16 @@ public interface IGameCollider2D : IGameCollider
 }
 
 
+/// <summary>
+/// 需要处理碰撞事件的对象继承的接口
+/// </summary>
+public interface IHandleCollider
+{
+    public void HandleColliderOccur(GameCollider2D otherCollider);
 
+
+
+}
 
 
 
