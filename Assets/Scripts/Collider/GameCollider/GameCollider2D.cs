@@ -116,11 +116,58 @@ public abstract class GameCollider2D : IGameCollider2D
         }
     }
 
-    
-    protected GameCollider2D(GameColliderData2D colliderData,Transform tgtTransform)
+    /// <summary>
+    /// 获取这个长方形区块的最大包络矩形
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="size"></param>
+    public void GetMaxEnvelopeArea(out Vector2 pos, out Vector2 size)
+    {
+        var vertexs = PosVector3.GetRectangleVertexs(_colliderData.size);
+        // get max width
+        float maxWidth = 0;
+        float maxHeight = 0;
+        float newPosX = 0;
+        float newPosY = 0;
+
+        for (int i = 0; i < vertexs.Length; i++)
+        {
+            var startVector = vertexs[i];
+            for (int k = i + 1; k < vertexs.Length; k++)
+            {
+                var checkVector = vertexs[k];
+                var xGap = checkVector.x - startVector.x;
+                if (Mathf.Abs(xGap) > maxWidth)
+                {
+                    maxWidth = Mathf.Abs(xGap);
+                    newPosX = startVector.x + xGap / 2f;
+                }
+
+                var yGap = checkVector.y - startVector.y;
+                if (Mathf.Abs(yGap) > maxHeight)
+                {
+                    maxHeight = Mathf.Abs(yGap);
+                    newPosY = startVector.y + yGap / 2f;
+                }
+            }
+        }
+
+        pos = new Vector2(newPosX, newPosY);
+        size = new Vector2(maxWidth, maxHeight);
+    }
+
+
+    private IColliderHandler _colliderHandler;
+    public IColliderHandler GetColliderHandler()
+    {
+        return _colliderHandler;
+    }
+
+    protected GameCollider2D(GameColliderData2D colliderData,Transform tgtTransform,IColliderHandler colliderHandler)
     {
         this._colliderData = colliderData;
         this._bindTransform = tgtTransform;
+        this._colliderHandler = colliderHandler;
     }
 
     /// <summary>
@@ -215,4 +262,8 @@ public abstract class GameCollider2D : IGameCollider2D
     }
 
     public abstract void OnColliderEnter(IGameCollider other);
+
+
+    
+
 }

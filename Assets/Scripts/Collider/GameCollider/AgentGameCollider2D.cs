@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AgentGameCollider2D : GameCollider2D
 {
-    public AgentGameCollider2D(GameColliderData2D colliderData, Transform tgtTransform) :base(colliderData, tgtTransform)
+    public AgentGameCollider2D(GameColliderData2D colliderData, Transform tgtTransform,IColliderHandler colliderHandler) :base(colliderData, tgtTransform, colliderHandler)
     {
 
     }

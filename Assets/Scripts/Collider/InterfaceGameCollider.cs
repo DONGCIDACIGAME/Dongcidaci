@@ -14,7 +14,11 @@ public interface IGameCollider
     /// <param name="other"></param>
     public void OnColliderEnter(IGameCollider other);
 
-
+    /// <summary>
+    /// 获取碰撞的处理对象
+    /// </summary>
+    /// <returns></returns>
+    public IColliderHandler GetColliderHandler();
 
 }
 
@@ -29,7 +33,7 @@ public interface IGameCollider2D : IGameCollider
 /// <summary>
 /// 需要处理碰撞事件的对象继承的接口
 /// </summary>
-public interface IHandleCollider
+public interface IColliderHandler
 {
     public void HandleColliderOccur(GameCollider2D otherCollider);
 
