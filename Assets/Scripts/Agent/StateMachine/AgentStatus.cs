@@ -78,6 +78,7 @@ public abstract class AgentStatus : IAgentStatus
     {
         Log.Logic(LogLevel.Info, "OnEnter Status:{0}--cur meter:{1}", GetStatusName(), MeterManager.Ins.MeterIndex);
         mInputHandle.SetEnable(true);
+        mCurLogicStateEndMeter = -1;
     }
 
 
@@ -86,7 +87,7 @@ public abstract class AgentStatus : IAgentStatus
         mInputHandle.SetEnable(false);
         cmdBuffer.ClearCommandBuffer();
         mCurTriggeredComboAction = null;
-        mCurLogicStateEndMeter = 0;
+        mCurLogicStateEndMeter = -1;
     }
 
     protected virtual void CustomDispose() { }
@@ -95,7 +96,7 @@ public abstract class AgentStatus : IAgentStatus
     {
         ChangeStatus = null;
         mAgent = null;
-        mCurLogicStateEndMeter = 0;
+        mCurLogicStateEndMeter = -1;
 
         if(mInputHandle != null)
         {
@@ -118,6 +119,10 @@ public abstract class AgentStatus : IAgentStatus
     {
         CommandHandleOnMeter(meterIndex);
         cmdBuffer.ClearCommandBuffer();
+        if(meterIndex == mCurLogicStateEndMeter)
+        {
+            mCurLogicStateEndMeter = -1;
+        }
         //Log.Error(LogLevel.Info, "Meter--{0}",meterIndex);
     }
 

@@ -13,6 +13,11 @@ public class ComboTrigger : IMeterHandler
     /// </summary>
     private int comboLogicEndMeter;
 
+    /// <summary>
+    /// 重置标志
+    /// </summary>
+    private bool resetFlag;
+
     public void SetComboActive(string comboName, bool active)
     {
         for (int i = 0; i < mSortedTriggerableCombos.Count; i++)
@@ -105,6 +110,11 @@ public class ComboTrigger : IMeterHandler
     {
         action = null;
 
+        if(meterIndex == comboLogicEndMeter && resetFlag)
+        {
+            ResetAllCombo();
+        }
+
         // 不能触发combo的指令
         if (!AgentCommandDefine.IsComboTrigger(newInput))
         {
@@ -142,12 +152,9 @@ public class ComboTrigger : IMeterHandler
         if(action != null)
         {
             comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, action.actionData.statusName, action.actionData.stateName);
-            
-            // 如果当前触发的combo招式是combo的最后一招，就重置所有的combo再次开始检测
-            if(action.actionData.endFlag)
-            {
-                ResetAllCombo();
-            }
+
+            resetFlag = action.actionData.endFlag;
+
             return ComboDefine.ComboTriggerResult_Succeed;
         }
         else
@@ -171,21 +178,21 @@ public class ComboTrigger : IMeterHandler
         {
             mSortedTriggerableCombos[i].Reset();
         }
-        //comboLogicEndMeter = -1;
+        resetFlag = false;
+        comboLogicEndMeter = -1;
     }
 
     public void Dispose()
     {
         ResetAllCombo();
-        comboLogicEndMeter = -1;
         mSortedTriggerableCombos = null;
     }
 
     public void OnMeter(int meterIndex)
     {
-       if(meterIndex == comboLogicEndMeter)
+       if(meterIndex == comboLogicEndMeter && resetFlag)
         {
-            comboLogicEndMeter = -1;
+            ResetAllCombo();
         }
     }
 }

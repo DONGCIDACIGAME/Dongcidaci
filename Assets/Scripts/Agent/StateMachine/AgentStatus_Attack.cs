@@ -154,11 +154,11 @@ public class AgentStatus_Attack : AgentStatus
     {
         if(!cmdBuffer.HasCommand())
         {
-            mCurLogicStateEndMeter = 0;
+            mCurLogicStateEndMeter = -1;
             return;
         }
 
-        if (mCurLogicStateEndMeter > 0 && meterIndex != mCurLogicStateEndMeter)
+        if (mCurLogicStateEndMeter >= 0 && meterIndex != mCurLogicStateEndMeter)
         {
             Log.Error(LogLevel.Info, "CommandHandleOnMeter cur meter index:{0}, logic state end meter index:{1}", meterIndex, mCurLogicStateEndMeter);
             return;

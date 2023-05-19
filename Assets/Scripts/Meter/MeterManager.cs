@@ -139,7 +139,7 @@ public class MeterManager : ModuleManager<MeterManager>
 
     public void Stop()
     {
-        enable = false;
+        Reset();
     }
 
     public void Pause()

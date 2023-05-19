@@ -109,7 +109,7 @@ public class AgentStatus_Idle : AgentStatus
                     break;
             }
 
-            if (mCurLogicStateEndMeter > 0 && meterIndex != mCurLogicStateEndMeter)
+            if (mCurLogicStateEndMeter >= 0 && meterIndex != mCurLogicStateEndMeter)
                 return;
 
             mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
