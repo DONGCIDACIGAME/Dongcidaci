@@ -228,6 +228,7 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
         base.OnUpdate(deltaTime);
 
         if (_allGameColliders.Count == 0) return;
+        // update map info
         for (int i= _allGameColliders.Count-1;i>=0;i--)
         {
             // update collider map info
@@ -235,6 +236,10 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
             {
                 UpdateGameCollidersInMap(_allGameColliders[i]);
             }
+        }
+        // check collider
+        for (int i = _allGameColliders.Count - 1; i >= 0; i--)
+        {
             //check collider occur
             foreach (var mapIndex in _allGameColliders[i].lastMapIndexs)
             {
@@ -243,7 +248,7 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
                 {
                     // 是自己
                     if (tgtCollider == _allGameColliders[i]) continue;
-                    if (_allGameColliders[i].CheckCollapse(tgtCollider.PosVector3,tgtCollider.ColliderData.size))
+                    if (_allGameColliders[i].CheckCollapse(tgtCollider.PosVector3, tgtCollider.ColliderData.size))
                     {
                         // 此处仅调用 检测方碰撞被检测方，避免重复调用
                         // 因为被检测方在遍历中会成为检测方
@@ -253,6 +258,7 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
                 }
             }
         }
+
 
     }
 
