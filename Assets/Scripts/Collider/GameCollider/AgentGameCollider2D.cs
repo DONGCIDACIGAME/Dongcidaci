@@ -10,8 +10,6 @@ public class AgentGameCollider2D : GameCollider2D
     }
 
 
-    public override void OnColliderEnter(IGameCollider other)
-    {
-        throw new System.NotImplementedException();
-    }
+
+
 }

@@ -73,7 +73,11 @@ public struct RectangleColliderVector3
 
 public abstract class GameCollider2D : IGameCollider2D
 {
-    
+    /// <summary>
+    /// 该碰撞体占据的地图索引信息
+    /// </summary>
+    public int[] lastMapIndexs;
+
     private GameColliderData2D _colliderData;
     /// <summary>
     /// 该碰撞体的配置数据
@@ -261,7 +265,13 @@ public abstract class GameCollider2D : IGameCollider2D
         return _colliderData.colliderType;
     }
 
-    public abstract void OnColliderEnter(IGameCollider other);
+    public void OnColliderEnter(IGameCollider other)
+    {
+        if (_colliderHandler != null)
+        {
+            _colliderHandler.HandleColliderOccur(other as GameCollider2D);
+        }
+    }
 
 
     
