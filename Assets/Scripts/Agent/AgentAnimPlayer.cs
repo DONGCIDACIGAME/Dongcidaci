@@ -105,7 +105,7 @@ public class AgentAnimPlayer
         {
             // 出现较大偏差，强制将动画定格至最后一帧
             mAnimator.Play(stateInfo.fullPathHash, layer, 1);
-            Log.Error(LogLevel.Info, "UpdateAnimSpeedWithFix Error, 播放进度出现较大偏差，请查看！progressOffset:{0}, anim state:{1}", progressOffset, stateInfo.ToString());
+            Log.Error(LogLevel.Info, "UpdateAnimSpeedWithFix Error, 播放进度出现较大偏差，请查看！progressOffset:{0}, anim state:{1}", progressOffset, stateInfo.fullPathHash);
         }
 
         mAnimator.speed = stateLen / (duration + timeOffset);

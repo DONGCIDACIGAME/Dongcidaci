@@ -204,6 +204,12 @@ public abstract class Agent : Entity, IMeterHandler
             return;
         }
 
+        // 如果和上一个指令在同一帧，则该指令也会被丢弃
+        if(lastInputCmd != null && cmd.Frame == lastInputCmd.Frame)
+        {
+            return;
+        }
+
         // 对于可优化的指令，同一拍的同一个指令不做处理
         if (AgentCommandDefine.IsOptimizable(cmd.CmdType) && cmd.Equals(lastInputCmd))
         {
@@ -213,7 +219,7 @@ public abstract class Agent : Entity, IMeterHandler
 
         // 上次记录的指令归还指令池
         // modified by weng 0516 1720
-        if (lastInputCmd!=null)
+        if (lastInputCmd != null)
         {
             lastInputCmd.Recycle();
         }

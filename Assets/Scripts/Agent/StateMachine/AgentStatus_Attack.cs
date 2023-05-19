@@ -1,5 +1,3 @@
-using GameEngine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
@@ -131,6 +129,12 @@ public class AgentStatus_Attack : AgentStatus
     protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggeredComboAction triggeredComboAction)
     {
         base.CustomOnComboCommand(cmd, triggeredComboAction);
+        if(!AgentCommandDefine.IsComboTrigger(cmd.CmdType))
+        {
+            Log.Error(LogLevel.Normal, "CustomOnComboCommand Error,[{0}] is  not combo trigger command type!", cmd.CmdType);
+            return;
+        }
+
         mAgent.MoveControl.TurnTo(cmd.Towards);
 
         switch (cmd.CmdType)
@@ -152,12 +156,6 @@ public class AgentStatus_Attack : AgentStatus
 
     protected override void CommandHandleOnMeter(int meterIndex)
     {
-        if(!cmdBuffer.HasCommand())
-        {
-            mCurLogicStateEndMeter = -1;
-            return;
-        }
-
         if (mCurLogicStateEndMeter >= 0 && meterIndex != mCurLogicStateEndMeter)
         {
             Log.Error(LogLevel.Info, "CommandHandleOnMeter cur meter index:{0}, logic state end meter index:{1}", meterIndex, mCurLogicStateEndMeter);
@@ -200,21 +198,22 @@ public class AgentStatus_Attack : AgentStatus
         }
     }
 
+
     public override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);
 
-        //if (MeterManager.Ins.MeterIndex == mCurLogicStateEndMeter && !cmdBuffer.HasCommand())
-        //{
-        //    // 是否在输入的容差时间内
-        //    bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset);
+        if (MeterManager.Ins.MeterIndex == mCurLogicStateEndMeter && !cmdBuffer.HasCommand())
+        {
+            // 是否在输入的容差时间内
+            bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset);
 
-        //    // 超过输入的容差时间，进入idle
-        //    if (!inInputTime)
-        //    {
-        //        ChangeToIdle();
-        //    }
-        //}
+            // 超过输入的容差时间，进入idle
+            if (!inInputTime)
+            {
+                ChangeToIdle();
+            }
+        }
 
         //Log.Logic(LogLevel.Info, "cur anim state:{0}, progress:{1}", mAgent.AnimPlayer.CurStateName, mAgent.AnimPlayer.CurStateProgress);
     }

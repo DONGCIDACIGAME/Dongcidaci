@@ -126,7 +126,10 @@ public class ComboTrigger : IMeterHandler
         // 对于输入a，应该属于前面那个竖杠的拍子，对于输入b，应该属于后面竖杠的按个拍子
         // 所以这里的输入丢弃逻辑应该没有问题
         if (comboLogicEndMeter >= 0 && meterIndex != comboLogicEndMeter)
+        {
+            Log.Error(LogLevel.Info, "Combo Trigger OnNewInput -------Excuting---meterIndex:{0}, comboLogicEndMeter:{1}", meterIndex, comboLogicEndMeter);
             return ComboDefine.ComboTriggerResult_ComboExcuting;
+        }
 
         // 重新开始触发，或者在触发在上一个combo的结束拍
         comboLogicEndMeter = -1;
@@ -185,14 +188,23 @@ public class ComboTrigger : IMeterHandler
     public void Dispose()
     {
         ResetAllCombo();
+        resetFlag = false;
         mSortedTriggerableCombos = null;
     }
 
     public void OnMeter(int meterIndex)
     {
-       if(meterIndex == comboLogicEndMeter && resetFlag)
+        // 到了combo结束拍
+        if (meterIndex == comboLogicEndMeter)
         {
-            ResetAllCombo();
+            // 是combo的结束招式
+            // 重置所有combo，等待重新检测
+            if (resetFlag)
+            {
+                ResetAllCombo();
+            }
+            // 重置结束拍
+            comboLogicEndMeter = -1;
         }
     }
 }
