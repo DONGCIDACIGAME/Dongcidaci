@@ -73,11 +73,7 @@ public struct RectangleColliderVector3
 
 public abstract class GameCollider2D : IGameCollider2D
 {
-    /// <summary>
-    /// 该碰撞体占据的地图索引信息
-    /// </summary>
-    public int[] lastMapIndexs;
-
+    
     private GameColliderData2D _colliderData;
     /// <summary>
     /// 该碰撞体的配置数据
@@ -88,6 +84,11 @@ public abstract class GameCollider2D : IGameCollider2D
     /// 这个碰撞体绑定的游戏体transform信息
     /// </summary>
     private Transform _bindTransform;
+
+    /// <summary>
+    /// 记录这个碰撞体的上一次位置信息
+    /// </summary>
+    private RectangleColliderVector3 lastPosVector3;
 
     /// <summary>
     /// 用于描述这个碰撞体的位置信息
@@ -119,6 +120,22 @@ public abstract class GameCollider2D : IGameCollider2D
             return new RectangleColliderVector3(colliderPosX,colliderPosY,tranaformRoateAngle);
         }
     }
+
+    /// <summary>
+    /// 检查这个碰撞体的位置信息是否产生了变化
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckColliderMove()
+    {
+        var crtPosVector3 = PosVector3;
+        if (lastPosVector3.Equals(crtPosVector3) == false)
+        {
+            this.lastPosVector3 = crtPosVector3;
+            return true;
+        }
+        return false;
+    }
+
 
     /// <summary>
     /// 获取这个长方形区块的最大包络矩形
@@ -172,6 +189,7 @@ public abstract class GameCollider2D : IGameCollider2D
         this._colliderData = colliderData;
         this._bindTransform = tgtTransform;
         this._colliderHandler = colliderHandler;
+        this.lastPosVector3 = PosVector3;
     }
 
     /// <summary>
