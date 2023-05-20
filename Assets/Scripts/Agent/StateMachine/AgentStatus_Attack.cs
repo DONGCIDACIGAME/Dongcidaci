@@ -156,7 +156,7 @@ public class AgentStatus_Attack : AgentStatus
 
     protected override void CommandHandleOnMeter(int meterIndex)
     {
-        if (mCurLogicStateEndMeter >= 0 && meterIndex != mCurLogicStateEndMeter)
+        if (meterIndex < mCurLogicStateEndMeter)
         {
             Log.Error(LogLevel.Info, "CommandHandleOnMeter cur meter index:{0}, logic state end meter index:{1}", meterIndex, mCurLogicStateEndMeter);
             return;
@@ -202,19 +202,17 @@ public class AgentStatus_Attack : AgentStatus
     public override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);
-
-        if (MeterManager.Ins.MeterIndex == mCurLogicStateEndMeter && !cmdBuffer.HasCommand())
+        if (MeterManager.Ins.MeterIndex >= mCurLogicStateEndMeter)
         {
             // 是否在输入的容差时间内
-            bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset);
+            bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.DashMeterCheckTolerance, GamePlayDefine.DashMeterCheckOffset);
 
             // 超过输入的容差时间，进入idle
-            if (!inInputTime)
+            if (!inInputTime && !cmdBuffer.HasCommand())
             {
                 ChangeToIdle();
             }
         }
-
         //Log.Logic(LogLevel.Info, "cur anim state:{0}, progress:{1}", mAgent.AnimPlayer.CurStateName, mAgent.AnimPlayer.CurStateProgress);
     }
 

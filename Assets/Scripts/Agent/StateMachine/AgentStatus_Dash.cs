@@ -53,13 +53,13 @@ public class AgentStatus_Dash : AgentStatus
     {
         base.OnUpdate(deltaTime);
 
-        if (MeterManager.Ins.MeterIndex == mCurLogicStateEndMeter && !cmdBuffer.HasCommand())
+        if (MeterManager.Ins.MeterIndex >= mCurLogicStateEndMeter)
         {
             // 是否在输入的容差时间内
             bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.DashMeterCheckTolerance, GamePlayDefine.DashMeterCheckOffset);
 
             // 超过输入的容差时间，进入idle
-            if (!inInputTime)
+            if (!inInputTime && !cmdBuffer.HasCommand())
             {
                 ChangeToIdle();
             }
