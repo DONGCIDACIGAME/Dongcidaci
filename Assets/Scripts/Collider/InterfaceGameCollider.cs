@@ -20,6 +20,11 @@ public interface IGameCollider
     /// <returns></returns>
     public ICollideHandler GetColliderHandler();
 
+    /// <summary>
+    /// 碰撞体的销毁
+    /// </summary>
+    public void Dispose();
+
 }
 
 

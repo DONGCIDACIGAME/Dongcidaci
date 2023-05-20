@@ -289,16 +289,15 @@ public abstract class GameCollider2D : IGameCollider2D
 
     public abstract void OnColliderEnter(IGameCollider other);
 
-
-    public virtual void OnCollideUpdate(float deltaTime)
+    public abstract void OnCollideUpdate(float deltaTime);
+    
+    public void Dispose()
     {
-        if(this._bindTransform == null)
-        {
-            //游戏体被销毁
-            GameColliderCenter.Ins.UnRegisterGameCollider(this);
-            this._colliderData = null;
-            this._colliderHandler = null;
-        }
+        //游戏体被销毁
+        GameColliderCenter.Ins.UnRegisterGameCollider(this);
+        this._colliderData = null;
+        this._colliderHandler = null;
+        this._bindTransform = null;
     }
 
 }

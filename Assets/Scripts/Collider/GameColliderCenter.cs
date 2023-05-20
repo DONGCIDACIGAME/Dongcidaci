@@ -206,6 +206,9 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
 
     public void UnRegisterGameCollider(GameCollider2D collider)
     {
+        // 不包含时
+        if (_mAllCollidersRecord.ContainsKey(collider) == false) return;
+
         var lastMapIndexs = _mAllCollidersRecord[collider];
         this._mAllCollidersRecord.Remove(collider);
         // clear collider info in map
