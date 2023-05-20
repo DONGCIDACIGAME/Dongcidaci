@@ -71,18 +71,23 @@ public class MeterTimerCenter : MeterModuleManager<MeterTimerCenter>
         toWorkTimers = null;
     }
 
-    public override void OnMeter(int meterIndex)
+    public override void OnMeterEnter(int meterIndex)
     {
         foreach (MeterTimer timer in mWorkingTimers)
         {
-            timer.OnMeter(meterIndex);
+            timer.OnMeterEnter(meterIndex);
 
-            // ¶¨Ê±Æ÷½áÊøÊ±£¬·ÅÈëÁĞ±íÖĞµÈ´ı»ØÊÕ
+            // å®šæ—¶å™¨ç»“æŸæ—¶ï¼Œæ”¾å…¥åˆ—è¡¨ä¸­ç­‰å¾…å›æ”¶
             if (timer.CheckEnd())
             {
                 toPushTimers.Add(timer);
             }
         }
+    }
+
+    public override void OnMeterEnd(int meterIndex)
+    {
+
     }
 
     public override void OnUpdate(float deltaTime)
@@ -100,7 +105,7 @@ public class MeterTimerCenter : MeterModuleManager<MeterTimerCenter>
 
         if(toPushTimers.Count > 0)
         {
-            // °ÑÒÑ½áÊøµÄ½ÚÅÄ¶¨Ê±Æ÷·ÅÈë»º´æ³Ø
+            // æŠŠå·²ç»“æŸçš„èŠ‚æ‹å®šæ—¶å™¨æ”¾å…¥ç¼“å­˜æ± 
             foreach (MeterTimer timer in toPushTimers)
             {
                 RemoveTimer(timer);

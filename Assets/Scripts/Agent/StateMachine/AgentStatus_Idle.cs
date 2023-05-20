@@ -89,7 +89,7 @@ public class AgentStatus_Idle : AgentStatus
         }
     }
 
-    protected override void CommandHandleOnMeter(int meterIndex)
+    protected override void CustomOnMeterEnter(int meterIndex)
     {
         if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
@@ -115,4 +115,10 @@ public class AgentStatus_Idle : AgentStatus
             mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
         }
     }
+
+    protected override void CustomOnMeterEnd(int meterIndex)
+    {
+        
+    }
+
 }

@@ -1,24 +1,24 @@
 
 using System;
 
-public class MeterTimer
+public class MeterTimer : IMeterHandler
 {
     private int loopMeter;
     private int curLoopRecord;
 
     /// <summary>
-    /// Ä¿±êÑ­»·´ÎÊı
+    /// ç›®æ ‡å¾ªç¯æ¬¡æ•°
     /// </summary>
     private int targetLoopTime;
 
     /// <summary>
-    /// µ±Ç°Ñ­»·´ÎÊı
+    /// å½“å‰å¾ªç¯æ¬¡æ•°
     /// </summary>
     private int curLoopTime;
 
 
     /// <summary>
-    /// ¶¨Ê±Æ÷»Øµ÷
+    /// å®šæ—¶å™¨å›è°ƒ
     /// </summary>
     private Action cb;
 
@@ -41,10 +41,10 @@ public class MeterTimer
         return targetLoopTime > 0 && curLoopTime >= targetLoopTime;
     }
 
-    public void OnMeter(int meterIndex)
+    public void OnMeterEnter(int meterIndex)
     {
         curLoopRecord++;
-        // ³¬¹ıµ¥´ÎÑ­»·½ÚÅÄÊı
+        // è¶…è¿‡å•æ¬¡å¾ªç¯èŠ‚æ‹æ•°
         if (curLoopRecord >= loopMeter)
         {
             if (targetLoopTime > 0)
@@ -52,15 +52,19 @@ public class MeterTimer
                 curLoopTime++;
             }
 
-            // ÖØÖÃµ±Ç°Ñ­»·µÄÊ±¼ä¼ÇÂ¼
+            // é‡ç½®å½“å‰å¾ªç¯çš„æ—¶é—´è®°å½•
             curLoopRecord -= loopMeter;
 
-            // Ö´ĞĞ»Øµ÷
+            // æ‰§è¡Œå›è°ƒ
             if (cb != null)
             {
                 cb();
             }
         }
+    }
+
+    public void OnMeterEnd(int meterIndex)
+    {
         
     }
 }

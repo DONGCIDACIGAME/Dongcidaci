@@ -10,9 +10,14 @@ public class KeyboardInputHandle_Idle : AgentKeyboardInputHandle
         return InputDef.KeyboardInputHandle_Idle;
     }
 
-    public override void OnMeter(int meterIndex)
+    public override void OnMeterEnter(int meterIndex)
     {
         
+    }
+
+    public override void OnMeterEnd(int meterIndex)
+    {
+
     }
 
     public override void OnUpdate(float deltaTime)

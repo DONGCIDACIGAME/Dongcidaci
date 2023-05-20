@@ -1,8 +1,6 @@
-using GameEngine;
-public interface IInputHandle
+public interface IInputHandle : IMeterHandler
 {
     void OnUpdate(float deltaTime);
-    void OnMeter(int meterIndex);
     string GetHandleName();
     void SetEnable(bool enable);
     bool CheckEnable();

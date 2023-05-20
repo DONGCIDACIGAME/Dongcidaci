@@ -3,28 +3,28 @@ using UnityEngine;
 public class CurveMoveWithMeter : BehaviourWithMeter
 {
     /// <summary>
-    /// Ê±³¤£¨±¾½ÚÅÄÊ±³¤£©
+    /// æ—¶é•¿ï¼ˆæœ¬èŠ‚æ‹æ—¶é•¿ï¼‰
     /// </summary>
     protected float meterDuration;
 
     /// <summary>
-    /// Ô­Ê¼Î»ÖÃ
+    /// åŸå§‹ä½ç½®
     /// </summary>
     private Vector3 mOriPos;
 
     /// <summary>
-    /// Æ«ÒÆµÄÎ»ÒÆ
+    /// åç§»çš„ä½ç§»
     /// </summary>
     public Vector3 MoveOffset;
 
     /// <summary>
-    /// Ëõ·ÅÇúÏß 
-    /// ºáÖá±íÊ¾Ê±¼äµÄ¹éÒ»»¯
-    /// ×İÖá±íÊ¾Ëõ·Å½ø¶ÈµÄ¹éÒ»»¯
+    /// ç¼©æ”¾æ›²çº¿ 
+    /// æ¨ªè½´è¡¨ç¤ºæ—¶é—´çš„å½’ä¸€åŒ–
+    /// çºµè½´è¡¨ç¤ºç¼©æ”¾è¿›åº¦çš„å½’ä¸€åŒ–
     /// </summary>
     public AnimationCurve Curve;
 
-    public override void OnMeter(int meterIndex)
+    public override void OnMeterEnter(int meterIndex)
     {
         meterTriggered = CheckTrigger(meterIndex);
         if (!meterTriggered)
@@ -43,9 +43,9 @@ public class CurveMoveWithMeter : BehaviourWithMeter
         if (timeRecord >= meterDuration)
             return;
 
-        // Í¨¹ıÊ±¼ä£¨¹éÒ»»¯£©²é³ö³öµ±Ç°½ø¶È£¨¹éÒ»»¯£©
+        // é€šè¿‡æ—¶é—´ï¼ˆå½’ä¸€åŒ–ï¼‰æŸ¥å‡ºå‡ºå½“å‰è¿›åº¦ï¼ˆå½’ä¸€åŒ–ï¼‰
         float progress = Curve.Evaluate((timeRecord % meterDuration) / meterDuration);
-        // ¼ÆËãÒÆ¶¯µÄ¾àÀë
+        // è®¡ç®—ç§»åŠ¨çš„è·ç¦»
         Vector3 offset = Vector3.Lerp(Vector3.zero, MoveOffset, progress);
         this.transform.position = mOriPos + offset;
         timeRecord += deltaTime;
@@ -53,5 +53,10 @@ public class CurveMoveWithMeter : BehaviourWithMeter
         {
             this.transform.position = mOriPos;
         }
+    }
+
+    public override void OnMeterEnd(int meterIndex)
+    {
+        
     }
 }

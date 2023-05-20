@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 public class AgentStatus_Dash : AgentStatus
 {
@@ -108,9 +107,13 @@ public class AgentStatus_Dash : AgentStatus
         }
     }
 
-    protected override void CommandHandleOnMeter(int meterIndex)
+    protected override void CustomOnMeterEnter(int meterIndex)
     {
 
     }
 
+    protected override void CustomOnMeterEnd(int meterIndex)
+    {
+        
+    }
 }

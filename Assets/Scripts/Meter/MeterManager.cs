@@ -259,14 +259,22 @@ public class MeterManager : ModuleManager<MeterManager>
         return false;
     }
 
+    private void TriggerMeterEnd()
+    {
+        foreach (IMeterHandler handler in mMeterHandlers)
+        {
+            handler.OnMeterEnd(MeterIndex);
+        }
+    }
+
     /// <summary>
     /// 触发在拍子上需要执行的操作
     /// </summary>
-    private void TriggerMeter()
+    private void TriggerMeterEnter()
     {
         foreach(IMeterHandler handler in mMeterHandlers)
         {
-            handler.OnMeter(MeterIndex);
+            handler.OnMeterEnter(MeterIndex);
         }
     }
 
@@ -296,9 +304,12 @@ public class MeterManager : ModuleManager<MeterManager>
         int meterIndexInMusic = GetMeterIndexInMusic(MeterIndex);
         if (timeRecord >= mCurAudioMeterData.baseMeters[meterIndexInMusic + 1])
         {
+            // 节拍结束
+            TriggerMeterEnd();
+            // 节拍自增
             MeterIndex++;
-
-            TriggerMeter();
+            // 节拍开始
+            TriggerMeterEnter();
         }
 
         //Log.Logic(LogLevel.Info, "~~~~~~~~~bgm time:{0}, meter time:{1}", AudioManager.Ins.GetCurBgmTime(), timeRecord);

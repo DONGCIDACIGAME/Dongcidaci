@@ -33,8 +33,6 @@ public abstract class AgentStatus : IAgentStatus
     /// </summary>
     protected TriggeredComboAction mCurTriggeredComboAction;
 
-
-
     public void Initialize(Agent agt, ChangeStatusDelegate cb)
     {
         ChangeStatus = cb;
@@ -111,12 +109,20 @@ public abstract class AgentStatus : IAgentStatus
         CustomDispose();
     }
 
-    protected abstract void CommandHandleOnMeter(int meterIndex);
+    protected abstract void CustomOnMeterEnter(int meterIndex);
 
-    public virtual void OnMeter(int meterIndex)
+    protected abstract void CustomOnMeterEnd(int meterIndex);
+
+
+    public virtual void OnMeterEnter(int meterIndex)
     {
-        CommandHandleOnMeter(meterIndex);
+        CustomOnMeterEnter(meterIndex);
         cmdBuffer.ClearCommandBuffer();
+    }
+
+    public void OnMeterEnd(int meterIndex)
+    {
+        CustomOnMeterEnd(meterIndex);
     }
 
     public virtual void OnUpdate(float deltaTime)
@@ -170,6 +176,7 @@ public abstract class AgentStatus : IAgentStatus
     /// <param name="towards"></param>
     public void PushInputCommandToBuffer(byte cmdType, Vector3 towards, TriggeredComboAction triggerdComboAction)
     {
+        Log.Error(LogLevel.Info, "PushInputCommandToBuffer-{0}", cmdType);
         cmdBuffer.AddInputCommand(cmdType, towards);
         if(triggerdComboAction != null)
         {

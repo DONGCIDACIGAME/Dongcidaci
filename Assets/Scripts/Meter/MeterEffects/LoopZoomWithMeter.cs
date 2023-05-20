@@ -3,24 +3,24 @@ using UnityEngine;
 public class LoopZoomWithMeter : BehaviourWithMeter
 {
     /// <summary>
-    /// Ê±³¤£¨±¾½ÚÅÄÊ±³¤£©
+    /// æ—¶é•¿ï¼ˆæœ¬èŠ‚æ‹æ—¶é•¿ï¼‰
     /// </summary>
     protected float meterDuration;
 
     /// <summary>
-    /// Ëõ·ÅÆğÊ¼Öµ
+    /// ç¼©æ”¾èµ·å§‹å€¼
     /// </summary>
     public Vector3 zoomFrom;
 
     /// <summary>
-    /// Ëõ·ÅÖÕÖ¹Öµ
+    /// ç¼©æ”¾ç»ˆæ­¢å€¼
     /// </summary>
     public Vector3 zoomTo;
 
     /// <summary>
-    /// Ëõ·ÅÇúÏß 
-    /// ºáÖá±íÊ¾Ê±¼äµÄ¹éÒ»»¯
-    /// ×İÖá±íÊ¾Ëõ·Å½ø¶ÈµÄ¹éÒ»»¯
+    /// ç¼©æ”¾æ›²çº¿ 
+    /// æ¨ªè½´è¡¨ç¤ºæ—¶é—´çš„å½’ä¸€åŒ–
+    /// çºµè½´è¡¨ç¤ºç¼©æ”¾è¿›åº¦çš„å½’ä¸€åŒ–
     /// </summary>
     public AnimationCurve Curve;
     protected override void Initialize()
@@ -39,15 +39,15 @@ public class LoopZoomWithMeter : BehaviourWithMeter
         if (timeRecord >= meterDuration)
             return;
 
-        // Í¨¹ıÊ±¼ä£¨¹éÒ»»¯£©²é³ö³öµ±Ç°µÄËõ·Å½ø¶È£¨¹éÒ»»¯£©
+        // é€šè¿‡æ—¶é—´ï¼ˆå½’ä¸€åŒ–ï¼‰æŸ¥å‡ºå‡ºå½“å‰çš„ç¼©æ”¾è¿›åº¦ï¼ˆå½’ä¸€åŒ–ï¼‰
         float progress = Curve.Evaluate((timeRecord % meterDuration)/meterDuration);
-        // ¼ÆËãËõ·ÅµÄ±ÈÀı
+        // è®¡ç®—ç¼©æ”¾çš„æ¯”ä¾‹
         Vector3 scale = Vector3.Lerp(zoomFrom, zoomTo, progress);
         this.transform.localScale = scale;
         timeRecord += deltaTime;
     }
 
-    public override void OnMeter(int meterIndex)
+    public override void OnMeterEnter(int meterIndex)
     {
         meterTriggered = CheckTrigger(meterIndex);
         if (!meterTriggered)
@@ -56,5 +56,10 @@ public class LoopZoomWithMeter : BehaviourWithMeter
         meterDuration = MeterManager.Ins.GetCurrentMeterTime();
         this.transform.localScale = zoomFrom;
         timeRecord = 0;
+    }
+
+    public override void OnMeterEnd(int meterIndex)
+    {
+
     }
 }

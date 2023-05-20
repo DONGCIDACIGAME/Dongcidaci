@@ -50,7 +50,12 @@ public class AgentStatus_Transfer : AgentStatus
         base.OnExit();
     }
 
-    protected override void CommandHandleOnMeter(int meterIndex)
+    protected override void CustomOnMeterEnter(int meterIndex)
+    {
+        
+    }
+
+    protected override void CustomOnMeterEnd(int meterIndex)
     {
         
     }
@@ -66,4 +71,5 @@ public class AgentStatus_Transfer : AgentStatus
             ChangeStatus(AgentStatusDefine.IDLE, null);
         }
     }
+
 }

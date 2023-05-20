@@ -176,7 +176,7 @@ public class InputManager : MeterModuleManager<InputManager>
         
     }
 
-    public override void OnMeter(int curMeterIndex)
+    public override void OnMeterEnter(int meterIndex)
     {
         IInputState state = GetCurrrentInputState();
         if (state == null)
@@ -192,7 +192,28 @@ public class InputManager : MeterModuleManager<InputManager>
             IInputControl inputCtl = kv.Value;
             if (inputCtl != null)
             {
-                inputCtl.OnMeter(curMeterIndex);
+                inputCtl.OnMeterEnter(meterIndex);
+            }
+        }
+    }
+
+    public override void OnMeterEnd(int meterIndex)
+    {
+        IInputState state = GetCurrrentInputState();
+        if (state == null)
+            return;
+
+        foreach (KeyValuePair<string, IInputControl> kv in mInputControlMap)
+        {
+            string ctlName = kv.Key;
+
+            if (!state.CheckInputControlEnable(ctlName))
+                continue;
+
+            IInputControl inputCtl = kv.Value;
+            if (inputCtl != null)
+            {
+                inputCtl.OnMeterEnd(meterIndex);
             }
         }
     }

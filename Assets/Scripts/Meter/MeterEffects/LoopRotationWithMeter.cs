@@ -3,17 +3,17 @@ using UnityEngine;
 public class LoopRotationWithMeter : BehaviourWithMeter
 {
     /// <summary>
-    /// Ô­Ê¼½Ç¶È
+    /// åŽŸå§‹è§’åº¦
     /// </summary>
     private Vector3 mOriRotation;
 
     /// <summary>
-    /// Ðý×ªµÄ½Ç¶È
+    /// æ—‹è½¬çš„è§’åº¦
     /// </summary>
     public Vector3 RotationOffset;
 
     /// <summary>
-    /// Ðý×ªµÄÊ±¼ä
+    /// æ—‹è½¬çš„æ—¶é—´
     /// </summary>
     public float RotateDuration;
 
@@ -25,7 +25,7 @@ public class LoopRotationWithMeter : BehaviourWithMeter
     }
 
 
-    public override void OnMeter(int meterIndex)
+    public override void OnMeterEnter(int meterIndex)
     {
         meterTriggered = CheckTrigger(meterIndex);
         if (!meterTriggered)
@@ -33,6 +33,11 @@ public class LoopRotationWithMeter : BehaviourWithMeter
 
         mOriRotation = this.transform.rotation.eulerAngles;
         timeRecord = 0;
+    }
+
+    public override void OnMeterEnd(int meterIndex)
+    {
+        
     }
 
     public override void OnUpdate(float deltaTime)

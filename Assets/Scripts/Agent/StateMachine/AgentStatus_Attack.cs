@@ -10,17 +10,15 @@ public class AgentStatus_Attack : AgentStatus
     /// </summary>
     protected CustomAnimDriver mCustomAnimDriver;
 
-    /// <summary>
-    /// 准备要切换到过度态
-    /// </summary>
-    private bool changeToTransferState;
+
+    private bool mChangeToTransfer;
+    private float transferDuration;
 
     public override void CustomInitialize()
     {
         mInputHandle = new KeyboardInputHandle_Attack(mAgent);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
         mCustomAnimDriver = new CustomAnimDriver(mAgent, GetStatusName());
-        changeToTransferState = false;
     }
 
     protected override void CustomDispose()
@@ -54,7 +52,8 @@ public class AgentStatus_Attack : AgentStatus
     public override void OnExit()
     {
         base.OnExit();
-        changeToTransferState = false;
+        mChangeToTransfer = false;
+        transferDuration = 0;
     }
 
     private void ProgressWaitOnComboAttack(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
@@ -123,6 +122,11 @@ public class AgentStatus_Attack : AgentStatus
 
         mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(actionData.stateName);
         mAgent.ComboEffectsExcutor.Start(triggeredComboAction);
+        if (actionData.endFlag)
+        {
+            mChangeToTransfer = true;
+            transferDuration = 0.2f;
+        }
         triggeredComboAction.Recycle();
     }
 
@@ -151,25 +155,16 @@ public class AgentStatus_Attack : AgentStatus
         }
     }
 
-    private bool mChangeToTransfer;
-    private float transferDuration;
 
-    protected override void CommandHandleOnMeter(int meterIndex)
+    protected override void CustomOnMeterEnter(int meterIndex)
     {
+
         if (meterIndex < mCurLogicStateEndMeter)
         {
-            Log.Error(LogLevel.Info, "CommandHandleOnMeter cur meter index:{0}, logic state end meter index:{1}", meterIndex, mCurLogicStateEndMeter);
+            //Log.Error(LogLevel.Info, "CustomOnMeterEnter--- meterIndex:{0}, logicMeterEnd:{1}", meterIndex, mCurLogicStateEndMeter);
             return;
         }
 
-        //if(mChangeToTransfer)
-        //{
-        //    Dictionary<string, object> args = new Dictionary<string, object>();
-        //    args.Add("duration", transferDuration);
-        //    ChangeStatus(AgentStatusDefine.IDLE, args);
-        //    return;
-        //}
-        
         if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
@@ -198,16 +193,34 @@ public class AgentStatus_Attack : AgentStatus
         }
     }
 
+    protected override void CustomOnMeterEnd(int meterIndex)
+    {
+        if(meterIndex < mCurLogicStateEndMeter -1)
+        {
+            return;
+        }
+
+        if (mChangeToTransfer)
+        {
+            Dictionary<string, object> args = new Dictionary<string, object>();
+            args.Add("duration", transferDuration);
+            ChangeStatus(AgentStatusDefine.TRANSFER, args);
+            return;
+        }
+    }
+
 
     public override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);
+
+        // 在逻辑结束拍之后
         if (MeterManager.Ins.MeterIndex >= mCurLogicStateEndMeter)
         {
             // 是否在输入的容差时间内
             bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.DashMeterCheckTolerance, GamePlayDefine.DashMeterCheckOffset);
 
-            // 超过输入的容差时间，进入idle
+            // 超过输入的容差时间，且当前指令缓存区里没有指令（没有待执行指令）
             if (!inInputTime && !cmdBuffer.HasCommand())
             {
                 ChangeToIdle();

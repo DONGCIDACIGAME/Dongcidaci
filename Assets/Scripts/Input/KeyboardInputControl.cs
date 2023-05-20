@@ -58,14 +58,26 @@ public class KeyboardInputControl : IInputControl
         }
     }
 
-    public void OnMeter(int meterIndex)
+    public void OnMeterEnter(int meterIndex)
     {
         foreach (KeyValuePair<string, IInputHandle> kv in mHandleDic)
         {
             IInputHandle handle = kv.Value;
             if (handle.CheckEnable())
             {
-                handle.OnMeter(meterIndex);
+                handle.OnMeterEnter(meterIndex);
+            }
+        }
+    }
+
+    public void OnMeterEnd(int meterIndex)
+    {
+        foreach (KeyValuePair<string, IInputHandle> kv in mHandleDic)
+        {
+            IInputHandle handle = kv.Value;
+            if (handle.CheckEnable())
+            {
+                handle.OnMeterEnd(meterIndex);
             }
         }
     }

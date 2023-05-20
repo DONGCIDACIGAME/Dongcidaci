@@ -1,4 +1,4 @@
-﻿public interface IInputControl
+public interface IInputControl : IMeterHandler
 {
     void Initialize();
     void Dispose();
@@ -7,6 +7,4 @@
     void UnregisterInputHandle(string handleName);
     void SetInputHandleEnable(string hanelName, bool enable);
     void OnUpdate(float deltaTime);
-    void OnMeter(int meterIndex);
-
 }

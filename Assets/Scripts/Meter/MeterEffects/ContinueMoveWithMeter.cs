@@ -3,17 +3,17 @@ using UnityEngine;
 public class ContinueMoveWithMeter : BehaviourWithMeter
 {
     /// <summary>
-    /// Ô­Ê¼Î»ÖÃ
+    /// åŸå§‹ä½ç½®
     /// </summary>
     private Vector3 mOriPos;
 
     /// <summary>
-    /// Æ«ÒÆµÄÎ»ÒÆ
+    /// åç§»çš„ä½ç§»
     /// </summary>
     public Vector3 MoveOffset;
 
     /// <summary>
-    /// ÒÆ¶¯µÄÊ±¼ä
+    /// ç§»åŠ¨çš„æ—¶é—´
     /// </summary>
     public float MoveDuration;
 
@@ -23,7 +23,7 @@ public class ContinueMoveWithMeter : BehaviourWithMeter
         mOriPos = this.transform.position;
     }
 
-    public override void OnMeter(int meterIndex)
+    public override void OnMeterEnter(int meterIndex)
     {
         meterTriggered = CheckTrigger(meterIndex);
         if (!meterTriggered)
@@ -43,7 +43,7 @@ public class ContinueMoveWithMeter : BehaviourWithMeter
 
         float progress = timeRecord / MoveDuration;
 
-        // ¼ÆËãËõ·ÅµÄ±ÈÀı
+        // è®¡ç®—ç¼©æ”¾çš„æ¯”ä¾‹
         Vector3 offset = Vector3.Lerp(Vector3.zero, MoveOffset, progress);
         this.transform.position = mOriPos + offset;
         timeRecord += deltaTime;
@@ -51,5 +51,10 @@ public class ContinueMoveWithMeter : BehaviourWithMeter
         {
             this.transform.position = mOriPos + MoveOffset;
         }
+    }
+
+    public override void OnMeterEnd(int meterIndex)
+    {
+        
     }
 }

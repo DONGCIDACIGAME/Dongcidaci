@@ -122,7 +122,12 @@ public class ComboActionEffectsExcutor : IGameUpdate, IMeterHandler
         }
     }
 
-    public void OnMeter(int meterIndex)
+    public void OnMeterEnter(int meterIndex)
+    {
+        
+    }
+
+    public void OnMeterEnd(int meterIndex)
     {
         
     }

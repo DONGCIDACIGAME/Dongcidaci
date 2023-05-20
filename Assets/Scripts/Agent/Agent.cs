@@ -273,11 +273,19 @@ public abstract class Agent : Entity, IMeterHandler
         cmd.Recycle();
     }
 
-    public virtual void OnMeter(int meterIndex)
+    public void OnMeterEnter(int meterIndex)
     {
-        StatusMachine.OnMeter(meterIndex);
-        ComboTrigger.OnMeter(meterIndex);
-        ComboEffectsExcutor.OnMeter(meterIndex);
+        StatusMachine.OnMeterEnter(meterIndex);
+        ComboTrigger.OnMeterEnter(meterIndex);
+        ComboEffectsExcutor.OnMeterEnter(meterIndex);
+    }
+
+    
+    public void OnMeterEnd(int meterIndex)
+    { 
+        StatusMachine.OnMeterEnd(meterIndex);
+        ComboTrigger.OnMeterEnd(meterIndex);
+        ComboEffectsExcutor.OnMeterEnd(meterIndex);
     }
 
 

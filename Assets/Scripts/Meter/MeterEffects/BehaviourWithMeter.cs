@@ -66,5 +66,7 @@ public abstract class BehaviourWithMeter : MonoBehaviour, IGameUpdate, IMeterHan
         Dispose();
     }
 
-    public abstract void OnMeter(int meterIndex);
+    public abstract void OnMeterEnter(int meterIndex);
+
+    public abstract void OnMeterEnd(int meterIndex);
 }

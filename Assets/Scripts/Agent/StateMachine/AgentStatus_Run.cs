@@ -101,7 +101,7 @@ public class AgentStatus_Run : AgentStatus
         }
     }
 
-    protected override void CommandHandleOnMeter(int meterIndex)
+    protected override void CustomOnMeterEnter(int meterIndex)
     {
         if(cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
         {
@@ -130,6 +130,10 @@ public class AgentStatus_Run : AgentStatus
         }
     }
 
+    protected override void CustomOnMeterEnd(int meterIndex)
+    {
+
+    }
 
     public override void OnUpdate(float deltaTime)
     {

@@ -11,7 +11,7 @@ public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
         return InputDef.KeyboardInputHandle_Dash;
     }
 
-    public override void OnMeter(int meterIndex)
+    public override void OnMeterEnter(int meterIndex)
     {
         // 在节拍处检测方向，可以在节拍处改变攻击的方向
         Vector3 towards = Vector3.zero;
@@ -41,6 +41,10 @@ public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
         }
     }
 
+    public override void OnMeterEnd(int meterIndex)
+    {
+
+    }
     public override void OnUpdate(float deltaTime)
     {
         if (mAgent == null)

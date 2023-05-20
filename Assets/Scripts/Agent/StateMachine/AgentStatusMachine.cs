@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// <param name="context"></param>
 public delegate void ChangeStatusDelegate(string stateName,  Dictionary<string, object> context = null);
 
-public class AgentStatusMachine
+public class AgentStatusMachine : IMeterHandler
 {
     public IAgentStatus CurStatus { get; private set; }
     private Dictionary<string, IAgentStatus> mStatusMap;
@@ -21,11 +21,19 @@ public class AgentStatusMachine
         mStatusMap = new Dictionary<string, IAgentStatus>();
     }
 
-    public void OnMeter(int meterIndex)
+    public void OnMeterEnter(int meterIndex)
     {
-        if(CurStatus != null)
+        if (CurStatus != null)
         {
-            CurStatus.OnMeter(meterIndex);
+            CurStatus.OnMeterEnter(meterIndex);
+        }
+    }
+
+    public void OnMeterEnd(int meterIndex)
+    {
+        if (CurStatus != null)
+        {
+            CurStatus.OnMeterEnd(meterIndex);
         }
     }
 

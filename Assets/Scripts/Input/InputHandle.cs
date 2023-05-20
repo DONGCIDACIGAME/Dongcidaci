@@ -13,7 +13,9 @@ public abstract class InputHandle : IInputHandle
 
     public abstract string GetHandleName();
 
-    public abstract void OnMeter(int meterIndex);
-
     public abstract void OnUpdate(float deltaTime);
+
+    public abstract void OnMeterEnter(int meterIndex);
+
+    public abstract void OnMeterEnd(int meterIndex);
 }

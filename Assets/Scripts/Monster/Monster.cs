@@ -36,15 +36,4 @@ public class Monster : Agent
     {
         
     }
-
-    public override void OnMeter(int meterIndex)
-    {
-        
-    }
-
-
-
-
-
-
 }

@@ -11,9 +11,14 @@ public class KeyboardInputHandle_BeHit : AgentKeyboardInputHandle
         return InputDef.KeyboardInputHandle_BeHit;
     }
 
-    public override void OnMeter(int meterIndex)
+    public override void OnMeterEnter(int meterIndex)
     {
-        
+
+    }
+
+    public override void OnMeterEnd(int meterIndex)
+    {
+
     }
 
     public override void OnUpdate(float deltaTime)

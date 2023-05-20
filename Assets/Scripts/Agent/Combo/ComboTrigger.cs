@@ -188,11 +188,16 @@ public class ComboTrigger : IMeterHandler
         mSortedTriggerableCombos = null;
     }
 
-    public void OnMeter(int meterIndex)
+    public void OnMeterEnter(int meterIndex)
+    {
+
+    }
+
+    public void OnMeterEnd(int meterIndex)
     {
         // 是combo的结束招式
         // 重置所有combo，等待重新检测
-        if (meterIndex >= comboLogicEndMeter && resetFlag)
+        if (meterIndex >= comboLogicEndMeter -1 && resetFlag)
         {
             ResetAllCombo();
         }
