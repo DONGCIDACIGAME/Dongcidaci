@@ -61,7 +61,7 @@ public class ComboTrigger : IMeterHandler
         }
 
         mSortedTriggerableCombos.Clear();
-        comboLogicEndMeter = -1;
+        comboLogicEndMeter = 0;
 
         for (int i = 0; i < comboGraph.comboDatas.Length; i++)
         {
@@ -110,7 +110,7 @@ public class ComboTrigger : IMeterHandler
     {
         action = null;
 
-        if(meterIndex == comboLogicEndMeter && resetFlag)
+        if(meterIndex >= comboLogicEndMeter && resetFlag)
         {
             ResetAllCombo();
         }
@@ -125,14 +125,11 @@ public class ComboTrigger : IMeterHandler
         // |---a-----------b---|
         // 对于输入a，应该属于前面那个竖杠的拍子，对于输入b，应该属于后面竖杠的按个拍子
         // 所以这里的输入丢弃逻辑应该没有问题
-        if (comboLogicEndMeter >= 0 && meterIndex != comboLogicEndMeter)
+        if (meterIndex < comboLogicEndMeter)
         {
-            Log.Error(LogLevel.Info, "Combo Trigger OnNewInput -------Excuting---meterIndex:{0}, comboLogicEndMeter:{1}", meterIndex, comboLogicEndMeter);
+            //Log.Error(LogLevel.Info, "Combo Trigger OnNewInput -------Excuting---meterIndex:{0}, comboLogicEndMeter:{1}", meterIndex, comboLogicEndMeter);
             return ComboDefine.ComboTriggerResult_ComboExcuting;
         }
-
-        // 重新开始触发，或者在触发在上一个combo的结束拍
-        comboLogicEndMeter = -1;
 
         // 所有的combo都过一遍新的输入
         for (int i = 0; i < mSortedTriggerableCombos.Count; i++)
@@ -182,7 +179,6 @@ public class ComboTrigger : IMeterHandler
             mSortedTriggerableCombos[i].Reset();
         }
         resetFlag = false;
-        comboLogicEndMeter = -1;
     }
 
     public void Dispose()
@@ -194,17 +190,11 @@ public class ComboTrigger : IMeterHandler
 
     public void OnMeter(int meterIndex)
     {
-        // 到了combo结束拍
-        if (meterIndex == comboLogicEndMeter)
+        // 是combo的结束招式
+        // 重置所有combo，等待重新检测
+        if (meterIndex >= comboLogicEndMeter && resetFlag)
         {
-            // 是combo的结束招式
-            // 重置所有combo，等待重新检测
-            if (resetFlag)
-            {
-                ResetAllCombo();
-            }
-            // 重置结束拍
-            comboLogicEndMeter = -1;
+            ResetAllCombo();
         }
     }
 }
