@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class MapBlockCollider2D : GameCollider2D
 {
-    public MapBlockCollider2D(GameColliderData2D colliderData, Transform tgtTransform, IColliderHandler colliderHandler) : base(colliderData, tgtTransform, colliderHandler)
+    public MapBlockCollider2D(GameColliderData2D colliderData, Transform tgtTransform, ICollideHandler collideHandler) : base(colliderData, tgtTransform, collideHandler)
     {
 
+    }
+
+    public override void OnColliderEnter(IGameCollider other)
+    {
+        var tgtHandler = other.GetColliderHandler();
+
+    }
+
+    public override void OnCollideUpdate(float deltaTime)
+    {
+        throw new System.NotImplementedException();
     }
 }

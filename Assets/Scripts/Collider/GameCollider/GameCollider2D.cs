@@ -83,7 +83,7 @@ public abstract class GameCollider2D : IGameCollider2D
     /// <summary>
     /// 这个碰撞体绑定的游戏体transform信息
     /// </summary>
-    private Transform _bindTransform;
+    protected Transform _bindTransform;
 
     /// <summary>
     /// 记录这个碰撞体的上一次位置信息
@@ -101,6 +101,8 @@ public abstract class GameCollider2D : IGameCollider2D
             if (_bindTransform == null)
             {
                 Debug.LogError("The collider bind transform should not be null");
+                //游戏体被销毁
+                GameColliderCenter.Ins.UnRegisterGameCollider(this);
                 return new RectangleColliderVector3();
             }
 
@@ -178,18 +180,20 @@ public abstract class GameCollider2D : IGameCollider2D
     }
 
 
-    private IColliderHandler _colliderHandler;
-    public IColliderHandler GetColliderHandler()
+    protected ICollideHandler _colliderHandler;
+    public ICollideHandler GetColliderHandler()
     {
         return _colliderHandler;
     }
 
-    protected GameCollider2D(GameColliderData2D colliderData,Transform tgtTransform,IColliderHandler colliderHandler)
+    protected GameCollider2D(GameColliderData2D colliderData,Transform tgtTransform,ICollideHandler collideHandler)
     {
         this._colliderData = colliderData;
         this._bindTransform = tgtTransform;
-        this._colliderHandler = colliderHandler;
+        this._colliderHandler = collideHandler;
         this.lastPosVector3 = PosVector3;
+
+        GameColliderCenter.Ins.RegisterGameCollider(this);
     }
 
     /// <summary>
@@ -283,15 +287,18 @@ public abstract class GameCollider2D : IGameCollider2D
         return _colliderData.colliderType;
     }
 
-    public void OnColliderEnter(IGameCollider other)
+    public abstract void OnColliderEnter(IGameCollider other);
+
+
+    public virtual void OnCollideUpdate(float deltaTime)
     {
-        if (_colliderHandler != null)
+        if(this._bindTransform == null)
         {
-            _colliderHandler.HandleColliderOccur(other as GameCollider2D);
+            //游戏体被销毁
+            GameColliderCenter.Ins.UnRegisterGameCollider(this);
+            this._colliderData = null;
+            this._colliderHandler = null;
         }
     }
-
-
-    
 
 }

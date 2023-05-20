@@ -146,6 +146,9 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
     /// <returns></returns>
     public bool RegisterGameCollider(GameCollider2D collider)
     {
+        //判断地图信息是否初始化了
+        if (this._mapGridConfig.colNum ==0) return false;
+
         if (_mAllCollidersRecord.ContainsKey(collider)) return false;
         // it is a new collider
         var estimatedMapIndexs = GetRoundOccupyMapIndexsWith(collider);

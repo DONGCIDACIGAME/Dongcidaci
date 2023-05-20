@@ -44,4 +44,7 @@ public class GameColliderData2D
         this.offset = offset;
         this.isStatic = isStatic;
     }
+
+
+
 }
