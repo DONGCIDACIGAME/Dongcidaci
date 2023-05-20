@@ -18,7 +18,12 @@ public interface IGameCollider
     /// 获取碰撞的处理对象
     /// </summary>
     /// <returns></returns>
-    public IColliderHandler GetColliderHandler();
+    public ICollideHandler GetColliderHandler();
+
+    /// <summary>
+    /// 碰撞体的销毁
+    /// </summary>
+    public void Dispose();
 
 }
 
@@ -33,11 +38,33 @@ public interface IGameCollider2D : IGameCollider
 /// <summary>
 /// 需要处理碰撞事件的对象继承的接口
 /// </summary>
-public interface IColliderHandler
+public interface ICollideHandler
 {
-    public void HandleColliderOccur(GameCollider2D otherCollider);
+    //public void HandleColliderOccur(GameCollider2D otherCollider);
 
+}
 
+/// <summary>
+/// 角色类碰撞对象
+/// </summary>
+public interface IAgentCollideHandler: ICollideHandler
+{
+
+}
+
+/// <summary>
+/// 地图障碍类碰撞对象
+/// </summary>
+public interface IMapBlockCollideHandler : ICollideHandler
+{
+
+}
+
+/// <summary>
+/// 地图事件碰撞对象
+/// </summary>
+public interface IMapEventCollideHandler : ICollideHandler
+{
 
 }
 

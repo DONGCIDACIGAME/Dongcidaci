@@ -73,11 +73,7 @@ public struct RectangleColliderVector3
 
 public abstract class GameCollider2D : IGameCollider2D
 {
-    /// <summary>
-    /// 该碰撞体占据的地图索引信息
-    /// </summary>
-    public int[] lastMapIndexs;
-
+    
     private GameColliderData2D _colliderData;
     /// <summary>
     /// 该碰撞体的配置数据
@@ -87,7 +83,12 @@ public abstract class GameCollider2D : IGameCollider2D
     /// <summary>
     /// 这个碰撞体绑定的游戏体transform信息
     /// </summary>
-    private Transform _bindTransform;
+    protected Transform _bindTransform;
+
+    /// <summary>
+    /// 记录这个碰撞体的上一次位置信息
+    /// </summary>
+    private RectangleColliderVector3 lastPosVector3;
 
     /// <summary>
     /// 用于描述这个碰撞体的位置信息
@@ -100,6 +101,8 @@ public abstract class GameCollider2D : IGameCollider2D
             if (_bindTransform == null)
             {
                 Debug.LogError("The collider bind transform should not be null");
+                //游戏体被销毁
+                GameColliderCenter.Ins.UnRegisterGameCollider(this);
                 return new RectangleColliderVector3();
             }
 
@@ -119,6 +122,22 @@ public abstract class GameCollider2D : IGameCollider2D
             return new RectangleColliderVector3(colliderPosX,colliderPosY,tranaformRoateAngle);
         }
     }
+
+    /// <summary>
+    /// 检查这个碰撞体的位置信息是否产生了变化
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckColliderMove()
+    {
+        var crtPosVector3 = PosVector3;
+        if (lastPosVector3.Equals(crtPosVector3) == false)
+        {
+            this.lastPosVector3 = crtPosVector3;
+            return true;
+        }
+        return false;
+    }
+
 
     /// <summary>
     /// 获取这个长方形区块的最大包络矩形
@@ -161,17 +180,20 @@ public abstract class GameCollider2D : IGameCollider2D
     }
 
 
-    private IColliderHandler _colliderHandler;
-    public IColliderHandler GetColliderHandler()
+    protected ICollideHandler _colliderHandler;
+    public ICollideHandler GetColliderHandler()
     {
         return _colliderHandler;
     }
 
-    protected GameCollider2D(GameColliderData2D colliderData,Transform tgtTransform,IColliderHandler colliderHandler)
+    protected GameCollider2D(GameColliderData2D colliderData,Transform tgtTransform,ICollideHandler collideHandler)
     {
         this._colliderData = colliderData;
         this._bindTransform = tgtTransform;
-        this._colliderHandler = colliderHandler;
+        this._colliderHandler = collideHandler;
+        this.lastPosVector3 = PosVector3;
+
+        GameColliderCenter.Ins.RegisterGameCollider(this);
     }
 
     /// <summary>
@@ -265,15 +287,17 @@ public abstract class GameCollider2D : IGameCollider2D
         return _colliderData.colliderType;
     }
 
-    public void OnColliderEnter(IGameCollider other)
-    {
-        if (_colliderHandler != null)
-        {
-            _colliderHandler.HandleColliderOccur(other as GameCollider2D);
-        }
-    }
+    public abstract void OnColliderEnter(IGameCollider other);
 
-
+    public abstract void OnCollideUpdate(float deltaTime);
     
+    public void Dispose()
+    {
+        //游戏体被销毁
+        GameColliderCenter.Ins.UnRegisterGameCollider(this);
+        this._colliderData = null;
+        this._colliderHandler = null;
+        this._bindTransform = null;
+    }
 
 }
