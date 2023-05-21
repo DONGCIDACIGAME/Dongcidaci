@@ -49,9 +49,9 @@ public class TriggerableCombo
         return comboData.transferStateDuration;
     }
 
-    public string GetComboName()
+    public ComboData GetComboData()
     {
-        return comboData.comboName;
+        return comboData;
     }
 
     public int GetComboStepCount()

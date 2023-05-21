@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,16 @@ public abstract class AgentStatus : IAgentStatus
     protected IInputHandle mInputHandle;
 
     /// <summary>
+    /// 自定义动画驱动器
+    /// </summary>
+    protected CustomAnimDriver mCustomAnimDriver;
+
+    /// <summary>
+    /// 步进式动画驱动器
+    /// </summary>
+    protected StepLoopAnimDriver mStepLoopAnimDriver;
+
+    /// <summary>
     /// 当前逻辑状态结束节拍index
     /// </summary>
     protected int mCurLogicStateEndMeter;
@@ -29,15 +40,20 @@ public abstract class AgentStatus : IAgentStatus
     protected AgentInputCommandBuffer cmdBuffer;
 
     /// <summary>
-    /// 当前触发的combo
+    /// 当前触发的combo招式缓存
     /// </summary>
     protected TriggeredComboAction mCurTriggeredComboAction;
+
+    protected Stack<MeterEndAction> mMeterEndActions;
 
     public void Initialize(Agent agt, ChangeStatusDelegate cb)
     {
         ChangeStatus = cb;
         mAgent = agt;
         cmdBuffer = new AgentInputCommandBuffer();
+        mMeterEndActions = new Stack<MeterEndAction>();
+        mCustomAnimDriver = new CustomAnimDriver(mAgent, GetStatusName());
+        mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
     }
 
     public virtual void CustomInitialize()
@@ -75,6 +91,9 @@ public abstract class AgentStatus : IAgentStatus
     public virtual void OnEnter(Dictionary<string, object> context) 
     {
         Log.Logic(LogLevel.Info, "OnEnter Status:{0}--cur meter:{1}", GetStatusName(), MeterManager.Ins.MeterIndex);
+        cmdBuffer.ClearCommandBuffer();
+        mMeterEndActions.Clear();
+        mCurTriggeredComboAction = null;
         mInputHandle.SetEnable(true);
     }
 
@@ -83,6 +102,7 @@ public abstract class AgentStatus : IAgentStatus
     {
         mInputHandle.SetEnable(false);
         cmdBuffer.ClearCommandBuffer();
+        mMeterEndActions.Clear();
         mCurTriggeredComboAction = null;
     }
 
@@ -99,8 +119,19 @@ public abstract class AgentStatus : IAgentStatus
             mInputHandle = null;
         }
 
+        if (mCustomAnimDriver != null)
+        {
+            mCustomAnimDriver.Dispose();
+            mCustomAnimDriver = null;
+        }
 
-        if(cmdBuffer != null)
+        if (mStepLoopAnimDriver != null)
+        {
+            mStepLoopAnimDriver.Dispose();
+            mStepLoopAnimDriver = null;
+        }
+
+        if (cmdBuffer != null)
         {
             cmdBuffer.Dispose();
             cmdBuffer = null;
@@ -123,6 +154,11 @@ public abstract class AgentStatus : IAgentStatus
     public void OnMeterEnd(int meterIndex)
     {
         CustomOnMeterEnd(meterIndex);
+
+        while(mMeterEndActions.TryPop(out MeterEndAction action))
+        {
+            action.CheckAndExcute(meterIndex);
+        }
     }
 
     public virtual void OnUpdate(float deltaTime)
@@ -261,7 +297,7 @@ public abstract class AgentStatus : IAgentStatus
             || cmdType == AgentCommandDefine.BE_HIT)
         {
             ChangeStatusOnNormalCommand(cmdType, towards, triggerMeter);
-            Log.Error(LogLevel.Normal, "ChangeStatusOnComboCommand Exception, 指令类型[{0}]应该不是combo的触发指令, 错误触发的combo:{0}", cmdType, triggeredComboAction.comboName);
+            Log.Error(LogLevel.Normal, "ChangeStatusOnComboCommand Exception, 指令类型[{0}]应该不是combo的触发指令, 错误触发的combo:{0}", cmdType, triggeredComboAction.comboData.comboName);
             return;
         }
 
@@ -314,5 +350,39 @@ public abstract class AgentStatus : IAgentStatus
         }
 
         CustomOnComboCommand(cmd, combo);
+    }
+
+
+    /// <summary>
+    /// 执行Combo
+    /// </summary>
+    /// <param name="triggeredComboAction"></param>
+    protected void ExcuteCombo(TriggeredComboAction triggeredComboAction)
+    {
+        if (triggeredComboAction == null)
+        {
+            Log.Error(LogLevel.Normal, "ExcuteCombo Error, combo is null!");
+            return;
+        }
+
+        ComboActionData actionData = triggeredComboAction.actionData;
+        if (actionData == null)
+        {
+            Log.Error(LogLevel.Normal, "ExcuteCombo Error, ComboActionData is null, combo name:{0}, index:{1}!", triggeredComboAction.comboData.comboName, triggeredComboAction.actionIndex);
+            return;
+        }
+
+        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(actionData.stateName);
+        mAgent.ComboEffectsExcutor.Start(triggeredComboAction);
+        if (actionData.endFlag)
+        {
+            mMeterEndActions.Push(new MeterEndAction(mCurLogicStateEndMeter - 1, () =>
+            {
+                Dictionary<string, object> args = new Dictionary<string, object>();
+                args.Add("duration", triggeredComboAction.comboData.transferStateDuration);
+                ChangeStatus(AgentStatusDefine.TRANSFER, args);
+            }));
+        }
+        triggeredComboAction.Recycle();
     }
 }

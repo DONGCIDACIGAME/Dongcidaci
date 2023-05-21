@@ -12,10 +12,7 @@ public class TriggeredComboAction : IRecycle
     /// </summary>
     public uint agentId { get; private set; }
 
-    /// <summary>
-    /// combo name
-    /// </summary>
-    public string comboName { get; private set; }
+    public ComboData comboData { get; private set; }
 
     /// <summary>
     /// which meter is the combo action triggered
@@ -31,7 +28,7 @@ public class TriggeredComboAction : IRecycle
     public TriggeredComboAction()
     {
         this.agentId = 0;
-        this.comboName = string.Empty;
+        this.comboData = null;
         this.actionIndex = -1;
         this.actionData = null;
         this.triggeredMeter = -1;
@@ -44,10 +41,10 @@ public class TriggeredComboAction : IRecycle
     /// <param name="comboName"></param>
     /// <param name="actionIndex"></param>
     /// <param name="comboAction"></param>
-    public void Initialize(uint agentId, string comboName, int actionIndex, int triggerMeter, ComboActionData comboAction)
+    public void Initialize(uint agentId, ComboData comboData, int actionIndex, int triggerMeter, ComboActionData comboAction)
     {
         this.agentId = agentId;
-        this.comboName = comboName;
+        this.comboData = comboData;
         this.actionIndex = actionIndex;
         this.triggeredMeter = triggeredMeter;
         this.actionData = comboAction;
@@ -56,7 +53,7 @@ public class TriggeredComboAction : IRecycle
     public void Dispose()
     {
         this.agentId = 0;
-        this.comboName = string.Empty;
+        this.comboData = null;
         this.actionIndex = -1;
         this.triggeredMeter = -1;
         this.actionData = null;

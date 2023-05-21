@@ -58,7 +58,7 @@ public class ComboActionEffectsExcutor : IGameUpdate, IMeterHandler
 
         if(actionData.effects == null || actionData.effects.Length == 0)
         {
-            Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, hit point effects is null or empty, comboName:{0}, action Index:{1}!", triggeredComboAction.comboName, triggeredComboAction.actionIndex);
+            Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, hit point effects is null or empty, comboName:{0}, action Index:{1}!", triggeredComboAction.comboData.comboName, triggeredComboAction.actionIndex);
             return;
         }
 

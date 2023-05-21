@@ -47,6 +47,36 @@
 				}
 			],
 			"transferStateDuration": 0.5
+		},
+				{
+			"comboName": "DashAttack",
+			"comboActionDatas": [
+				{
+					"input": 4, 
+					"statusName": "Dash",
+					"stateName": "Dash", 
+					"effects": [
+						{
+							"hitEffects": []
+						}
+					],
+					"endFlag": false
+				},
+				{
+					"input": 8,
+					"statusName": "Attack",
+					"stateName": "Combo_2_With_Empty",
+					"effects": [
+						{
+							"hitEffects": [
+								{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+							]
+						}
+					],
+					"endFlag": true
+				}
+			],
+			"transferStateDuration": 0.5
 		}
 	]
 }

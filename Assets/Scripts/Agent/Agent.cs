@@ -249,7 +249,7 @@ public abstract class Agent : Entity, IMeterHandler
         // 如果触发了combo，就需要同时处理指令和combo的逻辑
         if (result == ComboDefine.ComboTriggerResult_Succeed)
         {
-            Log.Error(LogLevel.Info, "Trigger combo {0}-{1}", combo.comboName, combo.actionData.stateName);
+            Log.Error(LogLevel.Info, "Trigger combo {0}-{1}", combo.comboData.comboName, combo.actionData.stateName);
             curStatus.OnComboCommand(cmd, combo);
         }
         // 如果不是combo的触发命令类型，就直接执行指令

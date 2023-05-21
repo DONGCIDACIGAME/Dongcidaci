@@ -145,7 +145,7 @@ public class ComboTrigger : IMeterHandler
                 action = GamePoolCenter.Ins.TriggeredComboActionPool.Pop();
 
                 // 记录这个被触发的招式，记录时不仅要记录招式数据，还要记录是谁触发的，combo的名字，招式的index, 触发在那一拍
-                action.Initialize(mAgent.GetAgentId(), tc.GetComboName(), tc.triggeredAt, meterIndex, tc.GetCurrentComboAction());
+                action.Initialize(mAgent.GetAgentId(), tc.GetComboData(), tc.triggeredAt, meterIndex, tc.GetCurrentComboAction());
             }
         }
 

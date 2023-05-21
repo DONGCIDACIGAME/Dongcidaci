@@ -3,25 +3,14 @@ using UnityEngine;
 
 public class AgentStatus_BeHit : AgentStatus
 {
-    /// <summary>
-    /// 自定义动画驱动器
-    /// </summary>
-    protected CustomAnimDriver mCustomAnimDriver;
-
     public override void CustomInitialize()
     {
         base.CustomInitialize();
-        mCustomAnimDriver = new CustomAnimDriver(mAgent, GetStatusName());
     }
 
     protected override void CustomDispose()
     {
         base.CustomDispose();
-        if (mCustomAnimDriver != null)
-        {
-            mCustomAnimDriver.Dispose();
-            mCustomAnimDriver = null;
-        }
     }
 
     public override string GetStatusName()

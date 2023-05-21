@@ -3,11 +3,6 @@ using UnityEngine;
 
 public class AgentStatus_Idle : AgentStatus
 {
-    /// <summary>
-    /// 步进式动画驱动器
-    /// </summary>
-    protected StepLoopAnimDriver mStepLoopAnimDriver;
-
     public override string GetStatusName()
     {
         return AgentStatusDefine.IDLE;
@@ -18,17 +13,11 @@ public class AgentStatus_Idle : AgentStatus
         base.CustomInitialize();
         mInputHandle = new KeyboardInputHandle_Idle(mAgent);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
-        mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
     }
 
     protected override void CustomDispose()
     {
         base.CustomDispose();
-        if(mStepLoopAnimDriver != null)
-        {
-            mStepLoopAnimDriver.Dispose();
-            mStepLoopAnimDriver = null;
-        }    
     }
 
     public override void OnEnter(Dictionary<string, object> context)

@@ -6,31 +6,26 @@ using UnityEngine;
 public class AgentStatus_Attack : AgentStatus
 {
     /// <summary>
-    /// 自定义动画驱动器
+    /// 初始化
     /// </summary>
-    protected CustomAnimDriver mCustomAnimDriver;
-
-
-    private bool mChangeToTransfer;
-    private float transferDuration;
-
     public override void CustomInitialize()
     {
         mInputHandle = new KeyboardInputHandle_Attack(mAgent);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
-        mCustomAnimDriver = new CustomAnimDriver(mAgent, GetStatusName());
     }
 
+    /// <summary>
+    /// 释放
+    /// </summary>
     protected override void CustomDispose()
     {
         base.CustomDispose();
-        if(mCustomAnimDriver != null)
-        {
-            mCustomAnimDriver.Dispose();
-            mCustomAnimDriver = null;
-        }
     }
 
+    /// <summary>
+    /// 状态进入
+    /// </summary>
+    /// <param name="context"></param>
     public override void OnEnter(Dictionary<string, object> context)
     {
         base.OnEnter(context);
@@ -44,19 +39,27 @@ public class AgentStatus_Attack : AgentStatus
             TriggeredComboAction triggeredComboAction = obj as TriggeredComboAction;
             if(triggeredComboAction != null)
             {
-                ProgressWaitOnComboAttack(triggerCmd, towards, triggerMeter, triggeredComboAction);
+                ProgressWaitOnComboCommand(triggerCmd, towards, triggerMeter, triggeredComboAction);
             }
         }
     }
 
+    /// <summary>
+    /// 状态退出
+    /// </summary>
     public override void OnExit()
     {
         base.OnExit();
-        mChangeToTransfer = false;
-        transferDuration = 0;
     }
 
-    private void ProgressWaitOnComboAttack(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
+    /// <summary>
+    /// 根据节拍进度处理Combo指令
+    /// </summary>
+    /// <param name="cmdType"></param>
+    /// <param name="towards"></param>
+    /// <param name="triggerMeter"></param>
+    /// <param name="triggeredComboAction"></param>
+    private void ProgressWaitOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
     {
         // 当前拍的剩余时间
         float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
@@ -80,6 +83,10 @@ public class AgentStatus_Attack : AgentStatus
         }
     }
 
+    /// <summary>
+    /// 常规指令直接处理逻辑
+    /// </summary>
+    /// <param name="cmd"></param>
     protected override void CustomOnNormalCommand(AgentInputCommand cmd)
     {
         base.CustomOnNormalCommand(cmd);
@@ -105,31 +112,11 @@ public class AgentStatus_Attack : AgentStatus
         }
     }
 
-    private void ExcuteCombo(TriggeredComboAction triggeredComboAction)
-    {
-        if (triggeredComboAction == null)
-        {
-            Log.Error(LogLevel.Normal, "ExcuteCombo Error, combo is null!");
-            return;
-        }
-
-        ComboActionData actionData = triggeredComboAction.actionData;
-        if (actionData == null)
-        {
-            Log.Error(LogLevel.Normal, "ExcuteCombo Error, ComboActionData is null, combo name:{0}, index:{1}!",triggeredComboAction.comboName, triggeredComboAction.actionIndex);
-            return;
-        }
-
-        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(actionData.stateName);
-        mAgent.ComboEffectsExcutor.Start(triggeredComboAction);
-        if (actionData.endFlag)
-        {
-            mChangeToTransfer = true;
-            transferDuration = 0.2f;
-        }
-        triggeredComboAction.Recycle();
-    }
-
+    /// <summary>
+    /// Combo指令直接处理逻辑
+    /// </summary>
+    /// <param name="cmd"></param>
+    /// <param name="triggeredComboAction"></param>
     protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggeredComboAction triggeredComboAction)
     {
         base.CustomOnComboCommand(cmd, triggeredComboAction);
@@ -148,17 +135,19 @@ public class AgentStatus_Attack : AgentStatus
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                ProgressWaitOnComboAttack(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, triggeredComboAction);
+                ProgressWaitOnComboCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, triggeredComboAction);
                 break;
             default:
                 break;
         }
     }
 
-
+    /// <summary>
+    /// 节拍开始逻辑
+    /// </summary>
+    /// <param name="meterIndex"></param>
     protected override void CustomOnMeterEnter(int meterIndex)
     {
-
         if (meterIndex < mCurLogicStateEndMeter)
         {
             //Log.Error(LogLevel.Info, "CustomOnMeterEnter--- meterIndex:{0}, logicMeterEnd:{1}", meterIndex, mCurLogicStateEndMeter);
@@ -195,20 +184,8 @@ public class AgentStatus_Attack : AgentStatus
 
     protected override void CustomOnMeterEnd(int meterIndex)
     {
-        if(meterIndex < mCurLogicStateEndMeter -1)
-        {
-            return;
-        }
-
-        if (mChangeToTransfer)
-        {
-            Dictionary<string, object> args = new Dictionary<string, object>();
-            args.Add("duration", transferDuration);
-            ChangeStatus(AgentStatusDefine.TRANSFER, args);
-            return;
-        }
+        
     }
-
 
     public override void OnUpdate(float deltaTime)
     {

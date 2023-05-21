@@ -1,12 +1,8 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class AgentStatus_Dash : AgentStatus
 {
-    /// <summary>
-    /// 自定义动画驱动器
-    /// </summary>
-    protected CustomAnimDriver mCustomAnimDriver;
-
     public override string GetStatusName()
     {
         return AgentStatusDefine.DASH;
@@ -17,17 +13,11 @@ public class AgentStatus_Dash : AgentStatus
         base.CustomInitialize();
         mInputHandle = new KeyboardInputHandle_Dash(mAgent);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
-        mCustomAnimDriver = new CustomAnimDriver(mAgent, GetStatusName());
     }
 
     protected override void CustomDispose()
     {
         base.CustomDispose();
-        if (mCustomAnimDriver != null)
-        {
-            mCustomAnimDriver.Dispose();
-            mCustomAnimDriver = null;
-        }
     }
 
     private void Dash()
@@ -40,7 +30,7 @@ public class AgentStatus_Dash : AgentStatus
     {
         base.OnEnter(context);
         Dash();
-        mCustomAnimDriver.PlayAnimStateWithCut(AgentAnimDefine.DefaultAnimName_Dash);
+        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(AgentAnimDefine.DefaultAnimName_Dash);
     }
 
     public override void OnExit()
@@ -109,7 +99,39 @@ public class AgentStatus_Dash : AgentStatus
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
+        if (meterIndex < mCurLogicStateEndMeter)
+        {
+            //Log.Error(LogLevel.Info, "CustomOnMeterEnter--- meterIndex:{0}, logicMeterEnd:{1}", meterIndex, mCurLogicStateEndMeter);
+            return;
+        }
 
+        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
+        {
+            Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
+            mAgent.MoveControl.TurnTo(towards);
+
+            switch (cmdType)
+            {
+                case AgentCommandDefine.IDLE:
+                case AgentCommandDefine.RUN:
+                case AgentCommandDefine.DASH:
+                    ChangeStatusOnNormalCommand(cmdType, towards, meterIndex);
+                    return;
+                case AgentCommandDefine.ATTACK_SHORT:
+                    if (mCurTriggeredComboAction != null)
+                    {
+                        //ChangeStatusOnComboCommand(cmdType,)
+                        ExcuteCombo(mCurTriggeredComboAction);
+                        mCurTriggeredComboAction = null;
+                    }
+                    break;
+                case AgentCommandDefine.ATTACK_LONG:
+                    break;
+                case AgentCommandDefine.EMPTY:
+                default:
+                    break;
+            }
+        }
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)
