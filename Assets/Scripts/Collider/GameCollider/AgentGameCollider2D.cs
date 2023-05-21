@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
 public class AgentGameCollider2D : GameCollider2D
 {
     public AgentGameCollider2D(GameColliderData2D colliderData, Transform tgtTransform,IAgentCollideHandler collideHandler) :base(colliderData, tgtTransform, collideHandler)
@@ -22,3 +23,4 @@ public class AgentGameCollider2D : GameCollider2D
 
     }
 }
+*/

@@ -3,12 +3,6 @@ using UnityEngine;
 public interface IGameCollider
 {
     /// <summary>
-    /// 获取当前碰撞体的类别
-    /// </summary>
-    /// <returns></returns>
-    public GameColliderType GetColliderType();
-
-    /// <summary>
     /// 当碰撞体触发时
     /// </summary>
     /// <param name="other"></param>
@@ -18,7 +12,7 @@ public interface IGameCollider
     /// 获取碰撞的处理对象
     /// </summary>
     /// <returns></returns>
-    public ICollideHandler GetColliderHandler();
+    public ICollideProcessor GetCollideProcessor();
 
     /// <summary>
     /// 碰撞体的销毁
@@ -36,37 +30,21 @@ public interface IGameCollider2D : IGameCollider
 
 
 /// <summary>
-/// 需要处理碰撞事件的对象继承的接口
+/// 碰撞的处理机
 /// </summary>
-public interface ICollideHandler
+public interface ICollideProcessor
 {
-    //public void HandleColliderOccur(GameCollider2D otherCollider);
+    /// <summary>
+    /// 处理机处理碰撞
+    /// </summary>
+    /// <param name="tgtColliderProcessor"></param>
+    public void HandleCollideTo(ICollideProcessor tgtColliderProcessor);
 
+    /// <summary>
+    /// 获取处理机实体
+    /// </summary>
+    /// <returns></returns>
+    public IEntity GetProcessorEntity();
 }
-
-/// <summary>
-/// 角色类碰撞对象
-/// </summary>
-public interface IAgentCollideHandler: ICollideHandler
-{
-
-}
-
-/// <summary>
-/// 地图障碍类碰撞对象
-/// </summary>
-public interface IMapBlockCollideHandler : ICollideHandler
-{
-
-}
-
-/// <summary>
-/// 地图事件碰撞对象
-/// </summary>
-public interface IMapEventCollideHandler : ICollideHandler
-{
-
-}
-
 
 

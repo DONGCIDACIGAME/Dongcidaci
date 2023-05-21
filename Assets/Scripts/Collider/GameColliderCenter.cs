@@ -126,7 +126,13 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
     private int[] GetRoundOccupyMapIndexsWith(GameCollider2D collider)
     {
         // 获取最大的包络，通过最大矩形包络快速索引可能产生交差的地图块
-        collider.GetMaxEnvelopeArea(out Vector2 envelopPos, out Vector2 envelopSize);
+        return GetRoundOccupyMapIndexsWith(collider.RectanglePosv3);
+    }
+
+    private int[] GetRoundOccupyMapIndexsWith(RectangleColliderVector3 rectPosV3)
+    {
+        // 获取最大的包络，通过最大矩形包络快速索引可能产生交差的地图块
+        rectPosV3.GetMaxEnvelopeArea(out Vector2 envelopPos, out Vector2 envelopSize);
         float minEnvelopX = envelopPos.x - envelopSize.x / 2f;
         float maxEnvelopX = envelopPos.x + envelopSize.x / 2f;
         int startColIndex = (minEnvelopX > 0) ? Mathf.RoundToInt(minEnvelopX / _mapGridConfig.cellWidth) : 0;
@@ -139,6 +145,7 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
         return estimateMapIndexs;
     }
 
+
     /// <summary>
     /// 向这个碰撞管理中心注册一个新的碰撞体
     /// </summary>
@@ -146,9 +153,9 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
     /// <returns></returns>
     public bool RegisterGameCollider(GameCollider2D collider)
     {
-        //判断地图信息是否初始化了
+        // 判断地图信息是否初始化了
         if (this._mapGridConfig.colNum ==0) return false;
-
+        // 判断是否重复注册
         if (_mAllCollidersRecord.ContainsKey(collider)) return false;
         // it is a new collider
         var estimatedMapIndexs = GetRoundOccupyMapIndexsWith(collider);
@@ -176,34 +183,10 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
         return true;
     }
 
-    private void UpdateGameCollidersInMap(GameCollider2D collider)
-    {
-        // remove last info in map
-        var lastMapIndexs = _mAllCollidersRecord[collider];
-        foreach (int lastIndex in lastMapIndexs)
-        {
-            _gameCollidersInMap[lastIndex].Remove(collider);
-        }
-
-
-        var estimatedMapIndexs = GetRoundOccupyMapIndexsWith(collider);
-        _mAllCollidersRecord[collider] = estimatedMapIndexs;
-        if (estimatedMapIndexs!=null)
-        {
-            //添加到地图碰撞体中
-            foreach (int mapIndex in estimatedMapIndexs)
-            {
-                if (_gameCollidersInMap[mapIndex] == null)
-                {
-                    // hash set not created
-                    _gameCollidersInMap[mapIndex] = new HashSet<GameCollider2D>();
-                }
-
-                _gameCollidersInMap[mapIndex].Add(collider);
-            }
-        }
-    }
-
+    /// <summary>
+    /// 卸载一个已经注册的碰撞体
+    /// </summary>
+    /// <param name="collider"></param>
     public void UnRegisterGameCollider(GameCollider2D collider)
     {
         // 不包含时
@@ -220,26 +203,116 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
     }
 
     /// <summary>
-    /// 检查某个碰撞体是否在地图上产生了碰撞
+    /// 更新已经注册在地图中的碰撞体的位置信息
     /// </summary>
-    /// <param name="checkCollider"></param>
-    private void CheckColliderHappen(GameCollider2D checkCollider)
+    /// <param name="updateCollider"></param>
+    /// <param name="newAnchorPos"></param>
+    /// <param name="newAnchorRotateAngle"></param>
+    /// <param name="newScaleX"></param>
+    /// <param name="newScaleY"></param>
+    /// <param name="checkCollideAfterUpdate"></param>
+    public void UpdateGameCollidersInMap(GameCollider2D updateCollider, Vector2 newAnchorPos, float newAnchorRotateAngle = 0, float newScaleX = 1, float newScaleY = 1, bool checkCollideAfterUpdate = true)
     {
-        foreach (var mapIndex in _mAllCollidersRecord[checkCollider])
+        if (_mAllCollidersRecord.ContainsKey(updateCollider) == false) return;
+
+        // 1 Remove last info in map
+        var lastMapIndexs = _mAllCollidersRecord[updateCollider];
+        foreach (int lastIndex in lastMapIndexs)
+        {
+            _gameCollidersInMap[lastIndex].Remove(updateCollider);
+        }
+
+        // 2 update collider new pos
+        updateCollider.SetCollideRectPos(newAnchorPos,newAnchorRotateAngle,newScaleX,newScaleY);
+        // 3 update info in map
+        var estimatedMapIndexs = GetRoundOccupyMapIndexsWith(updateCollider);
+        _mAllCollidersRecord[updateCollider] = estimatedMapIndexs;
+        if (estimatedMapIndexs!=null)
+        {
+            //添加到地图碰撞体中
+            foreach (int mapIndex in estimatedMapIndexs)
+            {
+                if (_gameCollidersInMap[mapIndex] == null)
+                {
+                    // hash set not created
+                    _gameCollidersInMap[mapIndex] = new HashSet<GameCollider2D>();
+                }
+
+                _gameCollidersInMap[mapIndex].Add(updateCollider);
+            }
+        }
+
+        if (checkCollideAfterUpdate)
+        {
+            CheckCollideHappen(updateCollider);
+        }
+    }
+
+    
+
+    /// <summary>
+    /// 检查已经在地图注册的碰撞体 是否触发碰撞
+    /// </summary>
+    /// <param name="checkColliderInMap"></param>
+    public void CheckCollideHappen(GameCollider2D checkColliderInMap)
+    {
+        if (_mAllCollidersRecord.ContainsKey(checkColliderInMap) == false)
+        {
+            Debug.LogError("检查的碰撞体在地图中没有注册");
+            return;
+        }
+
+        foreach (var mapIndex in _mAllCollidersRecord[checkColliderInMap])
         {
             var collidersInThisMapCell = _gameCollidersInMap[mapIndex];
             foreach (GameCollider2D tgtCollider in collidersInThisMapCell)
             {
                 // 是自己
-                if (tgtCollider == checkCollider) continue;
-                if (checkCollider.CheckCollapse(tgtCollider.PosVector3, tgtCollider.ColliderData.size))
+                if (tgtCollider == checkColliderInMap) continue;
+                if (checkColliderInMap.CheckCollapse(tgtCollider.RectanglePosv3))
                 {
-                    // 此处仅调用 检测方碰撞被检测方，避免重复调用
-                    // 因为被检测方在遍历中会成为检测方
-                    checkCollider.OnColliderEnter(tgtCollider);
+                    // 通知这个检查碰撞体
+                    checkColliderInMap.OnColliderEnter(tgtCollider);
+                    // 通知被检测者
+                    tgtCollider.OnColliderEnter(checkColliderInMap);
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// 快速检查某个不需要在地图中注册的碰撞体体矩形是否会触发碰撞
+    /// </summary>
+    /// <param name="initColliderData"></param>
+    /// <param name="collideProcessor"></param>
+    /// <param name="anchorPos"></param>
+    /// <param name="anchorRotateAngle"></param>
+    /// <param name="scaleX"></param>
+    /// <param name="scaleY"></param>
+    public void CheckCollideHappen(GameColliderData2D initColliderData, ICollideProcessor collideProcessor, Vector2 anchorPos, float anchorRotateAngle = 0, float scaleX = 1, float scaleY = 1)
+    {
+        var cheRectanglePos = new RectangleColliderVector3(initColliderData.offset,initColliderData.size,anchorPos,anchorRotateAngle,scaleX,scaleY);
+
+        var estimatedMapIndexs = GetRoundOccupyMapIndexsWith(cheRectanglePos);
+        if (estimatedMapIndexs!=null)
+        {
+            foreach (var mapIndex in estimatedMapIndexs)
+            {
+                var collidersInThisMapCell = _gameCollidersInMap[mapIndex];
+                if (collidersInThisMapCell == null) continue;
+                foreach (GameCollider2D tgtCollider in collidersInThisMapCell)
+                {
+                    if (tgtCollider.CheckCollapse(cheRectanglePos))
+                    {
+                        // 通知这个检查碰撞体
+                        collideProcessor.HandleCollideTo(tgtCollider.GetCollideProcessor());
+                        // 通知被检测者
+                        tgtCollider.GetCollideProcessor().HandleCollideTo(collideProcessor);
+                    }
+                }
+            }
+        }
+
     }
 
 
@@ -247,19 +320,6 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
     public override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);
-
-        if (_mAllCollidersRecord.Count == 0) return;
-        var allCollidersList = _mAllCollidersRecord.Keys.ToList<GameCollider2D>();
-
-        for (int i = allCollidersList.Count - 1; i >= 0; i--)
-        {
-            if (allCollidersList[i].ColliderData.isStatic == false && allCollidersList[i].CheckColliderMove())
-            {
-                // 碰撞体产生了移动
-                UpdateGameCollidersInMap(allCollidersList[i]);
-                CheckColliderHappen(allCollidersList[i]);
-            }
-        }
 
     }
 
