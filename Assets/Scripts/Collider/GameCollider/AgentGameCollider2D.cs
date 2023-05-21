@@ -17,7 +17,7 @@ public class AgentGameCollider2D : GameCollider2D
 
     public override void OnCollideUpdate(float deltaTime)
     {
-        base.OnCollideUpdate(deltaTime);
+        //base.OnCollideUpdate(deltaTime);
 
 
     }
