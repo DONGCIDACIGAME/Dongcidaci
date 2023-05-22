@@ -137,6 +137,37 @@ public struct RectangleColliderVector3
         size = new Vector2(maxWidth, maxHeight);
     }
 
+    /// <summary>
+    /// 获取这个碰撞矩形的面积
+    /// </summary>
+    /// <returns></returns>
+    public float SizeArea()
+    {
+        return size.x * size.y;
+    }
+
+    /// <summary>
+    /// 检测某个点是否在矩形中
+    /// 包含贴边的情况
+    /// </summary>
+    /// <param name="checkPoint"></param>
+    /// <returns></returns>
+    public bool CheckPointInRectangle(Vector2 checkPoint)
+    {
+        var rectangleVertexs = GetRectangleVertexs();
+        var vectorAE = new Vector2(checkPoint.x - rectangleVertexs[0].x, checkPoint.y - rectangleVertexs[0].y);
+        var vectorBE = new Vector2(checkPoint.x - rectangleVertexs[1].x, checkPoint.y - rectangleVertexs[1].y);
+        var vectorCE = new Vector2(checkPoint.x - rectangleVertexs[2].x, checkPoint.y - rectangleVertexs[2].y);
+        var vectorDE = new Vector2(checkPoint.x - rectangleVertexs[3].x, checkPoint.y - rectangleVertexs[3].y);
+        var crossMultiAE2BE = vectorAE.x * vectorBE.y - vectorAE.y * vectorBE.x;
+        var crossMultiBE2CE = vectorBE.x * vectorCE.y - vectorBE.y * vectorCE.x;
+        var crossMultiCE2DE = vectorCE.x * vectorDE.y - vectorCE.y * vectorDE.x;
+        var crossMultiDE2AE = vectorDE.x * vectorAE.y - vectorDE.y * vectorAE.x;
+
+        if (crossMultiAE2BE >= 0 && crossMultiBE2CE >= 0 && crossMultiCE2DE >= 0 && crossMultiDE2AE >= 0) return true;
+        return false;
+    }
+
 
 }
 
@@ -239,6 +270,29 @@ public class GameCollider2D : IGameCollider2D
             }
         }
 
+        // added 0522
+        // 存在不相交但是一个矩形完全在另一个矩形内部的情况
+        // 判断哪个矩形的面积更小
+        if (this._rectPosV3.SizeArea() <= tgtColliderPos.SizeArea())
+        {
+            // 判断这个碰撞体是否在目标中
+            var vertexs = this._rectPosV3.GetRectangleVertexs();
+            if (tgtColliderPos.CheckPointInRectangle(vertexs[0]) && tgtColliderPos.CheckPointInRectangle(vertexs[1])&& tgtColliderPos.CheckPointInRectangle(vertexs[2])&& tgtColliderPos.CheckPointInRectangle(vertexs[3]))
+            {
+                return true;
+            }
+        }
+        else if(this._rectPosV3.SizeArea() > tgtColliderPos.SizeArea())
+        {
+            // 判断目标矩形是否在这个碰撞体中
+            var tgtVertexs = tgtColliderPos.GetRectangleVertexs();
+            if (_rectPosV3.CheckPointInRectangle(tgtVertexs[0]) && _rectPosV3.CheckPointInRectangle(tgtVertexs[1]) && _rectPosV3.CheckPointInRectangle(tgtVertexs[2]) && _rectPosV3.CheckPointInRectangle(tgtVertexs[3]))
+            {
+                return true;
+            }
+        }
+
+
         return false;
     }
 
@@ -265,24 +319,12 @@ public class GameCollider2D : IGameCollider2D
 
     /// <summary>
     /// 判断某个位置点是否在此碰撞区域内
-    /// 不包含贴边的值，如果修改贴边则改成>=0
     /// </summary>
     /// <param name="pos"></param>
     /// <returns></returns>
     public bool CheckPosInCollider(Vector2 pos)
     {
-        var rectangleVertexs = _rectPosV3.GetRectangleVertexs();
-        var vectorAE = new Vector2(pos.x - rectangleVertexs[0].x, pos.y - rectangleVertexs[0].y);
-        var vectorBE = new Vector2(pos.x - rectangleVertexs[1].x, pos.y - rectangleVertexs[1].y);
-        var vectorCE = new Vector2(pos.x - rectangleVertexs[2].x, pos.y - rectangleVertexs[2].y);
-        var vectorDE = new Vector2(pos.x - rectangleVertexs[3].x, pos.y - rectangleVertexs[3].y);
-        var crossMultiAE2BE = vectorAE.x * vectorBE.y - vectorAE.y * vectorBE.x;
-        var crossMultiBE2CE = vectorBE.x * vectorCE.y - vectorBE.y * vectorCE.x;
-        var crossMultiCE2DE = vectorCE.x * vectorDE.y - vectorCE.y * vectorDE.x;
-        var crossMultiDE2AE = vectorDE.x * vectorAE.y - vectorDE.y * vectorAE.x;
-
-        if (crossMultiAE2BE > 0 && crossMultiBE2CE  >0 && crossMultiCE2DE > 0 && crossMultiDE2AE>0) return true;
-        return false;
+        return this._rectPosV3.CheckPointInRectangle(pos);
     }
 
     /// <summary>

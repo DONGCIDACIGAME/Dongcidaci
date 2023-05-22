@@ -3,17 +3,17 @@ using GameEngine;
 public class DataCenter : ModuleManager<DataCenter>
 {
     /// <summary>
-    /// Åä±íÊı¾İÖĞĞÄ
+    /// é…è¡¨æ•°æ®ä¸­å¿ƒ
     /// </summary>
     public ConfigDatabase TableDataCenter;
 
     /// <summary>
-    /// ½ÇÉ«×´Ì¬Êı¾İÅäÖÃÖĞĞÄ
+    /// è§’è‰²çŠ¶æ€æ•°æ®é…ç½®ä¸­å¿ƒ
     /// </summary>
     public AgentStautsGraphCenter AgentStatusGraphCenter;
 
     /// <summary>
-    /// comboÅäÖÃÖĞĞÄ
+    /// comboé…ç½®ä¸­å¿ƒ
     /// </summary>
     public AgentComboGraphCenter AgentComboGraphCenter;
 
@@ -41,16 +41,28 @@ public class DataCenter : ModuleManager<DataCenter>
 
     public override void Initialize()
     {
-        // ¼ÓÔØËùÓĞÅäÖÃÊı¾İ
+        // åŠ è½½æ‰€æœ‰é…ç½®æ•°æ®
         TableDataCenter = ConfigDatabase.CreateInstance("DongciDaci");
         TableDataCenter.LoadFromLocalResources();
 
-        // ¼ÓÔØËùÓĞ½ÇÉ«×´Ì¬ÅäÖÃ
+        // åŠ è½½æ‰€æœ‰è§’è‰²çŠ¶æ€é…ç½®
         AgentStatusGraphCenter = new AgentStautsGraphCenter();
         AgentStatusGraphCenter.Initialize();
 
-        // ¼ÓÔØËùÓĞcomboÅäÖÃ
+        // åŠ è½½æ‰€æœ‰comboé…ç½®
         AgentComboGraphCenter = new AgentComboGraphCenter();
         AgentComboGraphCenter.Initialize();
     }
+
+    /// <summary>
+    /// Added by weng
+    /// DataCenteråº”è¯¥æ ¹æ®å½“å‰çš„å…³å¡åŠ è½½å¯¹åº”çš„åœ°å›¾æ•°æ®
+    /// </summary>
+    /// <returns></returns>
+    public GameMapData GetCrtLevelMapData()
+    {
+        return null;
+    }
+
+
 }
