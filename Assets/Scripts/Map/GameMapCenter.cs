@@ -5,18 +5,34 @@ using UnityEngine;
 
 public class GameMapCenter : ModuleManager<GameMapCenter>
 {
-    private Transform _mapRootNodeT;
-    public Transform MapRootNodeT => _mapRootNodeT;
+    public GameObject MapRootNode { get { return GameObject.Find(GameDefine._MAP_ROOT); } }
+    public GameObject GroundLayerNode { get { return GameObject.Find("_MAP/_GROUND_LAYER"); } }
+    public GameObject BlockLayerNode { get { return GameObject.Find("_MAP/_BLOCK_LAYER"); } }
+    public GameObject EventLayerNode { get { return GameObject.Find("_MAP/_EVENT_LAYER"); } }
+    public GameObject DecoLayerNode { get { return GameObject.Find("_MAP/_DECO_LAYER"); } }
+
+    private MapGridInfo _mapGridConfig;
+
+    /// <summary>
+    /// 获取某个点的地图格子索引
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <returns></returns>
+    public int GetMapGridIndexWithPoint(Vector2 pos)
+    {
+        return this._mapGridConfig.GetMapIndex(pos);
+    }
 
 
     public override void Initialize()
     {
-        // 0 set map root node
-        this._mapRootNodeT = GameObject.Find(GameDefine._MAP_ROOT).transform;
-
+        
         // 1 从 datacenter 获取地图数据
 
-        // 2 根据地图数据生成地图
+        // 2 生成 map grid
+
+
+        // 3 根据地图数据生成地图
 
 
     }
