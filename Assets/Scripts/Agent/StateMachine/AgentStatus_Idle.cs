@@ -45,7 +45,7 @@ public class AgentStatus_Idle : AgentStatus
                 ChangeStatusOnNormalCommand(cmd);
                 break;
             case AgentCommandDefine.DASH:
-                ProgressWaitOnCommand(GamePlayDefine.DashMeterProgressWait, cmd, null);
+                ConditionalChangeStatusOnCommand(GamePlayDefine.DashMeterProgressWait, cmd, null);
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
@@ -67,7 +67,7 @@ public class AgentStatus_Idle : AgentStatus
         switch (cmd.CmdType)
         {
             case AgentCommandDefine.DASH:
-                ProgressWaitOnCommand(GamePlayDefine.DashMeterProgressWait, cmd, triggeredComboAction);
+                ConditionalChangeStatusOnCommand(GamePlayDefine.DashMeterProgressWait, cmd, triggeredComboAction);
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:

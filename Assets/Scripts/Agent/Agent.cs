@@ -188,8 +188,6 @@ public abstract class Agent : Entity, IMeterHandler
     }
 
 
-
-
     /// <summary>
     /// 记录上一个指令
     /// 这是上一个输入指令的一份数据拷贝

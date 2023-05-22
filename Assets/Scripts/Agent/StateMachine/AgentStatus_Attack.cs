@@ -163,9 +163,12 @@ public class AgentStatus_Attack : AgentStatus
             {
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.RUN:
-                case AgentCommandDefine.DASH:
                     ChangeStatusOnNormalCommand(cmdType, towards, meterIndex);
-                    return;
+                    break;
+                case AgentCommandDefine.DASH:
+                    ChangeStatusOnComboCommand(cmdType, towards, meterIndex, mCurTriggeredComboAction);
+                    mCurTriggeredComboAction = null;
+                    break;
                 case AgentCommandDefine.ATTACK_SHORT:
                     if(mCurTriggeredComboAction != null)
                     {

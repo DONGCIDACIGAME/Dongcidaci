@@ -66,7 +66,7 @@ public class AgentStatus_Dash : AgentStatus
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd, null);
+                ConditionalChangeStatusOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd, null);
                 break;
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.DASH:
@@ -87,7 +87,7 @@ public class AgentStatus_Dash : AgentStatus
         {
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd, triggeredComboAction);
+                ConditionalChangeStatusOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd, triggeredComboAction);
                 break;
             case AgentCommandDefine.DASH:
                 PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, triggeredComboAction);
@@ -118,12 +118,8 @@ public class AgentStatus_Dash : AgentStatus
                     ChangeStatusOnNormalCommand(cmdType, towards, meterIndex);
                     return;
                 case AgentCommandDefine.ATTACK_SHORT:
-                    if (mCurTriggeredComboAction != null)
-                    {
-                        //ChangeStatusOnComboCommand(cmdType,)
-                        ExcuteCombo(mCurTriggeredComboAction);
-                        mCurTriggeredComboAction = null;
-                    }
+                    ChangeStatusOnComboCommand(cmdType, towards, meterIndex, mCurTriggeredComboAction);
+                    mCurTriggeredComboAction = null;
                     break;
                 case AgentCommandDefine.ATTACK_LONG:
                     break;

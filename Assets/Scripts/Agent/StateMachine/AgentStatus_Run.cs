@@ -57,11 +57,11 @@ public class AgentStatus_Run : AgentStatus
                 ChangeStatusOnNormalCommand(cmd);
                 break;
             case AgentCommandDefine.DASH:
-                ProgressWaitOnCommand(GamePlayDefine.DashMeterProgressWait, cmd, null);
+                ConditionalChangeStatusOnCommand(GamePlayDefine.DashMeterProgressWait, cmd, null);
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                ProgressWaitOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd, null);
+                ConditionalChangeStatusOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd, null);
                 break;
             case AgentCommandDefine.RUN:
                 mAgent.MoveControl.TurnTo(cmd.Towards);
@@ -80,7 +80,7 @@ public class AgentStatus_Run : AgentStatus
         switch (cmd.CmdType)
         {
             case AgentCommandDefine.DASH:
-                ProgressWaitOnCommand(GamePlayDefine.DashMeterProgressWait, cmd, triggeredComboAction);
+                ConditionalChangeStatusOnCommand(GamePlayDefine.DashMeterProgressWait, cmd, triggeredComboAction);
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:

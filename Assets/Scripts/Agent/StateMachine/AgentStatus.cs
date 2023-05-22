@@ -46,6 +46,11 @@ public abstract class AgentStatus : IAgentStatus
 
     protected Stack<MeterEndAction> mMeterEndActions;
 
+    /// <summary>
+    /// 初始化
+    /// </summary>
+    /// <param name="agt"></param>
+    /// <param name="cb"></param>
     public void Initialize(Agent agt, ChangeStatusDelegate cb)
     {
         ChangeStatus = cb;
@@ -56,38 +61,21 @@ public abstract class AgentStatus : IAgentStatus
         mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
     }
 
-    public virtual void CustomInitialize()
-    {
+    /// <summary>
+    /// 状态的自定义初始化方法
+    /// </summary>
+    public virtual void CustomInitialize(){ }
 
-    }
-
+    /// <summary>
+    /// 状态名称
+    /// </summary>
+    /// <returns></returns>
     public abstract string GetStatusName();
 
-    protected void AgentStatusCrossFadeToState(AgentAnimStateInfo state)
-    {
-        if(state == null)
-        {
-            Log.Error(LogLevel.Normal, "AgentStatusCrossFadeToState failed, state is null!");
-            return;
-        }
-
-        string stateName = state.stateName;
-
-        if (string.IsNullOrEmpty(stateName))
-        {
-            Log.Error(LogLevel.Normal, "AgentStatusCrossFadeToState failed, stateName is null or empty!");
-            return;
-        }
-
-        float duration = MeterManager.Ins.GetTimeToMeter(state.stateMeterLen);
-        if(duration > 0)
-        {
-            mCurLogicStateEndMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, state.stateMeterLen);
-            float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, mCurLogicStateEndMeter);
-            mAgent.AnimPlayer.CrossFadeToStateDynamic(stateName, state.layer, state.normalizedTime, duration, state.animLen, totalMeterTime);
-        }
-    }
-
+    /// <summary>
+    /// 进入状态
+    /// </summary>
+    /// <param name="context"></param>
     public virtual void OnEnter(Dictionary<string, object> context) 
     {
         Log.Logic(LogLevel.Info, "OnEnter Status:{0}--cur meter:{1}", GetStatusName(), MeterManager.Ins.MeterIndex);
@@ -96,8 +84,10 @@ public abstract class AgentStatus : IAgentStatus
         mCurTriggeredComboAction = null;
         mInputHandle.SetEnable(true);
     }
-
-
+    
+    /// <summary>
+    /// 结束状态
+    /// </summary>
     public virtual void OnExit() 
     {
         mInputHandle.SetEnable(false);
@@ -106,8 +96,14 @@ public abstract class AgentStatus : IAgentStatus
         mCurTriggeredComboAction = null;
     }
 
+    /// <summary>
+    /// 状态的自定义
+    /// </summary>
     protected virtual void CustomDispose() { }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void Dispose()
     {
         ChangeStatus = null;
@@ -163,7 +159,7 @@ public abstract class AgentStatus : IAgentStatus
 
     public virtual void OnUpdate(float deltaTime)
     {
-        //Log.Error(LogLevel.Info, "OnUpdate anim progress-----------------------------------------------{0}", mAgent.AnimPlayer.CurStateProgress);
+        
     }
 
 
@@ -173,7 +169,7 @@ public abstract class AgentStatus : IAgentStatus
     /// 其他情况等待下一拍执行
     /// </summary>
     /// <param name="waitMeterProgress"></param>
-    public void ProgressWaitOnCommand(float waitMeterProgress, AgentInputCommand cmd, TriggeredComboAction triggeredComboAction)
+    public void ConditionalChangeStatusOnCommand(float waitMeterProgress, AgentInputCommand cmd, TriggeredComboAction triggeredComboAction)
     {
         // 当前拍的剩余时间
         float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
@@ -212,17 +208,11 @@ public abstract class AgentStatus : IAgentStatus
     /// <param name="towards"></param>
     public void PushInputCommandToBuffer(byte cmdType, Vector3 towards, TriggeredComboAction triggerdComboAction)
     {
-        Log.Error(LogLevel.Info, "PushInputCommandToBuffer-{0}", cmdType);
         cmdBuffer.AddInputCommand(cmdType, towards);
         if(triggerdComboAction != null)
         {
-            SetCurTriggeredCombo(triggerdComboAction);
+            mCurTriggeredComboAction = triggerdComboAction;
         }
-    }
-
-    public void SetCurTriggeredCombo(TriggeredComboAction triggerdComboAction)
-    {
-        mCurTriggeredComboAction = triggerdComboAction;
     }
 
     protected void ChangeStatusOnNormalCommand(AgentInputCommand cmd)
@@ -376,10 +366,12 @@ public abstract class AgentStatus : IAgentStatus
         mAgent.ComboEffectsExcutor.Start(triggeredComboAction);
         if (actionData.endFlag)
         {
+            float transferStateDuration = triggeredComboAction.comboData.transferStateDuration;
             mMeterEndActions.Push(new MeterEndAction(mCurLogicStateEndMeter - 1, () =>
             {
+                
                 Dictionary<string, object> args = new Dictionary<string, object>();
-                args.Add("duration", triggeredComboAction.comboData.transferStateDuration);
+                args.Add("duration", transferStateDuration);
                 ChangeStatus(AgentStatusDefine.TRANSFER, args);
             }));
         }
