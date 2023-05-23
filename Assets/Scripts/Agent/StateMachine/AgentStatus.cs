@@ -162,43 +162,35 @@ public abstract class AgentStatus : IAgentStatus
         
     }
 
-
     /// <summary>
-    /// 根据节拍进度对命令处理的条件等待
-    /// 如果本拍的剩余时间占比=waitMeterProgress,就直接执指令，否则等下拍执行指令
-    /// 其他情况等待下一拍执行
+    /// 执行命令切换状态
     /// </summary>
-    /// <param name="waitMeterProgress"></param>
-    public void ConditionalChangeStatusOnCommand(float waitMeterProgress, AgentInputCommand cmd, TriggeredComboAction triggeredComboAction)
+    /// <param name="cmdType"></param>
+    /// <param name="towards"></param>
+    /// <param name="triggerMeter"></param>
+    /// <param name="triggeredComboAction"></param>
+    protected void ChangeStatusOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
     {
-        // 当前拍的剩余时间
-        float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
-        // 当前拍的总时长
-        float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex+1);
-
-        if (timeOfCurrentMeter <= 0)
+        string status = AgentCommandDefine.GetChangeToStatus(cmdType);
+        if (string.IsNullOrEmpty(status))
         {
-            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, 当前拍的总时长=0, 当前节拍：{0}", MeterManager.Ins.MeterIndex);
+            Log.Error(LogLevel.Normal, "ChangeStatusOnCommand Failed, no matching status to cmdType:{0}", cmdType);
             return;
         }
 
-        float progress = timeToNextMeter / timeOfCurrentMeter;
+        // 默认切换状态都带有 指令类型，指令方向，指令所属节拍信息
+        Dictionary<string, object> args = new Dictionary<string, object>();
+        args.Add("triggerCmd", cmdType);
+        args.Add("towards", towards);
+        args.Add("triggerMeter", triggerMeter);
 
-        if(progress >= waitMeterProgress)
+        // 如果是combo的触发类型，并且触发了combo，就添加combo招式信息
+        if (AgentCommandDefine.IsComboTrigger(cmdType) && triggeredComboAction != null)
         {
-            if(triggeredComboAction != null)
-            {
-                ChangeStatusOnComboCommand(cmd, triggeredComboAction);
-            }
-            else
-            {
-                ChangeStatusOnNormalCommand(cmd);
-            }
+            args.Add("comboAction", triggeredComboAction);
         }
-        else
-        {
-            PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, triggeredComboAction);
-        }
+
+        ChangeStatus(status, args);
     }
 
     /// <summary>
@@ -206,108 +198,18 @@ public abstract class AgentStatus : IAgentStatus
     /// </summary>
     /// <param name="cmdType"></param>
     /// <param name="towards"></param>
-    public void PushInputCommandToBuffer(byte cmdType, Vector3 towards, TriggeredComboAction triggerdComboAction)
+    public void PushInputCommandToBuffer(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggerdComboAction)
     {
-        cmdBuffer.AddInputCommand(cmdType, towards);
+        cmdBuffer.AddInputCommand(cmdType, towards, triggerMeter);
         if(triggerdComboAction != null)
         {
             mCurTriggeredComboAction = triggerdComboAction;
         }
     }
 
-    protected void ChangeStatusOnNormalCommand(AgentInputCommand cmd)
-    {
-        if (cmd == null)
-            return;
-
-        ChangeStatusOnNormalCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter);
-    }
-
     protected void ChangeToIdle()
     {
         ChangeStatus(AgentStatusDefine.IDLE, null);
-    }
-
-
-
-    /// <summary>
-    /// 接受到指令时，切换到新状态
-    /// </summary>
-    /// <param name="cmdType"></param>
-    /// <param name="towards"></param>
-    /// <param name="triggerMeter"></param>
-    protected void ChangeStatusOnNormalCommand(byte cmdType, Vector3 towards, int triggerMeter)
-    {
-        if (cmdType == AgentCommandDefine.IDLE)
-        {
-            ChangeStatus(AgentStatusDefine.IDLE);
-        }
-        else if (cmdType == AgentCommandDefine.RUN)
-        {
-            Dictionary<string, object> args = new Dictionary<string, object>();
-            args.Add("triggerCmd", cmdType);
-            args.Add("towards", towards);
-            ChangeStatus(AgentStatusDefine.RUN, args);
-        }
-        else if (cmdType == AgentCommandDefine.DASH)
-        {
-            Dictionary<string, object> args = new Dictionary<string, object>();
-            args.Add("triggerCmd", cmdType);
-            args.Add("towards", towards);
-            ChangeStatus(AgentStatusDefine.DASH, args);
-        }
-        else if (cmdType == AgentCommandDefine.ATTACK_LONG || cmdType == AgentCommandDefine.ATTACK_SHORT)
-        {
-            Dictionary<string, object> args = new Dictionary<string, object>();
-            args.Add("triggerCmd", cmdType);
-            args.Add("towards", towards);
-            args.Add("triggerMeter", triggerMeter);
-            ChangeStatus(AgentStatusDefine.ATTACK, args);
-        }
-        else if (cmdType == AgentCommandDefine.BE_HIT)
-        {
-            ChangeStatus(AgentStatusDefine.BE_HIT);
-        }
-    }
-
-    protected void ChangeStatusOnComboCommand(AgentInputCommand cmd, TriggeredComboAction triggeredComboAction)
-    {
-        if (cmd == null)
-            return;
-
-        if (triggeredComboAction == null)
-            return;
-
-        ChangeStatusOnComboCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, triggeredComboAction);
-    }
-
-    protected void ChangeStatusOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
-    {
-        if (cmdType == AgentCommandDefine.IDLE || cmdType == AgentCommandDefine.RUN
-            || cmdType == AgentCommandDefine.BE_HIT)
-        {
-            ChangeStatusOnNormalCommand(cmdType, towards, triggerMeter);
-            Log.Error(LogLevel.Normal, "ChangeStatusOnComboCommand Exception, 指令类型[{0}]应该不是combo的触发指令, 错误触发的combo:{0}", cmdType, triggeredComboAction.comboData.comboName);
-            return;
-        }
-
-        if (cmdType == AgentCommandDefine.DASH)
-        {
-            Dictionary<string, object> args = new Dictionary<string, object>();
-            args.Add("triggerCmd", cmdType);
-            args.Add("towards", towards);
-            args.Add("comboAction", triggeredComboAction);
-            ChangeStatus(AgentStatusDefine.DASH, args);
-        }
-        else if (cmdType == AgentCommandDefine.ATTACK_LONG || cmdType == AgentCommandDefine.ATTACK_SHORT)
-        {
-            Dictionary<string, object> args = new Dictionary<string, object>();
-            args.Add("triggerCmd", cmdType);
-            args.Add("towards", towards);
-            args.Add("triggerMeter", triggerMeter);
-            args.Add("combo", triggeredComboAction);
-            ChangeStatus(AgentStatusDefine.ATTACK, args);
-        }
     }
 
     protected virtual void CustomOnNormalCommand(AgentInputCommand cmd) { }
@@ -339,8 +241,15 @@ public abstract class AgentStatus : IAgentStatus
             return;
         }
 
+        if (!AgentCommandDefine.IsComboTrigger(cmd.CmdType))
+        {
+            Log.Error(LogLevel.Normal, "OnComboCommand Error,[{0}] is  not combo trigger command type!", cmd.CmdType);
+            return;
+        }
+
         CustomOnComboCommand(cmd, combo);
     }
+
 
 
     /// <summary>
@@ -375,6 +284,45 @@ public abstract class AgentStatus : IAgentStatus
                 ChangeStatus(AgentStatusDefine.TRANSFER, args);
             }));
         }
+
+        mCurTriggeredComboAction = null;
         triggeredComboAction.Recycle();
+    }
+
+
+    /// <summary>
+    /// 根据节拍进度执行combo
+    /// 如果本拍的剩余时间占比=waitMeterProgress,就直接执指令，否则等下拍执行指令
+    /// 其他情况等待下一拍执行
+    /// </summary>
+    /// <param name="cmdType"></param>
+    /// <param name="towards"></param>
+    /// <param name="triggerMeter"></param>
+    /// <param name="triggeredComboAction"></param>
+    protected bool ConditionalExcuteCombo(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
+    {
+        // 当前拍的剩余时间
+        float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
+        // 当前拍的总时间
+        float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex + 1);
+
+        if (timeOfCurrentMeter <= 0)
+        {
+            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, 当前拍的总时间<=0, 当前拍:{0}", MeterManager.Ins.MeterIndex);
+            return false ;
+        }
+
+        float progress = timeToNextMeter / timeOfCurrentMeter;
+        if (progress >= GamePlayDefine.AttackMeterProgressWait)
+        {
+            mAgent.MoveControl.TurnTo(towards);
+            ExcuteCombo(triggeredComboAction);
+            return true;
+        }
+        else
+        {
+            PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboAction);
+            return false;
+        }
     }
 }

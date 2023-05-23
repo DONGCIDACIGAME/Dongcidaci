@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public static class AgentCommandDefine
 {
     /// <summary>
@@ -34,6 +36,35 @@ public static class AgentCommandDefine
     /// 受击 32
     /// </summary>
     public const byte BE_HIT = 1 << 5;
+
+    /// <summary>
+    /// 指令到角色状态间的切换关系
+    /// </summary>
+    private static Dictionary<byte, string> CmdToStatusMap = new Dictionary<byte, string>
+    {
+        { IDLE, AgentStatusDefine.IDLE},
+        { RUN, AgentStatusDefine.RUN},
+        { DASH, AgentStatusDefine.DASH},
+        { ATTACK_SHORT, AgentStatusDefine.ATTACK},
+        { ATTACK_LONG, AgentStatusDefine.ATTACK},
+        { BE_HIT, AgentStatusDefine.BE_HIT},
+    };
+
+    /// <summary>
+    /// 根据指令获取要切换到的状态
+    /// </summary>
+    /// <param name="cmdType"></param>
+    /// <returns></returns>
+    public static string GetChangeToStatus(byte cmdType)
+    {
+        if(CmdToStatusMap.TryGetValue(cmdType, out string statusName))
+        {
+            return statusName;
+        }
+
+        return string.Empty;
+    }
+
 
     /// <summary>
     /// 可以进行优化的指令集

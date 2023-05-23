@@ -37,16 +37,14 @@ public class AgentStatus_BeHit : AgentStatus
         switch (cmd.CmdType)
         {
             case AgentCommandDefine.BE_HIT:
-                ChangeStatusOnNormalCommand(cmd);
+                ChangeStatusOnCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, null);
                 break;
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, null);
-                break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, null);
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, null);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -58,18 +56,7 @@ public class AgentStatus_BeHit : AgentStatus
     {
         base.CustomOnComboCommand(cmd, triggeredComboAction);
 
-        switch (cmd.CmdType)
-        {
-            case AgentCommandDefine.DASH:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, triggeredComboAction);
-                break;
-            case AgentCommandDefine.ATTACK_LONG:
-            case AgentCommandDefine.ATTACK_SHORT:
-                ChangeStatusOnComboCommand(cmd, triggeredComboAction);
-                break;
-            default:
-                break;
-        }
+        PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, triggeredComboAction);
     }
 
     protected override void CustomOnMeterEnter(int meterIndex)

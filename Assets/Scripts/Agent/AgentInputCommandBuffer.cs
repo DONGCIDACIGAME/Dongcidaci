@@ -4,11 +4,13 @@ public class AgentInputCommandBuffer : IGameDisposable
 {
     private byte cmdList;
     private Vector3[] directionList;
+    private int[] triggerMeterList;
 
     public AgentInputCommandBuffer()
     {
         this.cmdList = 0;
         this.directionList = new Vector3[8];
+        this. triggerMeterList = new int[8];
     }
 
     public bool HasCommand()
@@ -28,13 +30,14 @@ public class AgentInputCommandBuffer : IGameDisposable
 
         return -1;
     }
-    public void AddInputCommand(byte cmdType, Vector3 towards)
+    public void AddInputCommand(byte cmdType, Vector3 towards, int triggerMeter)
     {
         cmdList |= cmdType;
         int index = GetBufferIndex(cmdType);
         if(index >= 0 && index < 8)
         {
             directionList[index] = towards;
+            triggerMeterList[index] = triggerMeter;
         }
     }
 
@@ -49,10 +52,11 @@ public class AgentInputCommandBuffer : IGameDisposable
         }
     }
 
-    public bool PeekCommand(out byte cmdType, out Vector3 towards)
+    public bool PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter)
     {
         cmdType = AgentCommandDefine.EMPTY;
         towards = GamePlayDefine.InputDirection_NONE;
+        triggerMeter = 0;
 
         for (int i = 7; i >= 0; i--)
         {
@@ -78,6 +82,7 @@ public class AgentInputCommandBuffer : IGameDisposable
         for(int i = 0; i < 8; i++)
         {
             directionList[i] = GamePlayDefine.InputDirection_NONE;
+            triggerMeterList[i] = 0;
         }
     }
 
@@ -85,5 +90,6 @@ public class AgentInputCommandBuffer : IGameDisposable
     {
         cmdList = 0;
         directionList = null;
+        triggerMeterList = null;
     }
 }

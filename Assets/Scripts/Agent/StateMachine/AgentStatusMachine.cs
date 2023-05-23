@@ -9,8 +9,8 @@ public delegate void ChangeStatusDelegate(string stateName,  Dictionary<string, 
 
 public class AgentStatusMachine : IMeterHandler
 {
-    public IAgentStatus CurStatus { get; private set; }
-    private Dictionary<string, IAgentStatus> mStatusMap;
+    public AgentStatus CurStatus { get; private set; }
+    private Dictionary<string, AgentStatus> mStatusMap;
     private Agent mAgent;
 
 
@@ -18,7 +18,7 @@ public class AgentStatusMachine : IMeterHandler
     
     public AgentStatusMachine()
     {
-        mStatusMap = new Dictionary<string, IAgentStatus>();
+        mStatusMap = new Dictionary<string, AgentStatus>();
     }
 
     public void OnMeterEnter(int meterIndex)
@@ -80,7 +80,7 @@ public class AgentStatusMachine : IMeterHandler
             return;
         }
 
-        if(mStatusMap.TryGetValue(statusName,out IAgentStatus newStatus))
+        if(mStatusMap.TryGetValue(statusName,out AgentStatus newStatus))
         {
             if (CurStatus != null)
             {

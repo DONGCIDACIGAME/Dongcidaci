@@ -42,17 +42,13 @@ public class AgentStatus_Idle : AgentStatus
         {
             case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.RUN:
-                ChangeStatusOnNormalCommand(cmd);
-                break;
             case AgentCommandDefine.DASH:
-                ConditionalChangeStatusOnCommand(GamePlayDefine.DashMeterProgressWait, cmd, null);
-                break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                ChangeStatusOnNormalCommand(cmd);
+                ChangeStatusOnCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, null);
                 break;
             case AgentCommandDefine.IDLE:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, null);
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, null);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -64,23 +60,12 @@ public class AgentStatus_Idle : AgentStatus
     {
         base.CustomOnComboCommand(cmd, triggeredComboAction);
 
-        switch (cmd.CmdType)
-        {
-            case AgentCommandDefine.DASH:
-                ConditionalChangeStatusOnCommand(GamePlayDefine.DashMeterProgressWait, cmd, triggeredComboAction);
-                break;
-            case AgentCommandDefine.ATTACK_LONG:
-            case AgentCommandDefine.ATTACK_SHORT:
-                ChangeStatusOnComboCommand(cmd, triggeredComboAction);
-                break;
-            default:
-                break;
-        }
+        ChangeStatusOnCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, triggeredComboAction);
     }
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
-        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
+        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter))
         {
             Log.Logic(LogLevel.Info, "PeekCommand--{0}", cmdType);
             switch (cmdType)
@@ -90,7 +75,7 @@ public class AgentStatus_Idle : AgentStatus
                 case AgentCommandDefine.ATTACK_LONG:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT:
-                    ChangeStatusOnNormalCommand(cmdType, towards, meterIndex);
+                    ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboAction);
                     return;
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.EMPTY:

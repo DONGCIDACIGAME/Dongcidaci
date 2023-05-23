@@ -233,7 +233,7 @@ public abstract class Agent : Entity, IMeterHandler
         }
 
         // 获取当前的status
-        IAgentStatus curStatus = StatusMachine.CurStatus;
+        AgentStatus curStatus = StatusMachine.CurStatus;
         if(curStatus == null)
         {
             Log.Error(LogLevel.Normal, "Agent OnCommand Error, cur status is null!");

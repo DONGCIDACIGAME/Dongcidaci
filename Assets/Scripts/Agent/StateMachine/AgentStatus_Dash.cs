@@ -29,8 +29,23 @@ public class AgentStatus_Dash : AgentStatus
     public override void OnEnter(Dictionary<string, object> context)
     {
         base.OnEnter(context);
-        Dash();
-        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(AgentAnimDefine.DefaultAnimName_Dash);
+        byte triggerCmd = (byte)context["triggerCmd"];
+        Vector3 towards = (Vector3)context["towards"];
+        int triggerMeter = (int)context["triggerMeter"];
+
+        if (context.TryGetValue("comboAction", out object obj))
+        {
+            TriggeredComboAction triggeredComboAction = obj as TriggeredComboAction;
+            if (triggeredComboAction != null)
+            {
+                bool excute = ConditionalExcuteCombo(triggerCmd, towards, triggerMeter, triggeredComboAction);
+
+                if(excute)
+                {
+                    Dash();
+                }
+            }
+        }
     }
 
     public override void OnExit()
@@ -61,17 +76,19 @@ public class AgentStatus_Dash : AgentStatus
 
         switch (cmd.CmdType)
         {
+            // 接收到受击指令，马上切换到受击状态
             case AgentCommandDefine.BE_HIT:
-                ChangeStatusOnNormalCommand(cmd);
+                ChangeStatusOnCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, null);
                 break;
+            case AgentCommandDefine.DASH:
+                Log.Error(LogLevel.Info, "如果冲刺没有配combo，就会执行到这里");
+                break;
+            // 其他指令类型，都要等本次冲刺结束后执行，先放入指令缓存区
+            case AgentCommandDefine.RUN:
+            case AgentCommandDefine.IDLE:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                ConditionalChangeStatusOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd, null);
-                break;
-            case AgentCommandDefine.RUN:
-            case AgentCommandDefine.DASH:
-            case AgentCommandDefine.IDLE:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, null);
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, null);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -83,49 +100,42 @@ public class AgentStatus_Dash : AgentStatus
     {
         base.CustomOnComboCommand(cmd, triggeredComboAction);
 
-        switch (cmd.CmdType)
+        // 如果是冲刺指令，就根据节拍进度执行combo
+        if (AgentCommandDefine.GetChangeToStatus(cmd.CmdType) == GetStatusName())
         {
-            case AgentCommandDefine.ATTACK_LONG:
-            case AgentCommandDefine.ATTACK_SHORT:
-                ConditionalChangeStatusOnCommand(GamePlayDefine.AttackMeterProgressWait, cmd, triggeredComboAction);
-                break;
-            case AgentCommandDefine.DASH:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, triggeredComboAction);
-                break;
-            default:
-                break;
+            ConditionalExcuteCombo(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, triggeredComboAction);
+        }
+        else // 否则都要等本次冲刺结束后执行，先放入指令缓存区
+        {
+            PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, triggeredComboAction);
         }
     }
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
+        // 逻辑拍结束前，不能响应缓存区指令
         if (meterIndex < mCurLogicStateEndMeter)
         {
             //Log.Error(LogLevel.Info, "CustomOnMeterEnter--- meterIndex:{0}, logicMeterEnd:{1}", meterIndex, mCurLogicStateEndMeter);
             return;
         }
 
-        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
+        // 缓存区取指令
+        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
             mAgent.MoveControl.TurnTo(towards);
 
-            switch (cmdType)
+            // 如果是冲刺指令，就执行combo
+            if (AgentCommandDefine.GetChangeToStatus(cmdType) == GetStatusName())
             {
-                case AgentCommandDefine.IDLE:
-                case AgentCommandDefine.RUN:
-                case AgentCommandDefine.DASH:
-                    ChangeStatusOnNormalCommand(cmdType, towards, meterIndex);
-                    return;
-                case AgentCommandDefine.ATTACK_SHORT:
-                    ChangeStatusOnComboCommand(cmdType, towards, meterIndex, mCurTriggeredComboAction);
-                    mCurTriggeredComboAction = null;
-                    break;
-                case AgentCommandDefine.ATTACK_LONG:
-                    break;
-                case AgentCommandDefine.EMPTY:
-                default:
-                    break;
+                mAgent.MoveControl.TurnTo(towards);
+                Dash();
+                ExcuteCombo(mCurTriggeredComboAction);
+            }
+            else// 否则切换到其他状态执行指令和combo
+            {
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, mCurTriggeredComboAction);
             }
         }
     }

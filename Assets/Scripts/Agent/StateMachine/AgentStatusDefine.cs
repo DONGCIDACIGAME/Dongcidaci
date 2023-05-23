@@ -1,5 +1,6 @@
 public static class AgentStatusDefine
 {
+    public static string EMPTY = "Empty";
     public static string IDLE = "Idle";
     public static string WALK = "Walk";
     public static string RUN = "Run";

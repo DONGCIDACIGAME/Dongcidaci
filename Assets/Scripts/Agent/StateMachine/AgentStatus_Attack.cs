@@ -34,12 +34,14 @@ public class AgentStatus_Attack : AgentStatus
         Vector3 towards = (Vector3)context["towards"];
         int triggerMeter = (int)context["triggerMeter"];
 
-        if(context.TryGetValue("combo", out object obj))
+        mAgent.MoveControl.TurnTo(towards);
+
+        if (context.TryGetValue("comboAction", out object obj))
         {
             TriggeredComboAction triggeredComboAction = obj as TriggeredComboAction;
             if(triggeredComboAction != null)
             {
-                ProgressWaitOnComboCommand(triggerCmd, towards, triggerMeter, triggeredComboAction);
+                ConditionalExcuteCombo(triggerCmd, towards, triggerMeter, triggeredComboAction);
             }
         }
     }
@@ -52,36 +54,6 @@ public class AgentStatus_Attack : AgentStatus
         base.OnExit();
     }
 
-    /// <summary>
-    /// 根据节拍进度处理Combo指令
-    /// </summary>
-    /// <param name="cmdType"></param>
-    /// <param name="towards"></param>
-    /// <param name="triggerMeter"></param>
-    /// <param name="triggeredComboAction"></param>
-    private void ProgressWaitOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
-    {
-        // 当前拍的剩余时间
-        float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
-        // 当前拍的总时间
-        float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex + 1);
-
-        if (timeOfCurrentMeter <= 0)
-        {
-            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, 当前拍的总时间<=0, 当前拍:{0}", MeterManager.Ins.MeterIndex);
-            return;
-        }
-
-        float progress = timeToNextMeter / timeOfCurrentMeter;
-        if (progress >= GamePlayDefine.AttackMeterProgressWait)
-        {
-            ExcuteCombo(triggeredComboAction);
-        }
-        else
-        {
-            PushInputCommandToBuffer(cmdType, towards, triggeredComboAction);
-        }
-    }
 
     /// <summary>
     /// 常规指令直接处理逻辑
@@ -93,17 +65,19 @@ public class AgentStatus_Attack : AgentStatus
 
         switch (cmd.CmdType)
         {
+            // 接收到受击指令，马上切换到受击状态
             case AgentCommandDefine.BE_HIT:
-                ChangeStatusOnNormalCommand(cmd);
-                break;
-            case AgentCommandDefine.DASH:
-            case AgentCommandDefine.RUN:
-            case AgentCommandDefine.IDLE:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, null);
+                ChangeStatusOnCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, null);
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                Log.Error(LogLevel.Normal, "CustomOnNormalCommand Error, all attack input must trigger combo!");
+                Log.Error(LogLevel.Info, "如果攻击没有配combo，就会执行到这里");
+                break;
+            // 其他指令类型，都要等本次攻击结束后执行，先放入指令缓存区
+            case AgentCommandDefine.DASH:
+            case AgentCommandDefine.RUN:
+            case AgentCommandDefine.IDLE:
+                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, null);
                 break;
             case AgentCommandDefine.EMPTY:
                 break;
@@ -120,25 +94,15 @@ public class AgentStatus_Attack : AgentStatus
     protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggeredComboAction triggeredComboAction)
     {
         base.CustomOnComboCommand(cmd, triggeredComboAction);
-        if(!AgentCommandDefine.IsComboTrigger(cmd.CmdType))
+
+        // 如果是攻击指令，就根据节拍进度执行combo
+        if (AgentCommandDefine.GetChangeToStatus(cmd.CmdType) == GetStatusName())
         {
-            Log.Error(LogLevel.Normal, "CustomOnComboCommand Error,[{0}] is  not combo trigger command type!", cmd.CmdType);
-            return;
+            ConditionalExcuteCombo(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, triggeredComboAction);
         }
-
-        mAgent.MoveControl.TurnTo(cmd.Towards);
-
-        switch (cmd.CmdType)
+        else// 否则都要等本次攻击结束后执行，先放入指令缓存区
         {
-            case AgentCommandDefine.DASH:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, triggeredComboAction);
-                break;
-            case AgentCommandDefine.ATTACK_LONG:
-            case AgentCommandDefine.ATTACK_SHORT:
-                ProgressWaitOnComboCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, triggeredComboAction);
-                break;
-            default:
-                break;
+            PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, cmd.TriggerMeter,  triggeredComboAction);
         }
     }
 
@@ -148,39 +112,26 @@ public class AgentStatus_Attack : AgentStatus
     /// <param name="meterIndex"></param>
     protected override void CustomOnMeterEnter(int meterIndex)
     {
+        // 逻辑拍结束前，不能响应缓存区指令
         if (meterIndex < mCurLogicStateEndMeter)
         {
             //Log.Error(LogLevel.Info, "CustomOnMeterEnter--- meterIndex:{0}, logicMeterEnd:{1}", meterIndex, mCurLogicStateEndMeter);
             return;
         }
 
-        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards))
+        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
-            mAgent.MoveControl.TurnTo(towards);
 
-            switch (cmdType)
+            // 如果是攻击指令，就执行combo
+            if (AgentCommandDefine.GetChangeToStatus(cmdType) == GetStatusName())
             {
-                case AgentCommandDefine.IDLE:
-                case AgentCommandDefine.RUN:
-                    ChangeStatusOnNormalCommand(cmdType, towards, meterIndex);
-                    break;
-                case AgentCommandDefine.DASH:
-                    ChangeStatusOnComboCommand(cmdType, towards, meterIndex, mCurTriggeredComboAction);
-                    mCurTriggeredComboAction = null;
-                    break;
-                case AgentCommandDefine.ATTACK_SHORT:
-                    if(mCurTriggeredComboAction != null)
-                    {
-                        ExcuteCombo(mCurTriggeredComboAction);
-                        mCurTriggeredComboAction = null;
-                    }
-                    break;
-                case AgentCommandDefine.ATTACK_LONG:
-                    break;
-                case AgentCommandDefine.EMPTY:
-                default:
-                    break;
+                mAgent.MoveControl.TurnTo(towards);
+                ExcuteCombo(mCurTriggeredComboAction);
+            }
+            else// 否则切换到其他状态执行指令和combo
+            {
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, mCurTriggeredComboAction);
             }
         }
     }
