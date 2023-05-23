@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InterfaceGameMap : MonoBehaviour
+/// <summary>
+/// 需要实时更新的地图元素
+/// </summary>
+public interface IUpdateMapElements
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public void OnUpdate(float deltaTime);
+}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+/// <summary>
+/// 会产生移动的地图元素
+/// </summary>
+public interface IMoveMapElements
+{
+
 }
