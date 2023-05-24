@@ -2,25 +2,7 @@ public class DefaultStateAnimDriver : AgentAnimDriver
 {
     public DefaultStateAnimDriver(Agent agt, string statusName) : base(agt, statusName)
     {
-    }
 
-    public string GetDefaultStateName()
-    {
-        if (mAnimStates == null || mAnimStates.Length == 0)
-        {
-            Log.Error(LogLevel.Normal, "GetDefaultStateName Error, mAnimStates is null or empty!");
-            return null;
-        }
-
-        AgentAnimStateInfo state = mAnimStates[0];
-
-        if (state == null)
-        {
-            Log.Error(LogLevel.Normal, "GetDefaultStateName Error, default anim state is null!");
-            return null;
-        }
-
-        return state.animName;
     }
 
     public int Play()

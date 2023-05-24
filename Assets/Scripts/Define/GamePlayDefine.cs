@@ -4,36 +4,36 @@ public static class GamePlayDefine
 {
     public const float AttackMeterCheckTolerance = 0.4f;
     /// <summary>
-    /// ¹¥»÷Ö¸ÁîµÄ½ÚÅÄ¼ì²âÆ«ÒÆ
+    /// æ”»å‡»æŒ‡ä»¤çš„èŠ‚æ‹æ£€æµ‹åç§»
     /// </summary>
     public const float AttackMeterCheckOffset = 0f;
 
     /// <summary>
-    /// ³å´ÌÖ¸ÁîµÄ½ÚÅÄ¼ì²â×ÜÈİ²î
+    /// å†²åˆºæŒ‡ä»¤çš„èŠ‚æ‹æ£€æµ‹æ€»å®¹å·®
     /// </summary>
     public const float DashMeterCheckTolerance = 0.4f;
     /// <summary>
-    /// ³å´ÌÖ¸ÁîµÄ½ÚÅÄ¼ì²âÆ«ÒÆ
+    /// å†²åˆºæŒ‡ä»¤çš„èŠ‚æ‹æ£€æµ‹åç§»
     /// </summary>
-    public const float DashMeterCheckOffset = 0.1f;
+    public const float DashMeterCheckOffset = 0f;
 
     /// <summary>
-    /// ¹¥»÷Ö¸ÁîÖ´ĞĞµÄ½ÚÅÄ½ø¶ÈÅĞ¶¨
+    /// æ”»å‡»æŒ‡ä»¤æ‰§è¡Œçš„èŠ‚æ‹è¿›åº¦åˆ¤å®š
     /// </summary>
     public const float AttackMeterProgressWait = 0.5f;
 
     /// <summary>
-    /// ³å´ÌÖ¸ÁîÖ´ĞĞµÄ½ÚÅÄ½ø¶ÈÅĞ¶¨
+    /// å†²åˆºæŒ‡ä»¤æ‰§è¡Œçš„èŠ‚æ‹è¿›åº¦åˆ¤å®š
     /// </summary>
     public const float DashMeterProgressWait = 0.5f;
 
     /// <summary>
-    /// ³å´ÌÊ±¼äÕ¼Ò»ÅÄÊ±¼äµÄ°Ù·Ö±È
+    /// å†²åˆºæ—¶é—´å ä¸€æ‹æ—¶é—´çš„ç™¾åˆ†æ¯”
     /// </summary>
     public const float DashMeterTime = 0.8f;
 
     /// <summary>
-    /// ¿Õ²ÎÊı
+    /// ç©ºå‚æ•°
     /// </summary>
     public static Vector3 InputDirection_NONE = Vector3.zero;
 

@@ -12,11 +12,6 @@ public class AgentAnimStateInfo
     public int loopTime;
 
     /// <summary>
-    /// 动画的名称
-    /// </summary>
-    public string animName;
-
-    /// <summary>
     /// 动画状态占几拍
     /// </summary>
     public int stateMeterLen;

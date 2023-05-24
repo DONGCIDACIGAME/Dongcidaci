@@ -72,4 +72,8 @@ public class AgentStatus_Transfer : AgentStatus
         }
     }
 
+    public override void StatusDefaultAction()
+    {
+        
+    }
 }

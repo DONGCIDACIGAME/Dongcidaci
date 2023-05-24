@@ -46,22 +46,22 @@ public class AgentStatus_Run : AgentStatus
         mStepLoopAnimDriver.Reset();
     }
 
-    protected override void CustomOnNormalCommand(AgentInputCommand cmd)
+    protected override void CustomOnNormalCommand(byte cmdType, Vector3 towards, int triggerMeter)
     {
-        base.CustomOnNormalCommand(cmd);
+        base.CustomOnNormalCommand(cmdType, towards, triggerMeter);
 
-        switch (cmd.CmdType)
+        switch (cmdType)
         {
             case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                ChangeStatusOnCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, null);
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, null);
                 break;
             case AgentCommandDefine.RUN:
-                mAgent.MoveControl.TurnTo(cmd.Towards);
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, null);
+                mAgent.MoveControl.TurnTo(towards);
+                PushInputCommandToBuffer(cmdType, towards, triggerMeter, null);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -69,11 +69,12 @@ public class AgentStatus_Run : AgentStatus
         }
     }
 
-    protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggeredComboAction triggeredComboAction)
+    protected override void CustomOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
     {
-        base.CustomOnComboCommand(cmd, triggeredComboAction);
+        base.CustomOnComboCommand(cmdType, towards, triggerMeter, triggeredComboAction);
 
-        ChangeStatusOnCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, triggeredComboAction);
+        // 按照目前的设计，run是不会触发combo的，所以执行到这里，肯定是其他指令类型，立即响应，切换到其他状态去处理
+        ChangeStatusOnCommand(cmdType, towards, triggerMeter, triggeredComboAction);
     }
 
     protected override void CustomOnMeterEnter(int meterIndex)
@@ -98,7 +99,7 @@ public class AgentStatus_Run : AgentStatus
                     break;
             }
 
-            if (meterIndex < mCurLogicStateEndMeter)
+            if (meterIndex <= mCurLogicStateEndMeter)
                 return;
 
             mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
@@ -115,5 +116,10 @@ public class AgentStatus_Run : AgentStatus
         base.OnUpdate(deltaTime);
 
         mAgent.MoveControl.Move(deltaTime);
+    }
+
+    public override void StatusDefaultAction()
+    {
+        
     }
 }

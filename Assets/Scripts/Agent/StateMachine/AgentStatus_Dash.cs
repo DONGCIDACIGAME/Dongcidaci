@@ -29,22 +29,18 @@ public class AgentStatus_Dash : AgentStatus
     public override void OnEnter(Dictionary<string, object> context)
     {
         base.OnEnter(context);
-        byte triggerCmd = (byte)context["triggerCmd"];
+        byte cmdType = (byte)context["cmdType"];
         Vector3 towards = (Vector3)context["towards"];
         int triggerMeter = (int)context["triggerMeter"];
 
         if (context.TryGetValue("comboAction", out object obj))
         {
             TriggeredComboAction triggeredComboAction = obj as TriggeredComboAction;
-            if (triggeredComboAction != null)
-            {
-                bool excute = ConditionalExcuteCombo(triggerCmd, towards, triggerMeter, triggeredComboAction);
-
-                if(excute)
-                {
-                    Dash();
-                }
-            }
+            CustomOnComboCommand(cmdType, towards, triggerMeter, triggeredComboAction);
+        }
+        else
+        {
+            CustomOnNormalCommand(cmdType, towards, triggerMeter);
         }
     }
 
@@ -57,7 +53,7 @@ public class AgentStatus_Dash : AgentStatus
     {
         base.OnUpdate(deltaTime);
 
-        if (MeterManager.Ins.MeterIndex >= mCurLogicStateEndMeter)
+        if (MeterManager.Ins.MeterIndex > mCurLogicStateEndMeter)
         {
             // 是否在输入的容差时间内
             bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.DashMeterCheckTolerance, GamePlayDefine.DashMeterCheckOffset);
@@ -70,25 +66,26 @@ public class AgentStatus_Dash : AgentStatus
         }
     }
 
-    protected override void CustomOnNormalCommand(AgentInputCommand cmd)
+    protected override void CustomOnNormalCommand(byte cmdType, Vector3 towards, int triggerMeter)
     {
-        base.CustomOnNormalCommand(cmd);
+        base.CustomOnNormalCommand(cmdType, towards, triggerMeter);
 
-        switch (cmd.CmdType)
+        switch (cmdType)
         {
             // 接收到受击指令，马上切换到受击状态
             case AgentCommandDefine.BE_HIT:
-                ChangeStatusOnCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, null);
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, null);
                 break;
             case AgentCommandDefine.DASH:
                 Log.Error(LogLevel.Info, "如果冲刺没有配combo，就会执行到这里");
+                StatusDefaultAction();
                 break;
             // 其他指令类型，都要等本次冲刺结束后执行，先放入指令缓存区
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, null);
+                PushInputCommandToBuffer(cmdType, towards, triggerMeter, null);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -96,27 +93,27 @@ public class AgentStatus_Dash : AgentStatus
         }
     }
 
-    protected override void CustomOnComboCommand(AgentInputCommand cmd, TriggeredComboAction triggeredComboAction)
+    protected override void CustomOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
     {
-        base.CustomOnComboCommand(cmd, triggeredComboAction);
+        base.CustomOnComboCommand(cmdType, towards, triggerMeter, triggeredComboAction);
 
         // 如果是冲刺指令，就根据节拍进度执行combo
-        if (AgentCommandDefine.GetChangeToStatus(cmd.CmdType) == GetStatusName())
+        if (AgentCommandDefine.GetChangeToStatus(cmdType) == GetStatusName())
         {
-            ConditionalExcuteCombo(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, triggeredComboAction);
+            ConditionalExcuteCombo(cmdType, towards, triggerMeter, triggeredComboAction);
         }
         else // 否则都要等本次冲刺结束后执行，先放入指令缓存区
         {
-            PushInputCommandToBuffer(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, triggeredComboAction);
+            PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboAction);
         }
     }
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
         // 逻辑拍结束前，不能响应缓存区指令
-        if (meterIndex < mCurLogicStateEndMeter)
+        if (meterIndex <= mCurLogicStateEndMeter)
         {
-            //Log.Error(LogLevel.Info, "CustomOnMeterEnter--- meterIndex:{0}, logicMeterEnd:{1}", meterIndex, mCurLogicStateEndMeter);
+            Log.Error(LogLevel.Info, "CustomOnMeterEnter--- meterIndex:{0}, logicMeterEnd:{1}", meterIndex, mCurLogicStateEndMeter);
             return;
         }
 
@@ -141,6 +138,11 @@ public class AgentStatus_Dash : AgentStatus
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)
+    {
+        
+    }
+
+    public override void StatusDefaultAction()
     {
         
     }

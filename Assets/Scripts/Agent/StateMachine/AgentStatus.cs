@@ -73,6 +73,11 @@ public abstract class AgentStatus : IAgentStatus
     public abstract string GetStatusName();
 
     /// <summary>
+    /// 状态默认的行为逻辑
+    /// </summary>
+    public abstract void StatusDefaultAction();
+
+    /// <summary>
     /// 进入状态
     /// </summary>
     /// <param name="context"></param>
@@ -155,6 +160,11 @@ public abstract class AgentStatus : IAgentStatus
         {
             action.CheckAndExcute(meterIndex);
         }
+
+        if(mCurTriggeredComboAction != null && meterIndex >= mCurTriggeredComboAction.endMeter)
+        {
+
+        }
     }
 
     public virtual void OnUpdate(float deltaTime)
@@ -180,7 +190,7 @@ public abstract class AgentStatus : IAgentStatus
 
         // 默认切换状态都带有 指令类型，指令方向，指令所属节拍信息
         Dictionary<string, object> args = new Dictionary<string, object>();
-        args.Add("triggerCmd", cmdType);
+        args.Add("cmdType", cmdType);
         args.Add("towards", towards);
         args.Add("triggerMeter", triggerMeter);
 
@@ -212,7 +222,7 @@ public abstract class AgentStatus : IAgentStatus
         ChangeStatus(AgentStatusDefine.IDLE, null);
     }
 
-    protected virtual void CustomOnNormalCommand(AgentInputCommand cmd) { }
+    protected virtual void CustomOnNormalCommand(byte cmdType, Vector3 towards, int triggerMeter) { }
 
     public void OnNormalCommand(AgentInputCommand cmd)
     {
@@ -222,10 +232,10 @@ public abstract class AgentStatus : IAgentStatus
             return;
         }
 
-        CustomOnNormalCommand(cmd);
+        CustomOnNormalCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter);
     }
 
-    protected virtual void CustomOnComboCommand(AgentInputCommand cmd, TriggeredComboAction triggeredComboAction) { }
+    protected virtual void CustomOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction) { }
    
     public void OnComboCommand(AgentInputCommand cmd, TriggeredComboAction combo)
     {
@@ -247,7 +257,7 @@ public abstract class AgentStatus : IAgentStatus
             return;
         }
 
-        CustomOnComboCommand(cmd, combo);
+        CustomOnComboCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, combo);
     }
 
 
@@ -258,6 +268,9 @@ public abstract class AgentStatus : IAgentStatus
     /// <param name="triggeredComboAction"></param>
     protected void ExcuteCombo(TriggeredComboAction triggeredComboAction)
     {
+        // 先执行状态的默认行为逻辑
+        StatusDefaultAction();
+
         if (triggeredComboAction == null)
         {
             Log.Error(LogLevel.Normal, "ExcuteCombo Error, combo is null!");
@@ -276,7 +289,7 @@ public abstract class AgentStatus : IAgentStatus
         if (actionData.endFlag)
         {
             float transferStateDuration = triggeredComboAction.comboData.transferStateDuration;
-            mMeterEndActions.Push(new MeterEndAction(mCurLogicStateEndMeter - 1, () =>
+            mMeterEndActions.Push(new MeterEndAction(mCurLogicStateEndMeter, () =>
             {
                 
                 Dictionary<string, object> args = new Dictionary<string, object>();

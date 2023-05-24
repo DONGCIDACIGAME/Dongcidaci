@@ -31,9 +31,10 @@ public class StepLoopAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        int endMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, mCurAnimState.stateMeterLen);
+        int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, mCurAnimState.stateMeterLen);
         mAgent.AnimPlayer.UpdateAnimSpeedWithFix(mCurAnimState.layer, mCurAnimState.animLen, duration);
-        return endMeterIndex;
+        // 动画结束拍=当前拍+动画持续拍-1
+        return newMeterIndex -1;
     }
 
     protected int AnimMoveNextPlay()
@@ -58,10 +59,11 @@ public class StepLoopAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        int endMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, mCurAnimState.stateMeterLen);
-        float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, endMeterIndex);
+        int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, mCurAnimState.stateMeterLen);
+        float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, newMeterIndex);
         mAgent.AnimPlayer.CrossFadeToStateDynamic(stateName, mCurAnimState.layer, mCurAnimState.normalizedTime, duration, mCurAnimState.animLen, totalMeterTime);
-        return endMeterIndex;
+        // 动画结束拍=当前拍+动画持续拍-1
+        return newMeterIndex -1;
     }
 
     public int MoveNext()

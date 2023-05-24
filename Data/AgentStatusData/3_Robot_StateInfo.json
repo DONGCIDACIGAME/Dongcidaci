@@ -4,11 +4,15 @@
 	"statusMap": {
 		"Idle": {
 			"statusName": "Idle",
-			"loop": true,
+			"defaultState": "Idle",
+			"defaultEffects": [
+				{
+					"hitEffects": []
+				}
+			],
 			"animStates": [{
 				"stateName": "Idle",
 				"loopTime": 0,
-				"animName": "Idle",
 				"stateMeterLen": 2,
 				"minDuration": 0,
 				"normalizedTime": 0.5,
@@ -19,11 +23,15 @@
 		},
 		"Run": {
 			"statusName": "Run",
-			"loop": true,
+			"defaultState": "Run",
+			"defaultEffects": [
+				{
+					"hitEffects": []
+				}
+			],
 			"animStates": [{
 				"stateName": "Run",
 				"loopTime": 0,
-				"animName": "RunForward",
 				"stateMeterLen": 2,
 				"normalizedTime": 0.1,
 				"layer": 0,
@@ -33,20 +41,17 @@
 		},
 		"Attack":{
 			"statusName": "Attack",
-			"loop": false,
+			"defaultState": "Combo_1_With_Empty",
+			"defaultEffects": [
+				{
+					"hitEffects": [
+						{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+					]
+				}
+			],
 			"animStates": [{
-				"stateName": "AttackBegin",
-				"loopTime": 1,
-				"animName": "attackBegin2",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
-				"layer": 0,
-				"animLen": 0.5,
-				"hitPoints": [{"progress": 1}]
-			},{
 				"stateName": "Combo_1_With_Empty",
 				"loopTime": 1,
-				"animName": "3combo_1_withEmpty",
 				"stateMeterLen": 1,
 				"normalizedTime": 0.05,
 				"layer": 0,
@@ -55,7 +60,6 @@
 			},{
 				"stateName": "Combo_2_With_Empty",
 				"loopTime": 1,
-				"animName": "3Combo2_WithEmpty",
 				"stateMeterLen": 1,
 				"normalizedTime": 0.05,
 				"layer": 0,
@@ -64,7 +68,6 @@
 			},{
 				"stateName": "Combo_3_With_Empty",
 				"loopTime": 1,
-				"animName": "3Combo_3_WithEmpty",
 				"stateMeterLen": 1,
 				"normalizedTime": 0.05,
 				"layer": 0,
@@ -74,11 +77,15 @@
 		},
 		"Dash": {
 			"statusName": "Dash",
-			"loop": false,
+			"defaultState": "Dash",
+			"defaultEffects": [
+				{
+					"hitEffects": []
+				}
+			],
 			"animStates": [{
 				"stateName": "Dash",
 				"loopTime": 1,
-				"animName": "combo_01",
 				"stateMeterLen": 2,
 				"normalizedTime": 0.1,
 				"layer": 0,
@@ -88,11 +95,15 @@
 		},
 		"Transfer": {
 			"statusName": "Transfer",
-			"loop": false,
+			"defaultState": "Empty",
+			"defaultEffects": [
+				{
+					"hitEffects": []
+				}
+			],
 			"animStates": [{
 				"stateName": "Empty",
 				"loopTime": 1,
-				"animName": "DefaultTransfer",
 				"stateMeterLen": 1,
 				"normalizedTime": 0.5,
 				"layer": 0,

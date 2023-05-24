@@ -19,6 +19,11 @@ public class TriggeredComboAction : IRecycle
     /// </summary>
     public int triggeredMeter { get; private set; }
 
+    /// <summary>
+    /// which meter the combo will end
+    /// </summary>
+    public int endMeter { get; private set; }
+
 
     /// <summary>
     /// action index in combo
@@ -41,12 +46,13 @@ public class TriggeredComboAction : IRecycle
     /// <param name="comboName"></param>
     /// <param name="actionIndex"></param>
     /// <param name="comboAction"></param>
-    public void Initialize(uint agentId, ComboData comboData, int actionIndex, int triggerMeter, ComboActionData comboAction)
+    public void Initialize(uint agentId, ComboData comboData, int actionIndex, int triggerMeter, int endMeter, ComboActionData comboAction)
     {
         this.agentId = agentId;
         this.comboData = comboData;
         this.actionIndex = actionIndex;
         this.triggeredMeter = triggeredMeter;
+        this.endMeter = endMeter;
         this.actionData = comboAction;
     }
 
@@ -56,6 +62,7 @@ public class TriggeredComboAction : IRecycle
         this.comboData = null;
         this.actionIndex = -1;
         this.triggeredMeter = -1;
+        this.endMeter = -1;
         this.actionData = null;
     }
 
