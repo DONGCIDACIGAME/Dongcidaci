@@ -21,6 +21,12 @@ public class AgentStatus_BeHit : AgentStatus
     public override void OnEnter(Dictionary<string, object> context)
     {
         base.OnEnter(context);
+
+        byte cmdType = (byte)context["cmdType"];
+        Vector3 towards = (Vector3)context["towards"];
+        int triggerMeter = (int)context["triggerMeter"];
+
+        StatusDefaultAction(cmdType, towards, triggerMeter, null);
     }
 
     public override void OnExit()
@@ -28,35 +34,27 @@ public class AgentStatus_BeHit : AgentStatus
         base.OnExit();
     }
 
-    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggerdComboStep)
+    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnCommand(cmdType, towards, triggerMeter, triggerdComboStep);
+        base.CustomOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
 
         switch (cmdType)
         {
             case AgentCommandDefine.BE_HIT:
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, null);
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
                 break;
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, null);
+                PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboStep);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
                 break;
         }
     }
-
-    //protected override void CustomOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
-    //{
-    //    base.CustomOnComboCommand(cmdType, towards, triggerMeter, triggeredComboStep);
-
-    //    // 按照目前的设计，be_hit是不会触发combo的，所以执行到这里，肯定是其他指令类型，都放入缓存区等待节拍
-    //    PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboStep);
-    //}
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
@@ -68,6 +66,14 @@ public class AgentStatus_BeHit : AgentStatus
         
     }
 
+    /// <summary>
+    /// 受击状态默认逻辑
+    /// 1. 播放受击动作
+    /// </summary>
+    /// <param name="cmdType"></param>
+    /// <param name="towards"></param>
+    /// <param name="triggerMeter"></param>
+    /// <param name="agentActionData"></param>
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
         

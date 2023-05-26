@@ -34,7 +34,7 @@ public class AgentStatus_Dash : AgentStatus
         int triggerMeter = (int)context["triggerMeter"];
 
         TriggeredComboStep triggeredComboStep = null;
-        if (context.TryGetValue("comboAction", out object obj))
+        if (context.TryGetValue("comboStep", out object obj))
         {
             triggeredComboStep = obj as TriggeredComboStep;
         }
@@ -59,7 +59,7 @@ public class AgentStatus_Dash : AgentStatus
             // 超过输入的容差时间，进入idle
             if (!inInputTime && !cmdBuffer.HasCommand())
             {
-                ChangeToIdle();
+                ChangeStatusOnCommand(AgentCommandDefine.IDLE, GamePlayDefine.InputDirection_NONE, MeterManager.Ins.MeterIndex, null);
             }
         }
     }
@@ -111,7 +111,7 @@ public class AgentStatus_Dash : AgentStatus
             {
                 mAgent.MoveControl.TurnTo(towards);
                 Dash();
-                ExcuteCombo(cmdType, towards, triggerMeter, mCurTriggeredComboStep);
+                ExcuteCombo(cmdType, towards, triggerMeter, ref mCurTriggeredComboStep);
             }
             else// 否则切换到其他状态执行指令和combo
             {

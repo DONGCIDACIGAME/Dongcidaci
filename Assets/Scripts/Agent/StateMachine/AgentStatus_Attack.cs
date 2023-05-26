@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
+
+
 /// <summary>
-/// 重击状态
+/// 攻击状态
 /// </summary>
 public class AgentStatus_Attack : AgentStatus
 {
@@ -35,7 +37,7 @@ public class AgentStatus_Attack : AgentStatus
         int triggerMeter = (int)context["triggerMeter"];
 
         TriggeredComboStep triggeredComboStep = null;
-        if (context.TryGetValue("comboAction", out object obj))
+        if (context.TryGetValue("comboStep", out object obj))
         {
             triggeredComboStep = obj as TriggeredComboStep;
         }
@@ -63,7 +65,7 @@ public class AgentStatus_Attack : AgentStatus
         {
             // 接收到受击指令，马上切换到受击状态
             case AgentCommandDefine.BE_HIT:
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, null);
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
@@ -73,7 +75,7 @@ public class AgentStatus_Attack : AgentStatus
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, null);
+                PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboStep);
                 break;
             case AgentCommandDefine.EMPTY:
                 break;
@@ -100,11 +102,27 @@ public class AgentStatus_Attack : AgentStatus
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
 
+            switch (cmdType)
+            {
+                case AgentCommandDefine.RUN:
+                case AgentCommandDefine.ATTACK_SHORT:
+                case AgentCommandDefine.ATTACK_LONG:
+                case AgentCommandDefine.DASH:
+                case AgentCommandDefine.BE_HIT:
+                    ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboStep);
+                    return;
+                case AgentCommandDefine.IDLE:
+                    StatusDefaultAction(cmdType, towards, meterIndex, mCurTriggeredComboStep.comboStep.agentActionData);
+                    break;
+                case AgentCommandDefine.EMPTY:
+                default:
+                    break;
+            }
+
             // 如果是攻击指令，就执行combo
             if (AgentCommandDefine.GetChangeToStatus(cmdType) == GetStatusName())
             {
-                mAgent.MoveControl.TurnTo(towards);
-                ExcuteCombo(cmdType, towards, triggerMeter, mCurTriggeredComboStep);
+                ExcuteCombo(cmdType, towards, triggerMeter, ref mCurTriggeredComboStep);
             }
             else// 否则切换到其他状态执行指令和combo
             {
@@ -131,7 +149,7 @@ public class AgentStatus_Attack : AgentStatus
             // 超过输入的容差时间，且当前指令缓存区里没有指令（没有待执行指令）
             if (!inInputTime && !cmdBuffer.HasCommand())
             {
-                ChangeToIdle();
+                ChangeStatusOnCommand(AgentCommandDefine.IDLE, GamePlayDefine.InputDirection_NONE, MeterManager.Ins.MeterIndex, null);
             }
         }
         //Log.Logic(LogLevel.Info, "cur anim state:{0}, progress:{1}", mAgent.AnimPlayer.CurStateName, mAgent.AnimPlayer.CurStateProgress);
@@ -144,8 +162,9 @@ public class AgentStatus_Attack : AgentStatus
 
     /// <summary>
     /// attack的默认逻辑
-    /// 1. 播放冲刺动画
-    /// 2. 造成伤害
+    /// 1. 转向攻击方向
+    /// 2. 播放攻击动画
+    /// 3. 造成伤害
     /// </summary>
     /// <param name="cmdType"></param>
     /// <param name="towards"></param>
@@ -153,7 +172,10 @@ public class AgentStatus_Attack : AgentStatus
     /// <param name="agentActionData"></param>
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
-        // 1. 播放攻击动画
+        // 1. 转向攻击方向
+        mAgent.MoveControl.TurnTo(towards);
+
+        // 2. 播放攻击动画
         if (!string.IsNullOrEmpty(agentActionData.stateName) && !string.IsNullOrEmpty(agentActionData.stateName))
         {
             mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
@@ -163,7 +185,7 @@ public class AgentStatus_Attack : AgentStatus
             mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusDefaultActionData.statusName, statusDefaultActionData.stateName);
         }
 
-        // 2. 造成伤害
+        // 3. 造成伤害
         
     }
 }

@@ -208,7 +208,7 @@ public abstract class AgentStatus : IAgentStatus
         // 如果是combo的触发类型，并且触发了combo，就添加combo招式信息
         if (AgentCommandDefine.IsComboTrigger(cmdType) && triggeredComboStep != null)
         {
-            args.Add("comboAction", triggeredComboStep);
+            args.Add("comboStep", triggeredComboStep);
         }
 
         ChangeStatus(status, args);
@@ -226,11 +226,6 @@ public abstract class AgentStatus : IAgentStatus
         {
             mCurTriggeredComboStep = triggeredComboStep;
         }
-    }
-
-    protected void ChangeToIdle()
-    {
-        ChangeStatus(AgentStatusDefine.IDLE, null);
     }
 
     protected virtual void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep) { }
@@ -277,7 +272,7 @@ public abstract class AgentStatus : IAgentStatus
     /// 执行Combo
     /// </summary>
     /// <param name="triggeredComboAction"></param>
-    protected void ExcuteCombo(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
+    protected void ExcuteCombo(byte cmdType, Vector3 towards, int triggerMeter, ref TriggeredComboStep triggeredComboStep)
     {
         if (triggeredComboStep == null)
         {
@@ -292,21 +287,31 @@ public abstract class AgentStatus : IAgentStatus
             return;
         }
 
-        // 如果是覆盖模式
-        if(comboStep.mode == ComboDefine.ComboMode_Overwrite)
-        {
-            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(comboStep.agentActionData.statusName, comboStep.agentActionData.stateName);
-        }
-        // 如果是叠加模式
-        else if(comboStep.mode == ComboDefine.ComboMode_Overlay)
+        // 1. 转向
+        mAgent.MoveControl.TurnTo(towards);
+
+        // 如果是叠加模式，执行默认逻辑
+        if (comboStep.mode == ComboDefine.ComboMode_Overlay)
         {
             StatusDefaultAction(cmdType, towards, triggerMeter, triggeredComboStep.comboStep.agentActionData);
         }
 
+        // 如果是覆盖模式，播放动画
+        if (comboStep.mode == ComboDefine.ComboMode_Overwrite)
+        {
+            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(comboStep.agentActionData.statusName, comboStep.agentActionData.stateName);
+        }
+
+
+        // 3. 效果执行器开始执行
         mAgent.Effects_Excutor.Start(triggeredComboStep);
+
+        // 4. 如果是结束招式
         if (comboStep.endFlag)
         {
             float transferStateDuration = triggeredComboStep.comboData.transferStateDuration;
+
+            // 在节拍结束时切换到过度状态
             mMeterEndActions.Push(new MeterEndAction(mCurLogicStateEndMeter, () =>
             {
                 
@@ -316,7 +321,10 @@ public abstract class AgentStatus : IAgentStatus
             }));
         }
 
-        mCurTriggeredComboStep = null;
+        // 清理
+        triggeredComboStep = null;
+
+        // 回收combostep
         triggeredComboStep.Recycle();
     }
 
@@ -346,10 +354,9 @@ public abstract class AgentStatus : IAgentStatus
         float progress = timeToNextMeter / timeOfCurrentMeter;
         if (progress >= GamePlayDefine.AttackMeterProgressWait)
         {
-            mAgent.MoveControl.TurnTo(towards);
             if(triggeredComboStep != null)
             {
-                ExcuteCombo(cmdType, towards, triggerMeter, triggeredComboStep);
+                ExcuteCombo(cmdType, towards, triggerMeter, ref triggeredComboStep);
             }
             else
             {

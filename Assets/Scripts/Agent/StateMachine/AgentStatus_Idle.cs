@@ -74,6 +74,8 @@ public class AgentStatus_Idle : AgentStatus
                     ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboStep);
                     return;
                 case AgentCommandDefine.IDLE:
+                    StatusDefaultAction(cmdType, towards, meterIndex, mCurTriggeredComboStep.comboStep.agentActionData);
+                    break;
                 case AgentCommandDefine.EMPTY:
                 default:
                     break;
@@ -93,7 +95,7 @@ public class AgentStatus_Idle : AgentStatus
 
     /// <summary>
     /// Idle状态的默认逻辑
-    /// 步进式动画驱动器向后继续执行一步
+    /// 播放动作
     /// </summary>
     /// <param name="cmdType"></param>
     /// <param name="towards"></param>
@@ -101,6 +103,13 @@ public class AgentStatus_Idle : AgentStatus
     /// <param name="triggeredComboStep"></param>
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
-        mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
+        if(!string.IsNullOrEmpty(agentActionData.statusName) && !string.IsNullOrEmpty(agentActionData.stateName))
+        {
+            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.stateName,agentActionData.stateName);
+        }
+        else
+        {
+            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
+        }
     }
 }

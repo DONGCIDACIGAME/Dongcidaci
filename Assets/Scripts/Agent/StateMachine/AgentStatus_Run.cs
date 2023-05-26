@@ -81,7 +81,7 @@ public class AgentStatus_Run : AgentStatus
                     ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboStep);
                     return;
                 case AgentCommandDefine.RUN:
-                    mAgent.MoveControl.TurnTo(towards);
+                    StatusDefaultAction(cmdType, towards, meterIndex, mCurTriggeredComboStep.comboStep.agentActionData);
                     break;
                 case AgentCommandDefine.EMPTY:
                 default:
@@ -110,7 +110,7 @@ public class AgentStatus_Run : AgentStatus
     /// <summary>
     /// Run的默认逻辑
     /// 1. 转向移动的方向
-    /// 2. 步进式动画驱动器向后继续执行一步
+    /// 2. 播放动作
     /// </summary>
     /// <param name="cmdType"></param>
     /// <param name="towards"></param>
@@ -119,6 +119,13 @@ public class AgentStatus_Run : AgentStatus
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
         mAgent.MoveControl.TurnTo(towards);
-        mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
+        if (!string.IsNullOrEmpty(agentActionData.statusName) && !string.IsNullOrEmpty(agentActionData.stateName))
+        {
+            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.stateName, agentActionData.stateName);
+        }
+        else
+        {
+            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
+        }
     }
 }
