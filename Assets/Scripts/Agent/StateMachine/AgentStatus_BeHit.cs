@@ -21,8 +21,6 @@ public class AgentStatus_BeHit : AgentStatus
     public override void OnEnter(Dictionary<string, object> context)
     {
         base.OnEnter(context);
-
-        mAgent.ComboTrigger.ResetAllCombo();
     }
 
     public override void OnExit()
@@ -30,9 +28,9 @@ public class AgentStatus_BeHit : AgentStatus
         base.OnExit();
     }
 
-    protected override void CustomOnNormalCommand(byte cmdType, Vector3 towards, int triggerMeter)
+    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggerdComboStep)
     {
-        base.CustomOnNormalCommand(cmdType, towards, triggerMeter);
+        base.CustomOnCommand(cmdType, towards, triggerMeter, triggerdComboStep);
 
         switch (cmdType)
         {
@@ -52,13 +50,13 @@ public class AgentStatus_BeHit : AgentStatus
         }
     }
 
-    protected override void CustomOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
-    {
-        base.CustomOnComboCommand(cmdType, towards, triggerMeter, triggeredComboAction);
+    //protected override void CustomOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
+    //{
+    //    base.CustomOnComboCommand(cmdType, towards, triggerMeter, triggeredComboStep);
 
-        // 按照目前的设计，be_hit是不会触发combo的，所以执行到这里，肯定是其他指令类型，都放入缓存区等待节拍
-        PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboAction);
-    }
+    //    // 按照目前的设计，be_hit是不会触发combo的，所以执行到这里，肯定是其他指令类型，都放入缓存区等待节拍
+    //    PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboStep);
+    //}
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
@@ -70,7 +68,7 @@ public class AgentStatus_BeHit : AgentStatus
         
     }
 
-    public override void StatusDefaultAction()
+    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
         
     }

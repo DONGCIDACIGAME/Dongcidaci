@@ -23,9 +23,12 @@ public class AgentStatus_Idle : AgentStatus
     public override void OnEnter(Dictionary<string, object> context)
     {
         base.OnEnter(context);
-        // 进入idle状态会打断combo，即combo要从头开始触发
-        mAgent.ComboTrigger.ResetAllCombo();
-        StatusDefaultAction();
+
+        byte cmdType = (byte)context["cmdType"];
+        Vector3 towards = (Vector3)context["towards"];
+        int triggerMeter = (int)context["triggerMeter"];
+
+        StatusDefaultAction(cmdType, towards, triggerMeter, null);
     }
 
     public override void OnExit()
@@ -34,9 +37,9 @@ public class AgentStatus_Idle : AgentStatus
         mStepLoopAnimDriver.Reset();
     }
 
-    protected override void CustomOnNormalCommand(byte cmdType, Vector3 towards, int triggerMeter)
+    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnNormalCommand(cmdType, towards, triggerMeter);
+        base.CustomOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
 
         switch (cmdType)
         {
@@ -45,23 +48,15 @@ public class AgentStatus_Idle : AgentStatus
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, null);
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
                 break;
             case AgentCommandDefine.IDLE:
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, null);
+                PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboStep);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
                 break;
         }
-    }
-
-    protected override void CustomOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
-    {
-        base.CustomOnComboCommand(cmdType, towards, triggerMeter, triggeredComboAction);
-
-        // 按照目前的设计，idle是不会触发combo的，所以执行到这里，肯定是其他指令类型，立即响应，切换到其他状态去处理
-        ChangeStatusOnCommand(cmdType, towards, triggerMeter, triggeredComboAction);
     }
 
     protected override void CustomOnMeterEnter(int meterIndex)
@@ -76,7 +71,7 @@ public class AgentStatus_Idle : AgentStatus
                 case AgentCommandDefine.ATTACK_LONG:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT:
-                    ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboAction);
+                    ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboStep);
                     return;
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.EMPTY:
@@ -87,7 +82,7 @@ public class AgentStatus_Idle : AgentStatus
             if (meterIndex <= mCurLogicStateEndMeter)
                 return;
 
-            StatusDefaultAction();
+            StatusDefaultAction(cmdType, towards, triggerMeter, mCurTriggeredComboStep.comboStep.agentActionData);
         }
     }
 
@@ -96,7 +91,15 @@ public class AgentStatus_Idle : AgentStatus
         
     }
 
-    public override void StatusDefaultAction()
+    /// <summary>
+    /// Idle状态的默认逻辑
+    /// 步进式动画驱动器向后继续执行一步
+    /// </summary>
+    /// <param name="cmdType"></param>
+    /// <param name="towards"></param>
+    /// <param name="triggerMeter"></param>
+    /// <param name="triggeredComboStep"></param>
+    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
         mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
     }

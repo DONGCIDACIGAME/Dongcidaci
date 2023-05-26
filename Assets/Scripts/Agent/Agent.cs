@@ -35,12 +35,12 @@ public abstract class Agent : Entity, IMeterHandler
     /// <summary>
     /// Combo触发器
     /// </summary>
-    public ComboTrigger ComboTrigger;
+    public ComboTrigger Combo_Trigger;
 
     /// <summary>
-    /// combo招式效果执行器
+    /// 效果执行器
     /// </summary>
-    public ComboActionEffectsExcutor ComboEffectsExcutor;
+    public EffectsExcutor Effects_Excutor;
 
     // 角色移动速度
     protected float mSpeed;
@@ -132,8 +132,8 @@ public abstract class Agent : Entity, IMeterHandler
         LoadAgentCfg(mAgentId);
         LoadAgentGo();
 
-        ComboTrigger.Initialize(this);
-        ComboEffectsExcutor.Initialize(this);
+        Combo_Trigger.Initialize(this);
+        Effects_Excutor.Initialize(this);
 
         MeterManager.Ins.RegisterMeterHandler(this);
         StatusMachine.Initialize(this);
@@ -157,16 +157,16 @@ public abstract class Agent : Entity, IMeterHandler
             AnimPlayer = null;
         }
 
-        if(ComboTrigger != null)
+        if(Combo_Trigger != null)
         {
-            ComboTrigger.Dispose();
-            ComboTrigger = null;
+            Combo_Trigger.Dispose();
+            Combo_Trigger = null;
         }
 
-        if(ComboEffectsExcutor != null)
+        if(Effects_Excutor != null)
         {
-            ComboEffectsExcutor.Dispose();
-            ComboEffectsExcutor = null;
+            Effects_Excutor.Dispose();
+            Effects_Excutor = null;
         }
 
         if(StatusMachine != null)
@@ -183,8 +183,8 @@ public abstract class Agent : Entity, IMeterHandler
         AnimPlayer = new AgentAnimPlayer();
         StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
         StatusMachine = new AgentStatusMachine();
-        ComboTrigger = new ComboTrigger();
-        ComboEffectsExcutor = new ComboActionEffectsExcutor();
+        Combo_Trigger = new ComboTrigger();
+        Effects_Excutor = new EffectsExcutor();
     }
 
 
@@ -242,23 +242,23 @@ public abstract class Agent : Entity, IMeterHandler
         }
 
         // 新的输入尝试触发combo
-        int result = ComboTrigger.OnNewInput(cmd.CmdType, cmd.TriggerMeter, out TriggeredComboAction combo);
+        int result = Combo_Trigger.OnNewInput(cmd.CmdType, cmd.TriggerMeter, out TriggeredComboStep triggeredComboStep);
 
         // 如果触发了combo，就需要同时处理指令和combo的逻辑
         if (result == ComboDefine.ComboTriggerResult_Succeed)
         {
-            Log.Error(LogLevel.Info, "Trigger combo {0}-{1}", combo.comboData.comboName, combo.actionData.stateName);
-            curStatus.OnComboCommand(cmd, combo);
+            Log.Error(LogLevel.Info, "Trigger combo {0}-{1}", triggeredComboStep.comboData.comboName, triggeredComboStep.comboStep.agentActionData.stateName);
+            curStatus.OnCommand(cmd, triggeredComboStep);
         }
         // 如果不是combo的触发命令类型，就直接执行指令
         else if(result == ComboDefine.ComboTriggerResult_NotComboTrigger)
         {
-            curStatus.OnNormalCommand(cmd);
+            curStatus.OnCommand(cmd, triggeredComboStep);
         }
         // 是combo的触发命令类型，但是没有匹配到combo，就按照正常指令执行
         else if(result == ComboDefine.ComboTriggerResult_Failed)
         {
-            curStatus.OnNormalCommand(cmd);
+            curStatus.OnCommand(cmd, triggeredComboStep);
         }
         // 是combo的触发命令类型，但是上一个combo的执行还未完成
         else if(result == ComboDefine.ComboTriggerResult_ComboExcuting)
@@ -274,16 +274,16 @@ public abstract class Agent : Entity, IMeterHandler
     public void OnMeterEnter(int meterIndex)
     {
         StatusMachine.OnMeterEnter(meterIndex);
-        ComboTrigger.OnMeterEnter(meterIndex);
-        ComboEffectsExcutor.OnMeterEnter(meterIndex);
+        Combo_Trigger.OnMeterEnter(meterIndex);
+        Effects_Excutor.OnMeterEnter(meterIndex);
     }
 
     
     public void OnMeterEnd(int meterIndex)
     { 
         StatusMachine.OnMeterEnd(meterIndex);
-        ComboTrigger.OnMeterEnd(meterIndex);
-        ComboEffectsExcutor.OnMeterEnd(meterIndex);
+        Combo_Trigger.OnMeterEnd(meterIndex);
+        Effects_Excutor.OnMeterEnd(meterIndex);
     }
 
 
@@ -295,6 +295,6 @@ public abstract class Agent : Entity, IMeterHandler
     {
         MoveControl.OnUpdate(deltaTime);
         StatusMachine.OnUpdate(deltaTime);
-        ComboEffectsExcutor.OnUpdate(deltaTime);
+        Effects_Excutor.OnUpdate(deltaTime);
     }
 }

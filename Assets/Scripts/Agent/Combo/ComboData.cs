@@ -10,7 +10,7 @@ public class ComboData
     /// <summary>
     /// combo招式数据
     /// </summary>
-    public ComboActionData[] comboActionDatas;
+    public ComboStep[] comboSteps;
 
     /// <summary>
     /// combo的转换状态时间（占拍子的百分比时间）

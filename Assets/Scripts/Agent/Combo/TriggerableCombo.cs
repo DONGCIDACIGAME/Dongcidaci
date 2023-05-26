@@ -56,14 +56,14 @@ public class TriggerableCombo
 
     public int GetComboStepCount()
     {
-        return comboData.comboActionDatas.Length;
+        return comboData.comboSteps.Length;
     }
 
     /// <summary>
     /// 获取当前触发的招式信息
     /// </summary>
     /// <returns></returns>
-    public ComboActionData GetCurrentComboAction()
+    public ComboStep GetCurrentComboStep()
     {
         if(comboData == null)
         {
@@ -71,7 +71,7 @@ public class TriggerableCombo
             return null;
         }
 
-        if(comboData.comboActionDatas == null || comboData.comboActionDatas.Length == 0)
+        if(comboData.comboSteps == null || comboData.comboSteps.Length == 0)
         {
             Log.Error(LogLevel.Normal, "GetCurrentComboStep Error, comboStepDatas is null or empty! combo name:{0}", comboData.comboName);
             return null;
@@ -86,10 +86,10 @@ public class TriggerableCombo
         if (triggeredAt < 0)
             return null;
 
-        if (triggeredAt >= comboData.comboActionDatas.Length)
+        if (triggeredAt >= comboData.comboSteps.Length)
             return null;
 
-        return comboData.comboActionDatas[triggeredAt];
+        return comboData.comboSteps[triggeredAt];
     }
 
     /// <summary>
@@ -105,21 +105,21 @@ public class TriggerableCombo
         if (!triggerable)
             return false;
 
-        if(triggeredAt >= comboData.comboActionDatas.Length-1)
+        if(triggeredAt >= comboData.comboSteps.Length-1)
         {
             triggerable = false;
             return false;
         }
 
-        ComboActionData nextAction = comboData.comboActionDatas[triggeredAt + 1];
-        if(nextAction == null)
+        ComboStep nextStep = comboData.comboSteps[triggeredAt + 1];
+        if(nextStep == null)
         {
-            Log.Error(LogLevel.Normal, "TryTriggerOnNewInput Error, Combo [{0}] has null action at {1}", comboData.comboName, triggeredAt + 1);
+            Log.Error(LogLevel.Normal, "TryTriggerOnNewInput Error, Combo [{0}] has null step at {1}", comboData.comboName, triggeredAt + 1);
             triggerable = false;
             return false;
         }
 
-        if(input == nextAction.input)
+        if(input == nextStep.input)
         {
             triggeredAt++;
             return true;

@@ -5,15 +5,27 @@
 /// </summary>
 public class StepLoopAnimDriver : AgentAnimDriver
 {
+    // 所有动画
+    protected AgentAnimStateInfo[] mAnimStates;
+
     private int curStateIndex;
     private int curStateLoopRecord;
     private bool inDriving;
 
 
-    public StepLoopAnimDriver(Agent agt, string statusName) : base(agt, statusName)
+    public StepLoopAnimDriver(Agent agt, string statusName) : base(agt)
     {
         curStateIndex = 0;
         curStateLoopRecord = 0;
+        inDriving = false;
+        if (agt != null)
+        {
+            AgentStatusInfo statusInfo = AgentHelper.GetAgentStatusInfo(agt, statusName);
+            if (statusInfo != null)
+            {
+                mAnimStates = statusInfo.animStates;
+            }
+        }
     }
 
     protected int AnimRepeatePlay()
@@ -115,6 +127,7 @@ public class StepLoopAnimDriver : AgentAnimDriver
     public override void Dispose()
     {
         base.Dispose();
+        mAnimStates = null;
         Reset();
     }
 

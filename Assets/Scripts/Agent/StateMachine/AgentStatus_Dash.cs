@@ -33,15 +33,13 @@ public class AgentStatus_Dash : AgentStatus
         Vector3 towards = (Vector3)context["towards"];
         int triggerMeter = (int)context["triggerMeter"];
 
+        TriggeredComboStep triggeredComboStep = null;
         if (context.TryGetValue("comboAction", out object obj))
         {
-            TriggeredComboAction triggeredComboAction = obj as TriggeredComboAction;
-            CustomOnComboCommand(cmdType, towards, triggerMeter, triggeredComboAction);
+            triggeredComboStep = obj as TriggeredComboStep;
         }
-        else
-        {
-            CustomOnNormalCommand(cmdType, towards, triggerMeter);
-        }
+
+        ConditionalExcute(cmdType, towards, triggerMeter, triggeredComboStep);
     }
 
     public override void OnExit()
@@ -66,45 +64,30 @@ public class AgentStatus_Dash : AgentStatus
         }
     }
 
-    protected override void CustomOnNormalCommand(byte cmdType, Vector3 towards, int triggerMeter)
+    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnNormalCommand(cmdType, towards, triggerMeter);
+        base.CustomOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
 
         switch (cmdType)
         {
             // 接收到受击指令，马上切换到受击状态
             case AgentCommandDefine.BE_HIT:
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, null);
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
                 break;
+            // 根据节拍进度冲刺
             case AgentCommandDefine.DASH:
-                Log.Error(LogLevel.Info, "如果冲刺没有配combo，就会执行到这里");
-                StatusDefaultAction();
+                ConditionalExcute(cmdType, towards, triggerMeter, triggeredComboStep); 
                 break;
             // 其他指令类型，都要等本次冲刺结束后执行，先放入指令缓存区
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, null);
+                PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboStep);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
                 break;
-        }
-    }
-
-    protected override void CustomOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
-    {
-        base.CustomOnComboCommand(cmdType, towards, triggerMeter, triggeredComboAction);
-
-        // 如果是冲刺指令，就根据节拍进度执行combo
-        if (AgentCommandDefine.GetChangeToStatus(cmdType) == GetStatusName())
-        {
-            ConditionalExcuteCombo(cmdType, towards, triggerMeter, triggeredComboAction);
-        }
-        else // 否则都要等本次冲刺结束后执行，先放入指令缓存区
-        {
-            PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboAction);
         }
     }
 
@@ -128,11 +111,11 @@ public class AgentStatus_Dash : AgentStatus
             {
                 mAgent.MoveControl.TurnTo(towards);
                 Dash();
-                ExcuteCombo(mCurTriggeredComboAction);
+                ExcuteCombo(cmdType, towards, triggerMeter, mCurTriggeredComboStep);
             }
             else// 否则切换到其他状态执行指令和combo
             {
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, mCurTriggeredComboAction);
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, mCurTriggeredComboStep);
             }
         }
     }
@@ -142,8 +125,27 @@ public class AgentStatus_Dash : AgentStatus
         
     }
 
-    public override void StatusDefaultAction()
+    /// <summary>
+    /// dash的默认逻辑
+    /// 1. 播放冲刺动画
+    /// 3. 向当前方向冲刺一段距离
+    /// </summary>
+    /// <param name="cmdType"></param>
+    /// <param name="towards"></param>
+    /// <param name="triggerMeter"></param>
+    /// <param name="agentActionData"></param>
+    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
-        
+        // 1. 播放冲刺动画
+        if (!string.IsNullOrEmpty(agentActionData.stateName) && !string.IsNullOrEmpty(agentActionData.stateName))
+        {
+            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
+        }
+       else
+        {
+            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusDefaultActionData.statusName, statusDefaultActionData.stateName);
+        }
+        // 2. 向当前方向冲刺一段距离
+        Dash();
     }
 }

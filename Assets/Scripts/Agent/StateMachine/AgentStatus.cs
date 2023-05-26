@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,9 +40,17 @@ public abstract class AgentStatus : IAgentStatus
     /// <summary>
     /// 当前触发的combo招式缓存
     /// </summary>
-    protected TriggeredComboAction mCurTriggeredComboAction;
+    protected TriggeredComboStep mCurTriggeredComboStep;
 
+    /// <summary>
+    /// 节拍结束时的待执行行为
+    /// </summary>
     protected Stack<MeterEndAction> mMeterEndActions;
+
+    /// <summary>
+    /// 状态的默认行为数据
+    /// </summary>
+    protected AgentActionData statusDefaultActionData;
 
     /// <summary>
     /// 初始化
@@ -55,9 +61,10 @@ public abstract class AgentStatus : IAgentStatus
     {
         ChangeStatus = cb;
         mAgent = agt;
+        statusDefaultActionData = AgentHelper.GetAgentDefaultStatusActionData(agt, GetStatusName());
         cmdBuffer = new AgentInputCommandBuffer();
         mMeterEndActions = new Stack<MeterEndAction>();
-        mCustomAnimDriver = new CustomAnimDriver(mAgent, GetStatusName());
+        mCustomAnimDriver = new CustomAnimDriver(mAgent);
         mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
     }
 
@@ -75,7 +82,7 @@ public abstract class AgentStatus : IAgentStatus
     /// <summary>
     /// 状态默认的行为逻辑
     /// </summary>
-    public abstract void StatusDefaultAction();
+    public abstract void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData);
 
     /// <summary>
     /// 进入状态
@@ -86,7 +93,11 @@ public abstract class AgentStatus : IAgentStatus
         Log.Logic(LogLevel.Info, "OnEnter Status:{0}--cur meter:{1}", GetStatusName(), MeterManager.Ins.MeterIndex);
         cmdBuffer.ClearCommandBuffer();
         mMeterEndActions.Clear();
-        mCurTriggeredComboAction = null;
+        if(AgentStatusDefine.IsResetComboStatus(GetStatusName()))
+        {
+            mAgent.Combo_Trigger.ResetAllCombo();
+        }
+        mCurTriggeredComboStep = null;
         mInputHandle.SetEnable(true);
     }
     
@@ -98,7 +109,7 @@ public abstract class AgentStatus : IAgentStatus
         mInputHandle.SetEnable(false);
         cmdBuffer.ClearCommandBuffer();
         mMeterEndActions.Clear();
-        mCurTriggeredComboAction = null;
+        mCurTriggeredComboStep = null;
     }
 
     /// <summary>
@@ -161,7 +172,7 @@ public abstract class AgentStatus : IAgentStatus
             action.CheckAndExcute(meterIndex);
         }
 
-        if(mCurTriggeredComboAction != null && meterIndex >= mCurTriggeredComboAction.endMeter)
+        if(mCurTriggeredComboStep != null && meterIndex >= mCurTriggeredComboStep.endMeter)
         {
 
         }
@@ -178,8 +189,8 @@ public abstract class AgentStatus : IAgentStatus
     /// <param name="cmdType"></param>
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
-    /// <param name="triggeredComboAction"></param>
-    protected void ChangeStatusOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
+    /// <param name="triggeredComboStep"></param>
+    protected void ChangeStatusOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
     {
         string status = AgentCommandDefine.GetChangeToStatus(cmdType);
         if (string.IsNullOrEmpty(status))
@@ -195,9 +206,9 @@ public abstract class AgentStatus : IAgentStatus
         args.Add("triggerMeter", triggerMeter);
 
         // 如果是combo的触发类型，并且触发了combo，就添加combo招式信息
-        if (AgentCommandDefine.IsComboTrigger(cmdType) && triggeredComboAction != null)
+        if (AgentCommandDefine.IsComboTrigger(cmdType) && triggeredComboStep != null)
         {
-            args.Add("comboAction", triggeredComboAction);
+            args.Add("comboAction", triggeredComboStep);
         }
 
         ChangeStatus(status, args);
@@ -208,12 +219,12 @@ public abstract class AgentStatus : IAgentStatus
     /// </summary>
     /// <param name="cmdType"></param>
     /// <param name="towards"></param>
-    public void PushInputCommandToBuffer(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggerdComboAction)
+    public void PushInputCommandToBuffer(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
     {
         cmdBuffer.AddInputCommand(cmdType, towards, triggerMeter);
-        if(triggerdComboAction != null)
+        if(triggeredComboStep != null)
         {
-            mCurTriggeredComboAction = triggerdComboAction;
+            mCurTriggeredComboStep = triggeredComboStep;
         }
     }
 
@@ -222,9 +233,9 @@ public abstract class AgentStatus : IAgentStatus
         ChangeStatus(AgentStatusDefine.IDLE, null);
     }
 
-    protected virtual void CustomOnNormalCommand(byte cmdType, Vector3 towards, int triggerMeter) { }
+    protected virtual void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep) { }
 
-    public void OnNormalCommand(AgentInputCommand cmd)
+    public void OnCommand(AgentInputCommand cmd, TriggeredComboStep triggeredComboStep)
     {
         if (cmd == null)
         {
@@ -232,33 +243,33 @@ public abstract class AgentStatus : IAgentStatus
             return;
         }
 
-        CustomOnNormalCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter);
+        CustomOnCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, triggeredComboStep);
     }
 
-    protected virtual void CustomOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction) { }
+    //protected virtual void CustomOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction) { }
    
-    public void OnComboCommand(AgentInputCommand cmd, TriggeredComboAction combo)
-    {
-        if (cmd == null)
-        {
-            Log.Error(LogLevel.Normal, "OnComboCommand Error, cmd is null!");
-            return;
-        }
+    //public void OnComboCommand(AgentInputCommand cmd, TriggeredComboAction combo)
+    //{
+    //    if (cmd == null)
+    //    {
+    //        Log.Error(LogLevel.Normal, "OnComboCommand Error, cmd is null!");
+    //        return;
+    //    }
 
-        if (combo == null)
-        {
-            Log.Error(LogLevel.Normal, "OnComboCommand Error, combo is null!");
-            return;
-        }
+    //    if (combo == null)
+    //    {
+    //        Log.Error(LogLevel.Normal, "OnComboCommand Error, combo is null!");
+    //        return;
+    //    }
 
-        if (!AgentCommandDefine.IsComboTrigger(cmd.CmdType))
-        {
-            Log.Error(LogLevel.Normal, "OnComboCommand Error,[{0}] is  not combo trigger command type!", cmd.CmdType);
-            return;
-        }
+    //    if (!AgentCommandDefine.IsComboTrigger(cmd.CmdType))
+    //    {
+    //        Log.Error(LogLevel.Normal, "OnComboCommand Error,[{0}] is  not combo trigger command type!", cmd.CmdType);
+    //        return;
+    //    }
 
-        CustomOnComboCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, combo);
-    }
+    //    CustomOnComboCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, combo);
+    //}
 
 
 
@@ -266,29 +277,36 @@ public abstract class AgentStatus : IAgentStatus
     /// 执行Combo
     /// </summary>
     /// <param name="triggeredComboAction"></param>
-    protected void ExcuteCombo(TriggeredComboAction triggeredComboAction)
+    protected void ExcuteCombo(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
     {
-        // 先执行状态的默认行为逻辑
-        StatusDefaultAction();
-
-        if (triggeredComboAction == null)
+        if (triggeredComboStep == null)
         {
             Log.Error(LogLevel.Normal, "ExcuteCombo Error, combo is null!");
             return;
         }
 
-        ComboActionData actionData = triggeredComboAction.actionData;
-        if (actionData == null)
+        ComboStep comboStep = triggeredComboStep.comboStep;
+        if (comboStep == null)
         {
-            Log.Error(LogLevel.Normal, "ExcuteCombo Error, ComboActionData is null, combo name:{0}, index:{1}!", triggeredComboAction.comboData.comboName, triggeredComboAction.actionIndex);
+            Log.Error(LogLevel.Normal, "ExcuteCombo Error, comboStep is null, combo name:{0}, index:{1}!", triggeredComboStep.comboData.comboName, triggeredComboStep.stepIndex);
             return;
         }
 
-        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(actionData.stateName);
-        mAgent.ComboEffectsExcutor.Start(triggeredComboAction);
-        if (actionData.endFlag)
+        // 如果是覆盖模式
+        if(comboStep.mode == ComboDefine.ComboMode_Overwrite)
         {
-            float transferStateDuration = triggeredComboAction.comboData.transferStateDuration;
+            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(comboStep.agentActionData.statusName, comboStep.agentActionData.stateName);
+        }
+        // 如果是叠加模式
+        else if(comboStep.mode == ComboDefine.ComboMode_Overlay)
+        {
+            StatusDefaultAction(cmdType, towards, triggerMeter, triggeredComboStep.comboStep.agentActionData);
+        }
+
+        mAgent.Effects_Excutor.Start(triggeredComboStep);
+        if (comboStep.endFlag)
+        {
+            float transferStateDuration = triggeredComboStep.comboData.transferStateDuration;
             mMeterEndActions.Push(new MeterEndAction(mCurLogicStateEndMeter, () =>
             {
                 
@@ -298,21 +316,21 @@ public abstract class AgentStatus : IAgentStatus
             }));
         }
 
-        mCurTriggeredComboAction = null;
-        triggeredComboAction.Recycle();
+        mCurTriggeredComboStep = null;
+        triggeredComboStep.Recycle();
     }
 
 
     /// <summary>
-    /// 根据节拍进度执行combo
+    /// 根据节拍进度执行
     /// 如果本拍的剩余时间占比=waitMeterProgress,就直接执指令，否则等下拍执行指令
     /// 其他情况等待下一拍执行
     /// </summary>
     /// <param name="cmdType"></param>
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
-    /// <param name="triggeredComboAction"></param>
-    protected bool ConditionalExcuteCombo(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
+    /// <param name="triggeredComboStep"></param>
+    protected bool ConditionalExcute(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
     {
         // 当前拍的剩余时间
         float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
@@ -329,12 +347,19 @@ public abstract class AgentStatus : IAgentStatus
         if (progress >= GamePlayDefine.AttackMeterProgressWait)
         {
             mAgent.MoveControl.TurnTo(towards);
-            ExcuteCombo(triggeredComboAction);
+            if(triggeredComboStep != null)
+            {
+                ExcuteCombo(cmdType, towards, triggerMeter, triggeredComboStep);
+            }
+            else
+            {
+                StatusDefaultAction(cmdType, towards, triggerMeter, triggeredComboStep.comboStep.agentActionData);
+            }
             return true;
         }
         else
         {
-            PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboAction);
+            PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboStep);
             return false;
         }
     }

@@ -34,15 +34,12 @@ public class AgentStatus_Attack : AgentStatus
         Vector3 towards = (Vector3)context["towards"];
         int triggerMeter = (int)context["triggerMeter"];
 
+        TriggeredComboStep triggeredComboStep = null;
         if (context.TryGetValue("comboAction", out object obj))
         {
-            TriggeredComboAction triggeredComboAction = obj as TriggeredComboAction;
-            CustomOnComboCommand(cmdType, towards, triggerMeter, triggeredComboAction);
+            triggeredComboStep = obj as TriggeredComboStep;
         }
-        else
-        {
-            CustomOnNormalCommand(cmdType, towards, triggerMeter);
-        }
+        ConditionalExcute(cmdType, towards, triggerMeter, triggeredComboStep);
     }
 
     /// <summary>
@@ -58,9 +55,9 @@ public class AgentStatus_Attack : AgentStatus
     /// 常规指令直接处理逻辑
     /// </summary>
     /// <param name="cmd"></param>
-    protected override void CustomOnNormalCommand(byte cmdType, Vector3 towards, int triggerMeter)
+    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnNormalCommand(cmdType, towards, triggerMeter);
+        base.CustomOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
 
         switch (cmdType)
         {
@@ -70,7 +67,7 @@ public class AgentStatus_Attack : AgentStatus
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                Log.Error(LogLevel.Info, "攻击应该都会触发combo!");
+                ConditionalExcute(cmdType, towards, triggerMeter, triggeredComboStep);
                 break;
             // 其他指令类型，都要等本次攻击结束后执行，先放入指令缓存区
             case AgentCommandDefine.DASH:
@@ -85,25 +82,6 @@ public class AgentStatus_Attack : AgentStatus
         }
     }
 
-    /// <summary>
-    /// Combo指令直接处理逻辑
-    /// </summary>
-    /// <param name="cmd"></param>
-    /// <param name="triggeredComboAction"></param>
-    protected override void CustomOnComboCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboAction triggeredComboAction)
-    {
-        base.CustomOnComboCommand(cmdType, towards, triggerMeter, triggeredComboAction);
-
-        // 如果是攻击指令，就根据节拍进度执行combo
-        if (AgentCommandDefine.GetChangeToStatus(cmdType) == GetStatusName())
-        {
-            ConditionalExcuteCombo(cmdType, towards, triggerMeter, triggeredComboAction);
-        }
-        else// 否则都要等本次攻击结束后执行，先放入指令缓存区
-        {
-            PushInputCommandToBuffer(cmdType, towards, triggerMeter,  triggeredComboAction);
-        }
-    }
 
     /// <summary>
     /// 节拍开始逻辑
@@ -126,11 +104,11 @@ public class AgentStatus_Attack : AgentStatus
             if (AgentCommandDefine.GetChangeToStatus(cmdType) == GetStatusName())
             {
                 mAgent.MoveControl.TurnTo(towards);
-                ExcuteCombo(mCurTriggeredComboAction);
+                ExcuteCombo(cmdType, towards, triggerMeter, mCurTriggeredComboStep);
             }
             else// 否则切换到其他状态执行指令和combo
             {
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, mCurTriggeredComboAction);
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, mCurTriggeredComboStep);
             }
         }
     }
@@ -164,8 +142,28 @@ public class AgentStatus_Attack : AgentStatus
         return AgentStatusDefine.ATTACK;
     }
 
-    public override void StatusDefaultAction()
+    /// <summary>
+    /// attack的默认逻辑
+    /// 1. 播放冲刺动画
+    /// 2. 造成伤害
+    /// </summary>
+    /// <param name="cmdType"></param>
+    /// <param name="towards"></param>
+    /// <param name="triggerMeter"></param>
+    /// <param name="agentActionData"></param>
+    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
+        // 1. 播放攻击动画
+        if (!string.IsNullOrEmpty(agentActionData.stateName) && !string.IsNullOrEmpty(agentActionData.stateName))
+        {
+            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
+        }
+        else
+        {
+            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusDefaultActionData.statusName, statusDefaultActionData.stateName);
+        }
+
+        // 2. 造成伤害
         
     }
 }

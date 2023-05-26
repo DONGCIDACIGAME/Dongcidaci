@@ -1,19 +1,19 @@
 public class DefaultStateAnimDriver : AgentAnimDriver
 {
-    public DefaultStateAnimDriver(Agent agt, string statusName) : base(agt, statusName)
+    public DefaultStateAnimDriver(Agent agt, string statusName) : base(agt)
     {
 
     }
 
     public int Play()
     {
-        if(mAnimStates == null || mAnimStates.Length == 0)
-        {
-            Log.Error(LogLevel.Normal, "DefaultStateAnimDriver Play Error, mAnimStates is null or empty!");
-            return MeterManager.Ins.MeterIndex;
-        }
+        //if(mAnimStates == null || mAnimStates.Length == 0)
+        //{
+        //    Log.Error(LogLevel.Normal, "DefaultStateAnimDriver Play Error, mAnimStates is null or empty!");
+        //    return MeterManager.Ins.MeterIndex;
+        //}
 
-        mCurAnimState = mAnimStates[0];
+        //mCurAnimState = mAnimStates[0];
 
         if (mCurAnimState == null)
         {

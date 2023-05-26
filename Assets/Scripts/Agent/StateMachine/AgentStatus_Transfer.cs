@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class AgentStatus_Transfer : AgentStatus
 {
@@ -34,13 +35,10 @@ public class AgentStatus_Transfer : AgentStatus
         base.OnEnter(context);
         mStateDuration = 0;
         mTime = 0;
-        if (context != null)
+        if (context.TryGetValue("duration", out object obj))
         {
-            if (context.TryGetValue("duration", out object obj))
-            {
-                float duration = (float)obj;
-                mStateDuration = MeterManager.Ins.GetCurrentMeterTime() * duration;
-            }
+            float duration = (float)obj;
+            mStateDuration = MeterManager.Ins.GetCurrentMeterTime() * duration;
         }
 
     }
@@ -72,7 +70,7 @@ public class AgentStatus_Transfer : AgentStatus
         }
     }
 
-    public override void StatusDefaultAction()
+    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
         
     }

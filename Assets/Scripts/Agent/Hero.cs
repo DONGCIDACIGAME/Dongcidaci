@@ -78,8 +78,8 @@ public class Hero : Agent
         SetSpeed(mHeroCfg.Speed);
         SetDashDistance(mHeroCfg.DashDistance);
 
-        ComboTrigger.SetComboActive("JJJ", true);
-        ComboTrigger.SetComboActive("DashAttack", true);
+        Combo_Trigger.SetComboActive("JJJ", true);
+        Combo_Trigger.SetComboActive("DashAttack", true);
     }
 
     public Hero(uint agentId) : base(agentId)

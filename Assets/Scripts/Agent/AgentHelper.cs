@@ -84,4 +84,17 @@ public static class AgentHelper
 
         return statusInfo;
     }
+
+    public static AgentActionData GetAgentDefaultStatusActionData(Agent agt, string statusName)
+    {
+        AgentStatusInfo statusInfo = GetAgentStatusInfo(agt, statusName);
+
+        if(statusInfo == null)
+        {
+            Log.Error(LogLevel.Normal, "GetAgentDefaultStatusActionData Failed, agent id:{0}, statusName:{1}",agt.GetAgentId(), statusName);
+            return null;
+        }
+
+        return statusInfo.defaultAciton;
+    }
 }

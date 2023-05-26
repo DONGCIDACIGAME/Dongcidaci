@@ -5,74 +5,89 @@
 	[
 		{
 			"comboName": "JJJ",
-			"comboActionDatas": [
+			"comboSteps": [
 				{
 					"input": 8, 
-					"statusName": "Attack",
-					"stateName": "Combo_1_With_Empty", 
-					"effects": [
-						{
-							"hitEffects": [
-								{ "effectType": 0, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
-							]
-						}
-					],
+					"mode": 1,
+					"agentActionData": {
+						"statusName": "Attack",
+						"stateName": "Combo_1_With_Empty", 
+						"effectCollictions": [
+							{
+								"effects": [
+									{ "effectType": 0, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+								]
+							}
+						]
+					},
 					"endFlag": false
 				},
 				{
 					"input": 8,
-					"statusName": "Attack",
-					"stateName": "Combo_2_With_Empty",
-					"effects": [
-						{
-							"hitEffects": [
-								{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
-							]
-						}
-					],
+					"mode": 1,
+					"agentActionData": {
+						"statusName": "Attack",
+						"stateName": "Combo_2_With_Empty",
+						"effectCollictions": [
+							{
+								"effects": [
+									{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+								]
+							}
+						]
+					},
 					"endFlag": false
 				},
 				{
 					"input": 8,
-					"statusName": "Attack",
-					"stateName": "Combo_3_With_Empty",
-					"effects": [
-						{
-							"hitEffects": [
-								{ "effectType": 2, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
-							]
-						}
-					],
+					"mode": 1,
+					"agentActionData": {
+						"statusName": "Attack",
+						"stateName": "Combo_3_With_Empty",
+						"effectCollictions": [
+							{
+								"effects": [
+									{ "effectType": 2, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+								]
+							}
+						]
+					},
 					"endFlag": true
 				}
 			],
 			"transferStateDuration": 0.5
 		},
-				{
+		{
 			"comboName": "DashAttack",
-			"comboActionDatas": [
+			"comboSteps": [
 				{
 					"input": 4, 
-					"statusName": "Dash",
-					"stateName": "Dash", 
-					"effects": [
-						{
-							"hitEffects": []
-						}
-					],
+					"mode": 1,
+					"agentActionData": {
+						"statusName": "Dash",
+						"stateName": "Dash", 
+						"effectCollictions": [
+							{
+								"effects": []
+							}
+						]
+					},
 					"endFlag": false
 				},
 				{
 					"input": 8,
-					"statusName": "Attack",
-					"stateName": "Combo_2_With_Empty",
-					"effects": [
-						{
-							"hitEffects": [
-								{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
-							]
-						}
-					],
+					"mode": 1,
+					"agentActionData": {
+						"statusName": "Attack",
+						"stateName": "Combo_2_With_Empty",
+						"effectCollictions": [
+							{
+								"effects": [
+									{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+								]
+							}
+						]
+					},
 					"endFlag": true
 				}
 			],

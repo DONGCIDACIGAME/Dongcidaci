@@ -1,33 +1,33 @@
 public static class ComboDefine
 {
     /// <summary>
-    /// combo´¥·¢³É¹¦
+    /// comboè§¦å‘æˆåŠŸ
     /// </summary>
     public const int ComboTriggerResult_Succeed = 0;
 
     /// <summary>
-    /// ²»ÊÇcomboµÄ´¥·¢Ö¸Áî
+    /// ä¸æ˜¯comboçš„è§¦å‘æŒ‡ä»¤
     /// </summary>
     public const int ComboTriggerResult_NotComboTrigger = 1;
 
     /// <summary>
-    /// ÊÇcomboµÄ´¥·¢Ö¸Áî£¬µ«ÊÇÉÏÒ»¸öcombo»¹ÔÚÖ´ĞĞ¹ı³ÌÖĞ£¨Ã»µ½Âß¼­Íê³ÉÖ¡£©
+    /// æ˜¯comboçš„è§¦å‘æŒ‡ä»¤ï¼Œä½†æ˜¯ä¸Šä¸€ä¸ªcomboè¿˜åœ¨æ‰§è¡Œè¿‡ç¨‹ä¸­ï¼ˆæ²¡åˆ°é€»è¾‘å®Œæˆå¸§ï¼‰
     /// </summary>
     public const int ComboTriggerResult_ComboExcuting = 2;
 
     /// <summary>
-    /// ÊÇcomboµÄ´¥·¢Ö¸Áî£¬µ«ÊÇÃ»ÓĞÆ¥Åäµ½combo
+    /// æ˜¯comboçš„è§¦å‘æŒ‡ä»¤ï¼Œä½†æ˜¯æ²¡æœ‰åŒ¹é…åˆ°combo
     /// </summary>
     public const int ComboTriggerResult_Failed = 3;
 
 
     /// <summary>
-    /// ¶ÀÕ¼Ä£Ê½
+    /// è¦†ç›–æ¨¡å¼
     /// </summary>
-    public const int ComboMode_Single = 0;
+    public const int ComboMode_Overwrite = 0;
 
     /// <summary>
-    /// µş¼ÓÄ£Ê½
+    /// å åŠ æ¨¡å¼
     /// </summary>
-    public const int ComboMode_Overlap= 0;
+    public const int ComboMode_Overlay= 1;
 }

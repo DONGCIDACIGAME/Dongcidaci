@@ -72,7 +72,7 @@ public class ComboTrigger : IMeterHandler
                 continue;
             }
 
-            if (comboData.comboActionDatas == null || comboData.comboActionDatas.Length == 0)
+            if (comboData.comboSteps == null || comboData.comboSteps.Length == 0)
             {
                 Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combo [{0}] comboStepDatas is null or emtpty, agent id:{1}, agent Name:{2}", comboData.comboName, comboGraph.agentId, comboGraph.agentName);
                 continue;
@@ -83,7 +83,7 @@ public class ComboTrigger : IMeterHandler
             for (int j = mSortedTriggerableCombos.Count - 1; j >= 0; j--)
             {
                 TriggerableCombo triggerableCombo = mSortedTriggerableCombos[j];
-                if (comboData.comboActionDatas.Length < triggerableCombo.GetComboStepCount())
+                if (comboData.comboSteps.Length < triggerableCombo.GetComboStepCount())
                 {
                     tc = new TriggerableCombo(comboData);
                     mSortedTriggerableCombos.Insert(j, tc);
@@ -106,9 +106,9 @@ public class ComboTrigger : IMeterHandler
     /// <param name="newInput">输入</param>
     /// <param name="meterIndex">输入对应的节拍index</param>
     /// <returns>触发combo的结果</returns>
-    public int OnNewInput(byte newInput, int meterIndex, out TriggeredComboAction action)
+    public int OnNewInput(byte newInput, int meterIndex, out TriggeredComboStep triggeredComboStep)
     {
-        action = null;
+        triggeredComboStep = null;
         if (meterIndex > comboLogicEndMeter && resetFlag)
         {
             ResetAllCombo();
@@ -139,25 +139,25 @@ public class ComboTrigger : IMeterHandler
             bool triggered = tc.TryTriggerOnNewInput(newInput);
 
             // 成功触发combo时，记录第一个被触发的combo
-            if (triggered && action == null)
+            if (triggered && triggeredComboStep == null)
             {
                 // get from pool
-                action = GamePoolCenter.Ins.TriggeredComboActionPool.Pop();
+                triggeredComboStep = GamePoolCenter.Ins.TriggeredComboActionPool.Pop();
 
-                ComboActionData actionData = tc.GetCurrentComboAction();
+                ComboStep comboStep = tc.GetCurrentComboStep();
 
                 // combo的逻辑结束拍=combo触发拍+combo招式持续拍-1
-                comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, actionData.statusName, actionData.stateName) - 1;
+                comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, comboStep.agentActionData.statusName, comboStep.agentActionData.stateName) - 1;
                 Log.Error(LogLevel.Info, "Combo Trigger OnNewInput -------new triggered---meterIndex:{0}, comboLogicEndMeter:{1}", meterIndex, comboLogicEndMeter);
 
                 // 记录这个被触发的招式，记录时不仅要记录招式数据，还要记录是谁触发的，combo的名字，招式的index, 触发在那一拍
-                action.Initialize(mAgent.GetAgentId(), tc.GetComboData(), tc.triggeredAt, meterIndex, comboLogicEndMeter, actionData);
+                triggeredComboStep.Initialize(mAgent.GetAgentId(), tc.GetComboData(), tc.triggeredAt, meterIndex, comboLogicEndMeter, comboStep);
             }
         }
 
-        if(action != null)
+        if(triggeredComboStep != null)
         {
-            resetFlag = action.actionData.endFlag;
+            resetFlag = triggeredComboStep.comboStep.endFlag;
 
             return ComboDefine.ComboTriggerResult_Succeed;
         }

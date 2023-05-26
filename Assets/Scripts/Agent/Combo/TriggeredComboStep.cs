@@ -1,21 +1,24 @@
 using GameEngine;
 
-public class TriggeredComboAction : IRecycle
+public class TriggeredComboStep : IRecycle
 {
     /// <summary>
     /// combo action data
     /// </summary>
-    public ComboActionData actionData { get; private set; }
+    public ComboStep comboStep { get; private set; }
 
     /// <summary>
     /// agent id
     /// </summary>
     public uint agentId { get; private set; }
 
+    /// <summary>
+    /// which combo is the combo step belong to
+    /// </summary>
     public ComboData comboData { get; private set; }
 
     /// <summary>
-    /// which meter is the combo action triggered
+    /// which meter is the combo step triggered
     /// </summary>
     public int triggeredMeter { get; private set; }
 
@@ -26,16 +29,16 @@ public class TriggeredComboAction : IRecycle
 
 
     /// <summary>
-    /// action index in combo
+    /// step index in combo
     /// </summary>
-    public int actionIndex { get; private set; }
+    public int stepIndex { get; private set; }
 
-    public TriggeredComboAction()
+    public TriggeredComboStep()
     {
         this.agentId = 0;
         this.comboData = null;
-        this.actionIndex = -1;
-        this.actionData = null;
+        this.stepIndex = -1;
+        this.comboStep = null;
         this.triggeredMeter = -1;
     }
 
@@ -44,26 +47,26 @@ public class TriggeredComboAction : IRecycle
     /// </summary>
     /// <param name="agentId"></param>
     /// <param name="comboName"></param>
-    /// <param name="actionIndex"></param>
-    /// <param name="comboAction"></param>
-    public void Initialize(uint agentId, ComboData comboData, int actionIndex, int triggerMeter, int endMeter, ComboActionData comboAction)
+    /// <param name="stepIndex"></param>
+    /// <param name="comboStep"></param>
+    public void Initialize(uint agentId, ComboData comboData, int stepIndex, int triggerMeter, int endMeter, ComboStep comboStep)
     {
         this.agentId = agentId;
         this.comboData = comboData;
-        this.actionIndex = actionIndex;
+        this.stepIndex = stepIndex;
         this.triggeredMeter = triggeredMeter;
         this.endMeter = endMeter;
-        this.actionData = comboAction;
+        this.comboStep = comboStep;
     }
 
     public void Dispose()
     {
         this.agentId = 0;
         this.comboData = null;
-        this.actionIndex = -1;
+        this.stepIndex = -1;
         this.triggeredMeter = -1;
         this.endMeter = -1;
-        this.actionData = null;
+        this.comboStep = null;
     }
 
     public void Recycle()

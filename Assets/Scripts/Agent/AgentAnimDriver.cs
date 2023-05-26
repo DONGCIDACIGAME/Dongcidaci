@@ -2,19 +2,11 @@ public class AgentAnimDriver
 {
     protected Agent mAgent;
     protected AgentAnimStateInfo mCurAnimState;
-    protected AgentAnimStateInfo[] mAnimStates;
+    
 
-    public AgentAnimDriver(Agent agt, string statusName)
+    public AgentAnimDriver(Agent agt)
     {
         mAgent = agt;
-        if(agt != null)
-        {
-            AgentStatusInfo statusInfo = AgentHelper.GetAgentStatusInfo(agt, statusName);
-            if(statusInfo != null)
-            {
-                mAnimStates = statusInfo.animStates;
-            }
-        }
         mCurAnimState = null;
     }
 
@@ -27,6 +19,5 @@ public class AgentAnimDriver
     {
         mAgent = null;
         mCurAnimState = null;
-        mAnimStates = null;
     }
 }

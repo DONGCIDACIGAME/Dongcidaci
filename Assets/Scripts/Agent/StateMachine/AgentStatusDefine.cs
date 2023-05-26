@@ -9,4 +9,13 @@ public static class AgentStatusDefine
     public static string ATTACK = "Attack";
     public static string BE_HIT = "Be_Hit";
     public static string DEAD = "Dead";
+
+    public static bool IsResetComboStatus(string statusName)
+    {
+        if (statusName == IDLE || statusName == RUN || statusName == TRANSFER
+            || statusName == BE_HIT || statusName == DEAD)
+            return true;
+
+        return false;
+    }
 }

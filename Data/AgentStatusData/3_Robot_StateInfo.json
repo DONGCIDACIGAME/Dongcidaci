@@ -4,12 +4,16 @@
 	"statusMap": {
 		"Idle": {
 			"statusName": "Idle",
-			"defaultState": "Idle",
-			"defaultEffects": [
-				{
-					"hitEffects": []
-				}
-			],
+			"defaultAciton":
+			{
+				"statusName": "Idle",
+				"stateName": "Idle",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
 			"animStates": [{
 				"stateName": "Idle",
 				"loopTime": 0,
@@ -23,12 +27,16 @@
 		},
 		"Run": {
 			"statusName": "Run",
-			"defaultState": "Run",
-			"defaultEffects": [
-				{
-					"hitEffects": []
-				}
-			],
+			"defaultAciton":
+			{
+				"statusName": "Run",
+				"stateName": "Run",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
 			"animStates": [{
 				"stateName": "Run",
 				"loopTime": 0,
@@ -41,14 +49,18 @@
 		},
 		"Attack":{
 			"statusName": "Attack",
-			"defaultState": "Combo_1_With_Empty",
-			"defaultEffects": [
-				{
-					"hitEffects": [
-						{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
-					]
-				}
-			],
+			"defaultAciton":
+			{
+				"statusName": "Attack",
+				"stateName": "Combo_1_With_Empty",
+				"effectCollictions": [
+					{
+						"effects":[
+							{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+						]
+					}
+				]
+			},
 			"animStates": [{
 				"stateName": "Combo_1_With_Empty",
 				"loopTime": 1,
@@ -77,12 +89,16 @@
 		},
 		"Dash": {
 			"statusName": "Dash",
-			"defaultState": "Dash",
-			"defaultEffects": [
-				{
-					"hitEffects": []
-				}
-			],
+			"defaultAciton":
+			{
+				"statusName": "Dash",
+				"stateName": "Dash",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
 			"animStates": [{
 				"stateName": "Dash",
 				"loopTime": 1,
@@ -95,12 +111,16 @@
 		},
 		"Transfer": {
 			"statusName": "Transfer",
-			"defaultState": "Empty",
-			"defaultEffects": [
-				{
-					"hitEffects": []
-				}
-			],
+			"defaultAciton":
+			{
+				"statusName": "Transfer",
+				"stateName": "Empty",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
 			"animStates": [{
 				"stateName": "Empty",
 				"loopTime": 1,
