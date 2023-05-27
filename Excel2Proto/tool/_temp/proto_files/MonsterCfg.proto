@@ -1,0 +1,28 @@
+/**
+* @file:   MonsterCfg
+* @author: Triniti Interactive Limited 
+* @brief:  这个文件是通过工具自动生成的，建议不要手动修改
+*/
+syntax = "proto3";
+
+option java_package ="com.trinitigames.server.conf.auto";
+
+package DongciDaci;
+
+message MonsterBaseCfg{
+    /** ID */ 
+    uint32 ID = 1;
+    /** 名称 */ 
+    string Name = 2;
+    /** 预制体路径 */ 
+    string Prefab = 3;
+    /** 角色的移动速度 */ 
+    float Speed = 4;
+    /** 角色的冲刺距离 */ 
+    float DashDistance = 5;
+}
+
+message MonsterCfg_Data {
+   map<uint32,  MonsterBaseCfg> MonsterBaseCfg_items = 1;
+
+}

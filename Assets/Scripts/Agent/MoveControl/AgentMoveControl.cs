@@ -14,25 +14,36 @@ public abstract class AgentMoveControl
     }
 
     /// <summary>
-    /// ÒÆ¶¯£¨ÓÉÍâ²¿Çı¶¯£©
-    /// ÓÉÍâ²¿Çı¶¯µÄºÃ´¦ÊÇ¿ÉÒÔ¸ù¾İ×´Ì¬À´¿ØÖÆ£¬Ö»ÓĞĞèÒªÒÆ¶¯µÄ×´Ì¬²ÅÇı¶¯½øĞĞÒÆ¶¯
+    /// ç§»åŠ¨ï¼ˆç”±å¤–éƒ¨é©±åŠ¨ï¼‰
+    /// ç”±å¤–éƒ¨é©±åŠ¨çš„å¥½å¤„æ˜¯å¯ä»¥æ ¹æ®çŠ¶æ€æ¥æ§åˆ¶ï¼Œåªæœ‰éœ€è¦ç§»åŠ¨çš„çŠ¶æ€æ‰é©±åŠ¨è¿›è¡Œç§»åŠ¨
     /// </summary>
-    /// <param name="deltaTime">ÒÆ¶¯¼ä¸ôÊ±¼ä</param>
+    /// <param name="deltaTime">ç§»åŠ¨é—´éš”æ—¶é—´</param>
     public virtual void Move(float deltaTime)
     {
-        // ¿ØÖÆÒÆ¶¯
+        // æ§åˆ¶ç§»åŠ¨
         Vector3 pos = mAgent.GetPosition() + mAgent.GetTowards().normalized * mAgent.GetSpeed() * deltaTime;
         mAgent.SetPosition(pos);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <param name="distance"></param>
+    public virtual void MoveDistanceInTime(float distance, float duration)
+    {
+        if (mMoveCtl != null)
+            mMoveCtl.MoveTo(mAgent.GetTowards().normalized, distance, duration);
     }
 
     public void Dash(float distance, float duration)
     {
         Vector3 towards = GamePlayDefine.InputDirection_NONE;
-        // »ñÈ¡×ªÏò¿Ø¼şµÄÄ¿±ê×ªÏò
+        // è·å–è½¬å‘æ§ä»¶çš„ç›®æ ‡è½¬å‘
         if (mTurnCtl != null)
             towards = mTurnCtl.GetTowards();
 
-        // Èç¹ûÃ»ÓĞÄ¿±ê×ªÏò£¬ÔòÊ¹ÓÃ½ÇÉ«µ±Ç°³¯Ïò
+        // å¦‚æœæ²¡æœ‰ç›®æ ‡è½¬å‘ï¼Œåˆ™ä½¿ç”¨è§’è‰²å½“å‰æœå‘
         if (towards.Equals(GamePlayDefine.InputDirection_NONE))
             towards = mAgent.GetTowards();
 
@@ -41,9 +52,9 @@ public abstract class AgentMoveControl
     }
 
     /// <summary>
-    /// ×ªÏò
+    /// è½¬å‘
     /// </summary>
-    /// <param name="towards">Ä¿±ê³¯Ïò</param>
+    /// <param name="towards">ç›®æ ‡æœå‘</param>
     public void TurnTo(Vector3 towards)
     {
         if (mTurnCtl != null)

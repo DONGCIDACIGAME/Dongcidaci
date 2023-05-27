@@ -1,10 +1,5 @@
 using GameEngine;
-
-/// <summary>
-/// 矩形范围的效果执行器
-/// 由外部驱动，如果外部被打断则不会执行效果
-/// </summary>
-public class RectEffectExcutor : IGameUpdate, IRecycle
+public class MovementExcutor : IGameUpdate, IRecycle
 {
     /// <summary>
     /// 计时器
@@ -18,15 +13,14 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
     private Agent mAgt;
 
     /// <summary>
-    /// 效果的执行时间
+    /// 执行时间
     /// </summary>
     private float mExcuteTime;
 
     /// <summary>
-    /// 效果
+    /// 移动
     /// </summary>
-    private RectEffect mEffect;
-
+    private Movement mMovement;
 
     public bool active { get; private set; }
 
@@ -36,12 +30,12 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
     /// <param name="agt">谁</param>
     /// <param name="excuteTime">多久之后</param>
     /// <param name="effect">执行什么效果</param>
-    public void Initialize(Agent agt, float excuteTime, RectEffect effect)
+    public void Initialize(Agent agt, float excuteTime, Movement movement)
     {
         mTimer = 0;
         mAgt = agt;
         mExcuteTime = excuteTime;
-        mEffect = effect;
+        mMovement = movement;
         active = true;
     }
 
@@ -51,18 +45,13 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
         mTimer = 0;
         mExcuteTime = 0;
         mAgt = null;
-        mEffect = null;
-    }
-
-    private void Excute(Agent agt, RectEffect effect)
-    {
-        Log.Logic(LogLevel.Info, "{0} excute effect {1}", agt.GetAgentId(), effect.effectType);
+        mMovement = null;
     }
 
     public void Recycle()
     {
         Dispose();
-        GamePoolCenter.Ins.RectEffectExcutorPool.Push(this);
+        GamePoolCenter.Ins.MovementExcutorPool.Push(this);
     }
 
     public void OnUpdate(float deltaTime)
@@ -70,14 +59,11 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
         if (!active)
             return;
 
-        if (mExcuteTime == 0)
-            return;
-
         mTimer += deltaTime;
 
-        if(mTimer >= mExcuteTime)
+        if (mTimer >= mExcuteTime)
         {
-            Excute(mAgt, mEffect);
+            mAgt.MoveControl.MoveDistanceInTime(mMovement.distance, mMovement.duration);
 
             Recycle();
         }

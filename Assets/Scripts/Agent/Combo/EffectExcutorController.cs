@@ -4,45 +4,44 @@ using System.Collections.Generic;
 /// <summary>
 /// 效果执行器
 /// </summary>
-public class EffectsExcutor : IGameUpdate, IMeterHandler
+public class EffectExcutorController : IGameUpdate, IMeterHandler
 {
     private Agent mAgt;
     private HashSet<RectEffectExcutor> effectExcutors;
-    private Stack<RectEffectExcutor> toRemoves;
+    private bool mEnable;
 
     public void Initialize(Agent agt)
     {
         effectExcutors = new HashSet<RectEffectExcutor>();
-        toRemoves = new Stack<RectEffectExcutor>();
         mAgt = agt;
+        mEnable = false;
     }
 
 
-    public void Start(TriggeredComboStep triggeredComboStep)
+    public void Start(string statusName, string stateName, EffectCollection[] effectCollictions)
     {
-        if(triggeredComboStep == null)
-        {
-            Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, combo is null!");
-            return;
-        }
-
-        ComboStep comboStep = triggeredComboStep.comboStep;
-        if (comboStep == null)
-        {
-            Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, ComboActionData is null!");
-            return;
-        }
-
         if (mAgt == null)
         {
             Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, mAgt is null!");
             return;
         }
 
-        AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgt, comboStep.agentActionData.statusName, comboStep.agentActionData.stateName);
+        if(string.IsNullOrEmpty(statusName))
+        {
+            Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, statusName is null!");
+            return;
+        }
+
+        if(string.IsNullOrEmpty(stateName))
+        {
+            Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, stateName is null!");
+            return;
+        }
+
+        AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgt, statusName, stateName);
         if(stateInfo == null)
         {
-            Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed,agentId:{0}, status:{1} can not find state:{2}!", mAgt.GetAgentId(), comboStep.agentActionData.statusName, comboStep.agentActionData.stateName);
+            Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed,agentId:{0}, status:{1} can not find state:{2}!", mAgt.GetAgentId(), statusName, stateName);
             return;
         }
 
@@ -52,17 +51,17 @@ public class EffectsExcutor : IGameUpdate, IMeterHandler
         HitPointInfo[] hitPoints = stateInfo.hitPoints;
         if(hitPoints == null || hitPoints.Length == 0)
         {
-            Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, hitPoints is null or empty, agentId:{0}, status:{1}, state:{2}!", mAgt.GetAgentId(), comboStep.agentActionData.statusName, comboStep.agentActionData.stateName);
+            //Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, hitPoints is null or empty, agentId:{0}, status:{1}, state:{2}!", mAgt.GetAgentId(), comboStep.agentActionData.statusName, comboStep.agentActionData.stateName);
             return;
         }
 
-        if(comboStep.agentActionData.effectCollictions == null || comboStep.agentActionData.effectCollictions.Length == 0)
+        if(effectCollictions == null || effectCollictions.Length == 0)
         {
-            Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, hit point effects is null or empty, comboName:{0}, action Index:{1}!", triggeredComboStep.comboData.comboName, triggeredComboStep.stepIndex);
+            Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, effectCollictions is null or empty!");
             return;
         }
 
-        if(hitPoints.Length != comboStep.agentActionData.effectCollictions.Length)
+        if(hitPoints.Length != effectCollictions.Length)
         {
             Log.Error(LogLevel.Normal, "Start Combo Action Excutor Failed, hitPoints.Length != actionData.effects.Length, ");
             return;
@@ -73,7 +72,7 @@ public class EffectsExcutor : IGameUpdate, IMeterHandler
             // 第i个hit点的信息
             HitPointInfo hitpoint = hitPoints[i];
             // 第i个hit点的效果
-            EffectCollection hitEffect = comboStep.agentActionData.effectCollictions[i];
+            EffectCollection hitEffect = effectCollictions[i];
 
             for(int j = 0; j < hitEffect.effects.Length; j++)
             {
@@ -82,6 +81,8 @@ public class EffectsExcutor : IGameUpdate, IMeterHandler
                 effectExcutors.Add(excutor);
             }
         }
+
+        mEnable = true;
     }
 
     public void Reset()
@@ -92,33 +93,35 @@ public class EffectsExcutor : IGameUpdate, IMeterHandler
         }
 
         effectExcutors.Clear();
+        mEnable = false;
     }
 
     public void Dispose()
     {
         Reset();
-        toRemoves = null;
         effectExcutors = null;
         mAgt = null;
     }
 
     public void OnUpdate(float deltaTime)
     {
-        toRemoves.Clear();
+        if (!mEnable)
+            return;
 
+        int totalActiveExcutor = 0;
         foreach(RectEffectExcutor excutor in effectExcutors)
         {
             excutor.OnUpdate(deltaTime);
 
-            if(!excutor.Active)
+            if (excutor.active)
             {
-                toRemoves.Push(excutor);
+                totalActiveExcutor++;
             }
         }
 
-        while(toRemoves.TryPop(out RectEffectExcutor excutor))
+        if(totalActiveExcutor == 0)
         {
-            effectExcutors.Remove(excutor);
+            Reset();
         }
     }
 

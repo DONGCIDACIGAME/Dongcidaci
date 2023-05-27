@@ -49,6 +49,10 @@ public class CustomAnimDriver : AgentAnimDriver
 
         // 原来的逻辑，直接融合
         mAgent.AnimPlayer.CrossFadeToStateStatic(stateName, mCurAnimState.layer, mCurAnimState.normalizedTime, 0, mCurAnimState.animLen, totalMeterTime);
+
+        // 动画的移动
+        mAgent.MovementExcutorCtl.Start(statusName, stateName, mCurAnimState.movements);
+
         return endMeterIndex;
     }
 
@@ -93,6 +97,7 @@ public class CustomAnimDriver : AgentAnimDriver
 
         mAgent.AnimPlayer.CrossFadeToStateDynamic(stateName, mCurAnimState.layer, mCurAnimState.normalizedTime, duration, mCurAnimState.animLen, totalMeterTime);
 
+        mAgent.MovementExcutorCtl.Start(statusName, stateName, mCurAnimState.movements);
         // 动画结束拍=当前拍+动画持续拍-1
         return newMeterIndex -1;
     }

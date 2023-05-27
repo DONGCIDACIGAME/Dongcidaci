@@ -11,6 +11,7 @@ public class StepLoopAnimDriver : AgentAnimDriver
     private int curStateIndex;
     private int curStateLoopRecord;
     private bool inDriving;
+    private string mStatusName;
 
 
     public StepLoopAnimDriver(Agent agt, string statusName) : base(agt)
@@ -18,6 +19,7 @@ public class StepLoopAnimDriver : AgentAnimDriver
         curStateIndex = 0;
         curStateLoopRecord = 0;
         inDriving = false;
+        mStatusName = statusName;
         if (agt != null)
         {
             AgentStatusInfo statusInfo = AgentHelper.GetAgentStatusInfo(agt, statusName);
@@ -45,6 +47,10 @@ public class StepLoopAnimDriver : AgentAnimDriver
 
         int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, mCurAnimState.stateMeterLen);
         mAgent.AnimPlayer.UpdateAnimSpeedWithFix(mCurAnimState.layer, mCurAnimState.animLen, duration);
+
+        // 动画的移动
+        mAgent.MovementExcutorCtl.Start(mStatusName, mCurAnimState.stateName, mCurAnimState.movements);
+
         // 动画结束拍=当前拍+动画持续拍-1
         return newMeterIndex -1;
     }
@@ -74,6 +80,10 @@ public class StepLoopAnimDriver : AgentAnimDriver
         int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, mCurAnimState.stateMeterLen);
         float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, newMeterIndex);
         mAgent.AnimPlayer.CrossFadeToStateDynamic(stateName, mCurAnimState.layer, mCurAnimState.normalizedTime, duration, mCurAnimState.animLen, totalMeterTime);
+
+        // 动画的移动
+        mAgent.MovementExcutorCtl.Start(mStatusName, mCurAnimState.stateName, mCurAnimState.movements);
+
         // 动画结束拍=当前拍+动画持续拍-1
         return newMeterIndex -1;
     }

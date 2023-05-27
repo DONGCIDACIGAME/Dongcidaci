@@ -273,8 +273,15 @@ public abstract class AgentStatus : IAgentStatus
         }
 
 
+        AgentActionData actionData = triggeredComboStep.comboStep.agentActionData;
+        if (actionData == null)
+        {
+            Log.Error(LogLevel.Normal, "ExcuteCombo Error, actionData is null, combo name:{0}, index:{1}!", triggeredComboStep.comboData.comboName, triggeredComboStep.stepIndex);
+            return;
+        }
+
         // 3. 效果执行器开始执行
-        mAgent.Effects_Excutor.Start(triggeredComboStep);
+        mAgent.EffectExcutorCtl.Start(actionData.statusName, actionData.stateName, actionData.effectCollictions);
 
         // 4. 如果是结束招式
         if (comboStep.endFlag)

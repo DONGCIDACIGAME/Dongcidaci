@@ -36,5 +36,4 @@ public static class GamePlayDefine
     /// 空参数
     /// </summary>
     public static Vector3 InputDirection_NONE = Vector3.zero;
-
 }

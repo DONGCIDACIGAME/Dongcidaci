@@ -41,7 +41,9 @@ public abstract class Agent : Entity, IMeterHandler
     /// <summary>
     /// 效果执行器
     /// </summary>
-    public EffectsExcutor Effects_Excutor;
+    public EffectExcutorController EffectExcutorCtl;
+
+    public MovementExcutorController MovementExcutorCtl;
 
     // 角色移动速度
     protected float mSpeed;
@@ -134,7 +136,8 @@ public abstract class Agent : Entity, IMeterHandler
         LoadAgentGo();
 
         Combo_Trigger.Initialize(this);
-        Effects_Excutor.Initialize(this);
+        EffectExcutorCtl.Initialize(this);
+        MovementExcutorCtl.Initialize(this);
 
         MeterManager.Ins.RegisterMeterHandler(this);
         StatusMachine.Initialize(this);
@@ -168,10 +171,16 @@ public abstract class Agent : Entity, IMeterHandler
             Combo_Trigger = null;
         }
 
-        if(Effects_Excutor != null)
+        if(EffectExcutorCtl != null)
         {
-            Effects_Excutor.Dispose();
-            Effects_Excutor = null;
+            EffectExcutorCtl.Dispose();
+            EffectExcutorCtl = null;
+        }
+
+        if(MovementExcutorCtl != null)
+        {
+            MovementExcutorCtl.Dispose();
+            MovementExcutorCtl = null;
         }
 
         if(StatusMachine != null)
@@ -189,7 +198,8 @@ public abstract class Agent : Entity, IMeterHandler
         StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
         StatusMachine = new AgentStatusMachine();
         Combo_Trigger = new ComboTrigger();
-        Effects_Excutor = new EffectsExcutor();
+        EffectExcutorCtl = new EffectExcutorController();
+        MovementExcutorCtl = new MovementExcutorController();
     }
 
 
@@ -280,7 +290,8 @@ public abstract class Agent : Entity, IMeterHandler
     {
         StatusMachine.OnMeterEnter(meterIndex);
         Combo_Trigger.OnMeterEnter(meterIndex);
-        Effects_Excutor.OnMeterEnter(meterIndex);
+        EffectExcutorCtl.OnMeterEnter(meterIndex);
+        MovementExcutorCtl.OnMeterEnter(meterIndex);
     }
 
     
@@ -288,7 +299,8 @@ public abstract class Agent : Entity, IMeterHandler
     { 
         StatusMachine.OnMeterEnd(meterIndex);
         Combo_Trigger.OnMeterEnd(meterIndex);
-        Effects_Excutor.OnMeterEnd(meterIndex);
+        EffectExcutorCtl.OnMeterEnd(meterIndex);
+        MovementExcutorCtl.OnMeterEnd(meterIndex);
     }
 
 
@@ -300,6 +312,7 @@ public abstract class Agent : Entity, IMeterHandler
     {
         MoveControl.OnUpdate(deltaTime);
         StatusMachine.OnUpdate(deltaTime);
-        Effects_Excutor.OnUpdate(deltaTime);
+        EffectExcutorCtl.OnUpdate(deltaTime);
+        MovementExcutorCtl.OnUpdate(deltaTime);
     }
 }
