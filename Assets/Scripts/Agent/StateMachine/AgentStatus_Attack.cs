@@ -98,35 +98,33 @@ public class AgentStatus_Attack : AgentStatus
             return;
         }
 
+        // 缓存区取指令
         if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
 
             switch (cmdType)
             {
+                case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.RUN:
+                case AgentCommandDefine.DASH:
+                case AgentCommandDefine.IDLE:
+                    ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboStep);
+                    break;
                 case AgentCommandDefine.ATTACK_SHORT:
                 case AgentCommandDefine.ATTACK_LONG:
-                case AgentCommandDefine.DASH:
-                case AgentCommandDefine.BE_HIT:
-                    ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboStep);
-                    return;
-                case AgentCommandDefine.IDLE:
-                    StatusDefaultAction(cmdType, towards, meterIndex, mCurTriggeredComboStep.comboStep.agentActionData);
+                    if(mCurTriggeredComboStep != null)
+                    {
+                        ExcuteCombo(cmdType, towards, triggerMeter, ref mCurTriggeredComboStep);
+                    }
+                    else
+                    {
+                        StatusDefaultAction(cmdType, towards, triggerMeter, GetAgentActionData());
+                    }
                     break;
                 case AgentCommandDefine.EMPTY:
                 default:
                     break;
-            }
-
-            // 如果是攻击指令，就执行combo
-            if (AgentCommandDefine.GetChangeToStatus(cmdType) == GetStatusName())
-            {
-                ExcuteCombo(cmdType, towards, triggerMeter, ref mCurTriggeredComboStep);
-            }
-            else// 否则切换到其他状态执行指令和combo
-            {
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, mCurTriggeredComboStep);
             }
         }
     }
@@ -176,7 +174,7 @@ public class AgentStatus_Attack : AgentStatus
         mAgent.MoveControl.TurnTo(towards);
 
         // 2. 播放攻击动画
-        if (!string.IsNullOrEmpty(agentActionData.stateName) && !string.IsNullOrEmpty(agentActionData.stateName))
+        if (agentActionData != null && !string.IsNullOrEmpty(agentActionData.stateName) && !string.IsNullOrEmpty(agentActionData.stateName))
         {
             mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
         }

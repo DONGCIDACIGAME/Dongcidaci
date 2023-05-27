@@ -104,18 +104,29 @@ public class AgentStatus_Dash : AgentStatus
         if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
-            mAgent.MoveControl.TurnTo(towards);
 
-            // 如果是冲刺指令，就执行combo
-            if (AgentCommandDefine.GetChangeToStatus(cmdType) == GetStatusName())
+            switch (cmdType)
             {
-                mAgent.MoveControl.TurnTo(towards);
-                Dash();
-                ExcuteCombo(cmdType, towards, triggerMeter, ref mCurTriggeredComboStep);
-            }
-            else// 否则切换到其他状态执行指令和combo
-            {
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, mCurTriggeredComboStep);
+                case AgentCommandDefine.BE_HIT:
+                case AgentCommandDefine.RUN:
+                case AgentCommandDefine.IDLE:
+                case AgentCommandDefine.ATTACK_SHORT:
+                case AgentCommandDefine.ATTACK_LONG:
+                    ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboStep);
+                    break;
+                case AgentCommandDefine.DASH:
+                    if (mCurTriggeredComboStep != null)
+                    {
+                        ExcuteCombo(cmdType, towards, triggerMeter, ref mCurTriggeredComboStep);
+                    }
+                    else
+                    {
+                        StatusDefaultAction(cmdType, towards, triggerMeter, GetAgentActionData());
+                    }
+                    break;
+                case AgentCommandDefine.EMPTY:
+                default:
+                    break;
             }
         }
     }
@@ -136,8 +147,9 @@ public class AgentStatus_Dash : AgentStatus
     /// <param name="agentActionData"></param>
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
+        Log.Error(LogLevel.Info, "Dash-StatusDefaultAction-------");
         // 1. 播放冲刺动画
-        if (!string.IsNullOrEmpty(agentActionData.stateName) && !string.IsNullOrEmpty(agentActionData.stateName))
+        if (agentActionData != null && !string.IsNullOrEmpty(agentActionData.stateName) && !string.IsNullOrEmpty(agentActionData.stateName))
         {
             mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
         }

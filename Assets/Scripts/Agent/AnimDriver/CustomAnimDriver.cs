@@ -15,7 +15,7 @@ public class CustomAnimDriver : AgentAnimDriver
     /// <returns></returns>
     public int PlayAnimStateWithoutCut(string statusName, string stateName)
     {
-        Log.Error(LogLevel.Info, "PlayAnimStateWithoutCut=======================play {0}", stateName);
+        //Log.Error(LogLevel.Info, "PlayAnimStateWithoutCut=======================play {0}", stateName);
 
         if (string.IsNullOrEmpty(statusName))
         {
@@ -33,14 +33,14 @@ public class CustomAnimDriver : AgentAnimDriver
 
         if (mCurAnimState == null)
         {
-            Log.Error(LogLevel.Normal, "PlayAnimStateWithoutCut PlayAnimState Error, status:{0} can not find state:{1}", statusName, stateName);
+            Log.Error(LogLevel.Normal, "PlayAnimStateWithoutCut Error, status:{0} can not find state:{1}", statusName, stateName);
             return MeterManager.Ins.MeterIndex;
         }
 
         float duration = MeterManager.Ins.GetTimeToMeter(mCurAnimState.stateMeterLen);
         if (duration == 0)
         {
-            Log.Error(LogLevel.Normal, "PlayAnimStateWithoutCut PlayAnimState Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
+            Log.Error(LogLevel.Normal, "PlayAnimStateWithoutCut Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
             return MeterManager.Ins.MeterIndex;
         }
 
@@ -59,7 +59,7 @@ public class CustomAnimDriver : AgentAnimDriver
     /// <returns></returns>
     public int PlayAnimStateWithCut(string statusName, string stateName)
     {
-        Log.Error(LogLevel.Info, "PlayAnimStateWithCut=======================play {0}-{1}", statusName, stateName);
+        //Log.Error(LogLevel.Info, "PlayAnimStateWithCut=======================play {0}-{1}", statusName, stateName);
 
         if (string.IsNullOrEmpty(statusName))
         {
@@ -67,15 +67,9 @@ public class CustomAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        if (string.IsNullOrEmpty(statusName))
-        {
-            Log.Error(LogLevel.Normal, "PlayAnimStateWithCut PlayAnimState Error, statusName is null or empty!");
-            return MeterManager.Ins.MeterIndex;
-        }
-
         if (string.IsNullOrEmpty(stateName))
         {
-            Log.Error(LogLevel.Normal, "PlayAnimStateWithCut PlayAnimState Error, stateName is null or empty!");
+            Log.Error(LogLevel.Normal, "PlayAnimStateWithCut Error, stateName is null or empty!");
             return MeterManager.Ins.MeterIndex;
         }
 
@@ -83,14 +77,14 @@ public class CustomAnimDriver : AgentAnimDriver
 
         if (mCurAnimState == null)
         {
-            Log.Error(LogLevel.Normal, "PlayAnimStateWithCut PlayAnimState Error, status:{0} can not find state:{1}", statusName, stateName);
+            Log.Error(LogLevel.Normal, "PlayAnimStateWithCut Error, status:{0} can not find state:{1}", statusName, stateName);
             return MeterManager.Ins.MeterIndex;
         }
 
         float duration = MeterManager.Ins.GetTimeToMeter(mCurAnimState.stateMeterLen);
         if (duration == 0)
         {
-            Log.Error(LogLevel.Normal, "PlayAnimStateWithCut PlayAnimState Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
+            Log.Error(LogLevel.Normal, "PlayAnimStateWithCut Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
             return MeterManager.Ins.MeterIndex;
         }
 

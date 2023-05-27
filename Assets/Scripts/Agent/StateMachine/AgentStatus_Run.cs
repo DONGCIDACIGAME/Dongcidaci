@@ -34,7 +34,7 @@ public class AgentStatus_Run : AgentStatus
         Vector3 towards = (Vector3)context["towards"];
         int triggerMeter = (int)context["triggerMeter"];
 
-        StatusDefaultAction(cmdType, towards, triggerMeter, null);     
+        StatusDefaultAction(cmdType, towards, triggerMeter, GetAgentActionData());     
     }
 
     public override void OnExit()
@@ -81,7 +81,7 @@ public class AgentStatus_Run : AgentStatus
                     ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboStep);
                     return;
                 case AgentCommandDefine.RUN:
-                    StatusDefaultAction(cmdType, towards, meterIndex, mCurTriggeredComboStep.comboStep.agentActionData);
+                    StatusDefaultAction(cmdType, towards, meterIndex, GetAgentActionData());
                     break;
                 case AgentCommandDefine.EMPTY:
                 default:
@@ -119,7 +119,7 @@ public class AgentStatus_Run : AgentStatus
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
         mAgent.MoveControl.TurnTo(towards);
-        if (!string.IsNullOrEmpty(agentActionData.statusName) && !string.IsNullOrEmpty(agentActionData.stateName))
+        if (agentActionData != null && !string.IsNullOrEmpty(agentActionData.statusName) && !string.IsNullOrEmpty(agentActionData.stateName))
         {
             mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.stateName, agentActionData.stateName);
         }

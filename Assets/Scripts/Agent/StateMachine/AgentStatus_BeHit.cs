@@ -26,7 +26,7 @@ public class AgentStatus_BeHit : AgentStatus
         Vector3 towards = (Vector3)context["towards"];
         int triggerMeter = (int)context["triggerMeter"];
 
-        StatusDefaultAction(cmdType, towards, triggerMeter, null);
+        StatusDefaultAction(cmdType, towards, triggerMeter, GetAgentActionData());
     }
 
     public override void OnExit()

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Agent : Entity, IMeterHandler
@@ -139,7 +140,11 @@ public abstract class Agent : Entity, IMeterHandler
         StatusMachine.Initialize(this);
         CustomInitialize();
 
-        StatusMachine.SwitchToStatus(AgentStatusDefine.IDLE, null);
+        Dictionary<string, object> args = new Dictionary<string, object>();
+        args.Add("cmdType", AgentCommandDefine.IDLE);
+        args.Add("towards", GamePlayDefine.InputDirection_NONE);
+        args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
+        StatusMachine.SwitchToStatus(AgentStatusDefine.IDLE, args);
     }
 
     /// <summary>

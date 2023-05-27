@@ -28,7 +28,7 @@ public class AgentStatus_Idle : AgentStatus
         Vector3 towards = (Vector3)context["towards"];
         int triggerMeter = (int)context["triggerMeter"];
 
-        StatusDefaultAction(cmdType, towards, triggerMeter, null);
+        StatusDefaultAction(cmdType, towards, triggerMeter, GetAgentActionData());
     }
 
     public override void OnExit()
@@ -74,7 +74,7 @@ public class AgentStatus_Idle : AgentStatus
                     ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboStep);
                     return;
                 case AgentCommandDefine.IDLE:
-                    StatusDefaultAction(cmdType, towards, meterIndex, mCurTriggeredComboStep.comboStep.agentActionData);
+                    StatusDefaultAction(cmdType, towards, meterIndex, GetAgentActionData());
                     break;
                 case AgentCommandDefine.EMPTY:
                 default:
@@ -84,7 +84,7 @@ public class AgentStatus_Idle : AgentStatus
             if (meterIndex <= mCurLogicStateEndMeter)
                 return;
 
-            StatusDefaultAction(cmdType, towards, triggerMeter, mCurTriggeredComboStep.comboStep.agentActionData);
+            StatusDefaultAction(cmdType, towards, triggerMeter, GetAgentActionData());
         }
     }
 
@@ -103,7 +103,7 @@ public class AgentStatus_Idle : AgentStatus
     /// <param name="triggeredComboStep"></param>
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
-        if(!string.IsNullOrEmpty(agentActionData.statusName) && !string.IsNullOrEmpty(agentActionData.stateName))
+        if(agentActionData != null && !string.IsNullOrEmpty(agentActionData.statusName) && !string.IsNullOrEmpty(agentActionData.stateName))
         {
             mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.stateName,agentActionData.stateName);
         }

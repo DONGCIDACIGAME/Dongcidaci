@@ -66,7 +66,11 @@ public class AgentStatus_Transfer : AgentStatus
 
         if(mTime >= mStateDuration)
         {
-            ChangeStatus(AgentStatusDefine.IDLE, null);
+            Dictionary<string, object> args = new Dictionary<string, object>();
+            args.Add("cmdType", AgentCommandDefine.IDLE);
+            args.Add("towards", GamePlayDefine.InputDirection_NONE);
+            args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
+            ChangeStatus(AgentStatusDefine.IDLE, args);
         }
     }
 
