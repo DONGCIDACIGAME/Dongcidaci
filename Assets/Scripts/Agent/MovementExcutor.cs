@@ -15,7 +15,7 @@ public class MovementExcutor : IGameUpdate, IRecycle
     /// <summary>
     /// 执行时间
     /// </summary>
-    private float mExcuteTime;
+    private float mMoveEndTime;
 
     /// <summary>
     /// 移动
@@ -28,13 +28,13 @@ public class MovementExcutor : IGameUpdate, IRecycle
     /// 启动一个角色在击打点的效果执行器
     /// </summary>
     /// <param name="agt">谁</param>
-    /// <param name="excuteTime">多久之后</param>
-    /// <param name="effect">执行什么效果</param>
-    public void Initialize(Agent agt, float excuteTime, Movement movement)
+    /// <param name="moveEndTime">移动结束时间</param>
+    /// <param name="movement">移动数据</param>
+    public void Initialize(Agent agt, float moveEndTime, Movement movement)
     {
         mTimer = 0;
         mAgt = agt;
-        mExcuteTime = excuteTime;
+        mMoveEndTime = moveEndTime;
         mMovement = movement;
         active = true;
     }
@@ -43,7 +43,7 @@ public class MovementExcutor : IGameUpdate, IRecycle
     {
         active = false;
         mTimer = 0;
-        mExcuteTime = 0;
+        mMoveEndTime = 0;
         mAgt = null;
         mMovement = null;
     }
@@ -61,7 +61,7 @@ public class MovementExcutor : IGameUpdate, IRecycle
 
         mTimer += deltaTime;
 
-        if (mTimer >= mExcuteTime)
+        if (mTimer >= mMoveEndTime-mMovement.duration)
         {
             mAgt.MoveControl.MoveDistanceInTime(mMovement.distance, mMovement.duration);
 
