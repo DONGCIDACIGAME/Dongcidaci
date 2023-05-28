@@ -34,13 +34,12 @@ public class AgentStatus_Run : AgentStatus
         Vector3 towards = (Vector3)context["towards"];
         int triggerMeter = (int)context["triggerMeter"];
 
-        StatusDefaultAction(cmdType, towards, triggerMeter, GetAgentActionData());     
+        StatusDefaultAction(cmdType, towards, triggerMeter, statusDefaultActionData);     
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        mStepLoopAnimDriver.Reset();
     }
 
     protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
@@ -79,19 +78,14 @@ public class AgentStatus_Run : AgentStatus
                 case AgentCommandDefine.ATTACK_SHORT:
                 case AgentCommandDefine.ATTACK_LONG:
                     ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboStep);
-                    return;
+                    break;
                 case AgentCommandDefine.RUN:
-                    StatusDefaultAction(cmdType, towards, meterIndex, GetAgentActionData());
+                    StatusDefaultAction(cmdType, towards, triggerMeter, null);
                     break;
                 case AgentCommandDefine.EMPTY:
                 default:
                     break;
             }
-
-            if (meterIndex <= mCurLogicStateEndMeter)
-                return;
-
-            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
         }
     }
 
@@ -118,14 +112,26 @@ public class AgentStatus_Run : AgentStatus
     /// <param name="agentActionData"></param>
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
-        mAgent.MoveControl.TurnTo(towards);
-        if (agentActionData != null && !string.IsNullOrEmpty(agentActionData.statusName) && !string.IsNullOrEmpty(agentActionData.stateName))
+        // 等待当前逻辑结束拍
+        if (triggerMeter <= mCurLogicStateEndMeter)
+            return;
+
+        if (agentActionData == null)
         {
-            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.stateName, agentActionData.stateName);
-        }
-        else
-        {
+            // 1. 步进式动画继续
             mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
+
+            // 2. 转向移动放方向
+            mAgent.MoveControl.TurnTo(towards);
+
+            return;
         }
+
+        // 1. 播放动画
+        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.stateName, agentActionData.stateName);
+
+        // 2. 转向移动放方向
+        mAgent.MoveControl.TurnTo(towards);
     }
+
 }

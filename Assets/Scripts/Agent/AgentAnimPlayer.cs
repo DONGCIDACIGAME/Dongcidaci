@@ -136,47 +136,6 @@ public class AgentAnimPlayer
         mAnimator.speed = speed;
     }
 
-    /// <summary>
-    /// 在规定时间(归一化)内融合至指定动画并播放完成
-    /// 该方法的融合后动画的起始帧固定的
-    /// </summary>
-    /// <param name="stateName">状态名称</param>
-    /// <param name="layer">动画所在层级</param>
-    /// <param name="normalizedTime">动画融合所占时间(归一化)</param>
-    /// <param name="newStateStartProgress">新状态的起始帧在动画中的比例</param>
-    /// <param name="targetDuration">新动画的预期播放时间</param>
-    /// <param name="animLen">动画的原始时长（播放速度为1时）</param>
-    public void CrossFadeToStateStatic(string stateName, int layer, float normalizedTime, float newStateStartProgress, float targetDuration, float animLen)
-    {
-        if (targetDuration <= 0)
-        {
-            Log.Error(LogLevel.Normal, "CrossFadeToStateStatic Error, targetDuration must be greater than 0!");
-            return;
-        }
-
-        // 不能和同一个状态进行动画融合
-        if (CurStateName.Equals(stateName))
-            return;
-
-        CurStateName = stateName;
-        // 归一化时间为0，就是不融合，直接播放
-        if (normalizedTime == 0)
-        {
-            PlayState(stateName, animLen, layer, 0, targetDuration);
-            return;
-        }
-
-        // 按照配置文件中的节拍时长设置动画速度
-        float animSpeed = animLen / targetDuration;
-
-        // 更新动画播放速度
-        UpdateAnimSpeed(animSpeed);
-
-        // 计算新动画的偏移时长
-        float timeOffset =  targetDuration * newStateStartProgress;
-        mAnimator.CrossFadeInFixedTime(stateName, normalizedTime * targetDuration, layer, timeOffset);
-    }
-
 
     /// <summary>
     /// 在规定时间(归一化)内融合至指定动画并播放完成

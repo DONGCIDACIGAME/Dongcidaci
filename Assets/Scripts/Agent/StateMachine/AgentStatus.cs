@@ -99,6 +99,7 @@ public abstract class AgentStatus : IAgentStatus
         }
         mCurTriggeredComboStep = null;
         mInputHandle.SetEnable(true);
+        mCurLogicStateEndMeter = -1;
     }
     
     /// <summary>
@@ -110,6 +111,8 @@ public abstract class AgentStatus : IAgentStatus
         cmdBuffer.ClearCommandBuffer();
         mMeterEndActions.Clear();
         mCurTriggeredComboStep = null;
+        mStepLoopAnimDriver.Reset();
+        mCustomAnimDriver.Reset();
     }
 
     /// <summary>
@@ -317,6 +320,9 @@ public abstract class AgentStatus : IAgentStatus
     /// <param name="triggeredComboStep"></param>
     protected bool ConditionalExcute(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
     {
+        if (triggerMeter <= mCurLogicStateEndMeter)
+            return false;
+
         // 当前拍的剩余时间
         float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
         // 当前拍的总时间
@@ -337,7 +343,7 @@ public abstract class AgentStatus : IAgentStatus
             }
             else
             {
-                StatusDefaultAction(cmdType, towards, triggerMeter, triggeredComboStep.comboStep.agentActionData);
+                StatusDefaultAction(cmdType, towards, triggerMeter, GetAgentActionData());
             }
             return true;
         }
@@ -354,7 +360,7 @@ public abstract class AgentStatus : IAgentStatus
     /// 否则，使用状态默认的行为数据
     /// </summary>
     /// <returns></returns>
-    protected AgentActionData GetAgentActionData()
+    private AgentActionData GetAgentActionData()
     {
         if(mCurTriggeredComboStep != null)
         {

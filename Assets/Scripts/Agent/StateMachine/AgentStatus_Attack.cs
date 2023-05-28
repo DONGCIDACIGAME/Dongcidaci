@@ -119,7 +119,7 @@ public class AgentStatus_Attack : AgentStatus
                     }
                     else
                     {
-                        StatusDefaultAction(cmdType, towards, triggerMeter, GetAgentActionData());
+                        StatusDefaultAction(cmdType, towards, triggerMeter, statusDefaultActionData);
                     }
                     break;
                 case AgentCommandDefine.EMPTY:
@@ -170,18 +170,14 @@ public class AgentStatus_Attack : AgentStatus
     /// <param name="agentActionData"></param>
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
-        // 1. 转向攻击方向
-        mAgent.MoveControl.TurnTo(towards);
+        if (agentActionData == null)
+            return;
 
-        // 2. 播放攻击动画
-        if (agentActionData != null && !string.IsNullOrEmpty(agentActionData.stateName) && !string.IsNullOrEmpty(agentActionData.stateName))
-        {
-            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
-        }
-        else
-        {
-            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusDefaultActionData.statusName, statusDefaultActionData.stateName);
-        }
+        // 1. 播放攻击动画
+        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
+
+        // 2. 转向攻击方向
+        mAgent.MoveControl.TurnTo(towards);
 
         // 3. 造成伤害
         

@@ -121,7 +121,7 @@ public class AgentStatus_Dash : AgentStatus
                     }
                     else
                     {
-                        StatusDefaultAction(cmdType, towards, triggerMeter, GetAgentActionData());
+                        StatusDefaultAction(cmdType, towards, triggerMeter, statusDefaultActionData);
                     }
                     break;
                 case AgentCommandDefine.EMPTY:
@@ -147,16 +147,12 @@ public class AgentStatus_Dash : AgentStatus
     /// <param name="agentActionData"></param>
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
-        Log.Error(LogLevel.Info, "Dash-StatusDefaultAction-------");
+        if (agentActionData == null)
+            return;
+
         // 1. 播放冲刺动画
-        if (agentActionData != null && !string.IsNullOrEmpty(agentActionData.stateName) && !string.IsNullOrEmpty(agentActionData.stateName))
-        {
-            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
-        }
-       else
-        {
-            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusDefaultActionData.statusName, statusDefaultActionData.stateName);
-        }
+        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
+       
         // 2. 向当前方向冲刺一段距离
         Dash();
     }
