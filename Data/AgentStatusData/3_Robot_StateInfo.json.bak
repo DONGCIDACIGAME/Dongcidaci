@@ -4,127 +4,137 @@
 	"statusMap": {
 		"Idle": {
 			"statusName": "Idle",
-			"loop": true,
+			"defaultAciton":
+			{
+				"statusName": "Idle",
+				"stateName": "Idle",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
 			"animStates": [{
 				"stateName": "Idle",
 				"loopTime": 0,
-				"animName": "Idle",
 				"stateMeterLen": 2,
 				"minDuration": 0,
 				"normalizedTime": 0.5,
 				"layer": 0,
-				"animLen": 1.0
+				"animLen": 1.0,
+				"movements": [],
+				"hitPoints": []
 			}]
 		},
 		"Run": {
 			"statusName": "Run",
-			"loop": true,
+			"defaultAciton":
+			{
+				"statusName": "Run",
+				"stateName": "Run",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
 			"animStates": [{
 				"stateName": "Run",
 				"loopTime": 0,
-				"animName": "RunForward",
 				"stateMeterLen": 2,
 				"normalizedTime": 0.1,
 				"layer": 0,
-				"animLen": 1.000
+				"animLen": 1.000,
+				"movements": [],
+				"hitPoints": []
 			}]
 		},
 		"Attack":{
 			"statusName": "Attack",
-			"loop": true,
+			"defaultAciton":
+			{
+				"statusName": "Attack",
+				"stateName": "Combo_1_With_Empty",
+				"effectCollictions": [
+					{
+						"effects":[
+							{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+						]
+					}
+				]
+			},
 			"animStates": [{
-				"stateName": "combo_01",
-				"loopTime": 1,
-				"animName": "combo_01",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
-				"layer": 0,
-				"animLen": 0.3
-			},{
-				"stateName": "combo_02",
-				"loopTime": 1,
-				"animName": "combo_02",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
-				"layer": 0,	
-				"animLen": 0.467
-			},{
-				"stateName": "combo_03",
-				"loopTime": 1,
-				"animName": "combo_03",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
-				"layer": 0,
-				"animLen": 0.367
-			},{
-				"stateName": "combo_04",
-				"loopTime": 1,
-				"animName": "combo_04",
-				"stateMeterLen": 3,
-				"normalizedTime": 0.2,
-				"layer": 0,
-				"animLen": 0.833
-			},{
-				"stateName": "attackLight",
-				"loopTime": 1,
-				"animName": "attackSlight 1",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
-				"layer": 0,
-				"animLen": 0.5
-			},{
-				"stateName": "attackHard",
-				"loopTime": 1,
-				"animName": "attackHeavy 1",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
-				"layer": 0,
-				"animLen": 0.5
-			},{
-				"stateName": "AttackBegin",
-				"loopTime": 1,
-				"animName": "attackBegin2",
-				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
-				"layer": 0,
-				"animLen": 0.5
-			},{
 				"stateName": "Combo_1_With_Empty",
 				"loopTime": 1,
-				"animName": "3combo_1_withEmpty",
 				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
+				"normalizedTime": 0.05,
 				"layer": 0,
-				"animLen": 0.5
+				"animLen": 0.5,
+				"movements": [{"distance": 0.1, "duration": 0.02}],
+				"hitPoints": [{"progress": 1}]
 			},{
 				"stateName": "Combo_2_With_Empty",
 				"loopTime": 1,
-				"animName": "3Combo2_WithEmpty",
 				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
+				"normalizedTime": 0.05,
 				"layer": 0,
-				"animLen": 0.5
+				"animLen": 0.5,
+				"movements": [{"distance": 0.1, "duration": 0.02}],
+				"hitPoints": [{"progress": 1}]
 			},{
 				"stateName": "Combo_3_With_Empty",
 				"loopTime": 1,
-				"animName": "3Combo_3_WithEmpty",
 				"stateMeterLen": 1,
-				"normalizedTime": 0.2,
+				"normalizedTime": 0.05,
 				"layer": 0,
-				"animLen": 0.5
+				"animLen": 0.5,
+				"movements": [{"distance": 0.2, "duration": 0.1}],
+				"hitPoints": [{"progress": 1}]
 			}]
 		},
 		"Dash": {
 			"statusName": "Dash",
-			"loop": false,
+			"defaultAciton":
+			{
+				"statusName": "Dash",
+				"stateName": "Dash",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
 			"animStates": [{
 				"stateName": "Dash",
 				"loopTime": 1,
-				"animName": "combo_01",
 				"stateMeterLen": 2,
 				"normalizedTime": 0.1,
 				"layer": 0,
-				"animLen": 1.0
+				"animLen": 1.0,
+				"hitPoints": [{"progress": 1}]
+			}]
+		},
+		"Transfer": {
+			"statusName": "Transfer",
+			"defaultAciton":
+			{
+				"statusName": "Transfer",
+				"stateName": "Empty",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "Empty",
+				"loopTime": 1,
+				"stateMeterLen": 1,
+				"normalizedTime": 0.5,
+				"layer": 0,
+				"animLen": 0.5,
+				"movements": [],
+				"hitPoints": []
 			}]
 		}
 	}
