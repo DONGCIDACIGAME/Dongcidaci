@@ -70,7 +70,7 @@ public class Hero : Agent
             if (mainCam != null)
             {
                 mCft = mainCam.gameObject.AddComponent<CamFollowTarget>();
-                mCft.SetFollowTarget(mAgentGo, new Vector3(0, -0.5f, 0.866f), 20);
+                mCft.SetFollowTarget(mAgentGo, new Vector3(0, -8.7f, 26.6f), 20);
             }
         }
 

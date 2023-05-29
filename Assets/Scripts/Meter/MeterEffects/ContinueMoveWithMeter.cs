@@ -43,7 +43,7 @@ public class ContinueMoveWithMeter : BehaviourWithMeter
 
         float progress = timeRecord / MoveDuration;
 
-        // 计算缩放的比例
+        // 计算偏移量
         Vector3 offset = Vector3.Lerp(Vector3.zero, MoveOffset, progress);
         this.transform.position = mOriPos + offset;
         timeRecord += deltaTime;
