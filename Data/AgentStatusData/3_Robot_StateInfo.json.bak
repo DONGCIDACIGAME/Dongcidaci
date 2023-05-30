@@ -70,7 +70,7 @@
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
-				"movements": [{"distance": 0.1, "duration": 0.02}],
+				"movements": [{"distance": 0.05, "duration": 0.01}],
 				"hitPoints": [{"progress": 1}]
 			},{
 				"stateName": "Combo_2_With_Empty",
@@ -79,7 +79,7 @@
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
-				"movements": [{"distance": 0.1, "duration": 0.02}],
+				"movements": [{"distance": 0.05, "duration": 0.01}],
 				"hitPoints": [{"progress": 1}]
 			},{
 				"stateName": "Combo_3_With_Empty",
@@ -88,7 +88,7 @@
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
-				"movements": [{"distance": 0.2, "duration": 0.1}],
+				"movements": [{"distance": 2, "duration": 0.05}],
 				"hitPoints": [{"progress": 1}]
 			}]
 		},
