@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using GameEngine;
 using UnityEngine;
-using System;
-using System.Linq;
 
 public class GameColliderCenter : ModuleManager<GameColliderCenter>
 {
@@ -23,6 +20,7 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
 
     public override void Initialize()
     {
+        _mapGridConfig = new MapGridInfo(0,0,0,0);
         _mAllCollidersRecord = new Dictionary<GameCollider2D, int[]>();
     }
 

@@ -50,6 +50,7 @@ public struct RectangleColliderVector3
         this.size = new Vector2(initSize.x * scaleX, initSize.y * scaleY);
     }
 
+
     /// <summary>
     /// 获取这个矩形的四个顶点
     /// </summary>

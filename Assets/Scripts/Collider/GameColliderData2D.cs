@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public class GameColliderData2D
 {
     
@@ -19,7 +18,5 @@ public class GameColliderData2D
         this.size = size;
         this.offset = offset;
     }
-
-
 
 }

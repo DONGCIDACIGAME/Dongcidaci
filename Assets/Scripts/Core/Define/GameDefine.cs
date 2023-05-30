@@ -62,3 +62,12 @@ public class PlatformDef
 #endif
 
 }
+
+public static class MapDef
+{
+    public static bool GlobalDrawMapDizmos = true;
+
+    public static float SceneRotation = 45f;
+}
+
+

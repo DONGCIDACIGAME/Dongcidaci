@@ -57,7 +57,7 @@ public class Hero : Agent
         if (mAgentGo != null)
         {
             // 位置初始化
-            SetPosition(new Vector3(0, 1, 0));
+            SetPosition(new Vector3(0, 0, 0));
             // 朝向初始化
             SetTowards(new Vector3(0, 0, 1));
             AnimPlayer.Initialize(mAgentGo.GetComponent<Animator>());
