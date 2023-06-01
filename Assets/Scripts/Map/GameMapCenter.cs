@@ -6,10 +6,10 @@ using UnityEngine;
 public class GameMapCenter : ModuleManager<GameMapCenter>
 {
     public GameObject MapRootNode { get { return GameObject.Find(GameDefine._MAP_ROOT); } }
-    public GameObject GroundLayerNode { get { return GameObject.Find("_MAP/_GROUND_LAYER"); } }
-    public GameObject BlockLayerNode { get { return GameObject.Find("_MAP/_BLOCK_LAYER"); } }
-    public GameObject EventLayerNode { get { return GameObject.Find("_MAP/_EVENT_LAYER"); } }
-    public GameObject DecoLayerNode { get { return GameObject.Find("_MAP/_DECO_LAYER"); } }
+    public GameObject GroundLayerNode { get { return GameObject.Find("_SCENE/_MAP/_GROUND_LAYER"); } }
+    public GameObject BlockLayerNode { get { return GameObject.Find("_SCENE/_MAP/_BLOCK_LAYER"); } }
+    public GameObject EventLayerNode { get { return GameObject.Find("_SCENE/_MAP/_EVENT_LAYER"); } }
+    public GameObject DecoLayerNode { get { return GameObject.Find("_SCENE/_MAP/_DECO_LAYER"); } }
 
     private MapGridInfo _mapGridConfig;
 

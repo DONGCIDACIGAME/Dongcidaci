@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Agent : Entity, IMeterHandler
+public abstract class Agent : MapEntity, IMeterHandler
 {
     /// <summary>
     /// 角色id
@@ -189,7 +189,6 @@ public abstract class Agent : Entity, IMeterHandler
     public Agent(uint agentId)
     {
         mAgentId = agentId;
-        EntityManager.Ins.AddEntity(this);
         AnimPlayer = new AgentAnimPlayer();
         StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
         StatusMachine = new AgentStatusMachine();

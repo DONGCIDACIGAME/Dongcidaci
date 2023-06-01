@@ -8,11 +8,8 @@ public abstract class GameEntity : Entity
     // 位置
     protected Vector3 mPosition;
 
+    // 主体view
     protected GameEntityView mView;
-
-    public GameEntity(int entityId) : base(entityId)
-    {
-    }
 
     public void BindGameEntityView(GameEntityView view)
     {

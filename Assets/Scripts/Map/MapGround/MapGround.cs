@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using GameEngine;
 
-public class MapGround: Entity
+public class MapGround: MapEntity
 {
     private GameObject _bindObj;
 

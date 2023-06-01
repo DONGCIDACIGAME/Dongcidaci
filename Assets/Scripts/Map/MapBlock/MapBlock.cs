@@ -1,3 +1,4 @@
+using GameEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public enum MapBlockType
 }
 
 
-public abstract class MapBlock : Entity,ICollideProcessor
+public abstract class MapBlock : MapEntity,ICollideProcessor
 {
     private GameObject _bindObj;
 
@@ -20,13 +21,14 @@ public abstract class MapBlock : Entity,ICollideProcessor
 
     private Vector3 _initPosV3;
 
-    protected MapBlock(string prefabStr, Vector3 initPos, int[] mapIndexs)
+    public void Initliazlie(string prefabStr, Vector3 initPos, int[] mapIndexs)
     {
         this._bindObj = PrefabUtil.LoadPrefab(prefabStr, GameMapCenter.Ins.BlockLayerNode, "Map Init");
         this._bindObj.transform.position = initPos;
         this._initPosV3 = initPos;
         this._occupyMapIndexs = mapIndexs;
     }
+
 
     public Entity GetProcessorEntity()
     {

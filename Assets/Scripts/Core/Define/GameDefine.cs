@@ -8,6 +8,8 @@ public static class GameDefine
     public static string _MAP_ROOT = "_MAP";
 
     public const int MaxPlayerNum = 2; //  同一台机器最多支持的玩家数量
+
+    
 }
 
 public static class CoreDefine

@@ -3,19 +3,21 @@ namespace GameEngine
     public abstract class Entity
     {
         // entityID
-        public int EntityId { get; private set; }
+        private int mEntityId;
 
-        public Entity(int entityId)
+        public Entity()
         {
-            EntityId = entityId;
+            EntityManager.Ins.AddEntity(this);
         }
 
-        public virtual bool Equals(Entity other)
+        public int GetEntityId()
         {
-            if (other == null)
-                return false;
+            return mEntityId;
+        }
 
-            return other.EntityId == EntityId;
+        public void SetEntityId(int entityId)
+        {
+            mEntityId = entityId;
         }
     }
 }
