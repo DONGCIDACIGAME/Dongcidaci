@@ -35,7 +35,7 @@ public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
             towards += DirectionDef.right;
         }
 
-        if (!towards.Equals(mAgent.GetTowards()))
+        if (!towards.Equals(mAgent.GetRotation()))
         {
             mAgent.MoveControl.TurnTo(towards);
         }

@@ -44,7 +44,7 @@ public interface ICollideProcessor
     /// 获取处理机实体
     /// </summary>
     /// <returns></returns>
-    public IEntity GetProcessorEntity();
+    public Entity GetProcessorEntity();
 }
 
 

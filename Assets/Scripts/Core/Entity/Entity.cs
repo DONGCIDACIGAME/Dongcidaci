@@ -1,14 +1,23 @@
-public abstract class Entity : IEntity
+namespace GameEngine
 {
-    protected int mEntityId;
-
-    public int GetEntityId()
+    public abstract class Entity
     {
-        return mEntityId;
-    }
+        // entityID
+        public int EntityId { get; private set; }
 
-    public void SetEntityId(int entityId)
-    {
-        mEntityId = entityId;
+        public Entity(int entityId)
+        {
+            EntityId = entityId;
+        }
+
+        public virtual bool Equals(Entity other)
+        {
+            if (other == null)
+                return false;
+
+            return other.EntityId == EntityId;
+        }
     }
 }
+
+

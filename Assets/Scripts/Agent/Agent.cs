@@ -49,10 +49,6 @@ public abstract class Agent : Entity, IMeterHandler
     protected float mSpeed;
     // 角色的冲刺速度
     protected float mDashDistance;
-    // 角色朝向
-    protected Vector3 mTowards;
-    // 角色位置
-    protected Vector3 mPosition;
 
     public uint GetAgentId()
     {
@@ -60,19 +56,19 @@ public abstract class Agent : Entity, IMeterHandler
     }
 
 
-    public Vector3 GetPosition()
-    {
-        return mPosition;
-    }
+    //public Vector3 GetPosition()
+    //{
+    //    return mPosition;
+    //}
 
-    public void SetPosition(Vector3 position)
-    {
-        mPosition = position;
-        if(mAgentGo != null)
-        {
-            mAgentGo.transform.position = position;
-        }
-    }
+    //public void SetPosition(Vector3 position)
+    //{
+    //    mPosition = position;
+    //    if(mAgentGo != null)
+    //    {
+    //        mAgentGo.transform.position = position;
+    //    }
+    //}
 
     public float GetSpeed()
     {
@@ -95,20 +91,20 @@ public abstract class Agent : Entity, IMeterHandler
         this.mDashDistance = dashDistance;
     }
 
-    public Vector3 GetTowards()
-    {
-        return mTowards.normalized;
-    }
+    //public Vector3 GetTowards()
+    //{
+    //    return mTowards.normalized;
+    //}
 
-    public void SetTowards(Vector3 towards)
-    {
-        mTowards = towards;
-        if(mAgentGo != null)
-        {
-            mAgentGo.transform.rotation = Quaternion.LookRotation(towards);
-            //Log.Logic(LogLevel.Info, "SetTowards-----{0}", towards);
-        }
-    }
+    //public void SetTowards(Vector3 towards)
+    //{
+    //    mTowards = towards;
+    //    if(mAgentGo != null)
+    //    {
+    //        mAgentGo.transform.rotation = Quaternion.LookRotation(towards);
+    //        //Log.Logic(LogLevel.Info, "SetTowards-----{0}", towards);
+    //    }
+    //}
 
 
     /// <summary>

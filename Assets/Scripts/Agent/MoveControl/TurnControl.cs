@@ -37,7 +37,7 @@ public class TurnControl
             return;
         }
 
-        TurnFromTowards = mAgent.GetTowards();
+        TurnFromTowards = mAgent.GetRotation();
         TurnToTowards = towards;
 
         if (GameCommonConfig.AgentTurnSpeed == 0)
@@ -70,13 +70,13 @@ public class TurnControl
         if (TurnRecord < TurnTime)
         {
             Vector3 towards = Vector3.Lerp(TurnFromTowards, TurnToTowards, TurnRecord / TurnTime);
-            mAgent.SetTowards(towards);
+            mAgent.SetRotation(towards);
         }
         else
         {
             TurnTime = 0;
             TurnRecord = 0;
-            mAgent.SetTowards(TurnToTowards);
+            mAgent.SetRotation(TurnToTowards);
         }
     }
 }

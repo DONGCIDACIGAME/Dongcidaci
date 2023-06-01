@@ -70,7 +70,7 @@ public abstract class AgentStatus : IAgentStatus
 
     /// <summary>
     /// 状态的自定义初始化方法
-    /// </summary>
+    /// </summary>g
     public virtual void CustomInitialize(){ }
 
     /// <summary>

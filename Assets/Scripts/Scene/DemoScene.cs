@@ -19,8 +19,6 @@ public class DemoScene : GameScene
         InputManager.Ins.AddState(InputStateDefine.GAMEDEMO_STATE);
 
         AgentManager.Ins.LoadHero(3);
-
-        GameColliderCenter.Ins.InitWithMapInfo(30, 30, 5, 5);
     }
 
     public override void OnSceneExit()

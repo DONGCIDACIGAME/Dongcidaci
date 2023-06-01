@@ -38,6 +38,7 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
     /// <param name="cellHeight"></param>
     public void InitWithMapInfo(float mapWidth, float mapHeight, float cellWidth, float cellHeight)
     {
+        Log.Logic(LogLevel.Normal, "InitWithMapInfo--mapWidth:{0}, mapHeight:{1}, cellWidth:{2}, cellHeight:{3}", mapWidth, mapHeight, cellWidth, cellHeight);
         int colNum = Mathf.CeilToInt(mapWidth/cellWidth);
         int rowNum = Mathf.CeilToInt(mapHeight/cellHeight);
 
@@ -84,6 +85,8 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
     /// <returns></returns>
     public bool RegisterGameCollider(GameCollider2D collider)
     {
+        Log.Logic(LogLevel.Info, "RegisterGameCollider---{0}", collider.GetHashCode());
+
         // 判断地图信息是否初始化了
         if (this._mapGridConfig.colNum ==0) return false;
         // 判断是否重复注册
@@ -187,6 +190,8 @@ public class GameColliderCenter : ModuleManager<GameColliderCenter>
     /// <param name="checkColliderInMap"></param>
     public void CheckCollideHappen(GameCollider2D checkColliderInMap)
     {
+        Log.Logic(LogLevel.Info, "CheckCollideHappen---{0}", checkColliderInMap.GetHashCode());
+
         if (_mAllCollidersRecord.ContainsKey(checkColliderInMap) == false)
         {
             Debug.LogError("检查的碰撞体在地图中没有注册");

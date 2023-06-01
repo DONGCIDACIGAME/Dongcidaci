@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 public class EntityManager : Singleton<EntityManager>
 {
-    private List<IEntity[]> mEntityMap;
+    private List<Entity[]> mEntityMap;
     private int mIndexer;
     private Queue<int> validEntityId;
 
     public EntityManager()
     {
-        mEntityMap = new List<IEntity[]>();
+        mEntityMap = new List<Entity[]>();
         validEntityId = new Queue<int>();
     }
 
-    public void AddEntity(IEntity entity)
+    public void AddEntity(Entity entity)
     {
         if(entity == null)
         {
@@ -41,15 +41,15 @@ public class EntityManager : Singleton<EntityManager>
 
         if (outerIndex >= mEntityMap.Count)
         {
-            mEntityMap.Add(new IEntity[EntityDefine.ENTITY_COLUME]);
+            mEntityMap.Add(new Entity[EntityDefine.ENTITY_COLUME]);
         }
 
-        IEntity[] innerMap = mEntityMap[outerIndex];
+        Entity[] innerMap = mEntityMap[outerIndex];
         innerMap[innerIndex] = entity;
         entity.SetEntityId(entityId);
     }
 
-    public IEntity GetEntity(int entityId)
+    public Entity GetEntity(int entityId)
     {
         int outerIndex = entityId / EntityDefine.ENTITY_COLUME;
         int innerIndex = entityId % EntityDefine.ENTITY_COLUME;
@@ -57,11 +57,11 @@ public class EntityManager : Singleton<EntityManager>
         {
             return null;
         }
-        IEntity[] innerMap = mEntityMap[outerIndex];
+        Entity[] innerMap = mEntityMap[outerIndex];
         return innerMap[innerIndex];
     }
 
-    public void RemoveEntity(IEntity entity)
+    public void RemoveEntity(Entity entity)
     {
         if (entity == null)
             return;

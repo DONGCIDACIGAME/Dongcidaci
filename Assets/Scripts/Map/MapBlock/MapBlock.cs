@@ -28,7 +28,7 @@ public abstract class MapBlock : Entity,ICollideProcessor
         this._occupyMapIndexs = mapIndexs;
     }
 
-    public IEntity GetProcessorEntity()
+    public Entity GetProcessorEntity()
     {
         return this;
     }
