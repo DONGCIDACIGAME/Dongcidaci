@@ -126,7 +126,7 @@ Material:
     - _BaseColor: {r: 0.4433962, g: 0.41338116, b: 0.19827339, a: 1}
     - _Color: {r: 0.4433962, g: 0.41338116, b: 0.19827339, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GrassColor: {r: 0.49411762, g: 1, b: 0.59111154, a: 1}
+    - _GrassColor: {r: 0.6177737, g: 0.34749022, b: 0.8113208, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _WindMovement: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
