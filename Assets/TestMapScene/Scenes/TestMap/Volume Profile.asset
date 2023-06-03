@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   threshold:
-    m_OverrideState: 0
-    m_Value: 0.8
+    m_OverrideState: 1
+    m_Value: 0.9
   intensity:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
   scatter:
     m_OverrideState: 0
     m_Value: 0.59
@@ -57,7 +57,7 @@ MonoBehaviour:
   master:
     m_OverrideState: 1
     m_Value:
-      <length>k__BackingField: 4
+      <length>k__BackingField: 3
       m_Loop: 0
       m_ZeroValue: 0
       m_Range: 1
@@ -74,19 +74,10 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.24405797
-          value: 0.33580244
+          time: 0.22491102
+          value: 0.53384614
           inSlope: 1.0874704
           outSlope: 1.0874704
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 0.73391306
-          value: 0.6382716
-          inSlope: 0.67807114
-          outSlope: 0.67807114
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -263,16 +254,16 @@ MonoBehaviour:
   active: 1
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.41828862, g: 0.2212887, b: 0.5283019, a: 1}
+    m_Value: {r: 0.20617484, g: 0.07518689, b: 0.20754719, a: 1}
   center:
     m_OverrideState: 1
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.454
+    m_Value: 0.2
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.348
+    m_Value: 1
   rounded:
     m_OverrideState: 1
     m_Value: 0
