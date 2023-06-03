@@ -70,7 +70,7 @@ public class Hero : Agent
             if (mainCam != null)
             {
                 mCft = mainCam.gameObject.AddComponent<CamFollowTarget>();
-                mCft.SetFollowTarget(mAgentGo, new Vector3(0, -8.7f, 26.6f), 20);
+                mCft.SetFollowTarget(mAgentGo);
             }
         }
 
@@ -100,5 +100,10 @@ public class Hero : Agent
     public override void Dispose()
     {
         base.Dispose();
+    }
+
+    public override int GetEntityType()
+    {
+        return EntityTypeDefine.Hero;
     }
 }

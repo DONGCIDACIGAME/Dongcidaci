@@ -36,4 +36,9 @@ public class Monster : Agent
     {
         
     }
+
+    public override int GetEntityType()
+    {
+        return EntityTypeDefine.Monster;
+    }
 }

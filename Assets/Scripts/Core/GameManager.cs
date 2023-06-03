@@ -30,7 +30,7 @@ public class GameManager:MonoBehaviour
     private MeterTimerCenter          MeterTimerCenter;                                 // 节拍定时器中心
     private UpdateCenter                  UpdateCenter;                                        // Update驱动中心
     private TimeMgr                          TimeMgr;                                                 // 时间中心
-    private GameColliderCenter      GameColliderCenter;                             // 碰撞中心
+    private GameColliderManager      GameColliderMgr;                               // 碰撞中心
     private List<IModuleManager> mAllModuleMgrs;
 
     public GameConfig GetGameConfig()
@@ -61,7 +61,7 @@ public class GameManager:MonoBehaviour
         TimerCenter = RegisterModuleMgr(TimerCenter.Ins);
         MeterTimerCenter = RegisterModuleMgr(MeterTimerCenter.Ins);
         AgentMgr = RegisterModuleMgr(AgentManager.Ins);
-        GameColliderCenter = RegisterModuleMgr(GameColliderCenter.Ins);
+        GameColliderMgr = RegisterModuleMgr(GameColliderManager.Ins);
 
         // 先做所有模块的初始化
         foreach (IModuleManager mm in mAllModuleMgrs)
@@ -111,7 +111,7 @@ public class GameManager:MonoBehaviour
         DataCenter = null;
         MeterTimerCenter = null;
         TimeMgr = null;
-        GameColliderCenter = null;
+        GameColliderMgr = null;
     }
 
     private T RegisterModuleMgr<T>(T mgr) where T:IModuleManager
@@ -164,7 +164,7 @@ public class GameManager:MonoBehaviour
             MeterTimerCenter.OnUpdate(deltaTime);
             AgentMgr.OnUpdate(deltaTime);
             UpdateCenter.OnUpdate(deltaTime);
-            GameColliderCenter.OnUpdate(deltaTime);
+            GameColliderMgr.OnUpdate(deltaTime);
         }
 
         UIMgr.OnUpdate(deltaTime);
@@ -185,7 +185,7 @@ public class GameManager:MonoBehaviour
         AgentMgr.OnLateUpdate(deltaTime);
         TimerCenter.OnLateUpdate(deltaTime);
         MeterTimerCenter.OnLateUpdate(deltaTime);
-        GameColliderCenter.OnLateUpdate(deltaTime);
+        GameColliderMgr.OnLateUpdate(deltaTime);
     }
 
     private void OnDestroy()

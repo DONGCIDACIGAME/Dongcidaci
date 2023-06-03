@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Linq;
-using GameEngine;
 
 public class MapGround: MapEntity
 {
@@ -13,6 +12,11 @@ public class MapGround: MapEntity
         this._bindObj = PrefabUtil.LoadPrefab(prefabStr,GameMapCenter.Ins.GroundLayerNode,"Map Init");
         this._bindObj.transform.position = initPos;
         this._occupyMapIndexs = mapIndexs;
+    }
+
+    public override int GetEntityType()
+    {
+        return EntityTypeDefine.Ground;
     }
 
     public bool IsPosOnGround(Vector2 checkPos)

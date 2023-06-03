@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using GameEngine;
 using UnityEngine;
 
-public class GameColliderCenter : ModuleManager<GameColliderCenter>
+public class GameColliderManager : ModuleManager<GameColliderManager>
 {
     private MapGridInfo _mapGridConfig;
 

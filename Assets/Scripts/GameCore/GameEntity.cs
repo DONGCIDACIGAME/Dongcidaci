@@ -3,17 +3,23 @@ using UnityEngine;
 
 public abstract class GameEntity : Entity
 {
-    // 旋转
+    /// <summary>
+    /// 旋转
+    /// </summary>
     protected Vector3 mRotation;
-    // 位置
+    /// <summary>
+    /// 位置
+    /// </summary>
     protected Vector3 mPosition;
 
-    // 主体view
-    protected GameEntityView mView;
+    /// <summary>
+    /// 用于更新GameEntity相关的基础表现逻辑，对外，对上层都不开放
+    /// </summary>
+    private GameEntityView mEntityView;
 
-    public void BindGameEntityView(GameEntityView view)
+    protected void BindGameEntityView(GameEntityView view)
     {
-        this.mView = view;
+        this.mEntityView = view;
     }
 
     public virtual Vector3 GetPosition()
@@ -30,9 +36,9 @@ public abstract class GameEntity : Entity
     {
         mPosition = position;
 
-        if(mView != null)
+        if(mEntityView != null)
         {
-            mView.SetPosition(position);
+            mEntityView.SetPosition(position);
         }
     }
 
@@ -40,9 +46,11 @@ public abstract class GameEntity : Entity
     {
         mRotation = rotation;
 
-        if (mView != null)
+        if (mEntityView != null)
         {
-            mView.SetRotation(rotation);
+            mEntityView.SetRotation(rotation);
         }
     }
+
+    public abstract int GetEntityType();
 }

@@ -4,6 +4,7 @@
 	"comboDatas": 
 	[
 		{
+			"comboId": 1,
 			"comboName": "JJJ",
 			"comboSteps": [
 				{
@@ -58,6 +59,7 @@
 			"transferStateDuration": 0.5
 		},
 		{
+			"comboId": 2,
 			"comboName": "DashAttack",
 			"comboSteps": [
 				{

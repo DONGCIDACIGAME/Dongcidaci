@@ -169,7 +169,69 @@ public struct RectangleColliderVector3
         return false;
     }
 
+    /// <summary>
+    /// 判断与目标碰撞体是否产生了相交
+    /// 两个带旋转的矩形检测相交
+    /// </summary>
+    /// <param name="tgtColliderPos"></param>
+    /// <returns></returns>
+    public bool CheckCollapse(RectangleColliderVector3 tgtColliderPos)
+    {
+        var crtColliderLines = GetRectangleLines();
+        var tgtColliderLines = tgtColliderPos.GetRectangleLines();
 
+        // 查找是否存在线条交差的情况
+        for (int i = 0; i < 4; i++)
+        {
+            for (int k = 0; k < 4; k++)
+            {
+                // ab crtline ; cd tgtline
+                var crtLineVectorAB = new Vector2(crtColliderLines[i, 1].x - crtColliderLines[i, 0].x, crtColliderLines[i, 1].y - crtColliderLines[i, 0].y);
+                var lineVectorAC = new Vector2(tgtColliderLines[k, 0].x - crtColliderLines[i, 0].x, tgtColliderLines[k, 0].y - crtColliderLines[i, 0].y);
+                var lineVectorAD = new Vector2(tgtColliderLines[k, 1].x - crtColliderLines[i, 0].x, tgtColliderLines[k, 1].y - crtColliderLines[i, 0].y);
+
+                var crossMultiAC2AB = lineVectorAC.x * crtLineVectorAB.y - lineVectorAC.y * crtLineVectorAB.x;
+                var crossMultiAD2AB = lineVectorAD.x * crtLineVectorAB.y - lineVectorAD.y * crtLineVectorAB.x;
+                // crossAC2AB * crossAD2AB <0 说明cd 在ab的两侧，同理判断ab是否在cd两侧
+                var tgtLineVectorCD = new Vector2(tgtColliderLines[k, 1].x - tgtColliderLines[k, 0].x, tgtColliderLines[k, 1].y - tgtColliderLines[k, 0].y);
+                var lineVectorCA = new Vector2(crtColliderLines[i, 0].x - tgtColliderLines[k, 0].x, crtColliderLines[i, 0].y - tgtColliderLines[k, 0].y);
+                var lineVectorCB = new Vector2(crtColliderLines[i, 1].x - tgtColliderLines[k, 0].x, crtColliderLines[i, 1].y - tgtColliderLines[k, 0].y);
+                var crossMultiCA2CD = lineVectorCA.x * tgtLineVectorCD.y - lineVectorCA.y * tgtLineVectorCD.x;
+                var crossMultiCB2CD = lineVectorCB.x * tgtLineVectorCD.y - lineVectorCB.y * tgtLineVectorCD.x;
+
+                if (crossMultiAC2AB * crossMultiAD2AB < 0 && crossMultiCA2CD * crossMultiCB2CD < 0)
+                {
+                    // ab 和 cd 两条线相交
+                    return true;
+                }
+            }
+        }
+
+        // added 0522
+        // 存在不相交但是一个矩形完全在另一个矩形内部的情况
+        // 判断哪个矩形的面积更小
+        if (SizeArea() <= tgtColliderPos.SizeArea())
+        {
+            // 判断这个碰撞体是否在目标中
+            var vertexs = GetRectangleVertexs();
+            if (tgtColliderPos.CheckPointInRectangle(vertexs[0]) && tgtColliderPos.CheckPointInRectangle(vertexs[1]) && tgtColliderPos.CheckPointInRectangle(vertexs[2]) && tgtColliderPos.CheckPointInRectangle(vertexs[3]))
+            {
+                return true;
+            }
+        }
+        else if (SizeArea() > tgtColliderPos.SizeArea())
+        {
+            // 判断目标矩形是否在这个碰撞体中
+            var tgtVertexs = tgtColliderPos.GetRectangleVertexs();
+            if (CheckPointInRectangle(tgtVertexs[0]) && CheckPointInRectangle(tgtVertexs[1]) && CheckPointInRectangle(tgtVertexs[2]) && CheckPointInRectangle(tgtVertexs[3]))
+            {
+                return true;
+            }
+        }
+
+
+        return false;
+    }
 }
 
 
@@ -241,60 +303,7 @@ public class GameCollider2D : IGameCollider2D
     /// <returns></returns>
     public bool CheckCollapse(RectangleColliderVector3 tgtColliderPos)
     {
-        var crtColliderLines = _rectPosV3.GetRectangleLines();
-        var tgtColliderLines = tgtColliderPos.GetRectangleLines();
-
-        // 查找是否存在线条交差的情况
-        for (int i=0;i<4; i++)
-        {
-            for (int k=0;k<4;k++)
-            {
-                // ab crtline ; cd tgtline
-                var crtLineVectorAB = new Vector2(crtColliderLines[i,1].x - crtColliderLines[i, 0].x, crtColliderLines[i, 1].y - crtColliderLines[i, 0].y);
-                var lineVectorAC = new Vector2(tgtColliderLines[k,0].x - crtColliderLines[i,0].x, tgtColliderLines[k, 0].y - crtColliderLines[i, 0].y);
-                var lineVectorAD = new Vector2(tgtColliderLines[k, 1].x - crtColliderLines[i, 0].x, tgtColliderLines[k, 1].y - crtColliderLines[i, 0].y);
-
-                var crossMultiAC2AB = lineVectorAC.x * crtLineVectorAB.y - lineVectorAC.y * crtLineVectorAB.x;
-                var crossMultiAD2AB = lineVectorAD.x * crtLineVectorAB.y - lineVectorAD.y * crtLineVectorAB.x;
-                // crossAC2AB * crossAD2AB <0 说明cd 在ab的两侧，同理判断ab是否在cd两侧
-                var tgtLineVectorCD = new Vector2(tgtColliderLines[k, 1].x - tgtColliderLines[k, 0].x, tgtColliderLines[k, 1].y - tgtColliderLines[k, 0].y);
-                var lineVectorCA = new Vector2(crtColliderLines[i, 0].x - tgtColliderLines[k, 0].x, crtColliderLines[i, 0].y - tgtColliderLines[k, 0].y);
-                var lineVectorCB = new Vector2(crtColliderLines[i, 1].x - tgtColliderLines[k, 0].x, crtColliderLines[i, 1].y - tgtColliderLines[k, 0].y);
-                var crossMultiCA2CD = lineVectorCA.x * tgtLineVectorCD.y - lineVectorCA.y * tgtLineVectorCD.x;
-                var crossMultiCB2CD = lineVectorCB.x * tgtLineVectorCD.y - lineVectorCB.y * tgtLineVectorCD.x;
-
-                if (crossMultiAC2AB*crossMultiAD2AB <0 && crossMultiCA2CD*crossMultiCB2CD<0)
-                {
-                    // ab 和 cd 两条线相交
-                    return true;
-                }
-            }
-        }
-
-        // added 0522
-        // 存在不相交但是一个矩形完全在另一个矩形内部的情况
-        // 判断哪个矩形的面积更小
-        if (this._rectPosV3.SizeArea() <= tgtColliderPos.SizeArea())
-        {
-            // 判断这个碰撞体是否在目标中
-            var vertexs = this._rectPosV3.GetRectangleVertexs();
-            if (tgtColliderPos.CheckPointInRectangle(vertexs[0]) && tgtColliderPos.CheckPointInRectangle(vertexs[1])&& tgtColliderPos.CheckPointInRectangle(vertexs[2])&& tgtColliderPos.CheckPointInRectangle(vertexs[3]))
-            {
-                return true;
-            }
-        }
-        else if(this._rectPosV3.SizeArea() > tgtColliderPos.SizeArea())
-        {
-            // 判断目标矩形是否在这个碰撞体中
-            var tgtVertexs = tgtColliderPos.GetRectangleVertexs();
-            if (_rectPosV3.CheckPointInRectangle(tgtVertexs[0]) && _rectPosV3.CheckPointInRectangle(tgtVertexs[1]) && _rectPosV3.CheckPointInRectangle(tgtVertexs[2]) && _rectPosV3.CheckPointInRectangle(tgtVertexs[3]))
-            {
-                return true;
-            }
-        }
-
-
-        return false;
+        return _rectPosV3.CheckCollapse(tgtColliderPos);
     }
 
     /// <summary>
@@ -344,7 +353,7 @@ public class GameCollider2D : IGameCollider2D
     public void Dispose()
     {
         //游戏体被销毁
-        GameColliderCenter.Ins.UnRegisterGameCollider(this);
+        GameColliderManager.Ins.UnRegisterGameCollider(this);
         this._colliderInitData = null;
         this._colliderProcessor = null;
     }

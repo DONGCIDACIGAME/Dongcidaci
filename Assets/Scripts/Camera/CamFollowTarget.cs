@@ -1,33 +1,22 @@
 using UnityEngine;
+using GameEngine;
 
 public class CamFollowTarget : MonoBehaviour
 {
     private GameObject mFollowTarget;
     private Vector3 mTargetLastPos;
-    public float CamDis;
     public Vector3 CamDir;
 
-    public void SetFollowTarget(GameObject target, Vector3 dir, float dis)
+    public void SetFollowTarget(GameObject target)
     {
         mFollowTarget = target;
-        CamDis = dis;
-        CamDir = dir;
         if(mFollowTarget != null)
         {
             mTargetLastPos = mFollowTarget.transform.position;
         }
-        InitializeCam();
+        CamDir = CameraManager.Ins.GetMainCam().transform.rotation.eulerAngles;
     }
 
-    [ContextMenu("Initialize Cam")]
-    public void InitializeCam()
-    {
-        if (mFollowTarget != null)
-        {
-            transform.position = -CamDir.normalized * CamDis + mFollowTarget.transform.position;
-            transform.rotation = Quaternion.LookRotation(CamDir);
-        }
-    }
 
     public void OnUpdate(float deltaTime)
     {

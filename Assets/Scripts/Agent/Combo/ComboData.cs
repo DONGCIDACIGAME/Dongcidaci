@@ -2,6 +2,11 @@
 public class ComboData
 {
     /// <summary>
+    /// combo Id
+    /// </summary>
+    public int comboId;
+
+    /// <summary>
     /// combo名称
     /// </summary>
     public string comboName;

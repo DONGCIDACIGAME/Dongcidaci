@@ -1,8 +1,8 @@
 [System.Serializable]
-public class MapGroundData
+public class MapWallData
 {
     /// <summary>
-    /// é¢„åˆ¶ä»¶èµ„æºè·¯å¾„
+    /// Ô¤ÖÆ¼ş×ÊÔ´Â·¾¶
     /// </summary>
     public string prefabPath;
 

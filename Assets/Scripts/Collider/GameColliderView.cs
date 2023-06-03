@@ -2,10 +2,16 @@ using UnityEngine;
 
 public class GameColliderView : MonoBehaviour
 {
-    // 碰撞盒大小
+    // 暂时不考虑运行时通过该组件更新碰撞大小
+
+    /// <summary>
+    /// 碰撞盒大小
+    /// </summary>
     public Vector2 size;
 
-    // 碰撞盒偏移
+    /// <summary>
+    /// 碰撞盒偏移
+    /// </summary>
     public Vector2 offset;
 
     /// <summary>
@@ -24,7 +30,7 @@ public class GameColliderView : MonoBehaviour
 
         Gizmos.color = color;
 
-        Vector3 pos = this.transform.position;
+        Vector3 groundPos = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 rotation = this.transform.rotation.eulerAngles;
 
         float halfWidth = size.x / 2f;
@@ -36,12 +42,11 @@ public class GameColliderView : MonoBehaviour
         Vector3 rt_offset = MapHelper.RotateByYAxis(new Vector3((halfWidth + offset.x) * this.transform.lossyScale.x, 0, (halfHeight + offset.y) * this.transform.lossyScale.z), -rotation.y);
         Vector3 lt_offset = MapHelper.RotateByYAxis(new Vector3((-halfWidth + offset.x) * this.transform.lossyScale.x, 0, (halfHeight + offset.y) * this.transform.lossyScale.z), -rotation.y);
 
-
-        // 计算四个顶点在Scene节点下的本地坐标
-        Vector3 lb = pos + lb_offset;
-        Vector3 rb = pos + rb_offset;
-        Vector3 rt = pos + rt_offset;
-        Vector3 lt = pos + lt_offset;
+        // 计算四个定点的世界坐标
+        Vector3 lb = groundPos + lb_offset;
+        Vector3 rb = groundPos + rb_offset;
+        Vector3 rt = groundPos + rt_offset;
+        Vector3 lt = groundPos + lt_offset;
 
         Gizmos.DrawLine(lb, rb);
         Gizmos.DrawLine(rb, rt);

@@ -3,24 +3,16 @@ using UnityEngine;
 [RequireComponent(typeof(GameColliderView))]
 public abstract class MapEntityView : GameEntityView
 {
-    // collider 组件
+    // 碰撞配置（挂载在预制件上）
     protected GameColliderView mColliderView;
 
-    // collider 数据
-    protected GameCollider2D mCollider;
-
-    private void InitializeCollider()
+    public GameColliderData2D GetColliderData()
     {
+        // 拿到colliderview组件
         mColliderView = GetComponent<GameColliderView>();
+        // 获取colliderView组件上的碰撞配置，生成碰撞数据
         GameColliderData2D colliderData = new GameColliderData2D(mColliderView.size, mColliderView.offset);
-        mCollider = new GameCollider2D(colliderData, null, transform.position);
-        GameColliderCenter.Ins.RegisterGameCollider(mCollider);
+        return colliderData;
     }
-
-    public virtual void Initialize()
-    {
-        InitializeCollider();
-    }
-
 }
 
