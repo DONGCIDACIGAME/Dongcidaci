@@ -20,7 +20,7 @@ public class TurnControl
 
     public void TurnTo(Vector3 towards)
     {
-        // 和上次的目标转向一致时不做重复处理
+        // 鍜屼笂娆＄殑鐩爣杞悜涓�鑷存椂涓嶅仛閲嶅澶勭悊
         if (towards.Equals(TurnToTowards))
             return;
 
@@ -37,7 +37,7 @@ public class TurnControl
             return;
         }
 
-        TurnFromTowards = mAgent.GetRotation();
+        TurnFromTowards = mAgent.GetTowards();
         TurnToTowards = towards;
 
         if (GameCommonConfig.AgentTurnSpeed == 0)
@@ -70,13 +70,13 @@ public class TurnControl
         if (TurnRecord < TurnTime)
         {
             Vector3 towards = Vector3.Lerp(TurnFromTowards, TurnToTowards, TurnRecord / TurnTime);
-            mAgent.SetRotation(towards);
+            mAgent.SetTowards(towards);
         }
         else
         {
             TurnTime = 0;
             TurnRecord = 0;
-            mAgent.SetRotation(TurnToTowards);
+            mAgent.SetTowards(TurnToTowards);
         }
     }
 }

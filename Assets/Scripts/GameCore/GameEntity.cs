@@ -29,7 +29,7 @@ public abstract class GameEntity : Entity
 
     public virtual Vector3 GetRotation()
     {
-        return mRotation.normalized;
+        return mRotation;
     }
 
     public void SetPosition(Vector3 position)
@@ -51,6 +51,5 @@ public abstract class GameEntity : Entity
             mEntityView.SetRotation(rotation);
         }
     }
-
     public abstract int GetEntityType();
 }

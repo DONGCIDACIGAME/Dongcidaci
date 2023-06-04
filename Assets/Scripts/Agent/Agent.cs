@@ -9,11 +9,6 @@ public abstract class Agent : MapEntity, IMeterHandler
     protected uint mAgentId;
 
     /// <summary>
-    /// 角色的游戏体
-    /// </summary>
-    protected GameObject mAgentGo;
-
-    /// <summary>
     /// 动画播放控制器
     /// </summary>
     public AgentAnimPlayer AnimPlayer;
@@ -43,7 +38,12 @@ public abstract class Agent : MapEntity, IMeterHandler
     /// </summary>
     public EffectExcutorController EffectExcutorCtl;
 
+    /// <summary>
+    /// 移动执行器
+    /// </summary>
     public MovementExcutorController MovementExcutorCtl;
+
+    protected AgentView mAgentView;
 
     // 角色移动速度
     protected float mSpeed;
@@ -55,20 +55,6 @@ public abstract class Agent : MapEntity, IMeterHandler
         return mAgentId;
     }
 
-
-    //public Vector3 GetPosition()
-    //{
-    //    return mPosition;
-    //}
-
-    //public void SetPosition(Vector3 position)
-    //{
-    //    mPosition = position;
-    //    if(mAgentGo != null)
-    //    {
-    //        mAgentGo.transform.position = position;
-    //    }
-    //}
 
     public float GetSpeed()
     {
@@ -91,20 +77,19 @@ public abstract class Agent : MapEntity, IMeterHandler
         this.mDashDistance = dashDistance;
     }
 
-    //public Vector3 GetTowards()
-    //{
-    //    return mTowards.normalized;
-    //}
+    public void SetTowards(Vector3 towards)
+    {
+        Quaternion quaternion = Quaternion.LookRotation(towards);
+        SetRotation(quaternion.eulerAngles);
+    }
 
-    //public void SetTowards(Vector3 towards)
-    //{
-    //    mTowards = towards;
-    //    if(mAgentGo != null)
-    //    {
-    //        mAgentGo.transform.rotation = Quaternion.LookRotation(towards);
-    //        //Log.Logic(LogLevel.Info, "SetTowards-----{0}", towards);
-    //    }
-    //}
+    public Vector3 GetTowards()
+    {
+        Vector3 rot = GetRotation();
+        Quaternion quaternion = Quaternion.Euler(rot);
+        Vector3 towards = (quaternion * Vector3.forward).normalized;
+        return towards;
+    }
 
 
     /// <summary>
@@ -116,7 +101,14 @@ public abstract class Agent : MapEntity, IMeterHandler
     /// <summary>
     /// 加载角色物件
     /// </summary>
-    protected abstract void LoadAgentGo();
+    protected abstract void LoadAgentView(); 
+
+
+    protected virtual void BindAgentView(AgentView agentView)
+    {
+        BindMapEntityView(agentView);
+        mAgentView = agentView;
+    }
 
     /// <summary>
     /// 自定义的初始化
@@ -129,7 +121,7 @@ public abstract class Agent : MapEntity, IMeterHandler
     public virtual void Initialize()
     {
         LoadAgentCfg(mAgentId);
-        LoadAgentGo();
+        LoadAgentView();
 
         Combo_Trigger.Initialize(this);
         EffectExcutorCtl.Initialize(this);
@@ -153,7 +145,6 @@ public abstract class Agent : MapEntity, IMeterHandler
     {
         EntityManager.Ins.RemoveEntity(this);
         MeterManager.Ins.UnregiseterMeterHandler(this);
-        mAgentGo = null;
 
         if(AnimPlayer != null)
         {
@@ -183,6 +174,12 @@ public abstract class Agent : MapEntity, IMeterHandler
         {
             StatusMachine.Dispose();
             StatusMachine = null;
+        }
+
+        if(mAgentView != null)
+        {
+            mAgentView.Dispose();
+            mAgentView = null;
         }
     }
 

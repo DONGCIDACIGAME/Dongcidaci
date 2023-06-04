@@ -21,7 +21,7 @@ public abstract class AgentMoveControl
     public virtual void Move(float deltaTime)
     {
         // 控制移动
-        Vector3 pos = mAgent.GetPosition() + mAgent.GetRotation().normalized * mAgent.GetSpeed() * deltaTime;
+        Vector3 pos = mAgent.GetPosition() + mAgent.GetTowards().normalized * mAgent.GetSpeed() * deltaTime;
         mAgent.SetPosition(pos);
     }
 
@@ -33,7 +33,7 @@ public abstract class AgentMoveControl
     public virtual void MoveDistanceInTime(float distance, float duration)
     {
         if (mMoveCtl != null)
-            mMoveCtl.MoveTo(mAgent.GetRotation().normalized, distance, duration);
+            mMoveCtl.MoveTo(mAgent.GetTowards().normalized, distance, duration);
     }
 
     public void Dash(float distance, float duration)
@@ -45,7 +45,7 @@ public abstract class AgentMoveControl
 
         // 如果没有目标转向，则使用角色当前朝向
         if (towards.Equals(GamePlayDefine.InputDirection_NONE))
-            towards = mAgent.GetRotation();
+            towards = mAgent.GetTowards();
 
         if (mMoveCtl != null)
             mMoveCtl.MoveTo(towards, distance, duration);

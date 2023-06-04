@@ -7,8 +7,13 @@ public class CamFollowTarget : MonoBehaviour
     private Vector3 mTargetLastPos;
     public Vector3 CamDir;
 
-    public void SetFollowTarget(GameObject target)
+    public void SetFollowTarget(GameObject target, Vector3 offset)
     {
+        if (target == null)
+            return;
+
+        transform.position = target.transform.position + offset;
+
         mFollowTarget = target;
         if(mFollowTarget != null)
         {

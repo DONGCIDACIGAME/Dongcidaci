@@ -10,7 +10,7 @@ public class Monster : Agent
         base.Initialize();
 
         LoadAgentCfg(mAgentId);
-        LoadAgentGo();
+        LoadAgentView();
         CustomInitialize();
         MeterManager.Ins.RegisterMeterHandler(this);
     }
@@ -27,7 +27,7 @@ public class Monster : Agent
 
     }
 
-    protected override void LoadAgentGo()
+    protected override void LoadAgentView()
     {
         
     }

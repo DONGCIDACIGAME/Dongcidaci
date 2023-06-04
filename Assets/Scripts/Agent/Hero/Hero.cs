@@ -35,7 +35,7 @@ public class Hero : Agent
         return mHeroCfg;
     }
 
-    protected override void LoadAgentGo()
+    protected override void LoadAgentView()
     {
         if (mHeroCfg == null)
         {
@@ -49,28 +49,31 @@ public class Hero : Agent
             return;
         }
 
-        mAgentGo = PrefabUtil.LoadPrefab(mHeroCfg.Prefab, AgentManager.Ins.GetHeroNode(), "Load Agent Prefab");
+        var go = PrefabUtil.LoadPrefab(mHeroCfg.Prefab, AgentManager.Ins.GetHeroNode(), "Load Agent Prefab");
+        if(go != null)
+        {
+            BindAgentView(go.GetComponent<HeroView>());
+        }
     }
+
+
 
     protected override void CustomInitialize()
     {
-        if (mAgentGo != null)
-        {
-            // 位置初始化
-            SetPosition(new Vector3(0, 0, 0));
-            // 朝向初始化
-            SetRotation(new Vector3(0, 0, 1));
-            AnimPlayer.Initialize(mAgentGo.GetComponent<Animator>());
-        }
+        // 位置初始化
+        SetPosition(new Vector3(0, 0, 0));
+        // 朝向初始化
+        SetRotation(new Vector3(0, 0, 0));
 
-        if (mHeroCfg != null && mAgentGo != null)
+        if (mHeroCfg != null && mAgentView != null)
         {
-            mAgentGo.name = mHeroCfg.Name;
+            mAgentView.name = mHeroCfg.Name;
+            AnimPlayer.Initialize(mAgentView.GetComponent<Animator>());
             Camera mainCam = CameraManager.Ins.GetMainCam();
             if (mainCam != null)
             {
                 mCft = mainCam.gameObject.AddComponent<CamFollowTarget>();
-                mCft.SetFollowTarget(mAgentGo);
+                mCft.SetFollowTarget(mAgentView.gameObject, new Vector3(0,10f,-10f));
             }
         }
 

@@ -11,5 +11,10 @@ public abstract class GameEntityView : MonoBehaviour
     {
         this.transform.rotation = Quaternion.Euler(rotation);
     }
+
+    public virtual void Dispose()
+    {
+        
+    }
 }
 

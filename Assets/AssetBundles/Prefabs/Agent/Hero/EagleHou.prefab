@@ -206,6 +206,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1081575104453883492}
   - component: {fileID: 6476926162220936222}
+  - component: {fileID: 1024834960129322573}
+  - component: {fileID: 2154784688584539964}
   m_Layer: 0
   m_Name: EagleHou
   m_TagString: Untagged
@@ -252,6 +254,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1024834960129322573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308873153454632158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: {x: 1, y: 1}
+  offset: {x: 0, y: 0}
+  DrawDizmos: 1
+  color: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &2154784688584539964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308873153454632158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8272a1c79f35caf4aa2ca5a3bd88d256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &721509923550340581
 GameObject:
   m_ObjectHideFlags: 0

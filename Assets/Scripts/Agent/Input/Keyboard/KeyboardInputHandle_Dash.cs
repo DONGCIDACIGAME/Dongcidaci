@@ -35,10 +35,7 @@ public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
             towards += DirectionDef.right;
         }
 
-        if (!towards.Equals(mAgent.GetRotation()))
-        {
-            mAgent.MoveControl.TurnTo(towards);
-        }
+        mAgent.MoveControl.TurnTo(towards);
     }
 
     public override void OnMeterEnd(int meterIndex)

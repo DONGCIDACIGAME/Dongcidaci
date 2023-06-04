@@ -14,5 +14,11 @@ public abstract class MapEntityView : GameEntityView
         GameColliderData2D colliderData = new GameColliderData2D(mColliderView.size, mColliderView.offset);
         return colliderData;
     }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        mColliderView = null;
+    }
 }
 
