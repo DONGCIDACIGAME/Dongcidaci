@@ -2,6 +2,11 @@ using UnityEngine;
 
 public abstract class GameEntityView : MonoBehaviour
 {
+    public GameObject GetGameObject()
+    {
+        return this.gameObject;
+    }
+
     public void SetPosition(Vector3 position)
     {
         this.transform.position = position;

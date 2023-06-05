@@ -13,6 +13,8 @@ public class Hero : Agent
     /// </summary>
     private CamFollowTarget mCft;
 
+    private HeroView mHeroView;
+
 
     protected override void LoadAgentCfg(uint agentId)
     {
@@ -30,29 +32,31 @@ public class Hero : Agent
         mHeroCfg =  cfg;
     }
 
-    public DongciDaci.HeroBaseCfg GetAgentCfg()
+    private void BindHeroView(HeroView heroView)
     {
-        return mHeroCfg;
+        BindAgentView(heroView);
+        mHeroView = heroView;
     }
 
     protected override void LoadAgentView()
     {
         if (mHeroCfg == null)
         {
-            Log.Error(LogLevel.Critical, "LoadAgentGo Failed, mHeroCfg is null or empty!");
+            Log.Error(LogLevel.Critical, "LoadAgentView Failed, mHeroCfg is null or empty!");
             return;
         }
 
         if (string.IsNullOrEmpty(mHeroCfg.Prefab))
         {
-            Log.Error(LogLevel.Critical, "LoadAgentGo Failed, path is null or empty!");
+            Log.Error(LogLevel.Critical, "LoadAgentView Failed, path is null or empty!");
             return;
         }
 
         var go = PrefabUtil.LoadPrefab(mHeroCfg.Prefab, AgentManager.Ins.GetHeroNode(), "Load Agent Prefab");
         if(go != null)
         {
-            BindAgentView(go.GetComponent<HeroView>());
+            HeroView heroView = go.GetComponent<HeroView>();
+            BindHeroView(heroView);
         }
     }
 
@@ -61,20 +65,15 @@ public class Hero : Agent
     protected override void CustomInitialize()
     {
         // 位置初始化
-        SetPosition(new Vector3(0, 0, 0));
+        SetPosition(Vector3.zero);
         // 朝向初始化
-        SetRotation(new Vector3(0, 0, 0));
+        SetRotation(Vector3.zero);
 
-        if (mHeroCfg != null && mAgentView != null)
+        Camera mainCam = CameraManager.Ins.GetMainCam();
+        if (mainCam != null)
         {
-            mAgentView.name = mHeroCfg.Name;
-            AnimPlayer.Initialize(mAgentView.GetComponent<Animator>());
-            Camera mainCam = CameraManager.Ins.GetMainCam();
-            if (mainCam != null)
-            {
-                mCft = mainCam.gameObject.AddComponent<CamFollowTarget>();
-                mCft.SetFollowTarget(mAgentView.gameObject, new Vector3(0,10f,-10f));
-            }
+            mCft = mainCam.gameObject.AddComponent<CamFollowTarget>();
+            mCft.SetFollowTarget(mHeroView.GetGameObject(), new Vector3(0, 10f, -10f));
         }
 
         MoveControl = new PlayerMoveControl(this);

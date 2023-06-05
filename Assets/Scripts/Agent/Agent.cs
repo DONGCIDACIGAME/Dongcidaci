@@ -1,3 +1,4 @@
+using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,21 +42,25 @@ public abstract class Agent : MapEntity, IMeterHandler
     /// <summary>
     /// 移动执行器
     /// </summary>
-    public MovementExcutorController MovementExcutorCtl;
+    public AnimMovementExcutorController MovementExcutorCtl;
 
-    protected AgentView mAgentView;
+    /// <summary>
+    ///  用于更新Agent相关的基础表现逻辑，对外，对上层都不开放
+    /// </summary>
+    private AgentView mAgentView;
 
     // 角色移动速度
     protected float mSpeed;
     // 角色的冲刺速度
     protected float mDashDistance;
+    protected string mName;
 
     public uint GetAgentId()
     {
         return mAgentId;
     }
 
-
+    #region Properties
     public float GetSpeed()
     {
         return mSpeed;
@@ -64,7 +69,6 @@ public abstract class Agent : MapEntity, IMeterHandler
     public void SetSpeed(float speed)
     {
         mSpeed = speed;
-        Log.Logic(LogLevel.Info, "set speed:{0}", speed);
     }
 
     public float GetDashDistance()
@@ -74,8 +78,21 @@ public abstract class Agent : MapEntity, IMeterHandler
 
     public void SetDashDistance(float dashDistance)
     {
-        this.mDashDistance = dashDistance;
+        mDashDistance = dashDistance;
     }
+
+    public string GetName()
+    {
+        return mName;
+    }
+
+    public void SetName(string name)
+    {
+        mName = name;
+    }
+
+
+    #endregion
 
     public void SetTowards(Vector3 towards)
     {
@@ -108,6 +125,12 @@ public abstract class Agent : MapEntity, IMeterHandler
     {
         BindMapEntityView(agentView);
         mAgentView = agentView;
+
+        if (mAgentView != null)
+        {
+            mAgentView.name = GetName();
+            AnimPlayer.Initialize(mAgentView.GetComponent<Animator>());
+        }
     }
 
     /// <summary>
@@ -120,17 +143,31 @@ public abstract class Agent : MapEntity, IMeterHandler
     /// </summary>
     public virtual void Initialize()
     {
+        // 加载角色基础配置数据
         LoadAgentCfg(mAgentId);
+
+        // 加载角色表现层
         LoadAgentView();
 
+        // comobo 触发器 初始化
         Combo_Trigger.Initialize(this);
+
+        // 效果执行器 初始化
         EffectExcutorCtl.Initialize(this);
+
+        // 动画移动控制器 初始化
         MovementExcutorCtl.Initialize(this);
 
+        // 注册节拍处理
         MeterManager.Ins.RegisterMeterHandler(this);
+
+        // 状态机 初始化
         StatusMachine.Initialize(this);
+
+        // 其他自定义初始化
         CustomInitialize();
 
+        // 加载完成后默认进入idle状态
         Dictionary<string, object> args = new Dictionary<string, object>();
         args.Add("cmdType", AgentCommandDefine.IDLE);
         args.Add("towards", GamePlayDefine.InputDirection_NONE);
@@ -141,9 +178,9 @@ public abstract class Agent : MapEntity, IMeterHandler
     /// <summary>
     /// 销毁
     /// </summary>
-    public virtual void Dispose()
+    public override void Dispose()
     {
-        EntityManager.Ins.RemoveEntity(this);
+        base.Dispose();
         MeterManager.Ins.UnregiseterMeterHandler(this);
 
         if(AnimPlayer != null)
@@ -191,7 +228,7 @@ public abstract class Agent : MapEntity, IMeterHandler
         StatusMachine = new AgentStatusMachine();
         Combo_Trigger = new ComboTrigger();
         EffectExcutorCtl = new EffectExcutorController();
-        MovementExcutorCtl = new MovementExcutorController();
+        MovementExcutorCtl = new AnimMovementExcutorController();
     }
 
 

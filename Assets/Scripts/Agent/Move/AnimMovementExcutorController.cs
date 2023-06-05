@@ -1,15 +1,18 @@
 using GameEngine;
 using System.Collections.Generic;
 
-public class MovementExcutorController : IGameUpdate, IMeterHandler
+/// <summary>
+/// 动画移动执行控制器
+/// </summary>
+public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
 {
     private Agent mAgt;
-    private HashSet<MovementExcutor> mMovementExcutors;
+    private HashSet<AnimMovementExcutor> mMovementExcutors;
     private bool mEnable;
 
     public void Initialize(Agent agt)
     {
-        mMovementExcutors = new HashSet<MovementExcutor>();
+        mMovementExcutors = new HashSet<AnimMovementExcutor>();
         mAgt = agt;
         mEnable = false;
     }
@@ -62,7 +65,6 @@ public class MovementExcutorController : IGameUpdate, IMeterHandler
             return;
         }
 
-        float lastProgress = 0;
         for (int i = 0; i < hitPoints.Length; i++)
         {
             // 第i个hit点的信息
@@ -72,13 +74,11 @@ public class MovementExcutorController : IGameUpdate, IMeterHandler
 
             if (movement != null)
             {
-                MovementExcutor excutor = GamePoolCenter.Ins.MovementExcutorPool.Pop();
+                AnimMovementExcutor excutor = GamePoolCenter.Ins.MovementExcutorPool.Pop();
 
                 excutor.Initialize(mAgt, hitpoint.progress * totalTime, movement);
                 mMovementExcutors.Add(excutor);
             }
-
-            lastProgress = hitpoint.progress;
         }
 
         mEnable = true;
@@ -86,7 +86,7 @@ public class MovementExcutorController : IGameUpdate, IMeterHandler
 
     public void Reset()
     {
-        foreach (MovementExcutor excutor in mMovementExcutors)
+        foreach (AnimMovementExcutor excutor in mMovementExcutors)
         {
             excutor.Recycle();
         }
@@ -108,7 +108,7 @@ public class MovementExcutorController : IGameUpdate, IMeterHandler
             return;
 
         int totalActiveExcutor = 0;
-        foreach (MovementExcutor excutor in mMovementExcutors)
+        foreach (AnimMovementExcutor excutor in mMovementExcutors)
         {
             excutor.OnUpdate(deltaTime);
 
