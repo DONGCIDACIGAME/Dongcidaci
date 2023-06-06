@@ -387,7 +387,7 @@ GameObject:
   - component: {fileID: 7907723216257951966}
   - component: {fileID: 4162835070579901163}
   m_Layer: 0
-  m_Name: Btn_AudioEditorScene
+  m_Name: Btn_MonsterAIEditor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -562,7 +562,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Editor
+  m_text: Monster AI Editor
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

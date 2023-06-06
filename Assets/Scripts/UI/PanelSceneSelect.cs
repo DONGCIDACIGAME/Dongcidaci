@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PanelSceneSelect : UIPanel
 {
     private Button Btn_EnterDemoScene;
-    private Button Btn_EnterAudioEditorScene;
+    private Button Btn_EnterMonsterAIEditor;
 
     public override string GetPanelLayerPath()
     {
@@ -19,15 +19,15 @@ public class PanelSceneSelect : UIPanel
         GameSceneManager.Ins.SwitchToScene(SceneDefine.Demo);
     }
 
-    private void OnClickAudioEditorScene()
+    private void OnClickMonsterAIEditor()
     {
-
+        //UIManager.Ins.OpenPanel<>
     }
 
     protected override void BindUINodes()
     {
         Btn_EnterDemoScene = BindButtonNode("Container/Btn_DemoScene", OnClickDemoSceen);
-        Btn_EnterAudioEditorScene = BindButtonNode("Container/Btn_AudioEditorScene", OnClickAudioEditorScene);
+        Btn_EnterMonsterAIEditor = BindButtonNode("Container/Btn_MonsterAIEditor", OnClickMonsterAIEditor);
     }
 
     protected override void OnClose()
