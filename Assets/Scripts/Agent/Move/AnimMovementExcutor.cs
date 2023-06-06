@@ -1,5 +1,9 @@
 using GameEngine;
-public class MovementExcutor : IGameUpdate, IRecycle
+
+/// <summary>
+/// 动画移动执行器
+/// </summary>
+public class AnimMovementExcutor : IGameUpdate, IRecycle
 {
     /// <summary>
     /// 计时器
