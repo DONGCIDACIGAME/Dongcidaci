@@ -20,5 +20,6 @@ public abstract class MapEntityView : GameEntityView
         base.Dispose();
         mColliderView = null;
     }
+
 }
 
