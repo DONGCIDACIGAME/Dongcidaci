@@ -21,7 +21,7 @@ public class PanelSceneSelect : UIPanel
 
     private void OnClickMonsterAIEditor()
     {
-        //UIManager.Ins.OpenPanel<>
+        UIManager.Ins.OpenPanel<PanelMonsterAIEditor>("Prefabs/UI/MonsterAIEditor/Panel_MonsterAIEditor");
     }
 
     protected override void BindUINodes()

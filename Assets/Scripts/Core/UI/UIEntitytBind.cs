@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
@@ -20,7 +20,7 @@ namespace GameEngine
             Transform rootNode = CommanHelper.FindChildNode(mUIRoot.transform, uiPath);
             if (rootNode == null)// 找不到要绑定的节点
             {
-                Log.Error(LogLevel.Critical, "BindControl failed,does not has target node,node={0}", rootNode);
+                Log.Error(LogLevel.Critical, "BindControl failed,does not has target node,node={0}", uiPath);
                 return null;
             }
             T ctl = UIManager.Ins.BindControl<T>(this, rootNode.gameObject, openArgs);
