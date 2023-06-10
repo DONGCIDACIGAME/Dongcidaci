@@ -5,21 +5,24 @@ public class BTRepeatNode : BTDecorNode
 {
     private int mTotalTime;
     private int mHasRepeateTime;
-    public BTRepeatNode(BTNode childNode, int repeateTime) : base(childNode)
+    public BTRepeatNode(int repeateTime)
     {
         mTotalTime = repeateTime;
         mHasRepeateTime = 0;
     }
 
-    public override int Excute()
+    public override int Excute(float deltaTime)
     {
-        int result = mChildNode.Excute();
+        if (mChildNode == null)
+            return BTDefine.BT_CheckResult_Failed;
+
+        int result = mChildNode.Excute(deltaTime);
 
         if (result == BTDefine.BT_CheckResult_Failed)
             return BTDefine.BT_CheckResult_Failed;
 
-        if (result == BTDefine.BT_CheckResult_Keep)
-            return BTDefine.BT_CheckResult_Keep;
+        if (result == BTDefine.BT_CheckResult_Running)
+            return BTDefine.BT_CheckResult_Running;
 
         if (result == BTDefine.BT_CheckResult_Succeed)
         {
@@ -31,10 +34,10 @@ public class BTRepeatNode : BTDecorNode
             }
             else
             {
-                return BTDefine.BT_CheckResult_Keep;
+                return BTDefine.BT_CheckResult_Running;
             }
         }
 
-        return BTDefine.BT_CheckResult_Unknown;
+        return BTDefine.BT_CheckResult_Failed;
     }
 }

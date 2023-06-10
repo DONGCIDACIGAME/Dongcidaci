@@ -3,22 +3,21 @@
 /// </summary>
 public class BTSelectNode : BTCompositeNode
 {
-    public BTSelectNode(BTNode[] childNodes) : base(childNodes)
+    public override int Excute(float deltaTime)
     {
-    }
+        if (mChildNodes == null || mChildNodes.Count == 0)
+            return BTDefine.BT_CheckResult_Failed;
 
-    public override int Excute()
-    {
-        for(int i = 0;i<mChildNodes.Length;i++)
+        for (int i = 0;i<mChildNodes.Count; i++)
         {
             BTNode node = mChildNodes[i];
-            int result = node.Excute();
+            int result = node.Excute(deltaTime);
 
             if (result == BTDefine.BT_CheckResult_Succeed)
                 return BTDefine.BT_CheckResult_Succeed;
 
-            if (result == BTDefine.BT_CheckResult_Keep)
-                return BTDefine.BT_CheckResult_Keep;
+            if (result == BTDefine.BT_CheckResult_Running)
+                return BTDefine.BT_CheckResult_Running;
         }
 
         return BTDefine.BT_CheckResult_Failed;

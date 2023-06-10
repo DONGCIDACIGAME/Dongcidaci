@@ -30,7 +30,8 @@ public class GameManager:MonoBehaviour
     private MeterTimerCenter          MeterTimerCenter;                                 // 节拍定时器中心
     private UpdateCenter                  UpdateCenter;                                        // Update驱动中心
     private TimeMgr                          TimeMgr;                                                 // 时间中心
-    private GameColliderManager      GameColliderMgr;                               // 碰撞中心
+    private GameColliderManager   GameColliderMgr;                                 // 碰撞中心
+    private BehaviourTreeManager  BehaviourTreeMgr;                                 // 行为树管理器
     private List<IModuleManager> mAllModuleMgrs;
 
     public GameConfig GetGameConfig()
@@ -62,6 +63,7 @@ public class GameManager:MonoBehaviour
         MeterTimerCenter = RegisterModuleMgr(MeterTimerCenter.Ins);
         AgentMgr = RegisterModuleMgr(AgentManager.Ins);
         GameColliderMgr = RegisterModuleMgr(GameColliderManager.Ins);
+        BehaviourTreeMgr = RegisterModuleMgr(BehaviourTreeManager.Ins);
 
         // 先做所有模块的初始化
         foreach (IModuleManager mm in mAllModuleMgrs)
@@ -112,6 +114,7 @@ public class GameManager:MonoBehaviour
         MeterTimerCenter = null;
         TimeMgr = null;
         GameColliderMgr = null;
+        BehaviourTreeMgr = null;
     }
 
     private T RegisterModuleMgr<T>(T mgr) where T:IModuleManager
@@ -165,6 +168,7 @@ public class GameManager:MonoBehaviour
             AgentMgr.OnUpdate(deltaTime);
             UpdateCenter.OnUpdate(deltaTime);
             GameColliderMgr.OnUpdate(deltaTime);
+            BehaviourTreeMgr.OnUpdate(deltaTime);
         }
 
         UIMgr.OnUpdate(deltaTime);
@@ -186,6 +190,7 @@ public class GameManager:MonoBehaviour
         TimerCenter.OnLateUpdate(deltaTime);
         MeterTimerCenter.OnLateUpdate(deltaTime);
         GameColliderMgr.OnLateUpdate(deltaTime);
+        BehaviourTreeMgr.OnLateUpdate(deltaTime);
     }
 
     private void OnDestroy()

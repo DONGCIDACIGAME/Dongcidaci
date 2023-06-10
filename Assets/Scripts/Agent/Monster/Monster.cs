@@ -1,24 +1,21 @@
 public class Monster : Agent
 {
+    // AI行为树
+    private BTTree mBehaviourTree;
+
     public Monster(uint agentId) : base(agentId){ Initialize(); }
 
-    /// <summary>
-    /// 重写初始化
-    /// </summary>
-    public override void Initialize()
-    {
-        base.Initialize();
-
-        LoadAgentCfg(mAgentId);
-        LoadAgentView();
-        CustomInitialize();
-        MeterManager.Ins.RegisterMeterHandler(this);
-    }
 
     public override void Dispose()
     {
         base.Dispose();
 
+        if(mBehaviourTree != null)
+        {
+            mBehaviourTree.Dispose();
+        }
+
+        // 取消节拍处理
         MeterManager.Ins.UnregiseterMeterHandler(this);
     }
 
@@ -32,9 +29,28 @@ public class Monster : Agent
         
     }
 
+    protected BTTree LoadBTTree(string BTTreeFileName)
+    {
+        return null;
+    }
+
     protected override void CustomInitialize()
     {
-        
+        // 加载行为树
+        mBehaviourTree = LoadBTTree(string.Empty);
+
+        // 注册节拍处理
+        MeterManager.Ins.RegisterMeterHandler(this);
+    }
+
+    public override void OnUpdate(float deltaTime)
+    {
+        base.OnUpdate(deltaTime);
+
+        if(mBehaviourTree != null)
+        {
+            mBehaviourTree.Excute(deltaTime);
+        }
     }
 
     public override int GetEntityType()

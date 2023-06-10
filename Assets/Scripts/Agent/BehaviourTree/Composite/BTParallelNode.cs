@@ -3,19 +3,18 @@
 /// </summary>
 public class BTParallelNode : BTCompositeNode
 {
-    public BTParallelNode(BTNode[] childNodes) : base(childNodes)
+    public override int Excute(float deltaTime)
     {
-    }
+        if (mChildNodes == null || mChildNodes.Count == 0)
+            return BTDefine.BT_CheckResult_Failed;
 
-    public override int Excute()
-    {
-        for (int i = 0; i < mChildNodes.Length; i++)
+        for (int i = 0; i < mChildNodes.Count; i++)
         {
             BTNode node = mChildNodes[i];
-            int result = node.Excute();
+            int result = node.Excute(deltaTime);
 
             // 执行中的节点不会影响其他节点的继续执行
-            if (result == BTDefine.BT_CheckResult_Keep)
+            if (result == BTDefine.BT_CheckResult_Running)
                 continue;
 
             if (result == BTDefine.BT_CheckResult_Failed)
