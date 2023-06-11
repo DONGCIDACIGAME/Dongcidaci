@@ -4,19 +4,38 @@
 /// </summary>
 public abstract class BTLeafNode : BTNode
 {
-    public BTLeafNode()
+    public override int GetNodeArgNum()
     {
-
+        return 0;
     }
 
-    public override int LoadFromBTNodeData(BTNodeData data)
+    public override int GetNodeType()
     {
-        return base.LoadFromBTNodeData(data);
+        return BTDefine.BT_Node_Type_Leaf;
     }
 
-    public override BTNodeData ToBTNodeData()
+    public override BT_CHILD_NODE_NUM GetChildeNodeNum()
     {
-        BTNodeData data = base.ToBTNodeData();
-        return data;
+        return BT_CHILD_NODE_NUM.Zero;
+    }
+
+    protected override BTNodeArg[] GetNodeArgs()
+    {
+        return null;
+    }
+
+    protected override int ParseNodeArgs(BTNodeArg[] args)
+    {
+        return BTDefine.BT_LoadNodeResult_Succeed;
+    }
+
+    protected override int LoadChildNodes(BTNodeData[] chlidNodes)
+    {
+        return BTDefine.BT_LoadNodeResult_Succeed;
+    }
+
+    protected override BTNodeData[] GetChildNodesData()
+    {
+        return null;
     }
 }

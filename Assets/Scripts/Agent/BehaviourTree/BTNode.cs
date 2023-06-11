@@ -23,21 +23,65 @@ public abstract class BTNode : IGameDisposable
     /// </summary>
     public string NodeDesc;
 
-    public int NodeType;
-    public int NodeDetailType;
-
     public void Initialize(Agent excutor, Dictionary<string, object> context)
     {
         mExcutor = excutor;
         mContext = context;
     }
 
+    public abstract int GetNodeType();
+    public abstract int GetNodeDetailType();
+    public abstract BT_CHILD_NODE_NUM GetChildeNodeNum();
+    public abstract int GetNodeArgNum();
+    protected abstract BTNodeArg[] GetNodeArgs();
+    protected abstract int ParseNodeArgs(BTNodeArg[] args);
+    protected abstract int LoadChildNodes(BTNodeData[] chlidNodes);
+    protected abstract BTNodeData[] GetChildNodesData();
     public abstract int Excute(float deltaTime);
     public abstract void Reset();
 
     protected virtual void CustomDispose() { }
 
-    public virtual int LoadFromBTNodeData(BTNodeData data)
+    private bool CheckArgNum(BTNodeArg[] args)
+    {
+        int rightArgNum = GetNodeArgNum();
+
+        if(args == null)
+        {
+            if (rightArgNum == 0)
+                return true;
+
+            return false;
+        }
+
+        return args.Length == rightArgNum;
+    }
+
+    private bool CheckChildNodeNum(BTNodeData[] childNodes)
+    {
+        BT_CHILD_NODE_NUM childNum = GetChildeNodeNum();
+        if(childNodes == null)
+        {
+            if (childNum == 0)
+                return true;
+
+            return false;
+        }
+
+        if(childNum == BT_CHILD_NODE_NUM.One)
+        {
+            return childNodes.Length == 1;
+        }
+
+        if(childNum == BT_CHILD_NODE_NUM.AtLeastOne)
+        {
+            return childNodes.Length >= 1;
+        }
+
+        return false;
+    }
+
+    public int LoadFromBTNodeData(BTNodeData data)
     {
         if (data == null)
         {
@@ -48,16 +92,56 @@ public abstract class BTNode : IGameDisposable
         NodeName = data.nodeName;
         NodeDesc = data.nodeDesc;
 
+        int nodeType = GetNodeType();
+        int nodeDetailType = GetNodeDetailType();
+        if (data.nodeType != nodeType)
+        {
+            Log.Error(LogLevel.Normal, "[{0}-{1}-{2}] LoadFromBTNodeData Failed, wrong node type:{3}",data.nodeName, nodeType, nodeDetailType, data.nodeType);
+            return BTDefine.BT_LoadNodeResult_Failed_WrongType;
+        }
+
+        if (data.nodeDetailType != GetNodeDetailType())
+        {
+            Log.Error(LogLevel.Normal, "[{0}-{1}-{2}] LoadFromBTNodeData Failed, wrong node detail type:{3}", data.nodeName, nodeType, nodeDetailType, data.nodeDetailType);
+            return BTDefine.BT_LoadNodeResult_Failed_WrongType;
+        }
+
+
+        if (!CheckArgNum(data.Args))
+        {
+            Log.Error(LogLevel.Normal, "[{0}] LoadFromBTNodeData Failed, right arg num:{1}!", data.nodeName, GetNodeArgNum());
+            return BTDefine.BT_LoadNodeResult_Failed_InvalidArgNum;
+        }
+
+        int result = ParseNodeArgs(data.Args);
+        if (result != BTDefine.BT_LoadNodeResult_Succeed)
+        {
+            return result;
+        }
+
+        if (!CheckChildNodeNum(data.ChildNodes))
+        {
+            Log.Error(LogLevel.Normal, "[{0}] LoadFromBTNodeData Failed, right child num:{1}!", data.nodeName, GetChildeNodeNum());
+            return BTDefine.BT_LoadNodeResult_Failed_InvalidChildNum;
+        }
+
+        result = LoadChildNodes(data.ChildNodes);
+        if(result != BTDefine.BT_LoadNodeResult_Succeed)
+        {
+            return result;
+        }
 
         return BTDefine.BT_LoadNodeResult_Succeed;
     }
-    public virtual BTNodeData ToBTNodeData()
+    public BTNodeData ToBTNodeData()
     {
         BTNodeData data = new BTNodeData();
         data.nodeName = NodeName;
         data.nodeDesc = NodeDesc;
-        data.nodeType = NodeType;
-        data.nodeDetailType = NodeDetailType;
+        data.nodeType = GetNodeType();
+        data.nodeDetailType = GetNodeDetailType();
+        data.ChildNodes = GetChildNodesData();
+        data.Args = GetNodeArgs();
         return data;
     }
 

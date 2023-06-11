@@ -1,5 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
@@ -17,6 +15,8 @@ public static class PathDefine
     public static string TABLE_PB_DATA_PATH = Path.Combine(EDITOR_DATA_DIR_PATH, "TableData");
 
     public static string MAP_DATA_DIR_PATH = Path.Combine(EDITOR_DATA_DIR_PATH, "MapData");
+
+    public static string AI_TREE_DATA_DIR_PATH = Path.Combine(EDITOR_DATA_DIR_PATH, "BehaviourTree");
 
     public static string ASSETBUNDLES_DIR = Path.Combine(Application.dataPath,  "AssetBundles");
 

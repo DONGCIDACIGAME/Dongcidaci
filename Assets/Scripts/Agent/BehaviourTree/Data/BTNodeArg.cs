@@ -9,7 +9,7 @@ public class BTNodeArg
     /// <summary>
     /// 参数类型
     /// </summary>
-    public int ArgType;
+    public string ArgType;
 
     /// <summary>
     /// 参数数据内容

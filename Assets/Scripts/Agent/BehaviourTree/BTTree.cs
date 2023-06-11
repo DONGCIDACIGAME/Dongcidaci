@@ -1,53 +1,70 @@
 public class BTTree : BTNode
 {
     private BTNode mChildNode;
-    public override int Excute(float deltaTime)
-    {
-        if (mChildNode == null)
-            return BTDefine.BT_CheckResult_Failed;
 
-        return mChildNode.Excute(deltaTime);
+    public void SetChildNode(BTNode childNode)
+    {
+        mChildNode = childNode;
     }
 
-    public override int LoadFromBTNodeData(BTNodeData data)
+    public override int GetNodeArgNum()
     {
-        int result = base.LoadFromBTNodeData(data);
-        if (result != BTDefine.BT_LoadNodeResult_Succeed)
-            return result;
+        return 0;
+    }
 
-        if(data.nodeType != BTDefine.BT_Node_Type_TreeRoot)
-        {
-            Log.Error(LogLevel.Normal, "BTTree [{0}] LoadFromBTNodeData Failed, wrong node type:{1}", NodeName,  data.nodeType);
-            return BTDefine.BT_LoadNodeResult_Failed_WrongType;
-        }
+    public override int GetNodeType()
+    {
+        return BTDefine.BT_Node_Type_Tree;
+    }
 
-        NodeType = data.nodeType;
+    public override int GetNodeDetailType()
+    {
+        return BTDefine.BT_Node_Type_Tree_Entry;
+    }
 
-        if(data.ChildNodes == null || data.ChildNodes.Length != 1)
-        {
-            Log.Error(LogLevel.Normal, "BTTree [{0}] LoadFromBTNodeData Failed, child node num != 1", NodeName);
-            return BTDefine.BT_LoadNodeResult_Failed_InvalidChildNodeNum;
-        }
+    public override BT_CHILD_NODE_NUM GetChildeNodeNum()
+    {
+        return BT_CHILD_NODE_NUM.One;
+    }
 
-        BTNodeData childNode = data.ChildNodes[0];
-        // 加载子节点
-        // 严格要求所有节点都正确加载，这个AI行为树才可以使用
-        mChildNode = BehaviourTreeManager.Ins.CreateBTNode(childNode);
-        int childLoadResult = mChildNode.LoadFromBTNodeData(childNode);
-        if (childLoadResult != BTDefine.BT_LoadNodeResult_Succeed)
-            return childLoadResult;
+    protected override BTNodeArg[] GetNodeArgs()
+    {
+        return null;
+    }
 
+    protected override int ParseNodeArgs(BTNodeArg[] args)
+    {
         return BTDefine.BT_LoadNodeResult_Succeed;
     }
 
-    public override BTNodeData ToBTNodeData()
+    protected override int LoadChildNodes(BTNodeData[] chlidNodes)
     {
-        BTNodeData data = mChildNode.ToBTNodeData();
-        BTNodeData childNodeData = mChildNode.ToBTNodeData();
-        data.ChildNodes = new BTNodeData[] { childNodeData };
-        return data;
+        // 加载子节点
+        BTNodeData nodeData = chlidNodes[0];
+        BTNode node = BehaviourTreeManager.Ins.CreateBTNode(nodeData);
+        int childLoadResult = node.LoadFromBTNodeData(nodeData);
+
+        // 严格要求所有节点都正确加载，这个AI行为树才可以使用
+        if (childLoadResult != BTDefine.BT_LoadNodeResult_Succeed)
+            return childLoadResult;
+
+        SetChildNode(node);
+        return BTDefine.BT_LoadNodeResult_Succeed;
     }
 
+    protected override BTNodeData[] GetChildNodesData()
+    {
+        BTNodeData childNodeData = mChildNode.ToBTNodeData();
+        return new BTNodeData[] { childNodeData };
+    }
+
+    public override int Excute(float deltaTime)
+    {
+        if (mChildNode == null)
+            return BTDefine.BT_ExcuteResult_Failed;
+
+        return mChildNode.Excute(deltaTime);
+    }
 
     public override void Reset()
     {

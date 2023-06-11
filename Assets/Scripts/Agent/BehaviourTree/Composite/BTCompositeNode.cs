@@ -13,7 +13,12 @@ public abstract class BTCompositeNode : BTNode
     /// </summary>
     protected List<BTNode> mChildNodes;
 
-    protected void AddChildNode(BTNode node)
+    public BTCompositeNode()
+    {
+        mChildNodes = new List<BTNode>();
+    }
+
+    public void AddChildNode(BTNode node)
     {
         if(node == null)
         {
@@ -25,33 +30,57 @@ public abstract class BTCompositeNode : BTNode
         mChildNodes.Add(node);
     }
 
-    public override int LoadFromBTNodeData(BTNodeData data)
+    public override int GetNodeArgNum()
     {
-        int result = base.LoadFromBTNodeData(data);
-        if (result != BTDefine.BT_LoadNodeResult_Succeed)
-            return result;
+        return 0;
+    }
 
-        if (data.nodeType != BTDefine.BT_Node_Type_Composite)
+    protected override int ParseNodeArgs(BTNodeArg[] args)
+    {
+        return BTDefine.BT_LoadNodeResult_Succeed;
+    }
+
+    protected override BTNodeArg[] GetNodeArgs()
+    {
+        return null;
+    }
+    public override int GetNodeType()
+    {
+        return BTDefine.BT_Node_Type_Composite;
+    }
+
+    public override BT_CHILD_NODE_NUM GetChildeNodeNum()
+    {
+        return BT_CHILD_NODE_NUM.AtLeastOne;
+    }
+
+    protected override int LoadChildNodes(BTNodeData[] chlidNodes)
+    {
+        // 加载子节点
+        for (int i = 0; i < chlidNodes.Length; i++)
         {
-            Log.Error(LogLevel.Normal, "BTCompositeNode LoadFromBTNodeData Failed, wrong node type:{0}", data.nodeType);
-            return BTDefine.BT_LoadNodeResult_Failed_WrongType;
-        }
+            BTNodeData childNode = chlidNodes[i];
+            BTNode node = BehaviourTreeManager.Ins.CreateBTNode(childNode);
+            int childLoadResult = node.LoadFromBTNodeData(childNode);
 
-        NodeType = data.nodeType;
+            // 严格要求所有节点都正确加载，这个AI行为树才可以使用
+            if (childLoadResult != BTDefine.BT_LoadNodeResult_Succeed)
+                return childLoadResult;
+
+            AddChildNode(node);
+        }
 
         return BTDefine.BT_LoadNodeResult_Succeed;
     }
 
-    public override BTNodeData ToBTNodeData()
+    protected override BTNodeData[] GetChildNodesData()
     {
-        BTNodeData data = base.ToBTNodeData();
         BTNodeData[] childNodes = new BTNodeData[mChildNodes.Count];
-        for(int i = 0;i< mChildNodes.Count; i++)
+        for (int i = 0; i < mChildNodes.Count; i++)
         {
             childNodes[i] = mChildNodes[i].ToBTNodeData();
         }
-        data.ChildNodes = childNodes;
-        return data;
+        return childNodes;
     }
 
     public override void Reset()

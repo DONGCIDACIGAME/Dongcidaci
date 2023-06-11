@@ -1,12 +1,61 @@
 using GameEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// 行为树管理器
 /// </summary>
 public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
 {
-    // TODO: 把已加载的行为树数据模版保存在这里，不要每次加载行为树数据都从磁盘上读取一遍文件
+    /// <summary>
+    /// 已经加载过的行为树数据都缓存在这里面
+    /// 下次创建相同行为树时直接从缓存数据创建
+    /// </summary>
+    private Dictionary<string, BTNodeData> mLoadedBTNodeDatas;
 
+
+    public override void Initialize()
+    {
+        mLoadedBTNodeDatas = new Dictionary<string, BTNodeData>();
+    }
+
+    /// <summary>
+    /// 加载行为树
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
+    public BTTree LoadTree(string filePath)
+    {
+        // 查询缓存数据
+        if(!mLoadedBTNodeDatas.TryGetValue(filePath, out BTNodeData data))
+        {
+            data = BehaviourTreeHelper.LoadBTNodeData(filePath);
+            if (data == null)
+                return null;
+
+            mLoadedBTNodeDatas.Add(filePath, data);
+        }
+
+        BTTree tree = CreateBTNode(data) as BTTree;
+        tree.LoadFromBTNodeData(data);
+        return tree;
+    }
+
+    /// <summary>
+    /// 保存行为树
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <param name="tree"></param>
+    public void SaveTree(string filePath, BTTree tree)
+    {
+        if(tree == null)
+        {
+            Log.Error(LogLevel.Normal, "SaveTree Failed, tree is null!");
+            return;
+        }
+
+        BTNodeData data = tree.ToBTNodeData();
+        BehaviourTreeHelper.SaveBTNodeData(filePath, data);
+    }
 
     /// <summary>
     /// 创建行为树节点
@@ -33,9 +82,9 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
     /// <returns></returns>
     public BTNode CreateBTNode(int nodeType, int nodeDetailType)
     {
-        if(nodeType == BTDefine.BT_Node_Type_TreeRoot)
+        if(nodeType == BTDefine.BT_Node_Type_Tree)
         {
-            if (nodeDetailType == BTDefine.BT_Node_Type_TreeRoot_Entry)
+            if (nodeDetailType == BTDefine.BT_Node_Type_Tree_Entry)
                 return new BTTree();
         }
 
@@ -57,18 +106,17 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
                 return new BTInvertNode();
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Decor_Repeat)
-                return new BTRepeatNode(0);
+                return new BTRepeatNode();
         }
 
         if(nodeType == BTDefine.BT_Node_Type_Leaf)
         {
-            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_WaitFrame)
-                return new BTWaitTimeNode(0);
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_WaitTime)
+                return new BTWaitTimeNode();
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_WaitFrame)
-                return new BTWaitFrameNode(0);
+                return new BTWaitFrameNode();
         }
-
 
         Log.Error(LogLevel.Normal, "BTNodeFactory CreateBTNode Failed, nodeType:{0}, nodeDetailType:{1}, no matching class!", nodeType, nodeDetailType);
         return null;
@@ -76,11 +124,6 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
 
     public override void Dispose()
     {
-        
-    }
-
-    public override void Initialize()
-    {
-        
+        mLoadedBTNodeDatas = null;
     }
 }

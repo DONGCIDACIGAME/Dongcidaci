@@ -82,6 +82,47 @@ public class GameManager:MonoBehaviour
         DisposeGame();
         Initialize();
         Launch();
+
+        Test();
+    }
+
+    private void Test()
+    {
+        //BTTree tree = new BTTree();
+        //tree.NodeName = "TreeTestName";
+        //tree.NodeDesc = "TreeTestDesc";
+
+
+        //BTSequenceNode sequenceNode = new BTSequenceNode();
+        //sequenceNode.NodeName = "SequenceNodeName";
+        //sequenceNode.NodeDesc = "SequenceNodeDesc";
+
+
+        //BTRepeatNode repeatNode = new BTRepeatNode();
+        //repeatNode.NodeName = "RepeatNodeName";
+        //repeatNode.NodeDesc = "RepeatNodeDesc";
+        //repeatNode.SetRepeatTime(1);
+
+        //BTWaitTimeNode waitTimeNode = new BTWaitTimeNode();
+        //waitTimeNode.NodeName = "WaitTimeNodeName";
+        //waitTimeNode.NodeDesc = "WaitTimeNodeDesc";
+        //waitTimeNode.SetWaitTime(1);
+
+
+        //BTWaitFrameNode waitFrameNode = new BTWaitFrameNode();
+        //waitFrameNode.NodeName = "WaitFrameNodeName";
+        //waitFrameNode.NodeDesc = "WaitFrameNodeDesc";
+        //waitFrameNode.SetWaitFrame(1);
+
+        //tree.SetChildNode(sequenceNode);
+        //sequenceNode.AddChildNode(repeatNode);
+        //sequenceNode.AddChildNode(waitFrameNode);
+
+        //repeatNode.SetChildNode(waitTimeNode);
+
+        //BehaviourTreeManager.Ins.SaveTree(PathDefine.AI_TREE_DATA_DIR_PATH +"/testTree.tree", tree);
+
+        //BTTree tree = BehaviourTreeManager.Ins.LoadTree(PathDefine.AI_TREE_DATA_DIR_PATH + "/testTree.tree");
     }
 
     private void DisposeGame()
