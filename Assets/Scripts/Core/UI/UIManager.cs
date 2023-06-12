@@ -537,7 +537,7 @@ namespace GameEngine
             }
 
 
-            if (holder.GetHashCode() == toRemove.GetHashCode())
+            if (holder.GetUIEntityID() == toRemove.GetUIEntityID())
             {
                 Log.Error(LogLevel.Fatal, "RemoveControl Fatal Error, {0} holder is self! ", toRemove.GetType());
                 return;

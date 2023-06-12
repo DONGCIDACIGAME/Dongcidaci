@@ -1,14 +1,9 @@
+using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AgentStatus : IAgentStatus
 {
-    /// <summary>
-    /// 切换状态的代理方法
-    /// 后面考虑改为事件
-    /// </summary>
-    protected ChangeStatusDelegate ChangeStatus;
-
 
     protected Agent mAgent;
 
@@ -57,9 +52,8 @@ public abstract class AgentStatus : IAgentStatus
     /// </summary>
     /// <param name="agt"></param>
     /// <param name="cb"></param>
-    public void Initialize(Agent agt, ChangeStatusDelegate cb)
+    public void Initialize(Agent agt)
     {
-        ChangeStatus = cb;
         mAgent = agt;
         statusDefaultActionData = AgentHelper.GetAgentDefaultStatusActionData(agt, GetStatusName());
         cmdBuffer = new AgentInputCommandBuffer();
@@ -125,7 +119,6 @@ public abstract class AgentStatus : IAgentStatus
     /// </summary>
     public void Dispose()
     {
-        ChangeStatus = null;
         mAgent = null;
         mCurLogicStateEndMeter = 0;
 
@@ -209,7 +202,7 @@ public abstract class AgentStatus : IAgentStatus
             args.Add("comboStep", triggeredComboStep);
         }
 
-        ChangeStatus(status, args);
+        GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), status, args);
     }
 
     /// <summary>
@@ -297,7 +290,7 @@ public abstract class AgentStatus : IAgentStatus
                 
                 Dictionary<string, object> args = new Dictionary<string, object>();
                 args.Add("duration", transferStateDuration);
-                ChangeStatus(AgentStatusDefine.TRANSFER, args);
+                GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSFER, args);
             }));
         }
 

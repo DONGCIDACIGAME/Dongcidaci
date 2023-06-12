@@ -1,3 +1,4 @@
+using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -70,7 +71,7 @@ public class AgentStatus_Transfer : AgentStatus
             args.Add("cmdType", AgentCommandDefine.IDLE);
             args.Add("towards", GamePlayDefine.InputDirection_NONE);
             args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
-            ChangeStatus(AgentStatusDefine.IDLE, args);
+            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, args);
         }
     }
 

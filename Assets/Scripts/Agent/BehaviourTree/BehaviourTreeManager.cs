@@ -12,7 +12,6 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
     /// </summary>
     private Dictionary<string, BTNodeData> mLoadedBTNodeDatas;
 
-
     public override void Initialize()
     {
         mLoadedBTNodeDatas = new Dictionary<string, BTNodeData>();

@@ -23,7 +23,7 @@ public abstract class GameScene : IScene
     {
         if (mEventListener != null)
         {
-            mEventListener.ClearEvents();
+            mEventListener.ClearAllEventListen();
         }
         mScope.Dispose();
     }

@@ -1,19 +1,20 @@
 using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PanelMonsterAIEditor : UIPanel
+public class ControlLoadTreeHUD : UIControl
 {
-    private ControlAILogicArea Ctl_AILogicArea;
+    private Button Btn_Quit;
 
-    public override string GetPanelLayerPath()
+    private void OnQuitClick()
     {
-        return UIPathDef.UI_LAYER_BOTTOM_DYNAMIC;
+        UIManager.Ins.RemoveControl(this);
     }
 
     protected override void BindUINodes()
     {
-        Ctl_AILogicArea = BindControl<ControlAILogicArea>("Ctl_AILogicArea");
+        Btn_Quit = BindButtonNode("eeHUDn_QuitLoadTreeHUD", OnQuitClick);
     }
 
     protected override void OnClose()
@@ -23,6 +24,8 @@ public class PanelMonsterAIEditor : UIPanel
 
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
-        
+
+
     }
+
 }

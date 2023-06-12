@@ -1,76 +1,152 @@
+using System;
 using System.Collections.Generic;
-using GameEngine;
 
-public class GameEventListener : IGameEventListen
+namespace GameEngine
 {
-    private Dictionary<string, GameEventAction> mGameEvents;
-    private int mListenerId;
-    public GameEventListener()
+    public class GameEventListener
     {
-        mGameEvents = new Dictionary<string, GameEventAction>();
-        mListenerId = GameEventSystem.Ins.PopEventListenId();
-    }
+        private int mListenerId;
+        private Dictionary<string, Delegate> mEventTable;
 
-
-    public void BindEvent(string evtName, GameEventAction action)
-    {
-        if (string.IsNullOrEmpty(evtName))
+        public GameEventListener()
         {
-            Log.Error(LogLevel.Normal, "BindEvent Failed, null or empty string is invalid event name!");
-            return;
+            mEventTable = new Dictionary<string, Delegate>();
+            mListenerId = GameEventSystem.Ins.PopEventListenId();
         }
 
-        if (action == null)
+        public int GetListenerId()
         {
-            Log.Error(LogLevel.Critical, "BindEvent Failed, event action is not allow to be null!");
-            return;
+            return mListenerId;
         }
 
-        if (mGameEvents == null)
+        private bool BindEventCheck(string evtName, Delegate cb)
         {
-            Log.Error(LogLevel.Critical, "BindEvent Failed,Game Event List is null!");
-            return;
+            if (string.IsNullOrEmpty(evtName))
+            {
+                Log.Error(LogLevel.Normal, "BindEventCheck Failed, null or empty string is invalid event name!");
+                return false;
+            }
+
+            if (cb == null)
+            {
+                Log.Error(LogLevel.Critical, "BindEventCheck Failed, cb is not allow to be null!");
+                return false;
+            }
+
+            if (mEventTable.ContainsKey(evtName))
+            {
+                Log.Error(LogLevel.Critical, "BindEventCheck Failed, repeat event listen, event name:{0}", evtName);
+                return false;
+            }
+
+            return true;
         }
 
-        if (mGameEvents.ContainsKey(evtName))
+        public void Listen(string evtName, Callback cb)
         {
-            Log.Error(LogLevel.Normal, "BindEvent Failed, repeated event name:" + evtName);
-            return;
+            if (!BindEventCheck(evtName, cb))
+                return;
+
+            mEventTable.Add(evtName, cb);
+
+            GameEventSystem.Ins.AddEventListen(mListenerId, evtName, cb);
         }
 
-        GameEventSystem.Ins.AddEventListen(mListenerId, evtName, action);
-    }
-
-    public void RemoveEvent(string evtName)
-    {
-        if (string.IsNullOrEmpty(evtName))
+        public void Listen<T1>(string evtName, Callback<T1> cb)
         {
-            Log.Error(LogLevel.Normal, "RemoveEvent Failed, null or empty string is invalid event name!");
-            return;
+            if (!BindEventCheck(evtName, cb))
+                return;
+
+            mEventTable.Add(evtName, cb);
+
+            GameEventSystem.Ins.AddEventListen(mListenerId, evtName, cb);
         }
 
-        if (mGameEvents == null)
+
+        public void Listen<T1, T2>(string evtName, Callback<T1, T2> cb)
         {
-            Log.Error(LogLevel.Critical, "RemoveEvent Failed, Game Event List is null!");
-            return;
+            if (!BindEventCheck(evtName, cb))
+                return;
+
+            mEventTable.Add(evtName, cb);
+
+            GameEventSystem.Ins.AddEventListen(mListenerId, evtName, cb);
         }
 
-        if (mGameEvents.ContainsKey(evtName))
+
+        public void Listen<T1, T2, T3>(string evtName, Callback<T1, T2, T3> cb)
         {
-            mGameEvents.Remove(evtName);
-            GameEventSystem.Ins.RemoveEventListen(mListenerId, evtName);
+            if (!BindEventCheck(evtName, cb))
+                return;
+
+            mEventTable.Add(evtName, cb);
+
+            GameEventSystem.Ins.AddEventListen(mListenerId, evtName, cb);
         }
 
-    }
 
-    public void ClearEvents()
-    {
-        if (mGameEvents == null)
-            return;
-
-        foreach (string evtName in mGameEvents.Keys)
+        public void Listen<T1, T2, T3, T4>(string evtName, Callback<T1, T2, T3, T4> cb)
         {
-            GameEventSystem.Ins.RemoveEventListen(mListenerId, evtName);
+            if (!BindEventCheck(evtName, cb))
+                return;
+
+            mEventTable.Add(evtName, cb);
+
+            GameEventSystem.Ins.AddEventListen(mListenerId, evtName, cb);
+        }
+
+        public void Listen<T1, T2, T3, T4, T5>(string evtName, Callback<T1, T2, T3, T4, T5> cb)
+        {
+            if (!BindEventCheck(evtName, cb))
+                return;
+
+            mEventTable.Add(evtName, cb);
+
+            GameEventSystem.Ins.AddEventListen(mListenerId, evtName, cb);
+        }
+
+        public void Listen<T1, T2, T3, T4, T5, T6>(string evtName, Callback<T1, T2, T3, T4, T5, T6> cb)
+        {
+            if (!BindEventCheck(evtName, cb))
+                return;
+
+            mEventTable.Add(evtName, cb);
+
+            GameEventSystem.Ins.AddEventListen(mListenerId, evtName, cb);
+        }
+
+        public void RemoveEventListen(string evtName)
+        {
+            if (string.IsNullOrEmpty(evtName))
+            {
+                Log.Error(LogLevel.Normal, "RemoveEvent Failed, null or empty string is invalid event name!");
+                return;
+            }
+
+            if (mEventTable == null)
+            {
+                Log.Error(LogLevel.Critical, "RemoveEvent Failed, Game Event List is null!");
+                return;
+            }
+
+            if (mEventTable.ContainsKey(evtName))
+            {
+                mEventTable.Remove(evtName);
+                GameEventSystem.Ins.RemoveEventListen(mListenerId, evtName);
+            }
+
+        }
+
+        public void ClearAllEventListen()
+        {
+            if (mEventTable == null)
+                return;
+
+            foreach (string evtName in mEventTable.Keys)
+            {
+                GameEventSystem.Ins.RemoveEventListen(mListenerId, evtName);
+            }
         }
     }
 }
+

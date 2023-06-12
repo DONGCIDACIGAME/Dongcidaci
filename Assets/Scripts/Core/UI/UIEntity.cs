@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameEngine
@@ -50,11 +50,6 @@ namespace GameEngine
         protected GameEventListener mEventListener;
 
         private int mUIEntityID;
-
-        protected virtual Dictionary<string, GameEventAction> GetVisibleEvents()
-        {
-            return null;
-        }
 
         // 构造函数
         protected UIEntity() 
@@ -134,7 +129,7 @@ namespace GameEngine
             // holder不能是自己且自己不能是holder的上级-防止递归
             while(temp != null)
             {
-                if (temp.GetHashCode() == this.GetHashCode())
+                if (temp.GetUIEntityID() == this.GetUIEntityID())
                     return;
                 temp = temp.GetHolder();
             }
@@ -188,8 +183,8 @@ namespace GameEngine
         {
             DestroyAllChildUIEntity();
             OnClose();
-            DestroyUIEntity();
             ClearAll();
+            DestroyUIEntity();
         }
 
         public void SetParent(GameObject parent)
@@ -232,16 +227,20 @@ namespace GameEngine
                 {
                     action();
                 }
+
+                mBeforeCloseActions.Clear();
             }
 
-            if(mEventListener != null)
+            if (mEventListener != null)
             {
-                mEventListener.ClearEvents();
+                mEventListener.ClearAllEventListen();
             }
 
+            if(mChildUIEntitys != null)
+            {
+                mChildUIEntitys.Clear();
+            }
             Context.Clear();
-            mChildUIEntitys.Clear();
-            mBeforeCloseActions.Clear();
             mHolder = null;
         }
 
@@ -302,7 +301,17 @@ namespace GameEngine
             }
         }
 
-        public override int GetHashCode()
+        public void Dispose()
+        {
+            ClearAll();
+            mBeforeCloseActions = null;
+            mEventListener = null;
+            Context = null;
+            mChildUIEntitys = null;
+            mHolder = null;
+        }
+
+        public int GetUIEntityID()
         {
             return mUIEntityID;
         }

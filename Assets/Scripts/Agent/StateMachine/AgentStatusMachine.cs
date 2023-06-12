@@ -1,24 +1,17 @@
+using GameEngine;
 using System.Collections.Generic;
-
-/// <summary>
-///  TODO-后面改为事件
-/// </summary>
-/// <param name="stateName"></param>
-/// <param name="context"></param>
-public delegate void ChangeStatusDelegate(string stateName,  Dictionary<string, object> context = null);
 
 public class AgentStatusMachine : IMeterHandler
 {
+    private GameEventListener mEventListener;
     public AgentStatus CurStatus { get; private set; }
     private Dictionary<string, AgentStatus> mStatusMap;
     private Agent mAgent;
-
-
-    private AgentInputCommand lastInputCmd;
     
     public AgentStatusMachine()
     {
         mStatusMap = new Dictionary<string, AgentStatus>();
+        mEventListener = new GameEventListener();
     }
 
     public void OnMeterEnter(int meterIndex)
@@ -58,13 +51,16 @@ public class AgentStatusMachine : IMeterHandler
         }
 
         mStatusMap.Add(statusName, status);
-        status.Initialize(mAgent, SwitchToStatus);
+        status.Initialize(mAgent);
         status.CustomInitialize();
     }
 
     public void Initialize(Agent agt)
     {
         mAgent = agt;
+        
+        mEventListener.Listen<uint, string, Dictionary<string, object>>("ChangeAgentStatus", SwitchToStatus);
+
         AddStatus(AgentStatusDefine.IDLE, new AgentStatus_Idle());
         AddStatus(AgentStatusDefine.RUN, new AgentStatus_Run());
         AddStatus(AgentStatusDefine.ATTACK, new AgentStatus_Attack());
@@ -73,8 +69,11 @@ public class AgentStatusMachine : IMeterHandler
     }
 
 
-    public void SwitchToStatus(string statusName, Dictionary<string, object> context)
+    public void SwitchToStatus(uint agentId,string statusName, Dictionary<string, object> context)
     {
+        if (agentId != mAgent.GetAgentId())
+            return;
+
         if(CurStatus != null && CurStatus.GetStatusName().Equals(statusName))
         {
             return;
@@ -113,5 +112,10 @@ public class AgentStatusMachine : IMeterHandler
     {
         CurStatus = null;
         mStatusMap = null;
+        if(mEventListener != null)
+        {
+            mEventListener.ClearAllEventListen();
+            mEventListener = null;
+        }
     }
 }

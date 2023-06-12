@@ -16,24 +16,12 @@ namespace GameEngine
 
         public abstract void Initialize();
 
-        public void BindEvent(string evtName, GameEventAction action)
-        {
-            if(mEventListener == null)
-            {
-                Log.Error(LogLevel.Critical ,"ModuleManager Bind Event Failed, event listener not initialized!");
-                return;
-            }
-
-            mEventListener.BindEvent(evtName, action);
-        }
-
-
         public abstract void Dispose();
 
         public void __Dispose__()
         {
             if (mEventListener != null)
-                mEventListener.ClearEvents();
+                mEventListener.ClearAllEventListen();
         }
 
         public virtual void OnUpdate(float deltaTime) { }

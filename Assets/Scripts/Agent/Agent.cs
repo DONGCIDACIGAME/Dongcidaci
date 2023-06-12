@@ -172,7 +172,7 @@ public abstract class Agent : MapEntity, IMeterHandler
         args.Add("cmdType", AgentCommandDefine.IDLE);
         args.Add("towards", GamePlayDefine.InputDirection_NONE);
         args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
-        StatusMachine.SwitchToStatus(AgentStatusDefine.IDLE, args);
+        StatusMachine.SwitchToStatus(GetAgentId(), AgentStatusDefine.IDLE, args);
     }
 
     /// <summary>
