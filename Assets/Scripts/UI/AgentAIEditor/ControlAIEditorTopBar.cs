@@ -9,13 +9,6 @@ public class ControlAIEditorTopBar : UIControl
     private Button Btn_SaveTree;
     private Button Btn_NewTree;
     private Button Btn_ToDefault;
-    private Button Btn_Quit;
-
-    private void OnBtnQuitClick()
-    {
-        UIManager.Ins.ClosePanel<PanelAIEditor>();
-    }
-
 
     private void OnLoadTreeClick()
     {
@@ -24,18 +17,18 @@ public class ControlAIEditorTopBar : UIControl
 
     private void OnSaveTreeClick()
     {
-        
+        GameEventSystem.Ins.Fire("OnClickSaveTree");
     }
 
 
     private void OnBtnNewTreeClick()
     {
-        
+        GameEventSystem.Ins.Fire("OnClickNewTree");
     }
 
     private void OnBtnToDefaultClick()
     {
-
+        GameEventSystem.Ins.Fire("ToAIEditorDefaultPos");
     }
 
     protected override void BindUINodes()
@@ -44,7 +37,6 @@ public class ControlAIEditorTopBar : UIControl
         Btn_SaveTree = BindButtonNode("Button_SaveTreeFile", OnSaveTreeClick);
         Btn_NewTree = BindButtonNode("Button_NewTree", OnBtnNewTreeClick);
         Btn_ToDefault = BindButtonNode("Button_ToDefault", OnBtnToDefaultClick);
-        Btn_Quit = BindButtonNode("Button_Quit", OnBtnQuitClick);
     }
 
     protected override void OnClose()

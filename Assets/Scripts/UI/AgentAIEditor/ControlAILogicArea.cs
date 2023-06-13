@@ -12,9 +12,22 @@ public class ControlAILogicArea : UIControl
     }
 
 
+    private void BindEvents()
+    {
+        mEventListener.Listen("ToAIEditorDefaultPos", ToDefaultPos);
+    }
+
+    /// <summary>
+    /// 移动回默认位置，默认缩放
+    /// </summary>
+    private void ToDefaultPos()
+    {
+        
+    }
+
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
-
+        BindEvents();
     }
 
 

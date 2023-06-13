@@ -3,6 +3,16 @@ using UnityEngine;
 
 public static class BehaviourTreeHelper
 {
+    public static string TreeNameToFileFullPath(string treeName)
+    {
+        if(string.IsNullOrEmpty(treeName))
+        {
+            Log.Error(LogLevel.Normal, "TreeNameToFileFullPath Error, tree name is null or empty!");
+            return null;
+        }
+        return PathDefine.AI_TREE_DATA_DIR_PATH + "/" + treeName + ".tree";
+    }
+
     public static BTNodeData LoadBTNodeData(string filePath)
     {
         if(string.IsNullOrEmpty(filePath))

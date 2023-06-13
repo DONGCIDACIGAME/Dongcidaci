@@ -14,7 +14,7 @@ public class ControlLoadTreeHUD : UIControl
 
     protected override void BindUINodes()
     {
-        Btn_Quit = BindButtonNode("eeHUDn_QuitLoadTreeHUD", OnQuitClick);
+        Btn_Quit = BindButtonNode("Button_QuitLoadTreeHUD", OnQuitClick);
     }
 
     protected override void OnClose()
