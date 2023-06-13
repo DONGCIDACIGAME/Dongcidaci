@@ -18,6 +18,11 @@ public abstract class BTCompositeNode : BTNode
         mChildNodes = new List<BTNode>();
     }
 
+    public List<BTNode> GetChildNodes()
+    {
+        return mChildNodes;
+    }
+
     public void AddChildNode(BTNode node)
     {
         if(node == null)

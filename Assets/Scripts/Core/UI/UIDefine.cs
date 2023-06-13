@@ -1,7 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public static class UIDefine 
 {
     public const int Panel_Load_Per_Frame = 1; // 每帧最多加载的面板数量

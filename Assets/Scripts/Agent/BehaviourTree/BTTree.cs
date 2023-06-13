@@ -7,6 +7,11 @@ public class BTTree : BTNode
         mChildNode = childNode;
     }
 
+    public BTNode GetChildNode()
+    {
+        return mChildNode;
+    }
+
     public override int GetNodeArgNum()
     {
         return 0;

@@ -2,9 +2,13 @@ using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class ControlAILogicArea : UIControl
 {
     private GameObject Node_AILogicArea;
+    private BTTree mCurEditingTree;
+
 
     protected override void BindUINodes()
     {
@@ -29,6 +33,16 @@ public class ControlAILogicArea : UIControl
     {
         BindEvents();
     }
+
+
+
+
+    public void Draw(BTTree tree)
+    {
+        mCurEditingTree = tree;
+
+    }
+
 
 
     protected override void OnClose()
