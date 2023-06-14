@@ -102,7 +102,7 @@ public class PanelAIEditor : UIPanel
 
     private void DrawTree(BTTree tree)
     {
-        //Ctl_AILogicArea.
+        Ctl_AILogicArea.Update(tree);
     }
 
     protected override void OnClose()

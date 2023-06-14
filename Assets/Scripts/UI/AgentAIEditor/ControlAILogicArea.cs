@@ -37,13 +37,22 @@ public class ControlAILogicArea : UIControl
 
 
 
-    public void Draw(BTTree tree)
+    public void Update(BTTree tree)
     {
         mCurEditingTree = tree;
+        ControlAIActionNode treeEntry = UIManager.Ins.AddControl<ControlAIActionNode>(
+        this,
+        "Prefabs/UI/AgentAIEditor/Ctl_AIAction",
+        Node_AILogicArea,
+        new Dictionary<string, object>()
+        {
+            { "BTNode", tree }
+        });
 
+        float treeWidth = treeEntry.GetWidth();
+        float treeHeight = treeEntry.GetHeight();
+        (Node_AILogicArea.transform as RectTransform).sizeDelta = new Vector2(treeWidth, treeHeight);
     }
-
-
 
     protected override void OnClose()
     {
