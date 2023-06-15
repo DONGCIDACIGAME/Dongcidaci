@@ -74,6 +74,10 @@ public class GameManager:MonoBehaviour
 
         // 注册键盘输入控制
         InputManager.Ins.RegisterInputControl(InputControlCenter.KeyboardInputCtl);
+
+        // add 0615 weng
+        Application.targetFrameRate = 60;
+
     }
 
     private void Awake()
