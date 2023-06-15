@@ -4,6 +4,11 @@ using System.Collections.Generic;
 public abstract class BTNode : IGameDisposable
 {
     /// <summary>
+    /// 父节点
+    /// </summary>
+    private BTNode mParentNode;
+
+    /// <summary>
     /// 执行者
     /// </summary>
     protected Agent mExcutor;
@@ -27,6 +32,16 @@ public abstract class BTNode : IGameDisposable
     {
         mExcutor = excutor;
         mContext = context;
+    }
+
+    public void SetParentNode(BTNode node)
+    {
+        mParentNode = node;
+    }
+
+    public BTNode GetParentNode()
+    {
+        return mParentNode;
     }
 
     public abstract int GetNodeType();

@@ -31,8 +31,12 @@ public abstract class BTCompositeNode : BTNode
             return;
         }
 
-        node.Initialize(mExcutor, mContext);
+        if (mChildNodes.Contains(node))
+            return;
+
         mChildNodes.Add(node);
+        node.Initialize(mExcutor, mContext);
+        node.SetParentNode(this);
     }
 
     public override int GetNodeArgNum()

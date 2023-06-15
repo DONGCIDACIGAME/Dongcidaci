@@ -476,7 +476,7 @@ GameObject:
   - component: {fileID: 8343123929983095265}
   - component: {fileID: 3848744269820659760}
   m_Layer: 5
-  m_Name: Button_AddCondition
+  m_Name: Button_AddChildNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

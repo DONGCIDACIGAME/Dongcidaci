@@ -5,6 +5,7 @@ public class BTTree : BTNode
     public void SetChildNode(BTNode childNode)
     {
         mChildNode = childNode;
+        childNode.SetParentNode(this);
     }
 
     public BTNode GetChildNode()

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class ControlAIActionNode : UIControl
 {
     private Button Btn_BehaviourNode;
-    private Button Btn_AddCondition;
+    private Button Btn_AddChildNode;
     private TMP_Text Text_BehaviourNode;
     private GameObject Node_SubNodesContain;
     private GameObject Node_ConnectLineContain;
@@ -27,7 +27,7 @@ public class ControlAIActionNode : UIControl
     protected override void BindUINodes()
     {
         Btn_BehaviourNode = BindButtonNode("Button_BehaviourNode", OnBtnBehaviourNodeClick);
-        Btn_AddCondition = BindButtonNode("Button_AddCondition", OnBtnAddConditionClick);
+        Btn_AddChildNode = BindButtonNode("Button_AddChildNode", OnBtnAddChildeNodeClick);
         Text_BehaviourNode = BindTextNode("Text_BehaviourNode","AINode");
         Node_SubNodesContain = BindNode("Node_SubNodesContain");
         Node_ConnectLineContain = BindNode("Node_ConnectLineContain");
@@ -44,15 +44,30 @@ public class ControlAIActionNode : UIControl
         singleNodeHeight = (GetRootObj().transform as RectTransform).sizeDelta.y;
 
         Text_BehaviourNode.text = mNode.NodeName;
-        if(mNode is BTLeafNode)
-        {
-            Btn_AddCondition.gameObject.SetActive(false);
-        }
-        else
-        {
-            Btn_AddCondition.gameObject.SetActive(true);
-        }
+        UpdateAddChildBtnVisible();
         AddAllChildNodes();
+    }
+
+    private void UpdateAddChildBtnVisible()
+    {
+        if (mNode is BTLeafNode)
+        {
+            Btn_AddChildNode.gameObject.SetActive(false);
+        }
+        else if (mNode is BTDecorNode)
+        {
+            BTDecorNode decor = mNode as BTDecorNode;
+            Btn_AddChildNode.gameObject.SetActive(decor.GetChildNode() == null);
+        }
+        else if (mNode is BTTree)
+        {
+            BTTree tree = mNode as BTTree;
+            Btn_AddChildNode.gameObject.SetActive(tree.GetChildNode() == null);
+        }
+        else if(mNode is BTCompositeNode)
+        {
+            Btn_AddChildNode.gameObject.SetActive(true);
+        }
     }
 
     private void AddChildNode(BTNode childNode, Vector2 pos)
@@ -153,7 +168,7 @@ public class ControlAIActionNode : UIControl
                 }
             }
 
-            Node_ConnectLineHorizontal.SetActive(true);
+            Node_ConnectLineHorizontal.SetActive(childNodes.Count > 1);
             (Node_ConnectLineHorizontal.transform as RectTransform).sizeDelta = new Vector2(totalHorizontalLineWidth, 2);
             Node_ConnectLineHorizontal.transform.localPosition = new Vector2((startNodeX + endNodeX) / 2, 0);
         }
@@ -164,9 +179,9 @@ public class ControlAIActionNode : UIControl
 
     }
 
-    private void OnBtnAddConditionClick()
+    private void OnBtnAddChildeNodeClick()
     {
-
+        GameEventSystem.Ins.Fire("OnClickAddChildNode", mNode);
     }
 
     protected override void OnClose()

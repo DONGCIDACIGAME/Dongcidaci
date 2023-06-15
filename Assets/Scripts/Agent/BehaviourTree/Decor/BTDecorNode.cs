@@ -11,6 +11,7 @@ public abstract class BTDecorNode : BTNode
     public void SetChildNode(BTNode childNode)
     {
         mChildNode = childNode;
+        childNode.SetParentNode(this);
     }
 
     public BTNode GetChildNode()

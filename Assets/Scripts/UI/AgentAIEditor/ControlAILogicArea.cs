@@ -19,6 +19,7 @@ public class ControlAILogicArea : UIControl
     private void BindEvents()
     {
         mEventListener.Listen("ToAIEditorDefaultPos", ToDefaultPos);
+        mEventListener.Listen("UpdateAILogicArea", () => { Update(mCurEditingTree); });
     }
 
     /// <summary>
