@@ -74,8 +74,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.25801638
-          value: 0.6112902
+          time: 0.19938882
+          value: 0.5616666
           inSlope: 1.0874704
           outSlope: 1.0874704
           tangentMode: 0
@@ -254,16 +254,16 @@ MonoBehaviour:
   active: 1
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.042778015, g: 0, b: 0.2264151, a: 1}
+    m_Value: {r: 0.007679976, g: 0, b: 0.13207549, a: 1}
   center:
     m_OverrideState: 1
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.224
+    m_Value: 0.45
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.787
+    m_Value: 0.55
   rounded:
     m_OverrideState: 1
     m_Value: 0
