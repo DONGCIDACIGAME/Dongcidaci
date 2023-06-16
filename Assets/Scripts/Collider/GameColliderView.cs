@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class GameColliderView : MonoBehaviour
@@ -14,6 +15,14 @@ public class GameColliderView : MonoBehaviour
     /// </summary>
     public Vector2 offset;
 
+
+    private void Start()
+    {
+        
+    }
+
+
+
     /// <summary>
     /// 编辑器下的辅助功能
     /// </summary>
@@ -29,6 +38,7 @@ public class GameColliderView : MonoBehaviour
             return;
 
         Gizmos.color = color;
+        
 
         Vector3 groundPos = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 rotation = this.transform.rotation.eulerAngles;
@@ -48,10 +58,15 @@ public class GameColliderView : MonoBehaviour
         Vector3 rt = groundPos + rt_offset;
         Vector3 lt = groundPos + lt_offset;
 
-        Gizmos.DrawLine(lb, rb);
-        Gizmos.DrawLine(rb, rt);
-        Gizmos.DrawLine(rt, lt);
-        Gizmos.DrawLine(lt, lb);
+        float lineThickness = 2f;
+        //Gizmos.DrawLine(lb, rb);
+        Handles.DrawLine(lb, rb, lineThickness);
+        //Gizmos.DrawLine(rb, rt);
+        Handles.DrawLine(rb, rt, lineThickness);
+        //Gizmos.DrawLine(rt, lt);
+        Handles.DrawLine(rt, lt, lineThickness);
+        //Gizmos.DrawLine(lt, lb);
+        Handles.DrawLine(lt, lb, lineThickness);
     }
 #endif
     #endregion

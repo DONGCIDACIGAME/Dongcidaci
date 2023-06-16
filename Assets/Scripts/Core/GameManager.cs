@@ -30,8 +30,12 @@ public class GameManager:MonoBehaviour
     private MeterTimerCenter          MeterTimerCenter;                                 // 节拍定时器中心
     private UpdateCenter                  UpdateCenter;                                        // Update驱动中心
     private TimeMgr                          TimeMgr;                                                 // 时间中心
+
     private GameColliderManager   GameColliderMgr;                                 // 碰撞中心
+
     private BehaviourTreeManager  BehaviourTreeMgr;                                 // 行为树管理器
+
+
     private List<IModuleManager> mAllModuleMgrs;
 
     public GameConfig GetGameConfig()

@@ -119,7 +119,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _MaskStrength: 0.75
+    - _MaskStrength: 0.56
     - _Metallic: 0
     - _NoiseScale: 40
     - _OcclusionStrength: 1
