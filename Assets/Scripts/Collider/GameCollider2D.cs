@@ -1,53 +1,79 @@
 using UnityEngine;
 
-/// <summary>
-/// 用于描述碰撞体区域的位置信息
-/// </summary>
-public struct RectangleColliderVector3
+public class GameCollider2D : IGameCollider2D
 {
-    public float x;
-    public float y;
+    private float _realPosX;
+    private float _realPosY;
+    private float _rotateAngle = 0;
 
-    /// <summary>
-    /// 这个碰撞体的旋转角度[0 - 360]
-    /// 以向前为基准
-    /// </summary>
-    public float rotateAngle;
+    private float _scaleX = 1;
+    private float _scaleY = 1;
 
-    /// <summary>
-    /// 这个碰撞体的矩形尺寸
-    /// </summary>
-    public Vector2 size;
+    private float _sizeX;
+    private float _sizeY;
+    private float _offsetX = 0;
+    private float _offsetY = 0;
 
-    public RectangleColliderVector3(float posX, float posY, float angle,Vector2 size)
+    
+    private ICollideProcessor _colliderProcessor;
+    public ICollideProcessor GetCollideProcessor()
     {
-        this.x = posX;
-        this.y = posY;
-        this.rotateAngle = angle;
-        this.size = size;
+        return _colliderProcessor;
     }
 
-    public RectangleColliderVector3(Vector2 offset, Vector2 initSize, Vector2 anchorPos, float anchorRotateAngle = 0, float scaleX = 1, float scaleY = 1)
+    public GameCollider2D(GameColliderData2D initialColliderData, ICollideProcessor collideProcessor, Vector2 anchorPos, float anchorRotateAngle = 0, float scaleX = 1, float scaleY = 1)
+    {
+        this._colliderProcessor = collideProcessor;
+        // 0616 new logic
+        this._sizeX = initialColliderData.size.x;
+        this._sizeY = initialColliderData.size.y;
+        this._offsetX = initialColliderData.offset.x;
+        this._offsetY = initialColliderData.offset.y;
+        this._scaleX = scaleX;
+        this._scaleY = scaleY;
+        var disToTgtPoint = new Vector2(_offsetX, _offsetY).magnitude;
+        _rotateAngle = GetRealRotateAngle(anchorRotateAngle, _offsetX, _offsetY);
+        _realPosX = anchorPos.x + Mathf.Sin(_rotateAngle * Mathf.Deg2Rad) * disToTgtPoint;
+        _realPosY = anchorPos.y + Mathf.Cos(_rotateAngle * Mathf.Deg2Rad) * disToTgtPoint;
+    }
+
+    
+    private float GetRealRotateAngle(float newAnchorRotateAngle,float offsetX2Zero,float offsetY2Zero)
     {
         // 计算距离
-        float disToTgtPoint = offset.magnitude;
+        var offsetV2 = new Vector2(offsetX2Zero, offsetY2Zero);
+        float disToTgtPoint = offsetV2.magnitude;
         // 计算偏转角度
         // [0 - 360]
-        var initOffsetAngle = Vector2.Angle(offset, Vector2.up);
-        initOffsetAngle = offset.x < 0 ? 360 - initOffsetAngle : initOffsetAngle;
+        var initOffsetAngle = Vector2.Angle(offsetV2, Vector2.up);
+        initOffsetAngle = offsetX2Zero < 0 ? 360 - initOffsetAngle : initOffsetAngle;
 
         // 将anchorRotateAngle转化到[0,360]
-        var anchorRealRoateAngle = anchorRotateAngle % 360;
+        var anchorRealRoateAngle = newAnchorRotateAngle % 360;
         anchorRealRoateAngle = anchorRealRoateAngle < 0 ? anchorRealRoateAngle + 360 : anchorRealRoateAngle;
 
         var realAngle = (initOffsetAngle + anchorRealRoateAngle) % 360;
-        var colliderPosX = anchorPos.x + Mathf.Sin(realAngle * Mathf.Deg2Rad) * disToTgtPoint;
-        var colliderPosY = anchorPos.y + Mathf.Cos(realAngle * Mathf.Deg2Rad) * disToTgtPoint;
+        return realAngle;
 
-        this.x = colliderPosX;
-        this.y = colliderPosY;
-        this.rotateAngle = realAngle;
-        this.size = new Vector2(initSize.x * scaleX, initSize.y * scaleY);
+    }
+
+
+    public void UpdateCollider2DInfo(Vector2 newAnchorPos, float newAnchorRotateAngle = 0, float scaleX = 1, float scaleY = 1)
+    {
+        // 1 首先更新缩放的信息
+        float scaleXRatio = scaleX / _scaleX;
+        float scaleYRatio = scaleY / _scaleY;
+
+        this._sizeX = scaleXRatio * this._sizeX;
+        this._sizeY = scaleYRatio * this._sizeY;
+        this._offsetX = scaleXRatio * this._offsetX;
+        this._offsetY = scaleYRatio * this._offsetY;
+
+        var disToTgtPoint = new Vector2(_offsetX, _offsetY).magnitude;
+        _rotateAngle = GetRealRotateAngle(newAnchorRotateAngle,_offsetX,_offsetY);
+        _realPosX = newAnchorPos.x + Mathf.Sin(_rotateAngle * Mathf.Deg2Rad) * disToTgtPoint;
+        _realPosY = newAnchorPos.y + Mathf.Cos(_rotateAngle * Mathf.Deg2Rad) * disToTgtPoint;
+
     }
 
 
@@ -58,45 +84,67 @@ public struct RectangleColliderVector3
     public Vector2[] GetRectangleVertexs()
     {
         // 计算左上
-        var originalLeftUpVector = new Vector3(-size.x / 2, 0, size.y / 2);
-        var realLeftUpVector = Quaternion.AngleAxis(rotateAngle, Vector3.up) * originalLeftUpVector;
-        var leftUpPos = new Vector2(this.x + realLeftUpVector.x, this.y + realLeftUpVector.z);
+        var originalLeftUpVector = new Vector3(-_sizeX / 2, 0, _sizeY / 2);
+        var realLeftUpVector = Quaternion.AngleAxis(_rotateAngle, Vector3.up) * originalLeftUpVector;
+        var leftUpPos = new Vector2(_realPosX + realLeftUpVector.x, _realPosY + realLeftUpVector.z);
 
         // 计算左下
-        var originalLeftDownVector = new Vector3(-size.x / 2, 0, -size.y / 2);
-        var realLeftDownVector = Quaternion.AngleAxis(rotateAngle, Vector3.up) * originalLeftDownVector;
-        var leftDownPos = new Vector2(this.x + realLeftDownVector.x, this.y + realLeftDownVector.z);
+        var originalLeftDownVector = new Vector3(-_sizeX / 2, 0, -_sizeY / 2);
+        var realLeftDownVector = Quaternion.AngleAxis(_rotateAngle, Vector3.up) * originalLeftDownVector;
+        var leftDownPos = new Vector2(_realPosX + realLeftDownVector.x, _realPosY + realLeftDownVector.z);
 
         // 计算右下
-        var originalRightDownVector = new Vector3(size.x / 2, 0, -size.y / 2);
-        var realRightDownVector = Quaternion.AngleAxis(rotateAngle, Vector3.up) * originalRightDownVector;
-        var rightDownPos = new Vector2(this.x + realRightDownVector.x, this.y + realRightDownVector.z);
+        var originalRightDownVector = new Vector3(_sizeX / 2, 0, -_sizeY / 2);
+        var realRightDownVector = Quaternion.AngleAxis(_rotateAngle, Vector3.up) * originalRightDownVector;
+        var rightDownPos = new Vector2(_realPosX + realRightDownVector.x, _realPosY + realRightDownVector.z);
 
         // 计算右上
-        var originalRightUpVector = new Vector3(size.x / 2, 0, size.y / 2);
-        var realRightUpVector = Quaternion.AngleAxis(rotateAngle, Vector3.up) * originalRightUpVector;
-        var rightUpPos = new Vector2(this.x + realRightUpVector.x, this.y + realRightUpVector.z);
+        var originalRightUpVector = new Vector3(_sizeX / 2, 0, _sizeY / 2);
+        var realRightUpVector = Quaternion.AngleAxis(_rotateAngle, Vector3.up) * originalRightUpVector;
+        var rightUpPos = new Vector2(_realPosX + realRightUpVector.x, _realPosY + realRightUpVector.z);
 
-        return new Vector2[4] {leftUpPos,leftDownPos,rightDownPos,rightUpPos};
+        return new Vector2[4] { leftUpPos, leftDownPos, rightDownPos, rightUpPos };
     }
 
 
-    /// <summary>
-    /// 获取矩形的四边的顶点坐标
-    /// 0 左上 >> 1 左下 | 1 左下 >> 2 右下 | 2 右下 >> 3 右上 | 3 右上 >> 0 左上
-    /// </summary>
-    /// <returns></returns>
     public Vector2[,] GetRectangleLines()
     {
         var vertexs = GetRectangleVertexs();
 
-        return new Vector2[4, 2] { 
+        return new Vector2[4, 2] {
             {vertexs[0],vertexs[1]},
             {vertexs[1],vertexs[2]},
             {vertexs[2],vertexs[3]},
-            {vertexs[3],vertexs[0]} 
+            {vertexs[3],vertexs[0]}
         };
     }
+
+    /// <summary>
+    /// 获取这个碰撞矩形的面积
+    /// </summary>
+    /// <returns></returns>
+    public float SizeArea()
+    {
+        return _sizeX * _sizeY;
+    }
+
+    
+    public bool CheckPosInCollider(Vector2 checkPoint)
+    {
+        var rectangleVertexs = GetRectangleVertexs();
+        var vectorAE = new Vector2(checkPoint.x - rectangleVertexs[0].x, checkPoint.y - rectangleVertexs[0].y);
+        var vectorBE = new Vector2(checkPoint.x - rectangleVertexs[1].x, checkPoint.y - rectangleVertexs[1].y);
+        var vectorCE = new Vector2(checkPoint.x - rectangleVertexs[2].x, checkPoint.y - rectangleVertexs[2].y);
+        var vectorDE = new Vector2(checkPoint.x - rectangleVertexs[3].x, checkPoint.y - rectangleVertexs[3].y);
+        var crossMultiAE2BE = vectorAE.x * vectorBE.y - vectorAE.y * vectorBE.x;
+        var crossMultiBE2CE = vectorBE.x * vectorCE.y - vectorBE.y * vectorCE.x;
+        var crossMultiCE2DE = vectorCE.x * vectorDE.y - vectorCE.y * vectorDE.x;
+        var crossMultiDE2AE = vectorDE.x * vectorAE.y - vectorDE.y * vectorAE.x;
+
+        if (crossMultiAE2BE >= 0 && crossMultiBE2CE >= 0 && crossMultiCE2DE >= 0 && crossMultiDE2AE >= 0) return true;
+        return false;
+    }
+
 
     /// <summary>
     /// 获取这个旋转矩形的最大矩形包络
@@ -138,47 +186,17 @@ public struct RectangleColliderVector3
         size = new Vector2(maxWidth, maxHeight);
     }
 
-    /// <summary>
-    /// 获取这个碰撞矩形的面积
-    /// </summary>
-    /// <returns></returns>
-    public float SizeArea()
-    {
-        return size.x * size.y;
-    }
+
 
     /// <summary>
-    /// 检测某个点是否在矩形中
-    /// 包含贴边的情况
+    /// 检测和其它碰撞体的碰撞
     /// </summary>
-    /// <param name="checkPoint"></param>
+    /// <param name="other"></param>
     /// <returns></returns>
-    public bool CheckPointInRectangle(Vector2 checkPoint)
-    {
-        var rectangleVertexs = GetRectangleVertexs();
-        var vectorAE = new Vector2(checkPoint.x - rectangleVertexs[0].x, checkPoint.y - rectangleVertexs[0].y);
-        var vectorBE = new Vector2(checkPoint.x - rectangleVertexs[1].x, checkPoint.y - rectangleVertexs[1].y);
-        var vectorCE = new Vector2(checkPoint.x - rectangleVertexs[2].x, checkPoint.y - rectangleVertexs[2].y);
-        var vectorDE = new Vector2(checkPoint.x - rectangleVertexs[3].x, checkPoint.y - rectangleVertexs[3].y);
-        var crossMultiAE2BE = vectorAE.x * vectorBE.y - vectorAE.y * vectorBE.x;
-        var crossMultiBE2CE = vectorBE.x * vectorCE.y - vectorBE.y * vectorCE.x;
-        var crossMultiCE2DE = vectorCE.x * vectorDE.y - vectorCE.y * vectorDE.x;
-        var crossMultiDE2AE = vectorDE.x * vectorAE.y - vectorDE.y * vectorAE.x;
-
-        if (crossMultiAE2BE >= 0 && crossMultiBE2CE >= 0 && crossMultiCE2DE >= 0 && crossMultiDE2AE >= 0) return true;
-        return false;
-    }
-
-    /// <summary>
-    /// 判断与目标碰撞体是否产生了相交
-    /// 两个带旋转的矩形检测相交
-    /// </summary>
-    /// <param name="tgtColliderPos"></param>
-    /// <returns></returns>
-    public bool CheckCollapse(RectangleColliderVector3 tgtColliderPos)
+    public bool CheckCollapse(GameCollider2D other)
     {
         var crtColliderLines = GetRectangleLines();
-        var tgtColliderLines = tgtColliderPos.GetRectangleLines();
+        var tgtColliderLines = other.GetRectangleLines();
 
         // 查找是否存在线条交差的情况
         for (int i = 0; i < 4; i++)
@@ -210,102 +228,29 @@ public struct RectangleColliderVector3
         // added 0522
         // 存在不相交但是一个矩形完全在另一个矩形内部的情况
         // 判断哪个矩形的面积更小
-        if (SizeArea() <= tgtColliderPos.SizeArea())
+        if (SizeArea() <= other.SizeArea())
         {
             // 判断这个碰撞体是否在目标中
             var vertexs = GetRectangleVertexs();
-            if (tgtColliderPos.CheckPointInRectangle(vertexs[0]) && tgtColliderPos.CheckPointInRectangle(vertexs[1]) && tgtColliderPos.CheckPointInRectangle(vertexs[2]) && tgtColliderPos.CheckPointInRectangle(vertexs[3]))
+            if (other.CheckPosInCollider(vertexs[0]) && other.CheckPosInCollider(vertexs[1]) && other.CheckPosInCollider(vertexs[2]) && other.CheckPosInCollider(vertexs[3]))
             {
                 return true;
             }
         }
-        else if (SizeArea() > tgtColliderPos.SizeArea())
+        else if (SizeArea() > other.SizeArea())
         {
             // 判断目标矩形是否在这个碰撞体中
-            var tgtVertexs = tgtColliderPos.GetRectangleVertexs();
-            if (CheckPointInRectangle(tgtVertexs[0]) && CheckPointInRectangle(tgtVertexs[1]) && CheckPointInRectangle(tgtVertexs[2]) && CheckPointInRectangle(tgtVertexs[3]))
+            var tgtVertexs = other.GetRectangleVertexs();
+            if (CheckPosInCollider(tgtVertexs[0]) && CheckPosInCollider(tgtVertexs[1]) && CheckPosInCollider(tgtVertexs[2]) && CheckPosInCollider(tgtVertexs[3]))
             {
                 return true;
             }
         }
-
-
         return false;
-    }
-}
-
-
-public class GameCollider2D : IGameCollider2D
-{
-    
-    private GameColliderData2D _colliderInitData;
-    /// <summary>
-    /// 该碰撞体的初始配置数据
-    /// </summary>
-    public GameColliderData2D CollideInitData => _colliderInitData;
-
-
-    private RectangleColliderVector3 _rectPosV3;
-
-    /// <summary>
-    /// 设置当前碰撞体的位置信息
-    /// </summary>
-    /// <param name="anchorPos"></param>
-    /// <param name="anchorRotateAngle"></param>
-    /// <param name="scaleX"></param>
-    /// <param name="scaleY"></param>
-    public void SetCollideRectPos(Vector2 anchorPos, float anchorRotateAngle = 0, float scaleX = 1, float scaleY = 1)
-    {
-        if (_colliderInitData == null)
-        {
-            this._rectPosV3 = new RectangleColliderVector3();
-            return;
-        }
-
-        this._rectPosV3 = new RectangleColliderVector3(_colliderInitData.offset, _colliderInitData.size, anchorPos, anchorRotateAngle, scaleX, scaleY);
 
     }
 
-    /// <summary>
-    /// 用于描述这个碰撞体的位置信息
-    /// 包含位置信息，旋转信息和尺寸信息
-    /// </summary>
-    public RectangleColliderVector3 RectanglePosv3 => _rectPosV3;
-
-
-    private ICollideProcessor _colliderProcessor;
-    public ICollideProcessor GetCollideProcessor()
-    {
-        return _colliderProcessor;
-    }
-
-    /// <summary>
-    /// 创建一个2d碰撞体
-    /// </summary>
-    /// <param name="initialcolliderData"></param>
-    /// <param name="collideProcessor"></param>
-    /// <param name="anchorPos"></param>
-    /// <param name="anchorRotateAngle"></param>
-    /// <param name="scaleX"></param>
-    /// <param name="scaleY"></param>
-    public GameCollider2D(GameColliderData2D initialColliderData,ICollideProcessor collideProcessor,Vector2 anchorPos, float anchorRotateAngle = 0, float scaleX =1, float scaleY =1)
-    {
-        this._colliderInitData = initialColliderData;
-        this._colliderProcessor = collideProcessor;
-        SetCollideRectPos(anchorPos,anchorRotateAngle,scaleX,scaleY);
-    }
-
-    /// <summary>
-    /// 判断与目标碰撞体是否产生了相交
-    /// 两个带旋转的矩形检测相交
-    /// </summary>
-    /// <param name="tgtColliderPos"></param>
-    /// <returns></returns>
-    public bool CheckCollapse(RectangleColliderVector3 tgtColliderPos)
-    {
-        return _rectPosV3.CheckCollapse(tgtColliderPos);
-    }
-
+    /**
     /// <summary>
     /// 检测与无旋转矩形区域的碰撞
     /// </summary>
@@ -316,26 +261,10 @@ public class GameCollider2D : IGameCollider2D
         Vector2 size = new Vector2(area.width, area.height);
         return CheckCollapse(new RectangleColliderVector3(area.x,area.y,0,size));
     }
+    */
+    
 
-    /// <summary>
-    /// 检测和其它碰撞体的碰撞
-    /// </summary>
-    /// <param name="other"></param>
-    /// <returns></returns>
-    public bool CheckCollapse(GameCollider2D other)
-    {
-        return CheckCollapse(other.RectanglePosv3);
-    }
-
-    /// <summary>
-    /// 判断某个位置点是否在此碰撞区域内
-    /// </summary>
-    /// <param name="pos"></param>
-    /// <returns></returns>
-    public bool CheckPosInCollider(Vector2 pos)
-    {
-        return this._rectPosV3.CheckPointInRectangle(pos);
-    }
+    
 
     /// <summary>
     /// 当碰撞发生时
@@ -354,7 +283,6 @@ public class GameCollider2D : IGameCollider2D
     {
         //游戏体被销毁
         GameColliderManager.Ins.UnRegisterGameCollider(this);
-        this._colliderInitData = null;
         this._colliderProcessor = null;
     }
 

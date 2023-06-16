@@ -26,7 +26,8 @@ public interface IGameCollider
 public interface IGameCollider2D : IGameCollider
 {
     public bool CheckPosInCollider(Vector2 pos);
-    public bool CheckCollapse(Rect rect);
+
+
 }
 
 

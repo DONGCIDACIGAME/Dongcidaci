@@ -31,18 +31,13 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
         _gridConfig = new UnLimitedGrid(6f,6f);
         _colliderToGridIndexsDict = new Dictionary<GameCollider2D, HashSet<(int, int)>>();
         _gridIndexToCollidersDict = new Dictionary<(int, int), HashSet<GameCollider2D>>();
+        Debug.Log("碰撞管理器初始化完成--------");
     }
 
     private HashSet<ValueTuple<int,int>> GetRoundOccupyMapIndexsWith(GameCollider2D collider)
     {
         // 获取最大的包络，通过最大矩形包络快速索引可能产生交差的地图块
-        return GetRoundOccupyMapIndexsWith(collider.RectanglePosv3);
-    }
-
-    private HashSet<ValueTuple<int, int>> GetRoundOccupyMapIndexsWith(RectangleColliderVector3 rectPosV3)
-    {
-        // 获取最大的包络，通过最大矩形包络快速索引可能产生交差的地图块
-        rectPosV3.GetMaxEnvelopeArea(out Vector2 envelopPos, out Vector2 envelopSize);
+        collider.GetMaxEnvelopeArea(out Vector2 envelopPos, out Vector2 envelopSize);
         float minEnvelopX = envelopPos.x - envelopSize.x / 2f;
         float maxEnvelopX = envelopPos.x + envelopSize.x / 2f;
         int startColIndex = Mathf.RoundToInt(minEnvelopX / _gridConfig.cellWidth);
@@ -54,11 +49,11 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
         int endRowIndex = Mathf.RoundToInt(maxEnvelopY / _gridConfig.cellHeight);
 
         var results = new HashSet<ValueTuple<int, int>>();
-        for (int i = startColIndex;i<=endColIndex;i++)
+        for (int i = startColIndex; i <= endColIndex; i++)
         {
-            for (int j = startRowIndex;j<=endRowIndex;j++)
+            for (int j = startRowIndex; j <= endRowIndex; j++)
             {
-                results.Add((i,j));
+                results.Add((i, j));
             }
         }
 
@@ -98,6 +93,8 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
             return false;
         }
 
+
+        Debug.Log("注册了新的碰撞体" + collider.GetHashCode());
         return true;
     }
 
@@ -124,10 +121,11 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
     
     public void UpdateGameCollidersInMap(GameCollider2D updateCollider, Vector2 newAnchorPos, float newAnchorRotateAngle = 0, float newScaleX = 1, float newScaleY = 1, bool checkCollideAfterUpdate = true)
     {
+        Debug.Log("更新碰撞体的信息");
         // 1 unregister the collider
         if (UnRegisterGameCollider(updateCollider) == false) return;
         // 2 update collider new pos
-        updateCollider.SetCollideRectPos(newAnchorPos,newAnchorRotateAngle,newScaleX,newScaleY);
+        updateCollider.UpdateCollider2DInfo(newAnchorPos,newAnchorRotateAngle,newScaleX,newScaleY);
         // 3 register the collider into map
         if (RegisterGameCollider(updateCollider) == false) return;
         // 4 check collider
@@ -145,7 +143,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
     /// <param name="checkColliderInMap"></param>
     public void CheckCollideHappen(GameCollider2D checkColliderInMap)
     {
-        Log.Logic(LogLevel.Info, "CheckCollideHappen---{0}", checkColliderInMap.GetHashCode());
+        //Log.Logic(LogLevel.Info, "CheckCollideHappen---{0}", checkColliderInMap.GetHashCode());
 
         if (_colliderToGridIndexsDict.ContainsKey(checkColliderInMap) == false)
         {
@@ -160,7 +158,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
             {
                 // 是自己
                 if (tgtCollider == checkColliderInMap) continue;
-                if (checkColliderInMap.CheckCollapse(tgtCollider.RectanglePosv3))
+                if (checkColliderInMap.CheckCollapse(tgtCollider))
                 {
                     // 通知这个检查碰撞体
                     checkColliderInMap.OnColliderEnter(tgtCollider);
@@ -182,9 +180,9 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
     /// <param name="scaleY"></param>
     public void CheckCollideHappen(GameColliderData2D initColliderData, ICollideProcessor collideProcessor, Vector2 anchorPos, float anchorRotateAngle = 0, float scaleX = 1, float scaleY = 1)
     {
-        var cheRectanglePos = new RectangleColliderVector3(initColliderData.offset,initColliderData.size,anchorPos,anchorRotateAngle,scaleX,scaleY);
+        var checkCollider2D = new GameCollider2D(initColliderData,collideProcessor,anchorPos,anchorRotateAngle,scaleX,scaleY);
 
-        var estimatedMapIndexs = GetRoundOccupyMapIndexsWith(cheRectanglePos);
+        var estimatedMapIndexs = GetRoundOccupyMapIndexsWith(checkCollider2D);
         if (estimatedMapIndexs!=null)
         {
             foreach (var mapIndex in estimatedMapIndexs)
@@ -193,12 +191,14 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
                 if (collidersInThisMapCell == null) continue;
                 foreach (GameCollider2D tgtCollider in collidersInThisMapCell)
                 {
-                    if (tgtCollider.CheckCollapse(cheRectanglePos))
+                    if (tgtCollider.CheckCollapse(checkCollider2D))
                     {
                         // 通知这个检查碰撞体
-                        collideProcessor.HandleCollideTo(tgtCollider.GetCollideProcessor());
+                        //collideProcessor.HandleCollideTo(tgtCollider.GetCollideProcessor());
+                        checkCollider2D.OnColliderEnter(tgtCollider);
                         // 通知被检测者
-                        tgtCollider.GetCollideProcessor().HandleCollideTo(collideProcessor);
+                        //tgtCollider.GetCollideProcessor().HandleCollideTo(collideProcessor);
+                        tgtCollider.OnColliderEnter(checkCollider2D);
                     }
                 }
             }

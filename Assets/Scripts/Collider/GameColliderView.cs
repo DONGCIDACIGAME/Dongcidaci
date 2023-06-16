@@ -1,3 +1,4 @@
+using GameEngine;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,10 +17,54 @@ public class GameColliderView : MonoBehaviour
     public Vector2 offset;
 
 
+    //Just test for collider
+    /**
+    public bool isUpdate = false;
+    private GameCollider2D _collider2D;
+
     private void Start()
     {
+        var colliderData = new GameColliderData2D(size,offset);
+        _collider2D = new GameCollider2D(colliderData,this,new Vector2(transform.position.x,transform.position.z),30);
+        GameColliderManager.Ins.RegisterGameCollider(_collider2D);
+
+    }
+
+    private void Update()
+    {
+        if (isUpdate)
+        {
+            GameColliderManager.Ins.UpdateGameCollidersInMap(_collider2D, new Vector2(transform.position.x, transform.position.z),transform.rotation.eulerAngles.y);
+        }
+    }
+
+
+    public void HandleCollideTo(ICollideProcessor tgtColliderProcessor)
+    {
+        //throw new System.NotImplementedException();
+        Debug.Log("发生了碰撞");
+
+        TryGetComponent<HeroView>(out HeroView heroView);
+        if (heroView != null)
+        {
+            //transform.position = new Vector3(-5,0,0);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+            GameColliderManager.Ins.UnRegisterGameCollider(_collider2D);
+        }
         
     }
+
+    public Entity GetProcessorEntity()
+    {
+        //throw new System.NotImplementedException();
+        return null;
+    }
+    */
+
+
 
 
 
@@ -68,6 +113,8 @@ public class GameColliderView : MonoBehaviour
         //Gizmos.DrawLine(lt, lb);
         Handles.DrawLine(lt, lb, lineThickness);
     }
+
+    
 #endif
     #endregion
 }

@@ -1414,6 +1414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 1, y: 1}
   offset: {x: 0, y: 0}
+  isUpdate: 1
   DrawDizmos: 1
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1863216073456195339

@@ -27,7 +27,7 @@ public abstract class MapEntity : GameEntity
             // 生成碰撞体
             mCollider = new GameCollider2D(colliderData, null, GetPosition());
             // 注册碰撞
-            GameColliderManager.Ins.RegisterGameCollider(mCollider);
+            //GameColliderManager.Ins.RegisterGameCollider(mCollider);
         }
     }
 }
