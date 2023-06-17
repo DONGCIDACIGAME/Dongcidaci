@@ -282,7 +282,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 1, y: 1}
   offset: {x: 0, y: 0}
-  isUpdate: 0
   DrawDizmos: 1
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &56575697
@@ -474,7 +473,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 1, y: 1}
   offset: {x: 0, y: 0}
-  isUpdate: 0
   DrawDizmos: 1
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &92840404
@@ -938,7 +936,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 1, y: 1}
   offset: {x: 0, y: 0}
-  isUpdate: 0
   DrawDizmos: 1
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &332924751
@@ -1526,7 +1523,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 100
-  field of view: 55
+  field of view: 65
   orthographic: 0
   orthographic size: 6
   m_Depth: -1
@@ -1777,7 +1774,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 1, y: 1}
   offset: {x: 0, y: 0}
-  isUpdate: 0
   DrawDizmos: 1
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &572737306
@@ -2210,7 +2206,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2694,7 +2690,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 1, y: 1}
   offset: {x: 0, y: 0}
-  isUpdate: 0
   DrawDizmos: 1
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1006407031
@@ -3135,7 +3130,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 1, y: 1}
   offset: {x: 0, y: 0}
-  isUpdate: 0
   DrawDizmos: 1
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1595263872
@@ -3334,7 +3328,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1629785537
 Transform:
   m_ObjectHideFlags: 0
@@ -3604,7 +3598,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 1, y: 1}
   offset: {x: 0, y: 0}
-  isUpdate: 0
   DrawDizmos: 1
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1758283039
