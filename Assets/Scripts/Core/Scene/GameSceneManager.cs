@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
@@ -47,11 +47,9 @@ namespace GameEngine
                 Log.Logic(LogLevel.Info, "Exit {0} Scene...", mCurScene.GetSceneName());
                 mCurScene.OnSceneExit();
                 mCurScene.AfterSceneExit();
-                InputManager.Ins.AddState(InputStateDefine.EMPTY_STATE);
             }
 
             mCurScene = toScene;
-            InputManager.Ins.RemoveState(InputStateDefine.EMPTY_STATE);
             Log.Logic(LogLevel.Info, "Enter {0} Scene...", toScene.GetSceneName());
             mCurScene.OnSceneEnter();
             mCurScene.BeforeSceneEnter();

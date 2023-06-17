@@ -2,12 +2,12 @@ using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class ControlAILogicArea : UIControl
 {
     private GameObject Node_AILogicArea;
     private BTTree mCurEditingTree;
+    private ControlAINode mTreeEntryNode;
+    private ControlAINode mCurSelectAINode;
 
 
     protected override void BindUINodes()
@@ -16,10 +16,13 @@ public class ControlAILogicArea : UIControl
     }
 
 
-    private void BindEvents()
+    protected override void BindEvents()
     {
+        base.BindEvents();
         mEventListener.Listen("ToAIEditorDefaultPos", ToDefaultPos);
-        mEventListener.Listen("UpdateAILogicArea", () => { Update(mCurEditingTree); });
+        mEventListener.Listen("UpdateAILogicArea", Draw);
+        mEventListener.Listen<ControlAINode>("ClickAINode", OnNodeClick);
+        mEventListener.Listen<ControlAINode>("OnClickAddChildNode", OnAddChildClick);
     }
 
     /// <summary>
@@ -27,32 +30,92 @@ public class ControlAILogicArea : UIControl
     /// </summary>
     private void ToDefaultPos()
     {
-        
+        Node_AILogicArea.transform.localPosition = Vector3.zero;
+        Node_AILogicArea.transform.localScale = Vector3.one;
     }
 
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
-        BindEvents();
+        
     }
 
 
-
-
-    public void Update(BTTree tree)
+    public void SetTree(BTTree tree)
     {
         mCurEditingTree = tree;
-        ControlAIActionNode treeEntry = UIManager.Ins.AddControl<ControlAIActionNode>(
+    }
+
+    private void ShowSelection(ControlAINode curSelect)
+    {
+        if (mCurSelectAINode != null)
+        {
+            mCurSelectAINode.Deselect();
+        }
+
+        if (curSelect != null)
+        {
+            curSelect.Select();
+            mCurSelectAINode = curSelect;
+        }
+    }
+
+    private void OnAddChildClick(ControlAINode nodeCtl)
+    {
+        ShowSelection(nodeCtl);
+    }
+
+    private void OnNodeClick(ControlAINode nodeCtl)
+    {
+        ShowSelection(nodeCtl);
+    }
+
+    public void Draw()
+    {
+        if(mTreeEntryNode != null)
+        {
+            UIManager.Ins.RemoveControl(mTreeEntryNode);
+        }
+
+        mTreeEntryNode = UIManager.Ins.AddControl<ControlAINode>(
         this,
-        "Prefabs/UI/AgentAIEditor/Ctl_AIAction",
+        "Prefabs/UI/AgentAIEditor/Ctl_AINode",
         Node_AILogicArea,
         new Dictionary<string, object>()
         {
-            { "BTNode", tree }
+                { "BTNode", mCurEditingTree }
         });
 
-        float treeWidth = treeEntry.GetWidth();
-        float treeHeight = treeEntry.GetHeight();
+
+        float treeWidth = mTreeEntryNode.GetWidth();
+        float treeHeight = mTreeEntryNode.GetHeight();
         (Node_AILogicArea.transform as RectTransform).sizeDelta = new Vector2(treeWidth, treeHeight);
+    }
+
+    private void Zoom()
+    {
+        // 判断鼠标是否在行为树的绘制区域内
+        bool mouseInLogicRect = RectTransformUtility.RectangleContainsScreenPoint(
+            Node_AILogicArea.transform as RectTransform,
+            Input.mousePosition,
+            CameraManager.Ins.GetUICam());
+
+
+        if (mouseInLogicRect)
+        {
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            if (scroll != 0)
+            {
+                float scale = Node_AILogicArea.transform.localScale.x + scroll;
+                Node_AILogicArea.transform.localScale = new Vector3(scale, scale, 1);
+            }
+        }
+    }
+
+    protected override void OnUpdate(float deltaTime)
+    {
+        base.OnUpdate(deltaTime);
+
+        Zoom();
     }
 
     protected override void OnClose()

@@ -16,14 +16,12 @@ public class DemoScene : GameScene
         AudioManager.Ins.PlayBgm(true);
         UIManager.Ins.OpenPanel<PanelDemo>("Prefabs/UI/Panel_Demo");
 
-        InputManager.Ins.AddState(InputStateDefine.GAMEDEMO_STATE);
-
         AgentManager.Ins.LoadHero(3);
     }
 
     public override void OnSceneExit()
     {
-        InputManager.Ins.RemoveState(InputStateDefine.GAMEDEMO_STATE);
+        
     }
 
     public override void OnSceneLateUpdate(float deltaTime)

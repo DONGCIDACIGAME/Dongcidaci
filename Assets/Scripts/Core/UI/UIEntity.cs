@@ -15,7 +15,7 @@ namespace GameEngine
         /// <summary>
         /// 所有的子Entity
         /// </summary>
-        public List<UIEntity> mChildUIEntitys = new List<UIEntity>();
+        private List<UIEntity> mChildUIEntitys = new List<UIEntity>();
 
         /// <summary>
         /// UI（panel、control）的根节点
@@ -36,16 +36,6 @@ namespace GameEngine
         /// 资源路径
         /// </summary>
         private string mResPath;
-
-        /// <summary>
-        /// 是否复用entity
-        /// </summary>
-        protected bool mRecycleEntity;
-
-        /// <summary>
-        /// 是否复用gameobject
-        /// </summary>
-        protected bool mRecycleGameObject;
 
         protected GameEventListener mEventListener;
 
@@ -79,9 +69,12 @@ namespace GameEngine
         /// </summary>
         protected abstract void BindUINodes();
 
+        protected virtual void BindEvents() { }
+
         public void Open(Dictionary<string,object> openArgs)
         {
             OnOpen(openArgs);
+            BindEvents();
         }
 
         /// <summary>
@@ -248,18 +241,18 @@ namespace GameEngine
         /// 是否复用Entity
         /// </summary>
         /// <returns></returns>
-        public bool CheckRecycleUIEntity()
+        public virtual  bool CheckRecycleUIEntity()
         {
-            return mRecycleEntity && UIDefine.UI_EnabelRecycle;
+            return false;
         }
 
         /// <summary>
         /// 是否复用GameObject
         /// </summary>
         /// <returns></returns>
-        public bool CheckRecycleUIGameObject()
+        public virtual bool CheckRecycleUIGameObject()
         {
-            return mRecycleGameObject && UIDefine.UI_EnabelRecycle;
+            return false;
         }
 
         public void DestroyUIEntity()

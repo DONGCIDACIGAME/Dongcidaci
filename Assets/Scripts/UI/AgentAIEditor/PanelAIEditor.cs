@@ -6,18 +6,13 @@ public class PanelAIEditor : UIPanel
 {
     private ControlAILogicArea Ctl_AILogicArea;
     private ControlAIEditorTopBar Ctl_TopBar;
-    private ControlAIPropertyArea Ctl_PropertyArea; 
+    private ControlAIOperationArea Ctl_OperationArea; 
     private Button Btn_Quit;
 
     /// <summary>
     /// 当前正在编辑中的行为树
     /// </summary>
     private BTTree mCurEditingTree;
-
-    /// <summary>
-    /// 当前行为树的名字
-    /// </summary>
-    private string mCurTreeFileName;
 
     /// <summary>
     /// 是否编辑过数据
@@ -33,59 +28,63 @@ public class PanelAIEditor : UIPanel
     {
         Ctl_AILogicArea = BindControl<ControlAILogicArea>("Ctl_AILogicArea");
         Ctl_TopBar = BindControl<ControlAIEditorTopBar>("Ctl_TopBar");
-        Ctl_PropertyArea = BindControl<ControlAIPropertyArea>("Ctl_PropertyArea");
+        Ctl_OperationArea = BindControl<ControlAIOperationArea>("Ctl_OperationArea");
         Btn_Quit = BindButtonNode("Button_Quit", OnClickBtnQuit);
     }
 
 
-    private void BindEvents()
+    protected override void BindEvents()
     {
         mEventListener.Listen("OnClickLoadTree", OpenLoadTreeHUD);
-        mEventListener.Listen("OnClickSaveTree", SaveTree);
+        mEventListener.Listen<string>("OnClickSaveTree", SaveTree);
         mEventListener.Listen("OnClickNewTree", CreateNewTree);
-        mEventListener.Listen<string>("LoadNewTree", LoadTree);
+        mEventListener.Listen<string>("OnLoadFileClick", LoadTree);
+
     }
 
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
-        BindEvents();
+        
     }
 
 
     private void OpenLoadTreeHUD()
     {
-        UIManager.Ins.AddControl<ControlLoadTreeHUD>(this, "Prefabs/UI/AgentAIEditor/Ctl_LoadTreeHUD", this.mUIRoot, null);
+        UIManager.Ins.OpenPanel<PanelLoadFileHUD>(
+            "Prefabs/UI/Common/Panel_LoadFileHUD", 
+            new Dictionary<string, object>
+            {
+                { "root_dir", PathDefine.AI_TREE_DATA_DIR_PATH },
+                { "ext", ".tree"}
+            });
     }
 
     private void OnClickBtnQuit()
     {
-        if(mDataChanged)
-        {
-            // 提示数据未保存
-        }
-        else
-        {
-            UIManager.Ins.ClosePanel<PanelAIEditor>();
-        }
+        //if(mDataChanged)
+        //{
+        //    // 提示数据未保存
+        //}
+        //else
+        //{
+        //    UIManager.Ins.ClosePanel<PanelAIEditor>();
+        //}
+
+        UIManager.Ins.ClosePanel<PanelAIEditor>();
     }
 
-    private void LoadTree(string fileName)
+    private void LoadTree(string filePath)
     {
-        if(string.IsNullOrEmpty(fileName))
-        {
-            Log.Error(LogLevel.Normal, "PanelAIEditor Load Tree Failed,file name is null or empty!");
-            return;
-        }
-
-        mCurTreeFileName = fileName;
-        string fileFullPath = BehaviourTreeHelper.TreeNameToFileFullPath(fileName);
-        mCurEditingTree = BehaviourTreeManager.Ins.LoadTree(fileFullPath);
+        BTTree tree = BehaviourTreeManager.Ins.LoadTree(filePath);
+        GameEventSystem.Ins.Fire("LoadNewTree", tree);
+        mCurEditingTree = tree;
         DrawTree(mCurEditingTree);
     }
 
-    private void SaveTree()
+
+    private void SaveTree(string treeName)
     {
-        string fileFullPath = BehaviourTreeHelper.TreeNameToFileFullPath(mCurTreeFileName);
+        string fileFullPath = BehaviourTreeHelper.TreeNameToFileFullPath(treeName);
         if(!string.IsNullOrEmpty(fileFullPath))
         {
             BehaviourTreeManager.Ins.SaveTree(fileFullPath, mCurEditingTree);
@@ -102,7 +101,8 @@ public class PanelAIEditor : UIPanel
 
     private void DrawTree(BTTree tree)
     {
-        Ctl_AILogicArea.Update(tree);
+        Ctl_AILogicArea.SetTree(tree);
+        Ctl_AILogicArea.Draw();
     }
 
     protected override void OnClose()

@@ -76,9 +76,6 @@ public class GameManager:MonoBehaviour
             mm.Initialize();
         }
 
-        // 注册键盘输入控制
-        InputManager.Ins.RegisterInputControl(InputControlCenter.KeyboardInputCtl);
-
         // add 0615 weng
         Application.targetFrameRate = 60;
 
@@ -90,8 +87,6 @@ public class GameManager:MonoBehaviour
         DisposeGame();
         Initialize();
         Launch();
-
-        Test();
     }
 
     private void Test()
@@ -218,9 +213,24 @@ public class GameManager:MonoBehaviour
 #endif
     }
 
+    private void RegisterInputOnLaunch()
+    {
+        // 注册键盘输入控制
+        InputManager.Ins.RegisterInputControl(InputControlCenter.KeyboardInputCtl);
+
+        // 注册鼠标输入控制
+        InputManager.Ins.RegisterInputControl(InputControlCenter.MouseInputCtl);
+        InputControlCenter.MouseInputCtl.RegisterInputHandle(
+            InputDef.MouseInputHandle_CommonInput,
+            new MouseInputHandle_CommonInput());
+
+        // 注册手柄输入控制
+        InputManager.Ins.RegisterInputControl(InputControlCenter.JoystickInputCtl);
+    }
+
     private void Launch()
     {
-        
+        RegisterInputOnLaunch();
     }
 
     private float GetDeltaTime()

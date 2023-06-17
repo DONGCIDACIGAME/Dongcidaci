@@ -9,9 +9,12 @@ namespace GameEngine
 
         protected ModuleManager() {}
 
+        protected virtual void BindEvents() { }
+
         public void __Initialize__()
         {
             mEventListener = new GameEventListener();
+            BindEvents();
         }
 
         public abstract void Initialize();

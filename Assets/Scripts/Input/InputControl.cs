@@ -1,36 +1,33 @@
 using System.Collections.Generic;
 
-public class KeyboardInputControl : IInputControl
+public abstract class InputControl : IInputControl
 {
     protected Dictionary<string, IInputHandle> mHandleDic;
 
-    public void Initialize()
+    public virtual void Initialize()
     {
         mHandleDic = new Dictionary<string, IInputHandle>();
     }
 
-    public void Dispose()
+    public virtual void Dispose()
     {
         mHandleDic = null;
     }
 
-    public string GetInputControlName()
-    {
-        return InputDef.KeyboardInput;
-    }
+    public abstract string GetInputControlName();
 
-    public void RegisterInputHandle(string handleName, IInputHandle handle)
+    public virtual void RegisterInputHandle(string handleName, IInputHandle handle)
     {
         if (handle == null)
             return;
 
-        if(!mHandleDic.ContainsKey(handleName))
+        if (!mHandleDic.ContainsKey(handleName))
         {
             mHandleDic.Add(handleName, handle);
         }
     }
 
-    public void UnregisterInputHandle(string handleName)
+    public virtual void UnregisterInputHandle(string handleName)
     {
         if (mHandleDic.ContainsKey(handleName))
         {
@@ -38,27 +35,27 @@ public class KeyboardInputControl : IInputControl
         }
     }
 
-    public void SetInputHandleEnable(string handleName, bool enable)
+    public virtual void SetInputHandleEnable(string handleName, bool enable)
     {
-        if(mHandleDic.TryGetValue(handleName, out IInputHandle handle))
+        if (mHandleDic.TryGetValue(handleName, out IInputHandle handle))
         {
             handle.SetEnable(enable);
         }
     }
 
-    public void OnUpdate(float deltaTime)
+    public virtual void OnUpdate(float deltaTime)
     {
         foreach (KeyValuePair<string, IInputHandle> kv in mHandleDic)
         {
             IInputHandle handle = kv.Value;
-            if(handle.CheckEnable())
+            if (handle.CheckEnable())
             {
                 handle.OnUpdate(deltaTime);
             }
         }
     }
 
-    public void OnMeterEnter(int meterIndex)
+    public virtual void OnMeterEnter(int meterIndex)
     {
         foreach (KeyValuePair<string, IInputHandle> kv in mHandleDic)
         {
@@ -70,7 +67,7 @@ public class KeyboardInputControl : IInputControl
         }
     }
 
-    public void OnMeterEnd(int meterIndex)
+    public virtual void OnMeterEnd(int meterIndex)
     {
         foreach (KeyValuePair<string, IInputHandle> kv in mHandleDic)
         {

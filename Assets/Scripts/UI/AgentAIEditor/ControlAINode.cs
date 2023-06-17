@@ -5,17 +5,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// AI行为
+/// AI节点
 /// </summary>
-public class ControlAIActionNode : UIControl
+public class ControlAINode : UIControl
 {
-    private Button Btn_BehaviourNode;
+    private Button Btn_AINode;
+    private Image Image_SelectBackground;
     private Button Btn_AddChildNode;
     private TMP_Text Text_BehaviourNode;
     private GameObject Node_SubNodesContain;
     private GameObject Node_ConnectLineContain;
     private GameObject Node_ConnectLineHorizontal;
-    private GameObject Template_Line;
 
     private float singleNodeWidth;
     private float singleNodeHeight;
@@ -26,23 +26,42 @@ public class ControlAIActionNode : UIControl
 
     protected override void BindUINodes()
     {
-        Btn_BehaviourNode = BindButtonNode("Button_BehaviourNode", OnBtnBehaviourNodeClick);
+        Btn_AINode = BindButtonNode("Btn_AINode", OnBtnAINodeClick);
+        Image_SelectBackground = Btn_AINode.GetComponent<Image>();
         Btn_AddChildNode = BindButtonNode("Button_AddChildNode", OnBtnAddChildeNodeClick);
         Text_BehaviourNode = BindTextNode("Text_BehaviourNode","AINode");
         Node_SubNodesContain = BindNode("Node_SubNodesContain");
         Node_ConnectLineContain = BindNode("Node_ConnectLineContain");
         Node_ConnectLineHorizontal = BindNode("Node_ConnectLineHorizontal");
-        Template_Line = BindNode("Template_Line");
+    }
+
+    public BTNode GetBTNode()
+    {
+        return mNode;
     }
 
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
-        //mChildCtlAIActions = new List<ControlAIAction>();
         mNode = openArgs["BTNode"] as BTNode;
 
         singleNodeWidth = (GetRootObj().transform as RectTransform).sizeDelta.x;
         singleNodeHeight = (GetRootObj().transform as RectTransform).sizeDelta.y;
+        Draw();
+        Deselect();
+    }
 
+    public override bool CheckRecycleUIEntity()
+    {
+        return true;
+    }
+
+    public override bool CheckRecycleUIGameObject()
+    {
+        return true;
+    }
+
+    public void Draw()
+    {
         Text_BehaviourNode.text = mNode.NodeName;
         UpdateAddChildBtnVisible();
         AddAllChildNodes();
@@ -72,9 +91,9 @@ public class ControlAIActionNode : UIControl
 
     private void AddChildNode(BTNode childNode, Vector2 pos)
     {
-        ControlAIActionNode node = UIManager.Ins.AddControl<ControlAIActionNode>(
+        ControlAINode node = UIManager.Ins.AddControl<ControlAINode>(
             this,
-            "Prefabs/UI/AgentAIEditor/Ctl_AIAction",
+            "Prefabs/UI/AgentAIEditor/Ctl_AINode",
             Node_SubNodesContain,
             new Dictionary<string, object>()
             {
@@ -83,17 +102,19 @@ public class ControlAIActionNode : UIControl
 
         node.GetRootObj().transform.localPosition = pos;
 
-        GameObject line_up = GameObject.Instantiate(Template_Line);
-        line_up.transform.SetParent(Node_ConnectLineContain.transform);
-        line_up.transform.rotation = UpLineRot;
-        line_up.transform.localPosition = Vector2.zero;
-        line_up.transform.localScale = Vector3.one;
+        AddLine(pos, DownLineRot);
+    }
 
-        GameObject line_down = GameObject.Instantiate(Template_Line);
-        line_down.transform.SetParent(Node_ConnectLineContain.transform);
-        line_down.transform.rotation = DownLineRot;
-        line_down.transform.localPosition = pos;
-        line_down.transform.localScale = Vector3.one;
+    private void AddLine(Vector2 pos, Quaternion rotation)
+    {
+        ControlAINodeLine line_up = UIManager.Ins.AddControl<ControlAINodeLine>(
+            this,
+            "Prefabs/UI/AgentAIEditor/Ctl_AINodeLine",
+            Node_ConnectLineContain);
+
+        line_up.GetRootObj().transform.rotation = rotation;
+        line_up.GetRootObj().transform.localPosition = pos;
+        line_up.GetRootObj().transform.localScale = Vector3.one;
     }
 
     public  float GetWidth()
@@ -120,6 +141,7 @@ public class ControlAIActionNode : UIControl
             if(childNode != null)
             {
                 AddChildNode(childNode, Vector2.zero);
+                AddLine(Vector2.zero, UpLineRot);
             }
         }
         else if(mNode is BTDecorNode)
@@ -129,6 +151,7 @@ public class ControlAIActionNode : UIControl
             if (childNode != null)
             {
                 AddChildNode(childNode, Vector2.zero);
+                AddLine(Vector2.zero, UpLineRot);
             }
         }
         else if(mNode is BTLeafNode)
@@ -144,6 +167,13 @@ public class ControlAIActionNode : UIControl
             float totalHorizontalLineWidth = 0;
             float startNodeX = 0;
             float endNodeX = 0;
+
+            if(childNodes.Count > 0)
+            {
+                AddLine(Vector2.zero, UpLineRot);
+            }
+            
+
             for (int i = 0; i < childNodes.Count; i++)
             {
                 BTNode childNode = childNodes[i];
@@ -174,18 +204,30 @@ public class ControlAIActionNode : UIControl
         }
     }
 
-    private void OnBtnBehaviourNodeClick()
+    private void OnBtnAINodeClick()
     {
+        GameEventSystem.Ins.Fire("ClickAINode", this);
+    }
 
+    public void Select()
+    {
+        Image_SelectBackground.color = Color.green;
+    }
+
+    public void Deselect()
+    {
+        Image_SelectBackground.color = Color.white;
     }
 
     private void OnBtnAddChildeNodeClick()
     {
-        GameEventSystem.Ins.Fire("OnClickAddChildNode", mNode);
+        GameEventSystem.Ins.Fire("OnClickAddChildNode", this);
     }
+
+    
 
     protected override void OnClose()
     {
-        
+        mNode = null;
     }
 }

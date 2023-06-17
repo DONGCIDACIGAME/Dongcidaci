@@ -11,6 +11,17 @@ public static class InputDef
     public const string KeyboardInputHandle_BeHit = "KeyboardInputHandle_BeHit";
     public const string KeyboardInputHandle_Transfer = "KeyboardInputHandle_Transfer";
 
+
+    public const string MouseInput = "MouseInput";
+    public const string MouseInputHandle_CommonInput = "MouseInputHandle_CommonInput";
+
+
+
+
+
+
+    public const string JoystickInput = "JoystickInput";
+
     public static KeyCode DashKeyCode = KeyCode.Space;
     public static KeyCode AttackShortKeyCode = KeyCode.J;
     public static KeyCode AttackLongKeyCode = KeyCode.K;

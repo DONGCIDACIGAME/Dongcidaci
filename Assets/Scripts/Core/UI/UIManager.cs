@@ -176,12 +176,13 @@ namespace GameEngine
 
             if (!mUIObjectPool.TryGetValue(resPath, out pool))
             {
-                pool = new GameObjectPool(mUIPoolNode);
+                GameObject poolNode = new GameObject(resPath);
+                poolNode.transform.SetParent(mUIPoolNode.transform);
+                pool = new GameObjectPool(poolNode);
                 mUIObjectPool.Add(resPath, pool);
             }
 
             pool.PushObj(uiObj);
-            uiObj.transform.SetParent(mUIPoolNode.transform, false);
         }
 
         /// <summary>

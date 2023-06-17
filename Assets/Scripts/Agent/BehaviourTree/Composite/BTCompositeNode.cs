@@ -39,6 +39,79 @@ public abstract class BTCompositeNode : BTNode
         node.SetParentNode(this);
     }
 
+    public void RemoveChildNode(BTNode node)
+    {
+        if (node == null)
+        {
+            Log.Error(LogLevel.Normal, "[0] RemoveChildNode Failed, target node is null", NodeName);
+            return;
+        }
+
+        if (!mChildNodes.Contains(node))
+        {
+            Log.Error(LogLevel.Normal, "[0] RemoveChildNode Failed, target node doesn't in child nodes, node name:{1}", NodeName, node.NodeName);
+            return;
+        }
+
+        mChildNodes.Remove(node);
+    }
+
+    private int GetNodeIndexInChilds(BTNode node)
+    {
+        if (node == null)
+        {
+            Log.Error(LogLevel.Normal, "[0] GetNodeIndexInChilds Failed, target node is null");
+            return -1;
+        }
+
+        int index = -1;
+        for (int i = 0; i < mChildNodes.Count; i++)
+        {
+            if (mChildNodes[i].Equals(node))
+            {
+                index = i;
+            }
+        }
+
+        return index;
+    }
+
+    public void MoveNodeForward(BTNode node)
+    {
+        int index = GetNodeIndexInChilds(node);
+        if(index < 0)
+        {
+            Log.Error(LogLevel.Normal, "[0] MoveNodeForward Failed, target node doesn't in child nodes, node name:{1}", NodeName, node.NodeName);
+            return;
+        }
+
+        // 已经是第一个
+        if (index == 0)
+            return;
+
+        BTNode temp = mChildNodes[index - 1];
+        mChildNodes[index - 1] = node;
+        mChildNodes[index] = temp;
+    }
+
+    public void MoveNodeAfterward(BTNode node)
+    {
+        int index = GetNodeIndexInChilds(node);
+        if (index < 0)
+        {
+            Log.Error(LogLevel.Normal, "[0] MoveNodeAfterward Failed, target node doesn't in child nodes, node name:{1}", NodeName, node.NodeName);
+            return;
+        }
+
+        // 已经是最后一个
+        if (index == mChildNodes.Count -1)
+            return;
+
+        BTNode temp = mChildNodes[index + 1];
+        mChildNodes[index + 1] = node;
+        mChildNodes[index] = temp;
+    }
+
     public override int GetNodeArgNum()
     {
         return 0;

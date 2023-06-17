@@ -26,10 +26,16 @@ public static class AIEditorHelper
         {
             BTCompositeNode composite = node as BTCompositeNode;
             List<BTNode> nodes = composite.GetChildNodes();
-
-            foreach (BTNode _childNode in nodes)
+            if(nodes.Count == 0)
             {
-                width += GetWidth(_childNode, singleNodeWidth);
+                width = singleNodeWidth;
+            }
+            else
+            {
+                foreach (BTNode _childNode in nodes)
+                {
+                    width += GetWidth(_childNode, singleNodeWidth);
+                }
             }
         }
 
@@ -41,7 +47,7 @@ public static class AIEditorHelper
         if (node == null)
             return 0;
 
-        float height = 0;
+        float height = singleNodeHeight;
         if (node is BTLeafNode)
         {
             height = singleNodeHeight;
@@ -50,6 +56,7 @@ public static class AIEditorHelper
         {
             BTTree tree = node as BTTree;
             height += GetHeight(tree.GetChildNode(), singleNodeHeight);
+            height -= singleNodeHeight;
         }
         else if (node is BTDecorNode)
         {
@@ -72,7 +79,6 @@ public static class AIEditorHelper
 
             height += maxHeight;
         }
-
         return height;
     }
 }

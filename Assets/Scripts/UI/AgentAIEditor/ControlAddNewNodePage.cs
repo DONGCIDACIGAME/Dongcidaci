@@ -15,7 +15,7 @@ public class ControlAddNewNodePage : UIControl
     private Button Btn_WaitTime;
     private Button Btn_WaitFrame;
 
-    private BTNode mCurSelectNode;
+    private BTNode mNode;
 
     protected override void BindUINodes()
     {
@@ -28,41 +28,41 @@ public class ControlAddNewNodePage : UIControl
         Btn_WaitFrame = BindButtonNode("Contain_ActionNodes/Button_WaitFrame", () => { AddChildNode(new BTWaitFrameNode()); });
     }
 
-    public void SetCurSelectNode(BTNode node)
+    public void SetBTNode(BTNode node)
     {
-        mCurSelectNode = node;
+        mNode = node;
     }
 
     private void AddChildNode(BTNode childNode)
     {
-        if (mCurSelectNode == null)
+        if (mNode == null)
             return;
 
-        if(mCurSelectNode is BTCompositeNode)
+        if(mNode is BTCompositeNode)
         {
-            BTCompositeNode composite = mCurSelectNode as BTCompositeNode;
+            BTCompositeNode composite = mNode as BTCompositeNode;
             composite.AddChildNode(childNode);
             GameEventSystem.Ins.Fire("UpdateAILogicArea");
         }
-        else if(mCurSelectNode is BTDecorNode)
+        else if(mNode is BTDecorNode)
         {
-            BTDecorNode decor = mCurSelectNode as BTDecorNode;
+            BTDecorNode decor = mNode as BTDecorNode;
             if(decor.GetChildNode() == null)
             {
                 decor.SetChildNode(childNode);
                 GameEventSystem.Ins.Fire("UpdateAILogicArea");
             }
         }
-        else if (mCurSelectNode is BTTree)
+        else if (mNode is BTTree)
         {
-            BTTree tree = mCurSelectNode as BTTree;
+            BTTree tree = mNode as BTTree;
             if (tree.GetChildNode() == null)
             {
                 tree.SetChildNode(childNode);
                 GameEventSystem.Ins.Fire("UpdateAILogicArea");
             }
         }
-        else if(mCurSelectNode is BTLeafNode)
+        else if(mNode is BTLeafNode)
         {
 
         }
@@ -75,6 +75,7 @@ public class ControlAddNewNodePage : UIControl
 
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
-        
+        BTNode node = openArgs["node"] as BTNode;
+        SetBTNode(node);
     }
 }

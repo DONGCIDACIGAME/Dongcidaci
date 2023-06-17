@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -13,7 +13,7 @@ public class GameObjectPool
 
     private void SetGoPoolRoot(GameObject root)
     {
-        if (mGoPoolRoot == null)
+        if (root == null)
         {
             Log.Error(LogLevel.Critical, "GameObjectPool Push go Failed,mGoPoolRoot is null!");
             return;
@@ -22,8 +22,6 @@ public class GameObjectPool
         mGoPoolRoot = root;
         mGoPoolRoot.SetActive(false);
     }
-
-    private Stack<GameObject> pool;
 
     public GameObjectPool(GameObject root)
     {
@@ -46,22 +44,22 @@ public class GameObjectPool
         }
 
         mPool.Push(go);
-        go.transform.SetParent(mGoPoolRoot.transform);
+        go.transform.SetParent(mGoPoolRoot.transform, false);
     }
 
     public GameObject PopObj()
     {
-        if (pool.Count == 0)
+        if (mPool.Count == 0)
         {
             return null;
         }
 
-        return pool.Pop();
+        return mPool.Pop();
     }
 
     public void Clear()
     {
-        pool.Clear();
+        mPool.Clear();
         if(mGoPoolRoot != null)
         {
             GameObject.Destroy(mGoPoolRoot);
