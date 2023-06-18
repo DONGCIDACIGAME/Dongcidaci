@@ -29,7 +29,7 @@ public class GameMapData
     /// <summary>
     /// 地图上所有的墙
     /// </summary>
-    public MapWall[] mapWalls;
+    //public MapWall[] mapWalls;
 
 
     

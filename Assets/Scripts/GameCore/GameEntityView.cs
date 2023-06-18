@@ -20,6 +20,11 @@ public abstract class GameEntityView : MonoBehaviour
         this.transform.rotation = Quaternion.Euler(rotation);
     }
 
+    public void SetScale(Vector3 scale)
+    {
+        this.transform.localScale = scale;
+    }
+
     public virtual void Dispose()
     {
         

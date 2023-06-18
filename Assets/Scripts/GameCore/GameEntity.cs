@@ -11,6 +11,10 @@ public abstract class GameEntity : Entity
     /// 位置
     /// </summary>
     protected Vector3 mPosition;
+    /// <summary>
+    /// 缩放比例
+    /// </summary>
+    protected Vector3 mLocalScale;
 
     /// <summary>
     /// 用于更新GameEntity相关的基础表现逻辑，对外，对上层都不开放
@@ -21,6 +25,20 @@ public abstract class GameEntity : Entity
     {
         this.mEntityView = view;
     }
+
+    /// <summary>
+    /// 更具此时表现层的数据,同步逻辑层数据
+    /// </summary>
+    public void SyncAllTansformInfoFromView()
+    {
+        if (mEntityView !=null)
+        {
+            mPosition = mEntityView.ViewTransform.position;
+            mRotation = mEntityView.ViewTransform.eulerAngles;
+            mLocalScale = mEntityView.ViewTransform.localScale;
+        }
+    }
+
 
     public virtual Vector3 GetPosition()
     {
@@ -36,7 +54,7 @@ public abstract class GameEntity : Entity
     {
         if (mEntityView != null)
         {
-            return new Vector2(mEntityView.ViewTransform.position.x, mEntityView.ViewTransform.position.z);
+            return new Vector2(mPosition.x, mPosition.z);
         }
         else
         {
@@ -53,7 +71,7 @@ public abstract class GameEntity : Entity
     {
         if (mEntityView != null)
         {
-            return mEntityView.ViewTransform.eulerAngles.y;
+            return mRotation.y;
         }
         else
         {
@@ -62,15 +80,15 @@ public abstract class GameEntity : Entity
     }
 
     /// <summary>
-    /// 获取这个实体在世界坐标下的缩放
+    /// 获取这个实体在父级下的缩放
     /// Added by Weng in 2023/06/18
     /// </summary>
     /// <returns></returns>
-    public virtual Vector3 GetWorldScale()
+    public virtual Vector3 GetLocalScale()
     {
         if (mEntityView != null)
         {
-            return mEntityView.ViewTransform.lossyScale;
+            return mLocalScale;
         }
         else
         {
@@ -102,5 +120,16 @@ public abstract class GameEntity : Entity
             mEntityView.SetRotation(rotation);
         }
     }
+
+    public void SetScale(Vector3 scale)
+    {
+        mLocalScale = scale;
+        if (mEntityView != null)
+        {
+            mEntityView.SetScale(scale);
+        }
+    }
+
+
     public abstract int GetEntityType();
 }

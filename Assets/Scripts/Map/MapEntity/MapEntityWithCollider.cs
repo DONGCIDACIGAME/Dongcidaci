@@ -26,7 +26,7 @@ public abstract class MapEntityWithCollider : MapEntity, ICollideProcessor
             GameColliderData2D colliderData = mMapEntiyViewCollider.GetColliderData();
             var anchorPos = GetWorld2DPosition();
             var anchorRotateAngle = GetWorldRotationByYAxis();
-            var scaleV3 = GetWorldScale();
+            var scaleV3 = GetLocalScale();
             // 生成碰撞体
             mCollider = new GameCollider2D(
                 colliderData,

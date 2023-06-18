@@ -3,15 +3,10 @@ using System.Linq;
 
 public class MapGround: MapEntity
 {
-    private GameObject _bindObj;
-
-    private int[] _occupyMapIndexs;
-
-    public MapGround(string prefabStr,Vector3 initPos,int[] mapIndexs)
+    public MapGround(MapGroundView groundEntityView)
     {
-        this._bindObj = PrefabUtil.LoadPrefab(prefabStr,GameMapCenter.Ins.GroundLayerNode,"Map Init");
-        this._bindObj.transform.position = initPos;
-        this._occupyMapIndexs = mapIndexs;
+        BindMapEntityView(groundEntityView);
+        SyncAllTansformInfoFromView();
     }
 
     public override int GetEntityType()
@@ -21,8 +16,9 @@ public class MapGround: MapEntity
 
     public bool IsPosOnGround(Vector2 checkPos)
     {
-        if (_occupyMapIndexs == null) return false;
-        return _occupyMapIndexs.Contains(GameMapCenter.Ins.GetMapGridIndexWithPoint(checkPos));
+        var groundView = this.mMapEntiyView as MapGroundView;
+        if (groundView.OccupyMapIndexs == null) return false;
+        return groundView.OccupyMapIndexs.Contains(GameMapCenter.Ins.GetMapGridIndexWithPoint(checkPos));
     }
     
 

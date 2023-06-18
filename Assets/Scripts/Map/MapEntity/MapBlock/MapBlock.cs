@@ -3,38 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MapBlockType
+public class MapBlock : MapEntityWithCollider
 {
-    // 不可破坏障碍物
-    UndamageBlock,
-    // 可破坏障碍物
-    DamagedBlock,
-
-}
-
-
-public abstract class MapBlock : MapEntityWithCollider
-{
-    private GameObject _bindObj;
-
-    private int[] _occupyMapIndexs;
-
-    private Vector3 _initPosV3;
-
-    public void Initliazlie(string prefabStr, Vector3 initPos, int[] mapIndexs)
+    public MapBlock(MapBlockView mapBlockView)
     {
-        this._bindObj = PrefabUtil.LoadPrefab(prefabStr, GameMapCenter.Ins.BlockLayerNode, "Map Init");
-        this._bindObj.transform.position = initPos;
-        this._initPosV3 = initPos;
-        this._occupyMapIndexs = mapIndexs;
+        BindMapEntityView(mapBlockView);
+        SyncAllTansformInfoFromView();
     }
 
 
-    public Entity GetProcessorEntity()
+    public override int GetEntityType()
     {
-        return this;
+        return EntityTypeDefine.Block;
     }
 
-    //public abstract void HandleCollideTo(ICollideProcessor tgtColliderProcessor);
-
+    public override void HandleCollideTo(ICollideProcessor tgtColliderProcessor)
+    {
+        return;
+    }
 }

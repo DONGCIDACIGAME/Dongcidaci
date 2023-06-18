@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8312235816479208868}
-  - component: {fileID: 2592793103187906289}
+  - component: {fileID: 8985481112271369339}
+  - component: {fileID: 4870287220037426001}
   m_Layer: 0
   m_Name: LargeRock1
   m_TagString: Untagged
@@ -34,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2592793103187906289
+--- !u!114 &8985481112271369339
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,10 +47,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 2, y: 2.3}
-  offset: {x: -0.05, y: -0.06}
+  size: {x: 1.8, y: 2.28}
+  offset: {x: -0.06, y: -0.09}
   DrawDizmos: 1
   color: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &4870287220037426001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1667461618783709046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70b058c4c6b40e94582afd3393aa90f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4260698002119973608
 GameObject:
   m_ObjectHideFlags: 0
