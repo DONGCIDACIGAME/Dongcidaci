@@ -7,8 +7,11 @@ public abstract class ControlAINodePropertyPage : UIControl
 {
     private TMP_InputField InputField_AINodeName;
     private TMP_InputField InputField_AINodeDesc;
+    private TMP_Text Text_NodeType;
+    private TMP_Text Text_NodeDetailType;
     private Button Button_MoveForward;
     private Button Button_MoveBackward;
+    private Button Button_Delete;
 
     protected BTNode mNode;
 
@@ -16,8 +19,33 @@ public abstract class ControlAINodePropertyPage : UIControl
     {
         InputField_AINodeName = BindInputFieldNode("InputField_AINodeName", OnNameChanged);
         InputField_AINodeDesc = BindInputFieldNode("InputField_AINodeDesc", OnDescChanged);
+        Text_NodeType = BindTextNode("Text_NodeType");
+        Text_NodeDetailType = BindTextNode("Text_NodeDetailType");
         Button_MoveForward = BindButtonNode("Button_MoveForward", OnMoveForwardClick);
         Button_MoveBackward = BindButtonNode("Button_MoveBackward", OnMoveBackwardClick);
+        Button_Delete = BindButtonNode("Button_Delete", OnDeleteClick);
+    }
+
+    private void OnDeleteClick()
+    {
+        BTNode parent = mNode.GetParentNode();
+        if (parent is BTTree)
+        {
+            BTTree tree = parent as BTTree;
+            tree.RemoveChildNode();
+        }
+        else if(parent is BTDecorNode)
+        {
+            BTDecorNode decor = parent as BTDecorNode;
+            decor.RemoveChildNode();
+        }
+        else if(parent is BTCompositeNode)
+        {
+            BTCompositeNode composite = parent as BTCompositeNode;
+            composite.RemoveChildNode(mNode);
+        }
+
+        GameEventSystem.Ins.Fire("UpdateAILogicArea");
     }
 
     private void OnMoveForwardClick()
@@ -72,6 +100,8 @@ public abstract class ControlAINodePropertyPage : UIControl
 
         InputField_AINodeName.text = mNode.NodeName;
         InputField_AINodeDesc.text = mNode.NodeDesc;
+        Text_NodeType.text = BehaviourTreeHelper.GetNodeTypeName(mNode.GetNodeType());
+        Text_NodeDetailType.text = BehaviourTreeHelper.GetNodeDetailTypeName(mNode.GetNodeDetailType());
     }
 
     protected override void OnOpen(Dictionary<string, object> openArgs)

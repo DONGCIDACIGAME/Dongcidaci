@@ -4,6 +4,12 @@ public class BTTree : BTNode
 
     public void SetChildNode(BTNode childNode)
     {
+        if(childNode == null)
+        {
+            Log.Error(LogLevel.Normal, "BTTree SetChildNode Error, child node is null!");
+            return;
+        }
+
         mChildNode = childNode;
         childNode.SetParentNode(this);
     }
@@ -11,6 +17,11 @@ public class BTTree : BTNode
     public BTNode GetChildNode()
     {
         return mChildNode;
+    }
+
+    public void RemoveChildNode()
+    {
+        mChildNode = null;
     }
 
     public override int GetNodeArgNum()

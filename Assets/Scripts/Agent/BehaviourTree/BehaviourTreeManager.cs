@@ -22,15 +22,19 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
     /// </summary>
     /// <param name="filePath"></param>
     /// <returns></returns>
-    public BTTree LoadTree(string filePath)
+    public BTTree LoadTree(string filePath, bool forceReload = false)
     {
         // 查询缓存数据
-        if(!mLoadedBTNodeDatas.TryGetValue(filePath, out BTNodeData data))
+        BTNodeData data = null;
+        if(forceReload || !mLoadedBTNodeDatas.TryGetValue(filePath, out data))
         {
             data = BehaviourTreeHelper.LoadBTNodeData(filePath);
-            if (data == null)
-                return null;
+        }
 
+        if (data == null)
+            return null;
+        if(!mLoadedBTNodeDatas.ContainsKey(filePath))
+        {
             mLoadedBTNodeDatas.Add(filePath, data);
         }
 

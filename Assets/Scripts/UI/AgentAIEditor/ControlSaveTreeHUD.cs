@@ -43,7 +43,7 @@ public class ControlSaveTreeHUD : UIControl
     private void OnTreeNameEdit(string treeName)
     {
         InputField_TreeName.text = treeName;
-
+        Text_Hint.text = string.Empty;
         CheckSave(treeName);
     }
 

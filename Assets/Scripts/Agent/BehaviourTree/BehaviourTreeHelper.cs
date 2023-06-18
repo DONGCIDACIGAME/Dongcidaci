@@ -3,6 +3,48 @@ using UnityEngine;
 
 public static class BehaviourTreeHelper
 {
+    public static string GetNodeTypeName(int BTNodeType)
+    {
+        switch (BTNodeType)
+        {
+            case BTDefine.BT_Node_Type_Tree:
+                return "树节点";
+            case BTDefine.BT_Node_Type_Composite:
+                return "组合节点";
+            case BTDefine.BT_Node_Type_Decor:
+                return "装饰节点";
+            case BTDefine.BT_Node_Type_Leaf:
+                return "叶子节点";
+            default:
+                return "未知节点类型";
+        }
+    }
+
+    public static string GetNodeDetailTypeName(int BTNodeDetailType)
+    {
+        switch (BTNodeDetailType)
+        {
+            case BTDefine.BT_Node_Type_Tree_Entry:
+                return "行为树入口";
+            case BTDefine.BT_Node_DetailType_Composite_Sequence:
+                return "顺序执行";
+            case BTDefine.BT_Node_DetailType_Composite_Selector:
+                return "选择执行";
+            case BTDefine.BT_Node_DetailType_Composite_Parallel:
+                return "并行执行";
+            case BTDefine.BT_Node_Type_Decor_Invert:
+                return "反转";
+            case BTDefine.BT_Node_Type_Decor_Repeat:
+                return "重复";
+            case BTDefine.BT_Node_Type_Leaf_WaitTime:
+                return "等待时间";
+            case BTDefine.BT_Node_Type_Leaf_WaitFrame:
+                return "等待帧数";
+            default:
+                return "未知节点类型";
+        }
+    }
+
     public static string TreeNameToFileFullPath(string treeName)
     {
         if(string.IsNullOrEmpty(treeName))

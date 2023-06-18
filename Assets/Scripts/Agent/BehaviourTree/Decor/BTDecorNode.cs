@@ -10,6 +10,12 @@ public abstract class BTDecorNode : BTNode
 
     public void SetChildNode(BTNode childNode)
     {
+        if (childNode == null)
+        {
+            Log.Error(LogLevel.Normal, "BTDecorNode SetChildNode Error, child node is null!");
+            return;
+        }
+
         mChildNode = childNode;
         childNode.SetParentNode(this);
     }
@@ -17,6 +23,11 @@ public abstract class BTDecorNode : BTNode
     public BTNode GetChildNode()
     {
         return mChildNode;
+    }
+
+    public void RemoveChildNode()
+    {
+        mChildNode = null;
     }
 
     public override int GetNodeArgNum()

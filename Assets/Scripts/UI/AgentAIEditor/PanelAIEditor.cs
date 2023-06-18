@@ -84,7 +84,7 @@ public class PanelAIEditor : UIPanel
 
     private void LoadTree(string filePath)
     {
-        BTTree tree = BehaviourTreeManager.Ins.LoadTree(filePath);
+        BTTree tree = BehaviourTreeManager.Ins.LoadTree(filePath, true);
         string[] ret = filePath.Replace(".tree","").Split('/', System.StringSplitOptions.None);
         if(ret.Length > 0)
         {
@@ -96,6 +96,9 @@ public class PanelAIEditor : UIPanel
 
     private void ShowSaveTreeHUD()
     {
+        if (mCurEditingTree == null)
+            return;
+
         UIManager.Ins.AddControl<ControlSaveTreeHUD>(this,
             "Prefabs/UI/AgentAIEditor/Ctl_SaveTreeHUD",
             Node_DynamicCtls,
