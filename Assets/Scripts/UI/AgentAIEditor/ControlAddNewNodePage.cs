@@ -66,6 +66,8 @@ public class ControlAddNewNodePage : UIControl
         {
 
         }
+
+        GameEventSystem.Ins.Fire("SelectNode", childNode);
     }
 
     protected override void OnClose()

@@ -40,6 +40,21 @@ public class ControlAINode : UIControl
         return mNode;
     }
 
+    protected override void BindEvents()
+    {
+        base.BindEvents();
+
+        mEventListener.Listen<BTNode>("SelectNode", OnOperationSelectNode);
+    }
+
+    private void OnOperationSelectNode(BTNode node)
+    {
+        if(mNode.Equals(node))
+        {
+            OnBtnAINodeClick();
+        }
+    }
+
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
         mNode = openArgs["BTNode"] as BTNode;
