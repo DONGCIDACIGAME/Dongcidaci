@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8312235816479208868}
   - component: {fileID: 8985481112271369339}
   - component: {fileID: 4870287220037426001}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LargeRock1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 3488841579859509330}
   - component: {fileID: 559855360281448439}
   - component: {fileID: 2315402378208901949}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LargeRock1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 8597292079718028602}
   - component: {fileID: 4674855220055923359}
   - component: {fileID: 7423228803075321429}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LargeRock1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

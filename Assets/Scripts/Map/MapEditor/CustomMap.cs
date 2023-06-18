@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 [DisallowMultipleComponent]
+[ExecuteInEditMode]
 public class CustomMap : MonoBehaviour
 {
     public int gridColCount = 10;
@@ -59,6 +60,84 @@ public class CustomMap : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        CaculateGridCells();
+        EditorApplication.update += Update;
+    }
+
+    private void OnDisable()
+    {
+        EditorApplication.update -= Update;
+    }
+
+    private void OnDestroy()
+    {
+        EditorApplication.update -= Update;
+    }
+
+    public bool isAutoSnap = false;
+
+
+    private void Update()
+    {
+        if (isAutoSnap == false || EditorApplication.isPlaying) return;
+
+        //Debug.Log("check update");
+
+        GameObject[] selectedGameObjects = Selection.gameObjects;
+
+        if (selectedGameObjects != null && selectedGameObjects.Length > 0)
+        {
+            for (int i = 0; i < selectedGameObjects.Length; ++i)
+            {
+                SnapSelectedObjectToGrid(selectedGameObjects[i]);
+            }
+        }
+
+
+    }
+
+    private void SnapSelectedObjectToGrid(GameObject selectedGameObject)
+    {
+        if (selectedGameObject != null && PrefabUtility.IsPartOfAnyPrefab(selectedGameObject))
+        {
+            selectedGameObject = PrefabUtility.GetOutermostPrefabInstanceRoot(selectedGameObject);
+        }
+
+        if (selectedGameObject == null)
+        {
+            return;
+        }
+
+        string layerName = "SnapTileLayer";
+        if (selectedGameObject.layer == LayerMask.NameToLayer(layerName) || string.IsNullOrEmpty(layerName))
+        {
+            var tgtCell = FindNearestGridCell(selectedGameObject);
+            if (tgtCell == null) return;
+
+            selectedGameObject.transform.position = new Vector3(tgtCell.anchorPos.x, selectedGameObject.transform.position.y, tgtCell.anchorPos.z);
+        }
+
+    }
+
+    // bug
+    private GridCell FindNearestGridCell(GameObject selectedGameObject)
+    {
+        int tgtColIndex = Mathf.RoundToInt(selectedGameObject.transform.position.x / gridCellWidth);
+        int tgtRowIndex = Mathf.RoundToInt(selectedGameObject.transform.position.z / gridCellHeight);
+        Debug.Log("col"+tgtColIndex + "row" + tgtColIndex);
+        if (tgtColIndex > gridColCount || tgtColIndex < 0) return null;
+        if (tgtRowIndex > gridRowCount || tgtRowIndex < 0) return null;
+
+        var realIndex = tgtColIndex * gridRowCount + tgtRowIndex;
+        //Debug.Log(realIndex);
+        if (realIndex >= gridCells.Count) return null;
+        return gridCells[realIndex];
+    }
+
+
+
 
 #if UNITY_EDITOR
 
@@ -71,6 +150,7 @@ public class CustomMap : MonoBehaviour
 
         if (gridColCount <= 0 || gridRowCount <= 0 || gridCellWidth <= 0 || gridCellHeight <= 0) return;
 
+        //画竖线
         for (int i = 0; i <= gridColCount; i++)
         {
             var startV3 = new Vector3(i*gridCellWidth,0,0);
@@ -78,6 +158,7 @@ public class CustomMap : MonoBehaviour
             Handles.DrawLine(startV3, endV3, lineThickness);
         }
 
+        //画横线
         for (int i = 0; i <= gridRowCount; i++)
         {
             var startV3 = new Vector3(0, 0, i*gridCellHeight);
