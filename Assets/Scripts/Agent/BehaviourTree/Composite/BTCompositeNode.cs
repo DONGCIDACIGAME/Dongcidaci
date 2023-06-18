@@ -94,7 +94,7 @@ public abstract class BTCompositeNode : BTNode
         mChildNodes[index] = temp;
     }
 
-    public void MoveNodeAfterward(BTNode node)
+    public void MoveNodeBackward(BTNode node)
     {
         int index = GetNodeIndexInChilds(node);
         if (index < 0)

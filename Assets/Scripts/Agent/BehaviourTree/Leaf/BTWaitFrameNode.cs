@@ -12,6 +12,11 @@ public class BTWaitFrameNode : BTLeafNode
         mHasWaitFrame = 0;
     }
 
+    public int GetWaitFrame()
+    {
+        return mTotalWaitFrame;
+    }
+
     public override int GetNodeArgNum()
     {
         return 1;

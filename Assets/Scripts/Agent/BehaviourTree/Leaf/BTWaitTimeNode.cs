@@ -9,6 +9,11 @@ public class BTWaitTimeNode : BTLeafNode
         mHasWaitTime = 0;
     }
 
+    public float GetWaitTime()
+    {
+        return mTotalWaitTime;
+    }
+
     public override int GetNodeArgNum()
     {
         return 1;
