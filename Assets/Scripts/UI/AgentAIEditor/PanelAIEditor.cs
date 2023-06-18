@@ -1,18 +1,25 @@
 using GameEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PanelAIEditor : UIPanel
 {
     private ControlAILogicArea Ctl_AILogicArea;
     private ControlAIEditorTopBar Ctl_TopBar;
-    private ControlAIOperationArea Ctl_OperationArea; 
+    private ControlAIOperationArea Ctl_OperationArea;
+    private GameObject Node_DynamicCtls;
     private Button Btn_Quit;
 
     /// <summary>
     /// 当前正在编辑中的行为树
     /// </summary>
     private BTTree mCurEditingTree;
+
+    /// <summary>
+    /// 当前行为树的文件名
+    /// </summary>
+    private string mTreeFileName;
 
     /// <summary>
     /// 是否编辑过数据
@@ -29,6 +36,7 @@ public class PanelAIEditor : UIPanel
         Ctl_AILogicArea = BindControl<ControlAILogicArea>("Ctl_AILogicArea");
         Ctl_TopBar = BindControl<ControlAIEditorTopBar>("Ctl_TopBar");
         Ctl_OperationArea = BindControl<ControlAIOperationArea>("Ctl_OperationArea");
+        Node_DynamicCtls = BindNode("Node_DynamicCtls");
         Btn_Quit = BindButtonNode("Button_Quit", OnClickBtnQuit);
     }
 
@@ -36,9 +44,10 @@ public class PanelAIEditor : UIPanel
     protected override void BindEvents()
     {
         mEventListener.Listen("OnClickLoadTree", OpenLoadTreeHUD);
-        mEventListener.Listen<string>("OnClickSaveTree", SaveTree);
+        mEventListener.Listen("OnClickSaveTree", ShowSaveTreeHUD);
         mEventListener.Listen("OnClickNewTree", CreateNewTree);
         mEventListener.Listen<string>("OnLoadFileClick", LoadTree);
+        mEventListener.Listen<string>("SaveTree", SaveTree);
 
     }
 
@@ -76,8 +85,23 @@ public class PanelAIEditor : UIPanel
     private void LoadTree(string filePath)
     {
         BTTree tree = BehaviourTreeManager.Ins.LoadTree(filePath);
+        string[] ret = filePath.Replace(".tree","").Split('/', System.StringSplitOptions.None);
+        if(ret.Length > 0)
+        {
+            mTreeFileName = ret[ret.Length - 1];
+        }
         mCurEditingTree = tree;
         DrawTree(mCurEditingTree);
+    }
+
+    private void ShowSaveTreeHUD()
+    {
+        UIManager.Ins.AddControl<ControlSaveTreeHUD>(this,
+            "Prefabs/UI/AgentAIEditor/Ctl_SaveTreeHUD",
+            Node_DynamicCtls,
+            new Dictionary<string, object>{
+                {"treeName",mTreeFileName }
+            });
     }
 
 
