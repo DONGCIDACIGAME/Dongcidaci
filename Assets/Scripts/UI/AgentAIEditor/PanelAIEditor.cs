@@ -76,7 +76,6 @@ public class PanelAIEditor : UIPanel
     private void LoadTree(string filePath)
     {
         BTTree tree = BehaviourTreeManager.Ins.LoadTree(filePath);
-        GameEventSystem.Ins.Fire("LoadNewTree", tree);
         mCurEditingTree = tree;
         DrawTree(mCurEditingTree);
     }

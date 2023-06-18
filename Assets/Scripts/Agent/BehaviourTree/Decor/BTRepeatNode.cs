@@ -12,6 +12,11 @@ public class BTRepeatNode : BTDecorNode
         mHasRepeatTime = repeatTime;
     }
 
+    public int GetRepeatTime()
+    {
+        return mTotalTime;
+    }
+
     public override int GetNodeArgNum()
     {
         return 1;
