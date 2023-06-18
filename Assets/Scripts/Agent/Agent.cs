@@ -2,7 +2,7 @@ using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Agent : MapEntity, IMeterHandler
+public abstract class Agent : MapEntityWithCollider, IMeterHandler
 {
     /// <summary>
     /// 角色id

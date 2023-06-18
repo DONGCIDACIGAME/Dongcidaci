@@ -13,7 +13,7 @@ public enum MapBlockType
 }
 
 
-public abstract class MapBlock : MapEntity,ICollideProcessor
+public abstract class MapBlock : MapEntityWithCollider
 {
     private GameObject _bindObj;
 
@@ -35,6 +35,6 @@ public abstract class MapBlock : MapEntity,ICollideProcessor
         return this;
     }
 
-    public abstract void HandleCollideTo(ICollideProcessor tgtColliderProcessor);
+    //public abstract void HandleCollideTo(ICollideProcessor tgtColliderProcessor);
 
 }

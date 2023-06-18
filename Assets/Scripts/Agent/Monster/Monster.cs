@@ -57,4 +57,10 @@ public class Monster : Agent
     {
         return EntityTypeDefine.Monster;
     }
+
+    public override void HandleCollideTo(ICollideProcessor tgtColliderProcessor)
+    {
+        // do something here
+
+    }
 }

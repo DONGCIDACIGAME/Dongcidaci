@@ -7,6 +7,9 @@ public abstract class GameEntityView : MonoBehaviour
         return this.gameObject;
     }
 
+    public Transform ViewTransform => this.transform;
+
+
     public void SetPosition(Vector3 position)
     {
         this.transform.position = position;

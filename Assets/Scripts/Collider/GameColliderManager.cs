@@ -65,6 +65,9 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
     {
         // 判断是否重复注册
         if (_colliderToGridIndexsDict.ContainsKey(collider)) return false;
+
+        // 判断要注册的碰撞体是否带有处理者
+        if (collider.GetCollideProcessor() == null) return false;
         
         var estimatedMapIndexs = GetRoundOccupyMapIndexsWith(collider);
         if (estimatedMapIndexs.Count!=0)
@@ -158,6 +161,11 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
             {
                 // 是自己
                 if (tgtCollider == checkColliderInMap) continue;
+                // 两个不同的碰撞体但是处理者相同
+                if (tgtCollider.GetCollideProcessor().Equals(checkColliderInMap.GetCollideProcessor()))
+                {
+                    continue;
+                }
                 if (checkColliderInMap.CheckCollapse(tgtCollider))
                 {
                     // 通知这个检查碰撞体
@@ -191,6 +199,9 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
                 if (collidersInThisMapCell == null) continue;
                 foreach (GameCollider2D tgtCollider in collidersInThisMapCell)
                 {
+                    // 施加的碰撞体与目标的处理者是同一个，即忽略对自己的影响
+                    if (tgtCollider.GetCollideProcessor() == collideProcessor) continue;
+
                     if (tgtCollider.CheckCollapse(checkCollider2D))
                     {
                         // 通知这个检查碰撞体

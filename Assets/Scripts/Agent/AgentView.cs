@@ -1,4 +1,4 @@
-public class AgentView : MapEntityView
+public class AgentView : MapEntityViewWithCollider
 {
     
 

@@ -108,4 +108,12 @@ public class Hero : Agent
     {
         return EntityTypeDefine.Hero;
     }
+
+    // add 0618 weng
+    public override void HandleCollideTo(ICollideProcessor tgtColliderProcessor)
+    {
+        //处理遭遇了碰撞的逻辑
+        // do logic here ...
+
+    }
 }
