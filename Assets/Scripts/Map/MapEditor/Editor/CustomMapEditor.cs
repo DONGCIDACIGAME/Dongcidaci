@@ -11,20 +11,22 @@ public class CustomMapEditor : Editor
         DrawDefaultInspector();
         CustomMap myScript = (CustomMap)target;
 
-        if (GUILayout.Button("绘制地图网格"))
+        if (GUILayout.Button("刷新地图网格"))
         {
-
+            myScript.CaculateGridCells();
 
         }
 
-        GUILayout.Space(30f);
+        GUILayout.Space(20f);
         
 
-        if (GUILayout.Button("生成地面索引"))
+        if (GUILayout.Button("生成地面索引值"))
         {
             
 
         }
+
+        GUILayout.Space(20f);
 
         if (GUILayout.Button("生成地图数据"))
         {

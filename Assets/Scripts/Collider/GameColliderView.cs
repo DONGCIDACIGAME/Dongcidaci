@@ -104,6 +104,7 @@ public class GameColliderView : MonoBehaviour
         Vector3 lt = groundPos + lt_offset;
 
         float lineThickness = 2f;
+        Handles.color = color;
         //Gizmos.DrawLine(lb, rb);
         Handles.DrawLine(lb, rb, lineThickness);
         //Gizmos.DrawLine(rb, rt);

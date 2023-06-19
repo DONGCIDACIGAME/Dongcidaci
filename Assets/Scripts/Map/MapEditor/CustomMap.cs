@@ -7,6 +7,8 @@ using UnityEditor;
 [ExecuteInEditMode]
 public class CustomMap : MonoBehaviour
 {
+    public static CustomMap Ins;
+
     public int gridColCount = 10;
     public int gridRowCount = 10;
 
@@ -62,6 +64,7 @@ public class CustomMap : MonoBehaviour
 
     private void OnEnable()
     {
+        Ins = this;
         CaculateGridCells();
         EditorApplication.update += Update;
     }
@@ -70,6 +73,7 @@ public class CustomMap : MonoBehaviour
     {
         EditorApplication.update -= Update;
     }
+
 
     private void OnDestroy()
     {
@@ -139,6 +143,12 @@ public class CustomMap : MonoBehaviour
     }
 
 
+    private void SaveGridIndexToGround()
+    {
+
+    }
+
+
 
 
 #if UNITY_EDITOR
@@ -157,7 +167,7 @@ public class CustomMap : MonoBehaviour
         {
             var startV3 = new Vector3(i*gridCellWidth,0,0);
             var endV3 = new Vector3(i * gridCellWidth, 0, gridRowCount*gridCellHeight);
-            Handles.DrawLine(startV3, endV3, lineThickness);
+            Handles.DrawDottedLine(startV3, endV3, lineThickness);
         }
 
         //画横线
@@ -165,7 +175,7 @@ public class CustomMap : MonoBehaviour
         {
             var startV3 = new Vector3(0, 0, i*gridCellHeight);
             var endV3 = new Vector3(gridColCount * gridCellWidth, 0, i * gridCellHeight);
-            Handles.DrawLine(startV3, endV3, lineThickness);
+            Handles.DrawDottedLine(startV3, endV3, lineThickness);
         }
 
 
