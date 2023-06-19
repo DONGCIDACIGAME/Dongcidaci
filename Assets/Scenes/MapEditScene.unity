@@ -1685,6 +1685,17 @@ MonoBehaviour:
   gridRowCount: 20
   gridCellWidth: 2
   gridCellHeight: 2
+  mapData:
+    mapUID: 1
+    mapName: _Level_0_1
+    roomType: 10
+    roomIconName: 
+    mapColCount: 20
+    mapRowCount: 20
+    mapCellWidth: 2
+    mapCellHeight: 2
+    mapBasePrefabName: _Level_0_1
+    mapEventDatas: []
   isAutoSnap: 0
   drawGrid: 1
   lineThickness: 0.5
@@ -7417,7 +7428,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1640830711}
   m_Layer: 0
-  m_Name: _TestMap
+  m_Name: _Level_0_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

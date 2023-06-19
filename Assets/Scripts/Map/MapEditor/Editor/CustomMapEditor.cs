@@ -20,25 +20,22 @@ public class CustomMapEditor : Editor
         GUILayout.Space(20f);
         
 
-        if (GUILayout.Button("生成地面索引值"))
+        if (GUILayout.Button("生成所有地面索引值"))
         {
-            
+            myScript.SaveGridIndexToGround();
 
         }
 
         GUILayout.Space(20f);
 
-        if (GUILayout.Button("生成地图数据"))
+        if (GUILayout.Button("填充事件数据"))
         {
-            if (EditorUtility.DisplayDialog("重新导入tile", "确认清除原数据?", "YES", "NO"))
-            {
+            //myScript.SaveMapDataToDisk();
+        }
 
-            }
-            else
-            {
-
-            }
-
+        if (GUILayout.Button("保存地图数据"))
+        {
+            myScript.SaveMapDataToDisk();
         }
 
         

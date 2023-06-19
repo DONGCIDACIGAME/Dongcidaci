@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.IO;
+//using LitJson;
 
 [DisallowMultipleComponent]
 [ExecuteInEditMode]
@@ -14,6 +16,9 @@ public class CustomMap : MonoBehaviour
 
     public float gridCellWidth = 2;
     public float gridCellHeight = 2;
+
+    //private static string MapJsonSavePath = Application.dataPath;
+    public GameMapData mapData;
 
 
     public class GridCell
@@ -143,12 +148,54 @@ public class CustomMap : MonoBehaviour
     }
 
 
-    private void SaveGridIndexToGround()
+    public void SaveGridIndexToGround()
     {
+        var groundLayerT = GameObject.Find("_GROUND_LAYER").transform;
+        if (groundLayerT == null)
+        {
+            Debug.Log("未能找到地板层");
+            return;
+        }
+        else
+        {
+            Debug.Log("找到地板层");
+        }
+
+        if (groundLayerT.childCount == 0) return;
+        for (int i=0;i<groundLayerT.childCount;i++)
+        {
+            groundLayerT.GetChild(i).TryGetComponent<MapGroundView>(out MapGroundView groundView);
+            if (groundView == null)
+            {
+                continue;
+            }
+
+            groundView.GenerateMapIndexs();
+        }
 
     }
 
+    public void SaveMapDataToDisk()
+    {
+        if (mapData.mapName == string.Empty) return;
+        string filePath = Path.Combine(PathDefine.MAP_DATA_DIR_PATH,mapData.mapName + ".json");
+        Debug.Log(filePath);
 
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
+
+        FileInfo file = new FileInfo(filePath);
+        StreamWriter sw = file.CreateText();
+        string saveJsonStr = JsonUtility.ToJson(this.mapData, true);
+        Debug.Log("开始写入地图数据 ----");
+        sw.Write(saveJsonStr);
+        sw.Close();
+        sw.Dispose();
+        Debug.Log("写入地图数据完成 ----");
+
+    }
 
 
 #if UNITY_EDITOR
