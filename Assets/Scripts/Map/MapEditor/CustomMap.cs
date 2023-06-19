@@ -30,7 +30,7 @@ public class CustomMap : MonoBehaviour
             this.ruV3 = ruV3;
             this.luV3 = luV3;
             this.cellMapIndex = index;
-            this.anchorPos = new Vector3(ldV3.x + (rdV3.x-ldV3.x)/2, 0, ldV3.y + (luV3.z - ldV3.z)/2);
+            this.anchorPos = new Vector3(ldV3.x + (rdV3.x-ldV3.x)/2, 0, ldV3.z + (luV3.z - ldV3.z)/2);
         }
 
     }
@@ -124,15 +124,17 @@ public class CustomMap : MonoBehaviour
     // bug
     private GridCell FindNearestGridCell(GameObject selectedGameObject)
     {
-        int tgtColIndex = Mathf.RoundToInt(selectedGameObject.transform.position.x / gridCellWidth);
-        int tgtRowIndex = Mathf.RoundToInt(selectedGameObject.transform.position.z / gridCellHeight);
-        Debug.Log("col"+tgtColIndex + "row" + tgtColIndex);
-        if (tgtColIndex > gridColCount || tgtColIndex < 0) return null;
-        if (tgtRowIndex > gridRowCount || tgtRowIndex < 0) return null;
+        //Debug.Log("x" + selectedGameObject.transform.position.x + "z"+selectedGameObject.transform.position.z);
+        int tgtColIndex = Mathf.FloorToInt(selectedGameObject.transform.position.x / gridCellWidth);
+        int tgtRowIndex = Mathf.FloorToInt(selectedGameObject.transform.position.z / gridCellHeight);
+        //Debug.Log("col"+tgtColIndex + "row" + tgtRowIndex);
+        if (tgtColIndex >= gridColCount || tgtColIndex < 0) return null;
+        if (tgtRowIndex >= gridRowCount || tgtRowIndex < 0) return null;
 
         var realIndex = tgtColIndex * gridRowCount + tgtRowIndex;
         //Debug.Log(realIndex);
         if (realIndex >= gridCells.Count) return null;
+        //Debug.Log(gridCells[realIndex].anchorPos);
         return gridCells[realIndex];
     }
 
