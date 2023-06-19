@@ -84,6 +84,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 234b9b4229fa0a94da258e5a1cae5173, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 234b9b4229fa0a94da258e5a1cae5173, type: 3}
       propertyPath: m_Name
       value: Forest_Soil_Btm
@@ -144,6 +148,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 834c8f9f0c3892f4b8af2cbed1c07359, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 834c8f9f0c3892f4b8af2cbed1c07359, type: 3}
+      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 834c8f9f0c3892f4b8af2cbed1c07359, type: 3}

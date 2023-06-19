@@ -38,6 +38,7 @@ public abstract class MapEntityWithCollider : MapEntity, ICollideProcessor
                 );
             // 注册碰撞
             GameColliderManager.Ins.RegisterGameCollider(mCollider);
+            Debug.Log("注册碰撞");
         }
     }
 

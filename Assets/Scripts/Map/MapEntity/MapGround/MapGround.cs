@@ -14,13 +14,12 @@ public class MapGround: MapEntity
         return EntityTypeDefine.Ground;
     }
 
-    public bool IsPosOnGround(Vector2 checkPos)
-    {
-        var groundView = this.mMapEntiyView as MapGroundView;
-        if (groundView.OccupyMapIndexs == null) return false;
-        return groundView.OccupyMapIndexs.Contains(GameMapCenter.Ins.GetMapGridIndexWithPoint(checkPos));
-    }
     
-
+    public bool IsMapIndexInGround(int mapIndex)
+    {
+        if (mapIndex < 0) return false;
+        var groundView = this.mMapEntiyView as MapGroundView;
+        return groundView.OccupyMapIndexs.Contains(mapIndex);
+    }
 
 }

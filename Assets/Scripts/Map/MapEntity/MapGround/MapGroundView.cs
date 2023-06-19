@@ -34,9 +34,9 @@ public class MapGroundView : MapEntityView
     private void OnDrawGizmos()
     {
         if (_occupyMapIndexs == null || _occupyMapIndexs.Length == 0) return;
-        if (CustomMap.Ins == null) return;
-        if (CustomMap.Ins.gridCellWidth <= 0 || CustomMap.Ins.gridCellHeight <= 0 || CustomMap.Ins.gridColCount <= 0 || CustomMap.Ins.gridRowCount <= 0) return;
         if (transform.childCount == 0) return;
+        if (EditorApplication.isPlaying) return;
+
 
         GUIStyle myStyle = new GUIStyle();
         myStyle.fontSize = 9;

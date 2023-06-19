@@ -35,6 +35,7 @@ public class GameManager:MonoBehaviour
 
     private BehaviourTreeManager  BehaviourTreeMgr;                                 // 行为树管理器
 
+    private GameMapManager GameMapMgr; // 地图管理器
 
     private List<IModuleManager> mAllModuleMgrs;
 
@@ -67,6 +68,7 @@ public class GameManager:MonoBehaviour
         MeterTimerCenter = RegisterModuleMgr(MeterTimerCenter.Ins);
         AgentMgr = RegisterModuleMgr(AgentManager.Ins);
         GameColliderMgr = RegisterModuleMgr(GameColliderManager.Ins);
+        GameMapMgr = RegisterModuleMgr(GameMapManager.Ins);
         BehaviourTreeMgr = RegisterModuleMgr(BehaviourTreeManager.Ins);
 
         // 先做所有模块的初始化
@@ -190,6 +192,7 @@ public class GameManager:MonoBehaviour
         TimeMgr = null;
         GameColliderMgr = null;
         BehaviourTreeMgr = null;
+        GameMapMgr = null;
     }
 
     private T RegisterModuleMgr<T>(T mgr) where T:IModuleManager

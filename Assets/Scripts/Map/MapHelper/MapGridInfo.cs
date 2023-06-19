@@ -10,12 +10,15 @@ public struct MapGridInfo
     public float cellWidth;
     public float cellHeight;
 
-    public MapGridInfo(int colNumber, int rowNumber, float cellWidth, float cellHeight)
+    public float rotateAngle;
+
+    public MapGridInfo(int colNumber, int rowNumber, float cellWidth, float cellHeight,float rotateAngle)
     {
         this.colNum = colNumber;
         this.rowNum = rowNumber;
         this.cellWidth = cellWidth;
         this.cellHeight = cellHeight;
+        this.rotateAngle = rotateAngle;
     }
 
     /// <summary>
@@ -27,9 +30,13 @@ public struct MapGridInfo
     public int GetIndexByColAndRow(int colIndex, int rowIndex)
     {
         if (colIndex > colNum - 1 || rowIndex > rowNum - 1) return -1;
-        return rowIndex * colNum + colIndex;
+        // 横向从左到右排序
+        //return rowIndex * colNum + colIndex;
+        // 纵向从下到上
+        return colIndex * rowNum + rowIndex;
     }
 
+    /**
     /// <summary>
     /// 根据行与列范围，转换成所有的索引
     /// </summary>
@@ -66,17 +73,24 @@ public struct MapGridInfo
         return tgtRect;
     }
 
+    */
+
+
     /// <summary>
     /// 获取某个位置的地图网格索引
+    /// 已经考虑网格的旋转
     /// </summary>
     /// <param name="pos"></param>
     /// <returns></returns>
-    public int GetMapIndex(Vector2 pos)
+    public int GetMapIndex(Vector3 worldPos)
     {
-        if (pos.x < 0 || pos.y < 0) return -1;
+        //计算绕轴旋转的真实位置
+        var realPos = MapHelper.RotateByYAxis(worldPos,-rotateAngle);
+
+        if (realPos.x < 0 || realPos.z < 0) return -1;
         if (this.cellWidth == 0 || this.cellHeight == 0) return -1;
-        var colIndex = Mathf.RoundToInt(pos.x / this.cellWidth);
-        var rowIndex = Mathf.RoundToInt(pos.y / this.cellHeight);
+        var colIndex = Mathf.FloorToInt(realPos.x / this.cellWidth);
+        var rowIndex = Mathf.FloorToInt(realPos.z / this.cellHeight);
         return GetIndexByColAndRow(colIndex,rowIndex);
     }
 

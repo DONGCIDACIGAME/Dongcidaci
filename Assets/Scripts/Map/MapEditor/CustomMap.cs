@@ -85,6 +85,7 @@ public class CustomMap : MonoBehaviour
         EditorApplication.update -= Update;
     }
 
+    [Space]
     public bool isAutoSnap = false;
 
 
