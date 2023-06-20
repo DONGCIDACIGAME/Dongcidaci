@@ -65,4 +65,9 @@ public class BTWaitFrameNode : BTLeafNode
     {
         mHasWaitFrame = 0;
     }
+
+    public override bool BTNodeDataCheck(ref string info)
+    {
+        return true;
+    }
 }

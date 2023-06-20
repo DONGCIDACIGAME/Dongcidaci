@@ -22,12 +22,12 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
     /// </summary>
     /// <param name="filePath"></param>
     /// <returns></returns>
-    public BTTree LoadTree(string filePath, bool forceReload = false)
+    public BTTreeEntry LoadTree(string filePath, bool forceReload = false)
     {
         BTNodeData data = LoadTreeData(filePath, forceReload);
         if (data == null)
             return null;
-        BTTree tree = CreateBTNode(data) as BTTree;
+        BTTreeEntry tree = CreateBTNode(data) as BTTreeEntry;
         tree.LoadFromBTNodeData(data);
         return tree;
     }

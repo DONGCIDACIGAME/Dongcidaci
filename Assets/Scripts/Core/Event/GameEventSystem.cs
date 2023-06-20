@@ -138,5 +138,15 @@ namespace GameEngine
                 evt.RemoveListener(listenerId);
             }
         }
+
+        public override void OnLateUpdate(float deltaTime)
+        {
+            base.OnLateUpdate(deltaTime);
+
+            foreach(GameEvent evt in mEventMap.Values)
+            {
+                evt.OnLateUpdate(deltaTime);
+            }
+        }
     }
 }

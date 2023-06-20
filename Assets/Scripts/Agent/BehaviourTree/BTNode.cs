@@ -148,6 +148,9 @@ public abstract class BTNode : IGameDisposable
 
         return BTDefine.BT_LoadNodeResult_Succeed;
     }
+
+    public abstract bool BTNodeDataCheck(ref string info);
+
     public BTNodeData ToBTNodeData()
     {
         BTNodeData data = new BTNodeData();

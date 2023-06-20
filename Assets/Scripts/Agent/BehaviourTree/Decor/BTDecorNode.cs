@@ -70,6 +70,17 @@ public abstract class BTDecorNode : BTNode
         return BTDefine.BT_LoadNodeResult_Succeed;
     }
 
+    public override bool BTNodeDataCheck(ref string info)
+    {
+        if (mChildNode == null)
+        {
+            info = "装饰节点必须有子节点!";
+            return false;
+        }
+
+        return true;
+    }
+
     protected override BTNodeData[] GetChildNodesData()
     {
         BTNodeData childNodeData = mChildNode.ToBTNodeData();

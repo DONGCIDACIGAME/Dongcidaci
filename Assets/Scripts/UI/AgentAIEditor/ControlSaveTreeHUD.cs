@@ -33,6 +33,12 @@ public class ControlSaveTreeHUD : UIControl
    private void CheckSave(string treeName)
     {
         // 检查文件名
+        if(string.IsNullOrEmpty(treeName))
+        {
+            Text_Hint.text = "行为树文件名不能为空";
+            return;
+        }
+
         string fileFullPath = BehaviourTreeHelper.TreeNameToFileFullPath(treeName);
         if (FileHelper.FileExist(fileFullPath))
         {

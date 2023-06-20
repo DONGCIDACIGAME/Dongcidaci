@@ -78,16 +78,28 @@ public  class ControlAIOperationArea : UIControl
     private void ShowNodePropertyPage(BTNode node)
     {
         #region tree
-        if (node is BTTree)
+        if (node is BTTreeEntry)
         {
             mCurOperationPage = UIManager.Ins.AddControl<ControlTreeEntryNodePropertyPage>(
 this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Ctl_TreeEntryNodePropertyPage",
+"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Tree/Ctl_TreeEntryNodePropertyPage",
 Node_OperationPageContain,
 new Dictionary<string, object>
 {
         { "node", node }
 });
+        }
+        else if(node is BTChildTree)
+        {
+            mCurOperationPage = UIManager.Ins.AddControl<ControlChildTreeNodePropertyPage>(
+this,
+"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Tree/Ctl_ChildTreeNodePropertyPage",
+Node_OperationPageContain,
+new Dictionary<string, object>
+{
+    {"node", node }
+}
+                );
         }
         #endregion
         #region composite

@@ -1,4 +1,6 @@
+using GameEngine;
 using LitJson;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class BehaviourTreeHelper
@@ -26,6 +28,8 @@ public static class BehaviourTreeHelper
         {
             case BTDefine.BT_Node_Type_Tree_Entry:
                 return "行为树入口";
+            case BTDefine.BT_Node_Type_Tree_ChildTree:
+                return "子树";
             case BTDefine.BT_Node_DetailType_Composite_Sequence:
                 return "顺序执行";
             case BTDefine.BT_Node_DetailType_Composite_Selector:
@@ -43,6 +47,22 @@ public static class BehaviourTreeHelper
             default:
                 return "未知节点类型";
         }
+    }
+
+    public static string FileFullPathToTreeName(string fileFullPath)
+    {
+        if (string.IsNullOrEmpty(fileFullPath))
+        {
+            Log.Error(LogLevel.Normal, "FileFullPathToTreeName Error, fileFullPath is null or empty!");
+            return null;
+        }
+        string[] ret = fileFullPath.Replace(".tree", "").Replace('\\','/').Split('/', System.StringSplitOptions.None);
+        if (ret.Length > 0)
+        {
+            return ret[ret.Length - 1];
+        }
+
+        return "Invalid_Tree_Name";
     }
 
     public static string TreeNameToFileFullPath(string treeName)
@@ -81,6 +101,39 @@ public static class BehaviourTreeHelper
         FileHelper.WriteStr(filePath, jsonStr, System.Text.Encoding.UTF8);
     }
 
+    public static BTNode FindFirstInvalidNode(BTNode root, ref string info)
+    {
+        if(!root.BTNodeDataCheck(ref info))
+        {
+            return root;
+        }
+
+        if (root is BTDecorNode)
+        {
+            BTDecorNode decor = root as BTDecorNode;
+            return FindFirstInvalidNode(decor.GetChildNode(),ref info);
+        }
+        else if (root is BTTree)
+        {
+            BTTree tree = root as BTTree;
+            return FindFirstInvalidNode(tree.GetChildNode(),ref info);
+        }
+        else if (root is BTCompositeNode)
+        {
+            BTCompositeNode composite = root as BTCompositeNode;
+            foreach(BTNode node in composite.GetChildNodes())
+            {
+                BTNode _invalidNode = FindFirstInvalidNode(node, ref info);
+                if (_invalidNode != null)
+                    return _invalidNode;
+            }
+        }
+
+        return null;
+    }
+
+
+    #region Data Parse
     public static int ParseInt(BTNodeArg arg, out int value)
     {
         value = 0;
@@ -215,4 +268,5 @@ public static class BehaviourTreeHelper
         value = new Vector3(v1, v2, v3);
         return BTDefine.BT_LoadNodeResult_Succeed;
     }
+    #endregion
 }

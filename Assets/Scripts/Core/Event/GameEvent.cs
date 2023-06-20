@@ -3,15 +3,17 @@ using System.Collections.Generic;
 
 namespace GameEngine
 {
-    public class GameEvent
+    public class GameEvent : IGameLateUpdate, IDisposable
     {
         private string mEvtName;
-
-        private Dictionary<int, Delegate> mCallbacks = new Dictionary<int, Delegate>();
+        private Dictionary<int, Delegate> mToAddCallbacks;
+        private Dictionary<int, Delegate> mCallbacks;
 
         public GameEvent(string evtName)
         {
             this.mEvtName = evtName;
+            mCallbacks = new Dictionary<int, Delegate>();
+            mToAddCallbacks = new Dictionary<int, Delegate>();
         }
 
         public string GetEventName()
@@ -22,18 +24,14 @@ namespace GameEngine
         /// <summary>
         /// 添加事件监听
         /// </summary>
-        /// <param name="listenerUniqueKey">事件监听的唯一索引，推荐使用监听者的hashcode</param>
+        /// <param name="listenerUniqueKey">事件监听的唯一索引</param>
         /// <param name="callback">监听者听到事件时的行为</param>
-        /// <param name="workingScopes">事件的生效作用域</param>
         public void AddListener(int listenerUniqueKey, Delegate callback)
         {
-            if(mCallbacks.ContainsKey(listenerUniqueKey))
-            {
-                Log.Error(LogLevel.Critical, "GameEvent AddListener Failed, key already exist");
+            if (mToAddCallbacks.ContainsKey(listenerUniqueKey))
                 return;
-            }
 
-            mCallbacks.Add(listenerUniqueKey, callback);
+            mToAddCallbacks.Add(listenerUniqueKey, callback);
         }
 
         public void OnTrigger()
@@ -141,6 +139,29 @@ namespace GameEngine
         public void Dispose()
         {
             mCallbacks.Clear();
+        }
+
+
+        /// <summary>
+        /// 在LateUpdate中添加事件
+        /// </summary>
+        public void OnLateUpdate(float deltaTime)
+        {
+            foreach (KeyValuePair<int, Delegate> kv in mToAddCallbacks)
+            {
+                int listenerUniqueKey = kv.Key;
+                Delegate callback = kv.Value;
+
+                if (mCallbacks.ContainsKey(listenerUniqueKey))
+                {
+                    Log.Error(LogLevel.Critical, "GameEvent AddListener Failed, key already exist");
+                    return;
+                }
+
+                mCallbacks.Add(listenerUniqueKey, callback);
+            }
+
+            mToAddCallbacks.Clear();
         }
     }
 }

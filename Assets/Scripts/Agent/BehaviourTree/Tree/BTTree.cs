@@ -14,6 +14,17 @@ public abstract class BTTree : BTNode
         childNode.SetParentNode(this);
     }
 
+    public override bool BTNodeDataCheck(ref string info)
+    {
+        if (mChildNode == null)
+        {
+            info = "树节点必须有子节点!";
+            return false;
+        }
+
+        return true;
+    }
+
     public BTNode GetChildNode()
     {
         return mChildNode;

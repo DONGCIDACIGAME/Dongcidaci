@@ -155,6 +155,17 @@ public abstract class BTCompositeNode : BTNode
         return BTDefine.BT_LoadNodeResult_Succeed;
     }
 
+    public override bool BTNodeDataCheck(ref string info)
+    {
+        if(mChildNodes == null || mChildNodes.Count == 0)
+        {
+            info = "组合节点至少要有一个子节点!";
+            return false;
+        }
+
+        return true;
+    }
+
     protected override BTNodeData[] GetChildNodesData()
     {
         BTNodeData[] childNodes = new BTNodeData[mChildNodes.Count];

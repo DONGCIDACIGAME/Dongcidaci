@@ -27,10 +27,12 @@ public class ControlAddNewNodePage : UIControl
 
     private void AddChildTree(string childTreeFilePath)
     {
-        BTNodeData childTreeData = BehaviourTreeManager.Ins.LoadTreeData(childTreeFilePath, true);
-        BTChildTree tree = BehaviourTreeManager.Ins.CreateBTNode(childTreeData) as BTChildTree;
-        tree.LoadFromBTNodeData(childTreeData);
-        AddChildNode(tree);
+        BTChildTree childTree = BehaviourTreeManager.Ins.CreateBTNode(BTDefine.BT_Node_Type_Tree, BTDefine.BT_Node_Type_Tree_ChildTree) as BTChildTree;
+        string childTreeName = BehaviourTreeHelper.FileFullPathToTreeName(childTreeFilePath);
+        childTree.SetChildTreeName(childTreeName);
+        BTTreeEntry treeEntry = BehaviourTreeManager.Ins.LoadTree(childTreeFilePath, true);
+        childTree.SetChildNode(treeEntry);
+        AddChildNode(childTree);
     }
 
     protected override void BindUINodes()

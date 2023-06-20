@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 8301434783208526746}
   - component: {fileID: 5852030327144391119}
   m_Layer: 5
-  m_Name: Viewport
+  m_Name: Node_TreeViewport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1273,7 +1273,7 @@ GameObject:
   - component: {fileID: 3688877179416279199}
   - component: {fileID: 1215888818108485535}
   m_Layer: 5
-  m_Name: Ctl_AILogicArea
+  m_Name: Ctl_TreeWorkingArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

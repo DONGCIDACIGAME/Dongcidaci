@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PanelAIEditor : UIPanel
 {
-    private ControlAILogicArea Ctl_AILogicArea;
+    private ControlAITreeWorkingArea Ctl_TreeWorkingArea;
     private ControlAIEditorTopBar Ctl_TopBar;
     private ControlAIOperationArea Ctl_OperationArea;
     private GameObject Node_DynamicCtls;
@@ -33,7 +33,7 @@ public class PanelAIEditor : UIPanel
 
     protected override void BindUINodes()
     {
-        Ctl_AILogicArea = BindControl<ControlAILogicArea>("Ctl_AILogicArea");
+        Ctl_TreeWorkingArea = BindControl<ControlAITreeWorkingArea>("Ctl_TreeWorkingArea");
         Ctl_TopBar = BindControl<ControlAIEditorTopBar>("Ctl_TopBar");
         Ctl_OperationArea = BindControl<ControlAIOperationArea>("Ctl_OperationArea");
         Node_DynamicCtls = BindNode("Node_DynamicCtls");
@@ -71,11 +71,7 @@ public class PanelAIEditor : UIPanel
     private void LoadTree(string filePath)
     {
         BTTree tree = BehaviourTreeManager.Ins.LoadTree(filePath, true);
-        string[] ret = filePath.Replace(".tree","").Split('/', System.StringSplitOptions.None);
-        if(ret.Length > 0)
-        {
-            mTreeFileName = ret[ret.Length - 1];
-        }
+        mTreeFileName = BehaviourTreeHelper.FileFullPathToTreeName(filePath);
         mCurEditingTree = tree;
         DrawTree(mCurEditingTree);
     }
@@ -96,6 +92,22 @@ public class PanelAIEditor : UIPanel
 
     private void SaveTree(string treeName)
     {
+        string info = string.Empty;
+        BTNode node = BehaviourTreeHelper.FindFirstInvalidNode(mCurEditingTree, ref info);
+
+        if(node != null)
+        {
+            UIManager.Ins.OpenPanel<PanelMessageBox>("Prefabs/UI/Common/Panel_MessageBox",
+                new Dictionary<string, object>
+                {
+                                {"title", "行为树保存失败"},
+                                {"content", info }
+                });
+
+            GameEventSystem.Ins.Fire("SelectNode", node);
+            return;
+        }
+
         string fileFullPath = BehaviourTreeHelper.TreeNameToFileFullPath(treeName);
         if(!string.IsNullOrEmpty(fileFullPath))
         {
@@ -113,8 +125,8 @@ public class PanelAIEditor : UIPanel
 
     private void DrawTree(BTTree tree)
     {
-        Ctl_AILogicArea.SetTree(tree);
-        Ctl_AILogicArea.Draw();
+        Ctl_TreeWorkingArea.SetTree(tree);
+        Ctl_TreeWorkingArea.Draw();
     }
 
     protected override void OnClose()

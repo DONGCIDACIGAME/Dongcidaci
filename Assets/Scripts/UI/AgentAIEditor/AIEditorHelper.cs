@@ -48,15 +48,10 @@ public static class AIEditorHelper
             return 0;
 
         float height = singleNodeHeight;
-        if (node is BTLeafNode)
-        {
-            height = singleNodeHeight;
-        }
-        else if (node is BTTree)
+         if (node is BTTree)
         {
             BTTree tree = node as BTTree;
             height += GetHeight(tree.GetChildNode(), singleNodeHeight);
-            height -= singleNodeHeight;
         }
         else if (node is BTDecorNode)
         {

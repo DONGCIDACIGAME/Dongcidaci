@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text;
 
 public static class FileHelper
@@ -24,7 +24,7 @@ public static class FileHelper
         string fullPath = Path.Combine(PathDefine.ASSETBUNDLES_DIR, path);
         if (!FileExist(fullPath))
         {
-            Log.Error(LogLevel.Critical, "ReadText Error,File does not exit,fullPath:{0}", path);
+            Log.Error(LogLevel.Critical, "ReadText Error,File does not exist,fullPath:{0}", path);
             return null;
         }
 

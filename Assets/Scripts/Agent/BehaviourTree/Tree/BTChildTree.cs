@@ -1,15 +1,29 @@
 public class BTChildTree : BTTree
 {
-    private string mChildTreeFileName;
+    private string mChildTreeName;
 
     public void SetChildTreeName(string fileName)
     {
-        mChildTreeFileName = fileName;
+        mChildTreeName = fileName;
     }
 
     public string GetChildTreeFileName()
     {
-        return mChildTreeFileName;
+        return mChildTreeName;
+    }
+
+    public override bool BTNodeDataCheck(ref string info)
+    {
+        if (!base.BTNodeDataCheck(ref info))
+            return false;
+
+        if (string.IsNullOrEmpty(mChildTreeName))
+        {
+            info = "子树名称不能为空!";
+            return false;
+        }
+
+        return true;
     }
 
     protected override BTNodeData[] GetChildNodesData()
@@ -41,7 +55,7 @@ public class BTChildTree : BTTree
         BTNodeArg arg = new BTNodeArg();
         arg.ArgName = "ChildTree";
         arg.ArgType = BTDefine.BT_ArgType_string;
-        arg.ArgContent = mChildTreeFileName;
+        arg.ArgContent = mChildTreeName;
         return new BTNodeArg[] { arg };
     }
 
@@ -59,7 +73,8 @@ public class BTChildTree : BTTree
     protected override int LoadChildNodes(BTNodeData[] chlidNodes)
     {
         // 加载子节点
-        BTNodeData nodeData = BehaviourTreeManager.Ins.LoadTreeData(mChildTreeFileName, true);
+        string childTreeFullPath = BehaviourTreeHelper.TreeNameToFileFullPath(mChildTreeName);
+        BTNodeData nodeData = BehaviourTreeManager.Ins.LoadTreeData(childTreeFullPath, true);
         BTNode node = BehaviourTreeManager.Ins.CreateBTNode(nodeData);
         int childLoadResult = node.LoadFromBTNodeData(nodeData);
 

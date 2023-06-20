@@ -63,4 +63,9 @@ public class BTWaitTimeNode : BTLeafNode
     {
         mHasWaitTime = 0;
     }
+
+    public override bool BTNodeDataCheck(ref string info)
+    {
+        return true;
+    }
 }
