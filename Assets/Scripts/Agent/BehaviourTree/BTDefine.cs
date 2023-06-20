@@ -34,6 +34,7 @@ public static class BTDefine
     public const int BT_Node_Type_Leaf = 3;
 
     public const int BT_Node_Type_Tree_Entry = 0;
+    public const int BT_Node_Type_Tree_ChildTree = 1;
 
     // 详细类型每个预留了100个空位，应该可以保证新增时不用个更改其他大类里的详细类型id
     public const int BT_Node_DetailType_Composite_Sequence= BT_Node_Type_Composite * 100 + 1;

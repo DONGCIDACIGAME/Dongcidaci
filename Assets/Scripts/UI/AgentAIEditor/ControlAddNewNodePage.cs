@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class ControlAddNewNodePage : UIControl
 {
+    private Button Btn_ChildTree;
     private Button Btn_Sequence;
     private Button Btn_Selector;
     private Button Btn_Parallel;
@@ -17,8 +18,33 @@ public class ControlAddNewNodePage : UIControl
 
     private BTNode mNode;
 
+    protected override void BindEvents()
+    {
+        base.BindEvents();
+
+        mEventListener.Listen<string>("OnLoadChildTree", AddChildTree);
+    }
+
+    private void AddChildTree(string childTreeFilePath)
+    {
+        BTNodeData childTreeData = BehaviourTreeManager.Ins.LoadTreeData(childTreeFilePath, true);
+        BTChildTree tree = BehaviourTreeManager.Ins.CreateBTNode(childTreeData) as BTChildTree;
+        tree.LoadFromBTNodeData(childTreeData);
+        AddChildNode(tree);
+    }
+
     protected override void BindUINodes()
     {
+        Btn_ChildTree = BindButtonNode("Contain_TreeNodes/Button_ChildTree", () => {
+            UIManager.Ins.OpenPanel<PanelLoadFileHUD>(
+                "Prefabs/UI/Common/Panel_LoadFileHUD",
+                new Dictionary<string, object>
+                {
+                        { "root_dir", PathDefine.AI_TREE_DATA_DIR_PATH },
+                        { "ext", ".tree"},
+                        { "loadEvent", "OnLoadChildTree"}
+                });
+        });
         Btn_Sequence = BindButtonNode("Contain_CompositeNodes/Button_Sequence", ()=> { AddChildNode(new BTSequenceNode()); });
         Btn_Selector = BindButtonNode("Contain_CompositeNodes/Button_Selector", () => { AddChildNode(new BTSelectNode()); });
         Btn_Parallel = BindButtonNode("Contain_CompositeNodes/Button_Parallel", () => { AddChildNode(new BTParallelNode()); });

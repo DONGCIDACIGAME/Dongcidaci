@@ -43,29 +43,15 @@ public class PanelAIEditor : UIPanel
 
     protected override void BindEvents()
     {
-        mEventListener.Listen("OnClickLoadTree", OpenLoadTreeHUD);
         mEventListener.Listen("OnClickSaveTree", ShowSaveTreeHUD);
         mEventListener.Listen("OnClickNewTree", CreateNewTree);
-        mEventListener.Listen<string>("OnLoadFileClick", LoadTree);
+        mEventListener.Listen<string>("OnLoadTree", LoadTree);
         mEventListener.Listen<string>("SaveTree", SaveTree);
-
     }
 
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
         
-    }
-
-
-    private void OpenLoadTreeHUD()
-    {
-        UIManager.Ins.OpenPanel<PanelLoadFileHUD>(
-            "Prefabs/UI/Common/Panel_LoadFileHUD", 
-            new Dictionary<string, object>
-            {
-                { "root_dir", PathDefine.AI_TREE_DATA_DIR_PATH },
-                { "ext", ".tree"}
-            });
     }
 
     private void OnClickBtnQuit()

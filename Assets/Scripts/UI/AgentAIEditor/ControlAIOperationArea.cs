@@ -102,6 +102,17 @@ new Dictionary<string, object>
         { "node", node }
     });
         }
+        else if (node is BTParallelNode)
+        {
+            mCurOperationPage = UIManager.Ins.AddControl<ControlParallelNodePropertyPage>(
+    this,
+    "Prefabs/UI/AgentAIEditor/AINodePropertyPage/Composite/Ctl_ParallelNodePropertyPage",
+    Node_OperationPageContain,
+    new Dictionary<string, object>
+    {
+                    { "node", node }
+    });
+        }
         else if (node is BTSelectNode)
         {
             mCurOperationPage = UIManager.Ins.AddControl<ControlSelectorPropertyPage>(

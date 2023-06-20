@@ -45,6 +45,7 @@ public class ControlAINode : UIControl
         base.BindEvents();
 
         mEventListener.Listen<BTNode>("SelectNode", OnOperationSelectNode);
+        //mEventListener.Listen<string, BTNode>("OnClickLoadChildTree", LoadChildTree);
     }
 
     private void OnOperationSelectNode(BTNode node)

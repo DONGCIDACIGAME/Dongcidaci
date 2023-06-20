@@ -13,6 +13,10 @@ public class PanelLoadFileHUD : UIPanel
     private ControlFileOption mCurSelectFile;
     private List<ControlFileOption> mAllFileOptions;
 
+    private string mRootDir;
+    private string mFileExt;
+    private string mLoadEvt;
+
     public override string GetPanelLayerPath()
     {
         return UIPathDef.UI_LAYER_TOP_DYNAMIC;
@@ -32,8 +36,7 @@ public class PanelLoadFileHUD : UIPanel
         string fileName = mCurSelectFile.GetFileName();
 
         string fullPath = dirPath + "/" + fileName;
-        GameEventSystem.Ins.Fire("OnLoadFileClick", fullPath);
-
+        GameEventSystem.Ins.Fire(mLoadEvt, fullPath);
         OnQuitClick();
     }
 
@@ -115,11 +118,12 @@ public class PanelLoadFileHUD : UIPanel
 
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
-        string rootDir = openArgs["root_dir"] as string;
-        string fileExt = openArgs["ext"] as string;
+        mRootDir = openArgs["root_dir"] as string;
+        mFileExt = openArgs["ext"] as string;
+        mLoadEvt = openArgs["loadEvent"] as string;
 
         mAllFileOptions = new List<ControlFileOption>();
-        LoadAllAIFiles(rootDir, fileExt);
+        LoadAllAIFiles(mRootDir, mFileExt);
     }
 
     protected override void OnClose()

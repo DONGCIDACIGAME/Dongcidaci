@@ -12,7 +12,14 @@ public class ControlAIEditorTopBar : UIControl
 
     private void OnLoadTreeClick()
     {
-        GameEventSystem.Ins.Fire("OnClickLoadTree");
+        UIManager.Ins.OpenPanel<PanelLoadFileHUD>(
+            "Prefabs/UI/Common/Panel_LoadFileHUD",
+            new Dictionary<string, object>
+            {
+                        { "root_dir", PathDefine.AI_TREE_DATA_DIR_PATH },
+                        { "ext", ".tree"},
+                        { "loadEvent", "OnLoadTree"}
+            });
     }
 
     private void OnSaveTreeClick()

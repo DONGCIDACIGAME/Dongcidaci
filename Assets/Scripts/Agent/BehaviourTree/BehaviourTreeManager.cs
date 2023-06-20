@@ -24,23 +24,36 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
     /// <returns></returns>
     public BTTree LoadTree(string filePath, bool forceReload = false)
     {
+        BTNodeData data = LoadTreeData(filePath, forceReload);
+        if (data == null)
+            return null;
+        BTTree tree = CreateBTNode(data) as BTTree;
+        tree.LoadFromBTNodeData(data);
+        return tree;
+    }
+
+    /// <summary>
+    /// 加载行为树数据
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
+    public BTNodeData LoadTreeData(string filePath, bool forceReload = false)
+    {
         // 查询缓存数据
         BTNodeData data = null;
-        if(forceReload || !mLoadedBTNodeDatas.TryGetValue(filePath, out data))
+        if (forceReload || !mLoadedBTNodeDatas.TryGetValue(filePath, out data))
         {
             data = BehaviourTreeHelper.LoadBTNodeData(filePath);
         }
 
         if (data == null)
             return null;
-        if(!mLoadedBTNodeDatas.ContainsKey(filePath))
+        if (!mLoadedBTNodeDatas.ContainsKey(filePath))
         {
             mLoadedBTNodeDatas.Add(filePath, data);
         }
 
-        BTTree tree = CreateBTNode(data) as BTTree;
-        tree.LoadFromBTNodeData(data);
-        return tree;
+        return data;
     }
 
     /// <summary>
@@ -88,8 +101,14 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
         if(nodeType == BTDefine.BT_Node_Type_Tree)
         {
             if (nodeDetailType == BTDefine.BT_Node_Type_Tree_Entry)
-                return new BTTree();
+                return new BTTreeEntry();
+
+            if(nodeDetailType == BTDefine.BT_Node_Type_Tree_ChildTree)
+            {
+                return new BTChildTree();
+            }
         }
+
 
         if(nodeType == BTDefine.BT_Node_Type_Composite)
         {
