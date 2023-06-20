@@ -23,6 +23,12 @@ public class BTChildTree : BTTree
             return false;
         }
 
+        if(mChildNode is not BTTreeEntry)
+        {
+            info = "子树节点的子节点必须是树的入口节点!";
+            return false;
+        }
+
         return true;
     }
 

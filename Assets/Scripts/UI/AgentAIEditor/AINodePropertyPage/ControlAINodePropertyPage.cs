@@ -5,13 +5,13 @@ using TMPro;
 
 public abstract class ControlAINodePropertyPage : UIControl
 {
-    private TMP_InputField InputField_AINodeName;
-    private TMP_InputField InputField_AINodeDesc;
-    private TMP_Text Text_NodeType;
-    private TMP_Text Text_NodeDetailType;
-    private Button Button_MoveForward;
-    private Button Button_MoveBackward;
-    private Button Button_Delete;
+    protected TMP_InputField InputField_AINodeName;
+    protected TMP_InputField InputField_AINodeDesc;
+    protected TMP_Text Text_NodeType;
+    protected TMP_Text Text_NodeDetailType;
+    protected Button Button_MoveForward;
+    protected Button Button_MoveBackward;
+    protected Button Button_Delete;
 
     protected BTNode mNode;
 

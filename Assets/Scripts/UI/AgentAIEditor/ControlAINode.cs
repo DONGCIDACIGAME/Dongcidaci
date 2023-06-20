@@ -96,8 +96,15 @@ public class ControlAINode : UIControl
         }
         else if (mNode is BTTree)
         {
-            BTTree tree = mNode as BTTree;
-            Btn_AddChildNode.gameObject.SetActive(tree.GetChildNode() == null);
+            if(mNode is BTTreeEntry)
+            {
+                BTTreeEntry tree = mNode as BTTreeEntry;
+                Btn_AddChildNode.gameObject.SetActive(tree.GetChildNode() == null);
+            }
+            else if(mNode is BTChildTree)
+            {
+                Btn_AddChildNode.gameObject.SetActive(false);
+            }
         }
         else if(mNode is BTCompositeNode)
         {
