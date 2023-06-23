@@ -32,7 +32,7 @@
 						"effectCollictions": [
 							{
 								"effects": [
-									{ "rlsTgt": 0,"effectType": 0, "effectValueStr": "", "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+									{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
 								]
 							}
 						]
@@ -48,7 +48,7 @@
 						"effectCollictions": [
 							{
 								"effects": [
-									{ "rlsTgt": 0,"effectType": 0, "effectValueStr": "", "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+									{ "effectType": 2, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
 								]
 							}
 						]
@@ -85,7 +85,7 @@
 						"effectCollictions": [
 							{
 								"effects": [
-									{ "rlsTgt": 0,"effectType": 0, "effectValueStr": "", "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+									{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
 								]
 							}
 						]

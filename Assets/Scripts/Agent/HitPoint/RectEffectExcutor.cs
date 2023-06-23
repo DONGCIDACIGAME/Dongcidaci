@@ -25,7 +25,7 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
     /// <summary>
     /// 效果
     /// </summary>
-    private RectEffect mEffect;
+    private RectEffectData mEffect;
 
 
     public bool active { get; private set; }
@@ -36,7 +36,7 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
     /// <param name="agt">谁</param>
     /// <param name="excuteTime">多久之后</param>
     /// <param name="effect">执行什么效果</param>
-    public void Initialize(Agent agt, float excuteTime, RectEffect effect)
+    public void Initialize(Agent agt, float excuteTime, RectEffectData effect)
     {
         mTimer = 0;
         mAgt = agt;
@@ -54,7 +54,7 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
         mEffect = null;
     }
 
-    private void Excute(Agent agt, RectEffect effect)
+    private void Excute(Agent agt, RectEffectData effect)
     {
         Log.Logic(LogLevel.Info, "{0} excute effect {1}", agt.GetAgentId(), effect.effectType);
     }

@@ -17,7 +17,7 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
         mEnable = false;
     }
 
-
+    
     public void Start(string statusName, string stateName, EffectCollection[] effectCollictions)
     {
         if (mAgt == null)
