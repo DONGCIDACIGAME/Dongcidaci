@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public enum EffectTgt
 {
     //对敌人
@@ -27,9 +29,9 @@ public class SkillEffectData
     public int effectType;
 
     /// <summary>
-    /// 效果字符串
+    /// 效果具体的配置值字典
     /// </summary>
-    public string effectValueStr;
+    public Dictionary<string, float> effectValueDict;
 
     /// <summary>
     /// hit点攻击范围的宽度
