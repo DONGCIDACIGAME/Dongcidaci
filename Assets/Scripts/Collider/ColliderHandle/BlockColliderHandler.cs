@@ -7,6 +7,11 @@ public class BlockColliderHandler : IGameColliderHandler
         mBlock = block;
     }
 
+    public void Dispose()
+    {
+        mBlock = null;
+    }
+
     public void HandleColliderToBlock(MapBlock block)
     {
        

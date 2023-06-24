@@ -1,5 +1,8 @@
 public static class GameColliderDefine
 {
+
+    public static EmptyColliderHandler EMPTY_COLLIDER_HANDLER = new EmptyColliderHandler();
+
     /// <summary>
     /// 所有碰撞类型
     /// 对应所有的事件类型，目前最多支持32种

@@ -32,27 +32,9 @@ public abstract class MapEntityWithCollider : MapEntity
             // 获取碰撞数据
             GameColliderData2D colliderData = mMapEntiyViewCollider.GetColliderData();
 
-            //var anchorPos = GetWorld2DPosition();
-            //var anchorRotateAngle = GetWorldRotationByYAxis();
-            //var scaleV3 = Vector3.one;
-            //// 生成碰撞体
-            //mCollider = new GameCollider2D(
-            //    GetColliderType(),
-            //    mEntityId,
-            //    colliderData,
-            //    GetColliderHanlder(),
-            //    anchorPos,
-            //    anchorRotateAngle,
-            //    scaleV3.x,
-            //    scaleV3.z
-            //    );
-
-
-            mCollider = new GameCollider2D(GetColliderType(),mEntityId,colliderData,GetColliderHanlder());
-
-            // 注册碰撞
-            GameColliderManager.Ins.RegisterGameCollider(mCollider);
-            Debug.Log("注册碰撞");
+            mCollider = GamePoolCenter.Ins.GameCollider2DPool.Pop();
+            mCollider.Initialize(GetColliderType(), mEntityId, colliderData, GetColliderHanlder());
+            Log.Logic(LogLevel.Info,"注册碰撞");
         }
     }
 
@@ -60,22 +42,26 @@ public abstract class MapEntityWithCollider : MapEntity
     {
         base.SetPosition(position);
         mCollider.UpdateColliderPos(position);
-        GameColliderManager.Ins.UpdateGameCollidersInMap(mCollider);
+        GameColliderManager.Ins.UpdateColliderIndexInMap(mCollider);
     }
 
     public override void SetRotation(Vector3 rotation)
     {
         base.SetRotation(rotation);
         mCollider.UpdateColliderRot(rotation.y);
-        GameColliderManager.Ins.UpdateGameCollidersInMap(mCollider);
+        GameColliderManager.Ins.UpdateColliderIndexInMap(mCollider);
     }
 
     public override void SetScale(Vector3 scale)
     {
         base.SetScale(scale);
         mCollider.UpdateColliderScale(scale);
-        GameColliderManager.Ins.UpdateGameCollidersInMap(mCollider);
+        GameColliderManager.Ins.UpdateColliderIndexInMap(mCollider);
     }
 
-
+    public override void Dispose()
+    {
+        base.Dispose();
+        mCollider.Recycle();
+    }
 }

@@ -7,6 +7,11 @@ public class MonsterColliderHandler : IGameColliderHandler
         mMonster = monster;
     }
 
+    public void Dispose()
+    {
+        mMonster = null;
+    }
+
     public void HandleColliderToBlock(MapBlock block)
     {
         

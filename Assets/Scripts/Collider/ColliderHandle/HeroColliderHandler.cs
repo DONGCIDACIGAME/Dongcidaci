@@ -6,6 +6,11 @@ public class HeroColliderHandler : IGameColliderHandler
         mHero = hero;
     }
 
+    public void Dispose()
+    {
+        mHero = null;
+    }
+
     public void HandleColliderToBlock(MapBlock block)
     {
        
