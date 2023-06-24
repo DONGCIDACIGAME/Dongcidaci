@@ -3,20 +3,20 @@ using UnityEngine;
 
 public class GameCollider2D : IGameCollider, IRecycle
 {
+    private class AutoIndexCounter
+    {
+        private int _index;
+        public int GetIndex()
+        {
+            _index += 1;
+            return _index;
+        }
+    }
+
     /// <summary>
     /// 自增型id生成器
     /// </summary>
-    private static AutoIncrementIndex _indexer = new AutoIncrementIndex();
-
-    //private float _realPosX;
-    //private float _realPosY;
-    //private float _rotateAngle = 0;
-    //private float _scaleX = 1;
-    //private float _scaleY = 1;
-    //private float _sizeX;
-    //private float _sizeY;
-    //private float _offsetX = 0;
-    //private float _offsetY = 0;
+    private static readonly AutoIndexCounter _indexCounter = new AutoIndexCounter();
 
     /// <summary>
     /// 碰撞体的id
@@ -53,6 +53,22 @@ public class GameCollider2D : IGameCollider, IRecycle
     {
         return _colliderHandler;
     }
+
+
+
+
+
+    //private float _realPosX;
+    //private float _realPosY;
+    //private float _rotateAngle = 0;
+    //private float _scaleX = 1;
+    //private float _scaleY = 1;
+    //private float _sizeX;
+    //private float _sizeY;
+    //private float _offsetX = 0;
+    //private float _offsetY = 0;
+
+
 
     /*
 
@@ -284,7 +300,7 @@ public class GameCollider2D : IGameCollider, IRecycle
     public void Initialize(int colliderType, int entityId, GameColliderData2D initialColliderData, IGameColliderHandler handler)
     {
         // 生成唯一id
-        this._colliderId = _indexer.GetIndex();
+        this._colliderId = _indexCounter.GetIndex();
         // 碰撞类型
         this._colliderType = colliderType;
         // 绑定的entityId

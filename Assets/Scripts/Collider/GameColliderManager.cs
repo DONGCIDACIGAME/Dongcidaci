@@ -36,7 +36,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
         _colliderToGridIndexsDict = new Dictionary<int, HashSet<(int, int)>>();
         _gridIndexToCollidersDict = new Dictionary<(int, int), HashSet<GameCollider2D>>();
         _tempIndexs = new HashSet<(int, int)>();
-        Debug.Log("碰撞管理器初始化完成--------");
+        Log.Logic("碰撞管理器初始化完成");
     }
 
     private void RecalcRoundOccupyMapIndexsWith(Vector2 size, Vector2 offset, float anchorAngle, Vector3 anchorPos, Vector3 scale, ref HashSet<(int,int)> indexs)

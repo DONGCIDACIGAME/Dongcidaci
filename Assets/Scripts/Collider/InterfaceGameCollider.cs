@@ -11,5 +11,7 @@ public interface IGameColliderHandler : IGameDisposable
     void HandleColliderToHero(Hero hero);
     void HandleColliderToMonster(Monster monster);
     void HandleColliderToBlock(MapBlock block);
+
+    // handle other all 
 }
 
