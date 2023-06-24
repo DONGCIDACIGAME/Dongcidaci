@@ -8,15 +8,15 @@ public class GameCollider2D : IGameCollider
     /// </summary>
     private static AutoIncrementIndex _indexer = new AutoIncrementIndex();
 
-    private float _realPosX;
-    private float _realPosY;
-    private float _rotateAngle = 0;
-    private float _scaleX = 1;
-    private float _scaleY = 1;
-    private float _sizeX;
-    private float _sizeY;
-    private float _offsetX = 0;
-    private float _offsetY = 0;
+    //private float _realPosX;
+    //private float _realPosY;
+    //private float _rotateAngle = 0;
+    //private float _scaleX = 1;
+    //private float _scaleY = 1;
+    //private float _sizeX;
+    //private float _sizeY;
+    //private float _offsetX = 0;
+    //private float _offsetY = 0;
 
     /// <summary>
     /// 碰撞体的id
@@ -276,18 +276,18 @@ public class GameCollider2D : IGameCollider
 
     public void Dispose()
     {
-        _realPosX = 0;
-        _realPosY = 0;
-        _rotateAngle  = 0;
+        //_realPosX = 0;
+        //_realPosY = 0;
+        //_rotateAngle  = 0;
 
-        _scaleX = 1;
-        _scaleY = 1;
+        //_scaleX = 1;
+        //_scaleY = 1;
 
-        _sizeX = 0;
-        _sizeY = 0;
-        _offsetX = 0;
-        _offsetY = 0;
-        _entityId = 0;
+        //_sizeX = 0;
+        //_sizeY = 0;
+        //_offsetX = 0;
+        //_offsetY = 0;
+        //_entityId = 0;
 
         size = Vector2.zero;
         offset = Vector2.zero;
