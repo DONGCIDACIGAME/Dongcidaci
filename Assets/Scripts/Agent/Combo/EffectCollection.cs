@@ -1,5 +1,5 @@
 [System.Serializable]
 public class EffectCollection
 {
-    public RectEffectData[] effects;
+    public SkillEffectData[] effects;
 }

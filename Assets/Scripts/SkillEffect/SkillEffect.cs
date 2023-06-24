@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ComboEft
+public abstract class SkillEffect
 {
-    
+    protected SkillEffectData initSkEftData;
+
+
 }

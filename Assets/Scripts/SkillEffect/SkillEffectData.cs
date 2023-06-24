@@ -14,7 +14,7 @@ public enum EffectTgt
 
 
 [System.Serializable]
-public class RectEffectData
+public class SkillEffectData
 {
     /// <summary>
     /// 效果的释放对象

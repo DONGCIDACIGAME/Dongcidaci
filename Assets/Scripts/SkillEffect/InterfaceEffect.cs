@@ -7,5 +7,16 @@ public interface ITriggerOnApplyDmg
     public void OnApplyDmg(Agent user); 
 }
 
+public interface ITriggerOnGetDmg
+{
+
+}
+
+
+
+
+
+
+
 
 

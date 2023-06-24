@@ -79,7 +79,7 @@ public class GameManager:MonoBehaviour
         }
 
         // add 0615 weng
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 120;
 
     }
 
