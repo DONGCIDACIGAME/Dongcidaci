@@ -3,7 +3,7 @@ namespace GameEngine
     public abstract class Entity : IGameDisposable
     {
         // entityID
-        private int mEntityId;
+        protected int mEntityId;
 
         public Entity()
         {

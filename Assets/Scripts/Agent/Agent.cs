@@ -155,7 +155,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         // 效果执行器 初始化
         EffectExcutorCtl.Initialize(this);
 
-        // 动画移动控制器 初始化
+        // 移动控制器 初始化
         MovementExcutorCtl.Initialize(this);
 
         // 注册节拍处理

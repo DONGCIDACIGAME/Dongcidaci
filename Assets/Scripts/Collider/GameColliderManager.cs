@@ -6,7 +6,6 @@ using System;
 // 1 生成无限网格，将地图切分成虚拟的大块
 // 2 注册新的碰撞体时，计算这个碰撞体占据的地图大块的横纵索引并存储到字典中,包含这个碰撞体覆盖的坐标，地图坐标包含的碰撞体
 // 3 判断碰撞时，计算这个碰撞体占据的地图大块横纵坐标，从字典中快速找到这几个大块中的所有碰撞体进行判断
-
 public class GameColliderManager : ModuleManager<GameColliderManager>
 {
     private struct UnLimitedGrid
@@ -22,22 +21,23 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
 
     private UnLimitedGrid _gridConfig;
 
-    private Dictionary<GameCollider2D, HashSet<ValueTuple<int, int>>> _colliderToGridIndexsDict;
+    private Dictionary<int, HashSet<ValueTuple<int, int>>> _colliderToGridIndexsDict;
 
     private Dictionary<ValueTuple<int,int>,HashSet<GameCollider2D>> _gridIndexToCollidersDict;
 
     public override void Initialize()
     {
         _gridConfig = new UnLimitedGrid(6f,6f);
-        _colliderToGridIndexsDict = new Dictionary<GameCollider2D, HashSet<(int, int)>>();
+        _colliderToGridIndexsDict = new Dictionary<int, HashSet<(int, int)>>();
         _gridIndexToCollidersDict = new Dictionary<(int, int), HashSet<GameCollider2D>>();
         Debug.Log("碰撞管理器初始化完成--------");
     }
 
-    private HashSet<ValueTuple<int,int>> GetRoundOccupyMapIndexsWith(GameCollider2D collider)
+    private HashSet<ValueTuple<int, int>> GetRoundOccupyMapIndexsWith(Vector2 size, Vector2 offset, float anchorAngle, Vector3 anchorPos, Vector3 scale)
     {
         // 获取最大的包络，通过最大矩形包络快速索引可能产生交差的地图块
-        collider.GetMaxEnvelopeArea(out Vector2 envelopPos, out Vector2 envelopSize);
+        GameColliderHelper.GetMaxEnvelopeArea(size, offset, anchorAngle, anchorPos, scale, out Vector2 envelopPos, out Vector2 envelopSize);
+
         float minEnvelopX = envelopPos.x - envelopSize.x / 2f;
         float maxEnvelopX = envelopPos.x + envelopSize.x / 2f;
         int startColIndex = Mathf.RoundToInt(minEnvelopX / _gridConfig.cellWidth);
@@ -63,16 +63,21 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
 
     public bool RegisterGameCollider(GameCollider2D collider)
     {
-        // 判断是否重复注册
-        if (_colliderToGridIndexsDict.ContainsKey(collider)) return false;
+        if(collider == null)
+        {
+            Log.Error(LogLevel.Normal, "RegisterGameCollider Error, collider is null!");
+            return false;
+        }
 
-        // 判断要注册的碰撞体是否带有处理者
-        if (collider.GetCollideProcessor() == null) return false;
-        
-        var estimatedMapIndexs = GetRoundOccupyMapIndexsWith(collider);
+        // 判断是否重复注册
+        int colliderId = collider.GetColliderId();
+        if (_colliderToGridIndexsDict.ContainsKey(colliderId)) return false;
+
+       
+        var estimatedMapIndexs = GetRoundOccupyMapIndexsWith(collider.size, collider.offset, collider.anchorAngle, collider.anchorPos, collider.scale);
         if (estimatedMapIndexs.Count!=0)
         {
-            _colliderToGridIndexsDict.Add(collider, estimatedMapIndexs);
+            _colliderToGridIndexsDict.Add(colliderId, estimatedMapIndexs);
 
             foreach (var gridIndex in estimatedMapIndexs)
             {
@@ -96,19 +101,21 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
             return false;
         }
 
-
-        Debug.Log("注册了新的碰撞体" + collider.GetHashCode());
+        Log.Logic(LogLevel.Info,"注册了新的碰撞体" + collider.GetHashCode());
         return true;
     }
 
     
     public bool UnRegisterGameCollider(GameCollider2D collider)
     {
+        int colliderId = collider.GetColliderId();
+
         // 不包含时
-        if (_colliderToGridIndexsDict.ContainsKey(collider) == false) return false;
+        if (!_colliderToGridIndexsDict.ContainsKey(colliderId))
+            return false;
 
         // 清空 grid index to colliders 中存储的信息
-        foreach (var gridIndex in _colliderToGridIndexsDict[collider])
+        foreach (var gridIndex in _colliderToGridIndexsDict[colliderId])
         {
             _gridIndexToCollidersDict[gridIndex].Remove(collider);
             //如果这个地图块中已经没有碰撞了，清空这个 key value pair
@@ -116,19 +123,28 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
         }
 
         // 清空 collide to grid indexs
-        _colliderToGridIndexsDict.Remove(collider);
+        _colliderToGridIndexsDict.Remove(colliderId);
 
         return true;
     }
 
-    
+    public void UpdateGameCollidersInMap(GameCollider2D updateCollider)
+    {
+        Debug.Log("更新碰撞体的信息");
+        // 1 unregister the collider
+        if (UnRegisterGameCollider(updateCollider) == false) return;
+        // 2 register the collider into map
+        if (RegisterGameCollider(updateCollider) == false) return;
+    }
+
+
     public void UpdateGameCollidersInMap(GameCollider2D updateCollider, Vector2 newAnchorPos, float newAnchorRotateAngle = 0, float newScaleX = 1, float newScaleY = 1, bool checkCollideAfterUpdate = true)
     {
         Debug.Log("更新碰撞体的信息");
         // 1 unregister the collider
         if (UnRegisterGameCollider(updateCollider) == false) return;
         // 2 update collider new pos
-        updateCollider.UpdateCollider2DInfo(newAnchorPos,newAnchorRotateAngle,newScaleX,newScaleY);
+        //updateCollider.UpdateCollider2DInfo(newAnchorPos, newAnchorRotateAngle, newScaleX,newScaleY);
         // 3 register the collider into map
         if (RegisterGameCollider(updateCollider) == false) return;
         // 4 check collider
@@ -143,91 +159,134 @@ public class GameColliderManager : ModuleManager<GameColliderManager>
     /// <summary>
     /// 检查已经在地图注册的碰撞体 是否触发碰撞
     /// </summary>
-    /// <param name="checkColliderInMap"></param>
-    public void CheckCollideHappen(GameCollider2D checkColliderInMap)
+    /// <param name="checkCollider2D"></param>
+    public int CheckCollideHappen(GameCollider2D checkCollider2D)
     {
         //Log.Logic(LogLevel.Info, "CheckCollideHappen---{0}", checkColliderInMap.GetHashCode());
 
-        if (_colliderToGridIndexsDict.ContainsKey(checkColliderInMap) == false)
+        if (_colliderToGridIndexsDict.ContainsKey(checkCollider2D.GetColliderId()) == false)
         {
             Debug.LogError("检查的碰撞体在地图中没有注册");
-            return;
+            return GameColliderDefine.CollliderType_None;
         }
 
-        foreach (var mapIndex in _colliderToGridIndexsDict[checkColliderInMap])
+        int colliderTypes = GameColliderDefine.CollliderType_None;
+        int checkColliderEntityId = checkCollider2D.GetBindEntityId();
+
+        foreach (var mapIndex in _colliderToGridIndexsDict[checkCollider2D.GetBindEntityId()])
         {
             var collidersInThisMapCell = _gridIndexToCollidersDict[mapIndex];
             foreach (GameCollider2D tgtCollider in collidersInThisMapCell)
             {
                 // 是自己
-                if (tgtCollider == checkColliderInMap) continue;
-                // 两个不同的碰撞体但是处理者相同
-                if (tgtCollider.GetCollideProcessor().Equals(checkColliderInMap.GetCollideProcessor()))
-                {
+                if (tgtCollider.GetBindEntityId() == checkColliderEntityId) 
                     continue;
-                }
-                if (checkColliderInMap.CheckCollapse(tgtCollider))
+
+                if(GameColliderHelper.CheckCollapse(checkCollider2D, tgtCollider))
+                //if (checkCollider2D.CheckCollapse(tgtCollider))
                 {
-                    // 通知这个检查碰撞体
-                    checkColliderInMap.OnColliderEnter(tgtCollider);
-                    // 通知被检测者
-                    tgtCollider.OnColliderEnter(checkColliderInMap);
+
+                    //Log.Logic(LogLevel.Info, "OnCollapse--{0}", (EntityManager.Ins.GetEntity(tgtCollider.GetBindEntityId()) as MapEntityWithCollider).GetPosition());
+                    colliderTypes |= tgtCollider.GetColliderType();
+
+                    // 检测方对被检测方的碰撞逻辑
+                    ExcuteOnColliderHappen(checkCollider2D.GetColliderHandler(), tgtCollider.GetBindEntityId());
+
+                    // 被检测方对检测方的碰撞逻辑
+                    ExcuteOnColliderHappen(tgtCollider.GetColliderHandler(), checkCollider2D.GetBindEntityId());
                 }
             }
         }
+
+        return colliderTypes;
     }
+
 
     /// <summary>
     /// 快速检查某个不需要在地图中注册的碰撞体体矩形是否会触发碰撞
     /// </summary>
-    /// <param name="initColliderData"></param>
-    /// <param name="collideProcessor"></param>
-    /// <param name="anchorPos"></param>
-    /// <param name="anchorRotateAngle"></param>
-    /// <param name="scaleX"></param>
-    /// <param name="scaleY"></param>
-    public void CheckCollideHappen(GameColliderData2D initColliderData, ICollideProcessor collideProcessor, Vector2 anchorPos, float anchorRotateAngle = 0, float scaleX = 1, float scaleY = 1)
+    /// <param name="colliderType">碰撞体类型</param>
+    /// <param name="entityId">碰撞体绑定的entityId</param>
+    /// <param name="initColliderData">碰撞范围数据</param>
+    /// <param name="collideHandler">碰撞处理</param>
+    /// <param name="anchorPos">碰撞体位置</param>
+    /// <param name="anchorRotateAngle">碰撞体角度</param>
+    /// <param name="scaleX">碰撞体缩放-x</param>
+    /// <param name="scaleY">碰撞体缩放-y</param>
+    public int CheckCollideHappen(GameColliderData2D initColliderData,IGameColliderHandler collideHandler,
+        Vector2 anchorPos, float anchorRotateAngle, Vector3 scale)
     {
-        var checkCollider2D = new GameCollider2D(initColliderData,collideProcessor,anchorPos,anchorRotateAngle,scaleX,scaleY);
+        int colliderTypes = GameColliderDefine.CollliderType_None;
 
-        var estimatedMapIndexs = GetRoundOccupyMapIndexsWith(checkCollider2D);
+        var estimatedMapIndexs = GetRoundOccupyMapIndexsWith(
+            initColliderData.size,
+            initColliderData.offset, 
+            anchorRotateAngle,
+            anchorPos,
+            scale);
+
         if (estimatedMapIndexs!=null)
         {
             foreach (var mapIndex in estimatedMapIndexs)
             {
                 var collidersInThisMapCell = _gridIndexToCollidersDict[mapIndex];
-                if (collidersInThisMapCell == null) continue;
+
+                if (collidersInThisMapCell == null) 
+                    continue;
+
                 foreach (GameCollider2D tgtCollider in collidersInThisMapCell)
                 {
-                    // 施加的碰撞体与目标的处理者是同一个，即忽略对自己的影响
-                    if (tgtCollider.GetCollideProcessor() == collideProcessor) continue;
-
-                    if (tgtCollider.CheckCollapse(checkCollider2D))
+                    if (GameColliderHelper.CheckCollapse(initColliderData.size,
+                            initColliderData.offset,
+                            anchorRotateAngle,
+                            anchorPos,
+                            scale, tgtCollider))
                     {
-                        // 通知这个检查碰撞体
-                        //collideProcessor.HandleCollideTo(tgtCollider.GetCollideProcessor());
-                        checkCollider2D.OnColliderEnter(tgtCollider);
-                        // 通知被检测者
-                        //tgtCollider.GetCollideProcessor().HandleCollideTo(collideProcessor);
-                        tgtCollider.OnColliderEnter(checkCollider2D);
+                        colliderTypes |= tgtCollider.GetColliderType();
+
+                        // 检测方对被检测方的碰撞逻辑
+                        ExcuteOnColliderHappen(collideHandler, tgtCollider.GetBindEntityId());
                     }
                 }
             }
         }
 
+        return colliderTypes;
     }
 
-
-    public override void OnUpdate(float deltaTime)
+    private void ExcuteOnColliderHappen(IGameColliderHandler handler, int colliderToEntityId)
     {
-        base.OnUpdate(deltaTime);
+        // 如果目标碰撞不是一个实体，就不需要使用handler对这次碰撞做处理
+        if (colliderToEntityId == 0)
+            return;
+
+        if (handler == null)
+        {
+            Log.Error(LogLevel.Normal, "ExcuteOnColliderHappen Error, handler is null!");
+            return;
+        }
+
+        Entity entity = EntityManager.Ins.GetEntity(colliderToEntityId);
+        if (entity == null)
+        {
+            Log.Error(LogLevel.Normal, "ExcuteOnColliderHappen Error, can not find collider to entity!");
+            return;
+        }
+
+        if (entity is Hero)
+        {
+            handler.HandleColliderToHero(entity as Hero);
+        }
+        else if (entity is Monster)
+        {
+            handler.HandleColliderToMonster(entity as Monster);
+        }
     }
+
 
     public override void Dispose()
     {
         _colliderToGridIndexsDict = null;
         _gridIndexToCollidersDict = null;
     }
-
-
 }

@@ -4,13 +4,18 @@ using System.Collections.Generic;
 public class EntityManager : Singleton<EntityManager>
 {
     private List<Entity[]> mEntityMap;
-    private int mIndexer;
     private Queue<int> validEntityId;
+
+    /// <summary>
+    /// 自增型id生成器
+    /// </summary>
+    private AutoIncrementIndex mIndexer;
 
     public EntityManager()
     {
         mEntityMap = new List<Entity[]>();
         validEntityId = new Queue<int>();
+        mIndexer = new AutoIncrementIndex();
     }
 
     public void AddEntity(Entity entity)
@@ -32,8 +37,7 @@ public class EntityManager : Singleton<EntityManager>
         }
         else
         {
-            mIndexer++;
-            entityId = mIndexer;
+            entityId = mIndexer.GetIndex();
         }
 
         int outerIndex = entityId / EntityDefine.ENTITY_COLUME;

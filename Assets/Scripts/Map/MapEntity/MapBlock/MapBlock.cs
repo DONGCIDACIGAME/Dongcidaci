@@ -1,14 +1,10 @@
-using GameEngine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class MapBlock : MapEntityWithCollider
 {
     public MapBlock(MapBlockView mapBlockView)
     {
         BindMapEntityView(mapBlockView);
         SyncAllTansformInfoFromView();
+        
     }
 
 
@@ -17,8 +13,13 @@ public class MapBlock : MapEntityWithCollider
         return EntityTypeDefine.Block;
     }
 
-    public override void HandleCollideTo(ICollideProcessor tgtColliderProcessor)
+    protected override IGameColliderHandler GetColliderHanlder()
     {
-        return;
+        return new BlockColliderHandler(this);
+    }
+
+    protected override int GetColliderType()
+    {
+        return GameColliderDefine.ColliderType_Block;
     }
 }

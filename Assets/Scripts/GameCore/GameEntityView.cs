@@ -10,17 +10,17 @@ public abstract class GameEntityView : MonoBehaviour
     public Transform ViewTransform => this.transform;
 
 
-    public void SetPosition(Vector3 position)
+    public virtual void SetPosition(Vector3 position)
     {
         this.transform.position = position;
     }
 
-    public void SetRotation(Vector3 rotation)
+    public virtual void SetRotation(Vector3 rotation)
     {
         this.transform.rotation = Quaternion.Euler(rotation);
     }
 
-    public void SetScale(Vector3 scale)
+    public virtual void SetScale(Vector3 scale)
     {
         this.transform.localScale = scale;
     }

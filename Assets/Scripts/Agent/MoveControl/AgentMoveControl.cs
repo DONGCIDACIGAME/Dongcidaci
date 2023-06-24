@@ -22,11 +22,11 @@ public abstract class AgentMoveControl
     {
         // 控制移动
         Vector3 pos = mAgent.GetPosition() + mAgent.GetTowards().normalized * mAgent.GetSpeed() * deltaTime;
-        mAgent.SetPosition(pos);
+        mMoveCtl.MoveToPosition(pos);
     }
 
     /// <summary>
-    /// 
+    /// 指定时间移动指定距离
     /// </summary>
     /// <param name="duration"></param>
     /// <param name="distance"></param>

@@ -33,9 +33,12 @@ public abstract class GameEntity : Entity
     {
         if (mEntityView !=null)
         {
-            mPosition = mEntityView.ViewTransform.position;
-            mRotation = mEntityView.ViewTransform.eulerAngles;
-            mLocalScale = mEntityView.ViewTransform.localScale;
+            //mPosition = mEntityView.ViewTransform.position;
+            //mRotation = mEntityView.ViewTransform.eulerAngles;
+            //mLocalScale = mEntityView.ViewTransform.localScale;
+            SetPosition(mEntityView.ViewTransform.position);
+            SetRotation(mEntityView.ViewTransform.eulerAngles);
+            SetScale(mEntityView.ViewTransform.localScale);
         }
     }
 
@@ -50,34 +53,34 @@ public abstract class GameEntity : Entity
     /// Added by Weng in 2023/06/18
     /// </summary>
     /// <returns></returns>
-    public virtual Vector2 GetWorld2DPosition()
-    {
-        if (mEntityView != null)
-        {
-            return new Vector2(mPosition.x, mPosition.z);
-        }
-        else
-        {
-            return Vector2.zero;
-        }
-    }
+    //public virtual Vector2 GetWorld2DPosition()
+    //{
+    //    if (mEntityView != null)
+    //    {
+    //        return new Vector2(mPosition.x, mPosition.z);
+    //    }
+    //    else
+    //    {
+    //        return Vector2.zero;
+    //    }
+    //}
 
     /// <summary>
     /// 获取这个实体在世界坐标下绕Y轴旋转的角度
     /// Added by Weng in 2023/06/18
     /// </summary>
     /// <returns></returns>
-    public virtual float GetWorldRotationByYAxis()
-    {
-        if (mEntityView != null)
-        {
-            return mRotation.y;
-        }
-        else
-        {
-            return 0;
-        }
-    }
+    //public virtual float GetWorldRotationByYAxis()
+    //{
+    //    if (mEntityView != null)
+    //    {
+    //        return mRotation.y;
+    //    }
+    //    else
+    //    {
+    //        return 0;
+    //    }
+    //}
 
     /// <summary>
     /// 获取这个实体在父级下的缩放
@@ -101,7 +104,7 @@ public abstract class GameEntity : Entity
         return mRotation;
     }
 
-    public void SetPosition(Vector3 position)
+    public virtual void SetPosition(Vector3 position)
     {
         mPosition = position;
 
@@ -111,7 +114,7 @@ public abstract class GameEntity : Entity
         }
     }
 
-    public void SetRotation(Vector3 rotation)
+    public virtual void SetRotation(Vector3 rotation)
     {
         mRotation = rotation;
 
@@ -121,7 +124,7 @@ public abstract class GameEntity : Entity
         }
     }
 
-    public void SetScale(Vector3 scale)
+    public virtual void SetScale(Vector3 scale)
     {
         mLocalScale = scale;
         if (mEntityView != null)
@@ -129,7 +132,6 @@ public abstract class GameEntity : Entity
             mEntityView.SetScale(scale);
         }
     }
-
 
     public abstract int GetEntityType();
 }

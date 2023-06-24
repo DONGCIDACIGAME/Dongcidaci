@@ -1,55 +1,22 @@
 using GameEngine;
 using UnityEngine;
 
-public interface IGameCollider
+public interface IGameCollider : IGameDisposable
 {
-    /// <summary>
-    /// 当碰撞体触发时
-    /// </summary>
-    /// <param name="other"></param>
-    public void OnColliderEnter(IGameCollider other);
-
-    /// <summary>
-    /// 获取碰撞的处理对象
-    /// </summary>
-    /// <returns></returns>
-    public ICollideProcessor GetCollideProcessor();
-
-    /// <summary>
-    /// 碰撞体的销毁
-    /// </summary>
-    public void Dispose();
-
+    public int GetBindEntityId();
 }
 
 
 public interface IGameCollider2D : IGameCollider
 {
     public bool CheckPosInCollider(Vector2 pos);
-
-
 }
 
-
-/// <summary>
-/// 碰撞的处理机
-/// </summary>
-public interface ICollideProcessor
+public interface IGameColliderHandler
 {
-    /// <summary>
-    /// 处理机处理碰撞
-    /// </summary>
-    /// <param name="tgtColliderProcessor"></param>
-    public void HandleCollideTo(ICollideProcessor tgtColliderProcessor);
-
-    /// <summary>
-    /// 获取处理机实体
-    /// </summary>
-    /// <returns></returns>
-    public GameEntity GetProcessorEntity();
-
-
-
+    void HandleColliderToHero(Hero hero);
+    void HandleColliderToMonster(Monster monster);
+    void HandleColliderToBlock(MapBlock block);
+    //void HandleColliderToTrap()
 }
-
 

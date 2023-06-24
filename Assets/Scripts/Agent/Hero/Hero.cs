@@ -68,6 +68,8 @@ public class Hero : Agent
         SetPosition(Vector3.zero);
         // 朝向初始化
         SetRotation(Vector3.zero);
+        // 缩放初始化
+        SetScale(Vector3.one);
 
         Camera mainCam = CameraManager.Ins.GetMainCam();
         if (mainCam != null)
@@ -79,6 +81,7 @@ public class Hero : Agent
         MoveControl = new PlayerMoveControl(this);
         SetSpeed(mHeroCfg.Speed);
         SetDashDistance(mHeroCfg.DashDistance);
+        SetName(mHeroCfg.Name);
 
         Combo_Trigger.SetComboActive("JJJ", true);
         Combo_Trigger.SetComboActive("DashAttack", true);
@@ -109,11 +112,13 @@ public class Hero : Agent
         return EntityTypeDefine.Hero;
     }
 
-    // add 0618 weng
-    public override void HandleCollideTo(ICollideProcessor tgtColliderProcessor)
+    protected override int GetColliderType()
     {
-        //处理遭遇了碰撞的逻辑
-        // do logic here ...
+        return GameColliderDefine.ColliderType_Hero;
+    }
 
+    protected override IGameColliderHandler GetColliderHanlder()
+    {
+        return new HeroColliderHandler(this);
     }
 }
