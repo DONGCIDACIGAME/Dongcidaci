@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 namespace GameEngine
 {
@@ -176,6 +177,62 @@ namespace GameEngine
 
             comp.AddOptions(options);
             comp.onValueChanged.AddListener(call);
+            return comp;
+        }
+
+        protected ScrollRect BindScrollRect(string node)
+        {
+            GameObject go = BindNode(node);
+            if (go == null) // 节点绑定失败
+            {
+                Log.Error(LogLevel.Critical, "BindScrollRect failed,fail to find node:{0}", node);
+                return null;
+            }
+
+            ScrollRect comp = go.GetComponent<ScrollRect>();
+            if (comp == null) //没有ScrollRect组件
+            {
+                Log.Error(LogLevel.Critical, "BindScrollRect failed,ScrollRect component is Required! node={0}", node);
+                return null;
+            }
+
+            return comp;
+        }
+
+
+        protected ScrollRectWithHandle BindScrollRectWithHandle(string node, 
+            UnityAction<PointerEventData> scrollHandle,
+            UnityAction<PointerEventData> beginDragHandle,
+            UnityAction<PointerEventData> onDragHandle,
+            UnityAction<PointerEventData> endDragHandle)
+        {
+            GameObject go = BindNode(node);
+            if (go == null) // 节点绑定失败
+            {
+                Log.Error(LogLevel.Critical, "BindScrollRectWithHandle failed,fail to find node:{0}", node);
+                return null;
+            }
+
+            ScrollRectWithHandle comp = go.GetComponent<ScrollRectWithHandle>();
+            if (comp == null) //没有ScrollRectWithHandle组件
+            {
+                Log.Error(LogLevel.Critical, "BindScrollRectWithHandle failed,ScrollRectWithHandle component is Required! node={0}", node);
+                return null;
+            }
+
+            // 绑定处理
+            if (scrollHandle != null)
+                comp.SetScrollHandle(scrollHandle);
+
+            if (beginDragHandle != null)
+                comp.SetBeginDragHandle(beginDragHandle);
+
+            if (onDragHandle != null)
+                comp.SetOnDragHandle(onDragHandle);
+
+            if (endDragHandle != null)
+                comp.SetEndDragHandle(endDragHandle);
+
             return comp;
         }
     }

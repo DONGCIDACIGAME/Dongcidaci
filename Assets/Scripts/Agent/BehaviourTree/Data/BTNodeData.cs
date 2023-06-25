@@ -24,12 +24,12 @@ public class BTNodeData
     public int nodeDetailType;
 
     /// <summary>
-    /// 所有子节点
-    /// </summary>
-    public BTNodeData[] ChildNodes;
-
-    /// <summary>
     /// 所有的节点参数数据
     /// </summary>
     public BTNodeArg[] Args;
+
+    /// <summary>
+    /// 所有子节点
+    /// </summary>
+    public BTNodeData[] ChildNodes;
 }

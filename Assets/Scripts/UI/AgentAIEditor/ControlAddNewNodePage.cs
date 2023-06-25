@@ -22,14 +22,16 @@ public class ControlAddNewNodePage : UIControl
     {
         base.BindEvents();
 
-        mEventListener.Listen<string>("OnLoadChildTree", AddChildTree);
+        mEventListener.Listen<string>("OnLoadChildTreeFromFile", AddChildTreeFromFile);
     }
 
-    private void AddChildTree(string childTreeFilePath)
+    private void AddChildTreeFromFile(string childTreeFilePath)
     {
         BTChildTree childTree = BehaviourTreeManager.Ins.CreateBTNode(BTDefine.BT_Node_Type_Tree, BTDefine.BT_Node_Type_Tree_ChildTree) as BTChildTree;
         string childTreeName = BehaviourTreeHelper.FileFullPathToTreeName(childTreeFilePath);
         childTree.SetChildTreeName(childTreeName);
+        // 从文件加载的子树默认是浅拷贝
+        childTree.SetCopyType(BTDefine.BT_ChildTreeCopyType_Reference);
         BTTreeEntry treeEntry = BehaviourTreeManager.Ins.LoadTree(childTreeFilePath, true);
         childTree.SetChildNode(treeEntry);
         AddChildNode(childTree);
@@ -44,7 +46,7 @@ public class ControlAddNewNodePage : UIControl
                 {
                         { "root_dir", PathDefine.AI_TREE_DATA_DIR_PATH },
                         { "ext", ".tree"},
-                        { "loadEvent", "OnLoadChildTree"}
+                        { "loadEvent", "OnLoadChildTreeFromFile"}
                 });
         });
         Btn_Sequence = BindButtonNode("Contain_CompositeNodes/Button_Sequence", ()=> { AddChildNode(new BTSequenceNode()); });

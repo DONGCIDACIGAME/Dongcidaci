@@ -55,10 +55,10 @@ public abstract class BTDecorNode : BTNode
         return BTDefine.BT_LoadNodeResult_Succeed;
     }
 
-    protected override int LoadChildNodes(BTNodeData[] chlidNodes)
+    protected override int LoadChildNodes(BTNodeData[] childNodes)
     {
         // 加载子节点
-        BTNodeData nodeData = chlidNodes[0];
+        BTNodeData nodeData = childNodes[0];
         BTNode node = BehaviourTreeManager.Ins.CreateBTNode(nodeData);
         int childLoadResult = node.LoadFromBTNodeData(nodeData);
 
