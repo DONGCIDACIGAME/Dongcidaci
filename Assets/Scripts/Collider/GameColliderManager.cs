@@ -24,7 +24,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
 
     private Dictionary<int, HashSet<ValueTuple<int, int>>> _colliderToGridIndexsDict;
 
-    public List<GameCollider2D> _tempTestColliders;
+    public List<GameCollider2D> tempTestColliders;
 
     private Dictionary<ValueTuple<int,int>,HashSet<GameCollider2D>> _gridIndexToCollidersDict;
 
@@ -33,7 +33,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
         _gridConfig = new UnLimitedGrid(6f,6f);
         _colliderToGridIndexsDict = new Dictionary<int, HashSet<(int, int)>>();
         _gridIndexToCollidersDict = new Dictionary<(int, int), HashSet<GameCollider2D>>();
-        _tempTestColliders = new List<GameCollider2D>();
+        tempTestColliders = new List<GameCollider2D>();
         Log.Logic(LogLevel.Info, "GameColliderManager Initialize Completed");
     }
 
@@ -83,13 +83,12 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
         }
 
         int colliderId = collider.GetColliderUID();
-        
-
+    
         // 首次注册
         if (_colliderToGridIndexsDict.ContainsKey(colliderId) == false)
         {
             _colliderToGridIndexsDict.Add(colliderId, new HashSet<(int, int)>());
-            _tempTestColliders.Add(collider);
+            tempTestColliders.Add(collider);
         }
         // 更新碰撞体所在的区域信息
         UpdateColliderInfoInGrid(collider);
@@ -138,13 +137,14 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     {
         if(collider == null)
         {
-            Log.Error(LogLevel.Normal, "UpdateMapCollider Error, collider is null!");
+            Log.Error(LogLevel.Normal, "UpdateColliderInfoInGrid Error, collider is null!");
             return;
         }
 
         int colliderID = collider.GetColliderUID();
         if (_colliderToGridIndexsDict.ContainsKey(colliderID) == false)
         {
+            Log.Error(LogLevel.Normal, "UpdateColliderInfoInGrid Error, collider not registered!");
             return;
         }
 
@@ -200,7 +200,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
 
         // 清空 collide to grid indexs
         _colliderToGridIndexsDict.Remove(colliderId);
-        _tempTestColliders.Remove(collider);
+        tempTestColliders.Remove(collider);
         return true;
     }
 
@@ -457,7 +457,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     {
         _colliderToGridIndexsDict = null;
         _gridIndexToCollidersDict = null;
-        _tempTestColliders = null;
+        tempTestColliders = null;
     }
 
 

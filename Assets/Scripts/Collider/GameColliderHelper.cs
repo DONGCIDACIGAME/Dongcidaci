@@ -3,13 +3,13 @@ using UnityEngine;
 public static class GameColliderHelper
 {
     /// <summary>
-    /// 根据锚点旋转角度，和与锚点的偏置距离，计算以矩形原点的实际旋转角度
+    /// bug
     /// </summary>
     /// <param name="newAnchorRotateAngle"></param>
     /// <param name="offsetX2Zero"></param>
     /// <param name="offsetY2Zero"></param>
     /// <returns></returns>
-    private static float GetRealRotateAngle(float newAnchorRotateAngle, float offsetX2Zero, float offsetY2Zero)
+    public static float GetRealRotateAngle(float newAnchorRotateAngle, float offsetX2Zero, float offsetY2Zero)
     {
         // 计算距离
         var offsetV2 = new Vector2(offsetX2Zero, offsetY2Zero);
@@ -17,7 +17,7 @@ public static class GameColliderHelper
 
         // 计算偏转角度
         // [0 - 360]
-        var initOffsetAngle = Vector2.Angle(offsetV2, Vector2.up);
+        var initOffsetAngle = Vector2.Angle(offsetV2, Vector2.up); //unsigned angle
         initOffsetAngle = offsetX2Zero < 0 ? 360 - initOffsetAngle : initOffsetAngle;
 
         // 将anchorRotateAngle转化到[0,360]
@@ -27,6 +27,17 @@ public static class GameColliderHelper
         var realAngle = (initOffsetAngle + anchorRealRoateAngle) % 360;
         return realAngle;
     }
+
+    public static Vector2 GetRealPosition(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size)
+    {
+        float disToTgtPoint = new Vector2(offset.x, offset.y).magnitude;
+        float rotate_angle = GetRealRotateAngle(anchorAngle, offset.x, offset.y);
+        float realpos_x = anchorPos.x + Mathf.Sin(rotate_angle * Mathf.Deg2Rad) * disToTgtPoint;
+        float realpos_z = anchorPos.z + Mathf.Cos(rotate_angle * Mathf.Deg2Rad) * disToTgtPoint;
+
+        return new Vector2(realpos_x,realpos_z);
+    }
+
 
     public static Vector2[,] GetRectangleLines(GameCollider2D collider)
     {
@@ -64,10 +75,48 @@ public static class GameColliderHelper
 
     /// <summary>
     /// 获取这个矩形的四个顶点
+    /// 这个方法可能有问题!!!
     /// </summary>
     /// <returns>Vector2[] 碰撞体4个顶点的坐标</returns>
     private static Vector2[] GetRectangleVertexs(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size)
     {
+
+        float halfWidth = size.x / 2f;
+        float halfHeight = size.y / 2f;
+
+        float arc = -anchorAngle / 180 * Mathf.PI;
+        // 自身有旋转，计算四个顶点的本地坐标
+        Vector2 ltOrigin = new Vector2(-halfWidth + offset.x, halfHeight + offset.y);
+        Vector2 ltOffset = new Vector2(
+            ltOrigin.x * Mathf.Cos(arc) - ltOrigin.y * Mathf.Sin(arc),
+            ltOrigin.x * Mathf.Sin(arc) + ltOrigin.y * Mathf.Cos(arc));
+
+
+        Vector2 lbOrigin = new Vector2(-halfWidth + offset.x, -halfHeight + offset.y);
+        Vector2 lbOffset = new Vector2(
+            lbOrigin.x * Mathf.Cos(arc) - lbOrigin.y * Mathf.Sin(arc),
+            lbOrigin.x * Mathf.Sin(arc) + lbOrigin.y * Mathf.Cos(arc));
+
+        Vector2 rbOrigin = new Vector2(halfWidth + offset.x, -halfHeight + offset.y);
+        Vector2 rbOffset = new Vector2(
+            rbOrigin.x * Mathf.Cos(arc) - rbOrigin.y * Mathf.Sin(arc),
+            rbOrigin.x * Mathf.Sin(arc) + rbOrigin.y * Mathf.Cos(arc));
+
+        Vector2 rtOrigin = new Vector2(halfWidth + offset.x, halfHeight + offset.y);
+        Vector2 rtOffset = new Vector2(
+            rtOrigin.x * Mathf.Cos(arc) - rtOrigin.y * Mathf.Sin(arc),
+            rtOrigin.x * Mathf.Sin(arc) + rtOrigin.y * Mathf.Cos(arc));
+
+        // 计算四个定点的世界坐标
+        Vector2 groundPos = new Vector2(anchorPos.x,anchorPos.z);
+
+        Vector2 leftUpPos = groundPos + ltOffset;
+        Vector2 leftDownPos = groundPos + lbOffset;
+        Vector2 rightDownPos = groundPos + rbOffset;
+        Vector2 rightUpPos = groundPos + rtOffset;
+        
+
+        /**
         float disToTgtPoint = new Vector2(offset.x, offset.y).magnitude;
         float rotate_angle = GetRealRotateAngle(anchorAngle, offset.x, offset.y);
         float realpos_x = anchorPos.x + Mathf.Sin(rotate_angle * Mathf.Deg2Rad) * disToTgtPoint;
@@ -92,6 +141,7 @@ public static class GameColliderHelper
         var originalRightUpVector = new Vector3(size.x / 2, 0, size.y / 2);
         var realRightUpVector = Quaternion.AngleAxis(rotate_angle, Vector3.up) * originalRightUpVector;
         var rightUpPos = new Vector2(realpos_x + realRightUpVector.x, realpos_z + realRightUpVector.z);
+        */
 
         return new Vector2[4] { leftUpPos, leftDownPos, rightDownPos, rightUpPos };
     }
