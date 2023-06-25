@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-
 // 1 生成无限网格，将地图切分成虚拟的大块
 // 2 注册新的碰撞体时，计算这个碰撞体占据的地图大块的横纵索引并存储到字典中,包含这个碰撞体覆盖的坐标，地图坐标包含的碰撞体
 // 3 判断碰撞时，计算这个碰撞体占据的地图大块横纵坐标，从字典中快速找到这几个大块中的所有碰撞体进行判断
@@ -25,6 +24,8 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
 
     private Dictionary<int, HashSet<ValueTuple<int, int>>> _colliderToGridIndexsDict;
 
+    public List<GameCollider2D> _tempTestColliders;
+
     private Dictionary<ValueTuple<int,int>,HashSet<GameCollider2D>> _gridIndexToCollidersDict;
 
     public override void Initialize()
@@ -32,6 +33,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
         _gridConfig = new UnLimitedGrid(6f,6f);
         _colliderToGridIndexsDict = new Dictionary<int, HashSet<(int, int)>>();
         _gridIndexToCollidersDict = new Dictionary<(int, int), HashSet<GameCollider2D>>();
+        _tempTestColliders = new List<GameCollider2D>();
         Log.Logic(LogLevel.Info, "GameColliderManager Initialize Completed");
     }
 
@@ -81,13 +83,14 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
         }
 
         int colliderId = collider.GetColliderUID();
+        
 
         // 首次注册
         if (_colliderToGridIndexsDict.ContainsKey(colliderId) == false)
         {
             _colliderToGridIndexsDict.Add(colliderId, new HashSet<(int, int)>());
+            _tempTestColliders.Add(collider);
         }
-
         // 更新碰撞体所在的区域信息
         UpdateColliderInfoInGrid(collider);
     }
@@ -197,6 +200,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
 
         // 清空 collide to grid indexs
         _colliderToGridIndexsDict.Remove(colliderId);
+        _tempTestColliders.Remove(collider);
         return true;
     }
 
@@ -453,12 +457,8 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     {
         _colliderToGridIndexsDict = null;
         _gridIndexToCollidersDict = null;
+        _tempTestColliders = null;
     }
-
-    
-
-
-
 
 
 }

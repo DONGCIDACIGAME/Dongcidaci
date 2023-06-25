@@ -28,7 +28,7 @@ public static class GameColliderHelper
         return realAngle;
     }
 
-    private static Vector2[,] GetRectangleLines(GameCollider2D collider)
+    public static Vector2[,] GetRectangleLines(GameCollider2D collider)
     {
         var vertexs = GetRectangleVertexs(collider);
 
