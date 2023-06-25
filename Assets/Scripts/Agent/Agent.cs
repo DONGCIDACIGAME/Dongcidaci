@@ -108,6 +108,11 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         return towards;
     }
 
+    protected override bool CheckUpdateColliderRotate()
+    {
+        return false;
+    }
+
 
     /// <summary>
     /// 加载角色配置信息
