@@ -58,13 +58,19 @@ public class Monster : Agent
         return EntityTypeDefine.Monster;
     }
 
+
+    protected override MyColliderType ColliderType => MyColliderType.Collider_Monster;
+    /**
     protected override int GetColliderType()
     {
         return GameColliderDefine.ColliderType_Monster;
     }
 
+    
     protected override IGameColliderHandler GetColliderHanlder()
     {
         return new MonsterColliderHandler(this);
     }
+    */
+
 }

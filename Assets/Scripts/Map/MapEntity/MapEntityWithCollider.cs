@@ -12,9 +12,7 @@ public abstract class MapEntityWithCollider : MapEntity
         return mCollider;
     }
 
-    protected abstract IGameColliderHandler GetColliderHanlder();
-
-    protected abstract int GetColliderType();
+    protected abstract MyColliderType ColliderType { get; }
 
     /// <summary>
     /// 需要上层绑定view是主动调用一下
@@ -23,40 +21,49 @@ public abstract class MapEntityWithCollider : MapEntity
     protected override void BindMapEntityView(MapEntityView mapEntityView)
     {
         BindGameEntityView(mapEntityView);
+        this._mMapEntiyView = mapEntityView;
+        SyncAllTansformInfoFromView();
+        InitCollider();
+    }
 
-        this.mMapEntiyView = mapEntityView;
-
-        if (mMapEntiyView != null && mapEntityView is MapEntityViewWithCollider)
+    protected virtual void InitCollider()
+    {
+        if (_mMapEntiyView != null && _mMapEntiyView is MapEntityViewWithCollider)
         {
-            var mMapEntiyViewCollider = mapEntityView as MapEntityViewWithCollider;
+            var mMapEntiyViewCollider = _mMapEntiyView as MapEntityViewWithCollider;
             // 获取碰撞数据
             GameColliderData2D colliderData = mMapEntiyViewCollider.GetColliderData();
-
             mCollider = GamePoolCenter.Ins.GameCollider2DPool.Pop();
-            mCollider.Initialize(GetColliderType(), mEntityId, colliderData, GetColliderHanlder());
-            Log.Logic(LogLevel.Info,"注册碰撞");
+            mCollider.Initialize(
+                this.ColliderType, 
+                mEntityId, 
+                colliderData, 
+                GetPosition(),
+                GetRotation().y,
+                GetLocalScale(), 
+                true
+                );
+
+            Log.Logic(LogLevel.Info, "注册碰撞");
         }
     }
 
     public override void SetPosition(Vector3 position)
     {
         base.SetPosition(position);
-        mCollider.UpdateColliderPos(position);
-        GameColliderManager.Ins.UpdateColliderIndexInMap(mCollider);
+        GameColliderManager.Ins.UpdateColliderPos(mCollider,position);
     }
 
     public override void SetRotation(Vector3 rotation)
     {
         base.SetRotation(rotation);
-        mCollider.UpdateColliderRot(rotation.y);
-        GameColliderManager.Ins.UpdateColliderIndexInMap(mCollider);
+        GameColliderManager.Ins.UpdateColliderRotateAngle(mCollider,rotation.y);
     }
 
     public override void SetScale(Vector3 scale)
     {
         base.SetScale(scale);
-        mCollider.UpdateColliderScale(scale);
-        GameColliderManager.Ins.UpdateColliderIndexInMap(mCollider);
+        GameColliderManager.Ins.UpdateColliderScale(mCollider,scale);
     }
 
     public override void Dispose()
@@ -64,4 +71,7 @@ public abstract class MapEntityWithCollider : MapEntity
         base.Dispose();
         mCollider.Recycle();
     }
+
+
+
 }

@@ -2,80 +2,13 @@ using UnityEngine;
 
 public static class GameColliderHelper
 {
-    private static Vector2[,] GetRectangleLines(GameCollider2D collider)
-    {
-        var vertexs = GetRectangleVertexs(collider);
-
-        return new Vector2[4, 2] {
-            {vertexs[0],vertexs[1]},
-            {vertexs[1],vertexs[2]},
-            {vertexs[2],vertexs[3]},
-            {vertexs[3],vertexs[0]}
-        };
-    }
-
-    private static Vector2[,] GetRectangleLines(Vector2 size, Vector2 offset, float anchorAngle, Vector3 anchorPos, Vector3 scale)
-    {
-        var vertexs = GetRectangleVertexs(size, offset, anchorAngle, anchorPos, scale);
-
-        return GetRectangleLines(vertexs);
-    }
-
-    private static Vector2[,] GetRectangleLines(Vector2[] vertexs)
-    {
-        return new Vector2[4, 2] {
-            {vertexs[0],vertexs[1]},
-            {vertexs[1],vertexs[2]},
-            {vertexs[2],vertexs[3]},
-            {vertexs[3],vertexs[0]}
-        };
-    }
-
-    private static Vector2[] GetRectangleVertexs(GameCollider2D collider)
-    {
-        return GetRectangleVertexs(collider.size, collider.offset, collider.anchorAngle, collider.anchorPos, collider.scale);
-    }
-
-
     /// <summary>
-    /// 获取这个矩形的四个顶点
+    /// 根据锚点旋转角度，和与锚点的偏置距离，计算以矩形原点的实际旋转角度
     /// </summary>
-    /// <returns>Vector2[] 碰撞体4个顶点的坐标</returns>
-    private static Vector2[] GetRectangleVertexs(Vector2 size, Vector2 offset, float anchorAngle, Vector3 anchorPos, Vector3 scale)
-    {
-        Vector2 _scale = new Vector2(scale.x, scale.z);
-
-        Vector2 _size = size * _scale;
-        Vector2 _offset = offset * _scale;
-
-        float disToTgtPoint = new Vector2(_offset.x, _offset.y).magnitude;
-        float rotate_angle = GetRealRotateAngle(anchorAngle, _offset.x, _offset.y);
-        float realpos_x = anchorPos.x + Mathf.Sin(rotate_angle * Mathf.Deg2Rad) * disToTgtPoint;
-        float realpos_z = anchorPos.z + Mathf.Cos(rotate_angle * Mathf.Deg2Rad) * disToTgtPoint;
-
-        // 计算左上
-        var originalLeftUpVector = new Vector3(-_size.x / 2, 0, _size.y / 2);
-        var realLeftUpVector = Quaternion.AngleAxis(rotate_angle, Vector3.up) * originalLeftUpVector;
-        var leftUpPos = new Vector2(realpos_x + realLeftUpVector.x, realpos_z + realLeftUpVector.z);
-
-        // 计算左下
-        var originalLeftDownVector = new Vector3(-_size.x / 2, 0, -_size.y / 2);
-        var realLeftDownVector = Quaternion.AngleAxis(rotate_angle, Vector3.up) * originalLeftDownVector;
-        var leftDownPos = new Vector2(realpos_x + realLeftDownVector.x, realpos_z + realLeftDownVector.z);
-
-        // 计算右下
-        var originalRightDownVector = new Vector3(_size.x / 2, 0, -_size.y / 2);
-        var realRightDownVector = Quaternion.AngleAxis(rotate_angle, Vector3.up) * originalRightDownVector;
-        var rightDownPos = new Vector2(realpos_x + realRightDownVector.x, realpos_z + realRightDownVector.z);
-
-        // 计算右上
-        var originalRightUpVector = new Vector3(_size.x / 2, 0, _size.y / 2);
-        var realRightUpVector = Quaternion.AngleAxis(rotate_angle, Vector3.up) * originalRightUpVector;
-        var rightUpPos = new Vector2(realpos_x + realRightUpVector.x, realpos_z + realRightUpVector.z);
-
-        return new Vector2[4] { leftUpPos, leftDownPos, rightDownPos, rightUpPos };
-    }
-
+    /// <param name="newAnchorRotateAngle"></param>
+    /// <param name="offsetX2Zero"></param>
+    /// <param name="offsetY2Zero"></param>
+    /// <returns></returns>
     private static float GetRealRotateAngle(float newAnchorRotateAngle, float offsetX2Zero, float offsetY2Zero)
     {
         // 计算距离
@@ -95,13 +28,81 @@ public static class GameColliderHelper
         return realAngle;
     }
 
+    private static Vector2[,] GetRectangleLines(GameCollider2D collider)
+    {
+        var vertexs = GetRectangleVertexs(collider);
+
+        return new Vector2[4, 2] {
+            {vertexs[0],vertexs[1]},
+            {vertexs[1],vertexs[2]},
+            {vertexs[2],vertexs[3]},
+            {vertexs[3],vertexs[0]}
+        };
+    }
+
+    private static Vector2[,] GetRectangleLines(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size)
+    {
+        var vertexs = GetRectangleVertexs(anchorPos,anchorAngle,offset,size);
+        return GetRectangleLines(vertexs);
+    }
+
+    private static Vector2[,] GetRectangleLines(Vector2[] vertexs)
+    {
+        return new Vector2[4, 2] {
+            {vertexs[0],vertexs[1]},
+            {vertexs[1],vertexs[2]},
+            {vertexs[2],vertexs[3]},
+            {vertexs[3],vertexs[0]}
+        };
+    }
+
+    private static Vector2[] GetRectangleVertexs(GameCollider2D collider)
+    {
+        return GetRectangleVertexs(collider.AnchorPos, collider.AnchorAngle, collider.Offset, collider.Size);
+    }
+
+
+    /// <summary>
+    /// 获取这个矩形的四个顶点
+    /// </summary>
+    /// <returns>Vector2[] 碰撞体4个顶点的坐标</returns>
+    private static Vector2[] GetRectangleVertexs(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size)
+    {
+        float disToTgtPoint = new Vector2(offset.x, offset.y).magnitude;
+        float rotate_angle = GetRealRotateAngle(anchorAngle, offset.x, offset.y);
+        float realpos_x = anchorPos.x + Mathf.Sin(rotate_angle * Mathf.Deg2Rad) * disToTgtPoint;
+        float realpos_z = anchorPos.z + Mathf.Cos(rotate_angle * Mathf.Deg2Rad) * disToTgtPoint;
+
+        // 计算左上
+        var originalLeftUpVector = new Vector3(-size.x / 2, 0, size.y / 2);
+        var realLeftUpVector = Quaternion.AngleAxis(rotate_angle, Vector3.up) * originalLeftUpVector;
+        var leftUpPos = new Vector2(realpos_x + realLeftUpVector.x, realpos_z + realLeftUpVector.z);
+
+        // 计算左下
+        var originalLeftDownVector = new Vector3(-size.x / 2, 0, -size.y / 2);
+        var realLeftDownVector = Quaternion.AngleAxis(rotate_angle, Vector3.up) * originalLeftDownVector;
+        var leftDownPos = new Vector2(realpos_x + realLeftDownVector.x, realpos_z + realLeftDownVector.z);
+
+        // 计算右下
+        var originalRightDownVector = new Vector3(size.x / 2, 0, -size.y / 2);
+        var realRightDownVector = Quaternion.AngleAxis(rotate_angle, Vector3.up) * originalRightDownVector;
+        var rightDownPos = new Vector2(realpos_x + realRightDownVector.x, realpos_z + realRightDownVector.z);
+
+        // 计算右上
+        var originalRightUpVector = new Vector3(size.x / 2, 0, size.y / 2);
+        var realRightUpVector = Quaternion.AngleAxis(rotate_angle, Vector3.up) * originalRightUpVector;
+        var rightUpPos = new Vector2(realpos_x + realRightUpVector.x, realpos_z + realRightUpVector.z);
+
+        return new Vector2[4] { leftUpPos, leftDownPos, rightDownPos, rightUpPos };
+    }
+
     /// <summary>
     /// 获取这个碰撞矩形的面积
     /// </summary>
     /// <returns></returns>
-    private static float GetSize(float size_x, float size_z)
+    private static float GetSize(float sizeX, float sizeZ)
     {
-        return size_x * size_z;
+        return sizeX * sizeZ;
     }
 
     private static bool CheckPosInCollider(Vector2 checkPoint, Vector2[] rectangleVertexs)
@@ -119,15 +120,12 @@ public static class GameColliderHelper
         return false;
     }
 
-    private static bool CheckColllapse(Vector2 src_size, Vector2 src_offset, float src_anchorAngle, Vector3 src_anchorPos, Vector3 src_scale,
-        Vector2 tgt_size, Vector2 tgt_offset, float tgt_anchorAngle, Vector3 tgt_anchorPos, Vector3 tgt_scale)
+    private static bool CheckColllapse(Vector3 srcAnchorPos, float srcAnchorAngle, Vector2 srcOffset, Vector2 srcSize, Vector3 tgtAnchorPos, float tgtAnchorAngle, Vector2 tgtOffset, Vector2 tgtSize)
     {
         // 所有顶点
-        var src_vertexs = GetRectangleVertexs(src_size, src_offset, src_anchorAngle, src_anchorPos, src_scale);
+        var src_vertexs = GetRectangleVertexs(srcAnchorPos, srcAnchorAngle, srcOffset, srcSize);
         var srcColliderLines = GetRectangleLines(src_vertexs);
-
-
-        var tgt_vertexs = GetRectangleVertexs(tgt_size, tgt_offset, tgt_anchorAngle, tgt_anchorPos, tgt_scale);
+        var tgt_vertexs = GetRectangleVertexs(tgtAnchorPos, tgtAnchorAngle, tgtOffset, tgtSize);
         var tgtColliderLines = GetRectangleLines(tgt_vertexs);
 
         // 查找是否存在线条交差的情况
@@ -160,7 +158,7 @@ public static class GameColliderHelper
         // added 0522
         // 存在不相交但是一个矩形完全在另一个矩形内部的情况
         // 判断哪个矩形的面积更小
-        if (GetSize(src_size.x, src_size.y) <= GetSize(tgt_size.x, tgt_size.y))
+        if (GetSize(srcSize.x, srcSize.y) <= GetSize(tgtSize.x, tgtSize.y))
         {
             // 判断这个碰撞体是否在目标中
             if (CheckPosInCollider(src_vertexs[0], tgt_vertexs) && CheckPosInCollider(src_vertexs[1], tgt_vertexs)
@@ -201,16 +199,11 @@ public static class GameColliderHelper
             return false;
         }
 
-        return CheckColllapse(srcCollider.size, srcCollider.offset, srcCollider.anchorAngle, srcCollider.anchorPos, srcCollider.scale,
-            tgtCollider.size, tgtCollider.offset, tgtCollider.anchorAngle, tgtCollider.anchorPos, tgtCollider.scale);
+        return CheckColllapse(srcCollider.AnchorPos, srcCollider.AnchorAngle, srcCollider.Offset, srcCollider.Size,
+            tgtCollider.AnchorPos, tgtCollider.AnchorAngle, tgtCollider.Offset, tgtCollider.Size);
     }
 
-    /// <summary>
-    /// 检测和其它碰撞体的碰撞
-    /// </summary>
-    /// <param name="tgtCollider"></param>
-    /// <returns></returns>
-    public static bool CheckCollapse(Vector2 src_size, Vector2 src_offset, float src_anchorAngle, Vector3 src_anchorPos, Vector3 src_scale, 
+    public static bool CheckCollapse(Vector3 srcAnchorPos, float srcAnchorAngle, Vector2 srcOffset, Vector2 srcSize,
         GameCollider2D tgtCollider)
     {
         if (tgtCollider == null)
@@ -219,8 +212,7 @@ public static class GameColliderHelper
             return false;
         }
 
-        return CheckColllapse(src_size, src_offset, src_anchorAngle, src_anchorPos, src_scale,
-            tgtCollider.size, tgtCollider.offset, tgtCollider.anchorAngle, tgtCollider.anchorPos, tgtCollider.scale);
+        return CheckColllapse(srcAnchorPos, srcAnchorAngle, srcOffset, srcSize, tgtCollider.AnchorPos, tgtCollider.AnchorAngle, tgtCollider.Offset, tgtCollider.Size);
     }
 
     private static void GetMaxEnvelopeArea(Vector2[] vertexs, out Vector2 pos, out Vector2 size)
@@ -255,24 +247,20 @@ public static class GameColliderHelper
     }
 
 
-    /// <summary>
-    /// 获取这个旋转矩形的最大矩形包络
-    /// </summary>
-    /// <param name="pos"></param>
-    /// <param name="size"></param>
+    
     public static void GetMaxEnvelopeArea(GameCollider2D collider, out Vector2 envlpPos, out Vector2 envlpSize)
     {
-        GetMaxEnvelopeArea(collider.size, collider.offset, collider.anchorAngle,collider.anchorPos, collider.scale, out envlpPos, out envlpSize);
+        GetMaxEnvelopeArea(collider.AnchorPos, collider.AnchorAngle, collider.Offset,collider.Size, out envlpPos, out envlpSize);
     }
 
-    /// <summary>
-    /// 获取这个旋转矩形的最大矩形包络
-    /// </summary>
-    /// <param name="pos"></param>
-    /// <param name="size"></param>
-    public static void GetMaxEnvelopeArea(Vector2 size, Vector2 offset, float anchorAngle, Vector3 anchorPos, Vector3 scale, out Vector2 envlpPos, out Vector2 envlpSize)
+    
+    public static void GetMaxEnvelopeArea(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size, out Vector2 envlpPos, out Vector2 envlpSize)
     {
-        var vertexs = GetRectangleVertexs(size, offset, anchorAngle, anchorPos, scale);
+        var vertexs = GetRectangleVertexs(anchorPos,anchorAngle,offset,size);
         GetMaxEnvelopeArea(vertexs, out envlpPos, out envlpSize);
     }
+
+
+
+
 }

@@ -2,25 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using GameEngine;
 
-public sealed class HeroCollideProcessor : Singleton<HeroCollideProcessor>,ICollideHandle<Hero>
+public sealed class HeroCollideProcessor : CollideProcessor<HeroCollideProcessor, Hero>
 {
-    public void HandleColliderToBlock(Hero handler, MapBlock tgtBlock)
+    public override void HandleColliderToBlock(Hero handler, MapBlock tgtBlock)
     {
-        throw new System.NotImplementedException();
+        
     }
 
-    public void HandleCollideToHero(Hero handler, Hero tgtHero)
+    public override void HandleColliderToHero(Hero handler, Hero tgtHero)
     {
-        throw new System.NotImplementedException();
+        
     }
 
-    public void HandleCollideToMonster(Hero handler, Hero tgtMonster)
+    public override void HandleColliderToMonster(Hero handler, Monster tgtMonster)
     {
-        throw new System.NotImplementedException();
+        
     }
-
-
-
-
-
 }

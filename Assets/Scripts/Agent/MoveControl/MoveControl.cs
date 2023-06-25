@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class MoveControl
 {
@@ -36,11 +37,28 @@ public class MoveControl
     {
         GameCollider2D collider = mAgent.GetCollider();
 
+        /**
         int ret = GameColliderManager.Ins.CheckCollideHappen(collider.size, collider.offset, 
             position, collider.anchorAngle, collider.scale, 
             GameColliderDefine.EMPTY_COLLIDER_HANDLER,
             collider.GetColliderId());
         if (!GameColliderDefine.CheckCanMoveThrough(ret))
+        {
+            Log.Logic(LogLevel.Info, "<color=grey>can not move on collider to {0}</color>", ret);
+            return;
+        }
+        */
+
+        var ret = GameColliderManager.Ins.CheckCollideHappenWithRect(
+                position,
+                collider.AnchorAngle,
+                collider.Offset,
+                collider.Size,
+                out HashSet<GameCollider2D> detectedColliders,
+                collider
+            );
+
+        if(ret && !GameColliderDefine.CheckCanMoveThrough(detectedColliders))
         {
             Log.Logic(LogLevel.Info, "<color=grey>can not move on collider to {0}</color>", ret);
             return;

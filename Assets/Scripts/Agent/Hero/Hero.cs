@@ -15,7 +15,6 @@ public class Hero : Agent
 
     private HeroView mHeroView;
 
-
     protected override void LoadAgentCfg(uint agentId)
     {
         DongciDaci.HeroBaseCfg cfg = null;
@@ -112,6 +111,9 @@ public class Hero : Agent
         return EntityTypeDefine.Hero;
     }
 
+
+    protected override MyColliderType ColliderType => MyColliderType.Collider_Hero;
+    /**
     protected override int GetColliderType()
     {
         return GameColliderDefine.ColliderType_Hero;
@@ -121,4 +123,6 @@ public class Hero : Agent
     {
         return new HeroColliderHandler(this);
     }
+    */
+
 }

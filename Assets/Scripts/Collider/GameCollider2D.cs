@@ -19,12 +19,12 @@ public class GameCollider2D : IGameCollider, IRecycle
     private static readonly AutoIndexCounter _indexCounter = new AutoIndexCounter();
 
     /// <summary>
-    /// 碰撞体的id
+    /// 碰撞体的自增UID
     /// </summary>
-    private int _colliderId;
-    public int GetColliderId()
+    private int _colliderUID;
+    public int GetColliderUID()
     {
-        return _colliderId;
+        return _colliderUID;
     }
 
     /// <summary>
@@ -39,12 +39,15 @@ public class GameCollider2D : IGameCollider, IRecycle
     /// <summary>
     /// 碰撞类型
     /// </summary>
-    private int _colliderType;
-    public int GetColliderType()
+    private MyColliderType _colliderType;
+    public MyColliderType GetColliderType()
     {
         return _colliderType;
     }
 
+
+
+    /**
     /// <summary>
     /// 碰撞处理
     /// </summary>
@@ -53,8 +56,7 @@ public class GameCollider2D : IGameCollider, IRecycle
     {
         return _colliderHandler;
     }
-
-
+    */
 
 
 
@@ -67,8 +69,6 @@ public class GameCollider2D : IGameCollider, IRecycle
     //private float _sizeY;
     //private float _offsetX = 0;
     //private float _offsetY = 0;
-
-
 
     /*
 
@@ -291,62 +291,140 @@ public class GameCollider2D : IGameCollider, IRecycle
     */
 
 
-    public Vector3 anchorPos { get; private set; }
-    public float anchorAngle { get; private set; }
-    public Vector3 scale { get; private set; }
-    public Vector2 size { get; private set; }
-    public Vector2 offset { get; private set; }
+    private Vector3 _anchorPos;
+    public Vector3 AnchorPos => _anchorPos;
 
-    public void Initialize(int colliderType, int entityId, GameColliderData2D initialColliderData, IGameColliderHandler handler)
+    private float _anchorAngle;
+    public float AnchorAngle => _anchorAngle;
+
+    private Vector3 _scale = Vector3.one;
+    public Vector3 Scale => _scale;
+
+    private Vector2 _size;
+    public Vector2 Size => _size;
+
+    private Vector2 _offset;
+    public Vector2 Offset => _offset;
+
+    private bool _needRegister = false;
+
+    public void Initialize(MyColliderType colliderType, int bindEntityID, GameColliderData2D initialColliderData, Vector3 anchorPos, float anchorAngle, Vector3 scale, bool needRegister)
     {
-        // 生成唯一id
-        this._colliderId = _indexCounter.GetIndex();
-        // 碰撞类型
+        this._colliderUID = _indexCounter.GetIndex();
         this._colliderType = colliderType;
-        // 绑定的entityId
-        this._entityId = entityId;
-        // 碰撞处理
-        this._colliderHandler = handler;
+        this._entityId = bindEntityID;
+
         // 碰撞的大小和偏移
-        this.size = initialColliderData.size;
-        this.offset = initialColliderData.offset;
+        this._size = initialColliderData.size;
+        this._offset = initialColliderData.offset;
+        this._anchorPos = anchorPos;
+        this._anchorAngle = anchorAngle;
 
-        // 注册碰撞
-        GameColliderManager.Ins.RegisterGameCollider(this);
+        if(scale.x == 0|| scale.y == 0 || scale.z == 0)
+        {
+            Log.Error(LogLevel.Normal, "InitWithRegister error ---- scale is zero ");
+            this._scale = Vector3.one;
+        }
+        else
+        {
+            this._scale = scale;
+        }
+
+        this._needRegister = needRegister;
+
+        if (_needRegister)
+        {
+            // 注册碰撞
+            GameColliderManager.Ins.RegisterGameCollider(this);
+        }
+
     }
 
-    public void UpdateColliderPos(Vector3 newAnchorPos)
+    public bool UpdateColliderPos(IColliderSetter colliderSetter, Vector3 newAnchorPos)
     {
-        anchorPos = newAnchorPos;
+        if (_needRegister)
+        {
+            if (colliderSetter is GameColliderManager)
+            {
+                this._anchorPos = newAnchorPos;
+            }
+            else { return false; }
+        }
+        else
+        {
+            this._anchorPos = newAnchorPos;
+        }
+
+        return true;
+
     }
 
-    public void UpdateColliderRot(float newAnchorRotateAngle)
+    public bool UpdateColliderRotateAngle(IColliderSetter colliderSetter, float newAnchorRotateAngle)
     {
-        anchorAngle  = newAnchorRotateAngle;
+        if (_needRegister)
+        {
+            if (colliderSetter is GameColliderManager)
+            {
+                this._anchorAngle = newAnchorRotateAngle;
+            }
+            else { return false; }
+        }
+        else
+        {
+            this._anchorAngle = newAnchorRotateAngle;
+        }
+
+        return true;
     }
 
-    public void UpdateColliderScale(Vector3 newScale)
+    public bool UpdateColliderScale(IColliderSetter colliderSetter, Vector3 newScale)
     {
-        scale = newScale;
+        if (_needRegister)
+        {
+            if (colliderSetter is GameColliderManager)
+            {
+                // 更新scale需要同时更新 size 和 offset
+                var changeRatioX = newScale.x / _scale.x;
+                var changeRatioZ = newScale.z / _scale.z;
+                this._offset = new Vector2(_offset.x*changeRatioX, _offset.y * changeRatioZ);
+                this._size = new Vector2(_size.x * changeRatioX, _size.y * changeRatioZ);
+                this._scale = newScale;
+            }
+            else { return false; }
+        }
+        else
+        {
+            // 更新scale需要同时更新 size 和 offset
+            var changeRatioX = newScale.x / _scale.x;
+            var changeRatioZ = newScale.z / _scale.z;
+            this._offset = new Vector2(_offset.x * changeRatioX, _offset.y * changeRatioZ);
+            this._size = new Vector2(_size.x * changeRatioX, _size.y * changeRatioZ);
+            this._scale = newScale;
+        }
+
+        return true;
     }
 
     public void Dispose()
     {
-        size = Vector2.zero;
-        offset = Vector2.zero;
-        scale = Vector3.zero;
-        anchorPos = Vector3.zero;
-        anchorAngle = 0;
+        _size = Vector2.zero;
+        _offset = Vector2.zero;
+        _scale = Vector3.zero;
+        _anchorPos = Vector3.zero;
+        _anchorAngle = 0;
 
         // 清除碰撞类型
-        _colliderType = GameColliderDefine.CollliderType_None;
+        _colliderType = MyColliderType.Collider_None;
         // 解除绑定的entity
         _entityId = 0;
-        // 清楚碰撞处理
-        _colliderHandler = null;
 
-        //游戏体被销毁
-        GameColliderManager.Ins.UnRegisterGameCollider(this);
+        if (_needRegister)
+        {
+            //游戏体被销毁
+            GameColliderManager.Ins.UnRegisterGameCollider(this);
+            _needRegister = false;
+        }
+        
     }
 
     public void Recycle()
@@ -354,4 +432,9 @@ public class GameCollider2D : IGameCollider, IRecycle
         Dispose();
         GamePoolCenter.Ins.GameCollider2DPool.Push(this);
     }
+
+
+
+
 }
+
