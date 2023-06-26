@@ -47,7 +47,7 @@ public static class GameColliderHelper
     /// <param name="radius"></param>
     /// <param name="vertexCount"></param>
     /// <returns></returns>
-    public static Vector2[] GetCircleVertexs(Vector3 anchorPos, float anchorAngle, Vector2 offset, float radius,int vertexCount)
+    public static Vector2[] GetCircleVertexs(Vector3 anchorPos, float anchorAngle, Vector2 offset, float radius,int vertexCount = 8)
     {
         if (vertexCount < 4) return null;
         var circleVetexs = new Vector2[vertexCount];
@@ -85,89 +85,83 @@ public static class GameColliderHelper
         return circleVetexs;
     }
 
-    public static Vector2[] GetEllipseVertexs(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size, int vertexCount)
+    public static Vector2[] GetEllipseVertexs(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size, int halfVertexCount = 5)
     {
+        int vertexCount = halfVertexCount * 2;
         if (vertexCount < 4) return null;
         // 判断是否是圆
         if (size.x == size.y) return GetCircleVertexs(anchorPos,anchorAngle,offset,size.x/2f,vertexCount);
         var ellipseVetexs = new Vector2[vertexCount];
-        //x^2/size.x^2 + y^2/size.y^2 = 1
 
+        //x^2/a^2 + y^2/b^2 = 1 (a=size.x/2;b=size.y/2)
+        float aSquare = Mathf.Pow(size.x / 2f, 2);
+        float bSquare = Mathf.Pow(size.y / 2f, 2);
         // 1 计算原始点
-        float stepAngle = 360f / (float)vertexCount;
-        var baseV3 = new Vector3(-size.x/2f, 0, 0);
-        for (int i = 0; i < ellipseVetexs.Length; i++)
-        {
-            if (i == 0)
-            {
-                ellipseVetexs[i] = new Vector2(baseV3.x + offset.x, baseV3.z + offset.y);
-                continue;
-            }
-
-            var newDirV3 = Quaternion.AngleAxis(stepAngle * i, Vector3.up) * baseV3;
-
-            float yOnEllipse = 0;
-            float xOnEllipse = 0;
-            if (stepAngle * i  == 180 || newDirV3.z == 0f || newDirV3.z ==0)
-            {
-                xOnEllipse = size.x / 2f;
-                yOnEllipse = 0;
-            }
-            else
-            {
-                float kSuqare = Mathf.Pow(newDirV3.x / newDirV3.z, 2);
-                float aSquare = Mathf.Pow(size.x / 2f, 2);
-                float bSquare = Mathf.Pow(size.y / 2f, 2);
-
-                yOnEllipse = Mathf.Sqrt((aSquare * bSquare) / (aSquare + kSuqare * bSquare));
-                xOnEllipse = Mathf.Abs(newDirV3.x) / Mathf.Abs(newDirV3.z) * yOnEllipse;
-
-                // 需要根据newDirV3这个向量，求解在椭圆上的具体的点
-                if (stepAngle * i <= 90)
-                {
-                    // x<0,y>0
-                    xOnEllipse = -xOnEllipse;
-
-
-                }
-                else if (stepAngle * i > 90 && stepAngle * i <= 180)
-                {
-                    // x >0, y>0
-
-
-                }
-                else if (stepAngle * i > 180 && stepAngle * i <= 270)
-                {
-                    // x >0 y<0
-                    yOnEllipse = -yOnEllipse;
-
-                }
-                else if (stepAngle * i > 270 && stepAngle * i <= 360)
-                {
-                    // x <0 y<0
-                    xOnEllipse = -xOnEllipse;
-                    yOnEllipse = -yOnEllipse;
-                }
-            }
-
-            ellipseVetexs[i] = new Vector2(xOnEllipse + offset.x, yOnEllipse + offset.y);
-            //Debug.LogError(ellipseVetexs[i]);
-            //Log.Error(LogLevel.Normal,ellipseVetexs[i].ToString());
-        }
-
-        /**
         if (size.x > size.y)
         {
-            // focus on x
-            // x^2/size.x^2 + y^2/size.y^2 = 1
+            // 以x长轴作为分度
+            float stepX = size.x / (float)halfVertexCount;
+            float ratio = size.y / size.x > 0.5f ? 0.5f : (1f - size.y / size.x);
+            float offsetX = stepX * ratio;
+            for (int i=0;i<halfVertexCount;i++)
+            {
+                float tgtEllipseX = -size.x / 2f + i * stepX;
+                float ellipseX = tgtEllipseX;
+                
+                if(tgtEllipseX < -0.01f && i>0) ellipseX = tgtEllipseX-offsetX;
+                if (tgtEllipseX > 0.01f && i>0) ellipseX = tgtEllipseX + offsetX;
+
+                float xSquare = Mathf.Pow(ellipseX,2);
+                float ellipseY = Mathf.Sqrt((aSquare*bSquare - bSquare*xSquare) / aSquare);
+                ellipseVetexs[i] = new Vector2(ellipseX,ellipseY);
+            }
+
+            for (int i = 0; i < halfVertexCount; i++)
+            {
+                float tgtEllipseX = size.x / 2f - i * stepX;
+                float ellipseX = tgtEllipseX;
+
+                if (tgtEllipseX < -0.01f && i>0) ellipseX = tgtEllipseX - offsetX;
+                if (tgtEllipseX > 0.01f && i>0) ellipseX = tgtEllipseX + offsetX;
+
+                float xSquare = Mathf.Pow(ellipseX, 2);
+                float ellipseY = -Mathf.Sqrt((aSquare * bSquare - bSquare * xSquare) / aSquare);
+                ellipseVetexs[i+halfVertexCount] = new Vector2(ellipseX, ellipseY);
+            }
         }
         else
         {
-            // focus on y
-            // y^2/size.x^2 + x^2/size.y^2 = 1
+            // y 轴分度,顶点从最底部开始计算
+            float stepY = size.y / (float)halfVertexCount;
+            float ratio = size.x / size.y > 0.5f ? 0.5f : (1f - size.x / size.y);
+            float offsetY = stepY * ratio;
+
+            for (int i = 0; i < halfVertexCount; i++)
+            {
+                float tgtEllipseY = -size.y / 2f + i * stepY;
+                float ellipseY = tgtEllipseY;
+
+                if (tgtEllipseY < -0.01f && i > 0) ellipseY = tgtEllipseY - offsetY;
+                if (tgtEllipseY > 0.01f && i > 0) ellipseY = tgtEllipseY + offsetY;
+
+                float ySquare = Mathf.Pow(ellipseY, 2);
+                float ellipseX = -Mathf.Sqrt((aSquare * bSquare - aSquare * ySquare) / bSquare);
+                ellipseVetexs[i] = new Vector2(ellipseX, ellipseY);
+            }
+
+            for (int i = 0; i < halfVertexCount; i++)
+            {
+                float tgtEllipseY = size.y / 2f - i * stepY;
+                float ellipseY = tgtEllipseY;
+                if (tgtEllipseY < -0.01f && i > 0) ellipseY = tgtEllipseY - offsetY;
+                if (tgtEllipseY > 0.01f && i > 0) ellipseY = tgtEllipseY + offsetY;
+
+                float ySquare = Mathf.Pow(ellipseY, 2);
+                float ellipseX = Mathf.Sqrt((aSquare * bSquare - aSquare * ySquare) / bSquare);
+                ellipseVetexs[i + halfVertexCount] = new Vector2(ellipseX, ellipseY);
+            }
 
         }
-        */
 
         // 2 根据 anchor angle 旋转
         float arc = -anchorAngle / 180 * Mathf.PI;
