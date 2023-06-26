@@ -2,43 +2,6 @@ using UnityEngine;
 
 public static class GameColliderHelper
 {
-    /// <summary>
-    /// bug
-    /// </summary>
-    /// <param name="newAnchorRotateAngle"></param>
-    /// <param name="offsetX2Zero"></param>
-    /// <param name="offsetY2Zero"></param>
-    /// <returns></returns>
-    public static float GetRealRotateAngle(float newAnchorRotateAngle, float offsetX2Zero, float offsetY2Zero)
-    {
-        // 计算距离
-        var offsetV2 = new Vector2(offsetX2Zero, offsetY2Zero);
-        float disToTgtPoint = offsetV2.magnitude;
-
-        // 计算偏转角度
-        // [0 - 360]
-        var initOffsetAngle = Vector2.Angle(offsetV2, Vector2.up); //unsigned angle
-        initOffsetAngle = offsetX2Zero < 0 ? 360 - initOffsetAngle : initOffsetAngle;
-
-        // 将anchorRotateAngle转化到[0,360]
-        var anchorRealRoateAngle = newAnchorRotateAngle % 360;
-        anchorRealRoateAngle = anchorRealRoateAngle < 0 ? anchorRealRoateAngle + 360 : anchorRealRoateAngle;
-
-        var realAngle = (initOffsetAngle + anchorRealRoateAngle) % 360;
-        return realAngle;
-    }
-
-    public static Vector2 GetRealPosition(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size)
-    {
-        float disToTgtPoint = new Vector2(offset.x, offset.y).magnitude;
-        float rotate_angle = GetRealRotateAngle(anchorAngle, offset.x, offset.y);
-        float realpos_x = anchorPos.x + Mathf.Sin(rotate_angle * Mathf.Deg2Rad) * disToTgtPoint;
-        float realpos_z = anchorPos.z + Mathf.Cos(rotate_angle * Mathf.Deg2Rad) * disToTgtPoint;
-
-        return new Vector2(realpos_x,realpos_z);
-    }
-
-
     public static Vector2[,] GetRectangleLines(GameCollider2D collider)
     {
         var vertexs = GetRectangleVertexs(collider);
@@ -115,34 +78,6 @@ public static class GameColliderHelper
         Vector2 rightDownPos = groundPos + rbOffset;
         Vector2 rightUpPos = groundPos + rtOffset;
         
-
-        /**
-        float disToTgtPoint = new Vector2(offset.x, offset.y).magnitude;
-        float rotate_angle = GetRealRotateAngle(anchorAngle, offset.x, offset.y);
-        float realpos_x = anchorPos.x + Mathf.Sin(rotate_angle * Mathf.Deg2Rad) * disToTgtPoint;
-        float realpos_z = anchorPos.z + Mathf.Cos(rotate_angle * Mathf.Deg2Rad) * disToTgtPoint;
-
-        // 计算左上
-        var originalLeftUpVector = new Vector3(-size.x / 2, 0, size.y / 2);
-        var realLeftUpVector = Quaternion.AngleAxis(rotate_angle, Vector3.up) * originalLeftUpVector;
-        var leftUpPos = new Vector2(realpos_x + realLeftUpVector.x, realpos_z + realLeftUpVector.z);
-
-        // 计算左下
-        var originalLeftDownVector = new Vector3(-size.x / 2, 0, -size.y / 2);
-        var realLeftDownVector = Quaternion.AngleAxis(rotate_angle, Vector3.up) * originalLeftDownVector;
-        var leftDownPos = new Vector2(realpos_x + realLeftDownVector.x, realpos_z + realLeftDownVector.z);
-
-        // 计算右下
-        var originalRightDownVector = new Vector3(size.x / 2, 0, -size.y / 2);
-        var realRightDownVector = Quaternion.AngleAxis(rotate_angle, Vector3.up) * originalRightDownVector;
-        var rightDownPos = new Vector2(realpos_x + realRightDownVector.x, realpos_z + realRightDownVector.z);
-
-        // 计算右上
-        var originalRightUpVector = new Vector3(size.x / 2, 0, size.y / 2);
-        var realRightUpVector = Quaternion.AngleAxis(rotate_angle, Vector3.up) * originalRightUpVector;
-        var rightUpPos = new Vector2(realpos_x + realRightUpVector.x, realpos_z + realRightUpVector.z);
-        */
-
         return new Vector2[4] { leftUpPos, leftDownPos, rightDownPos, rightUpPos };
     }
 

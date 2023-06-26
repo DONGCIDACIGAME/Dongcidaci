@@ -27,11 +27,6 @@ public class GameColliderMgrTest : MonoBehaviour
                 var v1 = lines[i, 1];
                 Handles.DrawDottedLine(new Vector3(v0.x,0,v0.y), new Vector3(v1.x,0,v1.y), lineThickness);
             }
-
-            // 绘制旋转角度的label
-            var pos = GameColliderHelper.GetRealPosition(collider.AnchorPos,collider.AnchorAngle,collider.Offset,collider.Size);
-            var angle = GameColliderHelper.GetRealRotateAngle(collider.AnchorAngle,collider.Offset.x,collider.Offset.y);
-            Handles.Label(new Vector3(pos.x,0,pos.y),angle.ToString());
         }
 
 

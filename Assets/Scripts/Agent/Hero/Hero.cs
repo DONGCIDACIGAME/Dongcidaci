@@ -64,7 +64,8 @@ public class Hero : Agent
     protected override void CustomInitialize()
     {
         // 位置初始化
-        SetPosition(Vector3.zero);
+        // changed by weng 0626
+        SetPosition(new Vector3(20f,0.2f,5f));
         // 朝向初始化
         SetRotation(Vector3.zero);
         // 缩放初始化
@@ -74,7 +75,9 @@ public class Hero : Agent
         if (mainCam != null)
         {
             mCft = mainCam.gameObject.AddComponent<CamFollowTarget>();
-            mCft.SetFollowTarget(mHeroView.GetGameObject(), new Vector3(0, 10f, -10f));
+            // changed by weng 0626
+            // turn vector3(0,10,-10) to vector3(0,10,-6.5)
+            mCft.SetFollowTarget(mHeroView.GetGameObject(), new Vector3(0, 10f, -7f));
         }
 
         MoveControl = new PlayerMoveControl(this);

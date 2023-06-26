@@ -97,6 +97,14 @@ public static class GameColliderDefine
         return !ColliderTypeCanNotDashThrough.Contains(colliderType);
     }
 
+    public static bool CheckCanDashThrough(HashSet<GameCollider2D> colliders)
+    {
+        foreach (var collider in colliders)
+        {
+            if (ColliderTypeCanNotDashThrough.Contains(collider.GetColliderType())) return false;
+        }
 
+        return true;
+    }
 
 }
