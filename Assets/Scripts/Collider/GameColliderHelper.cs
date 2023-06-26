@@ -2,6 +2,198 @@ using UnityEngine;
 
 public static class GameColliderHelper
 {
+    /// <summary>
+    /// 获取旋转矩形的4个顶点，左上 右上,右下,左下
+    /// </summary>
+    /// <param name="anchorPos"></param>
+    /// <param name="anchorAngle"></param>
+    /// <param name="offset"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    public static Vector2[] GetRectVertexs(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size)
+    {
+        var rectVertexs = new Vector2[4];
+        // 1 原始位置
+        rectVertexs[0] = new Vector2(-size.x/2f + offset.x, size.y/2f + offset.y);
+        rectVertexs[1] = new Vector2(size.x / 2f + offset.x, size.y / 2f + offset.y);
+        rectVertexs[2] = new Vector2(size.x / 2f + offset.x, -size.y / 2f + offset.y);
+        rectVertexs[3] = new Vector2(-size.x / 2f + offset.x, -size.y / 2f + offset.y);
+
+        // 2 绕 anchorAngle 旋转
+        float arc = -anchorAngle / 180 * Mathf.PI;
+        for (int i =0;i<rectVertexs.Length;i++)
+        {
+            rectVertexs[i] = new Vector2(
+                rectVertexs[i].x * Mathf.Cos(arc) - rectVertexs[i].y * Mathf.Sin(arc),
+                rectVertexs[i].x * Mathf.Sin(arc) + rectVertexs[i].y * Mathf.Cos(arc));
+        }
+
+        // 3 加上锚点信息
+        for (int i = 0; i < rectVertexs.Length; i++)
+        {
+            rectVertexs[i] += new Vector2(anchorPos.x,anchorPos.z);
+        }
+
+        return rectVertexs;
+    }
+
+    /// <summary>
+    /// 获取旋转圆的顶点坐标,可以指定需要的精度
+    /// 精度至少大于4
+    /// </summary>
+    /// <param name="anchorPos"></param>
+    /// <param name="anchorAngle"></param>
+    /// <param name="offset"></param>
+    /// <param name="radius"></param>
+    /// <param name="vertexCount"></param>
+    /// <returns></returns>
+    public static Vector2[] GetCircleVertexs(Vector3 anchorPos, float anchorAngle, Vector2 offset, float radius,int vertexCount)
+    {
+        if (vertexCount < 4) return null;
+        var circleVetexs = new Vector2[vertexCount];
+        // 1 根据精度计算初始点
+        float stepAngle = 360f / (float)vertexCount;
+        var baseV3 = new Vector3(-radius, 0, 0);
+        for (int i = 0; i < circleVetexs.Length; i++)
+        {
+            if (i == 0)
+            {
+                circleVetexs[i] = new Vector2(baseV3.x + offset.x, baseV3.z + offset.y);
+                continue;
+            }
+
+            var newV3 = Quaternion.AngleAxis(stepAngle * i, Vector3.up) * baseV3;
+            circleVetexs[i] = new Vector2(newV3.x + offset.x, newV3.z + offset.y);
+        }
+
+        // 2 根据 anchor angle 旋转
+        float arc = -anchorAngle / 180 * Mathf.PI;
+        for (int i = 0; i < circleVetexs.Length; i++)
+        {
+            circleVetexs[i] = new Vector2(
+                circleVetexs[i].x * Mathf.Cos(arc) - circleVetexs[i].y * Mathf.Sin(arc),
+                circleVetexs[i].x * Mathf.Sin(arc) + circleVetexs[i].y * Mathf.Cos(arc));
+        }
+
+        // 加上锚点的位置
+        var anchorPosV2 = new Vector2(anchorPos.x, anchorPos.z);
+        for (int i = 0; i < circleVetexs.Length; i++)
+        {
+            circleVetexs[i] += anchorPosV2;
+        }
+
+        return circleVetexs;
+    }
+
+    public static Vector2[] GetEllipseVertexs(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size, int vertexCount)
+    {
+        if (vertexCount < 4) return null;
+        // 判断是否是圆
+        if (size.x == size.y) return GetCircleVertexs(anchorPos,anchorAngle,offset,size.x/2f,vertexCount);
+        var ellipseVetexs = new Vector2[vertexCount];
+        //x^2/size.x^2 + y^2/size.y^2 = 1
+
+        // 1 计算原始点
+        float stepAngle = 360f / (float)vertexCount;
+        var baseV3 = new Vector3(-size.x/2f, 0, 0);
+        for (int i = 0; i < ellipseVetexs.Length; i++)
+        {
+            if (i == 0)
+            {
+                ellipseVetexs[i] = new Vector2(baseV3.x + offset.x, baseV3.z + offset.y);
+                continue;
+            }
+
+            var newDirV3 = Quaternion.AngleAxis(stepAngle * i, Vector3.up) * baseV3;
+
+            float yOnEllipse = 0;
+            float xOnEllipse = 0;
+            if (stepAngle * i  == 180 || newDirV3.z == 0f || newDirV3.z ==0)
+            {
+                xOnEllipse = size.x / 2f;
+                yOnEllipse = 0;
+            }
+            else
+            {
+                float kSuqare = Mathf.Pow(newDirV3.x / newDirV3.z, 2);
+                float aSquare = Mathf.Pow(size.x / 2f, 2);
+                float bSquare = Mathf.Pow(size.y / 2f, 2);
+
+                yOnEllipse = Mathf.Sqrt((aSquare * bSquare) / (aSquare + kSuqare * bSquare));
+                xOnEllipse = Mathf.Abs(newDirV3.x) / Mathf.Abs(newDirV3.z) * yOnEllipse;
+
+                // 需要根据newDirV3这个向量，求解在椭圆上的具体的点
+                if (stepAngle * i <= 90)
+                {
+                    // x<0,y>0
+                    xOnEllipse = -xOnEllipse;
+
+
+                }
+                else if (stepAngle * i > 90 && stepAngle * i <= 180)
+                {
+                    // x >0, y>0
+
+
+                }
+                else if (stepAngle * i > 180 && stepAngle * i <= 270)
+                {
+                    // x >0 y<0
+                    yOnEllipse = -yOnEllipse;
+
+                }
+                else if (stepAngle * i > 270 && stepAngle * i <= 360)
+                {
+                    // x <0 y<0
+                    xOnEllipse = -xOnEllipse;
+                    yOnEllipse = -yOnEllipse;
+                }
+            }
+
+            ellipseVetexs[i] = new Vector2(xOnEllipse + offset.x, yOnEllipse + offset.y);
+            //Debug.LogError(ellipseVetexs[i]);
+            //Log.Error(LogLevel.Normal,ellipseVetexs[i].ToString());
+        }
+
+        /**
+        if (size.x > size.y)
+        {
+            // focus on x
+            // x^2/size.x^2 + y^2/size.y^2 = 1
+        }
+        else
+        {
+            // focus on y
+            // y^2/size.x^2 + x^2/size.y^2 = 1
+
+        }
+        */
+
+        // 2 根据 anchor angle 旋转
+        float arc = -anchorAngle / 180 * Mathf.PI;
+        for (int i = 0; i < ellipseVetexs.Length; i++)
+        {
+            ellipseVetexs[i] = new Vector2(
+                ellipseVetexs[i].x * Mathf.Cos(arc) - ellipseVetexs[i].y * Mathf.Sin(arc),
+                ellipseVetexs[i].x * Mathf.Sin(arc) + ellipseVetexs[i].y * Mathf.Cos(arc));
+        }
+
+        // 加上锚点的位置
+        var anchorPosV2 = new Vector2(anchorPos.x, anchorPos.z);
+        for (int i = 0; i < ellipseVetexs.Length; i++)
+        {
+            ellipseVetexs[i] += anchorPosV2;
+        }
+
+        return ellipseVetexs;
+
+    }
+
+
+
+
+
+
     public static Vector2[,] GetRectangleLines(GameCollider2D collider)
     {
         var vertexs = GetRectangleVertexs(collider);

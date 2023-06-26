@@ -35,7 +35,7 @@ public class GameColliderView : MonoBehaviour
 
     public Color color = Color.red;
 
-    public int polyVertexCount = 8;
+    public int polyCountForShow = 8;
 
     private void OnDrawGizmos()
     {
@@ -46,8 +46,13 @@ public class GameColliderView : MonoBehaviour
         float lineThickness = 2f;
         Handles.color = color;
 
+        Vector2[] colliderVertexs = null;
+
         if (this.colliderType == ConvexCollider2DType.Rect)
         {
+            colliderVertexs = GameColliderHelper.GetRectVertexs(this.transform.position,transform.eulerAngles.y,offset,size);
+
+            /**
             Vector3 groundPos = new Vector3(transform.position.x, 0, transform.position.z);
             Vector3 rotation = this.transform.rotation.eulerAngles;
 
@@ -73,12 +78,15 @@ public class GameColliderView : MonoBehaviour
             Handles.DrawLine(rt, lt, lineThickness);
             //Gizmos.DrawLine(lt, lb);
             Handles.DrawLine(lt, lb, lineThickness);
+            */
         }
 
         // 圆的计算测试
         if (colliderType == ConvexCollider2DType.Ellipse && size.x == size.y)
         {
             // circle
+            colliderVertexs = GameColliderHelper.GetCircleVertexs(this.transform.position, transform.eulerAngles.y, offset, size.x/2f, polyCountForShow);
+            /**
             // 1 get vertexs
             var originVetexs = new Vector2[polyVertexCount];
             float stepAngle = 360f / (float)polyVertexCount;
@@ -110,25 +118,29 @@ public class GameColliderView : MonoBehaviour
             {
                 originVetexs[i] += anchorPos;
             }
-
-            // 画线
-            for (int i = 0; i < originVetexs.Length; i++)
-            {
-                int nextIndex = i + 1;
-                if (nextIndex >= originVetexs.Length)
-                {
-                    //last point
-                    nextIndex = 0;
-                }
-                //retEdges[i, 0] = originVetexs[i];
-                //retEdges[i, 1] = originVetexs[nextIndex];
-                Handles.DrawLine(new Vector3(originVetexs[i].x,0, originVetexs[i].y), new Vector3(originVetexs[nextIndex].x, 0, originVetexs[nextIndex].y), lineThickness);
-            }
+            */
 
         }
 
+        if (colliderType == ConvexCollider2DType.Ellipse && size.x != size.y)
+        {
+            colliderVertexs = GameColliderHelper.GetEllipseVertexs(this.transform.position, transform.eulerAngles.y, offset, size, polyCountForShow);
+        }
 
 
+        if (colliderVertexs == null || colliderVertexs.Length == 0) return;
+        // 画线
+        for (int i = 0; i < colliderVertexs.Length; i++)
+        {
+            int nextIndex = i + 1;
+            if (nextIndex >= colliderVertexs.Length)
+            {
+                //last point
+                nextIndex = 0;
+            }
+
+            Handles.DrawLine(new Vector3(colliderVertexs[i].x, 0, colliderVertexs[i].y), new Vector3(colliderVertexs[nextIndex].x, 0, colliderVertexs[nextIndex].y), lineThickness);
+        }
 
 
     }
