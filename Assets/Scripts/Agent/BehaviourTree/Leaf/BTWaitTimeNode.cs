@@ -68,4 +68,10 @@ public class BTWaitTimeNode : BTLeafNode
     {
         return true;
     }
+
+    protected override void CustomDispose()
+    {
+        mHasWaitTime = 0;
+        mTotalWaitTime = 0;
+    }
 }

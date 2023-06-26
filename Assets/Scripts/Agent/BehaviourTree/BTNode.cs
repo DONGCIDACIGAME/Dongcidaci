@@ -53,9 +53,16 @@ public abstract class BTNode : IGameDisposable
     protected abstract int LoadChildNodes(BTNodeData[] chlidNodes);
     protected abstract BTNodeData[] GetChildNodesData();
     public abstract int Excute(float deltaTime);
+
+    /// <summary>
+    /// Reset用于行为树执行一轮后开始新的循环时，将节点状态重置（树的参数不重置）
+    /// </summary>
     public abstract void Reset();
 
-    protected virtual void CustomDispose() { }
+    /// <summary>
+    /// Dipsose用于将行为树节点的数据全部抹除，变为未初始化的状态
+    /// </summary>
+    protected abstract void CustomDispose();
 
     private bool CheckArgNum(BTNodeArg[] args)
     {
@@ -149,6 +156,11 @@ public abstract class BTNode : IGameDisposable
         return BTDefine.BT_LoadNodeResult_Succeed;
     }
 
+    /// <summary>
+    /// 检查节点是否合法，用于保存前对节点进行子节点数量、类型、数据的检查
+    /// </summary>
+    /// <param name="info"></param>
+    /// <returns></returns>
     public abstract bool BTNodeDataCheck(ref string info);
 
     public BTNodeData ToBTNodeData()

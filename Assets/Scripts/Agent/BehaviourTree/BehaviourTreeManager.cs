@@ -78,9 +78,9 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
     /// </summary>
     /// <param name="data">节点数据</param>
     /// <returns></returns>
-    public BTNode CreateBTNode(BTNodeData data)
+    public  BTNode CreateBTNode(BTNodeData data)
     {
-        if(data == null)
+        if (data == null)
         {
             Log.Error(LogLevel.Normal, "BTNodeFactory CreateBTNode Failed, node data is null!");
             return null;
@@ -95,22 +95,23 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
     /// </summary>
     /// <param name="nodeType">节点大类型</param>
     /// <param name="nodeDetailType">节点详细类型</param>
+    /// ---------------------------增加新节点时需要更新
     /// <returns></returns>
     public BTNode CreateBTNode(int nodeType, int nodeDetailType)
     {
-        if(nodeType == BTDefine.BT_Node_Type_Tree)
+        if (nodeType == BTDefine.BT_Node_Type_Tree)
         {
             if (nodeDetailType == BTDefine.BT_Node_Type_Tree_Entry)
                 return new BTTreeEntry();
 
-            if(nodeDetailType == BTDefine.BT_Node_Type_Tree_ChildTree)
+            if (nodeDetailType == BTDefine.BT_Node_Type_Tree_ChildTree)
             {
                 return new BTChildTree();
             }
         }
 
 
-        if(nodeType == BTDefine.BT_Node_Type_Composite)
+        if (nodeType == BTDefine.BT_Node_Type_Composite)
         {
             if (nodeDetailType == BTDefine.BT_Node_DetailType_Composite_Sequence)
                 return new BTSequenceNode();
@@ -122,7 +123,7 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
                 return new BTParallelNode();
         }
 
-        if(nodeType == BTDefine.BT_Node_Type_Decor)
+        if (nodeType == BTDefine.BT_Node_Type_Decor)
         {
             if (nodeDetailType == BTDefine.BT_Node_Type_Decor_Invert)
                 return new BTInvertNode();
@@ -131,13 +132,16 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
                 return new BTRepeatNode();
         }
 
-        if(nodeType == BTDefine.BT_Node_Type_Leaf)
+        if (nodeType == BTDefine.BT_Node_Type_Leaf)
         {
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_WaitTime)
                 return new BTWaitTimeNode();
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_WaitFrame)
                 return new BTWaitFrameNode();
+
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_WaitMeter)
+                return new BTWaitMeterNode();
         }
 
         Log.Error(LogLevel.Normal, "BTNodeFactory CreateBTNode Failed, nodeType:{0}, nodeDetailType:{1}, no matching class!", nodeType, nodeDetailType);

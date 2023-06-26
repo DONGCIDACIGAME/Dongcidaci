@@ -190,8 +190,6 @@ public abstract class BTCompositeNode : BTNode
 
     protected override void CustomDispose()
     {
-        base.CustomDispose();
-
         if (mChildNodes == null || mChildNodes.Count == 0)
             return;
 
@@ -200,5 +198,7 @@ public abstract class BTCompositeNode : BTNode
             BTNode node = mChildNodes[i];
             node.Dispose();
         }
+
+        mChildNodes.Clear();
     }
 }

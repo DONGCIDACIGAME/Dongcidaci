@@ -5,6 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// 添加子节点的操作界面
+/// ---------------------------增加新节点时需要更新
+/// </summary>
 public class ControlAddNewNodePage : UIControl
 {
     private Button Btn_ChildTree;
@@ -15,6 +20,7 @@ public class ControlAddNewNodePage : UIControl
     private Button Btn_Repeat;
     private Button Btn_WaitTime;
     private Button Btn_WaitFrame;
+    private Button Btn_WaitMeter;
 
     private BTNode mNode;
 
@@ -56,6 +62,7 @@ public class ControlAddNewNodePage : UIControl
         Btn_Repeat = BindButtonNode("Contain_DecorNodes/Button_Repeat", () => { AddChildNode(new BTRepeatNode()); });
         Btn_WaitTime = BindButtonNode("Contain_ActionNodes/Button_WaitTime", () => { AddChildNode(new BTWaitTimeNode()); });
         Btn_WaitFrame = BindButtonNode("Contain_ActionNodes/Button_WaitFrame", () => { AddChildNode(new BTWaitFrameNode()); });
+        Btn_WaitMeter = BindButtonNode("Contain_ActionNodes/Button_WaitMeter", () => { AddChildNode(new BTWaitMeterNode()); });
     }
 
     public void SetBTNode(BTNode node)

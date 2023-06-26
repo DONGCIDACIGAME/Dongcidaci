@@ -357,6 +357,12 @@ public class MeterManager : ModuleManager<MeterManager>
         return targetIndex;
     }
 
+    public int GetMeterOffset(int from, int to)
+    {
+        int offset = to - from;
+        return offset;
+    }
+
     /// <summary>
     /// 获取从两个拍子之间的时间间隔
     /// </summary>
@@ -396,6 +402,24 @@ public class MeterManager : ModuleManager<MeterManager>
     {
         int targetMeter = GetMeterIndex(MeterIndex, 1);
         return GetTotalMeterTime(MeterIndex, targetMeter);
+    }
+
+    public float GetCurrentMeterProgress()
+    {
+        // 当前拍的剩余时间
+        float timeToNextMeter = GetTimeToMeter(1);
+        // 当前拍的总时间
+        float timeOfCurrentMeter = GetTotalMeterTime(MeterIndex, MeterIndex + 1);
+
+        if (timeOfCurrentMeter <= 0)
+        {
+            Log.Error(LogLevel.Normal, "GetCurrentMeterProgress Error, 当前拍的总时间<=0, 当前拍:{0}", MeterIndex);
+            return 1;
+        }
+
+        float progress = timeToNextMeter / timeOfCurrentMeter;
+
+        return progress;
     }
 
 

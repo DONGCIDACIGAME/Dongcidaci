@@ -98,11 +98,10 @@ public abstract class BTDecorNode : BTNode
 
     protected override void CustomDispose()
     {
-        base.CustomDispose();
+        if (mChildNode == null)
+            return;
 
-        if(mChildNode != null)
-        {
-            mChildNode.Dispose();
-        }
+        mChildNode.Dispose();
+        mChildNode = null;
     }
 }

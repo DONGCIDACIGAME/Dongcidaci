@@ -320,7 +320,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         cmd.Recycle();
     }
 
-    public void OnMeterEnter(int meterIndex)
+    public virtual void OnMeterEnter(int meterIndex)
     {
         StatusMachine.OnMeterEnter(meterIndex);
         Combo_Trigger.OnMeterEnter(meterIndex);
@@ -329,7 +329,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     }
 
     
-    public void OnMeterEnd(int meterIndex)
+    public virtual void OnMeterEnd(int meterIndex)
     { 
         StatusMachine.OnMeterEnd(meterIndex);
         Combo_Trigger.OnMeterEnd(meterIndex);

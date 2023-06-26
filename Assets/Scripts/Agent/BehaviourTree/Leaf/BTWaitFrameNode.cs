@@ -70,4 +70,10 @@ public class BTWaitFrameNode : BTLeafNode
     {
         return true;
     }
+
+    protected override void CustomDispose()
+    {
+        mHasWaitFrame = 0;
+        mTotalWaitFrame = 0;
+    }
 }

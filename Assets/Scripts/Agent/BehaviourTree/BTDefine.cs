@@ -64,6 +64,7 @@ public static class BTDefine
 
     public const int BT_Node_Type_Leaf_WaitTime = BT_Node_Type_Leaf * 100 + 1;
     public const int BT_Node_Type_Leaf_WaitFrame = BT_Node_Type_Leaf * 100 + 2;
+    public const int BT_Node_Type_Leaf_WaitMeter = BT_Node_Type_Leaf * 100 + 3;
 
 
     /// <summary>

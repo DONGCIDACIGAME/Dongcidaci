@@ -46,12 +46,17 @@ public class Monster : Agent
     public override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);
-
-        if(mBehaviourTree != null)
+        if (mBehaviourTree != null)
         {
             mBehaviourTree.Excute(deltaTime);
         }
     }
+
+    public override void OnMeterEnter(int meterIndex)
+    {
+        base.OnMeterEnter(meterIndex);
+    }
+
 
     public override int GetEntityType()
     {

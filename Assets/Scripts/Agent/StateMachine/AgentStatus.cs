@@ -316,18 +316,8 @@ public abstract class AgentStatus : IAgentStatus
         if (triggerMeter <= mCurLogicStateEndMeter)
             return false;
 
-        // 当前拍的剩余时间
-        float timeToNextMeter = MeterManager.Ins.GetTimeToMeter(1);
-        // 当前拍的总时间
-        float timeOfCurrentMeter = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, MeterManager.Ins.MeterIndex + 1);
-
-        if (timeOfCurrentMeter <= 0)
-        {
-            Log.Error(LogLevel.Normal, "ProgressWaitOnCommand Error, 当前拍的总时间<=0, 当前拍:{0}", MeterManager.Ins.MeterIndex);
-            return false ;
-        }
-
-        float progress = timeToNextMeter / timeOfCurrentMeter;
+        // 当前节拍的进度
+        float progress = MeterManager.Ins.GetCurrentMeterProgress();
         if (progress >= GamePlayDefine.AttackMeterProgressWait)
         {
             if(triggeredComboStep != null)

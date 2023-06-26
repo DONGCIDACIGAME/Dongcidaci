@@ -74,7 +74,11 @@ public  class ControlAIOperationArea : UIControl
     }
 
 
-
+    /// <summary>
+    /// 加载节点的属性面板
+    /// ---------------------------增加新节点时需要更新
+    /// </summary>
+    /// <param name="node"></param>
     private void ShowNodePropertyPage(BTNode node)
     {
         #region tree
@@ -89,7 +93,7 @@ new Dictionary<string, object>
         { "node", node }
 });
         }
-        else if(node is BTChildTree)
+        else if (node is BTChildTree)
         {
             mCurOperationPage = UIManager.Ins.AddControl<ControlChildTreeNodePropertyPage>(
 this,
@@ -187,6 +191,17 @@ new Dictionary<string, object>
                     { "node", node }
 });
         }
-        #endregion
+        else if (node is BTWaitMeterNode)
+        {
+            mCurOperationPage = UIManager.Ins.AddControl<ControlWaitMeterNodePropertyPage>(
+this,
+"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_WaitMeterNodePropertyPage",
+Node_OperationPageContain,
+new Dictionary<string, object>
+{
+                    { "node", node }
+});
+        }
+            #endregion
     }
 }
