@@ -17,19 +17,19 @@ public interface IConvex2DCollider:IGameCollider
     /// 从左上顺时针旋转
     /// </summary>
     /// <returns></returns>
-    public Vector2[] GetSortedVertexs();
+    //public Vector2[] GetSortedVertexs();
 
     /// <summary>
     /// 获取凸多边形的每一条边
     /// </summary>
     /// <returns></returns>
-    public Vector2[,] GetEdges();
+    //public Vector2[,] GetEdges();
 
     /// <summary>
     /// 获取凸多边形每条边朝外的法向
     /// </summary>
     /// <returns></returns>
-    public Vector2[] GetEdgeOutsideNormals();
+    //public Vector2[] GetEdgeOutsideNormals();
 
 }
 

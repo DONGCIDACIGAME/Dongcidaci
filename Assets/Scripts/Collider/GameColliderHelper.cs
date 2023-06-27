@@ -183,6 +183,63 @@ public static class GameColliderHelper
 
     }
 
+    public static Vector2[,] Get2DShapeEdges(Vector2[] vertexs)
+    {
+        if (vertexs == null || vertexs.Length == 0) return null;
+
+        var retEdges = new Vector2[vertexs.Length, 2];
+
+        for (int i = 0; i < vertexs.Length; i++)
+        {
+            int nextIndex = i + 1;
+            if (nextIndex >= vertexs.Length)
+            {
+                //last point
+                nextIndex = 0;
+            }
+            retEdges[i, 0] = vertexs[i];
+            retEdges[i, 1] = vertexs[nextIndex];
+        }
+
+        return retEdges;
+    }
+
+    public static Vector2[] Get2DShapeEdgeNormals(Vector2[,] edges)
+    {
+        if (edges == null || edges.Length == 0)
+        {
+            return null;
+        }
+
+        var retNormals = new Vector2[edges.GetLength(0)];
+
+        for (int i = 0; i < retNormals.Length; i++)
+        {
+            var edgeVector = edges[i, 1] - edges[i, 0];
+            edgeVector = edgeVector.normalized;
+            var normalV3 = Quaternion.AngleAxis(-90f, Vector3.up) * new Vector3(edgeVector.x, 0, edgeVector.y);
+            retNormals[i] = new Vector2(normalV3.x, normalV3.z);
+        }
+
+        return retNormals;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

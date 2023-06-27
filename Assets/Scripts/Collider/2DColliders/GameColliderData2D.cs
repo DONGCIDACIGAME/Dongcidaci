@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public enum ConvexCollider2DType
+public enum Convex2DShapeType
 {
     //矩形
     Rect = 0,
     Ellipse,
-
+    Circle,
 }
 
 public class GameColliderData2D
