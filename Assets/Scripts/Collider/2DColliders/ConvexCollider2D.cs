@@ -252,5 +252,8 @@ public abstract class ConvexCollider2D : IConvex2DCollider, IRecycle
 
     public abstract void Recycle();
 
-    
+    public void RecycleReset()
+    {
+        Dispose();
+    }
 }

@@ -59,7 +59,7 @@ namespace GameEngine
             // 4.持有者
             SetHolder(holder);
             // 5.初始化事件监听器
-            mEventListener = new GameEventListener();
+            mEventListener = GamePoolCenter.Ins.GameEventLIstenerPool.Pop();
             // 6.绑定所有子节点
             BindAllUINodes();
         }

@@ -62,7 +62,7 @@ public class EllipseCollider2D : ConvexCollider2D
 
     public override void Recycle()
     {
-        Dispose();
+        RecycleReset();
         GamePoolCenter.Ins.EllipseCollider2DPool.Push(this);
     }
 

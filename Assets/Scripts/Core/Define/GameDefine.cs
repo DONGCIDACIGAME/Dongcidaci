@@ -72,4 +72,13 @@ public static class MapDef
     public static float SceneRotation = 45f;
 }
 
+public static class EventDef
+{
+    /// <summary>
+    /// 对于post的事件，每帧最多处理多少个
+    /// </summary>
+    public const int PostEventExcuteSingleFrame = 20;
+}
+
+
 

@@ -20,6 +20,15 @@ public  class ControlAIOperationArea : UIControl
         mEventListener.Listen<ControlAINode>("ClickAINode", OnNodeClick);
     }
 
+    public void ClearOperationArea()
+    {
+        if(mCurOperationPage != null)
+        {
+            UIManager.Ins.RemoveControl(mCurOperationPage);
+            mCurOperationPage = null;
+        }
+    }
+
     private void OnNodeClick(ControlAINode nodeCtl)
     {
         if (nodeCtl == null)
@@ -158,6 +167,39 @@ new Dictionary<string, object>
             mCurOperationPage = UIManager.Ins.AddControl<ControlInvertNodePropertyPage>(
 this,
 "Prefabs/UI/AgentAIEditor/AINodePropertyPage/Decor/Ctl_InvertNodePropertyPage",
+Node_OperationPageContain,
+new Dictionary<string, object>
+{
+                    { "node", node }
+});
+        }
+        else if (node is BTOnceNode)
+        {
+            mCurOperationPage = UIManager.Ins.AddControl<ControlOnceNodePropertyPage>(
+this,
+"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Decor/Ctl_OnceNodePropertyPage",
+Node_OperationPageContain,
+new Dictionary<string, object>
+{
+                    { "node", node }
+});
+        }
+        else if (node is BTUntilTrueNode)
+        {
+            mCurOperationPage = UIManager.Ins.AddControl<ControlUntilTrueNodePropertyPage>(
+this,
+"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Decor/Ctl_UntilTrueNodePropertyPage",
+Node_OperationPageContain,
+new Dictionary<string, object>
+{
+                    { "node", node }
+});
+        }
+        else if (node is BTResetNode)
+        {
+            mCurOperationPage = UIManager.Ins.AddControl<ControlResetNodePropertyPage>(
+this,
+"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Decor/Ctl_ResetNodePropertyPage",
 Node_OperationPageContain,
 new Dictionary<string, object>
 {

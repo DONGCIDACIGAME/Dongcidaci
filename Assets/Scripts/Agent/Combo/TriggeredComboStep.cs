@@ -71,8 +71,13 @@ public class TriggeredComboStep : IRecycle
 
     public void Recycle()
     {
-        Dispose();
+        RecycleReset();
 
         GamePoolCenter.Ins.TriggeredComboActionPool.Push(this);
+    }
+
+    public void RecycleReset()
+    {
+        Dispose();
     }
 }

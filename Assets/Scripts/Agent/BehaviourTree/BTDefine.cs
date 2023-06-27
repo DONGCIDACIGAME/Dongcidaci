@@ -61,6 +61,9 @@ public static class BTDefine
 
     public const int BT_Node_Type_Decor_Invert = BT_Node_Type_Decor * 100 + 1;
     public const int BT_Node_Type_Decor_Repeat = BT_Node_Type_Decor * 100 + 2;
+    public const int BT_Node_Type_Decor_Reset = BT_Node_Type_Decor * 100 + 3;
+    public const int BT_Node_Type_Decor_UntilTrue = BT_Node_Type_Decor * 100 + 4;
+    public const int BT_Node_Type_Decor_Once = BT_Node_Type_Decor * 100 + 5;
 
     public const int BT_Node_Type_Leaf_WaitTime = BT_Node_Type_Leaf * 100 + 1;
     public const int BT_Node_Type_Leaf_WaitFrame = BT_Node_Type_Leaf * 100 + 2;

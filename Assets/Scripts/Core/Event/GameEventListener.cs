@@ -3,15 +3,27 @@ using System.Collections.Generic;
 
 namespace GameEngine
 {
-    public class GameEventListener
+    public class GameEventListener : IRecycle, IDisposable
     {
+        /// <summary>
+        /// id生成器
+        /// </summary>
+        private static AutoIncrementIndex _indexer = new AutoIncrementIndex();
+
+        /// <summary>
+        /// 监听者unique key
+        /// </summary>
         private int mListenerId;
+
+        /// <summary>
+        /// 所有监听的事件
+        /// </summary>
         private Dictionary<string, Delegate> mEventTable;
 
         public GameEventListener()
         {
             mEventTable = new Dictionary<string, Delegate>();
-            mListenerId = GameEventSystem.Ins.PopEventListenId();
+            mListenerId = _indexer.GetIndex();
         }
 
         public int GetListenerId()
@@ -146,6 +158,23 @@ namespace GameEngine
             {
                 GameEventSystem.Ins.RemoveEventListen(mListenerId, evtName);
             }
+        }
+
+        public void Recycle()
+        {
+            RecycleReset();
+            GamePoolCenter.Ins.GameEventLIstenerPool.Push(this);
+        }
+
+        public void Dispose()
+        {
+            mListenerId = 0;
+            mEventTable = null;
+    }
+
+        public void RecycleReset()
+        {
+            mEventTable.Clear();
         }
     }
 }

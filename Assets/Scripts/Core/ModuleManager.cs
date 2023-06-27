@@ -13,7 +13,7 @@ namespace GameEngine
 
         public void __Initialize__()
         {
-            mEventListener = new GameEventListener();
+            mEventListener = GamePoolCenter.Ins.GameEventLIstenerPool.Pop();
             BindEvents();
         }
 

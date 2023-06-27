@@ -61,7 +61,7 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
 
     public void Recycle()
     {
-        Dispose();
+        RecycleReset();
         GamePoolCenter.Ins.RectEffectExcutorPool.Push(this);
     }
 
@@ -81,5 +81,10 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
 
             Recycle();
         }
+    }
+
+    public void RecycleReset()
+    {
+        Dispose();
     }
 }

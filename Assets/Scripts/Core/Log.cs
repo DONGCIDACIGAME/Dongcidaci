@@ -11,9 +11,13 @@ public enum LogLevel
 
 public static class Log
 {
-    public static void Logic(string str)
+    /// <summary>
+    /// ！！仅临时打印时用这个, 日志等级最最低级的Info级，出包版本使用该等级打印可能不会打印日志
+    /// </summary>
+    /// <param name="str"></param>
+    public static void Logic(string str, params object[] args)
     {
-        Debug.Log(str);
+        Logic(LogLevel.Info, str, args);
     }    
     
     public static void Logic(LogLevel level,string str, params object[] args)

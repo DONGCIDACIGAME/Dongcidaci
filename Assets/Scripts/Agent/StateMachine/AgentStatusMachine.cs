@@ -11,7 +11,7 @@ public class AgentStatusMachine : IMeterHandler
     public AgentStatusMachine()
     {
         mStatusMap = new Dictionary<string, AgentStatus>();
-        mEventListener = new GameEventListener();
+        mEventListener = GamePoolCenter.Ins.GameEventLIstenerPool.Pop();
     }
 
     public void OnMeterEnter(int meterIndex)

@@ -1,6 +1,4 @@
-using GameEngine;
 using LitJson;
-using System.Collections.Generic;
 using UnityEngine;
 
 public static class BehaviourTreeHelper
@@ -22,6 +20,11 @@ public static class BehaviourTreeHelper
         }
     }
 
+    /// <summary>
+    /// ---------------------------增加新节点时需要更新
+    /// </summary>
+    /// <param name="BTNodeDetailType"></param>
+    /// <returns></returns>
     public static string GetNodeDetailTypeName(int BTNodeDetailType)
     {
         switch (BTNodeDetailType)
@@ -40,6 +43,12 @@ public static class BehaviourTreeHelper
                 return "反转";
             case BTDefine.BT_Node_Type_Decor_Repeat:
                 return "重复";
+            case BTDefine.BT_Node_Type_Decor_Once:
+                return "仅一次";
+            case BTDefine.BT_Node_Type_Decor_Reset:
+                return "重置";
+            case BTDefine.BT_Node_Type_Decor_UntilTrue:
+                return "直到成功";
             case BTDefine.BT_Node_Type_Leaf_WaitTime:
                 return "等待时间";
             case BTDefine.BT_Node_Type_Leaf_WaitFrame:

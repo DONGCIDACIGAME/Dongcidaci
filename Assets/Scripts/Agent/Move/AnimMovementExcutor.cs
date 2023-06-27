@@ -54,7 +54,7 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
 
     public void Recycle()
     {
-        Dispose();
+        RecycleReset();
         GamePoolCenter.Ins.MovementExcutorPool.Push(this);
     }
 
@@ -71,5 +71,10 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
 
             Recycle();
         }
+    }
+
+    public void RecycleReset()
+    {
+        Dispose();
     }
 }

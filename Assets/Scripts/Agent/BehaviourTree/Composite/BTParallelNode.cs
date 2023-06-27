@@ -26,6 +26,6 @@ public class BTParallelNode : BTCompositeNode
                 return BTDefine.BT_ExcuteResult_Failed;
         }
 
-        return BTDefine.BT_ExcuteResult_Succeed;
+        return InvalidExcuteResult();
     }
 }
