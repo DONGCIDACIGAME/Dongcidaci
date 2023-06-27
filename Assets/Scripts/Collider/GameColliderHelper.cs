@@ -216,16 +216,124 @@ public static class GameColliderHelper
         for (int i = 0; i < retNormals.Length; i++)
         {
             var edgeVector = edges[i, 1] - edges[i, 0];
-            edgeVector = edgeVector.normalized;
-            var normalV3 = Quaternion.AngleAxis(-90f, Vector3.up) * new Vector3(edgeVector.x, 0, edgeVector.y);
-            retNormals[i] = new Vector2(normalV3.x, normalV3.z);
+            //edgeVector = edgeVector.normalized;
+            //var normalV3 = Quaternion.AngleAxis(-90f, Vector3.up) * new Vector3(edgeVector.x, 0, edgeVector.y);
+            //retNormals[i] = new Vector2(normalV3.x, normalV3.z);
+            retNormals[i] = new Vector2(-edgeVector.y, edgeVector.x);
         }
 
         return retNormals;
     }
 
+    public static bool CheckCollideSAT(IConvex2DShape srcShape, IConvex2DShape tgtShape)
+    {
+        if (srcShape == null || tgtShape == null) return false;
 
+        // 1 check normals in src shape
+        var srcVertexs = srcShape.GetVertexs();
+        var tgtVertexs = tgtShape.GetVertexs();
+        if (srcVertexs == null || srcVertexs.Length == 0 || tgtVertexs == null || tgtVertexs.Length ==0) return false;
 
+        var srcShapeNormals = Get2DShapeEdgeNormals(Get2DShapeEdges(srcVertexs));
+        var tgtShapeNormals = Get2DShapeEdgeNormals(Get2DShapeEdges(tgtVertexs));
+        if (srcShapeNormals == null || srcShapeNormals.Length == 0 || tgtShapeNormals == null || tgtShapeNormals.Length == 0) return false;
+
+        // check src 的法向
+        for (int i =0;i<srcShapeNormals.Length;i++)
+        {
+            // 计算 src 所有点在法向上的投影
+            float srcProjectMin = Vector2.Dot(srcVertexs[0],srcShapeNormals[i]);
+            float srcProjectMax = srcProjectMin;
+            for (int k =0;k<srcVertexs.Length;k++)
+            {
+                float dotValue = Vector2.Dot(srcVertexs[k], srcShapeNormals[i]);
+                if (dotValue < srcProjectMin)
+                {
+                    srcProjectMin = dotValue;
+                }
+                else if (dotValue > srcProjectMax)
+                {
+                    srcProjectMax = dotValue;
+                }
+
+            }
+
+            // 计算tgt 所有点 在法向的投影
+            float tgtProjectMin = Vector2.Dot(tgtVertexs[0], srcShapeNormals[i]);
+            float tgtProjectMax = tgtProjectMin;
+            for (int k = 0; k < tgtVertexs.Length; k++)
+            {
+                float dotValue = Vector2.Dot(tgtVertexs[k], srcShapeNormals[i]);
+                if (dotValue < tgtProjectMin)
+                {
+                    tgtProjectMin = dotValue;
+                }
+                else if (dotValue > tgtProjectMax)
+                {
+                    tgtProjectMax = dotValue;
+                }
+
+            }
+
+            // 判断投影是否相交，相交继续检测，
+            // 不相交说明存在分离轴，肯定不产生碰撞
+            // 此处相切也算触碰
+            if (srcProjectMax < tgtProjectMin || tgtProjectMax < srcProjectMin)
+            {
+                return false;
+            }
+
+        }
+
+        // check tgt 的法向
+        for (int i = 0; i < tgtShapeNormals.Length; i++)
+        {
+            // 计算 src 所有点在法向上的投影
+            float srcProjectMin = Vector2.Dot(srcVertexs[0], tgtShapeNormals[i]);
+            float srcProjectMax = srcProjectMin;
+            for (int k = 0; k < srcVertexs.Length; k++)
+            {
+                float dotValue = Vector2.Dot(srcVertexs[k], tgtShapeNormals[i]);
+                if (dotValue < srcProjectMin)
+                {
+                    srcProjectMin = dotValue;
+                }
+                else if (dotValue > srcProjectMax)
+                {
+                    srcProjectMax = dotValue;
+                }
+
+            }
+
+            // 计算tgt 所有点 在法向的投影
+            float tgtProjectMin = Vector2.Dot(tgtVertexs[0], tgtShapeNormals[i]);
+            float tgtProjectMax = tgtProjectMin;
+            for (int k = 0; k < tgtVertexs.Length; k++)
+            {
+                float dotValue = Vector2.Dot(tgtVertexs[k], tgtShapeNormals[i]);
+                if (dotValue < tgtProjectMin)
+                {
+                    tgtProjectMin = dotValue;
+                }
+                else if (dotValue > tgtProjectMax)
+                {
+                    tgtProjectMax = dotValue;
+                }
+
+            }
+
+            // 判断投影是否相交，相交继续检测，
+            // 不相交说明存在分离轴，肯定不产生碰撞
+            // 此处相切也算触碰
+            if (srcProjectMax < tgtProjectMin || tgtProjectMax < srcProjectMin)
+            {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
 
 
 
