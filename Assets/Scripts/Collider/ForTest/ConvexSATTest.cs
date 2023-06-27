@@ -50,8 +50,8 @@ public class ConvexSATTest : MonoBehaviour
 #if UNITY_EDITOR
 
     private Color lineColor = Color.green;
-    private Color triggerColor = Color.yellow;
-    private float lineThickness = 0.5f;
+    private Color triggerColor = Color.blue;
+    private float lineThickness = 3f;
 
     private void OnDrawGizmos()
     {
@@ -86,9 +86,15 @@ public class ConvexSATTest : MonoBehaviour
         // 检测碰撞
         if (convexShape != null && tgtConvexComp != null)
         {
-            if (GameColliderHelper.CheckCollideSAT(this.convexShape, tgtConvexComp.convexShape))
+            if (GameColliderHelper.CheckCollideSATWithLeaveVector(this.convexShape, tgtConvexComp.convexShape, out Vector2 leaveV2))
             {
+
                 Handles.color = triggerColor;
+
+                Handles.DrawLine(
+                    new Vector3(transform.position.x,0,transform.position.z),
+                    new Vector3(transform.position.x + leaveV2.x,0,transform.position.z+leaveV2.y),
+                    lineThickness); ;
             }
         }
 

@@ -278,7 +278,7 @@ public static class GameColliderHelper
             // 判断投影是否相交，相交继续检测，
             // 不相交说明存在分离轴，肯定不产生碰撞
             // 此处相切也算触碰
-            if (srcProjectMax < tgtProjectMin || tgtProjectMax < srcProjectMin)
+            if (srcProjectMax <= tgtProjectMin || tgtProjectMax <= srcProjectMin)
             {
                 return false;
             }
@@ -325,7 +325,7 @@ public static class GameColliderHelper
             // 判断投影是否相交，相交继续检测，
             // 不相交说明存在分离轴，肯定不产生碰撞
             // 此处相切也算触碰
-            if (srcProjectMax < tgtProjectMin || tgtProjectMax < srcProjectMin)
+            if (srcProjectMax <= tgtProjectMin || tgtProjectMax <= srcProjectMin)
             {
                 return false;
             }
@@ -335,7 +335,195 @@ public static class GameColliderHelper
         return true;
     }
 
+    public static bool CheckCollideSATWithLeaveVector(IConvex2DShape srcShape, IConvex2DShape tgtShape,out Vector2 srcLeaveV2)
+    {
+        if (srcShape == null || tgtShape == null)
+        {
+            srcLeaveV2 = Vector2.zero;
+            return false;
+        }
 
+
+        // 1 check normals in src shape
+        var srcVertexs = srcShape.GetVertexs();
+        var tgtVertexs = tgtShape.GetVertexs();
+        if (srcVertexs == null || srcVertexs.Length == 0 || tgtVertexs == null || tgtVertexs.Length == 0)
+        {
+            srcLeaveV2 = Vector2.zero;
+            return false;
+        }
+
+        var srcShapeNormals = Get2DShapeEdgeNormals(Get2DShapeEdges(srcVertexs));
+        var tgtShapeNormals = Get2DShapeEdgeNormals(Get2DShapeEdges(tgtVertexs));
+        if (srcShapeNormals == null || srcShapeNormals.Length == 0 || tgtShapeNormals == null || tgtShapeNormals.Length == 0)
+        {
+            srcLeaveV2 = Vector2.zero;
+            return false;
+        }
+
+
+        srcLeaveV2 = new Vector2(1000,1000);
+        // check src 的法向
+        for (int i = 0; i < srcShapeNormals.Length; i++)
+        {
+            // 计算 src 所有点在法向上的投影
+            float srcProjectMin = Vector2.Dot(srcVertexs[0], srcShapeNormals[i]);
+            float srcProjectMax = srcProjectMin;
+            for (int k = 0; k < srcVertexs.Length; k++)
+            {
+                float dotValue = Vector2.Dot(srcVertexs[k], srcShapeNormals[i]);
+                if (dotValue < srcProjectMin)
+                {
+                    srcProjectMin = dotValue;
+                }
+                else if (dotValue > srcProjectMax)
+                {
+                    srcProjectMax = dotValue;
+                }
+
+            }
+
+            // 计算tgt 所有点 在法向的投影
+            float tgtProjectMin = Vector2.Dot(tgtVertexs[0], srcShapeNormals[i]);
+            float tgtProjectMax = tgtProjectMin;
+            for (int k = 0; k < tgtVertexs.Length; k++)
+            {
+                float dotValue = Vector2.Dot(tgtVertexs[k], srcShapeNormals[i]);
+                if (dotValue < tgtProjectMin)
+                {
+                    tgtProjectMin = dotValue;
+                }
+                else if (dotValue > tgtProjectMax)
+                {
+                    tgtProjectMax = dotValue;
+                }
+
+            }
+
+            // 判断投影是否相交，相交继续检测，
+            // 不相交说明存在分离轴，肯定不产生碰撞
+            // 此处相切不算触碰
+            if (srcProjectMax <= tgtProjectMin || tgtProjectMax <= srcProjectMin)
+            {
+                srcLeaveV2 = Vector2.zero;
+                return false;
+            }
+            else
+            {
+                // 投影存在相交，计算离开向量
+                float leaveDis = 1000f;
+                // smin -- |tmin -- smax| -- tmax
+                if (srcProjectMax<=tgtProjectMax && tgtProjectMin >= srcProjectMin)
+                {
+                    leaveDis = srcProjectMax - tgtProjectMin;
+                }
+                // smin -- |tmin -- tmax| -- smax
+                else if (tgtProjectMax <=srcProjectMax && tgtProjectMin >= srcProjectMin)
+                {
+                    leaveDis = tgtProjectMax - tgtProjectMin;
+                }
+                // tmin -- |smin -- smax| -- tmax
+                else if (srcProjectMin >= tgtProjectMin && srcProjectMax <= tgtProjectMax)
+                {
+                    leaveDis = srcProjectMax - srcProjectMin;
+                }
+                // tmin -- |smin -- tmax| -- smax
+                else if (tgtProjectMin <= srcProjectMin && tgtProjectMax <= srcProjectMax)
+                {
+                    leaveDis = tgtProjectMax - srcProjectMin;
+                }
+
+                if (Mathf.Abs(leaveDis) < srcLeaveV2.magnitude)
+                {
+                    // 这个离开向量的离开距离更短
+                    srcLeaveV2 = srcShapeNormals[i].normalized * leaveDis;
+                }
+
+            }
+
+        }
+
+        // check tgt 的法向
+        for (int i = 0; i < tgtShapeNormals.Length; i++)
+        {
+            // 计算 src 所有点在法向上的投影
+            float srcProjectMin = Vector2.Dot(srcVertexs[0], tgtShapeNormals[i]);
+            float srcProjectMax = srcProjectMin;
+            for (int k = 0; k < srcVertexs.Length; k++)
+            {
+                float dotValue = Vector2.Dot(srcVertexs[k], tgtShapeNormals[i]);
+                if (dotValue < srcProjectMin)
+                {
+                    srcProjectMin = dotValue;
+                }
+                else if (dotValue > srcProjectMax)
+                {
+                    srcProjectMax = dotValue;
+                }
+
+            }
+
+            // 计算tgt 所有点 在法向的投影
+            float tgtProjectMin = Vector2.Dot(tgtVertexs[0], tgtShapeNormals[i]);
+            float tgtProjectMax = tgtProjectMin;
+            for (int k = 0; k < tgtVertexs.Length; k++)
+            {
+                float dotValue = Vector2.Dot(tgtVertexs[k], tgtShapeNormals[i]);
+                if (dotValue < tgtProjectMin)
+                {
+                    tgtProjectMin = dotValue;
+                }
+                else if (dotValue > tgtProjectMax)
+                {
+                    tgtProjectMax = dotValue;
+                }
+
+            }
+
+            // 判断投影是否相交，相交继续检测，
+            // 不相交说明存在分离轴，肯定不产生碰撞
+            // 此处相切也算触碰
+            if (srcProjectMax <= tgtProjectMin || tgtProjectMax <= srcProjectMin)
+            {
+                srcLeaveV2 = Vector2.zero;
+                return false;
+            }
+            else
+            {
+                // 投影存在相交，计算离开向量
+                float leaveDis = 1000f;
+                // smin -- |tmin -- smax| -- tmax
+                if (srcProjectMax <= tgtProjectMax && tgtProjectMin >= srcProjectMin)
+                {
+                    leaveDis = tgtProjectMin - srcProjectMax;
+                }
+                // smin -- |tmin -- tmax| -- smax
+                else if (tgtProjectMax <= srcProjectMax && tgtProjectMin >= srcProjectMin)
+                {
+                    leaveDis = tgtProjectMin - tgtProjectMax;
+                }
+                // tmin -- |smin -- smax| -- tmax
+                else if (srcProjectMin >= tgtProjectMin && srcProjectMax <= tgtProjectMax)
+                {
+                    leaveDis = srcProjectMin - srcProjectMax;
+                }
+                // tmin -- |smin -- tmax| -- smax
+                else if (tgtProjectMin <= srcProjectMin && tgtProjectMax <= srcProjectMax)
+                {
+                    leaveDis = srcProjectMin - tgtProjectMax;
+                }
+
+                if (Mathf.Abs(leaveDis) < srcLeaveV2.magnitude)
+                {
+                    // 这个离开向量的离开距离更短
+                    srcLeaveV2 = tgtShapeNormals[i].normalized * leaveDis;
+                }
+            }
+
+        }
+
+        return true;
+    }
 
 
 
