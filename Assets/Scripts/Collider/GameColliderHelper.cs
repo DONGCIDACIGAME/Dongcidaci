@@ -219,7 +219,7 @@ public static class GameColliderHelper
             //edgeVector = edgeVector.normalized;
             //var normalV3 = Quaternion.AngleAxis(-90f, Vector3.up) * new Vector3(edgeVector.x, 0, edgeVector.y);
             //retNormals[i] = new Vector2(normalV3.x, normalV3.z);
-            retNormals[i] = new Vector2(-edgeVector.y, edgeVector.x);
+            retNormals[i] = new Vector2(-edgeVector.y, edgeVector.x).normalized;
         }
 
         return retNormals;
@@ -412,12 +412,12 @@ public static class GameColliderHelper
             {
                 // 投影存在相交，计算离开向量
                 float leaveDis = 1000f;
-                // smin -- |tmin -- smax| -- tmax
+                // smin -- |tmin -- smax| -- tmax -- correct
                 if (srcProjectMax<=tgtProjectMax && tgtProjectMin >= srcProjectMin)
                 {
-                    leaveDis = srcProjectMax - tgtProjectMin;
+                    leaveDis = tgtProjectMin - srcProjectMax;
                 }
-                // smin -- |tmin -- tmax| -- smax
+                // smin -- |tmin -- tmax| -- smax -- correct
                 else if (tgtProjectMax <=srcProjectMax && tgtProjectMin >= srcProjectMin)
                 {
                     leaveDis = tgtProjectMax - tgtProjectMin;
@@ -427,7 +427,7 @@ public static class GameColliderHelper
                 {
                     leaveDis = srcProjectMax - srcProjectMin;
                 }
-                // tmin -- |smin -- tmax| -- smax
+                // tmin -- |smin -- tmax| -- smax -- correct
                 else if (tgtProjectMin <= srcProjectMin && tgtProjectMax <= srcProjectMax)
                 {
                     leaveDis = tgtProjectMax - srcProjectMin;
@@ -497,20 +497,20 @@ public static class GameColliderHelper
                 {
                     leaveDis = tgtProjectMin - srcProjectMax;
                 }
-                // smin -- |tmin -- tmax| -- smax
+                // smin -- |tmin -- tmax| -- smax -- correct
                 else if (tgtProjectMax <= srcProjectMax && tgtProjectMin >= srcProjectMin)
                 {
-                    leaveDis = tgtProjectMin - tgtProjectMax;
+                    leaveDis = tgtProjectMax - tgtProjectMin;
                 }
                 // tmin -- |smin -- smax| -- tmax
                 else if (srcProjectMin >= tgtProjectMin && srcProjectMax <= tgtProjectMax)
                 {
-                    leaveDis = srcProjectMin - srcProjectMax;
+                    leaveDis = srcProjectMax - srcProjectMin;
                 }
-                // tmin -- |smin -- tmax| -- smax
+                // tmin -- |smin -- tmax| -- smax -- correct
                 else if (tgtProjectMin <= srcProjectMin && tgtProjectMax <= srcProjectMax)
                 {
-                    leaveDis = srcProjectMin - tgtProjectMax;
+                    leaveDis = tgtProjectMax - srcProjectMin;
                 }
 
                 if (Mathf.Abs(leaveDis) < srcLeaveV2.magnitude)
