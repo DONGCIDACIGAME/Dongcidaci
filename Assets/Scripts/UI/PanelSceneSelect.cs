@@ -37,6 +37,6 @@ public class PanelSceneSelect : UIPanel
 
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
-        Log.Logic("panel select scene open....");
+        Log.Logic(LogLevel.Info, "panel select scene open....");
     }
 }

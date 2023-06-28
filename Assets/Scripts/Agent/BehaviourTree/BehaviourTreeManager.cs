@@ -123,6 +123,7 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
                 return new BTParallelNode();
         }
 
+
         if (nodeType == BTDefine.BT_Node_Type_Decor)
         {
             if (nodeDetailType == BTDefine.BT_Node_Type_Decor_Invert)
@@ -130,6 +131,15 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Decor_Repeat)
                 return new BTRepeatNode();
+
+            if (nodeDetailType == BTDefine.BT_Node_Type_Decor_Once)
+                return new BTOnceNode();
+
+            if (nodeDetailType == BTDefine.BT_Node_Type_Decor_Reset)
+                return new BTResetNode();
+
+            if (nodeDetailType == BTDefine.BT_Node_Type_Decor_UntilTrue)
+                return new BTUntilTrueNode();
         }
 
         if (nodeType == BTDefine.BT_Node_Type_Leaf)

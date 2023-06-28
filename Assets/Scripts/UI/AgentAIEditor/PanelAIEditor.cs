@@ -74,6 +74,7 @@ public class PanelAIEditor : UIPanel
         mTreeFileName = BehaviourTreeHelper.FileFullPathToTreeName(filePath);
         mCurEditingTree = tree;
         DrawTree(mCurEditingTree);
+        Ctl_OperationArea.ClearOperationArea();
     }
 
     private void ShowSaveTreeHUD()
@@ -120,6 +121,7 @@ public class PanelAIEditor : UIPanel
     {
         mCurEditingTree = BehaviourTreeManager.Ins.CreateBTNode(BTDefine.BT_Node_Type_Tree, BTDefine.BT_Node_Type_Tree_Entry) as BTTree;
         DrawTree(mCurEditingTree);
+        GameEventSystem.Ins.Fire("SelectNode", mCurEditingTree);
         mDataChanged = true;
     }
 

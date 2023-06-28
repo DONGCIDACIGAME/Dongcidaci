@@ -1,8 +1,5 @@
 using GameEngine;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -12,12 +9,31 @@ using UnityEngine.UI;
 /// </summary>
 public class ControlAddNewNodePage : UIControl
 {
+    /// <summary>
+    ///  tree
+    /// </summary>
     private Button Btn_ChildTree;
+
+    /// <summary>
+    /// compite
+    /// </summary>
     private Button Btn_Sequence;
     private Button Btn_Selector;
     private Button Btn_Parallel;
+
+    /// <summary>
+    /// decor
+    /// </summary>
     private Button Btn_Invert;
     private Button Btn_Repeat;
+    private Button Btn_Once;
+    private Button Btn_Reset;
+    private Button Btn_UntilTrue;
+
+
+    /// <summary>
+    /// action
+    /// </summary>
     private Button Btn_WaitTime;
     private Button Btn_WaitFrame;
     private Button Btn_WaitMeter;
@@ -55,11 +71,20 @@ public class ControlAddNewNodePage : UIControl
                         { "loadEvent", "OnLoadChildTreeFromFile"}
                 });
         });
-        Btn_Sequence = BindButtonNode("Contain_CompositeNodes/Button_Sequence", ()=> { AddChildNode(new BTSequenceNode()); });
+
+
+        Btn_Sequence = BindButtonNode("Contain_CompositeNodes/Button_Sequence", () => { AddChildNode(new BTSequenceNode()); });
         Btn_Selector = BindButtonNode("Contain_CompositeNodes/Button_Selector", () => { AddChildNode(new BTSelectNode()); });
         Btn_Parallel = BindButtonNode("Contain_CompositeNodes/Button_Parallel", () => { AddChildNode(new BTParallelNode()); });
+
+
         Btn_Invert = BindButtonNode("Contain_DecorNodes/Button_Invert", () => { AddChildNode(new BTInvertNode()); });
         Btn_Repeat = BindButtonNode("Contain_DecorNodes/Button_Repeat", () => { AddChildNode(new BTRepeatNode()); });
+        Btn_Once = BindButtonNode("Contain_DecorNodes/Button_Once", () => { AddChildNode(new BTOnceNode()); });
+        Btn_Reset = BindButtonNode("Contain_DecorNodes/Button_Reset", () => { AddChildNode(new BTResetNode()); });
+        Btn_UntilTrue = BindButtonNode("Contain_DecorNodes/Button_UntilTrue", () => { AddChildNode(new BTUntilTrueNode()); });
+
+
         Btn_WaitTime = BindButtonNode("Contain_ActionNodes/Button_WaitTime", () => { AddChildNode(new BTWaitTimeNode()); });
         Btn_WaitFrame = BindButtonNode("Contain_ActionNodes/Button_WaitFrame", () => { AddChildNode(new BTWaitFrameNode()); });
         Btn_WaitMeter = BindButtonNode("Contain_ActionNodes/Button_WaitMeter", () => { AddChildNode(new BTWaitMeterNode()); });
@@ -79,7 +104,6 @@ public class ControlAddNewNodePage : UIControl
         {
             BTCompositeNode composite = mNode as BTCompositeNode;
             composite.AddChildNode(childNode);
-            GameEventSystem.Ins.Fire("UpdateAILogicArea");
         }
         else if(mNode is BTDecorNode)
         {
@@ -87,7 +111,6 @@ public class ControlAddNewNodePage : UIControl
             if(decor.GetChildNode() == null)
             {
                 decor.SetChildNode(childNode);
-                GameEventSystem.Ins.Fire("UpdateAILogicArea");
             }
         }
         else if (mNode is BTTree)
@@ -96,15 +119,16 @@ public class ControlAddNewNodePage : UIControl
             if (tree.GetChildNode() == null)
             {
                 tree.SetChildNode(childNode);
-                GameEventSystem.Ins.Fire("UpdateAILogicArea");
             }
         }
         else if(mNode is BTLeafNode)
         {
-
+            Log.Error(LogLevel.Normal, "AddChildNode Error, BTLeafNode can't add child node!");
         }
 
-        GameEventSystem.Ins.Fire("SelectNode", childNode);
+        GameEventSystem.Ins.Fire("UpdateAILogicArea");
+
+        GameEventSystem.Ins.Post("SelectNode", childNode);
     }
 
     protected override void OnClose()

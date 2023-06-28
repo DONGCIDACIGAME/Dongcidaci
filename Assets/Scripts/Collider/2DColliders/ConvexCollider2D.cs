@@ -221,5 +221,8 @@ public class ConvexCollider2D : IConvex2DCollider, IRecycle
         GamePoolCenter.Ins.ConvexCollider2DPool.Push(this);
     }
 
-    
+    public void RecycleReset()
+    {
+        Dispose();
+    }
 }

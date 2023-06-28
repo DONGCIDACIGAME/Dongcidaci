@@ -74,6 +74,19 @@ public class BTRepeatNode : BTDecorNode
             }
         }
 
-        return BTDefine.BT_ExcuteResult_Failed;
+        return InvalidExcuteResult();
+    }
+
+    public override void Reset()
+    {
+        base.Reset();
+        mHasRepeatTime = 0;
+    }
+
+    protected override void CustomDispose()
+    {
+        base.CustomDispose();
+        mHasRepeatTime = 0;
+        mTotalTime = 0;
     }
 }

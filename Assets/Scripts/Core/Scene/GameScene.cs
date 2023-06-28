@@ -12,7 +12,7 @@ public abstract class GameScene : IScene
     {
         string sceneName = GetSceneName();
         mScope = GameScope.SceneScope.CreateChildScope(sceneName);
-        mEventListener = new GameEventListener();
+        mEventListener =  GamePoolCenter.Ins.GameEventLIstenerPool.Pop();
     }
 
     public abstract void OnSceneEnter();

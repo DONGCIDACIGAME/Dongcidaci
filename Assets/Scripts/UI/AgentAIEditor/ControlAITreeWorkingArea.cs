@@ -69,6 +69,7 @@ public class ControlAITreeWorkingArea : UIControl
     private void OnNodeClick(ControlAINode nodeCtl)
     {
         ShowSelection(nodeCtl);
+
     }
 
     public void Draw()

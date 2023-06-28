@@ -19,7 +19,7 @@ public class BTInvertNode : BTDecorNode
         if (result == BTDefine.BT_ExcuteResult_Succeed)
             return BTDefine.BT_ExcuteResult_Failed;
 
-        return BTDefine.BT_ExcuteResult_Failed;
+        return InvalidExcuteResult();
     }
 
     public override int Excute(float deltaTime)

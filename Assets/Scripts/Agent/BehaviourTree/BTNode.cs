@@ -175,6 +175,15 @@ public abstract class BTNode : IGameDisposable
         return data;
     }
 
+    /// <summary>
+    /// 返回执行失败，并打印：BTNode Excute Error, invalid Excute result!
+    /// </summary>
+    /// <returns></returns>
+    protected int InvalidExcuteResult()
+    {
+        Log.Error(LogLevel.Normal, "BTNode Excute Error, invalid Excute result!");
+        return BTDefine.BT_ExcuteResult_Failed;
+    }
     public void Dispose()
     {
         mContext = null;

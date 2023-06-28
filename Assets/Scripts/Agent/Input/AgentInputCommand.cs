@@ -61,7 +61,7 @@ public class AgentInputCommand : IRecycle
         return false;
     }
 
-    public void Clear()
+    public void Dispose()
     {
         this.CmdType = AgentCommandDefine.EMPTY;
         this.Towards = GamePlayDefine.InputDirection_NONE;
@@ -83,7 +83,12 @@ public class AgentInputCommand : IRecycle
 
     public void Recycle()
     {
-        Clear();
+        RecycleReset();
         GamePoolCenter.Ins.AgentInputCommandPool.Push(this);
+    }
+
+    public void RecycleReset()
+    {
+        Dispose();
     }
 }

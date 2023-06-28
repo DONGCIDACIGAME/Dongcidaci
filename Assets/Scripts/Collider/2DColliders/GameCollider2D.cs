@@ -429,12 +429,13 @@ public class GameCollider2D : IGameCollider, IRecycle
 
     public void Recycle()
     {
-        Dispose();
+        RecycleReset();
         GamePoolCenter.Ins.GameCollider2DPool.Push(this);
     }
 
-
-
-
+    public void RecycleReset()
+    {
+        Dispose();
+    }
 }
 
