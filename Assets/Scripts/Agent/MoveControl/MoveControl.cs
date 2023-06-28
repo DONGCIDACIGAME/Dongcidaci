@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class MoveControl
 {
@@ -33,7 +34,7 @@ public class MoveControl
         MoveRecord = 0;
     }
 
-    public void MoveToPosition(Vector3 position)
+    public void MoveToPosition(Vector3 tgtPosition)
     {
         ConvexCollider2D collider = mAgent.GetCollider();
 
@@ -66,8 +67,32 @@ public class MoveControl
         }
 
         */
+        var checkShape = collider.Convex2DShape;
+        checkShape.AnchorPos = tgtPosition;
+        var ret = GameColliderManager.Ins.CheckCollideHappenWithShape(
+                checkShape,
+                out Dictionary<ConvexCollider2D,Vector2> tgtsWithLeaveV2,
+                collider
+            );
 
-        mAgent.SetPosition(position);
+        if (ret)
+        {
+            // 发生了碰撞
+            var unMoveColliders = GameColliderDefine.GetUnMoveableColliders(tgtsWithLeaveV2.Keys.ToArray());
+            if (unMoveColliders.Count > 0)
+            {
+                // 这里存在问题，需要再考虑下多个碰撞体的
+                // 目前策略同时碰多block,视为卡墙角，不能动
+                if (unMoveColliders.Count > 1) return;
+
+                // 单个墙障碍
+                var leaveV2 = tgtsWithLeaveV2[unMoveColliders[0]];
+                tgtPosition = new Vector3(tgtPosition.x + leaveV2.x, tgtPosition.y, tgtPosition.z+leaveV2.y);
+            }
+            
+        }
+
+        mAgent.SetPosition(tgtPosition);
     }
 
     public void OnUpdate(float deltaTime)

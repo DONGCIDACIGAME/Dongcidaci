@@ -57,7 +57,7 @@ public static class GameColliderDefine
     /// <summary>
     /// 不可被移动穿过的碰撞体的类型
     /// </summary>
-    private static readonly HashSet<MyColliderType> ColliderTypeCanNotMoveThrough = new HashSet<MyColliderType>() {
+    private static readonly HashSet<MyColliderType> UnMoveColliderTypes = new HashSet<MyColliderType>() {
         MyColliderType.Collider_Hero,
         MyColliderType.Collider_Monster,
         MyColliderType.Collider_NPC,
@@ -67,7 +67,7 @@ public static class GameColliderDefine
     /// <summary>
     /// 不可被冲刺穿过的碰撞体类型
     /// </summary>
-    private static readonly HashSet<MyColliderType> ColliderTypeCanNotDashThrough = new HashSet<MyColliderType>() {
+    private static readonly HashSet<MyColliderType> UnDashColliderTypes = new HashSet<MyColliderType>() {
         MyColliderType.Collider_Hero,
         MyColliderType.Collider_Monster,
         MyColliderType.Collider_NPC,
@@ -78,33 +78,32 @@ public static class GameColliderDefine
 
     public static bool CheckCanMoveThrough(MyColliderType colliderType)
     {
-        return !ColliderTypeCanNotMoveThrough.Contains(colliderType);
+        return !UnMoveColliderTypes.Contains(colliderType);
     }
 
-    public static bool CheckCanMoveThrough(HashSet<GameCollider2D> colliders)
+    public static List<ConvexCollider2D> GetUnMoveableColliders(ConvexCollider2D[] checkColliders)
     {
-        foreach (var collider in colliders)
+        var retColliders = new List<ConvexCollider2D>();
+        if (checkColliders == null || checkColliders.Length ==0) return retColliders;
+        
+        for (int i=0;i<checkColliders.Length;i++)
         {
-            if (ColliderTypeCanNotMoveThrough.Contains(collider.GetColliderType())) return false;
+            if (UnMoveColliderTypes.Contains(checkColliders[i].GetColliderType()))
+            {
+                //This collider is unmoveable
+                retColliders.Add(checkColliders[i]);
+            }
         }
 
-        return true;
+        return retColliders;
     }
 
 
     public static bool CheckCanDashThrough(MyColliderType colliderType)
     {
-        return !ColliderTypeCanNotDashThrough.Contains(colliderType);
+        return !UnDashColliderTypes.Contains(colliderType);
     }
 
-    public static bool CheckCanDashThrough(HashSet<GameCollider2D> colliders)
-    {
-        foreach (var collider in colliders)
-        {
-            if (ColliderTypeCanNotDashThrough.Contains(collider.GetColliderType())) return false;
-        }
 
-        return true;
-    }
 
 }

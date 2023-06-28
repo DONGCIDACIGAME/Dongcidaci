@@ -275,7 +275,11 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
                     
                     if (GameColliderHelper.CheckCollideSATWithLeaveVector(shape,tgtCollider.Convex2DShape,out Vector2 leaveV2))
                     {
-                        tgtsWithLeaveV2Dict.Add(tgtCollider,leaveV2);
+                        if(tgtsWithLeaveV2Dict.ContainsKey(tgtCollider) == false)
+                        {
+                            tgtsWithLeaveV2Dict.Add(tgtCollider, leaveV2);
+                        }
+                        
                     }
 
                 }
