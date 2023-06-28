@@ -85,6 +85,15 @@ public static class GameColliderHelper
         return circleVetexs;
     }
 
+    /// <summary>
+    /// 获取椭圆的所有的顶点信息
+    /// </summary>
+    /// <param name="anchorPos"></param>
+    /// <param name="anchorAngle"></param>
+    /// <param name="offset"></param>
+    /// <param name="size"></param>
+    /// <param name="halfVertexCount"></param>
+    /// <returns></returns>
     public static Vector2[] GetEllipseVertexs(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size, int halfVertexCount = 5)
     {
         int vertexCount = halfVertexCount * 2;
@@ -183,6 +192,11 @@ public static class GameColliderHelper
 
     }
 
+    /// <summary>
+    /// 获取顶点构成的每一条边，顺时针顺序
+    /// </summary>
+    /// <param name="vertexs"></param>
+    /// <returns></returns>
     public static Vector2[,] Get2DShapeEdges(Vector2[] vertexs)
     {
         if (vertexs == null || vertexs.Length == 0) return null;
@@ -204,6 +218,11 @@ public static class GameColliderHelper
         return retEdges;
     }
 
+    /// <summary>
+    /// 获取每条边，朝外侧的归一化法向
+    /// </summary>
+    /// <param name="edges"></param>
+    /// <returns></returns>
     public static Vector2[] Get2DShapeEdgeNormals(Vector2[,] edges)
     {
         if (edges == null || edges.Length == 0)
@@ -225,6 +244,12 @@ public static class GameColliderHelper
         return retNormals;
     }
 
+    /// <summary>
+    /// 分离轴检测是否产生碰撞
+    /// </summary>
+    /// <param name="srcShape"></param>
+    /// <param name="tgtShape"></param>
+    /// <returns></returns>
     public static bool CheckCollideSAT(IConvex2DShape srcShape, IConvex2DShape tgtShape)
     {
         if (srcShape == null || tgtShape == null) return false;
@@ -335,6 +360,13 @@ public static class GameColliderHelper
         return true;
     }
 
+    /// <summary>
+    /// 分离轴检测是否碰撞并返回分离向量
+    /// </summary>
+    /// <param name="srcShape"></param>
+    /// <param name="tgtShape"></param>
+    /// <param name="srcLeaveV2"></param>
+    /// <returns></returns>
     public static bool CheckCollideSATWithLeaveVector(IConvex2DShape srcShape, IConvex2DShape tgtShape,out Vector2 srcLeaveV2)
     {
         if (srcShape == null || tgtShape == null)
@@ -525,10 +557,69 @@ public static class GameColliderHelper
         return true;
     }
 
+    /// <summary>
+    /// 获取顶点组的最大正投影矩形包络信息
+    /// </summary>
+    /// <param name="vertexs"></param>
+    /// <param name="pos"></param>
+    /// <param name="size"></param>
+    private static void GetVertexGroupRectEnvelope(Vector2[] vertexs, out Vector2 pos, out Vector2 size)
+    {
+        // get max width
+        float maxWidth = 0;
+        float maxHeight = 0;
+        float newPosX = 0;
+        float newPosY = 0;
+        for (int i = 0; i < vertexs.Length; i++)
+        {
+            var startVector = vertexs[i];
+            for (int k = i + 1; k < vertexs.Length; k++)
+            {
+                var checkVector = vertexs[k];
+                var xGap = checkVector.x - startVector.x;
+                if (Mathf.Abs(xGap) > maxWidth)
+                {
+                    maxWidth = Mathf.Abs(xGap);
+                    newPosX = startVector.x + xGap / 2f;
+                }
+                var yGap = checkVector.y - startVector.y;
+                if (Mathf.Abs(yGap) > maxHeight)
+                {
+                    maxHeight = Mathf.Abs(yGap);
+                    newPosY = startVector.y + yGap / 2f;
+                }
+            }
+        }
+        pos = new Vector2(newPosX, newPosY);
+        size = new Vector2(maxWidth, maxHeight);
+    }
 
+    /// <summary>
+    /// 获取矩形包络
+    /// </summary>
+    /// <param name="anchorPos"></param>
+    /// <param name="anchorAngle"></param>
+    /// <param name="offset"></param>
+    /// <param name="size"></param>
+    /// <param name="envlpPos"></param>
+    /// <param name="envlpSize"></param>
+    public static void GetRectMaxEnvelope(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size, out Vector2 envlpPos, out Vector2 envlpSize)
+    {
+        var vertexs = GetRectVertexs(anchorPos,anchorAngle,offset,size);
+        GetVertexGroupRectEnvelope(vertexs,out envlpPos, out envlpSize);
+    }
 
-
-
+    /// <summary>
+    /// 获取某个凸多边形的正投影矩形包络
+    /// </summary>
+    /// <param name="convexShape"></param>
+    /// <param name="envlpPos"></param>
+    /// <param name="envlpSize"></param>
+    public static void GetRectMaxEnvelope(IConvex2DShape convexShape, out Vector2 envlpPos, out Vector2 envlpSize)
+    {
+        var vertexs = GetRectVertexs(convexShape.AnchorPos, convexShape.AnchorAngle, convexShape.Offset, convexShape.Size);
+        GetVertexGroupRectEnvelope(vertexs, out envlpPos, out envlpSize);
+    }
 
 
 

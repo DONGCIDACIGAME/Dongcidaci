@@ -11,34 +11,17 @@ public interface IGameCollider : IGameDisposable
 public interface IConvex2DCollider:IGameCollider
 {
     public int GetColliderUID();
+    public IConvex2DShape Convex2DShape { get; }
 
-    /// <summary>
-    /// 获取凸多边形的所有顶点坐标
-    /// 从左上顺时针旋转
-    /// </summary>
-    /// <returns></returns>
-    //public Vector2[] GetSortedVertexs();
-
-    /// <summary>
-    /// 获取凸多边形的每一条边
-    /// </summary>
-    /// <returns></returns>
-    //public Vector2[,] GetEdges();
-
-    /// <summary>
-    /// 获取凸多边形每条边朝外的法向
-    /// </summary>
-    /// <returns></returns>
-    //public Vector2[] GetEdgeOutsideNormals();
 
 }
 
 
 public interface IColliderSetter
 {
-    public void UpdateColliderPos(GameCollider2D collider, Vector3 newAnchorPos);
-    public void UpdateColliderRotateAngle(GameCollider2D collider, float newAngle);
-    public void UpdateColliderScale(GameCollider2D collider, Vector3 newScale);
+    public void UpdateColliderPos(ConvexCollider2D collider, Vector3 newAnchorPos);
+    public void UpdateColliderRotateAngle(ConvexCollider2D collider, float newAngle);
+    public void UpdateColliderScale(ConvexCollider2D collider, Vector3 newScale);
 
 }
 

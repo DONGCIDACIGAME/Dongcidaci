@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameEngine;
 
-public abstract class ConvexCollider2D : IConvex2DCollider, IRecycle
+public class ConvexCollider2D : IConvex2DCollider, IRecycle
 {
     /// <summary>
     /// UID的自增计数器
@@ -32,6 +32,9 @@ public abstract class ConvexCollider2D : IConvex2DCollider, IRecycle
         return _colliderUID;
     }
 
+    /// <summary>
+    /// 在碰撞体生成实例时赋予UID
+    /// </summary>
     public ConvexCollider2D()
     {
         // 新建实例时，动态生成唯一自增的UID
@@ -57,89 +60,39 @@ public abstract class ConvexCollider2D : IConvex2DCollider, IRecycle
     }
 
     /// <summary>
-    /// 获取从左上开始顺时针旋转的顶点信息
+    /// 凸面多边形形状
     /// </summary>
-    /// <returns></returns>
-    public abstract Vector2[] GetSortedVertexs();
-
-    /// <summary>
-    /// 获取多边形碰撞体的所有边
-    /// </summary>
-    /// <returns></returns>
-    public Vector2[,] GetEdges()
-    {
-        var vertexs = GetSortedVertexs();
-        if (vertexs == null || vertexs.Length == 0) return null;
-
-        var retEdges = new Vector2[vertexs.Length,2];
-
-        for (int i=0; i<vertexs.Length;i++)
-        {
-            int nextIndex = i + 1;
-            if(nextIndex >= vertexs.Length)
-            {
-                //last point
-                nextIndex = 0;
-            }
-            retEdges[i, 0] = vertexs[i];
-            retEdges[i, 1] = vertexs[nextIndex];
-        }
-
-        return retEdges;
-    }
-
-    /// <summary>
-    /// 获取多边形所有边朝外的归一化法向
-    /// </summary>
-    /// <returns></returns>
-    public Vector2[] GetEdgeOutsideNormals()
-    {
-        var edges = GetEdges();
-        if (edges==null||edges.Length == 0)
-        {
-            return null;
-        }
-
-        var retNormals = new Vector2[edges.GetLength(0)];
-
-        for (int i=0;i<retNormals.Length;i++)
-        {
-            var edgeVector = edges[i, 1] - edges[i,0];
-            edgeVector = edgeVector.normalized;
-            var normalV3  =Quaternion.AngleAxis(-90f,Vector3.up)*new Vector3(edgeVector.x,0,edgeVector.y);
-            retNormals[i] = new Vector2(normalV3.x,normalV3.z);
-        }
-
-        return retNormals;
-    }
-
-    protected Vector3 _anchorPos;
-    public Vector3 AnchorPos => _anchorPos;
-
-    protected float _anchorAngle;
-    public float AnchorAngle => _anchorAngle;
+    protected IConvex2DShape _convex2DShape;
+    public IConvex2DShape Convex2DShape => _convex2DShape;
 
     protected Vector3 _scale = Vector3.one;
     public Vector3 Scale => _scale;
 
-    protected Vector2 _size;
-    public Vector2 Size => _size;
-
-    protected Vector2 _offset;
-    public Vector2 Offset => _offset;
-
     protected bool _needRegister = false;
 
-    public void Initialize(MyColliderType colliderType, int bindEntityID, GameColliderData2D initialColliderData, Vector3 anchorPos, float anchorAngle, Vector3 scale, bool needRegister)
+    public void Initialize(MyColliderType colliderType, int bindEntityID, GameColliderData2D initColliderData, Vector3 anchorPos, float anchorAngle, Vector3 scale, bool needRegister)
     {
         this._colliderType = colliderType;
         this._entityId = bindEntityID;
 
         // 碰撞的大小和偏移
-        this._size = initialColliderData.size;
-        this._offset = initialColliderData.offset;
-        this._anchorPos = anchorPos;
-        this._anchorAngle = anchorAngle;
+        switch (initColliderData.shapeType)
+        {
+            case Convex2DShapeType.Rect:
+                this._convex2DShape = new Rect2DShape(anchorPos,anchorAngle,initColliderData.offset,initColliderData.size);
+                break;
+            case Convex2DShapeType.Circle:
+                this._convex2DShape = new Circle2DShape(anchorPos, anchorAngle, initColliderData.offset, initColliderData.size.x);
+                break;
+            case Convex2DShapeType.Ellipse:
+                this._convex2DShape = new Ellipse2DShape(anchorPos, anchorAngle, initColliderData.offset, initColliderData.size);
+                break;
+
+            default:
+                Log.Error(LogLevel.Critical, "init convex collider error, undefined shape");
+                this._convex2DShape = new Rect2DShape(anchorPos, anchorAngle, initColliderData.offset, initColliderData.size);
+                break;
+        }
 
         if (scale.x == 0 || scale.y == 0 || scale.z == 0)
         {
@@ -156,44 +109,58 @@ public abstract class ConvexCollider2D : IConvex2DCollider, IRecycle
         if (_needRegister)
         {
             // 注册碰撞
-            //GameColliderManager.Ins.RegisterGameCollider(this);
+            GameColliderManager.Ins.RegisterGameCollider(this);
         }
 
     }
 
-
+    /// <summary>
+    /// 更新碰撞体的位置
+    /// </summary>
+    /// <param name="colliderSetter"></param>
+    /// <param name="newAnchorPos"></param>
+    /// <returns></returns>
     public bool UpdateColliderPos(IColliderSetter colliderSetter, Vector3 newAnchorPos)
     {
+        if (this._convex2DShape == null) return false;
+
         if (_needRegister)
         {
             if (colliderSetter is GameColliderManager)
             {
-                this._anchorPos = newAnchorPos;
+                this._convex2DShape.AnchorPos = newAnchorPos;
             }
             else { return false; }
         }
         else
         {
-            this._anchorPos = newAnchorPos;
+            this._convex2DShape.AnchorPos = newAnchorPos;
         }
 
         return true;
 
     }
 
+    /// <summary>
+    /// 设置碰撞体的旋转角度
+    /// </summary>
+    /// <param name="colliderSetter"></param>
+    /// <param name="newAnchorRotateAngle"></param>
+    /// <returns></returns>
     public bool UpdateColliderRotateAngle(IColliderSetter colliderSetter, float newAnchorRotateAngle)
     {
+        if (this._convex2DShape == null) return false;
         if (_needRegister)
         {
             if (colliderSetter is GameColliderManager)
             {
-                this._anchorAngle = newAnchorRotateAngle;
+                this._convex2DShape.AnchorAngle = newAnchorRotateAngle;
             }
             else { return false; }
         }
         else
         {
-            this._anchorAngle = newAnchorRotateAngle;
+            this._convex2DShape.AnchorAngle = newAnchorRotateAngle;
         }
 
         return true;
@@ -201,6 +168,7 @@ public abstract class ConvexCollider2D : IConvex2DCollider, IRecycle
 
     public bool UpdateColliderScale(IColliderSetter colliderSetter, Vector3 newScale)
     {
+        if (this._convex2DShape == null) return false;
         if (_needRegister)
         {
             if (colliderSetter is GameColliderManager)
@@ -208,8 +176,8 @@ public abstract class ConvexCollider2D : IConvex2DCollider, IRecycle
                 // 更新scale需要同时更新 size 和 offset
                 var changeRatioX = newScale.x / _scale.x;
                 var changeRatioZ = newScale.z / _scale.z;
-                this._offset = new Vector2(_offset.x * changeRatioX, _offset.y * changeRatioZ);
-                this._size = new Vector2(_size.x * changeRatioX, _size.y * changeRatioZ);
+                this._convex2DShape.Offset = new Vector2(this._convex2DShape.Offset.x * changeRatioX, this._convex2DShape.Offset.y * changeRatioZ);
+                this._convex2DShape.Size = new Vector2(this._convex2DShape.Size.x * changeRatioX, this._convex2DShape.Size.y * changeRatioZ);
                 this._scale = newScale;
             }
             else { return false; }
@@ -219,8 +187,8 @@ public abstract class ConvexCollider2D : IConvex2DCollider, IRecycle
             // 更新scale需要同时更新 size 和 offset
             var changeRatioX = newScale.x / _scale.x;
             var changeRatioZ = newScale.z / _scale.z;
-            this._offset = new Vector2(_offset.x * changeRatioX, _offset.y * changeRatioZ);
-            this._size = new Vector2(_size.x * changeRatioX, _size.y * changeRatioZ);
+            this._convex2DShape.Offset = new Vector2(this._convex2DShape.Offset.x * changeRatioX, this._convex2DShape.Offset.y * changeRatioZ);
+            this._convex2DShape.Size = new Vector2(this._convex2DShape.Size.x * changeRatioX, this._convex2DShape.Size.y * changeRatioZ);
             this._scale = newScale;
         }
 
@@ -231,12 +199,9 @@ public abstract class ConvexCollider2D : IConvex2DCollider, IRecycle
 
     public void Dispose()
     {
-        _size = Vector2.zero;
-        _offset = Vector2.zero;
-        _scale = Vector3.zero;
-        _anchorPos = Vector3.zero;
-        _anchorAngle = 0;
+        _convex2DShape = null;
 
+        _scale = Vector3.zero;
         // 清除碰撞类型
         _colliderType = MyColliderType.Collider_None;
         // 解除绑定的entity
@@ -245,12 +210,16 @@ public abstract class ConvexCollider2D : IConvex2DCollider, IRecycle
         if (_needRegister)
         {
             //游戏体被销毁
-            //GameColliderManager.Ins.UnRegisterGameCollider(this);
+            GameColliderManager.Ins.UnRegisterGameCollider(this);
             _needRegister = false;
         }
     }
 
-    public abstract void Recycle();
+    public void Recycle()
+    {
+        Dispose();
+        GamePoolCenter.Ins.ConvexCollider2DPool.Push(this);
+    }
 
     
 }

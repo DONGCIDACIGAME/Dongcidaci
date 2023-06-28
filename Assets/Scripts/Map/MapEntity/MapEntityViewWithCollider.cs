@@ -11,7 +11,7 @@ public class MapEntityViewWithCollider : MapEntityView
         // 拿到colliderview组件
         mColliderView = GetComponent<GameColliderView>();
         // 获取colliderView组件上的碰撞配置，生成碰撞数据
-        GameColliderData2D colliderData = new GameColliderData2D(mColliderView.size, mColliderView.offset);
+        GameColliderData2D colliderData = new GameColliderData2D(mColliderView.shapeType,mColliderView.size, mColliderView.offset);
         return colliderData;
     }
 

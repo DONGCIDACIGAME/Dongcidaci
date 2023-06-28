@@ -5,9 +5,9 @@ public abstract class MapEntityWithCollider : MapEntity
     /// <summary>
     /// 碰撞体
     /// </summary>
-    protected GameCollider2D mCollider;
+    protected ConvexCollider2D mCollider;
 
-    public GameCollider2D GetCollider()
+    public ConvexCollider2D GetCollider()
     {
         return mCollider;
     }
@@ -33,7 +33,7 @@ public abstract class MapEntityWithCollider : MapEntity
             var mMapEntiyViewCollider = _mMapEntiyView as MapEntityViewWithCollider;
             // 获取碰撞数据
             GameColliderData2D colliderData = mMapEntiyViewCollider.GetColliderData();
-            mCollider = GamePoolCenter.Ins.GameCollider2DPool.Pop();
+            mCollider = GamePoolCenter.Ins.ConvexCollider2DPool.Pop();
             mCollider.Initialize(
                 this.ColliderType, 
                 mEntityId, 
@@ -44,7 +44,7 @@ public abstract class MapEntityWithCollider : MapEntity
                 true
                 );
 
-            Log.Logic(LogLevel.Info, "注册碰撞");
+            Log.Logic(LogLevel.Info, "MapEntityWithCollider -- InitCollider -- register successful");
         }
     }
 

@@ -6,8 +6,10 @@ public class GameColliderView : MonoBehaviour
 {
     // 暂时不考虑运行时通过该组件更新碰撞大小
 
-
-    public Convex2DShapeType colliderType = Convex2DShapeType.Rect;
+    /// <summary>
+    /// 这个碰撞体view的形状
+    /// </summary>
+    public Convex2DShapeType shapeType = Convex2DShapeType.Rect;
 
     /// <summary>
     /// 碰撞盒大小
@@ -18,10 +20,6 @@ public class GameColliderView : MonoBehaviour
     /// 碰撞盒偏移
     /// </summary>
     public Vector2 offset;
-
-
-    
-
 
 
 
@@ -48,7 +46,7 @@ public class GameColliderView : MonoBehaviour
 
         Vector2[] colliderVertexs = null;
 
-        if (this.colliderType == Convex2DShapeType.Rect)
+        if (this.shapeType == Convex2DShapeType.Rect)
         {
             colliderVertexs = GameColliderHelper.GetRectVertexs(this.transform.position,transform.eulerAngles.y,offset,size);
 
@@ -82,7 +80,7 @@ public class GameColliderView : MonoBehaviour
         }
 
         // 圆的计算测试
-        if (colliderType == Convex2DShapeType.Ellipse && size.x == size.y)
+        if (shapeType == Convex2DShapeType.Circle ||(shapeType == Convex2DShapeType.Ellipse && size.x == size.y))
         {
             // circle
             colliderVertexs = GameColliderHelper.GetCircleVertexs(this.transform.position, transform.eulerAngles.y, offset, size.x/2f, polyCountForShow);
@@ -122,7 +120,7 @@ public class GameColliderView : MonoBehaviour
 
         }
 
-        if (colliderType == Convex2DShapeType.Ellipse && size.x != size.y)
+        if (shapeType == Convex2DShapeType.Ellipse && size.x != size.y)
         {
             colliderVertexs = GameColliderHelper.GetEllipseVertexs(this.transform.position, transform.eulerAngles.y, offset, size, polyCountForShow);
         }

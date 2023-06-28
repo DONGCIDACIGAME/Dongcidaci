@@ -10,13 +10,13 @@ public enum MyColliderType
     Collider_Trap,
 }
 
-public enum CollideTriggerConfig
+public enum CollideHandleConfig
 {
-    TriggerBoth = 0,
-    TriggerSrc,
-    TriggerTgt,
+    HandleBoth = 0,
+    HandleSrc,
+    HandleTgt,
 
-    NotTrigger
+    NoHandle
 }
 
 

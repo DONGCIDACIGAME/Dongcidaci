@@ -335,7 +335,7 @@ public class GameCollider2D : IGameCollider, IRecycle
         if (_needRegister)
         {
             // 注册碰撞
-            GameColliderManager.Ins.RegisterGameCollider(this);
+            //GameColliderManager.Ins.RegisterGameCollider(this);
         }
 
     }
@@ -421,7 +421,7 @@ public class GameCollider2D : IGameCollider, IRecycle
         if (_needRegister)
         {
             //游戏体被销毁
-            GameColliderManager.Ins.UnRegisterGameCollider(this);
+            //GameColliderManager.Ins.UnRegisterGameCollider(this);
             _needRegister = false;
         }
         

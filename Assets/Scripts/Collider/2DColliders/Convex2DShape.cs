@@ -78,25 +78,25 @@ public struct Circle2DShape : IConvex2DShape
     private Vector3 _anchorPos;
     private float _anchorAngle;
     private Vector2 _offset;
-    private float _radius;
+    private float _diameter;
     private const int polyCount = 8;
 
-    public Circle2DShape(Vector3 anchorPos, float anchorAngle, Vector2 offset, float radius)
+    public Circle2DShape(Vector3 anchorPos, float anchorAngle, Vector2 offset, float diameter)
     {
         this._anchorPos = anchorPos;
         this._anchorAngle = anchorAngle;
         this._offset = offset;
-        this._radius = radius;
+        this._diameter = diameter;
     }
 
     public Vector3 AnchorPos { get => _anchorPos; set => _anchorPos = value; }
     public float AnchorAngle { get => _anchorAngle; set => _anchorAngle = value; }
     public Vector2 Offset { get => _offset; set => _offset = value; }
-    public Vector2 Size { get => new Vector2(_radius,_radius); set => _radius = value.x; }
+    public Vector2 Size { get => new Vector2(_diameter, _diameter); set => _diameter = value.x; }
 
     public Vector2[] GetVertexs()
     {
-        return GameColliderHelper.GetCircleVertexs(_anchorPos, _anchorAngle, _offset, _radius, polyCount);
+        return GameColliderHelper.GetCircleVertexs(_anchorPos, _anchorAngle, _offset, _diameter/2f, polyCount);
     }
 
 
