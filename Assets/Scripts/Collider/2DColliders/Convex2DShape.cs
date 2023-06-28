@@ -16,6 +16,34 @@ public interface IConvex2DShape
 
 }
 
+public struct Triangle2DShape : IConvex2DShape
+{
+    private Vector3 _anchorPos;
+    private float _anchorAngle;
+    private Vector2 _offset;
+    private Vector2 _size;
+
+    public Triangle2DShape(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size)
+    {
+        this._anchorPos = anchorPos;
+        this._anchorAngle = anchorAngle;
+        this._offset = offset;
+        this._size = size;
+    }
+
+    public Vector3 AnchorPos { get => _anchorPos; set => _anchorPos = value; }
+    public float AnchorAngle { get => _anchorAngle; set => _anchorAngle = value; }
+    public Vector2 Offset { get => _offset; set => _offset = value; }
+    public Vector2 Size { get => _size; set => _size = value; }
+
+    public Vector2[] GetVertexs()
+    {
+        return GameColliderHelper.GetTriangleVertexs(_anchorPos, _anchorAngle, _offset, _size);
+    }
+
+}
+
+
 public struct Rect2DShape : IConvex2DShape
 {
     private Vector3 _anchorPos;

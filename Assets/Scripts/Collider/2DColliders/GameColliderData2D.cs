@@ -2,10 +2,15 @@ using UnityEngine;
 
 public enum Convex2DShapeType
 {
-    //矩形
+    // 矩形
     Rect = 0,
+    // 椭圆
     Ellipse,
+    // 圆形
     Circle,
+    // 三角形;底部原点在圆心的倒等腰三角
+    Triangle,
+
 }
 
 public class GameColliderData2D
