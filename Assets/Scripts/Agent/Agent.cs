@@ -1,5 +1,6 @@
 using GameEngine;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class Agent : MapEntityWithCollider, IMeterHandler
@@ -349,4 +350,32 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         EffectExcutorCtl.OnUpdate(deltaTime);
         MovementExcutorCtl.OnUpdate(deltaTime);
     }
+
+    public List<Agent> DetectAgentInVision()
+    {
+        var retAgents = new List<Agent>();
+        var visionShape = mAgentView.GetVisionShape();
+
+        var ret = GameColliderManager.Ins.CheckCollideHappenWithShape(visionShape,out Dictionary<ConvexCollider2D,Vector2> tgtsDict,this.mCollider);
+
+        if (ret)
+        {
+            var agentColliders = GameColliderDefine.GetAgentColliders(tgtsDict.Keys.ToArray());
+            if (agentColliders.Count >1)
+            {
+                foreach (var collider in agentColliders)
+                {
+                    var entityId = collider.GetBindEntityId();
+                    if (entityId == 0) continue;
+                    var detectedEntity = EntityManager.Ins.GetEntity(entityId);
+                    if (detectedEntity is Agent)
+                    {
+                        retAgents.Add(detectedEntity as Agent);
+                    }
+                } 
+            }
+        }
+        return retAgents;
+    }
+
 }

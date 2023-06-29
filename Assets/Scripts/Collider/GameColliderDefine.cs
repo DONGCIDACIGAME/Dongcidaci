@@ -104,6 +104,21 @@ public static class GameColliderDefine
         return !UnDashColliderTypes.Contains(colliderType);
     }
 
+    public static List<ConvexCollider2D> GetAgentColliders(ConvexCollider2D[] checkColliders)
+    {
+        var retColliders = new List<ConvexCollider2D>();
+        if (checkColliders == null || checkColliders.Length == 0) return retColliders;
 
+        for (int i = 0; i < checkColliders.Length; i++)
+        {
+            if (checkColliders[i].GetColliderType() == MyColliderType.Collider_Hero || checkColliders[i].GetColliderType() == MyColliderType.Collider_Monster)
+            {
+                //This collider is agent
+                retColliders.Add(checkColliders[i]);
+            }
+        }
+
+        return retColliders;
+    }
 
 }
