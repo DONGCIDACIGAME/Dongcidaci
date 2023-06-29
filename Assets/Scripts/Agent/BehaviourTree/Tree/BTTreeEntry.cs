@@ -10,11 +10,6 @@ public class BTTreeEntry : BTTree
         return BT_CHILD_NODE_NUM.One;
     }
 
-    public override int GetNodeDetailType()
-    {
-        return BTDefine.BT_Node_Type_Tree_Entry;
-    }
-
     protected override BTNodeArg[] GetNodeArgs()
     {
         return null;
@@ -44,5 +39,10 @@ public class BTTreeEntry : BTTree
 
         SetChildNode(node);
         return BTDefine.BT_LoadNodeResult_Succeed;
+    }
+
+    public override int GetNodeDetailType()
+    {
+        return BTDefine.BT_Node_Type_Tree_Entry;
     }
 }

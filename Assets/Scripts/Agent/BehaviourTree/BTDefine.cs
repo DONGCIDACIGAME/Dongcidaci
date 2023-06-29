@@ -55,19 +55,25 @@ public static class BTDefine
     public const int BT_Node_Type_Tree_Entry = 0;
     public const int BT_Node_Type_Tree_ChildTree = 1;
 
-    public const int BT_Node_DetailType_Composite_Sequence= BT_Node_Type_Composite * 100 + 1;
-    public const int BT_Node_DetailType_Composite_Selector = BT_Node_Type_Composite * 100 + 2;
-    public const int BT_Node_DetailType_Composite_Parallel = BT_Node_Type_Composite * 100 + 3;
+    public const int BT_Node_DetailType_Composite_Sequence              = BT_Node_Type_Composite * 100 + 1;
+    public const int BT_Node_DetailType_Composite_Selector              = BT_Node_Type_Composite * 100 + 2;
+    public const int BT_Node_DetailType_Composite_Parallel              = BT_Node_Type_Composite * 100 + 3;
 
-    public const int BT_Node_Type_Decor_Invert = BT_Node_Type_Decor * 100 + 1;
-    public const int BT_Node_Type_Decor_Repeat = BT_Node_Type_Decor * 100 + 2;
-    public const int BT_Node_Type_Decor_Reset = BT_Node_Type_Decor * 100 + 3;
-    public const int BT_Node_Type_Decor_UntilTrue = BT_Node_Type_Decor * 100 + 4;
-    public const int BT_Node_Type_Decor_Once = BT_Node_Type_Decor * 100 + 5;
+    public const int BT_Node_Type_Decor_Invert                          = BT_Node_Type_Decor * 100 + 1;
+    public const int BT_Node_Type_Decor_Repeat                          = BT_Node_Type_Decor * 100 + 2;
+    public const int BT_Node_Type_Decor_Reset                           = BT_Node_Type_Decor * 100 + 3;
+    public const int BT_Node_Type_Decor_UntilTrue                       = BT_Node_Type_Decor * 100 + 4;
+    public const int BT_Node_Type_Decor_Once                            = BT_Node_Type_Decor * 100 + 5;
 
-    public const int BT_Node_Type_Leaf_WaitTime = BT_Node_Type_Leaf * 100 + 1;
-    public const int BT_Node_Type_Leaf_WaitFrame = BT_Node_Type_Leaf * 100 + 2;
-    public const int BT_Node_Type_Leaf_WaitMeter = BT_Node_Type_Leaf * 100 + 3;
+    public const int BT_Node_Type_Leaf_WaitTime                         = BT_Node_Type_Leaf * 100 + 1;
+    public const int BT_Node_Type_Leaf_WaitFrame                        = BT_Node_Type_Leaf * 100 + 2;
+    public const int BT_Node_Type_Leaf_WaitMeter                        = BT_Node_Type_Leaf * 100 + 3;
+    public const int BT_Node_Type_Leaf_CheckDetectAgent                 = BT_Node_Type_Leaf * 100 + 4;
+    public const int BT_Node_Type_Leaf_ChangeTowards                    = BT_Node_Type_Leaf * 100 + 5;
+    public const int BT_Node_Type_Leaf_MoveTime                         = BT_Node_Type_Leaf * 100 + 6;
+    public const int BT_Node_Type_Leaf_MoveMeter                        = BT_Node_Type_Leaf * 100 + 7;
+    public const int BT_Node_Type_Leaf_MoveToPosition                   = BT_Node_Type_Leaf * 100 + 8;
+    public const int BT_Node_Type_Leaf_MoveDistance                     = BT_Node_Type_Leaf * 100 + 9;
 
 
     /// <summary>
@@ -75,4 +81,22 @@ public static class BTDefine
     /// </summary>
     public static string BT_ChildTreeCopyType_New = "New"; // 新建一份数据
     public static string BT_ChildTreeCopyType_Reference = "Reference"; // 引用源数据
+
+
+    /// <summary>
+    /// 不改变朝向
+    /// </summary>
+    public const int BT_ChangeTowardsTo_NotDefine = 0;
+    /// <summary>
+    /// 随机朝向
+    /// </summary>
+    public const int BT_ChangeTowardsTo_Random = 1;
+    /// <summary>
+    /// 反向
+    /// </summary>
+    public const int BT_ChangeTowardsTo_Invert = 2;
+    /// <summary>
+    /// 朝向给定目标（上下文中的）
+    /// </summary>
+    public const int BT_ChangeTowardsTo_GivenTarget = 3;
 }

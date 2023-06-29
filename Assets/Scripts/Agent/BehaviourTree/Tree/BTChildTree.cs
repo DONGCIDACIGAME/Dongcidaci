@@ -92,10 +92,6 @@ public class BTChildTree : BTTree
         return BT_CHILD_NODE_NUM.Zero;
     }
 
-    public override int GetNodeDetailType()
-    {
-        return BTDefine.BT_Node_Type_Tree_ChildTree;
-    }
 
     protected override BTNodeArg[] GetNodeArgs()
     {
@@ -116,18 +112,16 @@ public class BTChildTree : BTTree
     {
         // 读取子树的名字
         int result1 = BehaviourTreeHelper.ParseString(args[0], out string value1);
-        if (result1 != BTDefine.BT_ExcuteResult_Succeed)
-        {
+        if (result1 != BTDefine.BT_LoadNodeResult_Succeed)
             return result1;
-        }
-        SetChildTreeName(value1);
 
         // 读取子树的copy类型
         int result2 = BehaviourTreeHelper.ParseString(args[1], out string value2);
-        if (result2 != BTDefine.BT_ExcuteResult_Succeed)
-        {
+        if (result2 != BTDefine.BT_LoadNodeResult_Succeed)
             return result2;
-        }
+
+
+        SetChildTreeName(value1);
         SetCopyType(value2);
 
         return BTDefine.BT_LoadNodeResult_Succeed;
@@ -166,5 +160,10 @@ public class BTChildTree : BTTree
         }
 
         return BTDefine.BT_LoadNodeResult_Failed_Unkown;
+    }
+
+    public override int GetNodeDetailType()
+    {
+        return BTDefine.BT_Node_Type_Tree_ChildTree;
     }
 }

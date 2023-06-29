@@ -1,0 +1,135 @@
+
+using UnityEngine;
+
+public class BTMoveDistanceNode : BTLeafNode
+{
+    private float mTotalMoveDistance;
+    private float mHasMoveDistance;
+
+    private float mMoveMaxTime;
+    private float mHasMoveTime;
+
+
+    private Vector3 mLastPos;
+
+    public void SetTotalMoveDistance(float moveDistance)
+    {
+        mTotalMoveDistance = moveDistance;
+    }
+
+    public float GetTotalMoveDistance()
+    {
+        return mTotalMoveDistance;
+    }
+
+    public void SetMoveMaxTime(float maxTime)
+    {
+        mMoveMaxTime = maxTime;
+    }
+
+    public float GetMoveMaxTime()
+    {
+        return mMoveMaxTime;
+    }
+
+    public override int GetNodeArgNum()
+    {
+        return 2;
+    }
+
+    protected override int ParseNodeArgs(BTNodeArg[] args)
+    {
+        int result = BehaviourTreeHelper.ParseFloat(args[0], out float value1);
+        if (result != BTDefine.BT_LoadNodeResult_Succeed)
+            return result;
+
+        result = BehaviourTreeHelper.ParseFloat(args[1], out float value2);
+        if (result != BTDefine.BT_LoadNodeResult_Succeed)
+            return result;
+
+        SetTotalMoveDistance(value1);
+        SetMoveMaxTime(value2);
+        return BTDefine.BT_ExcuteResult_Succeed;
+    }
+
+    protected override BTNodeArg[] GetNodeArgs()
+    {
+        BTNodeArg arg1 = new BTNodeArg();
+        arg1.ArgName = "TotalMoveDistance";
+        arg1.ArgType = BTDefine.BT_ArgType_float;
+        arg1.ArgContent = mTotalMoveDistance.ToString();
+
+        BTNodeArg arg2 = new BTNodeArg();
+        arg2.ArgName = "MoveMaxTime";
+        arg2.ArgType = BTDefine.BT_ArgType_float;
+        arg2.ArgContent = mMoveMaxTime.ToString();
+
+        return new BTNodeArg[] { arg1, arg2 };
+    }
+    public override bool BTNodeDataCheck(ref string info)
+    {
+        if (mTotalMoveDistance <= 0)
+        {
+            info = string.Format("Node {0} total move distance must greater than 0! ", NodeName);
+            return false;
+        }
+
+        if(mMoveMaxTime <= 0)
+        {
+            info = string.Format("Node {0} move max time must greater than 0! ", NodeName);
+            return false;
+        }
+
+        return true;
+    }
+
+    public override int Excute(float deltaTime)
+    {
+        if (mExcutor == null)
+        {
+            Log.Error(LogLevel.Normal, "BTMoveDistanceNode Excute Error, mExcutor is null!");
+            return BTDefine.BT_ExcuteResult_Failed;
+        }
+
+
+        mHasMoveTime += deltaTime;
+        if(mHasMoveTime >= mMoveMaxTime)
+        {
+            return BTDefine.BT_ExcuteResult_Succeed;
+        }
+
+
+        if(mLastPos != Vector3.zero)
+        {
+            mHasMoveDistance += (mExcutor.GetPosition() - mLastPos).magnitude;
+        }
+
+        if(mHasMoveDistance >= mTotalMoveDistance)
+        {
+            mExcutor.MoveControl.Move(deltaTime);
+            mLastPos = mExcutor.GetPosition();
+            return BTDefine.BT_ExcuteResult_Running;
+        }
+
+        return BTDefine.BT_ExcuteResult_Succeed;
+    }
+
+    public override void Reset()
+    {
+        mHasMoveTime = 0;
+        mHasMoveDistance = 0;
+    }
+
+    protected override void CustomDispose()
+    {
+        mTotalMoveDistance = 0;
+        mMoveMaxTime = 0;
+        mHasMoveDistance = 0;
+        mHasMoveTime = 0;
+    }
+
+    public override int GetNodeDetailType()
+    {
+        return BTDefine.BT_Node_Type_Leaf_MoveDistance;
+    }
+}

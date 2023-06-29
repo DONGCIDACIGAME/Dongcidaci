@@ -37,6 +37,20 @@ public class ControlAddNewNodePage : UIControl
     private Button Btn_WaitTime;
     private Button Btn_WaitFrame;
     private Button Btn_WaitMeter;
+    private Button Btn_ChangeTowards;
+    private Button Btn_MoveTime;
+    private Button Btn_MoveMeter;
+    private Button Btn_MoveToPosition;
+    private Button Btn_MoveDistance;
+
+
+
+
+    /// <summary>
+    /// condition
+    /// </summary>
+    private Button Btn_CheckDetectAgent;
+
 
     private BTNode mNode;
 
@@ -88,6 +102,15 @@ public class ControlAddNewNodePage : UIControl
         Btn_WaitTime = BindButtonNode("Contain_ActionNodes/Button_WaitTime", () => { AddChildNode(new BTWaitTimeNode()); });
         Btn_WaitFrame = BindButtonNode("Contain_ActionNodes/Button_WaitFrame", () => { AddChildNode(new BTWaitFrameNode()); });
         Btn_WaitMeter = BindButtonNode("Contain_ActionNodes/Button_WaitMeter", () => { AddChildNode(new BTWaitMeterNode()); });
+        Btn_ChangeTowards = BindButtonNode("Contain_ActionNodes/Button_ChangeTowards", () => { AddChildNode(new BTAgentChangeTowardsNode()); });
+        Btn_MoveTime = BindButtonNode("Contain_ActionNodes/Button_MoveTime", () => { AddChildNode(new BTMoveTimeNode()); });
+        Btn_MoveMeter = BindButtonNode("Contain_ActionNodes/Button_MoveMeter", () => { AddChildNode(new BTMoveMeterNode()); });
+        Btn_MoveToPosition = BindButtonNode("Contain_ActionNodes/Button_MoveToPosition", () => { AddChildNode(new BTMoveToPositionNode()); });
+        Btn_MoveDistance = BindButtonNode("Contain_ActionNodes/Button_MoveDistance", () => { AddChildNode(new BTMoveDistanceNode()); });
+
+
+
+        Btn_CheckDetectAgent = BindButtonNode("Contain_ActionNodes/Button_CheckDetectAgent", () => { AddChildNode(new BTCheckDetectAgentNode()); });
     }
 
     public void SetBTNode(BTNode node)

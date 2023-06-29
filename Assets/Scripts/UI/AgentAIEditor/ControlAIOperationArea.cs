@@ -244,6 +244,50 @@ new Dictionary<string, object>
                     { "node", node }
 });
         }
-            #endregion
+        else if (node is BTMoveTimeNode)
+        {
+            mCurOperationPage = UIManager.Ins.AddControl<ControlMoveTimeNodePropertyPage>(
+this,
+"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_MoveTimeNodePropertyPage",
+Node_OperationPageContain,
+new Dictionary<string, object>
+{
+                    { "node", node }
+});
+        }
+        else if (node is BTMoveMeterNode)
+        {
+            mCurOperationPage = UIManager.Ins.AddControl<ControlMoveMeterNodePropertyPage>(
+this,
+"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_MoveMeterNodePropertyPage",
+Node_OperationPageContain,
+new Dictionary<string, object>
+{
+                    { "node", node }
+});
+        }
+        else if (node is BTMoveDistanceNode)
+        {
+            mCurOperationPage = UIManager.Ins.AddControl<ControlMoveDistanceNodePropertyPage>(
+this,
+"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_MoveDistanceNodePropertyPage",
+Node_OperationPageContain,
+new Dictionary<string, object>
+{
+                    { "node", node }
+});
+        }
+        else if (node is BTMoveToPositionNode)
+        {
+            mCurOperationPage = UIManager.Ins.AddControl<ControlMoveToPositionNodePropertyPage>(
+this,
+"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_MoveToPositionNodePropertyPage",
+Node_OperationPageContain,
+new Dictionary<string, object>
+{
+                    { "node", node }
+});
+        }
+        #endregion
     }
 }

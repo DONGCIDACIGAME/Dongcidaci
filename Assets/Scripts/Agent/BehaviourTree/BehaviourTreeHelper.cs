@@ -53,6 +53,20 @@ public static class BehaviourTreeHelper
                 return "等待时间";
             case BTDefine.BT_Node_Type_Leaf_WaitFrame:
                 return "等待帧数";
+            case BTDefine.BT_Node_Type_Leaf_WaitMeter:
+                return "等待节拍数";
+            case BTDefine.BT_Node_Type_Leaf_ChangeTowards:
+                return "改变朝向";
+            case BTDefine.BT_Node_Type_Leaf_MoveTime:
+                return "移动一定时间";
+            case BTDefine.BT_Node_Type_Leaf_MoveMeter:
+                return "移动一定节拍";
+            case BTDefine.BT_Node_Type_Leaf_MoveDistance:
+                return "移动一定距离";
+            case BTDefine.BT_Node_Type_Leaf_MoveToPosition:
+                return "移动到指定位置";
+            case BTDefine.BT_Node_Type_Leaf_CheckDetectAgent:
+                return "检测到角色";
             default:
                 return "未知节点类型";
         }

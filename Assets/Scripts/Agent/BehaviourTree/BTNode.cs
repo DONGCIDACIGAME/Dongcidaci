@@ -184,9 +184,12 @@ public abstract class BTNode : IGameDisposable
         Log.Error(LogLevel.Normal, "BTNode Excute Error, invalid Excute result!");
         return BTDefine.BT_ExcuteResult_Failed;
     }
+
     public void Dispose()
     {
         mContext = null;
+        mExcutor = null;
+        mParentNode = null;
         CustomDispose();
     }
 }

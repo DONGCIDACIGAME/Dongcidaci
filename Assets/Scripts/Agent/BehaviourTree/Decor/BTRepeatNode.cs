@@ -3,18 +3,18 @@
 /// </summary>
 public class BTRepeatNode : BTDecorNode
 {
-    private int mTotalTime;
+    private int mTotalRepeatTime;
     private int mHasRepeatTime;
 
     public void SetRepeatTime(int repeatTime)
     {
-        mTotalTime = repeatTime;
+        mTotalRepeatTime = repeatTime;
         mHasRepeatTime = repeatTime;
     }
 
     public int GetRepeatTime()
     {
-        return mTotalTime;
+        return mTotalRepeatTime;
     }
 
     public override int GetNodeArgNum()
@@ -30,21 +30,20 @@ public class BTRepeatNode : BTDecorNode
     protected override int ParseNodeArgs(BTNodeArg[] args)
     {
         int result = BehaviourTreeHelper.ParseInt(args[0], out int value);
-        if (result == BTDefine.BT_ExcuteResult_Succeed)
-        {
-            SetRepeatTime(value);
-        }
+        if (result != BTDefine.BT_LoadNodeResult_Succeed)
+            return result;
 
-        return result;
+        SetRepeatTime(value);
+        return BTDefine.BT_LoadNodeResult_Succeed;
     }
 
     protected override BTNodeArg[] GetNodeArgs()
     {
-        BTNodeArg arg = new BTNodeArg();
-        arg.ArgName = "RepeatTime";
-        arg.ArgType = BTDefine.BT_ArgType_int;
-        arg.ArgContent = mTotalTime.ToString();
-        return new BTNodeArg[] { arg };
+        BTNodeArg arg1 = new BTNodeArg();
+        arg1.ArgName = "RepeatTime";
+        arg1.ArgType = BTDefine.BT_ArgType_int;
+        arg1.ArgContent = mTotalRepeatTime.ToString();
+        return new BTNodeArg[] { arg1 };
     }
 
     public override int Excute(float deltaTime)
@@ -64,7 +63,7 @@ public class BTRepeatNode : BTDecorNode
         {
             mHasRepeatTime++;
 
-            if (mHasRepeatTime >= mTotalTime)
+            if (mHasRepeatTime >= mTotalRepeatTime)
             {
                 return BTDefine.BT_ExcuteResult_Succeed;
             }
@@ -77,6 +76,22 @@ public class BTRepeatNode : BTDecorNode
         return InvalidExcuteResult();
     }
 
+    public override bool BTNodeDataCheck(ref string info)
+    {
+        if(!base.BTNodeDataCheck(ref info))
+        {
+            return false;
+        }
+
+        if(mTotalRepeatTime < 0)
+        {
+            info = string.Format("Node {0} repeate time must greater than 0! ", NodeName);
+            return false;
+        }
+
+        return true;
+    }
+
     public override void Reset()
     {
         base.Reset();
@@ -87,6 +102,6 @@ public class BTRepeatNode : BTDecorNode
     {
         base.CustomDispose();
         mHasRepeatTime = 0;
-        mTotalTime = 0;
+        mTotalRepeatTime = 0;
     }
 }
