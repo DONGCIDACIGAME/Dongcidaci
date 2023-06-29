@@ -20,10 +20,7 @@ public class BTUntilTrueNode : BTDecorNode
             return BTDefine.BT_ExcuteResult_Running;
 
         if (ret == BTDefine.BT_ExcuteResult_Succeed)
-        {
-            mChildNode.Reset();
             return BTDefine.BT_ExcuteResult_Succeed;
-        }
 
         return InvalidExcuteResult();
     }

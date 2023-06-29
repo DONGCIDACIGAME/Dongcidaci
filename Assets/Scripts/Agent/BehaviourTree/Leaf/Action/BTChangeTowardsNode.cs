@@ -31,10 +31,7 @@ public class BTAgentChangeTowardsNode : BTLeafNode
 
     protected override BTNodeArg[] GetNodeArgs()
     {
-        BTNodeArg arg1 = new BTNodeArg();
-        arg1.ArgName = "ChangeTowardsType";
-        arg1.ArgType = BTDefine.BT_ArgType_int;
-        arg1.ArgContent = mChangeTowardsType.ToString();
+        BTNodeArg arg1 = new BTNodeArg_int("ChangeTowardsType", mChangeTowardsType);
         return new BTNodeArg[] { arg1 };
     }
 

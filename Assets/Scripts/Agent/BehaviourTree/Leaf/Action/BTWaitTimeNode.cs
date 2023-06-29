@@ -32,10 +32,7 @@ public class BTWaitTimeNode : BTLeafNode
 
     protected override BTNodeArg[] GetNodeArgs()
     {
-        BTNodeArg arg1 = new BTNodeArg();
-        arg1.ArgName = "WaitTime";
-        arg1.ArgType = BTDefine.BT_ArgType_float;
-        arg1.ArgContent = mTotalWaitTime.ToString();
+        BTNodeArg arg1 = new BTNodeArg_float("WaitTime", mTotalWaitTime);
         return new BTNodeArg[] { arg1 };
     }
 

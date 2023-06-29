@@ -39,10 +39,7 @@ public class BTRepeatNode : BTDecorNode
 
     protected override BTNodeArg[] GetNodeArgs()
     {
-        BTNodeArg arg1 = new BTNodeArg();
-        arg1.ArgName = "RepeatTime";
-        arg1.ArgType = BTDefine.BT_ArgType_int;
-        arg1.ArgContent = mTotalRepeatTime.ToString();
+        BTNodeArg_int arg1 = new BTNodeArg_int("RepeatTime", mTotalRepeatTime);
         return new BTNodeArg[] { arg1 };
     }
 

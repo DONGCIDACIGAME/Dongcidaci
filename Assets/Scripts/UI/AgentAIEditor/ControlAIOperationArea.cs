@@ -18,6 +18,12 @@ public  class ControlAIOperationArea : UIControl
         base.BindEvents();
         mEventListener.Listen<ControlAINode>("OnClickAddChildNode", OnClickAddChildNode);
         mEventListener.Listen<ControlAINode>("ClickAINode", OnNodeClick);
+        mEventListener.Listen<BTNode>("DeleteAINode", OnDeleteNode);
+    }
+
+    private void OnDeleteNode(BTNode node)
+    {
+        ClearOperationArea();
     }
 
     public void ClearOperationArea()
@@ -208,7 +214,17 @@ new Dictionary<string, object>
         }
         #endregion
         #region condition
-
+        else if (node is BTCheckDetectAgentNode)
+        {
+            mCurOperationPage = UIManager.Ins.AddControl<ControlCheckDetectAgentNodePropertyPage>(
+this,
+"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Condition/Ctl_CheckDetectAgentNodePropertyPage",
+Node_OperationPageContain,
+new Dictionary<string, object>
+{
+                    { "node", node }
+});
+        }
         #endregion
         #region action
         else if (node is BTWaitTimeNode)
@@ -238,6 +254,17 @@ new Dictionary<string, object>
             mCurOperationPage = UIManager.Ins.AddControl<ControlWaitMeterNodePropertyPage>(
 this,
 "Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_WaitMeterNodePropertyPage",
+Node_OperationPageContain,
+new Dictionary<string, object>
+{
+                    { "node", node }
+});
+        }
+        else if(node is BTAgentChangeTowardsNode)
+        {
+            mCurOperationPage = UIManager.Ins.AddControl<ControlChangeTowardsNodePropertyPage>(
+this,
+"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_ChangeTowardsNodePropertyPage",
 Node_OperationPageContain,
 new Dictionary<string, object>
 {

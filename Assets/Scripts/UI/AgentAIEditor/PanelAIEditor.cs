@@ -121,6 +121,7 @@ public class PanelAIEditor : UIPanel
     {
         mCurEditingTree = BehaviourTreeManager.Ins.CreateBTNode(BTDefine.BT_Node_Type_Tree, BTDefine.BT_Node_Type_Tree_Entry) as BTTree;
         DrawTree(mCurEditingTree);
+        mTreeFileName = string.Empty;
         GameEventSystem.Ins.Fire("SelectNode", mCurEditingTree);
         mDataChanged = true;
     }

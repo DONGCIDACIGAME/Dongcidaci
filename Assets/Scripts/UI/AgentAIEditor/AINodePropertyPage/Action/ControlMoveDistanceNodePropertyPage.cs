@@ -27,7 +27,7 @@ public class ControlMoveDistanceNodePropertyPage : ControlAINodePropertyPage
 
         node.SetTotalMoveDistance(distance);
 
-        GameEventSystem.Ins.Fire("UpdateAILogicArea");
+        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
     private void OnEditMaxMoveTime(string str)
@@ -44,7 +44,7 @@ public class ControlMoveDistanceNodePropertyPage : ControlAINodePropertyPage
 
         node.SetMoveMaxTime(maxMoveTime);
 
-        GameEventSystem.Ins.Fire("UpdateAILogicArea");
+        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
     protected override void Initialize()

@@ -29,10 +29,7 @@ public class BTCheckDetectAgentNode : BTLeafNode
 
     protected override BTNodeArg[] GetNodeArgs()
     {
-        BTNodeArg arg1 = new BTNodeArg();
-        arg1.ArgName = "TargetAgentType";
-        arg1.ArgType = BTDefine.BT_ArgType_int;
-        arg1.ArgContent = mTargetAgentType.ToString();
+        BTNodeArg arg1 = new BTNodeArg_int("TargetAgentType", mTargetAgentType);
         return new BTNodeArg[] { arg1 };
     }
 

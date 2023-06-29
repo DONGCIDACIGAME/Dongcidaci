@@ -25,7 +25,7 @@ public class ControlWaitMeterNodePropertyPage : ControlAINodePropertyPage
 
         node.SetWaitMeterNum(num);
 
-        GameEventSystem.Ins.Fire("UpdateAILogicArea");
+        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
     protected override void Initialize()

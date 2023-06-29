@@ -25,7 +25,7 @@ public class ControlMoveMeterNodePropertyPage : ControlAINodePropertyPage
 
         node.SetTotalMoveMeter(meterNum);
 
-        GameEventSystem.Ins.Fire("UpdateAILogicArea");
+        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
     protected override void Initialize()

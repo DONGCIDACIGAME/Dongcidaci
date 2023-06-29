@@ -79,8 +79,8 @@ public static class BTDefine
     /// <summary>
     /// 子树数据的拷贝类型
     /// </summary>
-    public static string BT_ChildTreeCopyType_New = "New"; // 新建一份数据
-    public static string BT_ChildTreeCopyType_Reference = "Reference"; // 引用源数据
+    public const int BT_ChildTreeCopyType_New = 0; // 新建一份数据
+    public const int BT_ChildTreeCopyType_Reference = 1; // 引用源数据
 
 
     /// <summary>

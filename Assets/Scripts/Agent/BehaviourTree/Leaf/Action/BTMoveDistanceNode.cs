@@ -54,16 +54,8 @@ public class BTMoveDistanceNode : BTLeafNode
 
     protected override BTNodeArg[] GetNodeArgs()
     {
-        BTNodeArg arg1 = new BTNodeArg();
-        arg1.ArgName = "TotalMoveDistance";
-        arg1.ArgType = BTDefine.BT_ArgType_float;
-        arg1.ArgContent = mTotalMoveDistance.ToString();
-
-        BTNodeArg arg2 = new BTNodeArg();
-        arg2.ArgName = "MoveMaxTime";
-        arg2.ArgType = BTDefine.BT_ArgType_float;
-        arg2.ArgContent = mMoveMaxTime.ToString();
-
+        BTNodeArg arg1 = new BTNodeArg_float("TotalMoveDistance", mTotalMoveDistance);
+        BTNodeArg arg2 = new BTNodeArg_float("MoveMaxTime", mMoveMaxTime);
         return new BTNodeArg[] { arg1, arg2 };
     }
     public override bool BTNodeDataCheck(ref string info)

@@ -25,7 +25,7 @@ public class ControlWaitTimeNodePropertyPage : ControlAINodePropertyPage
 
         node.SetWaitTime(time);
 
-        GameEventSystem.Ins.Fire("UpdateAILogicArea");
+        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
     protected override void Initialize()

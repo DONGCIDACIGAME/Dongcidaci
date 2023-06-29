@@ -33,10 +33,7 @@ public class BTMoveMeterNode : BTLeafNode
 
     protected override BTNodeArg[] GetNodeArgs()
     {
-        BTNodeArg arg1 = new BTNodeArg();
-        arg1.ArgName = "TotalMoveMeter";
-        arg1.ArgType = BTDefine.BT_ArgType_int;
-        arg1.ArgContent = mTotalMoveMeter.ToString();
+        BTNodeArg arg1 = new BTNodeArg_int("TotalMoveMeter", mTotalMoveMeter);
         return new BTNodeArg[] { arg1 };
     }
 

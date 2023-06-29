@@ -9,11 +9,11 @@ public class ControlChildTreeNodePropertyPage : ControlAINodePropertyPage
 
     private static List<TMP_Dropdown.OptionData> CopyTypeOptions = new List<TMP_Dropdown.OptionData>
     {
-        new TMP_Dropdown.OptionData(BTDefine.BT_ChildTreeCopyType_New),
-        new TMP_Dropdown.OptionData(BTDefine.BT_ChildTreeCopyType_Reference)
+        new TMP_Dropdown.OptionData("New"),
+        new TMP_Dropdown.OptionData("Reference")
     };
 
-    private int GetCopyTypeIndex(string copyType)
+    private int GetCopyTypeIndex(int copyType)
     {
         if (copyType == BTDefine.BT_ChildTreeCopyType_New)
         {

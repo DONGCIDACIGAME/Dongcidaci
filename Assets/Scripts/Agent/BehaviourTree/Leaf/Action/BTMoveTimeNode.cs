@@ -30,10 +30,7 @@ public class BTMoveTimeNode : BTLeafNode
 
     protected override BTNodeArg[] GetNodeArgs()
     {
-        BTNodeArg arg1 = new BTNodeArg();
-        arg1.ArgName = "TotalMoveTime";
-        arg1.ArgType = BTDefine.BT_ArgType_float;
-        arg1.ArgContent = mTotalMoveTime.ToString();
+        BTNodeArg arg1 = new BTNodeArg_float("TotalMoveTime", mTotalMoveTime);
         return new BTNodeArg[] { arg1 };
     }
 

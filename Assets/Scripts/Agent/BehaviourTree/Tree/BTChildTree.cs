@@ -10,7 +10,7 @@ public class BTChildTree : BTTree
     /// BT_ChildTreeCopyType_New: 深拷贝，使用源树的数据新建了一份数据
     /// BT_ChildTreeCopyType_Reference:浅拷贝，保存的是对源树的引用
     /// </summary>
-    private string mCopyType;
+    private int mCopyType;
 
     public void SetChildTreeName(string fileName)
     {
@@ -22,12 +22,12 @@ public class BTChildTree : BTTree
         return mChildTreeName;
     }
 
-    public void SetCopyType(string copyType)
+    public void SetCopyType(int copyType)
     {
         mCopyType = copyType;
     }
 
-    public string GetCopyType()
+    public int GetCopyType()
     {
         return mCopyType;
     }
@@ -95,16 +95,8 @@ public class BTChildTree : BTTree
 
     protected override BTNodeArg[] GetNodeArgs()
     {
-        BTNodeArg arg1 = new BTNodeArg();
-        arg1.ArgName = "ChildTree";
-        arg1.ArgType = BTDefine.BT_ArgType_string;
-        arg1.ArgContent = mChildTreeName;
-
-        BTNodeArg arg2 = new BTNodeArg();
-        arg2.ArgName = "CopyType";
-        arg2.ArgType = BTDefine.BT_ArgType_string;
-        arg2.ArgContent = mCopyType;
-
+        BTNodeArg arg1 = new BTNodeArg_string("ChildTree", mChildTreeName);
+        BTNodeArg arg2 = new BTNodeArg_int("CopyType", mCopyType);
         return new BTNodeArg[] { arg1, arg2};
     }
 
@@ -116,7 +108,7 @@ public class BTChildTree : BTTree
             return result1;
 
         // 读取子树的copy类型
-        int result2 = BehaviourTreeHelper.ParseString(args[1], out string value2);
+        int result2 = BehaviourTreeHelper.ParseInt(args[1], out int value2);
         if (result2 != BTDefine.BT_LoadNodeResult_Succeed)
             return result2;
 

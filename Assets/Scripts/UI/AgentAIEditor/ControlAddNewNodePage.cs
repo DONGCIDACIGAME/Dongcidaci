@@ -110,7 +110,7 @@ public class ControlAddNewNodePage : UIControl
 
 
 
-        Btn_CheckDetectAgent = BindButtonNode("Contain_ActionNodes/Button_CheckDetectAgent", () => { AddChildNode(new BTCheckDetectAgentNode()); });
+        Btn_CheckDetectAgent = BindButtonNode("Contain_ConditionNodes/Button_CheckDetectAgent", () => { AddChildNode(new BTCheckDetectAgentNode()); });
     }
 
     public void SetBTNode(BTNode node)
@@ -149,7 +149,7 @@ public class ControlAddNewNodePage : UIControl
             Log.Error(LogLevel.Normal, "AddChildNode Error, BTLeafNode can't add child node!");
         }
 
-        GameEventSystem.Ins.Fire("UpdateAILogicArea");
+        GameEventSystem.Ins.Post("UpdateAILogicArea");
 
         GameEventSystem.Ins.Post("SelectNode", childNode);
     }

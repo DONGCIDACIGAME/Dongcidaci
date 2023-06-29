@@ -25,7 +25,7 @@ public class ControlMoveTimeNodePropertyPage : ControlAINodePropertyPage
 
         node.SetTotalMoveTime(time);
 
-        GameEventSystem.Ins.Fire("UpdateAILogicArea");
+        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
     protected override void Initialize()

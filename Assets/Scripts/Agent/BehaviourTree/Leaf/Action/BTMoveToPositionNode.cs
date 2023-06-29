@@ -31,11 +31,7 @@ public class BTMoveToPositionNode : BTLeafNode
 
     protected override BTNodeArg[] GetNodeArgs()
     {
-        BTNodeArg arg1 = new BTNodeArg();
-        arg1.ArgName = "TargetPosition";
-        arg1.ArgType = BTDefine.BT_ArgType_float;
-        arg1.ArgContent = mTargetPos.ToString();
-
+        BTNodeArg arg1 = new BTNodeArg_Vector3("TargetPosition", mTargetPos);
         return new BTNodeArg[] { arg1};
     }
 

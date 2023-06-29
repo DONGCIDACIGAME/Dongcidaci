@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 8288821213719879446}
   - component: {fileID: 2318500358304338068}
   m_Layer: 5
-  m_Name: InputField_ MoveMeter
+  m_Name: InputField_MoveMeter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

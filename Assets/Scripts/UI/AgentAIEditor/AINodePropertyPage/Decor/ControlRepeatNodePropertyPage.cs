@@ -25,7 +25,7 @@ public class ControlRepeatNodePropertyPage : ControlAINodePropertyPage
 
         node.SetRepeatTime(time);
 
-        GameEventSystem.Ins.Fire("UpdateAILogicArea");
+        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
     protected override void Initialize()

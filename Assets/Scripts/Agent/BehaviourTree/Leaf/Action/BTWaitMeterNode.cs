@@ -34,10 +34,7 @@ public class BTWaitMeterNode : BTLeafNode
 
     protected override BTNodeArg[] GetNodeArgs()
     {
-        BTNodeArg arg1 = new BTNodeArg();
-        arg1.ArgName = "WaitMeterNum";
-        arg1.ArgType = BTDefine.BT_ArgType_int;
-        arg1.ArgContent = mTotalWaitMeterNum.ToString();
+        BTNodeArg arg1 = new BTNodeArg_int("WaitMeterNum", mTotalWaitMeterNum);
         return new BTNodeArg[] { arg1 };
     }
 
