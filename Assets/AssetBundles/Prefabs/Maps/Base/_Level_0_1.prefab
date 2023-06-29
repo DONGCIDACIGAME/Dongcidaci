@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 2, y: 2}
   offset: {x: 0, y: 0}
   DrawDizmos: 1
@@ -242,7 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 2, y: 4}
   offset: {x: 0, y: -1}
   DrawDizmos: 1
@@ -413,7 +413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 2, y: 6}
   offset: {x: 0, y: 0}
   DrawDizmos: 1
@@ -476,7 +476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 2, y: 2}
   offset: {x: 0, y: 0}
   DrawDizmos: 1
@@ -539,7 +539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 4, y: 2}
   offset: {x: -1, y: 0}
   DrawDizmos: 1
@@ -602,7 +602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 4, y: 2}
   offset: {x: 1, y: 0}
   DrawDizmos: 1
@@ -665,7 +665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 2, y: 2}
   offset: {x: 0, y: 0}
   DrawDizmos: 1
@@ -762,7 +762,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 4, y: 2}
   offset: {x: 1, y: 0}
   DrawDizmos: 1
@@ -825,7 +825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 8, y: 2}
   offset: {x: 1, y: 0}
   DrawDizmos: 1
@@ -888,7 +888,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 6, y: 2}
   offset: {x: 0, y: 0}
   DrawDizmos: 1
@@ -951,7 +951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 6, y: 2}
   offset: {x: 2, y: 0}
   DrawDizmos: 1
@@ -1014,7 +1014,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 2, y: 8}
   offset: {x: 0, y: -1}
   DrawDizmos: 1
@@ -1077,7 +1077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 2, y: 8}
   offset: {x: 0, y: 1}
   DrawDizmos: 1
@@ -1140,7 +1140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 4, y: 2}
   offset: {x: 1, y: 0}
   DrawDizmos: 1
@@ -1203,7 +1203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 2, y: 4}
   offset: {x: 0, y: 1}
   DrawDizmos: 1
@@ -1266,7 +1266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 2, y: 2}
   offset: {x: 0, y: 0}
   DrawDizmos: 1
@@ -1393,7 +1393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 2, y: 6}
   offset: {x: 0, y: 0}
   DrawDizmos: 1
@@ -1490,7 +1490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 10, y: 2}
   offset: {x: 0, y: 0}
   DrawDizmos: 1
@@ -1553,7 +1553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 10, y: 2}
   offset: {x: 2, y: 0}
   DrawDizmos: 1
@@ -1616,7 +1616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 8, y: 2}
   offset: {x: 1, y: 0}
   DrawDizmos: 1
@@ -1736,7 +1736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 6, y: 2}
   offset: {x: 2, y: 0}
   DrawDizmos: 1
@@ -1799,7 +1799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 2, y: 6}
   offset: {x: 0, y: 0}
   DrawDizmos: 1
@@ -1862,7 +1862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  shapeType: 0
   size: {x: 4, y: 2}
   offset: {x: -1, y: 0}
   DrawDizmos: 1
@@ -1973,7 +1973,6 @@ GameObject:
   - component: {fileID: 6064687688902776423}
   - component: {fileID: 6611900304177960888}
   - component: {fileID: 7270599053099743378}
-  - component: {fileID: 1424472047328472967}
   m_Layer: 0
   m_Name: LargeRock1
   m_TagString: Untagged
@@ -2010,12 +2009,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc698984e248642ae960beebc800ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
-  size: {x: 1.8, y: 2.28}
-  offset: {x: -0.06, y: -0.09}
+  shapeType: 1
+  size: {x: 2.1, y: 2.3}
+  offset: {x: 0.02, y: -0.07}
   DrawDizmos: 1
   color: {r: 1, g: 0, b: 0, a: 1}
-  polyCountForShow: 8
+  polyCountForShow: 5
 --- !u!114 &7270599053099743378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2028,22 +2027,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b058c4c6b40e94582afd3393aa90f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1424472047328472967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3482659910251627701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4eeb2b85a4942db40a030b0277edd8db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0}
-  size: {x: 3, y: 3}
-  shapeType: 0
-  tgtConvexComp: {fileID: 0}
 --- !u!1 &6590032932827999299
 GameObject:
   m_ObjectHideFlags: 0

@@ -1354,6 +1354,7 @@ GameObject:
   - component: {fileID: 1864556519868168047}
   - component: {fileID: 215934047448725544}
   - component: {fileID: 1863216073456195339}
+  - component: {fileID: 2817548254920797197}
   m_Layer: 0
   m_Name: TestHeroRig
   m_TagString: Untagged
@@ -1430,6 +1431,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8272a1c79f35caf4aa2ca5a3bd88d256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2817548254920797197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4921238393468024751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e98d1a1816367e643a444eaecf2e0489, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shapeType: 3
+  size: {x: 2, y: 2}
+  offset: {x: 0, y: 0}
+  DrawGizmos: 1
 --- !u!1 &5055325942442241290
 GameObject:
   m_ObjectHideFlags: 0

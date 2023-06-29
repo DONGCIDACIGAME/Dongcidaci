@@ -3,6 +3,62 @@ using UnityEngine;
 public static class GameColliderHelper
 {
     /// <summary>
+    /// 返回指定的正多边形，锚点0，0，旋转角度0
+    /// </summary>
+    /// <param name="shapeType"></param>
+    /// <param name="offset"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    public static IConvex2DShape GetRegularShapeWith(Convex2DShapeType shapeType,Vector2 offset, Vector2 size)
+    {
+        switch (shapeType)
+        {
+            case Convex2DShapeType.Rect: return new Rect2DShape(Vector3.zero,0,offset,size);
+            case Convex2DShapeType.Triangle: return new Triangle2DShape(Vector3.zero, 0, offset, size);
+            case Convex2DShapeType.Circle: return new Circle2DShape(Vector3.zero, 0, offset, size.x);
+            case Convex2DShapeType.Ellipse: return new Ellipse2DShape(Vector3.zero, 0, offset, size);
+            default: return new Rect2DShape(Vector3.zero, 0, offset, size);
+        }
+
+    }
+
+
+    /// <summary>
+    /// 获取旋转三角形的顶点信息
+    /// </summary>
+    /// <param name="anchorPos"></param>
+    /// <param name="anchorAngle"></param>
+    /// <param name="offset"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    public static Vector2[] GetTriangleVertexs(Vector3 anchorPos, float anchorAngle, Vector2 offset, Vector2 size)
+    {
+        var triangleVertexs = new Vector2[3];
+
+        // 1 原始点信息
+        triangleVertexs[0] = new Vector2(offset.x, offset.y);
+        triangleVertexs[1] = new Vector2(-size.x / 2f + offset.x, size.y + offset.y);
+        triangleVertexs[2] = new Vector2(size.x / 2f + offset.x, size.y + offset.y);
+
+        // 2 绕 anchorAngle 旋转
+        float arc = -anchorAngle / 180 * Mathf.PI;
+        for (int i = 0; i < triangleVertexs.Length; i++)
+        {
+            triangleVertexs[i] = new Vector2(
+                triangleVertexs[i].x * Mathf.Cos(arc) - triangleVertexs[i].y * Mathf.Sin(arc),
+                triangleVertexs[i].x * Mathf.Sin(arc) + triangleVertexs[i].y * Mathf.Cos(arc));
+        }
+
+        // 3 加上锚点信息
+        for (int i = 0; i < triangleVertexs.Length; i++)
+        {
+            triangleVertexs[i] += new Vector2(anchorPos.x, anchorPos.z);
+        }
+
+        return triangleVertexs;
+    }
+
+    /// <summary>
     /// 获取旋转矩形的4个顶点，左上 右上,右下,左下
     /// </summary>
     /// <param name="anchorPos"></param>
@@ -122,7 +178,7 @@ public static class GameColliderHelper
 
                 float xSquare = Mathf.Pow(ellipseX,2);
                 float ellipseY = Mathf.Sqrt((aSquare*bSquare - bSquare*xSquare) / aSquare);
-                ellipseVetexs[i] = new Vector2(ellipseX,ellipseY);
+                ellipseVetexs[i] = new Vector2(ellipseX + offset.x,ellipseY + offset.y);
             }
 
             for (int i = 0; i < halfVertexCount; i++)
@@ -135,7 +191,7 @@ public static class GameColliderHelper
 
                 float xSquare = Mathf.Pow(ellipseX, 2);
                 float ellipseY = -Mathf.Sqrt((aSquare * bSquare - bSquare * xSquare) / aSquare);
-                ellipseVetexs[i+halfVertexCount] = new Vector2(ellipseX, ellipseY);
+                ellipseVetexs[i+halfVertexCount] = new Vector2(ellipseX + offset.x, ellipseY + offset.y);
             }
         }
         else
@@ -155,7 +211,7 @@ public static class GameColliderHelper
 
                 float ySquare = Mathf.Pow(ellipseY, 2);
                 float ellipseX = -Mathf.Sqrt((aSquare * bSquare - aSquare * ySquare) / bSquare);
-                ellipseVetexs[i] = new Vector2(ellipseX, ellipseY);
+                ellipseVetexs[i] = new Vector2(ellipseX + offset.x, ellipseY + offset.y);
             }
 
             for (int i = 0; i < halfVertexCount; i++)
@@ -167,7 +223,7 @@ public static class GameColliderHelper
 
                 float ySquare = Mathf.Pow(ellipseY, 2);
                 float ellipseX = Mathf.Sqrt((aSquare * bSquare - aSquare * ySquare) / bSquare);
-                ellipseVetexs[i + halfVertexCount] = new Vector2(ellipseX, ellipseY);
+                ellipseVetexs[i + halfVertexCount] = new Vector2(ellipseX+offset.x, ellipseY+offset.y);
             }
 
         }
