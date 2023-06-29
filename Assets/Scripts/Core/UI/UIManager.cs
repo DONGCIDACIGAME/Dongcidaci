@@ -8,7 +8,7 @@ namespace GameEngine
         /// <summary>
         /// 所有要打开的面板，都先加到队列中
         /// </summary>
-        private SimpleQueue<UILoadingPanel> mLoadingPanels;
+        private MyQueue<UILoadingPanel> mLoadingPanels;
         
         /// <summary>
         /// 所有UI挂载的layer root
@@ -76,7 +76,7 @@ namespace GameEngine
 
         public override void Initialize()
         {
-            mLoadingPanels = new SimpleQueue<UILoadingPanel>();
+            mLoadingPanels = new MyQueue<UILoadingPanel>();
             mLayers = new Dictionary<string, GameObject>();
             mAllOpenPanels = new Dictionary<System.Type, UIPanel>();
             mUIEntityPools = new Dictionary<System.Type, UIEntityPool<UIEntity>>();

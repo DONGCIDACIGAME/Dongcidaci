@@ -2,6 +2,7 @@ public static class EntityTypeDefine
 {
     public const int Hero = 0;
     public const int Monster = 1;
+    public const int NPC = 2;
 
 
     public const int Ground = 52;

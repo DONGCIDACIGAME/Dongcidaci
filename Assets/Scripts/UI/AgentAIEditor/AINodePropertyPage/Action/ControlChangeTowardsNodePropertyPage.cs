@@ -52,8 +52,6 @@ public class ControlChangeTowardsNodePropertyPage : ControlAINodePropertyPage
         }
 
         node.SetChangeTowardsType(agentType);
-
-        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
     protected override void Initialize()

@@ -88,6 +88,22 @@ public  class ControlAIOperationArea : UIControl
 
     }
 
+    private void AddPropertyPage<T>(string prefabPath, BTNode node) 
+        where T: ControlAINodePropertyPage, new()
+    {
+        string prefabFullPath = "Prefabs/UI/AgentAIEditor/AINodePropertyPage/" + prefabPath;
+
+        mCurOperationPage = UIManager.Ins.AddControl<T>(
+            this,
+            prefabFullPath,
+            Node_OperationPageContain,
+            new Dictionary<string, object>
+            {
+                    { "node", node }
+            });
+
+    }
+
 
     /// <summary>
     /// 加载节点的属性面板
@@ -99,221 +115,87 @@ public  class ControlAIOperationArea : UIControl
         #region tree
         if (node is BTTreeEntry)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlTreeEntryNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Tree/Ctl_TreeEntryNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-        { "node", node }
-});
+            AddPropertyPage<ControlTreeEntryNodePropertyPage>("Tree/Ctl_TreeEntryNodePropertyPage", node);
         }
         else if (node is BTChildTree)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlChildTreeNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Tree/Ctl_ChildTreeNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-    {"node", node }
-}
-                );
+            AddPropertyPage<ControlChildTreeNodePropertyPage>("Tree/Ctl_ChildTreeNodePropertyPage", node);
         }
         #endregion
         #region composite
         else if (node is BTSequenceNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlSequenceNodePropertyPage>(
-    this,
-    "Prefabs/UI/AgentAIEditor/AINodePropertyPage/Composite/Ctl_SequenceNodePropertyPage",
-    Node_OperationPageContain,
-    new Dictionary<string, object>
-    {
-        { "node", node }
-    });
+            AddPropertyPage<ControlSequenceNodePropertyPage>("Composite/Ctl_SequenceNodePropertyPage", node);
         }
         else if (node is BTParallelNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlParallelNodePropertyPage>(
-    this,
-    "Prefabs/UI/AgentAIEditor/AINodePropertyPage/Composite/Ctl_ParallelNodePropertyPage",
-    Node_OperationPageContain,
-    new Dictionary<string, object>
-    {
-                    { "node", node }
-    });
+            AddPropertyPage<ControlParallelNodePropertyPage>("Composite/Ctl_ParallelNodePropertyPage", node);
         }
         else if (node is BTSelectNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlSelectorPropertyPage>(
-    this,
-    "Prefabs/UI/AgentAIEditor/AINodePropertyPage/Composite/Ctl_SelectorNodePropertyPage",
-    Node_OperationPageContain,
-    new Dictionary<string, object>
-    {
-                    { "node", node }
-    });
+            AddPropertyPage<ControlSelectorPropertyPage>("Composite/Ctl_SelectorNodePropertyPage", node);
         }
         #endregion
         #region decor
         else if (node is BTRepeatNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlRepeatNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Decor/Ctl_RepeatNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlRepeatNodePropertyPage>("Decor/Ctl_RepeatNodePropertyPage", node);
         }
         else if (node is BTInvertNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlInvertNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Decor/Ctl_InvertNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlInvertNodePropertyPage>("Decor/Ctl_InvertNodePropertyPage", node);
         }
         else if (node is BTOnceNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlOnceNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Decor/Ctl_OnceNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlOnceNodePropertyPage>("Decor/Ctl_OnceNodePropertyPage", node);
         }
         else if (node is BTUntilTrueNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlUntilTrueNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Decor/Ctl_UntilTrueNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlUntilTrueNodePropertyPage>("Decor/Ctl_UntilTrueNodePropertyPage", node);
         }
         else if (node is BTResetNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlResetNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Decor/Ctl_ResetNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlResetNodePropertyPage>("Decor/Ctl_ResetNodePropertyPage", node);
         }
         #endregion
         #region condition
         else if (node is BTCheckDetectAgentNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlCheckDetectAgentNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Condition/Ctl_CheckDetectAgentNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlCheckDetectAgentNodePropertyPage>("Condition/Ctl_CheckDetectAgentNodePropertyPage", node);
         }
         #endregion
         #region action
         else if (node is BTWaitTimeNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlWaitTimeNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_WaitTimeNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlWaitTimeNodePropertyPage>("Action/Ctl_WaitTimeNodePropertyPage", node);
         }
         else if (node is BTWaitFrameNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlWaitFrameNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_WaitFrameNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlWaitFrameNodePropertyPage>("Action/Ctl_WaitFrameNodePropertyPage", node);
         }
         else if (node is BTWaitMeterNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlWaitMeterNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_WaitMeterNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlWaitMeterNodePropertyPage>("Action/Ctl_WaitMeterNodePropertyPage", node);
         }
         else if(node is BTAgentChangeTowardsNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlChangeTowardsNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_ChangeTowardsNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlChangeTowardsNodePropertyPage>("Action/Ctl_ChangeTowardsNodePropertyPage", node);
         }
         else if (node is BTMoveTimeNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlMoveTimeNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_MoveTimeNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlMoveTimeNodePropertyPage>("Action/Ctl_MoveTimeNodePropertyPage", node);
         }
         else if (node is BTMoveMeterNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlMoveMeterNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_MoveMeterNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlMoveMeterNodePropertyPage>("Action/Ctl_MoveMeterNodePropertyPage", node);
         }
         else if (node is BTMoveDistanceNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlMoveDistanceNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_MoveDistanceNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlMoveDistanceNodePropertyPage>("Action/Ctl_MoveDistanceNodePropertyPage", node);
         }
         else if (node is BTMoveToPositionNode)
         {
-            mCurOperationPage = UIManager.Ins.AddControl<ControlMoveToPositionNodePropertyPage>(
-this,
-"Prefabs/UI/AgentAIEditor/AINodePropertyPage/Action/Ctl_MoveToPositionNodePropertyPage",
-Node_OperationPageContain,
-new Dictionary<string, object>
-{
-                    { "node", node }
-});
+            AddPropertyPage<ControlMoveToPositionNodePropertyPage>("Action/Ctl_MoveToPositionNodePropertyPage", node);
         }
         #endregion
     }

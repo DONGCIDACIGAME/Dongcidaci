@@ -109,11 +109,6 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         return towards;
     }
 
-    protected override bool CheckUpdateColliderRotate()
-    {
-        return false;
-    }
-
 
     /// <summary>
     /// 加载角色配置信息
@@ -361,7 +356,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         if (ret)
         {
             var agentColliders = GameColliderDefine.GetAgentColliders(tgtsDict.Keys.ToArray());
-            if (agentColliders.Count >1)
+            if (agentColliders.Count > 0)
             {
                 foreach (var collider in agentColliders)
                 {

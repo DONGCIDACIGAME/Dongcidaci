@@ -27,8 +27,6 @@ public class ControlMoveToPositionNodePropertyPage : ControlAINodePropertyPage
         }
 
         node.SetTargetPosition(new UnityEngine.Vector3(x, 0, z));
-
-        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
     private void OnEditMoveToPositionZ(string str)
@@ -45,8 +43,6 @@ public class ControlMoveToPositionNodePropertyPage : ControlAINodePropertyPage
         }
 
         node.SetTargetPosition(new UnityEngine.Vector3(x, 0, z));
-
-        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
     protected override void Initialize()

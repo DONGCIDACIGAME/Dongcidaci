@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class BTCheckDetectAgentNode : BTLeafNode
 {
     private int mTargetAgentType;
@@ -46,10 +48,44 @@ public class BTCheckDetectAgentNode : BTLeafNode
         return true;
     }
 
+    private bool CheckMatchType(Agent agt, int targetAgentType)
+    {
+        switch (targetAgentType)
+        {
+            case AgentDefine.AgentType_Hero:
+                return agt is Hero;
+            case AgentDefine.AgentType_Monster:
+                return agt is Monster;
+            case AgentDefine.AgentType_NPC:
+                return agt is NPC;
+            default:
+                return false;
+        }
+    }
+
+
     public override int Excute(float deltaTime)
     {
-        // TODO:需要角色侦察区域支持
-        return 0;   
+        if(mExcutor == null)
+        {
+            Log.Error(LogLevel.Info, "BTCheckDetectAgentNode Exucte Failed, mExcutor is null!");
+            return BTDefine.BT_ExcuteResult_Failed;
+        }
+
+        if(mTargetAgentType == AgentDefine.AgentType_NotDefine)
+        {
+            Log.Error(LogLevel.Info, "BTCheckDetectAgentNode Exucte Failed, target agent type not defined!");
+            return BTDefine.BT_ExcuteResult_Failed;
+        }
+
+        List<Agent> detectedAgents = mExcutor.DetectAgentInVision();
+        foreach(Agent agent in detectedAgents)
+        {
+            if (CheckMatchType(agent, mTargetAgentType))
+                return BTDefine.BT_ExcuteResult_Succeed;
+        }
+
+        return BTDefine.BT_ExcuteResult_Failed;   
     }
 
     public override void Reset()

@@ -149,7 +149,7 @@ public class ControlAddNewNodePage : UIControl
             Log.Error(LogLevel.Normal, "AddChildNode Error, BTLeafNode can't add child node!");
         }
 
-        GameEventSystem.Ins.Post("UpdateAILogicArea");
+        GameEventSystem.Ins.Fire("UpdateAILogicArea");
 
         GameEventSystem.Ins.Post("SelectNode", childNode);
     }

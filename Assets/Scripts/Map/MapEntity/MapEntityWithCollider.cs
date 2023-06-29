@@ -54,17 +54,11 @@ public abstract class MapEntityWithCollider : MapEntity
         GameColliderManager.Ins.UpdateColliderPos(mCollider,position);
     }
 
-    protected virtual bool CheckUpdateColliderRotate()
-    {
-        return true;
-    }
-
     public override void SetRotation(Vector3 rotation)
     {
         base.SetRotation(rotation);
 
-        if(CheckUpdateColliderRotate())
-            GameColliderManager.Ins.UpdateColliderRotateAngle(mCollider,rotation.y);
+        GameColliderManager.Ins.UpdateColliderRotateAngle(mCollider,rotation.y);
     }
 
     public override void SetScale(Vector3 scale)

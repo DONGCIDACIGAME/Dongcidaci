@@ -97,4 +97,15 @@ public static class AgentHelper
 
         return statusInfo.defaultAciton;
     }
+
+    public static float GetEntityDistance(MapEntity entity1, MapEntity entity2)
+    {
+        if (entity1 == null || entity2 == null)
+        {
+            Log.Error(LogLevel.Normal, "GetEntityDistance Error, has null entity!");
+            return 0;
+        }
+
+        return (entity2.GetPosition() - entity1.GetPosition()).magnitude;
+    }
 }

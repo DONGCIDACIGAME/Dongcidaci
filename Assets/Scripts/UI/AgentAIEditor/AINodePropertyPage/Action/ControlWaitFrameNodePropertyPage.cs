@@ -24,8 +24,6 @@ public class ControlWaitFrameNodePropertyPage : ControlAINodePropertyPage
         }
 
         node.SetWaitFrame(frameCnt);
-
-        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
     protected override void Initialize()

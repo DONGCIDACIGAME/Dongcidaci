@@ -52,8 +52,6 @@ public class ControlCheckDetectAgentNodePropertyPage : ControlAINodePropertyPage
         }
 
         node.SetTargetAgentType(agentType);
-
-        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
     protected override void Initialize()

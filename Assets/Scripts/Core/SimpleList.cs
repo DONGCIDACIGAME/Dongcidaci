@@ -20,14 +20,14 @@ namespace GameEngine
     public class SimpleList<T>
     {
         private HashIndex[] mIndexArray;
-        private SimpleQueue<int> validIndexQueue;
+        private MyQueue<int> validIndexQueue;
         private T[] mObjArray;
         private SimpleListEnlargeMode mEnlargeMode;
 
         public SimpleList(uint initSize, SimpleListEnlargeMode mode)
         {
             mIndexArray = new HashIndex[initSize];
-            validIndexQueue = new SimpleQueue<int>();
+            validIndexQueue = new MyQueue<int>();
             mObjArray = new T[initSize];
 
             mEnlargeMode = mode;

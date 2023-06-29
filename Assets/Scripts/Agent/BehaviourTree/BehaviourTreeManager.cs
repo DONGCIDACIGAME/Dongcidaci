@@ -99,15 +99,14 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
     /// <returns></returns>
     public BTNode CreateBTNode(int nodeType, int nodeDetailType)
     {
+
         if (nodeType == BTDefine.BT_Node_Type_Tree)
         {
             if (nodeDetailType == BTDefine.BT_Node_Type_Tree_Entry)
                 return new BTTreeEntry();
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Tree_ChildTree)
-            {
                 return new BTChildTree();
-            }
         }
 
 

@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 2078211720981314552}
   - component: {fileID: 6927954602451046564}
   m_Layer: 5
-  m_Name: Text_BehaviourNode
+  m_Name: Text_NodeName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

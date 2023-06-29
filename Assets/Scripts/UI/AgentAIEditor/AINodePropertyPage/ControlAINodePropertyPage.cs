@@ -45,8 +45,8 @@ public abstract class ControlAINodePropertyPage : UIControl
             composite.RemoveChildNode(mNode);
         }
 
+        GameEventSystem.Ins.Fire("UpdateAILogicArea");
         GameEventSystem.Ins.Post("DeleteAINode", mNode);
-        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
     private void OnMoveForwardClick()
@@ -58,7 +58,8 @@ public abstract class ControlAINodePropertyPage : UIControl
             composite.MoveNodeForward(mNode);
         }
 
-        GameEventSystem.Ins.Post("UpdateAILogicArea");
+        GameEventSystem.Ins.Fire("UpdateAILogicArea");
+        GameEventSystem.Ins.Post("SelectNode", mNode);
     }
 
     private void OnMoveBackwardClick()
@@ -70,19 +71,19 @@ public abstract class ControlAINodePropertyPage : UIControl
             composite.MoveNodeBackward(mNode);
         }
 
-        GameEventSystem.Ins.Post("UpdateAILogicArea");
+        GameEventSystem.Ins.Fire("UpdateAILogicArea");
+        GameEventSystem.Ins.Post("SelectNode", mNode);
     }
 
     private void OnNameChanged(string newName)
     {
         mNode.NodeName = newName;
-        GameEventSystem.Ins.Post("UpdateAILogicArea");
+        GameEventSystem.Ins.Post("UpdateNodeDisplayName", mNode);
     }
 
     private void OnDescChanged(string newDesc)
     {
         mNode.NodeDesc = newDesc;
-        GameEventSystem.Ins.Post("UpdateAILogicArea");
     }
 
 

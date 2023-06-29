@@ -12,7 +12,7 @@ public class ControlAINode : UIControl
     private Button Btn_AINode;
     private Image Image_SelectBackground;
     private Button Btn_AddChildNode;
-    private TMP_Text Text_BehaviourNode;
+    private TMP_Text Text_NodeName;
     private GameObject Node_SubNodesContain;
     private GameObject Node_ConnectLineContain;
     private GameObject Node_ConnectLineHorizontal;
@@ -29,7 +29,7 @@ public class ControlAINode : UIControl
         Btn_AINode = BindButtonNode("Btn_AINode", OnBtnAINodeClick);
         Image_SelectBackground = Btn_AINode.GetComponent<Image>();
         Btn_AddChildNode = BindButtonNode("Button_AddChildNode", OnBtnAddChildeNodeClick);
-        Text_BehaviourNode = BindTextNode("Text_BehaviourNode","AINode");
+        Text_NodeName = BindTextNode("Text_NodeName", "AINode");
         Node_SubNodesContain = BindNode("Node_SubNodesContain");
         Node_ConnectLineContain = BindNode("Node_ConnectLineContain");
         Node_ConnectLineHorizontal = BindNode("Node_ConnectLineHorizontal");
@@ -45,8 +45,17 @@ public class ControlAINode : UIControl
         base.BindEvents();
 
         mEventListener.Listen<BTNode>("SelectNode", OnOperationSelectNode);
-        //mEventListener.Listen<string, BTNode>("OnClickLoadChildTree", LoadChildTree);
+        mEventListener.Listen<BTNode>("UpdateNodeDisplayName", OnUpdateNodeDisplayName);
     }
+
+    private void OnUpdateNodeDisplayName(BTNode node)
+    {
+        if (!node.Equals(mNode))
+            return;
+
+        Text_NodeName.text = node.NodeName;
+    }
+
 
     private void OnOperationSelectNode(BTNode node)
     {
@@ -78,7 +87,7 @@ public class ControlAINode : UIControl
 
     public void Draw()
     {
-        Text_BehaviourNode.text = mNode.NodeName;
+        Text_NodeName.text = mNode.NodeName;
         UpdateAddChildBtnVisible();
         AddAllChildNodes();
     }
