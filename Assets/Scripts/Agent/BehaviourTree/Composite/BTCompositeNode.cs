@@ -35,8 +35,20 @@ public abstract class BTCompositeNode : BTNode
             return;
 
         mChildNodes.Add(node);
-        node.Initialize(mExcutor, mContext);
         node.SetParentNode(this);
+    }
+
+    public override void Initialize(Agent excutor, Dictionary<string, object> context)
+    {
+        base.Initialize(excutor, context);
+        
+        foreach(BTNode childNode in mChildNodes)
+        {
+            if(childNode != null)
+            {
+                childNode.Initialize(excutor, context);
+            }
+        }
     }
 
     public void RemoveChildNode(BTNode node)
@@ -53,6 +65,7 @@ public abstract class BTCompositeNode : BTNode
             return;
         }
 
+        node.Dispose();
         mChildNodes.Remove(node);
     }
 

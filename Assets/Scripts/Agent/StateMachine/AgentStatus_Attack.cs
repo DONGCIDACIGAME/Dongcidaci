@@ -147,7 +147,7 @@ public class AgentStatus_Attack : AgentStatus
             // 超过输入的容差时间，且当前指令缓存区里没有指令（没有待执行指令）
             if (!inInputTime && !cmdBuffer.HasCommand())
             {
-                ChangeStatusOnCommand(AgentCommandDefine.IDLE, GamePlayDefine.InputDirection_NONE, MeterManager.Ins.MeterIndex, null);
+                ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null);
             }
         }
         //Log.Logic(LogLevel.Info, "cur anim state:{0}, progress:{1}", mAgent.AnimPlayer.CurStateName, mAgent.AnimPlayer.CurStateProgress);

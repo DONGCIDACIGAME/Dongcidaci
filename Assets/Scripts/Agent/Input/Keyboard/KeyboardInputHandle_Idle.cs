@@ -36,7 +36,7 @@ public class KeyboardInputHandle_Idle : AgentKeyboardInputHandle
         if (!hasCmd)
         {
             cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-            cmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, GamePlayDefine.InputDirection_NONE);
+            cmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, DirectionDef.none);
         }
 
         // 执行cmd的操作

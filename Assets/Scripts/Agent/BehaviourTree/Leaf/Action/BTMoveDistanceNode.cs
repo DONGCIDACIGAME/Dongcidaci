@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class BTMoveDistanceNode : BTLeafNode
+public class BTMoveDistanceNode : BTMoveNode
 {
     private float mTotalMoveDistance;
     private float mHasMoveDistance;
@@ -91,18 +91,19 @@ public class BTMoveDistanceNode : BTLeafNode
         }
 
 
-        if(mLastPos != Vector3.zero)
+        if (mLastPos != Vector3.zero)
         {
             mHasMoveDistance += (mExcutor.GetPosition() - mLastPos).magnitude;
         }
 
         if(mHasMoveDistance >= mTotalMoveDistance)
         {
-            mExcutor.MoveControl.Move(deltaTime);
+            Move();
             mLastPos = mExcutor.GetPosition();
             return BTDefine.BT_ExcuteResult_Running;
         }
 
+        StopMove();
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

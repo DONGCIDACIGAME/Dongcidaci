@@ -29,11 +29,11 @@ public class TurnControl
         if (mAgent == null)
             return;
 
-        if (towards.Equals(GamePlayDefine.InputDirection_NONE))
+        if (towards.Equals(DirectionDef.none))
         {
             TurnTime = 0;
             TurnRecord = 0;
-            TurnToTowards = GamePlayDefine.InputDirection_NONE;
+            TurnToTowards = DirectionDef.none;
             return;
         }
 

@@ -44,7 +44,7 @@ public abstract class MapEntityWithCollider : MapEntity
                 true
                 );
 
-            Log.Logic(LogLevel.Info, "MapEntityWithCollider -- InitCollider -- register successful");
+            //Log.Logic(LogLevel.Info, "MapEntityWithCollider -- InitCollider -- register successful");
         }
     }
 

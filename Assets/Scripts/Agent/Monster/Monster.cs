@@ -16,7 +16,10 @@ public class Monster : Agent
     // AI行为树
     private BTTree mBehaviourTree;
 
-    public Monster(uint agentId) : base(agentId){ Initialize(); }
+    public Monster(uint agentId) : base(agentId)
+    { 
+
+    }
 
 
     public override void Dispose()
@@ -79,7 +82,7 @@ public class Monster : Agent
     protected override void CustomInitialize()
     {
         // 位置初始化
-        SetPosition(new Vector3(0f, 0.2f, 5f));
+        SetPosition(new Vector3(22f, 0.2f, 5f));
         // 朝向初始化
         SetRotation(Vector3.zero);
         // 缩放初始化
@@ -96,6 +99,7 @@ public class Monster : Agent
 
         // 加载行为树
         mBehaviourTree = BehaviourTreeManager.Ins.LoadTreeWithTreeName(mMonsterCfg.BehaviourTree);
+        mBehaviourTree.Initialize(this, new System.Collections.Generic.Dictionary<string,object>());
 
     }
 

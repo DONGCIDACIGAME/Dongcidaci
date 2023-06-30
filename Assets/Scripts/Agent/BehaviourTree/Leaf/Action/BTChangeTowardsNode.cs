@@ -48,6 +48,19 @@ public class BTAgentChangeTowardsNode : BTLeafNode
         return true;
     }
 
+
+    private void PushTowardsToContext(Vector3 towards)
+    {
+        if(mContext == null)
+        {
+            Log.Error(LogLevel.Normal, "PushTowardsToContext Error, mContext is null!");
+            return;
+        }
+
+        mContext["TargetTowards"] = towards;
+    }
+
+
     public override int Excute(float deltaTime)
     {
         if (mExcutor == null)
@@ -58,14 +71,16 @@ public class BTAgentChangeTowardsNode : BTLeafNode
 
         if(mChangeTowardsType == BTDefine.BT_ChangeTowardsTo_Random)
         {
-            Vector3 towards = new Vector3(Random.Range(0f, 1f), 0, Random.Range(0f, 1f));
-            mExcutor.MoveControl.TurnTo(towards);
+            Vector3 towards = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
+            PushTowardsToContext(towards);
+            return BTDefine.BT_ExcuteResult_Succeed;
         }
         else if(mChangeTowardsType == BTDefine.BT_ChangeTowardsTo_Invert)
         {
             Vector3 towards = mExcutor.GetTowards();
             Vector3 invertTowards = new Vector3(-towards.x, 0, -towards.z);
-            mExcutor.MoveControl.TurnTo(invertTowards);
+            PushTowardsToContext(invertTowards);
+            return BTDefine.BT_ExcuteResult_Succeed;
         }
         else if(mChangeTowardsType == BTDefine.BT_ChangeTowardsTo_GivenTarget)
         {
@@ -83,7 +98,8 @@ public class BTAgentChangeTowardsNode : BTLeafNode
             }
 
             Vector3 towards = targetEntity.GetPosition() - mExcutor.GetPosition();
-            mExcutor.MoveControl.TurnTo(towards);
+            PushTowardsToContext(towards);
+            return BTDefine.BT_ExcuteResult_Succeed;
         }
 
         Log.Error(LogLevel.Normal, "BTAgentChangeTowardsNode Excute Error, mChangeTowardsType is not valid!");
@@ -92,7 +108,7 @@ public class BTAgentChangeTowardsNode : BTLeafNode
 
     public override void Reset()
     {
-        mChangeTowardsType = BTDefine.BT_ChangeTowardsTo_NotDefine;
+        
     }
 
     protected override void CustomDispose()

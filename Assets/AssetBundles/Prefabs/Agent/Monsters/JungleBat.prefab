@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 2558937015211540329}
   - component: {fileID: 5602910828336990452}
   - component: {fileID: 5643342082986656640}
+  - component: {fileID: 6222825175260359845}
   m_Layer: 0
   m_Name: JungleBat
   m_TagString: Untagged
@@ -103,7 +104,7 @@ MonoBehaviour:
   shapeType: 0
   size: {x: 1, y: 1}
   offset: {x: 0, y: 0}
-  DrawDizmos: 0
+  DrawDizmos: 1
   color: {r: 1, g: 0, b: 0, a: 1}
   polyCountForShow: 8
 --- !u!114 &5643342082986656640
@@ -118,6 +119,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ada0a45ff597a6499b19cb7978b5145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6222825175260359845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376123470208558552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e98d1a1816367e643a444eaecf2e0489, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shapeType: 3
+  size: {x: 2, y: 3}
+  offset: {x: 0, y: 0.5}
+  DrawGizmos: 1
 --- !u!1 &618879448179396839
 GameObject:
   m_ObjectHideFlags: 0

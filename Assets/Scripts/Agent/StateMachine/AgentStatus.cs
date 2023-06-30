@@ -318,7 +318,7 @@ public abstract class AgentStatus : IAgentStatus
 
         // 当前节拍的进度
         float progress = MeterManager.Ins.GetCurrentMeterProgress();
-        if (progress >= GamePlayDefine.AttackMeterProgressWait)
+        if (progress <= GamePlayDefine.AttackMeterProgressWait)
         {
             if(triggeredComboStep != null)
             {

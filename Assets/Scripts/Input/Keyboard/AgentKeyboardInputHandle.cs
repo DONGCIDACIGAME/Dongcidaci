@@ -10,7 +10,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
 
     private Vector3 GetInputDirection()
     {
-        Vector3 towards = GamePlayDefine.InputDirection_NONE;
+        Vector3 towards = DirectionDef.none;
         if (Input.GetKey(KeyCode.W))
         {
             towards += DirectionDef.up;
@@ -85,7 +85,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         cmd = null;
         Vector3 towards = GetInputDirection();
 
-        if(!towards.Equals(GamePlayDefine.InputDirection_NONE))
+        if(!towards.Equals(DirectionDef.none))
         {
             cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
             cmd.Initialize(AgentCommandDefine.RUN, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);

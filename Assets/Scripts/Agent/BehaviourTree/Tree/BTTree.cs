@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public abstract class BTTree : BTNode
 {
     protected BTNode mChildNode;
@@ -12,6 +14,14 @@ public abstract class BTTree : BTNode
 
         mChildNode = childNode;
         childNode.SetParentNode(this);
+    }
+
+    public override void Initialize(Agent excutor, Dictionary<string, object> context)
+    {
+        base.Initialize(excutor, context);
+
+        if (mChildNode != null)
+            mChildNode.Initialize(excutor, context);
     }
 
     public override bool BTNodeDataCheck(ref string info)
@@ -32,6 +42,9 @@ public abstract class BTTree : BTNode
 
     public void RemoveChildNode()
     {
+        if(mChildNode != null)
+            mChildNode.Dispose();
+
         mChildNode = null;
     }
 

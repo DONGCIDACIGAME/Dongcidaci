@@ -1,10 +1,11 @@
-public class BTMoveMeterNode : BTLeafNode
+public class BTMoveMeterNode : BTMoveNode
 {
     private int mTotalMoveMeter;
     private int mHasMoveMeter;
 
     private bool mStartRecord = false;
     private int mStartMeter;
+    private int mWaitingMeter;
 
     public void SetTotalMoveMeter(int totalMoveMeter)
     {
@@ -48,6 +49,9 @@ public class BTMoveMeterNode : BTLeafNode
         return true;
     }
 
+
+
+
     public override int Excute(float deltaTime)
     {
         if (mExcutor == null)
@@ -57,12 +61,22 @@ public class BTMoveMeterNode : BTLeafNode
         }
 
         // 如果在本拍的前50%，则从当前排开始记拍，否则从下一拍开始记拍
-        if (!mStartRecord && MeterManager.Ins.GetCurrentMeterProgress() <= 0.5f)
+        if (!mStartRecord)
         {
-            mStartRecord = true;
-            mStartMeter = MeterManager.Ins.MeterIndex;
+            float progress = MeterManager.Ins.GetCurrentMeterProgress();
+            if (progress <= 0.5f)
+            {
+                mStartRecord = true;
+                mStartMeter = MeterManager.Ins.MeterIndex;
+            }
+            else
+            {
+                mWaitingMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, 1);
+                return BTDefine.BT_ExcuteResult_Running;
+            }
         }
-        else
+
+        if(mWaitingMeter > 0 && MeterManager.Ins.MeterIndex < mWaitingMeter)
         {
             return BTDefine.BT_ExcuteResult_Running;
         }
@@ -72,22 +86,29 @@ public class BTMoveMeterNode : BTLeafNode
 
         if (mHasMoveMeter < mTotalMoveMeter)
         {
-            mExcutor.MoveControl.Move(deltaTime);
+            Move();
             return BTDefine.BT_ExcuteResult_Running;
         }
 
+        StopMove();
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 
     public override void Reset()
     {
-        mHasMoveMeter = 0;   
+        mHasMoveMeter = 0;
+        mStartRecord = false;
+        mStartMeter = 0;
+        mWaitingMeter = 0;
     }
 
     protected override void CustomDispose()
     {
         mTotalMoveMeter = 0;
         mHasMoveMeter = 0;
+        mStartRecord = false;
+        mStartMeter = 0;
+        mWaitingMeter = 0;
     }
 
     public override int GetNodeDetailType()

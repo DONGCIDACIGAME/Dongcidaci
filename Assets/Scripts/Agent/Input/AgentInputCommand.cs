@@ -64,7 +64,7 @@ public class AgentInputCommand : IRecycle
     public void Dispose()
     {
         this.CmdType = AgentCommandDefine.EMPTY;
-        this.Towards = GamePlayDefine.InputDirection_NONE;
+        this.Towards = DirectionDef.none;
         this.TriggerMeter = -1;
         this.Frame = -1;
     }

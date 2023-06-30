@@ -59,7 +59,7 @@ public class AgentStatus_Dash : AgentStatus
             // 超过输入的容差时间，进入idle
             if (!inInputTime && !cmdBuffer.HasCommand())
             {
-                ChangeStatusOnCommand(AgentCommandDefine.IDLE, GamePlayDefine.InputDirection_NONE, MeterManager.Ins.MeterIndex, null);
+                ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null);
             }
         }
     }

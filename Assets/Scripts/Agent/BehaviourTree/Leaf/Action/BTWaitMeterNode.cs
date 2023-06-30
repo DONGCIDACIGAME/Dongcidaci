@@ -5,6 +5,7 @@ public class BTWaitMeterNode : BTLeafNode
 
     private bool mStartRecord = false;
     private int mStartMeter;
+    private int mWaitingMeter;
 
     public void SetWaitMeterNum(int meterNum)
     {
@@ -52,12 +53,22 @@ public class BTWaitMeterNode : BTLeafNode
     public override int Excute(float deltaTime)
     {
         // 如果在本拍的前50%，则从当前排开始记拍，否则从下一拍开始记拍
-        if(!mStartRecord && MeterManager.Ins.GetCurrentMeterProgress() <= 0.5f)
+        // 如果在本拍的前50%，则从当前排开始记拍，否则从下一拍开始记拍
+        if (!mStartRecord)
         {
-            mStartRecord = true;
-            mStartMeter = MeterManager.Ins.MeterIndex;
+            if (MeterManager.Ins.GetCurrentMeterProgress() <= 0.5f)
+            {
+                mStartRecord = true;
+                mStartMeter = MeterManager.Ins.MeterIndex;
+            }
+            else
+            {
+                mWaitingMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, 1);
+                return BTDefine.BT_ExcuteResult_Running;
+            }
         }
-        else
+
+        if (mWaitingMeter > 0 && MeterManager.Ins.MeterIndex < mWaitingMeter)
         {
             return BTDefine.BT_ExcuteResult_Running;
         }
@@ -76,6 +87,7 @@ public class BTWaitMeterNode : BTLeafNode
         mTotalWaitMeterNum = 0;
         mHasWaitMeterNum = 0;
         mStartMeter = 0;
+        mWaitingMeter = 0;
         mStartRecord = false;
     }
 
@@ -84,6 +96,7 @@ public class BTWaitMeterNode : BTLeafNode
         mHasWaitMeterNum = 0;
         mStartRecord = false;
         mStartMeter = 0;
+        mWaitingMeter = 0;
     }
 
     public override int GetNodeDetailType()

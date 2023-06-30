@@ -28,7 +28,7 @@ public abstract class BTNode : IGameDisposable
     /// </summary>
     public string NodeDesc;
 
-    public void Initialize(Agent excutor, Dictionary<string, object> context)
+    public virtual void Initialize(Agent excutor, Dictionary<string, object> context)
     {
         mExcutor = excutor;
         mContext = context;

@@ -17,7 +17,7 @@ public class MoveControl
 
     public virtual void MoveTo(Vector3 towards, float distance, float duration)
     {
-        if (towards.Equals(GamePlayDefine.InputDirection_NONE))
+        if (towards.Equals(DirectionDef.none))
             return;
 
         Vector3 offset = towards.normalized * distance;

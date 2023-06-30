@@ -1,4 +1,4 @@
-public class BTMoveTimeNode : BTLeafNode
+public class BTMoveTimeNode : BTMoveNode
 {
     private float mTotalMoveTime;
     private float mHasMoveTime;
@@ -55,10 +55,11 @@ public class BTMoveTimeNode : BTLeafNode
 
         if(mHasMoveTime < mTotalMoveTime)
         {
-            mExcutor.MoveControl.Move(deltaTime);
+            Move();
             return BTDefine.BT_ExcuteResult_Running;
         }
 
+        StopMove();
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

@@ -417,7 +417,7 @@ public class MeterManager : ModuleManager<MeterManager>
             return 1;
         }
 
-        float progress = timeToNextMeter / timeOfCurrentMeter;
+        float progress = 1 - timeToNextMeter / timeOfCurrentMeter;
 
         return progress;
     }

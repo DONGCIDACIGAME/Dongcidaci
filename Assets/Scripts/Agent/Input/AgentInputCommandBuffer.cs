@@ -48,14 +48,14 @@ public class AgentInputCommandBuffer : IGameDisposable
         int index = GetBufferIndex(cmdType);
         if (index >= 0 && index < 8)
         {
-            directionList[index] = GamePlayDefine.InputDirection_NONE;
+            directionList[index] = DirectionDef.none;
         }
     }
 
     public bool PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter)
     {
         cmdType = AgentCommandDefine.EMPTY;
-        towards = GamePlayDefine.InputDirection_NONE;
+        towards = DirectionDef.none;
         triggerMeter = 0;
 
         for (int i = 7; i >= 0; i--)
@@ -81,7 +81,7 @@ public class AgentInputCommandBuffer : IGameDisposable
         cmdList = 0;
         for(int i = 0; i < 8; i++)
         {
-            directionList[i] = GamePlayDefine.InputDirection_NONE;
+            directionList[i] = DirectionDef.none;
             triggerMeterList[i] = 0;
         }
     }

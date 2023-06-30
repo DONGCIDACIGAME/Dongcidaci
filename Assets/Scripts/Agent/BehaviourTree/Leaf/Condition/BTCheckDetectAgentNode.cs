@@ -90,7 +90,7 @@ public class BTCheckDetectAgentNode : BTLeafNode
 
     public override void Reset()
     {
-        mTargetAgentType = AgentDefine.AgentType_NotDefine;
+        
     }
 
     protected override void CustomDispose()

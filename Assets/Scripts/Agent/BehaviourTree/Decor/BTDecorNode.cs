@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 /// <summary>
 /// 装饰节点,包括以下几种类型
 /// 1. invert节点：将返回结果反转
@@ -20,6 +21,14 @@ public abstract class BTDecorNode : BTNode
         childNode.SetParentNode(this);
     }
 
+    public override void Initialize(Agent excutor, Dictionary<string, object> context)
+    {
+        base.Initialize(excutor, context);
+
+        if (mChildNode != null)
+            mChildNode.Initialize(excutor, context);
+    }
+
     public BTNode GetChildNode()
     {
         return mChildNode;
@@ -27,6 +36,9 @@ public abstract class BTDecorNode : BTNode
 
     public void RemoveChildNode()
     {
+        if(mChildNode != null)
+            mChildNode.Dispose();
+
         mChildNode = null;
     }
 

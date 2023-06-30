@@ -38,13 +38,13 @@ public abstract class AgentMoveControl
 
     public void Dash(float distance, float duration)
     {
-        Vector3 towards = GamePlayDefine.InputDirection_NONE;
+        Vector3 towards = DirectionDef.none;
         // 获取转向控件的目标转向
         if (mTurnCtl != null)
             towards = mTurnCtl.GetTowards();
 
         // 如果没有目标转向，则使用角色当前朝向
-        if (towards.Equals(GamePlayDefine.InputDirection_NONE))
+        if (towards.Equals(DirectionDef.none))
             towards = mAgent.GetTowards();
 
         if (mMoveCtl != null)

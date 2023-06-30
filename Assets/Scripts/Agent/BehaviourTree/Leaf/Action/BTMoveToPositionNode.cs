@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BTMoveToPositionNode : BTLeafNode
+public class BTMoveToPositionNode : BTMoveNode
 {
     private Vector3 mTargetPos;
 

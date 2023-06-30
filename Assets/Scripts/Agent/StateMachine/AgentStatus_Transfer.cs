@@ -69,7 +69,7 @@ public class AgentStatus_Transfer : AgentStatus
         {
             Dictionary<string, object> args = new Dictionary<string, object>();
             args.Add("cmdType", AgentCommandDefine.IDLE);
-            args.Add("towards", GamePlayDefine.InputDirection_NONE);
+            args.Add("towards", DirectionDef.none);
             args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
             GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, args);
         }
