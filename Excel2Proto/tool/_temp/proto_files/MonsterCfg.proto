@@ -14,12 +14,16 @@ message MonsterBaseCfg{
     uint32 ID = 1;
     /** 名称 */ 
     string Name = 2;
+    /** 英文名称 */ 
+    string NickName = 3;
     /** 预制体路径 */ 
-    string Prefab = 3;
+    string Prefab = 4;
     /** 角色的移动速度 */ 
-    float Speed = 4;
+    float Speed = 5;
     /** 角色的冲刺距离 */ 
-    float DashDistance = 5;
+    float DashDistance = 6;
+    /** 行为树名称 */ 
+    string BehaviourTree = 7;
 }
 
 message MonsterCfg_Data {

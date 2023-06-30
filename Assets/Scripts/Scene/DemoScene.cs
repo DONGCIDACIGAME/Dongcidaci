@@ -17,6 +17,7 @@ public class DemoScene : GameScene
         UIManager.Ins.OpenPanel<PanelDemo>("Prefabs/UI/Panel_Demo");
 
         AgentManager.Ins.LoadHero(3);
+        AgentManager.Ins.LoadMonster(1001);
         GameMapManager.Ins.LoadMap();
     }
 

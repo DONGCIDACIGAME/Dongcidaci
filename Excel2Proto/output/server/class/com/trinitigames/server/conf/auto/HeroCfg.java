@@ -112,6 +112,75 @@ public final class HeroCfg {
       return new HeroBaseCfg();
     }
 
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private HeroBaseCfg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              iD_ = input.readUInt32();
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              name_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              prefab_ = s;
+              break;
+            }
+            case 37: {
+
+              speed_ = input.readFloat();
+              break;
+            }
+            case 45: {
+
+              dashDistance_ = input.readFloat();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.trinitigames.server.conf.auto.HeroCfg.internal_static_DongciDaci_HeroBaseCfg_descriptor;
@@ -126,7 +195,7 @@ public final class HeroCfg {
     }
 
     public static final int ID_FIELD_NUMBER = 1;
-    private int iD_ = 0;
+    private int iD_;
     /**
      * <pre>
      ** ID 
@@ -141,8 +210,7 @@ public final class HeroCfg {
     }
 
     public static final int NAME_FIELD_NUMBER = 2;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object name_ = "";
+    private volatile java.lang.Object name_;
     /**
      * <pre>
      ** 名称 
@@ -188,8 +256,7 @@ public final class HeroCfg {
     }
 
     public static final int PREFAB_FIELD_NUMBER = 3;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object prefab_ = "";
+    private volatile java.lang.Object prefab_;
     /**
      * <pre>
      ** 预制体路径 
@@ -235,7 +302,7 @@ public final class HeroCfg {
     }
 
     public static final int SPEED_FIELD_NUMBER = 4;
-    private float speed_ = 0F;
+    private float speed_;
     /**
      * <pre>
      ** 角色的移动速度 
@@ -250,7 +317,7 @@ public final class HeroCfg {
     }
 
     public static final int DASHDISTANCE_FIELD_NUMBER = 5;
-    private float dashDistance_ = 0F;
+    private float dashDistance_;
     /**
      * <pre>
      ** 角色的冲刺距离 
@@ -281,19 +348,19 @@ public final class HeroCfg {
       if (iD_ != 0) {
         output.writeUInt32(1, iD_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
+      if (!getNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(prefab_)) {
+      if (!getPrefabBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, prefab_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
+      if (speed_ != 0F) {
         output.writeFloat(4, speed_);
       }
-      if (java.lang.Float.floatToRawIntBits(dashDistance_) != 0) {
+      if (dashDistance_ != 0F) {
         output.writeFloat(5, dashDistance_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
     @java.lang.Override
@@ -306,21 +373,21 @@ public final class HeroCfg {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, iD_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
+      if (!getNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(prefab_)) {
+      if (!getPrefabBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, prefab_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
+      if (speed_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(4, speed_);
       }
-      if (java.lang.Float.floatToRawIntBits(dashDistance_) != 0) {
+      if (dashDistance_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(5, dashDistance_);
       }
-      size += getUnknownFields().getSerializedSize();
+      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -347,7 +414,7 @@ public final class HeroCfg {
       if (java.lang.Float.floatToIntBits(getDashDistance())
           != java.lang.Float.floatToIntBits(
               other.getDashDistance())) return false;
-      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
 
@@ -370,7 +437,7 @@ public final class HeroCfg {
       hash = (37 * hash) + DASHDISTANCE_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getDashDistance());
-      hash = (29 * hash) + getUnknownFields().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -487,23 +554,32 @@ public final class HeroCfg {
 
       // Construct using com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        bitField0_ = 0;
         iD_ = 0;
+
         name_ = "";
+
         prefab_ = "";
+
         speed_ = 0F;
+
         dashDistance_ = 0F;
+
         return this;
       }
 
@@ -530,30 +606,47 @@ public final class HeroCfg {
       @java.lang.Override
       public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg buildPartial() {
         com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg result = new com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg(this);
-        if (bitField0_ != 0) { buildPartial0(result); }
+        result.iD_ = iD_;
+        result.name_ = name_;
+        result.prefab_ = prefab_;
+        result.speed_ = speed_;
+        result.dashDistance_ = dashDistance_;
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg result) {
-        int from_bitField0_ = bitField0_;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.iD_ = iD_;
-        }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.name_ = name_;
-        }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.prefab_ = prefab_;
-        }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.speed_ = speed_;
-        }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.dashDistance_ = dashDistance_;
-        }
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
       }
-
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg) {
@@ -571,12 +664,10 @@ public final class HeroCfg {
         }
         if (!other.getName().isEmpty()) {
           name_ = other.name_;
-          bitField0_ |= 0x00000002;
           onChanged();
         }
         if (!other.getPrefab().isEmpty()) {
           prefab_ = other.prefab_;
-          bitField0_ |= 0x00000004;
           onChanged();
         }
         if (other.getSpeed() != 0F) {
@@ -585,7 +676,7 @@ public final class HeroCfg {
         if (other.getDashDistance() != 0F) {
           setDashDistance(other.getDashDistance());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
@@ -600,58 +691,19 @@ public final class HeroCfg {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
-        }
+        com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg parsedMessage = null;
         try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              case 8: {
-                iD_ = input.readUInt32();
-                bitField0_ |= 0x00000001;
-                break;
-              } // case 8
-              case 18: {
-                name_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000002;
-                break;
-              } // case 18
-              case 26: {
-                prefab_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000004;
-                break;
-              } // case 26
-              case 37: {
-                speed_ = input.readFloat();
-                bitField0_ |= 0x00000008;
-                break;
-              } // case 37
-              case 45: {
-                dashDistance_ = input.readFloat();
-                bitField0_ |= 0x00000010;
-                break;
-              } // case 45
-              default: {
-                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                  done = true; // was an endgroup tag
-                }
-                break;
-              } // default:
-            } // switch (tag)
-          } // while (!done)
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          onChanged();
-        } // finally
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
         return this;
       }
-      private int bitField0_;
 
       private int iD_ ;
       /**
@@ -676,9 +728,8 @@ public final class HeroCfg {
        * @return This builder for chaining.
        */
       public Builder setID(int value) {
-
+        
         iD_ = value;
-        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -691,7 +742,7 @@ public final class HeroCfg {
        * @return This builder for chaining.
        */
       public Builder clearID() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        
         iD_ = 0;
         onChanged();
         return this;
@@ -750,9 +801,11 @@ public final class HeroCfg {
        */
       public Builder setName(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         name_ = value;
-        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -765,8 +818,8 @@ public final class HeroCfg {
        * @return This builder for chaining.
        */
       public Builder clearName() {
+        
         name_ = getDefaultInstance().getName();
-        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -781,10 +834,12 @@ public final class HeroCfg {
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         name_ = value;
-        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -842,9 +897,11 @@ public final class HeroCfg {
        */
       public Builder setPrefab(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         prefab_ = value;
-        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -857,8 +914,8 @@ public final class HeroCfg {
        * @return This builder for chaining.
        */
       public Builder clearPrefab() {
+        
         prefab_ = getDefaultInstance().getPrefab();
-        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
@@ -873,10 +930,12 @@ public final class HeroCfg {
        */
       public Builder setPrefabBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         prefab_ = value;
-        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -904,9 +963,8 @@ public final class HeroCfg {
        * @return This builder for chaining.
        */
       public Builder setSpeed(float value) {
-
+        
         speed_ = value;
-        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -919,7 +977,7 @@ public final class HeroCfg {
        * @return This builder for chaining.
        */
       public Builder clearSpeed() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        
         speed_ = 0F;
         onChanged();
         return this;
@@ -948,9 +1006,8 @@ public final class HeroCfg {
        * @return This builder for chaining.
        */
       public Builder setDashDistance(float value) {
-
+        
         dashDistance_ = value;
-        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
@@ -963,7 +1020,7 @@ public final class HeroCfg {
        * @return This builder for chaining.
        */
       public Builder clearDashDistance() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        
         dashDistance_ = 0F;
         onChanged();
         return this;
@@ -1001,18 +1058,7 @@ public final class HeroCfg {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        Builder builder = newBuilder();
-        try {
-          builder.mergeFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(builder.buildPartial());
-        } catch (com.google.protobuf.UninitializedMessageException e) {
-          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(e)
-              .setUnfinishedMessage(builder.buildPartial());
-        }
-        return builder.buildPartial();
+        return new HeroBaseCfg(input, extensionRegistry);
       }
     };
 
@@ -1059,14 +1105,14 @@ public final class HeroCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
-    /* nullable */
-com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
+
+    com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
         int key,
-        /* nullable */
-com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue);
+        com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue);
     /**
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
+
     com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrThrow(
         int key);
   }
@@ -1092,6 +1138,62 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue);
       return new HeroCfg_Data();
     }
 
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private HeroCfg_Data(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                heroBaseCfgItems_ = com.google.protobuf.MapField.newMapField(
+                    HeroBaseCfgItemsDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00000001;
+              }
+              com.google.protobuf.MapEntry<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg>
+              heroBaseCfgItems__ = input.readMessage(
+                  HeroBaseCfgItemsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              heroBaseCfgItems_.getMutableMap().put(
+                  heroBaseCfgItems__.getKey(), heroBaseCfgItems__.getValue());
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.trinitigames.server.conf.auto.HeroCfg.internal_static_DongciDaci_HeroCfg_Data_descriptor;
@@ -1129,7 +1231,6 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue);
                   com.google.protobuf.WireFormat.FieldType.MESSAGE,
                   com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg.getDefaultInstance());
     }
-    @SuppressWarnings("serial")
     private com.google.protobuf.MapField<
         java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> heroBaseCfgItems_;
     private com.google.protobuf.MapField<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg>
@@ -1140,16 +1241,18 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue);
       }
       return heroBaseCfgItems_;
     }
+
     public int getHeroBaseCfgItemsCount() {
       return internalGetHeroBaseCfgItems().getMap().size();
     }
     /**
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
+
     @java.lang.Override
     public boolean containsHeroBaseCfgItems(
         int key) {
-
+      
       return internalGetHeroBaseCfgItems().getMap().containsKey(key);
     }
     /**
@@ -1164,6 +1267,7 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue);
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
     @java.lang.Override
+
     public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> getHeroBaseCfgItemsMap() {
       return internalGetHeroBaseCfgItems().getMap();
     }
@@ -1171,12 +1275,11 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue);
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
     @java.lang.Override
-    public /* nullable */
-com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
-        int key,
-        /* nullable */
-com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
 
+    public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
+        int key,
+        com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
+      
       java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> map =
           internalGetHeroBaseCfgItems().getMap();
       return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -1185,9 +1288,10 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
     @java.lang.Override
+
     public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrThrow(
         int key) {
-
+      
       java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> map =
           internalGetHeroBaseCfgItems().getMap();
       if (!map.containsKey(key)) {
@@ -1216,7 +1320,7 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
           internalGetHeroBaseCfgItems(),
           HeroBaseCfgItemsDefaultEntryHolder.defaultEntry,
           1);
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
     @java.lang.Override
@@ -1235,7 +1339,7 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
         size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(1, heroBaseCfgItems__);
       }
-      size += getUnknownFields().getSerializedSize();
+      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -1252,7 +1356,7 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
 
       if (!internalGetHeroBaseCfgItems().equals(
           other.internalGetHeroBaseCfgItems())) return false;
-      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
 
@@ -1267,7 +1371,7 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
         hash = (37 * hash) + HEROBASECFG_ITEMS_FIELD_NUMBER;
         hash = (53 * hash) + internalGetHeroBaseCfgItems().hashCode();
       }
-      hash = (29 * hash) + getUnknownFields().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -1406,18 +1510,22 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
 
       // Construct using com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        bitField0_ = 0;
         internalGetMutableHeroBaseCfgItems().clear();
         return this;
       }
@@ -1445,19 +1553,45 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
       @java.lang.Override
       public com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data buildPartial() {
         com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data result = new com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data(this);
-        if (bitField0_ != 0) { buildPartial0(result); }
+        int from_bitField0_ = bitField0_;
+        result.heroBaseCfgItems_ = internalGetHeroBaseCfgItems();
+        result.heroBaseCfgItems_.makeImmutable();
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data result) {
-        int from_bitField0_ = bitField0_;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.heroBaseCfgItems_ = internalGetHeroBaseCfgItems();
-          result.heroBaseCfgItems_.makeImmutable();
-        }
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
       }
-
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data) {
@@ -1472,8 +1606,7 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
         if (other == com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data.getDefaultInstance()) return this;
         internalGetMutableHeroBaseCfgItems().mergeFrom(
             other.internalGetHeroBaseCfgItems());
-        bitField0_ |= 0x00000001;
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
@@ -1488,39 +1621,17 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
-        }
+        com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data parsedMessage = null;
         try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              case 10: {
-                com.google.protobuf.MapEntry<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg>
-                heroBaseCfgItems__ = input.readMessage(
-                    HeroBaseCfgItemsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-                internalGetMutableHeroBaseCfgItems().getMutableMap().put(
-                    heroBaseCfgItems__.getKey(), heroBaseCfgItems__.getValue());
-                bitField0_ |= 0x00000001;
-                break;
-              } // case 10
-              default: {
-                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                  done = true; // was an endgroup tag
-                }
-                break;
-              } // default:
-            } // switch (tag)
-          } // while (!done)
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          onChanged();
-        } // finally
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
         return this;
       }
       private int bitField0_;
@@ -1528,7 +1639,7 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
       private com.google.protobuf.MapField<
           java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> heroBaseCfgItems_;
       private com.google.protobuf.MapField<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg>
-          internalGetHeroBaseCfgItems() {
+      internalGetHeroBaseCfgItems() {
         if (heroBaseCfgItems_ == null) {
           return com.google.protobuf.MapField.emptyMapField(
               HeroBaseCfgItemsDefaultEntryHolder.defaultEntry);
@@ -1536,7 +1647,8 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
         return heroBaseCfgItems_;
       }
       private com.google.protobuf.MapField<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg>
-          internalGetMutableHeroBaseCfgItems() {
+      internalGetMutableHeroBaseCfgItems() {
+        onChanged();;
         if (heroBaseCfgItems_ == null) {
           heroBaseCfgItems_ = com.google.protobuf.MapField.newMapField(
               HeroBaseCfgItemsDefaultEntryHolder.defaultEntry);
@@ -1544,20 +1656,20 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
         if (!heroBaseCfgItems_.isMutable()) {
           heroBaseCfgItems_ = heroBaseCfgItems_.copy();
         }
-        bitField0_ |= 0x00000001;
-        onChanged();
         return heroBaseCfgItems_;
       }
+
       public int getHeroBaseCfgItemsCount() {
         return internalGetHeroBaseCfgItems().getMap().size();
       }
       /**
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
+
       @java.lang.Override
       public boolean containsHeroBaseCfgItems(
           int key) {
-
+        
         return internalGetHeroBaseCfgItems().getMap().containsKey(key);
       }
       /**
@@ -1572,6 +1684,7 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
       @java.lang.Override
+
       public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> getHeroBaseCfgItemsMap() {
         return internalGetHeroBaseCfgItems().getMap();
       }
@@ -1579,12 +1692,11 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
       @java.lang.Override
-      public /* nullable */
-com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
-          int key,
-          /* nullable */
-com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
 
+      public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
+          int key,
+          com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
+        
         java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> map =
             internalGetHeroBaseCfgItems().getMap();
         return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -1593,9 +1705,10 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
       @java.lang.Override
+
       public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrThrow(
           int key) {
-
+        
         java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> map =
             internalGetHeroBaseCfgItems().getMap();
         if (!map.containsKey(key)) {
@@ -1603,8 +1716,8 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
         }
         return map.get(key);
       }
+
       public Builder clearHeroBaseCfgItems() {
-        bitField0_ = (bitField0_ & ~0x00000001);
         internalGetMutableHeroBaseCfgItems().getMutableMap()
             .clear();
         return this;
@@ -1612,9 +1725,10 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
       /**
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
+
       public Builder removeHeroBaseCfgItems(
           int key) {
-
+        
         internalGetMutableHeroBaseCfgItems().getMutableMap()
             .remove(key);
         return this;
@@ -1624,8 +1738,7 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
        */
       @java.lang.Deprecated
       public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg>
-          getMutableHeroBaseCfgItems() {
-        bitField0_ |= 0x00000001;
+      getMutableHeroBaseCfgItems() {
         return internalGetMutableHeroBaseCfgItems().getMutableMap();
       }
       /**
@@ -1634,21 +1747,20 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
       public Builder putHeroBaseCfgItems(
           int key,
           com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg value) {
-
-        if (value == null) { throw new NullPointerException("map value"); }
+        
+        if (value == null) { throw new java.lang.NullPointerException(); }
         internalGetMutableHeroBaseCfgItems().getMutableMap()
             .put(key, value);
-        bitField0_ |= 0x00000001;
         return this;
       }
       /**
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
+
       public Builder putAllHeroBaseCfgItems(
           java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> values) {
         internalGetMutableHeroBaseCfgItems().getMutableMap()
             .putAll(values);
-        bitField0_ |= 0x00000001;
         return this;
       }
       @java.lang.Override
@@ -1684,18 +1796,7 @@ com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        Builder builder = newBuilder();
-        try {
-          builder.mergeFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(builder.buildPartial());
-        } catch (com.google.protobuf.UninitializedMessageException e) {
-          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(e)
-              .setUnfinishedMessage(builder.buildPartial());
-        }
-        return builder.buildPartial();
+        return new HeroCfg_Data(input, extensionRegistry);
       }
     };
 

@@ -9,7 +9,7 @@ public class AgentManager : ModuleManager<AgentManager>
     private GameObject mMonsterNode;
 
     private Hero mHero;
-    private List<Monster> mMonsters;
+    private HashSet<Monster> mMonsters;
 
 
 
@@ -21,7 +21,7 @@ public class AgentManager : ModuleManager<AgentManager>
     public override void Initialize()
     {
         mHero = null;
-        mMonsters = new List<Monster>();
+        mMonsters = new HashSet<Monster>();
         mHeroNode = GameObject.Find("_AGENT/_HERO");
         mMonsterNode = GameObject.Find("_AGENT/_MONSTER");
     }
@@ -46,6 +46,27 @@ public class AgentManager : ModuleManager<AgentManager>
     {
         mHero.Dispose();
         mHero = null;
+    }
+
+    public void LoadMonster(uint monsterId)
+    {
+        Monster monster = new Monster(monsterId);
+        monster.Initialize();
+        mMonsters.Add(monster);
+    }
+
+    public void RemoveMonster(Monster monster)
+    {
+        if(monster == null)
+        {
+            Log.Error(LogLevel.Normal, "Remove monster failed, monster is null!");
+            return;
+        }
+
+        monster.Dispose();
+
+        if (mMonsters.Contains(monster))
+            mMonsters.Remove(monster);
     }
 
     public override void OnUpdate(float deltaTime)

@@ -22,7 +22,7 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
     /// </summary>
     /// <param name="filePath"></param>
     /// <returns></returns>
-    public BTTreeEntry LoadTree(string filePath, bool forceReload = false)
+    public BTTreeEntry LoadTreeWithFileFullPath(string filePath, bool forceReload = false)
     {
         BTNodeData data = LoadTreeData(filePath, forceReload);
         if (data == null)
@@ -31,6 +31,18 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
         tree.LoadFromBTNodeData(data);
         return tree;
     }
+
+    /// <summary>
+    /// 加载行为树
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
+    public BTTreeEntry LoadTreeWithTreeName(string treeName, bool forceReload = false)
+    {
+        string fileFullPath = BehaviourTreeHelper.TreeNameToFileFullPath(treeName);
+        return LoadTreeWithFileFullPath(fileFullPath, forceReload);
+    }
+
 
     /// <summary>
     /// 加载行为树数据

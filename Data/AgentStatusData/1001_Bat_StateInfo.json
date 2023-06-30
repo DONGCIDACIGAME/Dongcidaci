@@ -1,0 +1,123 @@
+{
+	"agentName": "Bat",
+	"agentId": 1001,
+	"statusMap": {
+		"Idle": {
+			"statusName": "Idle",
+			"defaultAciton":
+			{
+				"statusName": "Idle",
+				"stateName": "Idle",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "Idle",
+				"loopTime": 0,
+				"stateMeterLen": 2,
+				"minDuration": 0,
+				"normalizedTime": 0.5,
+				"layer": 0,
+				"animLen": 1.0,
+				"movements": [],
+				"hitPoints": []
+			}]
+		},
+		"Run": {
+			"statusName": "Run",
+			"defaultAciton":
+			{
+				"statusName": "Run",
+				"stateName": "Run",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "Run",
+				"loopTime": 0,
+				"stateMeterLen": 2,
+				"normalizedTime": 0.1,
+				"layer": 0,
+				"animLen": 1.000,
+				"movements": [],
+				"hitPoints": []
+			}]
+		},
+		"Attack":{
+			"statusName": "Attack",
+			"defaultAciton":
+			{
+				"statusName": "Attack",
+				"stateName": "Attack",
+				"effectCollictions": [
+					{
+						"effects":[
+							{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+						]
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "Attack",
+				"loopTime": 1,
+				"stateMeterLen": 1,
+				"normalizedTime": 0.05,
+				"layer": 0,
+				"animLen": 0.5,
+				"movements": [{"distance": 0.05, "duration": 0.01}],
+				"hitPoints": [{"progress": 1}]
+			}]
+		},
+		"Dash": {
+			"statusName": "Dash",
+			"defaultAciton":
+			{
+				"statusName": "Dash",
+				"stateName": "Dash",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "Dash",
+				"loopTime": 1,
+				"stateMeterLen": 2,
+				"normalizedTime": 0.1,
+				"layer": 0,
+				"animLen": 1.0,
+				"hitPoints": [{"progress": 1}]
+			}]
+		},
+		"Transfer": {
+			"statusName": "Transfer",
+			"defaultAciton":
+			{
+				"statusName": "Transfer",
+				"stateName": "Empty",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "Empty",
+				"loopTime": 1,
+				"stateMeterLen": 1,
+				"normalizedTime": 0.5,
+				"layer": 0,
+				"animLen": 0.5,
+				"movements": [],
+				"hitPoints": []
+			}]
+		}
+	}
+}

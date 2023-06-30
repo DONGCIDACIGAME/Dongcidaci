@@ -68,7 +68,7 @@ public class ControlAddNewNodePage : UIControl
         childTree.SetChildTreeName(childTreeName);
         // 从文件加载的子树默认是浅拷贝
         childTree.SetCopyType(BTDefine.BT_ChildTreeCopyType_Reference);
-        BTTreeEntry treeEntry = BehaviourTreeManager.Ins.LoadTree(childTreeFilePath, true);
+        BTTreeEntry treeEntry = BehaviourTreeManager.Ins.LoadTreeWithFileFullPath(childTreeFilePath, true);
         childTree.SetChildNode(treeEntry);
         AddChildNode(childTree);
     }

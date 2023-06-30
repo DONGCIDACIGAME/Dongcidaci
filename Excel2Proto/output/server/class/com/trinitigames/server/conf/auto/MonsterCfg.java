@@ -50,10 +50,30 @@ public final class MonsterCfg {
 
     /**
      * <pre>
+     ** 英文名称 
+     * </pre>
+     *
+     * <code>string NickName = 3;</code>
+     * @return The nickName.
+     */
+    java.lang.String getNickName();
+    /**
+     * <pre>
+     ** 英文名称 
+     * </pre>
+     *
+     * <code>string NickName = 3;</code>
+     * @return The bytes for nickName.
+     */
+    com.google.protobuf.ByteString
+        getNickNameBytes();
+
+    /**
+     * <pre>
      ** 预制体路径 
      * </pre>
      *
-     * <code>string Prefab = 3;</code>
+     * <code>string Prefab = 4;</code>
      * @return The prefab.
      */
     java.lang.String getPrefab();
@@ -62,7 +82,7 @@ public final class MonsterCfg {
      ** 预制体路径 
      * </pre>
      *
-     * <code>string Prefab = 3;</code>
+     * <code>string Prefab = 4;</code>
      * @return The bytes for prefab.
      */
     com.google.protobuf.ByteString
@@ -73,7 +93,7 @@ public final class MonsterCfg {
      ** 角色的移动速度 
      * </pre>
      *
-     * <code>float Speed = 4;</code>
+     * <code>float Speed = 5;</code>
      * @return The speed.
      */
     float getSpeed();
@@ -83,10 +103,30 @@ public final class MonsterCfg {
      ** 角色的冲刺距离 
      * </pre>
      *
-     * <code>float DashDistance = 5;</code>
+     * <code>float DashDistance = 6;</code>
      * @return The dashDistance.
      */
     float getDashDistance();
+
+    /**
+     * <pre>
+     ** 行为树名称 
+     * </pre>
+     *
+     * <code>string BehaviourTree = 7;</code>
+     * @return The behaviourTree.
+     */
+    java.lang.String getBehaviourTree();
+    /**
+     * <pre>
+     ** 行为树名称 
+     * </pre>
+     *
+     * <code>string BehaviourTree = 7;</code>
+     * @return The bytes for behaviourTree.
+     */
+    com.google.protobuf.ByteString
+        getBehaviourTreeBytes();
   }
   /**
    * Protobuf type {@code DongciDaci.MonsterBaseCfg}
@@ -102,7 +142,9 @@ public final class MonsterCfg {
     }
     private MonsterBaseCfg() {
       name_ = "";
+      nickName_ = "";
       prefab_ = "";
+      behaviourTree_ = "";
     }
 
     @java.lang.Override
@@ -112,6 +154,87 @@ public final class MonsterCfg {
       return new MonsterBaseCfg();
     }
 
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MonsterBaseCfg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              iD_ = input.readUInt32();
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              name_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              nickName_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              prefab_ = s;
+              break;
+            }
+            case 45: {
+
+              speed_ = input.readFloat();
+              break;
+            }
+            case 53: {
+
+              dashDistance_ = input.readFloat();
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              behaviourTree_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.trinitigames.server.conf.auto.MonsterCfg.internal_static_DongciDaci_MonsterBaseCfg_descriptor;
@@ -126,7 +249,7 @@ public final class MonsterCfg {
     }
 
     public static final int ID_FIELD_NUMBER = 1;
-    private int iD_ = 0;
+    private int iD_;
     /**
      * <pre>
      ** ID 
@@ -141,8 +264,7 @@ public final class MonsterCfg {
     }
 
     public static final int NAME_FIELD_NUMBER = 2;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object name_ = "";
+    private volatile java.lang.Object name_;
     /**
      * <pre>
      ** 名称 
@@ -187,15 +309,60 @@ public final class MonsterCfg {
       }
     }
 
-    public static final int PREFAB_FIELD_NUMBER = 3;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object prefab_ = "";
+    public static final int NICKNAME_FIELD_NUMBER = 3;
+    private volatile java.lang.Object nickName_;
+    /**
+     * <pre>
+     ** 英文名称 
+     * </pre>
+     *
+     * <code>string NickName = 3;</code>
+     * @return The nickName.
+     */
+    @java.lang.Override
+    public java.lang.String getNickName() {
+      java.lang.Object ref = nickName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        nickName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     ** 英文名称 
+     * </pre>
+     *
+     * <code>string NickName = 3;</code>
+     * @return The bytes for nickName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getNickNameBytes() {
+      java.lang.Object ref = nickName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        nickName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PREFAB_FIELD_NUMBER = 4;
+    private volatile java.lang.Object prefab_;
     /**
      * <pre>
      ** 预制体路径 
      * </pre>
      *
-     * <code>string Prefab = 3;</code>
+     * <code>string Prefab = 4;</code>
      * @return The prefab.
      */
     @java.lang.Override
@@ -216,7 +383,7 @@ public final class MonsterCfg {
      ** 预制体路径 
      * </pre>
      *
-     * <code>string Prefab = 3;</code>
+     * <code>string Prefab = 4;</code>
      * @return The bytes for prefab.
      */
     @java.lang.Override
@@ -234,14 +401,14 @@ public final class MonsterCfg {
       }
     }
 
-    public static final int SPEED_FIELD_NUMBER = 4;
-    private float speed_ = 0F;
+    public static final int SPEED_FIELD_NUMBER = 5;
+    private float speed_;
     /**
      * <pre>
      ** 角色的移动速度 
      * </pre>
      *
-     * <code>float Speed = 4;</code>
+     * <code>float Speed = 5;</code>
      * @return The speed.
      */
     @java.lang.Override
@@ -249,19 +416,65 @@ public final class MonsterCfg {
       return speed_;
     }
 
-    public static final int DASHDISTANCE_FIELD_NUMBER = 5;
-    private float dashDistance_ = 0F;
+    public static final int DASHDISTANCE_FIELD_NUMBER = 6;
+    private float dashDistance_;
     /**
      * <pre>
      ** 角色的冲刺距离 
      * </pre>
      *
-     * <code>float DashDistance = 5;</code>
+     * <code>float DashDistance = 6;</code>
      * @return The dashDistance.
      */
     @java.lang.Override
     public float getDashDistance() {
       return dashDistance_;
+    }
+
+    public static final int BEHAVIOURTREE_FIELD_NUMBER = 7;
+    private volatile java.lang.Object behaviourTree_;
+    /**
+     * <pre>
+     ** 行为树名称 
+     * </pre>
+     *
+     * <code>string BehaviourTree = 7;</code>
+     * @return The behaviourTree.
+     */
+    @java.lang.Override
+    public java.lang.String getBehaviourTree() {
+      java.lang.Object ref = behaviourTree_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        behaviourTree_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     ** 行为树名称 
+     * </pre>
+     *
+     * <code>string BehaviourTree = 7;</code>
+     * @return The bytes for behaviourTree.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getBehaviourTreeBytes() {
+      java.lang.Object ref = behaviourTree_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        behaviourTree_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -281,19 +494,25 @@ public final class MonsterCfg {
       if (iD_ != 0) {
         output.writeUInt32(1, iD_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
+      if (!getNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(prefab_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, prefab_);
+      if (!getNickNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, nickName_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
-        output.writeFloat(4, speed_);
+      if (!getPrefabBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, prefab_);
       }
-      if (java.lang.Float.floatToRawIntBits(dashDistance_) != 0) {
-        output.writeFloat(5, dashDistance_);
+      if (speed_ != 0F) {
+        output.writeFloat(5, speed_);
       }
-      getUnknownFields().writeTo(output);
+      if (dashDistance_ != 0F) {
+        output.writeFloat(6, dashDistance_);
+      }
+      if (!getBehaviourTreeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, behaviourTree_);
+      }
+      unknownFields.writeTo(output);
     }
 
     @java.lang.Override
@@ -306,21 +525,27 @@ public final class MonsterCfg {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, iD_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
+      if (!getNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(prefab_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, prefab_);
+      if (!getNickNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, nickName_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
+      if (!getPrefabBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, prefab_);
+      }
+      if (speed_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(4, speed_);
+          .computeFloatSize(5, speed_);
       }
-      if (java.lang.Float.floatToRawIntBits(dashDistance_) != 0) {
+      if (dashDistance_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(5, dashDistance_);
+          .computeFloatSize(6, dashDistance_);
       }
-      size += getUnknownFields().getSerializedSize();
+      if (!getBehaviourTreeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, behaviourTree_);
+      }
+      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -339,6 +564,8 @@ public final class MonsterCfg {
           != other.getID()) return false;
       if (!getName()
           .equals(other.getName())) return false;
+      if (!getNickName()
+          .equals(other.getNickName())) return false;
       if (!getPrefab()
           .equals(other.getPrefab())) return false;
       if (java.lang.Float.floatToIntBits(getSpeed())
@@ -347,7 +574,9 @@ public final class MonsterCfg {
       if (java.lang.Float.floatToIntBits(getDashDistance())
           != java.lang.Float.floatToIntBits(
               other.getDashDistance())) return false;
-      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      if (!getBehaviourTree()
+          .equals(other.getBehaviourTree())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
 
@@ -362,6 +591,8 @@ public final class MonsterCfg {
       hash = (53 * hash) + getID();
       hash = (37 * hash) + NAME_FIELD_NUMBER;
       hash = (53 * hash) + getName().hashCode();
+      hash = (37 * hash) + NICKNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getNickName().hashCode();
       hash = (37 * hash) + PREFAB_FIELD_NUMBER;
       hash = (53 * hash) + getPrefab().hashCode();
       hash = (37 * hash) + SPEED_FIELD_NUMBER;
@@ -370,7 +601,9 @@ public final class MonsterCfg {
       hash = (37 * hash) + DASHDISTANCE_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getDashDistance());
-      hash = (29 * hash) + getUnknownFields().hashCode();
+      hash = (37 * hash) + BEHAVIOURTREE_FIELD_NUMBER;
+      hash = (53 * hash) + getBehaviourTree().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -487,23 +720,36 @@ public final class MonsterCfg {
 
       // Construct using com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        bitField0_ = 0;
         iD_ = 0;
+
         name_ = "";
+
+        nickName_ = "";
+
         prefab_ = "";
+
         speed_ = 0F;
+
         dashDistance_ = 0F;
+
+        behaviourTree_ = "";
+
         return this;
       }
 
@@ -530,30 +776,49 @@ public final class MonsterCfg {
       @java.lang.Override
       public com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg buildPartial() {
         com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg result = new com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg(this);
-        if (bitField0_ != 0) { buildPartial0(result); }
+        result.iD_ = iD_;
+        result.name_ = name_;
+        result.nickName_ = nickName_;
+        result.prefab_ = prefab_;
+        result.speed_ = speed_;
+        result.dashDistance_ = dashDistance_;
+        result.behaviourTree_ = behaviourTree_;
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg result) {
-        int from_bitField0_ = bitField0_;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.iD_ = iD_;
-        }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.name_ = name_;
-        }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.prefab_ = prefab_;
-        }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.speed_ = speed_;
-        }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.dashDistance_ = dashDistance_;
-        }
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
       }
-
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg) {
@@ -571,12 +836,14 @@ public final class MonsterCfg {
         }
         if (!other.getName().isEmpty()) {
           name_ = other.name_;
-          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        if (!other.getNickName().isEmpty()) {
+          nickName_ = other.nickName_;
           onChanged();
         }
         if (!other.getPrefab().isEmpty()) {
           prefab_ = other.prefab_;
-          bitField0_ |= 0x00000004;
           onChanged();
         }
         if (other.getSpeed() != 0F) {
@@ -585,7 +852,11 @@ public final class MonsterCfg {
         if (other.getDashDistance() != 0F) {
           setDashDistance(other.getDashDistance());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        if (!other.getBehaviourTree().isEmpty()) {
+          behaviourTree_ = other.behaviourTree_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
@@ -600,58 +871,19 @@ public final class MonsterCfg {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
-        }
+        com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg parsedMessage = null;
         try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              case 8: {
-                iD_ = input.readUInt32();
-                bitField0_ |= 0x00000001;
-                break;
-              } // case 8
-              case 18: {
-                name_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000002;
-                break;
-              } // case 18
-              case 26: {
-                prefab_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000004;
-                break;
-              } // case 26
-              case 37: {
-                speed_ = input.readFloat();
-                bitField0_ |= 0x00000008;
-                break;
-              } // case 37
-              case 45: {
-                dashDistance_ = input.readFloat();
-                bitField0_ |= 0x00000010;
-                break;
-              } // case 45
-              default: {
-                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                  done = true; // was an endgroup tag
-                }
-                break;
-              } // default:
-            } // switch (tag)
-          } // while (!done)
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          onChanged();
-        } // finally
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
         return this;
       }
-      private int bitField0_;
 
       private int iD_ ;
       /**
@@ -676,9 +908,8 @@ public final class MonsterCfg {
        * @return This builder for chaining.
        */
       public Builder setID(int value) {
-
+        
         iD_ = value;
-        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -691,7 +922,7 @@ public final class MonsterCfg {
        * @return This builder for chaining.
        */
       public Builder clearID() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        
         iD_ = 0;
         onChanged();
         return this;
@@ -750,9 +981,11 @@ public final class MonsterCfg {
        */
       public Builder setName(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         name_ = value;
-        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -765,8 +998,8 @@ public final class MonsterCfg {
        * @return This builder for chaining.
        */
       public Builder clearName() {
+        
         name_ = getDefaultInstance().getName();
-        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -781,10 +1014,108 @@ public final class MonsterCfg {
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         name_ = value;
-        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object nickName_ = "";
+      /**
+       * <pre>
+       ** 英文名称 
+       * </pre>
+       *
+       * <code>string NickName = 3;</code>
+       * @return The nickName.
+       */
+      public java.lang.String getNickName() {
+        java.lang.Object ref = nickName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          nickName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       ** 英文名称 
+       * </pre>
+       *
+       * <code>string NickName = 3;</code>
+       * @return The bytes for nickName.
+       */
+      public com.google.protobuf.ByteString
+          getNickNameBytes() {
+        java.lang.Object ref = nickName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          nickName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       ** 英文名称 
+       * </pre>
+       *
+       * <code>string NickName = 3;</code>
+       * @param value The nickName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNickName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        nickName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       ** 英文名称 
+       * </pre>
+       *
+       * <code>string NickName = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNickName() {
+        
+        nickName_ = getDefaultInstance().getNickName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       ** 英文名称 
+       * </pre>
+       *
+       * <code>string NickName = 3;</code>
+       * @param value The bytes for nickName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNickNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        nickName_ = value;
         onChanged();
         return this;
       }
@@ -795,7 +1126,7 @@ public final class MonsterCfg {
        ** 预制体路径 
        * </pre>
        *
-       * <code>string Prefab = 3;</code>
+       * <code>string Prefab = 4;</code>
        * @return The prefab.
        */
       public java.lang.String getPrefab() {
@@ -815,7 +1146,7 @@ public final class MonsterCfg {
        ** 预制体路径 
        * </pre>
        *
-       * <code>string Prefab = 3;</code>
+       * <code>string Prefab = 4;</code>
        * @return The bytes for prefab.
        */
       public com.google.protobuf.ByteString
@@ -836,15 +1167,17 @@ public final class MonsterCfg {
        ** 预制体路径 
        * </pre>
        *
-       * <code>string Prefab = 3;</code>
+       * <code>string Prefab = 4;</code>
        * @param value The prefab to set.
        * @return This builder for chaining.
        */
       public Builder setPrefab(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         prefab_ = value;
-        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -853,12 +1186,12 @@ public final class MonsterCfg {
        ** 预制体路径 
        * </pre>
        *
-       * <code>string Prefab = 3;</code>
+       * <code>string Prefab = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearPrefab() {
+        
         prefab_ = getDefaultInstance().getPrefab();
-        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
@@ -867,16 +1200,18 @@ public final class MonsterCfg {
        ** 预制体路径 
        * </pre>
        *
-       * <code>string Prefab = 3;</code>
+       * <code>string Prefab = 4;</code>
        * @param value The bytes for prefab to set.
        * @return This builder for chaining.
        */
       public Builder setPrefabBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         prefab_ = value;
-        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -887,7 +1222,7 @@ public final class MonsterCfg {
        ** 角色的移动速度 
        * </pre>
        *
-       * <code>float Speed = 4;</code>
+       * <code>float Speed = 5;</code>
        * @return The speed.
        */
       @java.lang.Override
@@ -899,14 +1234,13 @@ public final class MonsterCfg {
        ** 角色的移动速度 
        * </pre>
        *
-       * <code>float Speed = 4;</code>
+       * <code>float Speed = 5;</code>
        * @param value The speed to set.
        * @return This builder for chaining.
        */
       public Builder setSpeed(float value) {
-
+        
         speed_ = value;
-        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -915,11 +1249,11 @@ public final class MonsterCfg {
        ** 角色的移动速度 
        * </pre>
        *
-       * <code>float Speed = 4;</code>
+       * <code>float Speed = 5;</code>
        * @return This builder for chaining.
        */
       public Builder clearSpeed() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        
         speed_ = 0F;
         onChanged();
         return this;
@@ -931,7 +1265,7 @@ public final class MonsterCfg {
        ** 角色的冲刺距离 
        * </pre>
        *
-       * <code>float DashDistance = 5;</code>
+       * <code>float DashDistance = 6;</code>
        * @return The dashDistance.
        */
       @java.lang.Override
@@ -943,14 +1277,13 @@ public final class MonsterCfg {
        ** 角色的冲刺距离 
        * </pre>
        *
-       * <code>float DashDistance = 5;</code>
+       * <code>float DashDistance = 6;</code>
        * @param value The dashDistance to set.
        * @return This builder for chaining.
        */
       public Builder setDashDistance(float value) {
-
+        
         dashDistance_ = value;
-        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
@@ -959,12 +1292,108 @@ public final class MonsterCfg {
        ** 角色的冲刺距离 
        * </pre>
        *
-       * <code>float DashDistance = 5;</code>
+       * <code>float DashDistance = 6;</code>
        * @return This builder for chaining.
        */
       public Builder clearDashDistance() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        
         dashDistance_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object behaviourTree_ = "";
+      /**
+       * <pre>
+       ** 行为树名称 
+       * </pre>
+       *
+       * <code>string BehaviourTree = 7;</code>
+       * @return The behaviourTree.
+       */
+      public java.lang.String getBehaviourTree() {
+        java.lang.Object ref = behaviourTree_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          behaviourTree_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       ** 行为树名称 
+       * </pre>
+       *
+       * <code>string BehaviourTree = 7;</code>
+       * @return The bytes for behaviourTree.
+       */
+      public com.google.protobuf.ByteString
+          getBehaviourTreeBytes() {
+        java.lang.Object ref = behaviourTree_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          behaviourTree_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       ** 行为树名称 
+       * </pre>
+       *
+       * <code>string BehaviourTree = 7;</code>
+       * @param value The behaviourTree to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBehaviourTree(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        behaviourTree_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       ** 行为树名称 
+       * </pre>
+       *
+       * <code>string BehaviourTree = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBehaviourTree() {
+        
+        behaviourTree_ = getDefaultInstance().getBehaviourTree();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       ** 行为树名称 
+       * </pre>
+       *
+       * <code>string BehaviourTree = 7;</code>
+       * @param value The bytes for behaviourTree to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBehaviourTreeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        behaviourTree_ = value;
         onChanged();
         return this;
       }
@@ -1001,18 +1430,7 @@ public final class MonsterCfg {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        Builder builder = newBuilder();
-        try {
-          builder.mergeFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(builder.buildPartial());
-        } catch (com.google.protobuf.UninitializedMessageException e) {
-          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(e)
-              .setUnfinishedMessage(builder.buildPartial());
-        }
-        return builder.buildPartial();
+        return new MonsterBaseCfg(input, extensionRegistry);
       }
     };
 
@@ -1059,14 +1477,14 @@ public final class MonsterCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
      */
-    /* nullable */
-com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrDefault(
+
+    com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrDefault(
         int key,
-        /* nullable */
-com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue);
+        com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue);
     /**
      * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
      */
+
     com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrThrow(
         int key);
   }
@@ -1092,6 +1510,62 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue);
       return new MonsterCfg_Data();
     }
 
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MonsterCfg_Data(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                monsterBaseCfgItems_ = com.google.protobuf.MapField.newMapField(
+                    MonsterBaseCfgItemsDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00000001;
+              }
+              com.google.protobuf.MapEntry<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg>
+              monsterBaseCfgItems__ = input.readMessage(
+                  MonsterBaseCfgItemsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              monsterBaseCfgItems_.getMutableMap().put(
+                  monsterBaseCfgItems__.getKey(), monsterBaseCfgItems__.getValue());
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.trinitigames.server.conf.auto.MonsterCfg.internal_static_DongciDaci_MonsterCfg_Data_descriptor;
@@ -1129,7 +1603,6 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue);
                   com.google.protobuf.WireFormat.FieldType.MESSAGE,
                   com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg.getDefaultInstance());
     }
-    @SuppressWarnings("serial")
     private com.google.protobuf.MapField<
         java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg> monsterBaseCfgItems_;
     private com.google.protobuf.MapField<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg>
@@ -1140,16 +1613,18 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue);
       }
       return monsterBaseCfgItems_;
     }
+
     public int getMonsterBaseCfgItemsCount() {
       return internalGetMonsterBaseCfgItems().getMap().size();
     }
     /**
      * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
      */
+
     @java.lang.Override
     public boolean containsMonsterBaseCfgItems(
         int key) {
-
+      
       return internalGetMonsterBaseCfgItems().getMap().containsKey(key);
     }
     /**
@@ -1164,6 +1639,7 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue);
      * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
      */
     @java.lang.Override
+
     public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg> getMonsterBaseCfgItemsMap() {
       return internalGetMonsterBaseCfgItems().getMap();
     }
@@ -1171,12 +1647,11 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue);
      * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
      */
     @java.lang.Override
-    public /* nullable */
-com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrDefault(
-        int key,
-        /* nullable */
-com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
 
+    public com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrDefault(
+        int key,
+        com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
+      
       java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg> map =
           internalGetMonsterBaseCfgItems().getMap();
       return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -1185,9 +1660,10 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
      * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
      */
     @java.lang.Override
+
     public com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrThrow(
         int key) {
-
+      
       java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg> map =
           internalGetMonsterBaseCfgItems().getMap();
       if (!map.containsKey(key)) {
@@ -1216,7 +1692,7 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
           internalGetMonsterBaseCfgItems(),
           MonsterBaseCfgItemsDefaultEntryHolder.defaultEntry,
           1);
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
     @java.lang.Override
@@ -1235,7 +1711,7 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
         size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(1, monsterBaseCfgItems__);
       }
-      size += getUnknownFields().getSerializedSize();
+      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -1252,7 +1728,7 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
 
       if (!internalGetMonsterBaseCfgItems().equals(
           other.internalGetMonsterBaseCfgItems())) return false;
-      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
 
@@ -1267,7 +1743,7 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
         hash = (37 * hash) + MONSTERBASECFG_ITEMS_FIELD_NUMBER;
         hash = (53 * hash) + internalGetMonsterBaseCfgItems().hashCode();
       }
-      hash = (29 * hash) + getUnknownFields().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -1406,18 +1882,22 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
 
       // Construct using com.trinitigames.server.conf.auto.MonsterCfg.MonsterCfg_Data.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        bitField0_ = 0;
         internalGetMutableMonsterBaseCfgItems().clear();
         return this;
       }
@@ -1445,19 +1925,45 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
       @java.lang.Override
       public com.trinitigames.server.conf.auto.MonsterCfg.MonsterCfg_Data buildPartial() {
         com.trinitigames.server.conf.auto.MonsterCfg.MonsterCfg_Data result = new com.trinitigames.server.conf.auto.MonsterCfg.MonsterCfg_Data(this);
-        if (bitField0_ != 0) { buildPartial0(result); }
+        int from_bitField0_ = bitField0_;
+        result.monsterBaseCfgItems_ = internalGetMonsterBaseCfgItems();
+        result.monsterBaseCfgItems_.makeImmutable();
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(com.trinitigames.server.conf.auto.MonsterCfg.MonsterCfg_Data result) {
-        int from_bitField0_ = bitField0_;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.monsterBaseCfgItems_ = internalGetMonsterBaseCfgItems();
-          result.monsterBaseCfgItems_.makeImmutable();
-        }
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
       }
-
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.trinitigames.server.conf.auto.MonsterCfg.MonsterCfg_Data) {
@@ -1472,8 +1978,7 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
         if (other == com.trinitigames.server.conf.auto.MonsterCfg.MonsterCfg_Data.getDefaultInstance()) return this;
         internalGetMutableMonsterBaseCfgItems().mergeFrom(
             other.internalGetMonsterBaseCfgItems());
-        bitField0_ |= 0x00000001;
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
@@ -1488,39 +1993,17 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
-        }
+        com.trinitigames.server.conf.auto.MonsterCfg.MonsterCfg_Data parsedMessage = null;
         try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              case 10: {
-                com.google.protobuf.MapEntry<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg>
-                monsterBaseCfgItems__ = input.readMessage(
-                    MonsterBaseCfgItemsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-                internalGetMutableMonsterBaseCfgItems().getMutableMap().put(
-                    monsterBaseCfgItems__.getKey(), monsterBaseCfgItems__.getValue());
-                bitField0_ |= 0x00000001;
-                break;
-              } // case 10
-              default: {
-                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                  done = true; // was an endgroup tag
-                }
-                break;
-              } // default:
-            } // switch (tag)
-          } // while (!done)
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.trinitigames.server.conf.auto.MonsterCfg.MonsterCfg_Data) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          onChanged();
-        } // finally
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
         return this;
       }
       private int bitField0_;
@@ -1528,7 +2011,7 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
       private com.google.protobuf.MapField<
           java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg> monsterBaseCfgItems_;
       private com.google.protobuf.MapField<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg>
-          internalGetMonsterBaseCfgItems() {
+      internalGetMonsterBaseCfgItems() {
         if (monsterBaseCfgItems_ == null) {
           return com.google.protobuf.MapField.emptyMapField(
               MonsterBaseCfgItemsDefaultEntryHolder.defaultEntry);
@@ -1536,7 +2019,8 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
         return monsterBaseCfgItems_;
       }
       private com.google.protobuf.MapField<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg>
-          internalGetMutableMonsterBaseCfgItems() {
+      internalGetMutableMonsterBaseCfgItems() {
+        onChanged();;
         if (monsterBaseCfgItems_ == null) {
           monsterBaseCfgItems_ = com.google.protobuf.MapField.newMapField(
               MonsterBaseCfgItemsDefaultEntryHolder.defaultEntry);
@@ -1544,20 +2028,20 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
         if (!monsterBaseCfgItems_.isMutable()) {
           monsterBaseCfgItems_ = monsterBaseCfgItems_.copy();
         }
-        bitField0_ |= 0x00000001;
-        onChanged();
         return monsterBaseCfgItems_;
       }
+
       public int getMonsterBaseCfgItemsCount() {
         return internalGetMonsterBaseCfgItems().getMap().size();
       }
       /**
        * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
        */
+
       @java.lang.Override
       public boolean containsMonsterBaseCfgItems(
           int key) {
-
+        
         return internalGetMonsterBaseCfgItems().getMap().containsKey(key);
       }
       /**
@@ -1572,6 +2056,7 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
        * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
        */
       @java.lang.Override
+
       public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg> getMonsterBaseCfgItemsMap() {
         return internalGetMonsterBaseCfgItems().getMap();
       }
@@ -1579,12 +2064,11 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
        * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
        */
       @java.lang.Override
-      public /* nullable */
-com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrDefault(
-          int key,
-          /* nullable */
-com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
 
+      public com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrDefault(
+          int key,
+          com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
+        
         java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg> map =
             internalGetMonsterBaseCfgItems().getMap();
         return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -1593,9 +2077,10 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
        * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
        */
       @java.lang.Override
+
       public com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrThrow(
           int key) {
-
+        
         java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg> map =
             internalGetMonsterBaseCfgItems().getMap();
         if (!map.containsKey(key)) {
@@ -1603,8 +2088,8 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
         }
         return map.get(key);
       }
+
       public Builder clearMonsterBaseCfgItems() {
-        bitField0_ = (bitField0_ & ~0x00000001);
         internalGetMutableMonsterBaseCfgItems().getMutableMap()
             .clear();
         return this;
@@ -1612,9 +2097,10 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
       /**
        * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
        */
+
       public Builder removeMonsterBaseCfgItems(
           int key) {
-
+        
         internalGetMutableMonsterBaseCfgItems().getMutableMap()
             .remove(key);
         return this;
@@ -1624,8 +2110,7 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
        */
       @java.lang.Deprecated
       public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg>
-          getMutableMonsterBaseCfgItems() {
-        bitField0_ |= 0x00000001;
+      getMutableMonsterBaseCfgItems() {
         return internalGetMutableMonsterBaseCfgItems().getMutableMap();
       }
       /**
@@ -1634,21 +2119,20 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
       public Builder putMonsterBaseCfgItems(
           int key,
           com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg value) {
-
-        if (value == null) { throw new NullPointerException("map value"); }
+        
+        if (value == null) { throw new java.lang.NullPointerException(); }
         internalGetMutableMonsterBaseCfgItems().getMutableMap()
             .put(key, value);
-        bitField0_ |= 0x00000001;
         return this;
       }
       /**
        * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
        */
+
       public Builder putAllMonsterBaseCfgItems(
           java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg> values) {
         internalGetMutableMonsterBaseCfgItems().getMutableMap()
             .putAll(values);
-        bitField0_ |= 0x00000001;
         return this;
       }
       @java.lang.Override
@@ -1684,18 +2168,7 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        Builder builder = newBuilder();
-        try {
-          builder.mergeFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(builder.buildPartial());
-        } catch (com.google.protobuf.UninitializedMessageException e) {
-          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(e)
-              .setUnfinishedMessage(builder.buildPartial());
-        }
-        return builder.buildPartial();
+        return new MonsterCfg_Data(input, extensionRegistry);
       }
     };
 
@@ -1739,16 +2212,17 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020MonsterCfg.proto\022\nDongciDaci\"_\n\016Monste" +
-      "rBaseCfg\022\n\n\002ID\030\001 \001(\r\022\014\n\004Name\030\002 \001(\t\022\016\n\006Pr" +
-      "efab\030\003 \001(\t\022\r\n\005Speed\030\004 \001(\002\022\024\n\014DashDistanc" +
-      "e\030\005 \001(\002\"\275\001\n\017MonsterCfg_Data\022R\n\024MonsterBa" +
-      "seCfg_items\030\001 \003(\01324.DongciDaci.MonsterCf" +
-      "g_Data.MonsterBaseCfgItemsEntry\032V\n\030Monst" +
-      "erBaseCfgItemsEntry\022\013\n\003key\030\001 \001(\r\022)\n\005valu" +
-      "e\030\002 \001(\0132\032.DongciDaci.MonsterBaseCfg:\0028\001B" +
-      "#\n!com.trinitigames.server.conf.autob\006pr" +
-      "oto3"
+      "\n\020MonsterCfg.proto\022\nDongciDaci\"\210\001\n\016Monst" +
+      "erBaseCfg\022\n\n\002ID\030\001 \001(\r\022\014\n\004Name\030\002 \001(\t\022\020\n\010N" +
+      "ickName\030\003 \001(\t\022\016\n\006Prefab\030\004 \001(\t\022\r\n\005Speed\030\005" +
+      " \001(\002\022\024\n\014DashDistance\030\006 \001(\002\022\025\n\rBehaviourT" +
+      "ree\030\007 \001(\t\"\275\001\n\017MonsterCfg_Data\022R\n\024Monster" +
+      "BaseCfg_items\030\001 \003(\01324.DongciDaci.Monster" +
+      "Cfg_Data.MonsterBaseCfgItemsEntry\032V\n\030Mon" +
+      "sterBaseCfgItemsEntry\022\013\n\003key\030\001 \001(\r\022)\n\005va" +
+      "lue\030\002 \001(\0132\032.DongciDaci.MonsterBaseCfg:\0028" +
+      "\001B#\n!com.trinitigames.server.conf.autob\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1759,7 +2233,7 @@ com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue) {
     internal_static_DongciDaci_MonsterBaseCfg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DongciDaci_MonsterBaseCfg_descriptor,
-        new java.lang.String[] { "ID", "Name", "Prefab", "Speed", "DashDistance", });
+        new java.lang.String[] { "ID", "Name", "NickName", "Prefab", "Speed", "DashDistance", "BehaviourTree", });
     internal_static_DongciDaci_MonsterCfg_Data_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_DongciDaci_MonsterCfg_Data_fieldAccessorTable = new

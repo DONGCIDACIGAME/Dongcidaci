@@ -70,7 +70,7 @@ public class PanelAIEditor : UIPanel
 
     private void LoadTree(string filePath)
     {
-        BTTree tree = BehaviourTreeManager.Ins.LoadTree(filePath, true);
+        BTTree tree = BehaviourTreeManager.Ins.LoadTreeWithFileFullPath(filePath, true);
         mTreeFileName = BehaviourTreeHelper.FileFullPathToTreeName(filePath);
         mCurEditingTree = tree;
         DrawTree(mCurEditingTree);
