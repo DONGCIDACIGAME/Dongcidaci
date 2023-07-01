@@ -103,7 +103,7 @@ public class BTMoveDistanceNode : BTMoveNode
             return BTDefine.BT_ExcuteResult_Running;
         }
 
-        StopMove();
+        //StopMove();
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

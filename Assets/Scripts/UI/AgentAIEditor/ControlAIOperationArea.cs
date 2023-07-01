@@ -125,25 +125,25 @@ public  class ControlAIOperationArea : UIControl
         #region tree
         if (node is BTTreeEntry)
         {
-            AddPropertyPage<ControlTreeEntryNodePropertyPage>("Tree/Ctl_TreeEntryNodePropertyPage", node);
+            AddPropertyPage<ControlTreeEntryPropertyPage>("Tree/Ctl_PropertyPage_TreeEntry", node);
         }
         else if (node is BTChildTree)
         {
-            AddPropertyPage<ControlChildTreeNodePropertyPage>("Tree/Ctl_ChildTreeNodePropertyPage", node);
+            AddPropertyPage<ControlChildTreePropertyPage>("Tree/Ctl_PropertyPage_ChildTree", node);
         }
         #endregion
         #region composite
         else if (node is BTSequenceNode)
         {
-            AddPropertyPage<ControlSequenceNodePropertyPage>("Composite/Ctl_SequenceNodePropertyPage", node);
+            AddPropertyPage<ControlSequencePropertyPage>("Composite/Ctl_PropertyPage_Sequence", node);
         }
         else if (node is BTParallelNode)
         {
-            AddPropertyPage<ControlParallelNodePropertyPage>("Composite/Ctl_ParallelNodePropertyPage", node);
+            AddPropertyPage<ControlParallelPropertyPage>("Composite/Ctl_PropertyPage_Parallel", node);
         }
         else if (node is BTSelectNode)
         {
-            AddPropertyPage<ControlSelectorPropertyPage>("Composite/Ctl_SelectorNodePropertyPage", node);
+            AddPropertyPage<ControlSelectorPropertyPage>("Composite/Ctl_PropertyPage_Selector", node);
         }
         #endregion
         #region decor
@@ -169,43 +169,51 @@ public  class ControlAIOperationArea : UIControl
         }
         #endregion
         #region condition
-        else if (node is BTCheckDetectAgentNode)
+        else if (node is BTCheckDistanceToTarget)
         {
-            AddPropertyPage<ControlCheckDetectAgentNodePropertyPage>("Condition/Ctl_CheckDetectAgentNodePropertyPage", node);
+            AddPropertyPage<ControlCheckDistanceToTargetPropertyPage>("Condition/Ctl_PropertyPage_CheckDistanceToTarget", node);
         }
         #endregion
         #region action
         else if (node is BTWaitTimeNode)
         {
-            AddPropertyPage<ControlWaitTimeNodePropertyPage>("Action/Ctl_WaitTimeNodePropertyPage", node);
+            AddPropertyPage<ControlWaitTimePropertyPage>("Action/Ctl_PropertyPage_WaitTime", node);
         }
         else if (node is BTWaitFrameNode)
         {
-            AddPropertyPage<ControlWaitFrameNodePropertyPage>("Action/Ctl_WaitFrameNodePropertyPage", node);
+            AddPropertyPage<ControlWaitFramePropertyPage>("Action/Ctl_PropertyPage_WaitFrame", node);
         }
         else if (node is BTWaitMeterNode)
         {
-            AddPropertyPage<ControlWaitMeterNodePropertyPage>("Action/Ctl_WaitMeterNodePropertyPage", node);
+            AddPropertyPage<ControlWaitMeterPropertyPage>("Action/Ctl_PropertyPage_WaitMeter", node);
         }
         else if(node is BTAgentChangeTowardsNode)
         {
-            AddPropertyPage<ControlChangeTowardsNodePropertyPage>("Action/Ctl_ChangeTowardsNodePropertyPage", node);
+            AddPropertyPage<ControlChangeTowardsPropertyPage>("Action/Ctl_PropertyPage_ChangeTowards", node);
         }
         else if (node is BTMoveTimeNode)
         {
-            AddPropertyPage<ControlMoveTimeNodePropertyPage>("Action/Ctl_MoveTimeNodePropertyPage", node);
+            AddPropertyPage<ControlMoveTimePropertyPage>("Action/Ctl_PropertyPage_MoveTime", node);
         }
         else if (node is BTMoveMeterNode)
         {
-            AddPropertyPage<ControlMoveMeterNodePropertyPage>("Action/Ctl_MoveMeterNodePropertyPage", node);
+            AddPropertyPage<ControlMoveMeterPropertyPage>("Action/Ctl_PropertyPage_MoveMeter", node);
         }
         else if (node is BTMoveDistanceNode)
         {
-            AddPropertyPage<ControlMoveDistanceNodePropertyPage>("Action/Ctl_MoveDistanceNodePropertyPage", node);
+            AddPropertyPage<ControlMoveDistancePropertyPage>("Action/Ctl_PropertyPage_MoveDistance", node);
         }
         else if (node is BTMoveToPositionNode)
         {
-            AddPropertyPage<ControlMoveToPositionNodePropertyPage>("Action/Ctl_MoveToPositionNodePropertyPage", node);
+            AddPropertyPage<ControlMoveToPositionPropertyPage>("Action/Ctl_PropertyPage_MoveToPosition", node);
+        }
+        else if (node is BTDetectAgentNode)
+        {
+            AddPropertyPage<ControlDetectAgentPropertyPage>("Action/Ctl_PropertyPage_DetectAgent", node);
+        }
+        else if (node is BTMoveOneFrameNode)
+        {
+            AddPropertyPage<ControlMoveOneFramePropertyPage>("Action/Ctl_PropertyPage_MoveOneFrame", node);
         }
         #endregion
     }

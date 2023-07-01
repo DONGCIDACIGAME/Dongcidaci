@@ -51,6 +51,8 @@ public static class BTDefine
     /// <summary>
     /// 节点类型的详细类型
     /// 每个大类型预留了100个详细类型空位，应该可以保证新增时和其他大类里的详细类型不冲突
+    /// 这里的类型定下来之后，不能再修改其值，否则会导致已保存文件中的类型错误
+    /// 后续需要一个脚本来完成数据更新
     /// </summary>
     public const int BT_Node_Type_Tree_Entry = 0;
     public const int BT_Node_Type_Tree_ChildTree = 1;
@@ -68,12 +70,15 @@ public static class BTDefine
     public const int BT_Node_Type_Leaf_WaitTime                         = BT_Node_Type_Leaf * 100 + 1;
     public const int BT_Node_Type_Leaf_WaitFrame                        = BT_Node_Type_Leaf * 100 + 2;
     public const int BT_Node_Type_Leaf_WaitMeter                        = BT_Node_Type_Leaf * 100 + 3;
-    public const int BT_Node_Type_Leaf_CheckDetectAgent                 = BT_Node_Type_Leaf * 100 + 4;
+    public const int BT_Node_Type_Leaf_DetectAgent                      = BT_Node_Type_Leaf * 100 + 4;
     public const int BT_Node_Type_Leaf_ChangeTowards                    = BT_Node_Type_Leaf * 100 + 5;
     public const int BT_Node_Type_Leaf_MoveTime                         = BT_Node_Type_Leaf * 100 + 6;
     public const int BT_Node_Type_Leaf_MoveMeter                        = BT_Node_Type_Leaf * 100 + 7;
     public const int BT_Node_Type_Leaf_MoveToPosition                   = BT_Node_Type_Leaf * 100 + 8;
     public const int BT_Node_Type_Leaf_MoveDistance                     = BT_Node_Type_Leaf * 100 + 9;
+    public const int BT_Node_Type_Leaf_MoveOneFrame                     = BT_Node_Type_Leaf * 100 + 10;
+
+    public const int BT_Node_Type_Leaf_CheckDistance                    = BT_Node_Type_Leaf * 200 + 2;
 
 
     /// <summary>
@@ -99,4 +104,12 @@ public static class BTDefine
     /// 朝向给定目标（上下文中的）
     /// </summary>
     public const int BT_ChangeTowardsTo_GivenTarget = 3;
+
+
+    public const int BT_Operator_Undefine = 0;
+    public const int BT_Operator_LessThan = 1;
+    public const int BT_Operator_LessEqual = 2;
+    public const int BT_Operator_Equal = 3;
+    public const int BT_Operator_GreaterEqual = 4;
+    public const int BT_Operator_GreaterThan = 5;
 }

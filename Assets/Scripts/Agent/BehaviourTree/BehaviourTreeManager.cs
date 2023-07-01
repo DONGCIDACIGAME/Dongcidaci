@@ -164,8 +164,8 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_WaitMeter)
                 return new BTWaitMeterNode();
 
-            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_CheckDetectAgent)
-                return new BTCheckDetectAgentNode();
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_DetectAgent)
+                return new BTDetectAgentNode();
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_ChangeTowards)
                 return new BTAgentChangeTowardsNode();
@@ -179,8 +179,14 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_MoveDistance)
                 return new BTMoveDistanceNode();
 
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_MoveOneFrame)
+                return new BTMoveOneFrameNode();
+
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_MoveToPosition)
                 return new BTMoveToPositionNode();
+
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_CheckDistance)
+                return new BTCheckDistanceToTarget();
         }
 
         Log.Error(LogLevel.Normal, "BTNodeFactory CreateBTNode Failed, nodeType:{0}, nodeDetailType:{1}, no matching class!", nodeType, nodeDetailType);

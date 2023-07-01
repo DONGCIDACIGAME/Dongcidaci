@@ -63,10 +63,14 @@ public static class BehaviourTreeHelper
                 return "移动一定节拍";
             case BTDefine.BT_Node_Type_Leaf_MoveDistance:
                 return "移动一定距离";
+            case BTDefine.BT_Node_Type_Leaf_MoveOneFrame:
+                return "移动一帧";
             case BTDefine.BT_Node_Type_Leaf_MoveToPosition:
                 return "移动到指定位置";
-            case BTDefine.BT_Node_Type_Leaf_CheckDetectAgent:
+            case BTDefine.BT_Node_Type_Leaf_DetectAgent:
                 return "检测到角色";
+            case BTDefine.BT_Node_Type_Leaf_CheckDistance:
+                return "到目标距离";
             default:
                 return "未知节点类型";
         }

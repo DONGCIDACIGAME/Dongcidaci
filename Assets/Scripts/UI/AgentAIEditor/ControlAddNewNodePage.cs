@@ -42,14 +42,14 @@ public class ControlAddNewNodePage : UIControl
     private Button Btn_MoveMeter;
     private Button Btn_MoveToPosition;
     private Button Btn_MoveDistance;
-
-
+    private Button Btn_DetectAgent;
+    private Button Btn_MoveOneFrame;
 
 
     /// <summary>
     /// condition
     /// </summary>
-    private Button Btn_CheckDetectAgent;
+    private Button Btn_CheckDistanceToTarget;    
 
 
     private BTNode mNode;
@@ -107,10 +107,10 @@ public class ControlAddNewNodePage : UIControl
         Btn_MoveMeter = BindButtonNode("Contain_ActionNodes/Button_MoveMeter", () => { AddChildNode(new BTMoveMeterNode()); });
         Btn_MoveToPosition = BindButtonNode("Contain_ActionNodes/Button_MoveToPosition", () => { AddChildNode(new BTMoveToPositionNode()); });
         Btn_MoveDistance = BindButtonNode("Contain_ActionNodes/Button_MoveDistance", () => { AddChildNode(new BTMoveDistanceNode()); });
+        Btn_DetectAgent = BindButtonNode("Contain_ActionNodes/Button_DetectAgent", () => { AddChildNode(new BTDetectAgentNode()); });
+        Btn_MoveOneFrame = BindButtonNode("Contain_ActionNodes/Button_MoveOneFrame", () => { AddChildNode(new BTMoveOneFrameNode()); });
 
-
-
-        Btn_CheckDetectAgent = BindButtonNode("Contain_ConditionNodes/Button_CheckDetectAgent", () => { AddChildNode(new BTCheckDetectAgentNode()); });
+        Btn_CheckDistanceToTarget = BindButtonNode("Contain_ConditionNodes/Button_CheckDistanceToEntity", () => { AddChildNode(new BTCheckDistanceToTarget()); });
     }
 
     public void SetBTNode(BTNode node)

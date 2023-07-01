@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shapeType: 3
-  size: {x: 2, y: 3}
+  size: {x: 10, y: 13}
   offset: {x: 0, y: 0.5}
   DrawGizmos: 1
 --- !u!1 &618879448179396839
