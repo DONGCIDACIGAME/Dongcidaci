@@ -23,7 +23,7 @@ public class ControlAITreeWorkingArea : UIControl
         base.BindEvents();
         mEventListener.Listen("ToAIEditorDefaultPos", ToDefaultPos);
         mEventListener.Listen("UpdateAILogicArea", Draw);
-        mEventListener.Listen<ControlAINode>("ClickAINode", OnNodeClick);
+        mEventListener.Listen<ControlAINode>("ClickAINodeCtl", OnNodeCtlClick);
         mEventListener.Listen<ControlAINode>("OnClickAddChildNode", OnAddChildClick);
     }
 
@@ -66,10 +66,9 @@ public class ControlAITreeWorkingArea : UIControl
         ShowSelection(nodeCtl);
     }
 
-    private void OnNodeClick(ControlAINode nodeCtl)
+    private void OnNodeCtlClick(ControlAINode nodeCtl)
     {
         ShowSelection(nodeCtl);
-
     }
 
     public void Draw()

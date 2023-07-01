@@ -1,4 +1,4 @@
-public class ControlParallelNodePropertyPage : ControlAINodePropertyPage
+public class ControlParallelNodePropertyPage : ControlCompositeNodePropertyPage
 {
 
 }

@@ -1,7 +1,6 @@
 using TMPro;
-using GameEngine;
 
-public class ControlRepeatNodePropertyPage : ControlAINodePropertyPage
+public class ControlRepeatNodePropertyPage : ControlDecorNodePropertyPage
 {
     private TMP_InputField InputField_RepeatTime;
 

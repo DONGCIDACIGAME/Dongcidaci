@@ -34,6 +34,20 @@ public abstract class BTDecorNode : BTNode
         return mChildNode;
     }
 
+    public void UnpackChildNode()
+    {
+        mChildNode = null;
+    }
+
+    public override void UnpackChilds()
+    {
+        // 子节点
+        if (mChildNode != null)
+            mChildNode.UnpackChilds();
+
+        RemoveChildNode();
+    }
+
     public void RemoveChildNode()
     {
         if(mChildNode != null)

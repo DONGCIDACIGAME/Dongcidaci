@@ -185,11 +185,22 @@ public abstract class BTNode : IGameDisposable
         return BTDefine.BT_ExcuteResult_Failed;
     }
 
+    public abstract void UnpackChilds();
+
+    public BTNode Copy()
+    {
+        BTNodeData data = ToBTNodeData();
+        BTNode node = BehaviourTreeManager.Ins.CreateBTNode(data);
+        node.LoadFromBTNodeData(data);
+        return node;
+    }
+
     public void Dispose()
     {
         mContext = null;
         mExcutor = null;
         mParentNode = null;
+        UnpackChilds();
         CustomDispose();
     }
 }

@@ -11,6 +11,8 @@ public class PanelAIEditor : UIPanel
     private GameObject Node_DynamicCtls;
     private Button Btn_Quit;
 
+    public AIEditorClipboard ClipBoard { get; private set; }
+
     /// <summary>
     /// 当前正在编辑中的行为树
     /// </summary>
@@ -25,6 +27,7 @@ public class PanelAIEditor : UIPanel
     /// 是否编辑过数据
     /// </summary>
     private bool mDataChanged;
+
 
     public override string GetPanelLayerPath()
     {
@@ -49,9 +52,10 @@ public class PanelAIEditor : UIPanel
         mEventListener.Listen<string>("SaveTree", SaveTree);
     }
 
+
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
-        
+        ClipBoard = new AIEditorClipboard();
     }
 
     private void OnClickBtnQuit()
@@ -136,5 +140,10 @@ public class PanelAIEditor : UIPanel
     {
         mDataChanged = false;
         mCurEditingTree = null;
+        if(ClipBoard != null)
+        {
+            ClipBoard.Dispose();
+            ClipBoard = null;
+        }
     }
 }

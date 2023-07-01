@@ -13,6 +13,7 @@ namespace GameEngine
         private MyQueueNode<T> Head;
         private MyQueueNode<T> Tail;
         private MyQueueNode<T> Current;
+        public int Count { get; private set; } = 0;
 
         public void Clear()
         {
@@ -33,8 +34,15 @@ namespace GameEngine
 
         public bool MoveNext()
         {
-            if (Current == null)
+            if (Count == 0)
                 return false;
+
+
+            if (Current == null)
+            {
+                Current = Head;
+                return true;
+            }    
 
             var next = Current.GetNext();
             if (next == null)
@@ -48,7 +56,7 @@ namespace GameEngine
         {
             Current = Head;
         }
-        public int Count { get; private set; } = 0;
+
 
         public void Enqueue(T obj)
         {

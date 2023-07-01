@@ -1,4 +1,4 @@
-public class ControlSelectorPropertyPage : ControlAINodePropertyPage
+public class ControlSelectorPropertyPage : ControlCompositeNodePropertyPage
 {
 
 }

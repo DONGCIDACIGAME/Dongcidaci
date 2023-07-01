@@ -1,4 +1,4 @@
-public class ControlOnceNodePropertyPage : ControlAINodePropertyPage
+public class ControlOnceNodePropertyPage : ControlDecorNodePropertyPage
 {
 
 }

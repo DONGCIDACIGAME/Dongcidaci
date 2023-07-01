@@ -13,7 +13,7 @@ public class BTResetNode : BTDecorNode
     {
         if (mChildNode == null)
             return BTDefine.BT_ExcuteResult_Failed;
-
+        
         int ret = mChildNode.Excute(deltaTime);
         if (ret == BTDefine.BT_ExcuteResult_Failed)
             return BTDefine.BT_ExcuteResult_Failed;

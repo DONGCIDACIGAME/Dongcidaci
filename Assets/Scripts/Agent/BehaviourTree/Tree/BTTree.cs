@@ -40,6 +40,24 @@ public abstract class BTTree : BTNode
         return mChildNode;
     }
 
+    public void UnpackChildNode()
+    {
+        mChildNode = null;
+    }
+
+    public override void UnpackChilds()
+    {
+        // 子节点
+        if (mChildNode != null)
+            mChildNode.UnpackChilds();
+
+        RemoveChildNode();
+    }
+
+    /// <summary>
+    /// 删除子节点
+    /// 使用该方法会递归释放所有子节点
+    /// </summary>
     public void RemoveChildNode()
     {
         if(mChildNode != null)

@@ -19,7 +19,8 @@ public class LaunchScene : IScene
 
     public void OnSceneEnter()
     {
-        
+
+
     }
 
     public void OnSceneExit()

@@ -24,6 +24,11 @@ public abstract class BTLeafNode : BTNode
         return null;
     }
 
+    public override void UnpackChilds()
+    {
+        
+    }
+
     protected override int ParseNodeArgs(BTNodeArg[] args)
     {
         return BTDefine.BT_LoadNodeResult_Succeed;

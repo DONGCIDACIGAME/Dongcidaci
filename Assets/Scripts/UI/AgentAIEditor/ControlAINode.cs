@@ -238,7 +238,7 @@ public class ControlAINode : UIControl
 
     private void OnBtnAINodeClick()
     {
-        GameEventSystem.Ins.Fire("ClickAINode", this);
+        GameEventSystem.Ins.Fire("ClickAINodeCtl", this);
     }
 
     public void Select()

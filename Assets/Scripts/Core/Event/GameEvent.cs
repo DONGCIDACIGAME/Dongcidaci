@@ -11,24 +11,33 @@ namespace GameEngine
         private string mEvtName;
 
         /// <summary>
-        /// 存放事件回调的【临时】字典
-        /// 因为事件的回调可能会触发绑定新事件，这样就会在遍历mCallbacks时插入新元素导致报错
-        /// 故这里开了一个临时存储区mTempCallbacks，和mCallbacks逻辑上并行处理
-        /// （必须做逻辑上的无差别并行处理，否则同一帧添加的事件，在这一帧上监听不到）
-        /// 在LateUpdate里会将临时存储区mTempCallbacks内的事件 处理转移到mCallbacks
+        /// 存放待添加的事件处理（监听者+回调）
+        /// 不能直接对事件字典进行操作，否则会触发迭代器错误
+        /// 为了保证添加事件后可以立刻响应，在监听到事件时也需要并行处理下待添加的事件
+        /// 在LateUpdate里会将待添加事件转存至事件字典中
         /// </summary>
-        private Dictionary<int, Delegate> mTempCallbacks;
+        private List<GameEventData> mToAddCallbacksBuffer;
 
         /// <summary>
-        /// 存放事件回调的字典
+        /// 存放待删除的监听者
+        /// 不能直接对事件字典进行操作，否则会触发迭代器错误
+        /// 为了保证删除的事件不能响应，在监听到事件时做并行处理时，需要判断listenerId不在待删除里面
+        /// 在LateUpdate里会删除事件处理字典和待添加事件处理列表中的对应监听者
+        /// </summary>
+        private HashSet<int> mToRemoveCallbacksBuffer;
+
+        /// <summary>
+        /// 存放事件处理的字典
         /// </summary>
         private Dictionary<int, Delegate> mCallbacks;
+
 
         public void Initialize(string evtName)
         {
             this.mEvtName = evtName;
             mCallbacks = new Dictionary<int, Delegate>();
-            mTempCallbacks = new Dictionary<int, Delegate>();
+            mToAddCallbacksBuffer = new List<GameEventData>();
+            mToRemoveCallbacksBuffer = new HashSet<int>();
         }
 
         public string GetEventName()
@@ -43,27 +52,31 @@ namespace GameEngine
         /// <param name="callback">监听者听到事件时的行为</param>
         public void AddListener(int listenerUniqueKey, Delegate callback)
         {
-            if (mTempCallbacks.ContainsKey(listenerUniqueKey))
-                return;
-
-            mTempCallbacks.Add(listenerUniqueKey, callback);
+            mToAddCallbacksBuffer.Add(new GameEventData(listenerUniqueKey, callback));
         }
 
         public void OnTrigger()
         {
-            foreach(Delegate obj in mCallbacks.Values)
+            foreach(KeyValuePair<int,Delegate> kv in mCallbacks)
             {
-                Callback cb = obj as Callback;
-                if(cb != null)
+                int listenerId = kv.Key;
+                Callback cb = kv.Value as Callback;
+
+                if(!mToRemoveCallbacksBuffer.Contains(listenerId) && cb != null)
                 {
                     cb();
                 }
             }
 
-            foreach (Delegate obj in mTempCallbacks.Values)
+
+            for(int i = 0; i < mToAddCallbacksBuffer.Count;i++)
             {
-                Callback cb = obj as Callback;
-                if (cb != null)
+                GameEventData evt = mToAddCallbacksBuffer[i];
+
+                int listenerId = evt.listenerId;
+                Callback cb = evt.callback as Callback;
+
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
                 {
                     cb();
                 }
@@ -72,19 +85,24 @@ namespace GameEngine
 
         public void OnTrigger<T1>(T1 arg1)
         {
-            foreach (Delegate obj in mCallbacks.Values)
+            foreach (KeyValuePair<int, Delegate> kv in mCallbacks)
             {
-                Callback<T1> cb = obj as Callback<T1>;
-                if (cb != null)
+                int listenerId = kv.Key;
+                Callback<T1> cb = kv.Value as Callback<T1>;
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
                 {
                     cb(arg1);
                 }
             }
 
-            foreach (Delegate obj in mTempCallbacks.Values)
+            for (int i = 0; i < mToAddCallbacksBuffer.Count; i++)
             {
-                Callback<T1> cb = obj as Callback<T1>;
-                if (cb != null)
+                GameEventData evt = mToAddCallbacksBuffer[i];
+
+                int listenerId = evt.listenerId;
+                Callback<T1> cb = evt.callback as Callback<T1>;
+
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
                 {
                     cb(arg1);
                 }
@@ -94,19 +112,24 @@ namespace GameEngine
 
         public void OnTrigger<T1, T2>(T1 arg1, T2 arg2)
         {
-            foreach (Delegate obj in mCallbacks.Values)
+            foreach (KeyValuePair<int, Delegate> kv in mCallbacks)
             {
-                Callback<T1, T2> cb = obj as Callback<T1, T2>;
-                if (cb != null)
+                int listenerId = kv.Key;
+                Callback<T1, T2> cb = kv.Value as Callback<T1, T2>;
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
                 {
                     cb(arg1, arg2);
                 }
             }
 
-            foreach (Delegate obj in mTempCallbacks.Values)
+            for (int i = 0; i < mToAddCallbacksBuffer.Count; i++)
             {
-                Callback<T1, T2> cb = obj as Callback<T1, T2>;
-                if (cb != null)
+                GameEventData evt = mToAddCallbacksBuffer[i];
+
+                int listenerId = evt.listenerId;
+                Callback<T1, T2> cb = evt.callback as Callback<T1, T2>;
+
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
                 {
                     cb(arg1, arg2);
                 }
@@ -116,19 +139,24 @@ namespace GameEngine
 
         public void OnTrigger<T1, T2, T3>(T1 arg1, T2 arg2, T3 arg3)
         {
-            foreach (Delegate obj in mCallbacks.Values)
+            foreach (KeyValuePair<int, Delegate> kv in mCallbacks)
             {
-                Callback<T1, T2, T3> cb = obj as Callback<T1, T2, T3>;
-                if (cb != null)
+                int listenerId = kv.Key;
+                Callback<T1, T2, T3> cb = kv.Value as Callback<T1, T2, T3>;
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
                 {
                     cb(arg1, arg2, arg3);
                 }
             }
 
-            foreach (Delegate obj in mTempCallbacks.Values)
+            for (int i = 0; i < mToAddCallbacksBuffer.Count; i++)
             {
-                Callback<T1, T2, T3> cb = obj as Callback<T1, T2, T3>;
-                if (cb != null)
+                GameEventData evt = mToAddCallbacksBuffer[i];
+
+                int listenerId = evt.listenerId;
+                Callback<T1, T2, T3> cb = evt.callback as Callback<T1, T2, T3>;
+
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
                 {
                     cb(arg1, arg2, arg3);
                 }
@@ -137,19 +165,24 @@ namespace GameEngine
 
         public void OnTrigger<T1, T2, T3, T4>(T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
-            foreach (Delegate obj in mCallbacks.Values)
+            foreach (KeyValuePair<int, Delegate> kv in mCallbacks)
             {
-                Callback<T1, T2, T3, T4> cb = obj as Callback<T1, T2, T3, T4>;
-                if (cb != null)
+                int listenerId = kv.Key;
+                Callback<T1, T2, T3, T4> cb = kv.Value as Callback<T1, T2, T3, T4>;
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
                 {
                     cb(arg1, arg2, arg3, arg4);
                 }
             }
 
-            foreach (Delegate obj in mTempCallbacks.Values)
+            for (int i = 0; i < mToAddCallbacksBuffer.Count; i++)
             {
-                Callback<T1, T2, T3, T4> cb = obj as Callback<T1, T2, T3, T4>;
-                if (cb != null)
+                GameEventData evt = mToAddCallbacksBuffer[i];
+
+                int listenerId = evt.listenerId;
+                Callback<T1, T2, T3, T4> cb = evt.callback as Callback<T1, T2, T3, T4>;
+
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
                 {
                     cb(arg1, arg2, arg3, arg4);
                 }
@@ -158,19 +191,24 @@ namespace GameEngine
 
         public void OnTrigger<T1, T2, T3, T4, T5>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
-            foreach (Delegate obj in mCallbacks.Values)
+            foreach (KeyValuePair<int, Delegate> kv in mCallbacks)
             {
-                Callback<T1, T2, T3, T4, T5> cb = obj as Callback<T1, T2, T3, T4, T5>;
-                if (cb != null)
+                int listenerId = kv.Key;
+                Callback<T1, T2, T3, T4, T5> cb = kv.Value as Callback<T1, T2, T3, T4, T5>;
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
                 {
                     cb(arg1, arg2, arg3, arg4, arg5);
                 }
             }
 
-            foreach (Delegate obj in mTempCallbacks.Values)
+            for (int i = 0; i < mToAddCallbacksBuffer.Count; i++)
             {
-                Callback<T1, T2, T3, T4, T5> cb = obj as Callback<T1, T2, T3, T4, T5>;
-                if (cb != null)
+                GameEventData evt = mToAddCallbacksBuffer[i];
+
+                int listenerId = evt.listenerId;
+                Callback<T1, T2, T3, T4, T5> cb = evt.callback as Callback<T1, T2, T3, T4, T5>;
+
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
                 {
                     cb(arg1, arg2, arg3, arg4, arg5);
                 }
@@ -179,19 +217,24 @@ namespace GameEngine
 
         public void OnTrigger<T1, T2, T3, T4, T5, T6>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
-            foreach (Delegate obj in mCallbacks.Values)
+            foreach (KeyValuePair<int, Delegate> kv in mCallbacks)
             {
-                Callback<T1, T2, T3, T4, T5, T6> cb = obj as Callback<T1, T2, T3, T4, T5, T6>;
-                if (cb != null)
+                int listenerId = kv.Key;
+                Callback<T1, T2, T3, T4, T5, T6> cb = kv.Value as Callback<T1, T2, T3, T4, T5, T6>;
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
                 {
                     cb(arg1, arg2, arg3, arg4, arg5, arg6);
                 }
             }
 
-            foreach (Delegate obj in mTempCallbacks.Values)
+            for (int i = 0; i < mToAddCallbacksBuffer.Count; i++)
             {
-                Callback<T1, T2, T3, T4, T5, T6> cb = obj as Callback<T1, T2, T3, T4, T5, T6>;
-                if (cb != null)
+                GameEventData evt = mToAddCallbacksBuffer[i];
+
+                int listenerId = evt.listenerId;
+                Callback<T1, T2, T3, T4, T5, T6> cb = evt.callback as Callback<T1, T2, T3, T4, T5, T6>;
+
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
                 {
                     cb(arg1, arg2, arg3, arg4, arg5, arg6);
                 }
@@ -204,15 +247,7 @@ namespace GameEngine
         /// <param name="listenerUniqueKey"></param>
         public void RemoveListener(int listenerUniqueKey)
         {
-            if(mCallbacks.ContainsKey(listenerUniqueKey))
-            {
-                mCallbacks.Remove(listenerUniqueKey);
-            }
-
-            if(mTempCallbacks.ContainsKey(listenerUniqueKey))
-            {
-                mTempCallbacks.Remove(listenerUniqueKey);
-            }
+            mToRemoveCallbacksBuffer.Add(listenerUniqueKey);
         }
 
 
@@ -222,10 +257,12 @@ namespace GameEngine
         public void Dispose()
         {
             mCallbacks.Clear();
-            mTempCallbacks.Clear();
+            mToAddCallbacksBuffer.Clear();
+            mToRemoveCallbacksBuffer.Clear();
 
             mCallbacks = null;
-            mTempCallbacks = null;
+            mToAddCallbacksBuffer = null;
+            mToRemoveCallbacksBuffer = null;
         }
 
 
@@ -234,10 +271,31 @@ namespace GameEngine
         /// </summary>
         public void OnLateUpdate(float deltaTime)
         {
-            foreach (KeyValuePair<int, Delegate> kv in mTempCallbacks)
+
+            for(int i = mToAddCallbacksBuffer.Count-1; i>= 0; i--)
             {
-                int listenerUniqueKey = kv.Key;
-                Delegate callback = kv.Value;
+                GameEventData data = mToAddCallbacksBuffer[i];
+                if(mToRemoveCallbacksBuffer.Contains(data.listenerId))
+                {
+                    mToAddCallbacksBuffer.RemoveAt(i);
+                }
+            }
+
+
+            foreach(int listenerUniqueKey in mToRemoveCallbacksBuffer)
+            {
+
+                if (mCallbacks.ContainsKey(listenerUniqueKey))
+                {
+                    mCallbacks.Remove(listenerUniqueKey);
+                }
+            }
+
+
+            foreach (GameEventData evt in mToAddCallbacksBuffer)
+            {
+                int listenerUniqueKey = evt.listenerId;
+                Delegate callback = evt.callback;
 
                 if (mCallbacks.ContainsKey(listenerUniqueKey))
                 {
@@ -248,7 +306,7 @@ namespace GameEngine
                 mCallbacks.Add(listenerUniqueKey, callback);
             }
 
-            mTempCallbacks.Clear();
+            mToAddCallbacksBuffer.Clear();
         }
     }
 }

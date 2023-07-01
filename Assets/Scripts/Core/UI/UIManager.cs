@@ -74,6 +74,17 @@ namespace GameEngine
             return null;
         }
 
+        public T GetPanel<T>() where T:UIPanel
+        {
+            System.Type t = typeof(T);
+            if(mAllOpenPanels.TryGetValue(t, out UIPanel panel))
+            {
+                return panel as T;
+            }
+
+            return null;
+    }
+
         public override void Initialize()
         {
             mLoadingPanels = new MyQueue<UILoadingPanel>();
@@ -619,5 +630,7 @@ namespace GameEngine
             mUIObjectPool = null;
             mUIPoolNode = null;
         }
+
+
     }
 }

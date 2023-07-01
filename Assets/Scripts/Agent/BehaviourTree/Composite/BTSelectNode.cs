@@ -25,6 +25,6 @@ public class BTSelectNode : BTCompositeNode
                 return BTDefine.BT_ExcuteResult_Running;
         }
 
-        return InvalidExcuteResult();
+        return BTDefine.BT_ExcuteResult_Failed;
     }
 }

@@ -51,6 +51,34 @@ public abstract class BTCompositeNode : BTNode
         }
     }
 
+    public void UnpackChildNode(BTNode node)
+    {
+        if (node == null)
+        {
+            Log.Error(LogLevel.Normal, "[0] UnpackChildNode Failed, target node is null", NodeName);
+            return;
+        }
+
+        if (!mChildNodes.Contains(node))
+        {
+            Log.Error(LogLevel.Normal, "[0] UnpackChildNode Failed, target node doesn't in child nodes, node name:{1}", NodeName, node.NodeName);
+            return;
+        }
+
+        mChildNodes.Remove(node);
+    }
+
+    public override void UnpackChilds()
+    {
+        foreach(BTNode node in mChildNodes)
+        {
+            node.UnpackChilds();
+        }
+
+        mChildNodes.Clear();
+    }
+
+
     public void RemoveChildNode(BTNode node)
     {
         if (node == null)
@@ -68,6 +96,8 @@ public abstract class BTCompositeNode : BTNode
         node.Dispose();
         mChildNodes.Remove(node);
     }
+
+
 
     private int GetNodeIndexInChilds(BTNode node)
     {

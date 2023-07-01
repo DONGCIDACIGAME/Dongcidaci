@@ -1,4 +1,4 @@
-public class ControlResetNodePropertyPage : ControlAINodePropertyPage
+public class ControlResetNodePropertyPage : ControlDecorNodePropertyPage
 {
 
 }

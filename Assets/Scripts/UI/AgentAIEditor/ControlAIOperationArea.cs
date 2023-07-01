@@ -17,7 +17,8 @@ public  class ControlAIOperationArea : UIControl
     {
         base.BindEvents();
         mEventListener.Listen<ControlAINode>("OnClickAddChildNode", OnClickAddChildNode);
-        mEventListener.Listen<ControlAINode>("ClickAINode", OnNodeClick);
+        mEventListener.Listen<ControlAINode>("ClickAINodeCtl", OnNodeCtlClick);
+        mEventListener.Listen<BTNode>("SelectNode", OnNodeSelect);
         mEventListener.Listen<BTNode>("DeleteAINode", OnDeleteNode);
     }
 
@@ -35,18 +36,27 @@ public  class ControlAIOperationArea : UIControl
         }
     }
 
-    private void OnNodeClick(ControlAINode nodeCtl)
+    private void OnNodeCtlClick(ControlAINode nodeCtl)
     {
         if (nodeCtl == null)
             return;
 
-        if(mCurOperationPage != null)
+        BTNode node = nodeCtl.GetBTNode();
+
+        OnNodeSelect(node);
+    }
+
+    private void OnNodeSelect(BTNode node)
+    {
+        if (node == null)
+            return;
+
+        if (mCurOperationPage != null)
         {
             UIManager.Ins.RemoveControl(mCurOperationPage);
             mCurOperationPage = null;
         }
 
-        BTNode node = nodeCtl.GetBTNode();
         ShowNodePropertyPage(node);
     }
 
