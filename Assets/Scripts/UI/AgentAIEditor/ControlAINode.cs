@@ -46,6 +46,15 @@ public class ControlAINode : UIControl
 
         mEventListener.Listen<BTNode>("SelectNode", OnOperationSelectNode);
         mEventListener.Listen<BTNode>("UpdateNodeDisplayName", OnUpdateNodeDisplayName);
+        mEventListener.Listen<BTNode, BTNode>("UpdateNode", OnUpdateNode);
+    }
+
+    private void OnUpdateNode(BTNode oldNode, BTNode newNode)
+    {
+        if(mNode.Equals(oldNode))
+        {
+            mNode = newNode;
+        }
     }
 
     private void OnUpdateNodeDisplayName(BTNode node)

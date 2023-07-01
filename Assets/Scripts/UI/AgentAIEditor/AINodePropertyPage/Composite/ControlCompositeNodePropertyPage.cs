@@ -88,10 +88,11 @@ public class ControlCompositeNodePropertyPage : ControlAINodePropertyPage
             newNode.AddChildNode(child);
         }
 
+        mNode = newNode;
+        GameEventSystem.Ins.Post("UpdateNode", oldNode, newNode);
+
 
         oldNode.Dispose();
-        mNode = newNode;
-        GameEventSystem.Ins.Post("ClickAINode", mNode);
         GameEventSystem.Ins.Post("SelectNode", mNode);
     }
 

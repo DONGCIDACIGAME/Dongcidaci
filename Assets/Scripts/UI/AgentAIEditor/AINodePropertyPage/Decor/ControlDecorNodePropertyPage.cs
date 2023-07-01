@@ -98,8 +98,11 @@ public class ControlDecorNodePropertyPage : ControlAINodePropertyPage
         }
 
 
-        oldNode.Dispose();
         mNode = newNode;
+        GameEventSystem.Ins.Post("UpdateNode", oldNode, newNode);
+
+
+        oldNode.Dispose();
         GameEventSystem.Ins.Post("SelectNode", mNode);
     }
 
