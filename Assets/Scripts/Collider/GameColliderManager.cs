@@ -244,7 +244,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
 
     /// <summary>
     /// 检测某个形状是否会产生碰撞;
-    /// 返回碰撞的对象和它的分离向量
+    /// 返回碰撞的对象和它的分离向量无序
     /// </summary>
     /// <param name="shape"></param>
     /// <param name="tgtsWithLeaveV2Dict"></param>
@@ -290,6 +290,84 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
         return false;
 
     }
+
+
+    /// <summary>
+    /// 检测某个形状是否会产生碰撞;
+    /// 返回碰撞的对象按照距离 shape 的 anchor pos 进行排序
+    /// </summary>
+    /// <param name="shape"></param>
+    /// <param name="detectedColliders"></param>
+    /// <param name="exceptCollider"></param>
+    /// <returns></returns>
+    public bool CheckCollideHappenWithShape(IConvex2DShape shape, out List<ConvexCollider2D> detectedColliders, ConvexCollider2D exceptCollider)
+    {
+        var tempIndexs = GetMaxEnvelopeOccupyGridIndexs(shape);
+        detectedColliders = new List<ConvexCollider2D>();
+        if (tempIndexs != null)
+        {
+            foreach (var mapIndex in tempIndexs)
+            {
+                if (_gridIndexToCollidersDict.ContainsKey(mapIndex) == false)
+                {
+                    continue;
+                }
+
+                var collidersInThisGrid = _gridIndexToCollidersDict[mapIndex];
+                if (collidersInThisGrid == null) continue;
+
+                foreach (ConvexCollider2D tgtCollider in collidersInThisGrid)
+                {
+                    if (exceptCollider != null)
+                    {
+                        if (tgtCollider.GetColliderUID() == exceptCollider.GetColliderUID()) continue;
+                    }
+
+                    if (GameColliderHelper.CheckCollideSAT(shape, tgtCollider.Convex2DShape))
+                    {
+                        if (detectedColliders.Contains(tgtCollider) == false)
+                        {
+                            if (detectedColliders.Count == 0)
+                            {
+                                detectedColliders.Add(tgtCollider);
+                            }
+                            else if(detectedColliders.Count>0)
+                            {
+                                int insertIndex = -1;
+                                for (int i=0;i< detectedColliders.Count;i++)
+                                {
+                                    var crtDis = (detectedColliders[i].Convex2DShape.AnchorPos - shape.AnchorPos).magnitude;
+                                    var tgtDis = (tgtCollider.Convex2DShape.AnchorPos - shape.AnchorPos).magnitude;
+                                    if(tgtDis<= crtDis)
+                                    {
+                                        insertIndex = i;
+                                        break;
+                                    }
+                                }
+                                if (insertIndex>=0)
+                                {
+                                    detectedColliders.Insert(insertIndex, tgtCollider);
+                                }else if (insertIndex == -1)
+                                {
+                                    detectedColliders.Add(tgtCollider);
+                                }
+                                
+                            }
+                            
+                        }
+
+                    }
+
+                }
+            }
+        }
+
+        if (detectedColliders.Count > 0) return true;
+        return false;
+
+    }
+
+
 
     /// <summary>
     /// 判断某个碰撞体是否会产生碰撞，并处理碰撞
