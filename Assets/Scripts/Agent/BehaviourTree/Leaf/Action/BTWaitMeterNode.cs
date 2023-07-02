@@ -64,12 +64,12 @@ public class BTWaitMeterNode : BTLeafNode
             else
             {
                 mWaitingMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, 1);
-                return BTDefine.BT_ExcuteResult_Running;
             }
         }
 
         if (mWaitingMeter > 0 && MeterManager.Ins.MeterIndex < mWaitingMeter)
         {
+            PrintLog(string.Format("waiting start meter...curMeterIndex:{0}, startMoveMeterIndex:{1}", MeterManager.Ins.MeterIndex, mWaitingMeter));
             return BTDefine.BT_ExcuteResult_Running;
         }
 
@@ -77,8 +77,12 @@ public class BTWaitMeterNode : BTLeafNode
         mHasWaitMeterNum = MeterManager.Ins.GetMeterOffset(mStartMeter, MeterManager.Ins.MeterIndex);
 
         if (mHasWaitMeterNum < mTotalWaitMeterNum)
+        {
+            PrintLog(string.Format("waiting! has wait meter:{0}, total wait meter:{1}", mHasWaitMeterNum, mTotalWaitMeterNum));
             return BTDefine.BT_ExcuteResult_Running;
+        }
 
+        PrintLog("wait end, ret:succeed~");
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

@@ -13,18 +13,34 @@ public class BTSelectNode : BTCompositeNode
         if (mChildNodes == null || mChildNodes.Count == 0)
             return BTDefine.BT_ExcuteResult_Failed;
 
+        int ret = BTDefine.BT_ExcuteResult_Failed;
         for (int i = 0;i<mChildNodes.Count; i++)
         {
             BTNode node = mChildNodes[i];
             int result = node.Excute(deltaTime);
 
             if (result == BTDefine.BT_ExcuteResult_Succeed)
-                return BTDefine.BT_ExcuteResult_Succeed;
+            {
+                ret = BTDefine.BT_ExcuteResult_Succeed;
+                break;
+            }
 
             if (result == BTDefine.BT_ExcuteResult_Running)
-                return BTDefine.BT_ExcuteResult_Running;
+            {
+                ret = BTDefine.BT_ExcuteResult_Running;
+                break;
+            }
         }
 
-        return BTDefine.BT_ExcuteResult_Failed;
+        if(ret == BTDefine.BT_ExcuteResult_Succeed)
+        {
+            for (int i = 0; i < mChildNodes.Count; i++)
+            {
+                BTNode node = mChildNodes[i];
+                node.Reset();
+            }
+        }
+
+        return ret;
     }
 }

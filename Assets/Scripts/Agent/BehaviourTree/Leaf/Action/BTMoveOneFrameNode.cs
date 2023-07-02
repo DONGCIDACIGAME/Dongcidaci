@@ -13,7 +13,8 @@ public class BTMoveOneFrameNode : BTMoveNode
             return BTDefine.BT_ExcuteResult_Failed;
         }
 
-        Move();
+        MoveAndStop();
+        PrintLog("move one frame...");
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 
@@ -31,6 +32,6 @@ public class BTMoveOneFrameNode : BTMoveNode
 
     protected override void CustomDispose()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

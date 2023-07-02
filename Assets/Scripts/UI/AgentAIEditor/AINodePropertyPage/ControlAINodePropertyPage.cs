@@ -107,48 +107,24 @@ public abstract class ControlAINodePropertyPage : UIControl
 
             BTNode parent = node.GetParentNode();
             // 删除原来的父节点对这个节点的引用
-            if (parent is BTTree)
+            if(parent != null)
             {
-                (parent as BTTree).UnpackChildNode();
-            }
-            else if (parent is BTCompositeNode)
-            {
-                (parent as BTCompositeNode).UnpackChildNode(node);
-            }
-            else if (parent is BTDecorNode)
-            {
-                (parent as BTDecorNode).UnpackChildNode();
+                parent.UnpackChildNode(node);
             }
 
             // 将节点设置为当前节点的子节点
-            if (mNode is BTTree)
+            if(mNode != null)
             {
-                (mNode as BTTree).SetChildNode(node);
-            }
-            else if (mNode is BTCompositeNode)
-            {
-                (mNode as BTCompositeNode).AddChildNode(node);
-            }
-            else if (parent is BTDecorNode)
-            {
-                (mNode as BTDecorNode).SetChildNode(node);
+                mNode.AddChildNode(node);
             }
         }
         else if(cacheType == AIEditorCacheType.Copy)
         {
             BTNode copy = node.Copy();
             // 将节点设置为当前节点的子节点
-            if (mNode is BTTree)
+            if (mNode != null)
             {
-                (mNode as BTTree).SetChildNode(copy);
-            }
-            else if (mNode is BTCompositeNode)
-            {
-                (mNode as BTCompositeNode).AddChildNode(copy);
-            }
-            else if (mNode is BTDecorNode)
-            {
-                (mNode as BTDecorNode).SetChildNode(copy);
+                mNode.AddChildNode(copy);
             }
         }
 
@@ -159,24 +135,13 @@ public abstract class ControlAINodePropertyPage : UIControl
     private void OnDeleteClick()
     {
         BTNode parent = mNode.GetParentNode();
-        if (parent is BTTree)
+        if(parent != null)
         {
-            BTTree tree = parent as BTTree;
-            tree.RemoveChildNode();
-        }
-        else if(parent is BTDecorNode)
-        {
-            BTDecorNode decor = parent as BTDecorNode;
-            decor.RemoveChildNode();
-        }
-        else if(parent is BTCompositeNode)
-        {
-            BTCompositeNode composite = parent as BTCompositeNode;
-            composite.RemoveChildNode(mNode);
+            parent.RemoveChildNode(mNode);
         }
 
         GameEventSystem.Ins.Fire("UpdateAILogicArea");
-        GameEventSystem.Ins.Post("DeleteAINode", mNode);
+        GameEventSystem.Ins.Post("ClearOperationArea");
     }
 
     private void OnMoveForwardClick()

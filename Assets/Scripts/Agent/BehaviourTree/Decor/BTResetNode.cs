@@ -11,10 +11,12 @@ public class BTResetNode : BTDecorNode
 
     public override int Excute(float deltaTime)
     {
-        if (mChildNode == null)
+        BTNode childNode = GetChildNode();
+
+        if (childNode == null)
             return BTDefine.BT_ExcuteResult_Failed;
         
-        int ret = mChildNode.Excute(deltaTime);
+        int ret = childNode.Excute(deltaTime);
         if (ret == BTDefine.BT_ExcuteResult_Failed)
             return BTDefine.BT_ExcuteResult_Failed;
 
@@ -23,7 +25,7 @@ public class BTResetNode : BTDecorNode
 
         if(ret == BTDefine.BT_ExcuteResult_Succeed)
         {
-            mChildNode.Reset();
+            childNode.Reset();
             return BTDefine.BT_ExcuteResult_Succeed;
         }
 

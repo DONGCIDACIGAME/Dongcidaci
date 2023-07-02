@@ -52,14 +52,14 @@ public class BTWaitTimeNode : BTLeafNode
     {
         mHasWaitTime += deltaTime;
 
-        if(mHasWaitTime >= mTotalWaitTime)
+        if(mHasWaitTime < mTotalWaitTime)
         {
-            return BTDefine.BT_ExcuteResult_Succeed;
-        }
-        else
-        {
+            PrintLog(string.Format("waiting! has wait time:{0}, total wait time:{1}", mHasWaitTime, mTotalWaitTime));
             return BTDefine.BT_ExcuteResult_Running;
         }
+
+        PrintLog("wait end, ret:succeed~");
+        return BTDefine.BT_ExcuteResult_Succeed;
     }
 
 

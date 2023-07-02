@@ -9,10 +9,11 @@ public class BTUntilTrueNode : BTDecorNode
     }
     public override int Excute(float deltaTime)
     {
-        if (mChildNode == null)
+        BTNode childNode = GetChildNode();
+        if (childNode == null)
             return BTDefine.BT_ExcuteResult_Failed;
 
-        int ret = mChildNode.Excute(deltaTime);
+        int ret = childNode.Excute(deltaTime);
         if (ret == BTDefine.BT_ExcuteResult_Failed)
             return BTDefine.BT_ExcuteResult_Running;
 
@@ -20,7 +21,10 @@ public class BTUntilTrueNode : BTDecorNode
             return BTDefine.BT_ExcuteResult_Running;
 
         if (ret == BTDefine.BT_ExcuteResult_Succeed)
+        {
+            childNode.Reset();
             return BTDefine.BT_ExcuteResult_Succeed;
+        }
 
         return InvalidExcuteResult();
     }

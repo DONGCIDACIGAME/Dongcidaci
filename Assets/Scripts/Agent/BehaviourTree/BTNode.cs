@@ -14,6 +14,16 @@ public abstract class BTNode : IGameDisposable
     protected Agent mExcutor;
 
     /// <summary>
+    /// 子节点
+    /// </summary>
+    protected List<BTNode> mChildNodes;
+
+    /// <summary>
+    /// 是否开启日志
+    /// </summary>
+    protected bool mLogEnable;
+
+    /// <summary>
     /// 上下文对象
     /// </summary>
     protected Dictionary<string, object> mContext;
@@ -28,10 +38,127 @@ public abstract class BTNode : IGameDisposable
     /// </summary>
     public string NodeDesc;
 
+
+    public BTNode()
+    {
+        mChildNodes = new List<BTNode>();
+    }
+
+
+    public void SetLogEnable(bool enable)
+    {
+        mLogEnable = enable;
+        foreach(BTNode node in mChildNodes)
+        {
+            if(node != null)
+            {
+                node.SetLogEnable(enable);
+            }
+        }
+    }
+
+    protected void PrintLog(string additionalInfo)
+    {
+        if (mLogEnable)
+        {
+            string print = string.Format("<color=grey>Excute Node [{0}]-[{1}]---AdditionalInfo:{2}</color>",NodeName, BehaviourTreeHelper.GetNodeDetailTypeName(GetNodeDetailType()) , additionalInfo);
+            Log.Logic(LogLevel.Info, print);
+        }
+    }
+
+    public void UnpackChildNode(BTNode node)
+    {
+        if (node == null)
+        {
+            Log.Error(LogLevel.Normal, "[0] UnpackChildNode Failed, target node is null", NodeName);
+            return;
+        }
+
+        if (!mChildNodes.Contains(node))
+        {
+            Log.Error(LogLevel.Normal, "[0] UnpackChildNode Failed, target node doesn't in child nodes, node name:{1}", NodeName, node.NodeName);
+            return;
+        }
+
+        mChildNodes.Remove(node);
+    }
+
+    public void UnpackAllChilds()
+    {
+        foreach (BTNode node in mChildNodes)
+        {
+            node.UnpackAllChilds();
+        }
+
+        mChildNodes.Clear();
+    }
+
+    /// <summary>
+    /// 添加子节点
+    /// 已经根据子节点的数量做了相应处理
+    /// </summary>
+    /// <param name="node"></param>
+    public void AddChildNode(BTNode node)
+    {
+        BT_CHILD_NODE_NUM childNodeNum = GetChildNodeNum();
+        if (childNodeNum == BT_CHILD_NODE_NUM.Zero)
+            return;
+
+        if (node == null)
+        {
+            Log.Error(LogLevel.Normal, "[0] AddChildNode Failed, child node is null", NodeName);
+            return;
+        }
+
+        if(childNodeNum == BT_CHILD_NODE_NUM.One)
+        {
+            mChildNodes.Clear();
+        }
+
+        mChildNodes.Add(node);
+        node.SetParentNode(this);
+    }
+
+    public void RemoveChildNode(BTNode node)
+    {
+        UnpackChildNode(node);
+
+        if (node != null)
+        {
+            node.Dispose();
+        }
+    }
+
+    public int GetNodeIndexInChilds(BTNode node)
+    {
+        if (node == null)
+        {
+            Log.Error(LogLevel.Normal, "[0] GetNodeIndexInChilds Failed, target node is null");
+            return -1;
+        }
+
+        int index = -1;
+        for (int i = 0; i < mChildNodes.Count; i++)
+        {
+            if (mChildNodes[i].Equals(node))
+            {
+                index = i;
+            }
+        }
+
+        return index;
+    }
+
+
     public virtual void Initialize(Agent excutor, Dictionary<string, object> context)
     {
         mExcutor = excutor;
         mContext = context;
+
+        foreach(BTNode childNode in mChildNodes)
+        {
+            childNode.Initialize(excutor, context);
+        }
     }
 
     public void SetParentNode(BTNode node)
@@ -46,7 +173,7 @@ public abstract class BTNode : IGameDisposable
 
     public abstract int GetNodeType();
     public abstract int GetNodeDetailType();
-    public abstract BT_CHILD_NODE_NUM GetChildeNodeNum();
+    public abstract BT_CHILD_NODE_NUM GetChildNodeNum();
     public abstract int GetNodeArgNum();
     protected abstract BTNodeArg[] GetNodeArgs();
     protected abstract int ParseNodeArgs(BTNodeArg[] args);
@@ -54,15 +181,42 @@ public abstract class BTNode : IGameDisposable
     protected abstract BTNodeData[] GetChildNodesData();
     public abstract int Excute(float deltaTime);
 
+
     /// <summary>
     /// Reset用于行为树执行一轮后开始新的循环时，将节点状态重置（树的参数不重置）
     /// </summary>
-    public abstract void Reset();
+    public virtual void Reset()
+    {
+        if (mChildNodes == null || mChildNodes.Count == 0)
+            return;
+
+        for (int i = 0; i < mChildNodes.Count; i++)
+        {
+            BTNode node = mChildNodes[i];
+            if (node != null)
+                node.Reset();
+        }
+    }
 
     /// <summary>
     /// Dipsose用于将行为树节点的数据全部抹除，变为未初始化的状态
     /// </summary>
-    protected abstract void CustomDispose();
+    protected virtual void CustomDispose()
+    {
+        if (mChildNodes == null || mChildNodes.Count == 0)
+            return;
+
+        for (int i = 0; i < mChildNodes.Count; i++)
+        {
+            BTNode node = mChildNodes[i];
+            if(node != null)
+                node.Dispose();
+        }
+
+        mChildNodes.Clear();
+    }
+
+
 
     private bool CheckArgNum(BTNodeArg[] args)
     {
@@ -81,7 +235,7 @@ public abstract class BTNode : IGameDisposable
 
     private bool CheckChildNodeNum(BTNodeData[] childNodes)
     {
-        BT_CHILD_NODE_NUM childNum = GetChildeNodeNum();
+        BT_CHILD_NODE_NUM childNum = GetChildNodeNum();
         if(childNodes == null)
         {
             if (childNum == 0)
@@ -143,7 +297,7 @@ public abstract class BTNode : IGameDisposable
 
         if (!CheckChildNodeNum(data.ChildNodes))
         {
-            Log.Error(LogLevel.Normal, "[{0}] LoadFromBTNodeData Failed, right child num:{1}!", data.nodeName, GetChildeNodeNum());
+            Log.Error(LogLevel.Normal, "[{0}] LoadFromBTNodeData Failed, right child num:{1}!", data.nodeName, GetChildNodeNum());
             return BTDefine.BT_LoadNodeResult_Failed_InvalidChildNum;
         }
 
@@ -185,7 +339,41 @@ public abstract class BTNode : IGameDisposable
         return BTDefine.BT_ExcuteResult_Failed;
     }
 
-    public abstract void UnpackChilds();
+    public void MoveNodeForward(BTNode node)
+    {
+        int index = GetNodeIndexInChilds(node);
+        if (index < 0)
+        {
+            Log.Error(LogLevel.Normal, "[0] MoveNodeForward Failed, target node doesn't in child nodes, node name:{1}", NodeName, node.NodeName);
+            return;
+        }
+
+        // 已经是第一个
+        if (index == 0)
+            return;
+
+        BTNode temp = mChildNodes[index - 1];
+        mChildNodes[index - 1] = node;
+        mChildNodes[index] = temp;
+    }
+
+    public void MoveNodeBackward(BTNode node)
+    {
+        int index = GetNodeIndexInChilds(node);
+        if (index < 0)
+        {
+            Log.Error(LogLevel.Normal, "[0] MoveNodeAfterward Failed, target node doesn't in child nodes, node name:{1}", NodeName, node.NodeName);
+            return;
+        }
+
+        // 已经是最后一个
+        if (index == mChildNodes.Count - 1)
+            return;
+
+        BTNode temp = mChildNodes[index + 1];
+        mChildNodes[index + 1] = node;
+        mChildNodes[index] = temp;
+    }
 
     public BTNode Copy()
     {
@@ -200,7 +388,8 @@ public abstract class BTNode : IGameDisposable
         mContext = null;
         mExcutor = null;
         mParentNode = null;
-        UnpackChilds();
+        mLogEnable = false;
+        UnpackAllChilds();
         CustomDispose();
     }
 }

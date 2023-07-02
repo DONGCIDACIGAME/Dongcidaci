@@ -5,7 +5,7 @@ public class BTTreeEntry : BTTree
         return 0;
     }
 
-    public override BT_CHILD_NODE_NUM GetChildeNodeNum()
+    public override BT_CHILD_NODE_NUM GetChildNodeNum()
     {
         return BT_CHILD_NODE_NUM.One;
     }
@@ -22,7 +22,14 @@ public class BTTreeEntry : BTTree
 
     protected override BTNodeData[] GetChildNodesData()
     {
-        BTNodeData childNodeData = mChildNode.ToBTNodeData();
+        BTNode childNode = GetChildNode();
+        if (childNode == null)
+        {
+            Log.Error(LogLevel.Normal, "[{0}] GetChildNodesData Error, child node is null!", NodeName);
+            return null;
+        }
+
+        BTNodeData childNodeData = childNode.ToBTNodeData();
         return new BTNodeData[] { childNodeData };
     }
 

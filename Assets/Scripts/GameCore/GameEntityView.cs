@@ -25,6 +25,16 @@ public abstract class GameEntityView : MonoBehaviour
         this.transform.localScale = scale;
     }
 
+    public virtual void OnUpdate(float deltaTime)
+    {
+
+    }
+
+    public virtual void OnLateUpdate(float deltaTime)
+    {
+
+    }
+
     public virtual void Dispose()
     {
         

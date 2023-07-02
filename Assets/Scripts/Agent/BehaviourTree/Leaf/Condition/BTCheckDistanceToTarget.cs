@@ -110,9 +110,12 @@ public class BTCheckDistanceToTarget : BTLeafNode
 
         if(!ret)
         {
+            PrintLog(string.Format("Check failed! now dis:{0}, target dis:{1}", distance, mCheckDistance));
             return BTDefine.BT_ExcuteResult_Failed;
         }
 
+
+        PrintLog(string.Format("Check distance succeed~ now dis:{0}, target dis:{1}",distance, mCheckDistance));
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

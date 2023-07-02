@@ -7,7 +7,6 @@ using System.Collections.Generic;
 /// </summary>
 public abstract class BTDecorNode : BTNode
 {
-    protected BTNode mChildNode;
 
     public void SetChildNode(BTNode childNode)
     {
@@ -17,44 +16,47 @@ public abstract class BTDecorNode : BTNode
             return;
         }
 
-        mChildNode = childNode;
-        childNode.SetParentNode(this);
-    }
-
-    public override void Initialize(Agent excutor, Dictionary<string, object> context)
-    {
-        base.Initialize(excutor, context);
-
-        if (mChildNode != null)
-            mChildNode.Initialize(excutor, context);
+        AddChildNode(childNode);
     }
 
     public BTNode GetChildNode()
     {
-        return mChildNode;
+        if (mChildNodes.Count == 0)
+            return null;
+
+        return mChildNodes[0];
     }
 
-    public void UnpackChildNode()
-    {
-        mChildNode = null;
-    }
+    //public void UnpackChildNode(BTNode node)
+    //{
+    //    if(mChildNodes.Contains(node))
+    //    {
+    //        mChildNodes.Remove(node);
+    //    }
+    //}
 
-    public override void UnpackChilds()
-    {
-        // 子节点
-        if (mChildNode != null)
-            mChildNode.UnpackChilds();
+    //public override void UnpackAllChilds()
+    //{
+    //    BTNode childNode = GetChildNode();
+    //    if (childNode != null)
+    //        childNode.UnpackChilds();
 
-        RemoveChildNode();
-    }
+    //    mChildNodes.Clear();
+    //}
 
-    public void RemoveChildNode()
-    {
-        if(mChildNode != null)
-            mChildNode.Dispose();
+    ///// <summary>
+    ///// 删除子节点
+    ///// 使用该方法会递归释放所有子节点
+    ///// </summary>
+    //public override void RemoveChildNode(BTNode node)
+    //{
+    //    UnpackChildNode(node);
 
-        mChildNode = null;
-    }
+    //    if(node != null)
+    //    {
+    //        node.Dispose();
+    //    }
+    //}
 
     public override int GetNodeArgNum()
     {
@@ -66,7 +68,7 @@ public abstract class BTDecorNode : BTNode
         return BTDefine.BT_Node_Type_Decor;
     }
 
-    public override BT_CHILD_NODE_NUM GetChildeNodeNum()
+    public override BT_CHILD_NODE_NUM GetChildNodeNum()
     {
         return BT_CHILD_NODE_NUM.One;
     }
@@ -98,7 +100,8 @@ public abstract class BTDecorNode : BTNode
 
     public override bool BTNodeDataCheck(ref string info)
     {
-        if (mChildNode == null)
+        BTNode childNode = GetChildNode();
+        if (childNode == null)
         {
             info = "装饰节点必须有子节点!";
             return false;
@@ -109,25 +112,14 @@ public abstract class BTDecorNode : BTNode
 
     protected override BTNodeData[] GetChildNodesData()
     {
-        BTNodeData childNodeData = mChildNode.ToBTNodeData();
+        BTNode childNode = GetChildNode();
+        if (childNode == null)
+        {
+            Log.Error(LogLevel.Normal, "[{0}] GetChildNodesData Error, child node is null!", NodeName);
+            return null;
+        }
+
+        BTNodeData childNodeData = childNode.ToBTNodeData();
         return new BTNodeData[] { childNodeData };
-    }
-
-    public override void Reset()
-    {
-        if (mChildNode == null)
-            return;
-
-        mChildNode.Reset();
-    }
-
-
-    protected override void CustomDispose()
-    {
-        if (mChildNode == null)
-            return;
-
-        mChildNode.Dispose();
-        mChildNode = null;
     }
 }

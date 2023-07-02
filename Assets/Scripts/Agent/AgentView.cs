@@ -1,4 +1,4 @@
-public class AgentView : MapEntityViewWithCollider
+public abstract class AgentView : MapEntityViewWithCollider
 {
     /// <summary>
     /// 角色的视野范围配置 added by weng 0629
@@ -19,11 +19,19 @@ public class AgentView : MapEntityViewWithCollider
         return shape;
     }
 
+
+    public virtual void OnMyUpdate(Agent agt,float deltaTime)
+    {
+    }
+
+    public virtual void OnMyLateUpdate(Agent agt, float deltaTime)
+    {
+
+    }
+
     public override void Dispose()
     {
         base.Dispose();
-
-
     }
 
 }

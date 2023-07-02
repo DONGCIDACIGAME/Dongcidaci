@@ -187,6 +187,9 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_CheckDistance)
                 return new BTCheckDistanceToTarget();
+
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_ClearTarget)
+                return new BTClearTargetNode();
         }
 
         Log.Error(LogLevel.Normal, "BTNodeFactory CreateBTNode Failed, nodeType:{0}, nodeDetailType:{1}, no matching class!", nodeType, nodeDetailType);

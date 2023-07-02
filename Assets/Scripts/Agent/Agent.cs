@@ -344,7 +344,14 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         StatusMachine.OnUpdate(deltaTime);
         EffectExcutorCtl.OnUpdate(deltaTime);
         MovementExcutorCtl.OnUpdate(deltaTime);
+        mAgentView.OnMyUpdate(this, deltaTime);
     }
+
+    public virtual void OnLateUpdate(float deltaTime)
+    {
+        mAgentView.OnMyLateUpdate(this, deltaTime);
+    }
+    
 
     public List<Agent> DetectAgentInVision()
     {

@@ -72,12 +72,12 @@ public class BTMoveMeterNode : BTMoveNode
             else
             {
                 mWaitingMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, 1);
-                return BTDefine.BT_ExcuteResult_Running;
             }
         }
 
         if(mWaitingMeter > 0 && MeterManager.Ins.MeterIndex < mWaitingMeter)
         {
+            PrintLog(string.Format("waiting start meter...curMeterIndex:{0}, startMoveMeterIndex:{1}", MeterManager.Ins.MeterIndex, mWaitingMeter));
             return BTDefine.BT_ExcuteResult_Running;
         }
 
@@ -87,10 +87,12 @@ public class BTMoveMeterNode : BTMoveNode
         if (mHasMoveMeter < mTotalMoveMeter)
         {
             Move();
+            PrintLog(string.Format("moving...hasMoveMeter:{0}, totalMeter:{1}", mHasMoveMeter, mTotalMoveMeter));
             return BTDefine.BT_ExcuteResult_Running;
         }
 
-        //StopMove();
+        StopMove();
+        PrintLog("move end! ret: succeed~");
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

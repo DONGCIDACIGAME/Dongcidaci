@@ -43,14 +43,14 @@ public class BTWaitFrameNode : BTLeafNode
     {
         mHasWaitFrame++;
 
-        if (mHasWaitFrame >= mTotalWaitFrame)
+        if (mHasWaitFrame < mTotalWaitFrame)
         {
-            return BTDefine.BT_ExcuteResult_Succeed;
-        }
-        else
-        {
+            PrintLog(string.Format("waiting! has wait frame:{0}, total wait frame:{1}", mHasWaitFrame, mTotalWaitFrame));
             return BTDefine.BT_ExcuteResult_Running;
         }
+
+        PrintLog("wait end, ret:succeed~");
+        return BTDefine.BT_ExcuteResult_Succeed;
     }
 
     public override void Reset()

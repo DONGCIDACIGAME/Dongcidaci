@@ -56,10 +56,12 @@ public class BTMoveTimeNode : BTMoveNode
         if(mHasMoveTime < mTotalMoveTime)
         {
             Move();
+            PrintLog(string.Format("moving...hasMoveTime:{0}, totalMoveTime:{1}", mHasMoveTime, mTotalMoveTime));
             return BTDefine.BT_ExcuteResult_Running;
         }
 
-        //StopMove();
+        StopMove();
+        PrintLog("move end! ret: succeed~");
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

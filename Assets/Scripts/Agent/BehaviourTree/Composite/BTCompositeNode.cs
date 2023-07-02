@@ -8,11 +8,6 @@ using System.Collections.Generic;
 /// </summary>
 public abstract class BTCompositeNode : BTNode
 {
-    /// <summary>
-    /// 所有子节点
-    /// </summary>
-    protected List<BTNode> mChildNodes;
-
     public BTCompositeNode()
     {
         mChildNodes = new List<BTNode>();
@@ -21,21 +16,6 @@ public abstract class BTCompositeNode : BTNode
     public List<BTNode> GetChildNodes()
     {
         return mChildNodes;
-    }
-
-    public void AddChildNode(BTNode node)
-    {
-        if(node == null)
-        {
-            Log.Error(LogLevel.Normal, "[0] AddChildNode Failed, child node is null", NodeName);
-            return;
-        }
-
-        if (mChildNodes.Contains(node))
-            return;
-
-        mChildNodes.Add(node);
-        node.SetParentNode(this);
     }
 
     public override void Initialize(Agent excutor, Dictionary<string, object> context)
@@ -49,110 +29,6 @@ public abstract class BTCompositeNode : BTNode
                 childNode.Initialize(excutor, context);
             }
         }
-    }
-
-    public void UnpackChildNode(BTNode node)
-    {
-        if (node == null)
-        {
-            Log.Error(LogLevel.Normal, "[0] UnpackChildNode Failed, target node is null", NodeName);
-            return;
-        }
-
-        if (!mChildNodes.Contains(node))
-        {
-            Log.Error(LogLevel.Normal, "[0] UnpackChildNode Failed, target node doesn't in child nodes, node name:{1}", NodeName, node.NodeName);
-            return;
-        }
-
-        mChildNodes.Remove(node);
-    }
-
-    public override void UnpackChilds()
-    {
-        foreach(BTNode node in mChildNodes)
-        {
-            node.UnpackChilds();
-        }
-
-        mChildNodes.Clear();
-    }
-
-
-    public void RemoveChildNode(BTNode node)
-    {
-        if (node == null)
-        {
-            Log.Error(LogLevel.Normal, "[0] RemoveChildNode Failed, target node is null", NodeName);
-            return;
-        }
-
-        if (!mChildNodes.Contains(node))
-        {
-            Log.Error(LogLevel.Normal, "[0] RemoveChildNode Failed, target node doesn't in child nodes, node name:{1}", NodeName, node.NodeName);
-            return;
-        }
-
-        node.Dispose();
-        mChildNodes.Remove(node);
-    }
-
-
-
-    private int GetNodeIndexInChilds(BTNode node)
-    {
-        if (node == null)
-        {
-            Log.Error(LogLevel.Normal, "[0] GetNodeIndexInChilds Failed, target node is null");
-            return -1;
-        }
-
-        int index = -1;
-        for (int i = 0; i < mChildNodes.Count; i++)
-        {
-            if (mChildNodes[i].Equals(node))
-            {
-                index = i;
-            }
-        }
-
-        return index;
-    }
-
-    public void MoveNodeForward(BTNode node)
-    {
-        int index = GetNodeIndexInChilds(node);
-        if(index < 0)
-        {
-            Log.Error(LogLevel.Normal, "[0] MoveNodeForward Failed, target node doesn't in child nodes, node name:{1}", NodeName, node.NodeName);
-            return;
-        }
-
-        // 已经是第一个
-        if (index == 0)
-            return;
-
-        BTNode temp = mChildNodes[index - 1];
-        mChildNodes[index - 1] = node;
-        mChildNodes[index] = temp;
-    }
-
-    public void MoveNodeBackward(BTNode node)
-    {
-        int index = GetNodeIndexInChilds(node);
-        if (index < 0)
-        {
-            Log.Error(LogLevel.Normal, "[0] MoveNodeAfterward Failed, target node doesn't in child nodes, node name:{1}", NodeName, node.NodeName);
-            return;
-        }
-
-        // 已经是最后一个
-        if (index == mChildNodes.Count -1)
-            return;
-
-        BTNode temp = mChildNodes[index + 1];
-        mChildNodes[index + 1] = node;
-        mChildNodes[index] = temp;
     }
 
     public override int GetNodeArgNum()
@@ -174,7 +50,7 @@ public abstract class BTCompositeNode : BTNode
         return BTDefine.BT_Node_Type_Composite;
     }
 
-    public override BT_CHILD_NODE_NUM GetChildeNodeNum()
+    public override BT_CHILD_NODE_NUM GetChildNodeNum()
     {
         return BT_CHILD_NODE_NUM.AtLeastOne;
     }
@@ -217,31 +93,5 @@ public abstract class BTCompositeNode : BTNode
             childNodes[i] = mChildNodes[i].ToBTNodeData();
         }
         return childNodes;
-    }
-
-    public override void Reset()
-    {
-        if (mChildNodes == null || mChildNodes.Count == 0)
-            return;
-
-        for (int i = 0; i < mChildNodes.Count; i++)
-        {
-            BTNode node = mChildNodes[i];
-            node.Reset();
-        }
-    }
-
-    protected override void CustomDispose()
-    {
-        if (mChildNodes == null || mChildNodes.Count == 0)
-            return;
-
-        for (int i = 0; i < mChildNodes.Count; i++)
-        {
-            BTNode node = mChildNodes[i];
-            node.Dispose();
-        }
-
-        mChildNodes.Clear();
     }
 }

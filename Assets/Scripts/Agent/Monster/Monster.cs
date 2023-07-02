@@ -14,7 +14,7 @@ public class Monster : Agent
     private MonsterView mMonsterView;
 
     // AI行为树
-    private BTTree mBehaviourTree;
+    public BTTree BehaviourTree;
 
     public Monster(uint agentId) : base(agentId)
     { 
@@ -26,9 +26,9 @@ public class Monster : Agent
     {
         base.Dispose();
 
-        if(mBehaviourTree != null)
+        if(BehaviourTree != null)
         {
-            mBehaviourTree.Dispose();
+            BehaviourTree.Dispose();
         }
 
         // 取消节拍处理
@@ -98,17 +98,18 @@ public class Monster : Agent
 
 
         // 加载行为树
-        mBehaviourTree = BehaviourTreeManager.Ins.LoadTreeWithTreeName(mMonsterCfg.BehaviourTree);
-        mBehaviourTree.Initialize(this, new System.Collections.Generic.Dictionary<string,object>());
+        BehaviourTree = BehaviourTreeManager.Ins.LoadTreeWithTreeName(mMonsterCfg.BehaviourTree);
+        //BehaviourTree = BehaviourTreeManager.Ins.LoadTreeWithTreeName("Bat2");
+        BehaviourTree.Initialize(this, new System.Collections.Generic.Dictionary<string,object>());
 
     }
 
     public override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);
-        if (mBehaviourTree != null)
+        if (BehaviourTree != null)
         {
-            mBehaviourTree.Excute(deltaTime);
+            BehaviourTree.Excute(deltaTime);
         }
     }
 

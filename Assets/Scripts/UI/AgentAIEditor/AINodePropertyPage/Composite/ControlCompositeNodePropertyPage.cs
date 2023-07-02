@@ -59,29 +59,17 @@ public class ControlCompositeNodePropertyPage : ControlAINodePropertyPage
         newNode.NodeName = oldNode.NodeName;
         newNode.NodeDesc = oldNode.NodeDesc;
 
+        // 父节点重新绑定
         BTNode parent = mNode.GetParentNode();
-        if (parent is BTTree)
+        if(parent != null)
         {
-            BTTree tree = parent as BTTree;
-            tree.UnpackChildNode();
-            tree.SetChildNode(newNode);
-        }
-        else if (parent is BTCompositeNode)
-        {
-            BTCompositeNode composite = parent as BTCompositeNode;
-            composite.UnpackChildNode(oldNode);
-            composite.AddChildNode(newNode);
-        }
-        else if (parent is BTDecorNode)
-        {
-            BTDecorNode decor = parent as BTDecorNode;
-            decor.UnpackChildNode();
-            decor.SetChildNode(newNode);
+            parent.UnpackChildNode(oldNode);
+            parent.AddChildNode(newNode);
         }
 
-
+        // 重新绑定子节点
         BTNode[] childs = oldNode.GetChildNodes().ToArray();
-        for(int i =0;i<childs.Length;i++)
+        for(int i = 0;i<childs.Length;i++)
         {
             BTNode child = childs[i];
             oldNode.UnpackChildNode(child);

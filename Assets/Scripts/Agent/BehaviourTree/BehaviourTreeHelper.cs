@@ -71,6 +71,8 @@ public static class BehaviourTreeHelper
                 return "检测到角色";
             case BTDefine.BT_Node_Type_Leaf_CheckDistance:
                 return "到目标距离";
+            case BTDefine.BT_Node_Type_Leaf_ClearTarget:
+                return "清除目标";
             default:
                 return "未知节点类型";
         }

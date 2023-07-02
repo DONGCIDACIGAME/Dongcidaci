@@ -77,6 +77,8 @@ public static class BTDefine
     public const int BT_Node_Type_Leaf_MoveToPosition                   = BT_Node_Type_Leaf * 100 + 8;
     public const int BT_Node_Type_Leaf_MoveDistance                     = BT_Node_Type_Leaf * 100 + 9;
     public const int BT_Node_Type_Leaf_MoveOneFrame                     = BT_Node_Type_Leaf * 100 + 10;
+    public const int BT_Node_Type_Leaf_ClearTarget                      = BT_Node_Type_Leaf * 100 + 11;
+
 
     public const int BT_Node_Type_Leaf_CheckDistance                    = BT_Node_Type_Leaf * 200 + 2;
 

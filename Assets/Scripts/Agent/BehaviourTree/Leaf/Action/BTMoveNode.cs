@@ -34,11 +34,21 @@ public abstract class BTMoveNode : BTLeafNode
         mExcutor.OnCommand(runCmd);
     }
 
-    //protected void StopMove()
-    //{
-    //    // 发送idle指令
-    //    AgentInputCommand idleCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-    //    idleCmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, DirectionDef.none);
-    //    mExcutor.OnCommand(idleCmd);
-    //}
+    protected void MoveAndStop()
+    {
+        // 发送移动指令
+        Move();
+
+        // 发送idle指令
+        StopMove();
+    }
+
+
+    protected void StopMove()
+    {
+        // 发送idle指令
+        AgentInputCommand idleCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
+        idleCmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, DirectionDef.none);
+        mExcutor.OnCommand(idleCmd);
+    }
 }

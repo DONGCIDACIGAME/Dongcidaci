@@ -83,4 +83,19 @@ public class AgentManager : ModuleManager<AgentManager>
             monster.OnUpdate(deltaTime);
         }
     }
+
+    public override void OnLateUpdate(float deltaTime)
+    {
+        base.OnLateUpdate(deltaTime);
+
+        if (mHero != null)
+        {
+            mHero.OnLateUpdate(deltaTime);
+        }
+
+        foreach (Monster monster in mMonsters)
+        {
+            monster.OnLateUpdate(deltaTime);
+        }
+    }
 }

@@ -25,6 +25,12 @@ public class BTSequenceNode : BTCompositeNode
                 return BTDefine.BT_ExcuteResult_Running;
         }
 
+        for (int i = 0; i < mChildNodes.Count; i++)
+        {
+            BTNode node = mChildNodes[i];
+            node.Reset();
+        }
+
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 }

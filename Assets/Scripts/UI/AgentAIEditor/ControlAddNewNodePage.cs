@@ -44,6 +44,7 @@ public class ControlAddNewNodePage : UIControl
     private Button Btn_MoveDistance;
     private Button Btn_DetectAgent;
     private Button Btn_MoveOneFrame;
+    private Button Btn_ClearTarget;
 
 
     /// <summary>
@@ -109,6 +110,8 @@ public class ControlAddNewNodePage : UIControl
         Btn_MoveDistance = BindButtonNode("Contain_ActionNodes/Button_MoveDistance", () => { AddChildNode(new BTMoveDistanceNode()); });
         Btn_DetectAgent = BindButtonNode("Contain_ActionNodes/Button_DetectAgent", () => { AddChildNode(new BTDetectAgentNode()); });
         Btn_MoveOneFrame = BindButtonNode("Contain_ActionNodes/Button_MoveOneFrame", () => { AddChildNode(new BTMoveOneFrameNode()); });
+        Btn_ClearTarget = BindButtonNode("Contain_ActionNodes/Button_ClearTarget", () => { AddChildNode(new BTClearTargetNode()); });
+
 
         Btn_CheckDistanceToTarget = BindButtonNode("Contain_ConditionNodes/Button_CheckDistanceToEntity", () => { AddChildNode(new BTCheckDistanceToTarget()); });
     }

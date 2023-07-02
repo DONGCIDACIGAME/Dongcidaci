@@ -64,39 +64,27 @@ public class ControlDecorNodePropertyPage : ControlAINodePropertyPage
         if (detailType == mNode.GetNodeDetailType())
             return;
 
-        BTDecorNode oldNode = mNode as BTDecorNode;
-        BTDecorNode newNode = BehaviourTreeManager.Ins.CreateBTNode(BTDefine.BT_Node_Type_Decor, detailType) as BTDecorNode;
+        BTCompositeNode oldNode = mNode as BTCompositeNode;
+        BTCompositeNode newNode = BehaviourTreeManager.Ins.CreateBTNode(BTDefine.BT_Node_Type_Composite, detailType) as BTCompositeNode;
         newNode.NodeName = oldNode.NodeName;
         newNode.NodeDesc = oldNode.NodeDesc;
 
+        // 父节点重新绑定
         BTNode parent = mNode.GetParentNode();
-        if (parent is BTTree)
+        if (parent != null)
         {
-            BTTree tree = parent as BTTree;
-            tree.UnpackChildNode();
-            tree.SetChildNode(newNode);
-        }
-        else if (parent is BTCompositeNode)
-        {
-            BTCompositeNode composite = parent as BTCompositeNode;
-            composite.UnpackChildNode(oldNode);
-            composite.AddChildNode(newNode);
-        }
-        else if (parent is BTDecorNode)
-        {
-            BTDecorNode decor = parent as BTDecorNode;
-            decor.UnpackChildNode();
-            decor.SetChildNode(newNode);
+            parent.UnpackChildNode(oldNode);
+            parent.AddChildNode(newNode);
         }
 
-
-        BTNode child = oldNode.GetChildNode();
-        if(child != null)
+        // 重新绑定子节点
+        BTNode[] childs = oldNode.GetChildNodes().ToArray();
+        for (int i = 0; i < childs.Length; i++)
         {
-            oldNode.UnpackChildNode();
-            newNode.SetChildNode(child);
+            BTNode child = childs[i];
+            oldNode.UnpackChildNode(child);
+            newNode.AddChildNode(child);
         }
-
 
         mNode = newNode;
         GameEventSystem.Ins.Post("UpdateNode", oldNode, newNode);

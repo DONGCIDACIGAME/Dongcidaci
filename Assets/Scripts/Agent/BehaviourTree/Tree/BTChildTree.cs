@@ -43,7 +43,8 @@ public class BTChildTree : BTTree
             return false;
         }
 
-        if(mChildNode is not BTTreeEntry)
+        BTNode childNode = GetChildNode();
+        if (childNode is not BTTreeEntry)
         {
             info = "子树节点的子节点必须是树的入口节点!";
             return false;
@@ -54,9 +55,16 @@ public class BTChildTree : BTTree
 
     protected override BTNodeData[] GetChildNodesData()
     {
+        BTNode childNode = GetChildNode();
+        if(childNode == null)
+        {
+            Log.Error(LogLevel.Normal, "[{0}] GetChildNodesData Error, child node is null!", NodeName);
+            return null;
+        }
+
         if(mCopyType == BTDefine.BT_ChildTreeCopyType_New)
         {
-            BTNodeData childNodeData = mChildNode.ToBTNodeData();
+            BTNodeData childNodeData = childNode.ToBTNodeData();
             return new BTNodeData[] { childNodeData };
         }
         else if(mCopyType == BTDefine.BT_ChildTreeCopyType_Reference)
@@ -77,7 +85,7 @@ public class BTChildTree : BTTree
         return 2;
     }
 
-    public override BT_CHILD_NODE_NUM GetChildeNodeNum()
+    public override BT_CHILD_NODE_NUM GetChildNodeNum()
     {
         if(mCopyType == BTDefine.BT_ChildTreeCopyType_New)
         {

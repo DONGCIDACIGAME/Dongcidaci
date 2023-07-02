@@ -26,6 +26,11 @@ public class BTParallelNode : BTCompositeNode
                 return BTDefine.BT_ExcuteResult_Failed;
         }
 
-        return InvalidExcuteResult();
+        for (int i = 0; i < mChildNodes.Count; i++)
+        {
+            BTNode node = mChildNodes[i];
+            node.Reset();
+        }
+        return BTDefine.BT_ExcuteResult_Succeed;
     }
 }

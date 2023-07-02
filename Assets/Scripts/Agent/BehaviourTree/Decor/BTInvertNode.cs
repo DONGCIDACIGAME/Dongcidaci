@@ -7,8 +7,6 @@ public class BTInvertNode : BTDecorNode
 
     private int Inverse(int result)
     {
-        if (mChildNode == null)
-            return BTDefine.BT_ExcuteResult_Failed;
 
         if (result == BTDefine.BT_ExcuteResult_Failed)
             return BTDefine.BT_ExcuteResult_Succeed;
@@ -24,12 +22,20 @@ public class BTInvertNode : BTDecorNode
 
     public override int Excute(float deltaTime)
     {
-        if (mChildNode == null)
+        BTNode childNode = GetChildNode();
+        if (childNode == null)
             return BTDefine.BT_ExcuteResult_Failed;
 
         // 子节点执行
-        int result = mChildNode.Excute(deltaTime);
+        int result = childNode.Excute(deltaTime);
         // 反转执行结果
-        return Inverse(result);
+        int finalRet = Inverse(result);
+
+        if(finalRet == BTDefine.BT_ExcuteResult_Succeed)
+        {
+            childNode.Reset();
+        }
+
+        return finalRet;
     }
 }

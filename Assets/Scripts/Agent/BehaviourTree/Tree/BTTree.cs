@@ -1,32 +1,33 @@
-using System.Collections.Generic;
-
 public abstract class BTTree : BTNode
 {
-    protected BTNode mChildNode;
+    //public override void AddChildNode(BTNode node)
+    //{
+    //    if(node == null)
+    //    {
+    //        Log.Error(LogLevel.Normal, "[0] AddChildNode Failed, child node is null", NodeName);
+    //        return;
+    //    }
+
+    //    mChildNodes.Clear();
+    //    mChildNodes.Add(node);
+    //    node.SetParentNode(this);
+    //}
 
     public void SetChildNode(BTNode childNode)
     {
-        if(childNode == null)
+        if (childNode == null)
         {
             Log.Error(LogLevel.Normal, "BTTree SetChildNode Error, child node is null!");
             return;
         }
 
-        mChildNode = childNode;
-        childNode.SetParentNode(this);
-    }
-
-    public override void Initialize(Agent excutor, Dictionary<string, object> context)
-    {
-        base.Initialize(excutor, context);
-
-        if (mChildNode != null)
-            mChildNode.Initialize(excutor, context);
+        AddChildNode(childNode);
     }
 
     public override bool BTNodeDataCheck(ref string info)
     {
-        if (mChildNode == null)
+        BTNode childNode = GetChildNode();
+        if (childNode == null)
         {
             info = "树节点必须有子节点!";
             return false;
@@ -37,34 +38,42 @@ public abstract class BTTree : BTNode
 
     public BTNode GetChildNode()
     {
-        return mChildNode;
+        if (mChildNodes.Count == 0)
+            return null;
+
+        return mChildNodes[0];
     }
 
-    public void UnpackChildNode()
-    {
-        mChildNode = null;
-    }
+    //public void UnpackChildNode(BTNode node)
+    //{
+    //    if(mChildNodes.Contains(node))
+    //    {
+    //        mChildNodes.Remove(node);
+    //    }
+    //}
 
-    public override void UnpackChilds()
-    {
-        // 子节点
-        if (mChildNode != null)
-            mChildNode.UnpackChilds();
+    //public override void UnpackAllChilds()
+    //{
+    //    BTNode childNode = GetChildNode();
+    //    if (childNode != null)
+    //        childNode.UnpackChilds();
 
-        RemoveChildNode();
-    }
+    //    mChildNodes.Clear();
+    //}
 
-    /// <summary>
-    /// 删除子节点
-    /// 使用该方法会递归释放所有子节点
-    /// </summary>
-    public void RemoveChildNode()
-    {
-        if(mChildNode != null)
-            mChildNode.Dispose();
+    ///// <summary>
+    ///// 删除子节点
+    ///// 使用该方法会递归释放所有子节点
+    ///// </summary>
+    //public override void RemoveChildNode(BTNode node)
+    //{
+    //    UnpackChildNode(node);
 
-        mChildNode = null;
-    }
+    //    if(node != null)
+    //    {
+    //        node.Dispose();
+    //    }
+    //}
 
     public override int GetNodeType()
     {
@@ -73,26 +82,18 @@ public abstract class BTTree : BTNode
 
     public override int Excute(float deltaTime)
     {
-        if (mChildNode == null)
+        BTNode childNode = GetChildNode();
+        if (childNode == null)
             return BTDefine.BT_ExcuteResult_Failed;
 
-        return mChildNode.Excute(deltaTime);
+        int ret = childNode.Excute(deltaTime);
+        if(ret == BTDefine.BT_ExcuteResult_Succeed)
+        {
+            childNode.Reset();
+        }
+
+        return ret;
     }
 
-    public override void Reset()
-    {
-        if (mChildNode == null)
-            return;
 
-        mChildNode.Reset();
-    }
-
-
-    protected override void CustomDispose()
-    {
-        if (mChildNode == null)
-            return;
-
-        mChildNode.Dispose();
-    }
 }

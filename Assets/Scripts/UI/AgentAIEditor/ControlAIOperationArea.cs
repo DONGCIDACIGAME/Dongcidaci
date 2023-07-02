@@ -19,12 +19,7 @@ public  class ControlAIOperationArea : UIControl
         mEventListener.Listen<ControlAINode>("OnClickAddChildNode", OnClickAddChildNode);
         mEventListener.Listen<ControlAINode>("ClickAINodeCtl", OnNodeCtlClick);
         mEventListener.Listen<BTNode>("SelectNode", OnNodeSelect);
-        mEventListener.Listen<BTNode>("DeleteAINode", OnDeleteNode);
-    }
-
-    private void OnDeleteNode(BTNode node)
-    {
-        ClearOperationArea();
+        mEventListener.Listen("ClearOperationArea", ClearOperationArea);
     }
 
     public void ClearOperationArea()
@@ -187,7 +182,7 @@ public  class ControlAIOperationArea : UIControl
         {
             AddPropertyPage<ControlWaitMeterPropertyPage>("Action/Ctl_PropertyPage_WaitMeter", node);
         }
-        else if(node is BTAgentChangeTowardsNode)
+        else if (node is BTAgentChangeTowardsNode)
         {
             AddPropertyPage<ControlChangeTowardsPropertyPage>("Action/Ctl_PropertyPage_ChangeTowards", node);
         }
@@ -214,6 +209,10 @@ public  class ControlAIOperationArea : UIControl
         else if (node is BTMoveOneFrameNode)
         {
             AddPropertyPage<ControlMoveOneFramePropertyPage>("Action/Ctl_PropertyPage_MoveOneFrame", node);
+        }
+        else if (node is BTClearTargetNode)
+        {
+            AddPropertyPage<ControlClearTargetPropertyPage>("Action/Ctl_PropertyPage_ClearTarget", node);
         }
         #endregion
     }
