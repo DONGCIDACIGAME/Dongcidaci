@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameBattleManager : ModuleManager<GameColliderManager>
+public class GameBattleManager : ModuleManager<GameBattleManager>
 {
 
 
