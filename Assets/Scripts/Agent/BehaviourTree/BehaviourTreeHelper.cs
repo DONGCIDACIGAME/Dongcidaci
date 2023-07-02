@@ -33,12 +33,14 @@ public static class BehaviourTreeHelper
                 return "行为树入口";
             case BTDefine.BT_Node_Type_Tree_ChildTree:
                 return "子树";
-            case BTDefine.BT_Node_DetailType_Composite_Sequence:
+            case BTDefine.BT_Node_Type_Composite_Sequence:
                 return "顺序执行";
-            case BTDefine.BT_Node_DetailType_Composite_Selector:
+            case BTDefine.BT_Node_Type_Composite_Selector:
                 return "选择执行";
-            case BTDefine.BT_Node_DetailType_Composite_Parallel:
+            case BTDefine.BT_Node_Type_Composite_Parallel:
                 return "并行执行";
+            case BTDefine.BT_Node_Type_Composite_IfElse:
+                return "IfElse逻辑";
             case BTDefine.BT_Node_Type_Decor_Invert:
                 return "反转";
             case BTDefine.BT_Node_Type_Decor_Repeat:
@@ -73,6 +75,8 @@ public static class BehaviourTreeHelper
                 return "到目标距离";
             case BTDefine.BT_Node_Type_Leaf_ClearTarget:
                 return "清除目标";
+            case BTDefine.BT_Node_Type_Leaf_Idle:
+                return "进入idle状态";
             default:
                 return "未知节点类型";
         }

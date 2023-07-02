@@ -20,6 +20,7 @@ public class ControlAddNewNodePage : UIControl
     private Button Btn_Sequence;
     private Button Btn_Selector;
     private Button Btn_Parallel;
+    private Button Btn_IfElse;
 
     /// <summary>
     /// decor
@@ -45,6 +46,7 @@ public class ControlAddNewNodePage : UIControl
     private Button Btn_DetectAgent;
     private Button Btn_MoveOneFrame;
     private Button Btn_ClearTarget;
+    private Button Btn_Idle;
 
 
     /// <summary>
@@ -91,7 +93,7 @@ public class ControlAddNewNodePage : UIControl
         Btn_Sequence = BindButtonNode("Contain_CompositeNodes/Button_Sequence", () => { AddChildNode(new BTSequenceNode()); });
         Btn_Selector = BindButtonNode("Contain_CompositeNodes/Button_Selector", () => { AddChildNode(new BTSelectNode()); });
         Btn_Parallel = BindButtonNode("Contain_CompositeNodes/Button_Parallel", () => { AddChildNode(new BTParallelNode()); });
-
+        Btn_IfElse = BindButtonNode("Contain_CompositeNodes/Button_IfElse", () => { AddChildNode(new BTIfElseNode()); });
 
         Btn_Invert = BindButtonNode("Contain_DecorNodes/Button_Invert", () => { AddChildNode(new BTInvertNode()); });
         Btn_Repeat = BindButtonNode("Contain_DecorNodes/Button_Repeat", () => { AddChildNode(new BTRepeatNode()); });
@@ -111,7 +113,7 @@ public class ControlAddNewNodePage : UIControl
         Btn_DetectAgent = BindButtonNode("Contain_ActionNodes/Button_DetectAgent", () => { AddChildNode(new BTDetectAgentNode()); });
         Btn_MoveOneFrame = BindButtonNode("Contain_ActionNodes/Button_MoveOneFrame", () => { AddChildNode(new BTMoveOneFrameNode()); });
         Btn_ClearTarget = BindButtonNode("Contain_ActionNodes/Button_ClearTarget", () => { AddChildNode(new BTClearTargetNode()); });
-
+        Btn_Idle = BindButtonNode("Contain_ActionNodes/Button_Idle", () => { AddChildNode(new BTIdleNode()); });
 
         Btn_CheckDistanceToTarget = BindButtonNode("Contain_ConditionNodes/Button_CheckDistanceToEntity", () => { AddChildNode(new BTCheckDistanceToTarget()); });
     }

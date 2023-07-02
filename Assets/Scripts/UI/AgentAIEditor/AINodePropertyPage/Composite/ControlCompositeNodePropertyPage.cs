@@ -14,6 +14,7 @@ public class ControlCompositeNodePropertyPage : ControlAINodePropertyPage
             new TMP_Dropdown.OptionData("Sequence"),
             new TMP_Dropdown.OptionData("Selector"),
             new TMP_Dropdown.OptionData("Parallel"),
+            new TMP_Dropdown.OptionData("If-Else"),
         }, OnChangeType);
     }
 
@@ -22,13 +23,15 @@ public class ControlCompositeNodePropertyPage : ControlAINodePropertyPage
         switch(index)
         {
             case 0:
-                return BTDefine.BT_Node_DetailType_Composite_Sequence;
+                return BTDefine.BT_Node_Type_Composite_Sequence;
             case 1:
-                return BTDefine.BT_Node_DetailType_Composite_Selector;
+                return BTDefine.BT_Node_Type_Composite_Selector;
             case 2:
-                return BTDefine.BT_Node_DetailType_Composite_Parallel;
+                return BTDefine.BT_Node_Type_Composite_Parallel;
+            case 3:
+                return BTDefine.BT_Node_Type_Composite_IfElse;
             default:
-                return BTDefine.BT_Node_DetailType_Composite_Sequence;
+                return BTDefine.BT_Node_Type_Composite_Sequence;
         }
     }
 
@@ -36,12 +39,14 @@ public class ControlCompositeNodePropertyPage : ControlAINodePropertyPage
     {
         switch (detailType)
         {
-            case BTDefine.BT_Node_DetailType_Composite_Sequence:
+            case BTDefine.BT_Node_Type_Composite_Sequence:
                 return 0;
-            case BTDefine.BT_Node_DetailType_Composite_Selector:
+            case BTDefine.BT_Node_Type_Composite_Selector:
                 return 1;
-            case BTDefine.BT_Node_DetailType_Composite_Parallel:
+            case BTDefine.BT_Node_Type_Composite_Parallel:
                 return 2;
+            case BTDefine.BT_Node_Type_Composite_IfElse:
+                return 3;
             default:
                 return 0;
         }

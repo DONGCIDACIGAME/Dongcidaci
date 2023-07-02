@@ -126,7 +126,14 @@ public class ControlAINode : UIControl
         }
         else if(mNode is BTCompositeNode)
         {
-            Btn_AddChildNode.gameObject.SetActive(true);
+            if(mNode is BTIfElseNode)
+            {
+                Btn_AddChildNode.gameObject.SetActive(mNode.GetChildNodes().Count < 3);
+            }
+            else
+            {
+                Btn_AddChildNode.gameObject.SetActive(true);
+            }
         }
     }
 

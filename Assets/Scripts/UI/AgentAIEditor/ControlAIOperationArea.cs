@@ -140,6 +140,10 @@ public  class ControlAIOperationArea : UIControl
         {
             AddPropertyPage<ControlSelectorPropertyPage>("Composite/Ctl_PropertyPage_Selector", node);
         }
+        else if (node is BTIfElseNode)
+        {
+            AddPropertyPage<ControlIfElsePropertyPage>("Composite/Ctl_PropertyPage_IfElse", node);
+        }
         #endregion
         #region decor
         else if (node is BTRepeatNode)
@@ -213,6 +217,10 @@ public  class ControlAIOperationArea : UIControl
         else if (node is BTClearTargetNode)
         {
             AddPropertyPage<ControlClearTargetPropertyPage>("Action/Ctl_PropertyPage_ClearTarget", node);
+        }
+        else if (node is BTIdleNode)
+        {
+            AddPropertyPage<ControlIdlePropertyPage>("Action/Ctl_PropertyPage_Idle", node);
         }
         #endregion
     }

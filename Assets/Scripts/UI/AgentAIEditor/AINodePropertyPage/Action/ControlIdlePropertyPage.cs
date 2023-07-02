@@ -1,0 +1,4 @@
+public class ControlIdlePropertyPage : ControlAINodePropertyPage
+{
+
+}

@@ -129,6 +129,11 @@ public abstract class BTNode : IGameDisposable
         }
     }
 
+    public List<BTNode> GetChildNodes()
+    {
+        return mChildNodes;
+    }
+
     public int GetNodeIndexInChilds(BTNode node)
     {
         if (node == null)

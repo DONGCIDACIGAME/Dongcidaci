@@ -124,14 +124,17 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
 
         if (nodeType == BTDefine.BT_Node_Type_Composite)
         {
-            if (nodeDetailType == BTDefine.BT_Node_DetailType_Composite_Sequence)
+            if (nodeDetailType == BTDefine.BT_Node_Type_Composite_Sequence)
                 return new BTSequenceNode();
 
-            if (nodeDetailType == BTDefine.BT_Node_DetailType_Composite_Selector)
+            if (nodeDetailType == BTDefine.BT_Node_Type_Composite_Selector)
                 return new BTSelectNode();
 
-            if (nodeDetailType == BTDefine.BT_Node_DetailType_Composite_Parallel)
+            if (nodeDetailType == BTDefine.BT_Node_Type_Composite_Parallel)
                 return new BTParallelNode();
+
+            if (nodeDetailType == BTDefine.BT_Node_Type_Composite_IfElse)
+                return new BTIfElseNode();
         }
 
 
@@ -190,6 +193,9 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_ClearTarget)
                 return new BTClearTargetNode();
+
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_Idle)
+                return new BTIdleNode();
         }
 
         Log.Error(LogLevel.Normal, "BTNodeFactory CreateBTNode Failed, nodeType:{0}, nodeDetailType:{1}, no matching class!", nodeType, nodeDetailType);

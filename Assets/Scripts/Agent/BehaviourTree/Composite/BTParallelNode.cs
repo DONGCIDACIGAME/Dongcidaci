@@ -5,7 +5,7 @@ public class BTParallelNode : BTCompositeNode
 {
     public override int GetNodeDetailType()
     {
-        return BTDefine.BT_Node_DetailType_Composite_Parallel;
+        return BTDefine.BT_Node_Type_Composite_Parallel;
     }
 
     public override int Excute(float deltaTime)

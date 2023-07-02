@@ -5,7 +5,7 @@ public class BTSequenceNode : BTCompositeNode
 {
     public override int GetNodeDetailType()
     {
-        return BTDefine.BT_Node_DetailType_Composite_Sequence;
+        return BTDefine.BT_Node_Type_Composite_Sequence;
     }
 
     public override int Excute(float deltaTime)

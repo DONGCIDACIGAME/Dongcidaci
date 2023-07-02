@@ -57,9 +57,10 @@ public static class BTDefine
     public const int BT_Node_Type_Tree_Entry = 0;
     public const int BT_Node_Type_Tree_ChildTree = 1;
 
-    public const int BT_Node_DetailType_Composite_Sequence              = BT_Node_Type_Composite * 100 + 1;
-    public const int BT_Node_DetailType_Composite_Selector              = BT_Node_Type_Composite * 100 + 2;
-    public const int BT_Node_DetailType_Composite_Parallel              = BT_Node_Type_Composite * 100 + 3;
+    public const int BT_Node_Type_Composite_Sequence                    = BT_Node_Type_Composite * 100 + 1;
+    public const int BT_Node_Type_Composite_Selector                    = BT_Node_Type_Composite * 100 + 2;
+    public const int BT_Node_Type_Composite_Parallel                    = BT_Node_Type_Composite * 100 + 3;
+    public const int BT_Node_Type_Composite_IfElse                      = BT_Node_Type_Composite * 100 + 4;
 
     public const int BT_Node_Type_Decor_Invert                          = BT_Node_Type_Decor * 100 + 1;
     public const int BT_Node_Type_Decor_Repeat                          = BT_Node_Type_Decor * 100 + 2;
@@ -78,6 +79,7 @@ public static class BTDefine
     public const int BT_Node_Type_Leaf_MoveDistance                     = BT_Node_Type_Leaf * 100 + 9;
     public const int BT_Node_Type_Leaf_MoveOneFrame                     = BT_Node_Type_Leaf * 100 + 10;
     public const int BT_Node_Type_Leaf_ClearTarget                      = BT_Node_Type_Leaf * 100 + 11;
+    public const int BT_Node_Type_Leaf_Idle                             = BT_Node_Type_Leaf * 100 + 12;
 
 
     public const int BT_Node_Type_Leaf_CheckDistance                    = BT_Node_Type_Leaf * 200 + 2;

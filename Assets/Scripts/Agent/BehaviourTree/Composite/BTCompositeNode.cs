@@ -8,29 +8,6 @@ using System.Collections.Generic;
 /// </summary>
 public abstract class BTCompositeNode : BTNode
 {
-    public BTCompositeNode()
-    {
-        mChildNodes = new List<BTNode>();
-    }
-
-    public List<BTNode> GetChildNodes()
-    {
-        return mChildNodes;
-    }
-
-    public override void Initialize(Agent excutor, Dictionary<string, object> context)
-    {
-        base.Initialize(excutor, context);
-        
-        foreach(BTNode childNode in mChildNodes)
-        {
-            if(childNode != null)
-            {
-                childNode.Initialize(excutor, context);
-            }
-        }
-    }
-
     public override int GetNodeArgNum()
     {
         return 0;
