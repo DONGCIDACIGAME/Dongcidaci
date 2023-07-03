@@ -1,45 +1,12 @@
-public class BTCheckDistanceToTarget : BTLeafNode
+public class BTCheckDistanceToTargetEntityNode : BTCheckDistanceNode
 {
-    private float mCheckDistance;
-    private int mOperator;
-
-    public void SetDistance(float distance)
-    {
-        mCheckDistance = distance;
-    }
-
-    public float GetDistance()
-    {
-        return mCheckDistance;
-    }
-
-    public void SetOperator(int op)
-    {
-        mOperator = op;
-    }
-
-    public int GetOperator()
-    {
-        return mOperator;
-    }
-
     public override int GetNodeArgNum()
     {
         return 2;
     }
     protected override int ParseNodeArgs(BTNodeArg[] args)
     {
-        int result = BehaviourTreeHelper.ParseInt(args[0], out int value1);
-        if (result != BTDefine.BT_LoadNodeResult_Succeed)
-            return result;
-
-        result = BehaviourTreeHelper.ParseFloat(args[1], out float value2);
-        if (result != BTDefine.BT_LoadNodeResult_Succeed)
-            return result;
-
-        SetOperator(value1);
-        SetDistance(value2);
-        return BTDefine.BT_ExcuteResult_Succeed;
+        return base.ParseNodeArgs(args);
     }
 
     protected override BTNodeArg[] GetNodeArgs()
@@ -47,21 +14,6 @@ public class BTCheckDistanceToTarget : BTLeafNode
         BTNodeArg arg1 = new BTNodeArg_int("Operator", mOperator);
         BTNodeArg arg2 = new BTNodeArg_float("CheckDistance", mCheckDistance);
         return new BTNodeArg[] { arg1, arg2 };
-    }
-
-    public override bool BTNodeDataCheck(ref string info)
-    {
-        if (mOperator != BTDefine.BT_Operator_Equal
-            && mOperator != BTDefine.BT_Operator_GreaterThan
-            && mOperator != BTDefine.BT_Operator_GreaterEqual
-            && mOperator != BTDefine.BT_Operator_LessEqual
-            && mOperator != BTDefine.BT_Operator_LessThan)
-        {
-            info = string.Format("Node {0} has Invalid Operator Type:{1}", NodeName, mOperator);
-            return false;
-        }
-
-        return true;
     }
 
     public override int Excute(float deltaTime)
@@ -122,18 +74,17 @@ public class BTCheckDistanceToTarget : BTLeafNode
 
     public override void Reset()
     {
-        
+        base.Reset();
     }
 
     protected override void CustomDispose()
     {
-        mCheckDistance = 0;
-        mOperator = BTDefine.BT_Operator_Undefine;
+        base.CustomDispose();
     }
 
     public override int GetNodeDetailType()
     {
-        return BTDefine.BT_Node_Type_Leaf_CheckDistance;
+        return BTDefine.BT_Node_Type_Leaf_CheckDistanceToEntity;
     }
 
 }

@@ -52,7 +52,8 @@ public class ControlAddNewNodePage : UIControl
     /// <summary>
     /// condition
     /// </summary>
-    private Button Btn_CheckDistanceToTarget;    
+    private Button Btn_CheckDistanceToTargetEntity;
+    private Button Btn_CheckDistanceToTargetPosition;
 
 
     private BTNode mNode;
@@ -115,7 +116,8 @@ public class ControlAddNewNodePage : UIControl
         Btn_ClearTarget = BindButtonNode("Contain_ActionNodes/Button_ClearTarget", () => { AddChildNode(new BTClearTargetNode()); });
         Btn_Idle = BindButtonNode("Contain_ActionNodes/Button_Idle", () => { AddChildNode(new BTIdleNode()); });
 
-        Btn_CheckDistanceToTarget = BindButtonNode("Contain_ConditionNodes/Button_CheckDistanceToEntity", () => { AddChildNode(new BTCheckDistanceToTarget()); });
+        Btn_CheckDistanceToTargetEntity = BindButtonNode("Contain_ConditionNodes/Button_CheckDistanceToEntity", () => { AddChildNode(new BTCheckDistanceToTargetEntityNode()); });
+        Btn_CheckDistanceToTargetPosition = BindButtonNode("Contain_ConditionNodes/Button_CheckDistanceToPosition", () => { AddChildNode(new BTCheckDistanceToTargetPositionNode()); });
     }
 
     public void SetBTNode(BTNode node)

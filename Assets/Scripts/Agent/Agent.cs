@@ -357,9 +357,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     {
         var retAgents = new List<Agent>();
         var visionShape = mAgentView.GetVisionShape();
-
         var ret = GameColliderManager.Ins.CheckCollideHappenWithShape(visionShape,out Dictionary<ConvexCollider2D,Vector2> tgtsDict,this.mCollider);
-
         if (ret)
         {
             var agentColliders = GameColliderDefine.GetAgentColliders(tgtsDict.Keys.ToArray());

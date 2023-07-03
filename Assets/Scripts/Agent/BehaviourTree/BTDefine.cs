@@ -82,7 +82,8 @@ public static class BTDefine
     public const int BT_Node_Type_Leaf_Idle                             = BT_Node_Type_Leaf * 100 + 12;
 
 
-    public const int BT_Node_Type_Leaf_CheckDistance                    = BT_Node_Type_Leaf * 200 + 2;
+    public const int BT_Node_Type_Leaf_CheckDistanceToEntity            = BT_Node_Type_Leaf * 200 + 2;
+    public const int BT_Node_Type_Leaf_CheckDistanceToPosition          = BT_Node_Type_Leaf * 200 + 3;
 
 
     /// <summary>

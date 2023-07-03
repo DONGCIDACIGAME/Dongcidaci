@@ -188,8 +188,11 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_MoveToPosition)
                 return new BTMoveToPositionNode();
 
-            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_CheckDistance)
-                return new BTCheckDistanceToTarget();
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_CheckDistanceToEntity)
+                return new BTCheckDistanceToTargetEntityNode();
+
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_CheckDistanceToPosition)
+                return new BTCheckDistanceToTargetPositionNode();
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_ClearTarget)
                 return new BTClearTargetNode();

@@ -71,8 +71,10 @@ public static class BehaviourTreeHelper
                 return "移动到指定位置";
             case BTDefine.BT_Node_Type_Leaf_DetectAgent:
                 return "检测到角色";
-            case BTDefine.BT_Node_Type_Leaf_CheckDistance:
-                return "到目标距离";
+            case BTDefine.BT_Node_Type_Leaf_CheckDistanceToEntity:
+                return "到目标Entity距离";
+            case BTDefine.BT_Node_Type_Leaf_CheckDistanceToPosition:
+                return "到目标位置距离";
             case BTDefine.BT_Node_Type_Leaf_ClearTarget:
                 return "清除目标";
             case BTDefine.BT_Node_Type_Leaf_Idle:

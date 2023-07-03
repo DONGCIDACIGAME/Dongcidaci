@@ -84,12 +84,12 @@ public class BTDetectAgentNode : BTLeafNode
             if (CheckMatchType(agent, mTargetAgentType))
             {
                 mContext["TargetEntity"] = agent;
-                PrintLog("Detect Target Agent Succeed~");
+                PrintLog("Detect Target Agent in vision Succeed~");
                 return BTDefine.BT_ExcuteResult_Succeed;
             }
         }
 
-        PrintLog("Detect Target Agent Failed.");
+        PrintLog("Detect Target in vision Agent Failed.");
         return BTDefine.BT_ExcuteResult_Failed;   
     }
 

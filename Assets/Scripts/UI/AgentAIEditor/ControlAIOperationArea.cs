@@ -168,9 +168,13 @@ public  class ControlAIOperationArea : UIControl
         }
         #endregion
         #region condition
-        else if (node is BTCheckDistanceToTarget)
+        else if (node is BTCheckDistanceToTargetEntityNode)
         {
-            AddPropertyPage<ControlCheckDistanceToTargetPropertyPage>("Condition/Ctl_PropertyPage_CheckDistanceToTarget", node);
+            AddPropertyPage<ControlCheckDistanceToEntityPropertyPage>("Condition/Ctl_PropertyPage_CheckDistanceToEntity", node);
+        }
+        else if (node is BTCheckDistanceToTargetPositionNode)
+        {
+            AddPropertyPage<ControlCheckDistanceToPositionPropertyPage>("Condition/Ctl_PropertyPage_CheckDistanceToPosition", node);
         }
         #endregion
         #region action

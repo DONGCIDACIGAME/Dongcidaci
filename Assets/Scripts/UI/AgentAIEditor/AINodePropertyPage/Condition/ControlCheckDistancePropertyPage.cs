@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 
-public class ControlCheckDistanceToTargetPropertyPage : ControlAINodePropertyPage
+public abstract class ControlCheckDistancePropertyPage : ControlAINodePropertyPage
 {
     private TMP_Dropdown Dropdown_OperatorType;
     private TMP_InputField InputField_Distance;
@@ -28,7 +28,7 @@ public class ControlCheckDistanceToTargetPropertyPage : ControlAINodePropertyPag
     private void OnEditDistance(string value)
     {
         float distance = float.Parse(value);
-        BTCheckDistanceToTarget node = mNode as BTCheckDistanceToTarget;
+        BTCheckDistanceNode node = mNode as BTCheckDistanceNode;
 
         if (node == null)
         {
@@ -41,7 +41,7 @@ public class ControlCheckDistanceToTargetPropertyPage : ControlAINodePropertyPag
 
     private void OnSelectOperatorType(int index)
     {
-        BTCheckDistanceToTarget node = mNode as BTCheckDistanceToTarget;
+        BTCheckDistanceNode node = mNode as BTCheckDistanceNode;
 
         if (node == null)
         {
@@ -85,7 +85,7 @@ public class ControlCheckDistanceToTargetPropertyPage : ControlAINodePropertyPag
     {
         base.Initialize();
 
-        BTCheckDistanceToTarget node = mNode as BTCheckDistanceToTarget;
+        BTCheckDistanceNode node = mNode as BTCheckDistanceNode;
 
         if (node == null)
         {
