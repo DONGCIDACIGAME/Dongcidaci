@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DongciDaci
 {
-    public interface IEntityWithFightAttr
+    public interface IEntityWithAgentAttr
     {
         public int GetCrtHp();
         public void SetCrtHp(int value);
@@ -32,7 +32,7 @@ namespace DongciDaci
 
     }
 
-    public interface IEntityWithHeroAttr: IEntityWithFightAttr
+    public interface IEntityWithHeroAttr: IEntityWithAgentAttr
     {
         public int GetExtraEnergyGain();
         public void SetExtraEnergyGain(int value);

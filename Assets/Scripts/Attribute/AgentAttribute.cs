@@ -6,7 +6,7 @@ namespace DongciDaci
 {
 
     [System.Serializable]
-    public class FightAttribute
+    public class AgentAttribute
     {
         /// <summary>
         /// 当前生命
@@ -48,7 +48,7 @@ namespace DongciDaci
         /// </summary>
         public float moveSpeed = 2f;
 
-        public FightAttribute(int crtHp,int maxHp,int bsAtk,int defenseRate,float criticalRate,float criticalDmgRate,float dodgeRate,float moveSpeed)
+        public AgentAttribute(int crtHp,int maxHp,int bsAtk,int defenseRate,float criticalRate,float criticalDmgRate,float dodgeRate,float moveSpeed)
         {
             this.crtHp = crtHp;
             this.maxHp = maxHp;

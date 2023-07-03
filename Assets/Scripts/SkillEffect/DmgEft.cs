@@ -33,6 +33,15 @@ public class DmgEft : SkillEffect
 
     public override void TriggerSkEft()
     {
-        
+        var tgtAgents = GetHitAgents();
+        if (tgtAgents == null || tgtAgents.Count == 0) return;
+
+        foreach (var tgtAgt in tgtAgents)
+        {
+            GameBattleManager.Ins.OnApplyDmgToTgt(_eftUser,tgtAgt,this);
+        }
+
     }
+
+
 }

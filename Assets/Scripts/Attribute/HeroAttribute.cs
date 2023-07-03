@@ -5,7 +5,7 @@ using UnityEngine;
 namespace DongciDaci
 {
     [System.Serializable]
-    public class HeroAttribute : FightAttribute
+    public class HeroAttribute : AgentAttribute
     {
         /// <summary>
         /// 额外能量获取
