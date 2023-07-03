@@ -16,7 +16,16 @@
 						"effectCollictions": [
 							{
 								"effects": [
-									{ "rlsTgt": 0,"effectType": 0, "effectValueDict":{"value": 1, "time":1}, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+									{
+										"rlsTgt": 0,
+										"effectType": 0, 
+										"effectValueDict":{"value": 1, "time":1}, 
+										"hitShapeType": 0, 
+										"hitsizeX": 0.5, 
+										"hitsizeY": 0, 
+										"hitOffsetX": 0,
+										"hitOffsetY": 0
+									}
 								]
 							}
 						]
@@ -32,7 +41,16 @@
 						"effectCollictions": [
 							{
 								"effects": [
-									{ "rlsTgt": 0,"effectType": 0, "effectValueDict":{"value": 1, "time":1}, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+									{
+										"rlsTgt": 0,
+										"effectType": 0, 
+										"effectValueDict":{"value": 1, "time":1}, 
+										"hitShapeType": 0, 
+										"hitsizeX": 0.5, 
+										"hitsizeY": 0, 
+										"hitOffsetX": 0,
+										"hitOffsetY": 0
+									}
 								]
 							}
 						]
@@ -48,7 +66,16 @@
 						"effectCollictions": [
 							{
 								"effects": [
-									{ "rlsTgt": 0,"effectType": 0, "effectValueDict":{"value": 1, "time":1}, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+									{
+										"rlsTgt": 0,
+										"effectType": 0, 
+										"effectValueDict":{"value": 1, "time":1}, 
+										"hitShapeType": 0, 
+										"hitsizeX": 0.5, 
+										"hitsizeY": 0, 
+										"hitOffsetX": 0,
+										"hitOffsetY": 0
+									}
 								]
 							}
 						]
@@ -85,7 +112,16 @@
 						"effectCollictions": [
 							{
 								"effects": [
-									{ "rlsTgt": 0,"effectType": 0, "effectValueDict":{"value": 1, "time":1}, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+									{
+										"rlsTgt": 0,
+										"effectType": 0, 
+										"effectValueDict":{"value": 1, "time":1}, 
+										"hitShapeType": 0, 
+										"hitsizeX": 0.5, 
+										"hitsizeY": 0, 
+										"hitOffsetX": 0,
+										"hitOffsetY": 0
+									}
 								]
 							}
 						]

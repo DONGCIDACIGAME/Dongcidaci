@@ -2,15 +2,17 @@ using System.Collections.Generic;
 
 public enum EffectTgt
 {
-    //对敌人
+    // 对敌人
     Enemy = 0,
-    //对自己
+    // 对自己
     Self,
-    //对包含自己的队友
+    // 仅队友不包含自己
+    TeamWithoutSelf,
+    // 对包含自己的队友
     TeamIncludeSelf,
-    //除自己外的其它单位
+    // 除自己外的其它单位
     AnyOthers,
-    //所有对象包含自己
+    // 所有对象包含自己
     All
 }
 
@@ -34,24 +36,28 @@ public class SkillEffectData
     public Dictionary<string, float> effectValueDict;
 
     /// <summary>
-    /// hit点攻击范围的宽度
+    /// 碰撞的形状
     /// </summary>
-    public float hitRectWidth;
+    public Convex2DShapeType hitShapeType = Convex2DShapeType.Rect;
 
     /// <summary>
-    /// hit点攻击范围的高度
+    /// 碰撞形状宽
     /// </summary>
-    public float hitRectHeight;
+    public float hitsizeX;
 
     /// <summary>
-    /// hit点攻击范围的中心偏移X
+    /// 碰撞形状高
     /// </summary>
-    public float hitRectOffsetX;
+    public float hitSizeY;
 
     /// <summary>
-    /// hit点攻击范围的中心偏移Y
+    /// 碰撞形状偏移x
     /// </summary>
-    public float hitRectOffsetY;
+    public float hitOffsetX;
 
+    /// <summary>
+    /// 碰撞形状偏移y
+    /// </summary>
+    public float hitOffsetY;
 
 }
