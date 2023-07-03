@@ -24,6 +24,10 @@ message MonsterBaseCfg{
     float DashDistance = 6;
     /** 行为树名称 */ 
     string BehaviourTree = 7;
+    /** 攻击半径 */ 
+    float AttackRadius = 8;
+    /** 交互半径 */ 
+    float InteractRadius = 9;
 }
 
 message MonsterCfg_Data {

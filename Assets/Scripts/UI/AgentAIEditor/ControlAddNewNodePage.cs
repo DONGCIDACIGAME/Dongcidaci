@@ -47,6 +47,7 @@ public class ControlAddNewNodePage : UIControl
     private Button Btn_MoveOneFrame;
     private Button Btn_ClearTarget;
     private Button Btn_Idle;
+    private Button Btn_Attack;
 
 
     /// <summary>
@@ -54,6 +55,7 @@ public class ControlAddNewNodePage : UIControl
     /// </summary>
     private Button Btn_CheckDistanceToTargetEntity;
     private Button Btn_CheckDistanceToTargetPosition;
+    private Button Btn_CheckTargetEntityInLogicArea;
 
 
     private BTNode mNode;
@@ -115,9 +117,12 @@ public class ControlAddNewNodePage : UIControl
         Btn_MoveOneFrame = BindButtonNode("Contain_ActionNodes/Button_MoveOneFrame", () => { AddChildNode(new BTMoveOneFrameNode()); });
         Btn_ClearTarget = BindButtonNode("Contain_ActionNodes/Button_ClearTarget", () => { AddChildNode(new BTClearTargetNode()); });
         Btn_Idle = BindButtonNode("Contain_ActionNodes/Button_Idle", () => { AddChildNode(new BTIdleNode()); });
+        Btn_Attack = BindButtonNode("Contain_ActionNodes/Button_Attack", () => { AddChildNode(new BTAttackNode()); });
+
 
         Btn_CheckDistanceToTargetEntity = BindButtonNode("Contain_ConditionNodes/Button_CheckDistanceToEntity", () => { AddChildNode(new BTCheckDistanceToTargetEntityNode()); });
         Btn_CheckDistanceToTargetPosition = BindButtonNode("Contain_ConditionNodes/Button_CheckDistanceToPosition", () => { AddChildNode(new BTCheckDistanceToTargetPositionNode()); });
+        Btn_CheckTargetEntityInLogicArea = BindButtonNode("Contain_ConditionNodes/Button_CheckTargetEntityInLogicArea", () => { AddChildNode(new BTCheckTargetEntityInLogicAreaNode()); });
     }
 
     public void SetBTNode(BTNode node)

@@ -127,6 +127,26 @@ public final class MonsterCfg {
      */
     com.google.protobuf.ByteString
         getBehaviourTreeBytes();
+
+    /**
+     * <pre>
+     ** 攻击半径 
+     * </pre>
+     *
+     * <code>float AttackRadius = 8;</code>
+     * @return The attackRadius.
+     */
+    float getAttackRadius();
+
+    /**
+     * <pre>
+     ** 交互半径 
+     * </pre>
+     *
+     * <code>float InteractRadius = 9;</code>
+     * @return The interactRadius.
+     */
+    float getInteractRadius();
   }
   /**
    * Protobuf type {@code DongciDaci.MonsterBaseCfg}
@@ -214,6 +234,16 @@ public final class MonsterCfg {
               java.lang.String s = input.readStringRequireUtf8();
 
               behaviourTree_ = s;
+              break;
+            }
+            case 69: {
+
+              attackRadius_ = input.readFloat();
+              break;
+            }
+            case 77: {
+
+              interactRadius_ = input.readFloat();
               break;
             }
             default: {
@@ -477,6 +507,36 @@ public final class MonsterCfg {
       }
     }
 
+    public static final int ATTACKRADIUS_FIELD_NUMBER = 8;
+    private float attackRadius_;
+    /**
+     * <pre>
+     ** 攻击半径 
+     * </pre>
+     *
+     * <code>float AttackRadius = 8;</code>
+     * @return The attackRadius.
+     */
+    @java.lang.Override
+    public float getAttackRadius() {
+      return attackRadius_;
+    }
+
+    public static final int INTERACTRADIUS_FIELD_NUMBER = 9;
+    private float interactRadius_;
+    /**
+     * <pre>
+     ** 交互半径 
+     * </pre>
+     *
+     * <code>float InteractRadius = 9;</code>
+     * @return The interactRadius.
+     */
+    @java.lang.Override
+    public float getInteractRadius() {
+      return interactRadius_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -512,6 +572,12 @@ public final class MonsterCfg {
       if (!getBehaviourTreeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 7, behaviourTree_);
       }
+      if (attackRadius_ != 0F) {
+        output.writeFloat(8, attackRadius_);
+      }
+      if (interactRadius_ != 0F) {
+        output.writeFloat(9, interactRadius_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -545,6 +611,14 @@ public final class MonsterCfg {
       if (!getBehaviourTreeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, behaviourTree_);
       }
+      if (attackRadius_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(8, attackRadius_);
+      }
+      if (interactRadius_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(9, interactRadius_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -576,6 +650,12 @@ public final class MonsterCfg {
               other.getDashDistance())) return false;
       if (!getBehaviourTree()
           .equals(other.getBehaviourTree())) return false;
+      if (java.lang.Float.floatToIntBits(getAttackRadius())
+          != java.lang.Float.floatToIntBits(
+              other.getAttackRadius())) return false;
+      if (java.lang.Float.floatToIntBits(getInteractRadius())
+          != java.lang.Float.floatToIntBits(
+              other.getInteractRadius())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -603,6 +683,12 @@ public final class MonsterCfg {
           getDashDistance());
       hash = (37 * hash) + BEHAVIOURTREE_FIELD_NUMBER;
       hash = (53 * hash) + getBehaviourTree().hashCode();
+      hash = (37 * hash) + ATTACKRADIUS_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getAttackRadius());
+      hash = (37 * hash) + INTERACTRADIUS_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getInteractRadius());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -750,6 +836,10 @@ public final class MonsterCfg {
 
         behaviourTree_ = "";
 
+        attackRadius_ = 0F;
+
+        interactRadius_ = 0F;
+
         return this;
       }
 
@@ -783,6 +873,8 @@ public final class MonsterCfg {
         result.speed_ = speed_;
         result.dashDistance_ = dashDistance_;
         result.behaviourTree_ = behaviourTree_;
+        result.attackRadius_ = attackRadius_;
+        result.interactRadius_ = interactRadius_;
         onBuilt();
         return result;
       }
@@ -855,6 +947,12 @@ public final class MonsterCfg {
         if (!other.getBehaviourTree().isEmpty()) {
           behaviourTree_ = other.behaviourTree_;
           onChanged();
+        }
+        if (other.getAttackRadius() != 0F) {
+          setAttackRadius(other.getAttackRadius());
+        }
+        if (other.getInteractRadius() != 0F) {
+          setInteractRadius(other.getInteractRadius());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1394,6 +1492,92 @@ public final class MonsterCfg {
   checkByteStringIsUtf8(value);
         
         behaviourTree_ = value;
+        onChanged();
+        return this;
+      }
+
+      private float attackRadius_ ;
+      /**
+       * <pre>
+       ** 攻击半径 
+       * </pre>
+       *
+       * <code>float AttackRadius = 8;</code>
+       * @return The attackRadius.
+       */
+      @java.lang.Override
+      public float getAttackRadius() {
+        return attackRadius_;
+      }
+      /**
+       * <pre>
+       ** 攻击半径 
+       * </pre>
+       *
+       * <code>float AttackRadius = 8;</code>
+       * @param value The attackRadius to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAttackRadius(float value) {
+        
+        attackRadius_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       ** 攻击半径 
+       * </pre>
+       *
+       * <code>float AttackRadius = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAttackRadius() {
+        
+        attackRadius_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float interactRadius_ ;
+      /**
+       * <pre>
+       ** 交互半径 
+       * </pre>
+       *
+       * <code>float InteractRadius = 9;</code>
+       * @return The interactRadius.
+       */
+      @java.lang.Override
+      public float getInteractRadius() {
+        return interactRadius_;
+      }
+      /**
+       * <pre>
+       ** 交互半径 
+       * </pre>
+       *
+       * <code>float InteractRadius = 9;</code>
+       * @param value The interactRadius to set.
+       * @return This builder for chaining.
+       */
+      public Builder setInteractRadius(float value) {
+        
+        interactRadius_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       ** 交互半径 
+       * </pre>
+       *
+       * <code>float InteractRadius = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearInteractRadius() {
+        
+        interactRadius_ = 0F;
         onChanged();
         return this;
       }
@@ -2212,17 +2396,18 @@ public final class MonsterCfg {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020MonsterCfg.proto\022\nDongciDaci\"\210\001\n\016Monst" +
+      "\n\020MonsterCfg.proto\022\nDongciDaci\"\266\001\n\016Monst" +
       "erBaseCfg\022\n\n\002ID\030\001 \001(\r\022\014\n\004Name\030\002 \001(\t\022\020\n\010N" +
       "ickName\030\003 \001(\t\022\016\n\006Prefab\030\004 \001(\t\022\r\n\005Speed\030\005" +
       " \001(\002\022\024\n\014DashDistance\030\006 \001(\002\022\025\n\rBehaviourT" +
-      "ree\030\007 \001(\t\"\275\001\n\017MonsterCfg_Data\022R\n\024Monster" +
-      "BaseCfg_items\030\001 \003(\01324.DongciDaci.Monster" +
-      "Cfg_Data.MonsterBaseCfgItemsEntry\032V\n\030Mon" +
-      "sterBaseCfgItemsEntry\022\013\n\003key\030\001 \001(\r\022)\n\005va" +
-      "lue\030\002 \001(\0132\032.DongciDaci.MonsterBaseCfg:\0028" +
-      "\001B#\n!com.trinitigames.server.conf.autob\006" +
-      "proto3"
+      "ree\030\007 \001(\t\022\024\n\014AttackRadius\030\010 \001(\002\022\026\n\016Inter" +
+      "actRadius\030\t \001(\002\"\275\001\n\017MonsterCfg_Data\022R\n\024M" +
+      "onsterBaseCfg_items\030\001 \003(\01324.DongciDaci.M" +
+      "onsterCfg_Data.MonsterBaseCfgItemsEntry\032" +
+      "V\n\030MonsterBaseCfgItemsEntry\022\013\n\003key\030\001 \001(\r" +
+      "\022)\n\005value\030\002 \001(\0132\032.DongciDaci.MonsterBase" +
+      "Cfg:\0028\001B#\n!com.trinitigames.server.conf." +
+      "autob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2233,7 +2418,7 @@ public final class MonsterCfg {
     internal_static_DongciDaci_MonsterBaseCfg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DongciDaci_MonsterBaseCfg_descriptor,
-        new java.lang.String[] { "ID", "Name", "NickName", "Prefab", "Speed", "DashDistance", "BehaviourTree", });
+        new java.lang.String[] { "ID", "Name", "NickName", "Prefab", "Speed", "DashDistance", "BehaviourTree", "AttackRadius", "InteractRadius", });
     internal_static_DongciDaci_MonsterCfg_Data_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_DongciDaci_MonsterCfg_Data_fieldAccessorTable = new

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n!com.trinitigames.server.conf.auto',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\rHeroCfg.proto\x12\nDongciDaci\"\\\n\x0bHeroBaseCfg\x12\n\n\x02ID\x18\x01 \x01(\r\x12\x0c\n\x04Name\x18\x02 \x01(\t\x12\x0e\n\x06Prefab\x18\x03 \x01(\t\x12\r\n\x05Speed\x18\x04 \x01(\x02\x12\x14\n\x0c\x44\x61shDistance\x18\x05 \x01(\x02\"\xab\x01\n\x0cHeroCfg_Data\x12I\n\x11HeroBaseCfg_items\x18\x01 \x03(\x0b\x32..DongciDaci.HeroCfg_Data.HeroBaseCfgItemsEntry\x1aP\n\x15HeroBaseCfgItemsEntry\x12\x0b\n\x03key\x18\x01 \x01(\r\x12&\n\x05value\x18\x02 \x01(\x0b\x32\x17.DongciDaci.HeroBaseCfg:\x02\x38\x01\x42#\n!com.trinitigames.server.conf.autob\x06proto3'
+  serialized_pb=b'\n\rHeroCfg.proto\x12\nDongciDaci\"\x8a\x01\n\x0bHeroBaseCfg\x12\n\n\x02ID\x18\x01 \x01(\r\x12\x0c\n\x04Name\x18\x02 \x01(\t\x12\x0e\n\x06Prefab\x18\x03 \x01(\t\x12\r\n\x05Speed\x18\x04 \x01(\x02\x12\x14\n\x0c\x44\x61shDistance\x18\x05 \x01(\x02\x12\x14\n\x0c\x41ttackRadius\x18\x06 \x01(\x02\x12\x16\n\x0eInteractRadius\x18\x07 \x01(\x02\"\xab\x01\n\x0cHeroCfg_Data\x12I\n\x11HeroBaseCfg_items\x18\x01 \x03(\x0b\x32..DongciDaci.HeroCfg_Data.HeroBaseCfgItemsEntry\x1aP\n\x15HeroBaseCfgItemsEntry\x12\x0b\n\x03key\x18\x01 \x01(\r\x12&\n\x05value\x18\x02 \x01(\x0b\x32\x17.DongciDaci.HeroBaseCfg:\x02\x38\x01\x42#\n!com.trinitigames.server.conf.autob\x06proto3'
 )
 
 
@@ -68,6 +68,20 @@ _HEROBASECFG = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='AttackRadius', full_name='DongciDaci.HeroBaseCfg.AttackRadius', index=5,
+      number=6, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='InteractRadius', full_name='DongciDaci.HeroBaseCfg.InteractRadius', index=6,
+      number=7, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -80,8 +94,8 @@ _HEROBASECFG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=29,
-  serialized_end=121,
+  serialized_start=30,
+  serialized_end=168,
 )
 
 
@@ -119,8 +133,8 @@ _HEROCFG_DATA_HEROBASECFGITEMSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=215,
-  serialized_end=295,
+  serialized_start=262,
+  serialized_end=342,
 )
 
 _HEROCFG_DATA = _descriptor.Descriptor(
@@ -150,8 +164,8 @@ _HEROCFG_DATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=124,
-  serialized_end=295,
+  serialized_start=171,
+  serialized_end=342,
 )
 
 _HEROCFG_DATA_HEROBASECFGITEMSENTRY.fields_by_name['value'].message_type = _HEROBASECFG

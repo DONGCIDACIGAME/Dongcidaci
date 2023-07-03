@@ -24,18 +24,19 @@ namespace DongciDaci {
     static HeroCfgReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg1IZXJvQ2ZnLnByb3RvEgpEb25nY2lEYWNpIlwKC0hlcm9CYXNlQ2ZnEgoK",
-            "AklEGAEgASgNEgwKBE5hbWUYAiABKAkSDgoGUHJlZmFiGAMgASgJEg0KBVNw",
-            "ZWVkGAQgASgCEhQKDERhc2hEaXN0YW5jZRgFIAEoAiKrAQoMSGVyb0NmZ19E",
-            "YXRhEkkKEUhlcm9CYXNlQ2ZnX2l0ZW1zGAEgAygLMi4uRG9uZ2NpRGFjaS5I",
-            "ZXJvQ2ZnX0RhdGEuSGVyb0Jhc2VDZmdJdGVtc0VudHJ5GlAKFUhlcm9CYXNl",
-            "Q2ZnSXRlbXNFbnRyeRILCgNrZXkYASABKA0SJgoFdmFsdWUYAiABKAsyFy5E",
-            "b25nY2lEYWNpLkhlcm9CYXNlQ2ZnOgI4AUIjCiFjb20udHJpbml0aWdhbWVz",
-            "LnNlcnZlci5jb25mLmF1dG9iBnByb3RvMw=="));
+            "Cg1IZXJvQ2ZnLnByb3RvEgpEb25nY2lEYWNpIooBCgtIZXJvQmFzZUNmZxIK",
+            "CgJJRBgBIAEoDRIMCgROYW1lGAIgASgJEg4KBlByZWZhYhgDIAEoCRINCgVT",
+            "cGVlZBgEIAEoAhIUCgxEYXNoRGlzdGFuY2UYBSABKAISFAoMQXR0YWNrUmFk",
+            "aXVzGAYgASgCEhYKDkludGVyYWN0UmFkaXVzGAcgASgCIqsBCgxIZXJvQ2Zn",
+            "X0RhdGESSQoRSGVyb0Jhc2VDZmdfaXRlbXMYASADKAsyLi5Eb25nY2lEYWNp",
+            "Lkhlcm9DZmdfRGF0YS5IZXJvQmFzZUNmZ0l0ZW1zRW50cnkaUAoVSGVyb0Jh",
+            "c2VDZmdJdGVtc0VudHJ5EgsKA2tleRgBIAEoDRImCgV2YWx1ZRgCIAEoCzIX",
+            "LkRvbmdjaURhY2kuSGVyb0Jhc2VDZmc6AjgBQiMKIWNvbS50cmluaXRpZ2Ft",
+            "ZXMuc2VydmVyLmNvbmYuYXV0b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::DongciDaci.HeroBaseCfg), global::DongciDaci.HeroBaseCfg.Parser, new[]{ "ID", "Name", "Prefab", "Speed", "DashDistance" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DongciDaci.HeroBaseCfg), global::DongciDaci.HeroBaseCfg.Parser, new[]{ "ID", "Name", "Prefab", "Speed", "DashDistance", "AttackRadius", "InteractRadius" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::DongciDaci.HeroCfg_Data), global::DongciDaci.HeroCfg_Data.Parser, new[]{ "HeroBaseCfgItems" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, })
           }));
     }
@@ -82,6 +83,8 @@ namespace DongciDaci {
       prefab_ = other.prefab_;
       speed_ = other.speed_;
       dashDistance_ = other.dashDistance_;
+      attackRadius_ = other.attackRadius_;
+      interactRadius_ = other.interactRadius_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -166,6 +169,36 @@ namespace DongciDaci {
       }
     }
 
+    /// <summary>Field number for the "AttackRadius" field.</summary>
+    public const int AttackRadiusFieldNumber = 6;
+    private float attackRadius_;
+    /// <summary>
+    ///* 攻击半径 
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float AttackRadius {
+      get { return attackRadius_; }
+      set {
+        attackRadius_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "InteractRadius" field.</summary>
+    public const int InteractRadiusFieldNumber = 7;
+    private float interactRadius_;
+    /// <summary>
+    ///* 交互半径 
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float InteractRadius {
+      get { return interactRadius_; }
+      set {
+        interactRadius_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -186,6 +219,8 @@ namespace DongciDaci {
       if (Prefab != other.Prefab) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Speed, other.Speed)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(DashDistance, other.DashDistance)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(AttackRadius, other.AttackRadius)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(InteractRadius, other.InteractRadius)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -198,6 +233,8 @@ namespace DongciDaci {
       if (Prefab.Length != 0) hash ^= Prefab.GetHashCode();
       if (Speed != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Speed);
       if (DashDistance != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(DashDistance);
+      if (AttackRadius != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(AttackRadius);
+      if (InteractRadius != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(InteractRadius);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -236,6 +273,14 @@ namespace DongciDaci {
         output.WriteRawTag(45);
         output.WriteFloat(DashDistance);
       }
+      if (AttackRadius != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(AttackRadius);
+      }
+      if (InteractRadius != 0F) {
+        output.WriteRawTag(61);
+        output.WriteFloat(InteractRadius);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -266,6 +311,14 @@ namespace DongciDaci {
         output.WriteRawTag(45);
         output.WriteFloat(DashDistance);
       }
+      if (AttackRadius != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(AttackRadius);
+      }
+      if (InteractRadius != 0F) {
+        output.WriteRawTag(61);
+        output.WriteFloat(InteractRadius);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -289,6 +342,12 @@ namespace DongciDaci {
         size += 1 + 4;
       }
       if (DashDistance != 0F) {
+        size += 1 + 4;
+      }
+      if (AttackRadius != 0F) {
+        size += 1 + 4;
+      }
+      if (InteractRadius != 0F) {
         size += 1 + 4;
       }
       if (_unknownFields != null) {
@@ -317,6 +376,12 @@ namespace DongciDaci {
       }
       if (other.DashDistance != 0F) {
         DashDistance = other.DashDistance;
+      }
+      if (other.AttackRadius != 0F) {
+        AttackRadius = other.AttackRadius;
+      }
+      if (other.InteractRadius != 0F) {
+        InteractRadius = other.InteractRadius;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -353,6 +418,14 @@ namespace DongciDaci {
             DashDistance = input.ReadFloat();
             break;
           }
+          case 53: {
+            AttackRadius = input.ReadFloat();
+            break;
+          }
+          case 61: {
+            InteractRadius = input.ReadFloat();
+            break;
+          }
         }
       }
     #endif
@@ -386,6 +459,14 @@ namespace DongciDaci {
           }
           case 45: {
             DashDistance = input.ReadFloat();
+            break;
+          }
+          case 53: {
+            AttackRadius = input.ReadFloat();
+            break;
+          }
+          case 61: {
+            InteractRadius = input.ReadFloat();
             break;
           }
         }

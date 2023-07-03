@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n!com.trinitigames.server.conf.auto',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x10MonsterCfg.proto\x12\nDongciDaci\"\x88\x01\n\x0eMonsterBaseCfg\x12\n\n\x02ID\x18\x01 \x01(\r\x12\x0c\n\x04Name\x18\x02 \x01(\t\x12\x10\n\x08NickName\x18\x03 \x01(\t\x12\x0e\n\x06Prefab\x18\x04 \x01(\t\x12\r\n\x05Speed\x18\x05 \x01(\x02\x12\x14\n\x0c\x44\x61shDistance\x18\x06 \x01(\x02\x12\x15\n\rBehaviourTree\x18\x07 \x01(\t\"\xbd\x01\n\x0fMonsterCfg_Data\x12R\n\x14MonsterBaseCfg_items\x18\x01 \x03(\x0b\x32\x34.DongciDaci.MonsterCfg_Data.MonsterBaseCfgItemsEntry\x1aV\n\x18MonsterBaseCfgItemsEntry\x12\x0b\n\x03key\x18\x01 \x01(\r\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.DongciDaci.MonsterBaseCfg:\x02\x38\x01\x42#\n!com.trinitigames.server.conf.autob\x06proto3'
+  serialized_pb=b'\n\x10MonsterCfg.proto\x12\nDongciDaci\"\xb6\x01\n\x0eMonsterBaseCfg\x12\n\n\x02ID\x18\x01 \x01(\r\x12\x0c\n\x04Name\x18\x02 \x01(\t\x12\x10\n\x08NickName\x18\x03 \x01(\t\x12\x0e\n\x06Prefab\x18\x04 \x01(\t\x12\r\n\x05Speed\x18\x05 \x01(\x02\x12\x14\n\x0c\x44\x61shDistance\x18\x06 \x01(\x02\x12\x15\n\rBehaviourTree\x18\x07 \x01(\t\x12\x14\n\x0c\x41ttackRadius\x18\x08 \x01(\x02\x12\x16\n\x0eInteractRadius\x18\t \x01(\x02\"\xbd\x01\n\x0fMonsterCfg_Data\x12R\n\x14MonsterBaseCfg_items\x18\x01 \x03(\x0b\x32\x34.DongciDaci.MonsterCfg_Data.MonsterBaseCfgItemsEntry\x1aV\n\x18MonsterBaseCfgItemsEntry\x12\x0b\n\x03key\x18\x01 \x01(\r\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.DongciDaci.MonsterBaseCfg:\x02\x38\x01\x42#\n!com.trinitigames.server.conf.autob\x06proto3'
 )
 
 
@@ -82,6 +82,20 @@ _MONSTERBASECFG = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='AttackRadius', full_name='DongciDaci.MonsterBaseCfg.AttackRadius', index=7,
+      number=8, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='InteractRadius', full_name='DongciDaci.MonsterBaseCfg.InteractRadius', index=8,
+      number=9, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -95,7 +109,7 @@ _MONSTERBASECFG = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=33,
-  serialized_end=169,
+  serialized_end=215,
 )
 
 
@@ -133,8 +147,8 @@ _MONSTERCFG_DATA_MONSTERBASECFGITEMSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=275,
-  serialized_end=361,
+  serialized_start=321,
+  serialized_end=407,
 )
 
 _MONSTERCFG_DATA = _descriptor.Descriptor(
@@ -164,8 +178,8 @@ _MONSTERCFG_DATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=172,
-  serialized_end=361,
+  serialized_start=218,
+  serialized_end=407,
 )
 
 _MONSTERCFG_DATA_MONSTERBASECFGITEMSENTRY.fields_by_name['value'].message_type = _MONSTERBASECFG

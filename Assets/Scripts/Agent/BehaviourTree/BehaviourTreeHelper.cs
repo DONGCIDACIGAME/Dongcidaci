@@ -75,10 +75,14 @@ public static class BehaviourTreeHelper
                 return "到目标Entity距离";
             case BTDefine.BT_Node_Type_Leaf_CheckDistanceToPosition:
                 return "到目标位置距离";
+            case BTDefine.BT_Node_Type_Leaf_CheckTargetEntityInLogicArea:
+                return "检测在逻辑区域内";
             case BTDefine.BT_Node_Type_Leaf_ClearTarget:
                 return "清除目标";
             case BTDefine.BT_Node_Type_Leaf_Idle:
                 return "进入idle状态";
+            case BTDefine.BT_Node_Type_Leaf_Attack:
+                return "攻击";
             default:
                 return "未知节点类型";
         }

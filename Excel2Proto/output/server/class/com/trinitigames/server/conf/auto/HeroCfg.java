@@ -87,6 +87,26 @@ public final class HeroCfg {
      * @return The dashDistance.
      */
     float getDashDistance();
+
+    /**
+     * <pre>
+     ** 攻击半径 
+     * </pre>
+     *
+     * <code>float AttackRadius = 6;</code>
+     * @return The attackRadius.
+     */
+    float getAttackRadius();
+
+    /**
+     * <pre>
+     ** 交互半径 
+     * </pre>
+     *
+     * <code>float InteractRadius = 7;</code>
+     * @return The interactRadius.
+     */
+    float getInteractRadius();
   }
   /**
    * Protobuf type {@code DongciDaci.HeroBaseCfg}
@@ -160,6 +180,16 @@ public final class HeroCfg {
             case 45: {
 
               dashDistance_ = input.readFloat();
+              break;
+            }
+            case 53: {
+
+              attackRadius_ = input.readFloat();
+              break;
+            }
+            case 61: {
+
+              interactRadius_ = input.readFloat();
               break;
             }
             default: {
@@ -331,6 +361,36 @@ public final class HeroCfg {
       return dashDistance_;
     }
 
+    public static final int ATTACKRADIUS_FIELD_NUMBER = 6;
+    private float attackRadius_;
+    /**
+     * <pre>
+     ** 攻击半径 
+     * </pre>
+     *
+     * <code>float AttackRadius = 6;</code>
+     * @return The attackRadius.
+     */
+    @java.lang.Override
+    public float getAttackRadius() {
+      return attackRadius_;
+    }
+
+    public static final int INTERACTRADIUS_FIELD_NUMBER = 7;
+    private float interactRadius_;
+    /**
+     * <pre>
+     ** 交互半径 
+     * </pre>
+     *
+     * <code>float InteractRadius = 7;</code>
+     * @return The interactRadius.
+     */
+    @java.lang.Override
+    public float getInteractRadius() {
+      return interactRadius_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -360,6 +420,12 @@ public final class HeroCfg {
       if (dashDistance_ != 0F) {
         output.writeFloat(5, dashDistance_);
       }
+      if (attackRadius_ != 0F) {
+        output.writeFloat(6, attackRadius_);
+      }
+      if (interactRadius_ != 0F) {
+        output.writeFloat(7, interactRadius_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -386,6 +452,14 @@ public final class HeroCfg {
       if (dashDistance_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(5, dashDistance_);
+      }
+      if (attackRadius_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(6, attackRadius_);
+      }
+      if (interactRadius_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(7, interactRadius_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -414,6 +488,12 @@ public final class HeroCfg {
       if (java.lang.Float.floatToIntBits(getDashDistance())
           != java.lang.Float.floatToIntBits(
               other.getDashDistance())) return false;
+      if (java.lang.Float.floatToIntBits(getAttackRadius())
+          != java.lang.Float.floatToIntBits(
+              other.getAttackRadius())) return false;
+      if (java.lang.Float.floatToIntBits(getInteractRadius())
+          != java.lang.Float.floatToIntBits(
+              other.getInteractRadius())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -437,6 +517,12 @@ public final class HeroCfg {
       hash = (37 * hash) + DASHDISTANCE_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getDashDistance());
+      hash = (37 * hash) + ATTACKRADIUS_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getAttackRadius());
+      hash = (37 * hash) + INTERACTRADIUS_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getInteractRadius());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -580,6 +666,10 @@ public final class HeroCfg {
 
         dashDistance_ = 0F;
 
+        attackRadius_ = 0F;
+
+        interactRadius_ = 0F;
+
         return this;
       }
 
@@ -611,6 +701,8 @@ public final class HeroCfg {
         result.prefab_ = prefab_;
         result.speed_ = speed_;
         result.dashDistance_ = dashDistance_;
+        result.attackRadius_ = attackRadius_;
+        result.interactRadius_ = interactRadius_;
         onBuilt();
         return result;
       }
@@ -675,6 +767,12 @@ public final class HeroCfg {
         }
         if (other.getDashDistance() != 0F) {
           setDashDistance(other.getDashDistance());
+        }
+        if (other.getAttackRadius() != 0F) {
+          setAttackRadius(other.getAttackRadius());
+        }
+        if (other.getInteractRadius() != 0F) {
+          setInteractRadius(other.getInteractRadius());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1022,6 +1120,92 @@ public final class HeroCfg {
       public Builder clearDashDistance() {
         
         dashDistance_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float attackRadius_ ;
+      /**
+       * <pre>
+       ** 攻击半径 
+       * </pre>
+       *
+       * <code>float AttackRadius = 6;</code>
+       * @return The attackRadius.
+       */
+      @java.lang.Override
+      public float getAttackRadius() {
+        return attackRadius_;
+      }
+      /**
+       * <pre>
+       ** 攻击半径 
+       * </pre>
+       *
+       * <code>float AttackRadius = 6;</code>
+       * @param value The attackRadius to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAttackRadius(float value) {
+        
+        attackRadius_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       ** 攻击半径 
+       * </pre>
+       *
+       * <code>float AttackRadius = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAttackRadius() {
+        
+        attackRadius_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float interactRadius_ ;
+      /**
+       * <pre>
+       ** 交互半径 
+       * </pre>
+       *
+       * <code>float InteractRadius = 7;</code>
+       * @return The interactRadius.
+       */
+      @java.lang.Override
+      public float getInteractRadius() {
+        return interactRadius_;
+      }
+      /**
+       * <pre>
+       ** 交互半径 
+       * </pre>
+       *
+       * <code>float InteractRadius = 7;</code>
+       * @param value The interactRadius to set.
+       * @return This builder for chaining.
+       */
+      public Builder setInteractRadius(float value) {
+        
+        interactRadius_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       ** 交互半径 
+       * </pre>
+       *
+       * <code>float InteractRadius = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearInteractRadius() {
+        
+        interactRadius_ = 0F;
         onChanged();
         return this;
       }
@@ -1840,15 +2024,16 @@ public final class HeroCfg {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rHeroCfg.proto\022\nDongciDaci\"\\\n\013HeroBaseC" +
-      "fg\022\n\n\002ID\030\001 \001(\r\022\014\n\004Name\030\002 \001(\t\022\016\n\006Prefab\030\003" +
-      " \001(\t\022\r\n\005Speed\030\004 \001(\002\022\024\n\014DashDistance\030\005 \001(" +
-      "\002\"\253\001\n\014HeroCfg_Data\022I\n\021HeroBaseCfg_items\030" +
-      "\001 \003(\0132..DongciDaci.HeroCfg_Data.HeroBase" +
-      "CfgItemsEntry\032P\n\025HeroBaseCfgItemsEntry\022\013" +
-      "\n\003key\030\001 \001(\r\022&\n\005value\030\002 \001(\0132\027.DongciDaci." +
-      "HeroBaseCfg:\0028\001B#\n!com.trinitigames.serv" +
-      "er.conf.autob\006proto3"
+      "\n\rHeroCfg.proto\022\nDongciDaci\"\212\001\n\013HeroBase" +
+      "Cfg\022\n\n\002ID\030\001 \001(\r\022\014\n\004Name\030\002 \001(\t\022\016\n\006Prefab\030" +
+      "\003 \001(\t\022\r\n\005Speed\030\004 \001(\002\022\024\n\014DashDistance\030\005 \001" +
+      "(\002\022\024\n\014AttackRadius\030\006 \001(\002\022\026\n\016InteractRadi" +
+      "us\030\007 \001(\002\"\253\001\n\014HeroCfg_Data\022I\n\021HeroBaseCfg" +
+      "_items\030\001 \003(\0132..DongciDaci.HeroCfg_Data.H" +
+      "eroBaseCfgItemsEntry\032P\n\025HeroBaseCfgItems" +
+      "Entry\022\013\n\003key\030\001 \001(\r\022&\n\005value\030\002 \001(\0132\027.Dong" +
+      "ciDaci.HeroBaseCfg:\0028\001B#\n!com.trinitigam" +
+      "es.server.conf.autob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1859,7 +2044,7 @@ public final class HeroCfg {
     internal_static_DongciDaci_HeroBaseCfg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DongciDaci_HeroBaseCfg_descriptor,
-        new java.lang.String[] { "ID", "Name", "Prefab", "Speed", "DashDistance", });
+        new java.lang.String[] { "ID", "Name", "Prefab", "Speed", "DashDistance", "AttackRadius", "InteractRadius", });
     internal_static_DongciDaci_HeroCfg_Data_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_DongciDaci_HeroCfg_Data_fieldAccessorTable = new

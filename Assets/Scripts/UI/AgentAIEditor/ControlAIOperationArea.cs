@@ -148,23 +148,23 @@ public  class ControlAIOperationArea : UIControl
         #region decor
         else if (node is BTRepeatNode)
         {
-            AddPropertyPage<ControlRepeatNodePropertyPage>("Decor/Ctl_RepeatNodePropertyPage", node);
+            AddPropertyPage<ControlRepeatNodePropertyPage>("Decor/Ctl_PropertyPage_Repeat", node);
         }
         else if (node is BTInvertNode)
         {
-            AddPropertyPage<ControlInvertNodePropertyPage>("Decor/Ctl_InvertNodePropertyPage", node);
+            AddPropertyPage<ControlInvertNodePropertyPage>("Decor/Ctl_PropertyPage_Invert", node);
         }
         else if (node is BTOnceNode)
         {
-            AddPropertyPage<ControlOnceNodePropertyPage>("Decor/Ctl_OnceNodePropertyPage", node);
+            AddPropertyPage<ControlOnceNodePropertyPage>("Decor/Ctl_PropertyPage_Once", node);
         }
         else if (node is BTUntilTrueNode)
         {
-            AddPropertyPage<ControlUntilTrueNodePropertyPage>("Decor/Ctl_UntilTrueNodePropertyPage", node);
+            AddPropertyPage<ControlUntilTrueNodePropertyPage>("Decor/Ctl_PropertyPage_UntilTrue", node);
         }
         else if (node is BTResetNode)
         {
-            AddPropertyPage<ControlResetNodePropertyPage>("Decor/Ctl_ResetNodePropertyPage", node);
+            AddPropertyPage<ControlResetNodePropertyPage>("Decor/Ctl_PropertyPage_Reset", node);
         }
         #endregion
         #region condition
@@ -175,6 +175,10 @@ public  class ControlAIOperationArea : UIControl
         else if (node is BTCheckDistanceToTargetPositionNode)
         {
             AddPropertyPage<ControlCheckDistanceToPositionPropertyPage>("Condition/Ctl_PropertyPage_CheckDistanceToPosition", node);
+        }
+        else if (node is BTCheckTargetEntityInLogicAreaNode)
+        {
+            AddPropertyPage<ControlCheckEntityInLogicAreaPropertyPage>("Condition/Ctl_PropertyPage_CheckEntityInLogicArea", node);
         }
         #endregion
         #region action
@@ -225,6 +229,10 @@ public  class ControlAIOperationArea : UIControl
         else if (node is BTIdleNode)
         {
             AddPropertyPage<ControlIdlePropertyPage>("Action/Ctl_PropertyPage_Idle", node);
+        }
+        else if (node is BTAttackNode)
+        {
+            AddPropertyPage<ControlAttackPropertyPage>("Action/Ctl_PropertyPage_Attack", node);
         }
         #endregion
     }

@@ -194,11 +194,17 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_CheckDistanceToPosition)
                 return new BTCheckDistanceToTargetPositionNode();
 
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_CheckTargetEntityInLogicArea)
+                return new BTCheckTargetEntityInLogicAreaNode();
+
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_ClearTarget)
                 return new BTClearTargetNode();
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_Idle)
                 return new BTIdleNode();
+
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_Attack)
+                return new BTAttackNode();
         }
 
         Log.Error(LogLevel.Normal, "BTNodeFactory CreateBTNode Failed, nodeType:{0}, nodeDetailType:{1}, no matching class!", nodeType, nodeDetailType);

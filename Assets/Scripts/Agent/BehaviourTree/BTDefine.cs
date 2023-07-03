@@ -80,10 +80,12 @@ public static class BTDefine
     public const int BT_Node_Type_Leaf_MoveOneFrame                     = BT_Node_Type_Leaf * 100 + 10;
     public const int BT_Node_Type_Leaf_ClearTarget                      = BT_Node_Type_Leaf * 100 + 11;
     public const int BT_Node_Type_Leaf_Idle                             = BT_Node_Type_Leaf * 100 + 12;
+    public const int BT_Node_Type_Leaf_Attack                           = BT_Node_Type_Leaf * 100 + 13;
 
 
-    public const int BT_Node_Type_Leaf_CheckDistanceToEntity            = BT_Node_Type_Leaf * 200 + 2;
-    public const int BT_Node_Type_Leaf_CheckDistanceToPosition          = BT_Node_Type_Leaf * 200 + 3;
+    public const int BT_Node_Type_Leaf_CheckDistanceToEntity            = BT_Node_Type_Leaf * 100 + 101;
+    public const int BT_Node_Type_Leaf_CheckDistanceToPosition          = BT_Node_Type_Leaf * 100 + 102;
+    public const int BT_Node_Type_Leaf_CheckTargetEntityInLogicArea     = BT_Node_Type_Leaf * 100 + 103;
 
 
     /// <summary>
@@ -111,10 +113,22 @@ public static class BTDefine
     public const int BT_ChangeTowardsTo_GivenTarget = 3;
 
 
+    /// <summary>
+    /// 操作符定义
+    /// </summary>
     public const int BT_Operator_Undefine = 0;
     public const int BT_Operator_LessThan = 1;
     public const int BT_Operator_LessEqual = 2;
     public const int BT_Operator_Equal = 3;
     public const int BT_Operator_GreaterEqual = 4;
     public const int BT_Operator_GreaterThan = 5;
+
+
+    /// <summary>
+    /// 逻辑区域类型定义
+    /// </summary>
+    public const int BT_LogicArea_Type_Undefine = 0;
+    public const int BT_LogicArea_Type_Attack = 1;
+    public const int BT_LogicArea_Type_Interact = 2;
+
 }

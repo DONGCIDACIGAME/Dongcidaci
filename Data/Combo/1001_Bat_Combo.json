@@ -1,0 +1,135 @@
+{
+	"agentName": "Bat",
+	"agentId": 1001,
+	"comboDatas": 
+	[
+		{
+			"comboId": 1,
+			"comboName": "JJJ",
+			"comboSteps": [
+				{
+					"input": 8, 
+					"mode": 1,
+					"agentActionData": {
+						"statusName": "Attack",
+						"stateName": "Attack", 
+						"effectCollictions": [
+							{
+								"effects": [
+									{
+										"rlsTgt": 0,
+										"effectType": 0, 
+										"effectValueDict":{"value": 1, "time":1}, 
+										"hitShapeType": 0, 
+										"hitsizeX": 0.5, 
+										"hitsizeY": 0, 
+										"hitOffsetX": 0,
+										"hitOffsetY": 0
+									}
+								]
+							}
+						]
+					},
+					"endFlag": false
+				},
+				{
+					"input": 8,
+					"mode": 1,
+					"agentActionData": {
+						"statusName": "Attack",
+						"stateName": "Attack",
+						"effectCollictions": [
+							{
+								"effects": [
+									{
+										"rlsTgt": 0,
+										"effectType": 0, 
+										"effectValueDict":{"value": 1, "time":1}, 
+										"hitShapeType": 0, 
+										"hitsizeX": 0.5, 
+										"hitsizeY": 0, 
+										"hitOffsetX": 0,
+										"hitOffsetY": 0
+									}
+								]
+							}
+						]
+					},
+					"endFlag": false
+				},
+				{
+					"input": 8,
+					"mode": 1,
+					"agentActionData": {
+						"statusName": "Attack",
+						"stateName": "Attack",
+						"effectCollictions": [
+							{
+								"effects": [
+									{
+										"rlsTgt": 0,
+										"effectType": 0, 
+										"effectValueDict":{"value": 1, "time":1}, 
+										"hitShapeType": 0, 
+										"hitsizeX": 0.5, 
+										"hitsizeY": 0, 
+										"hitOffsetX": 0,
+										"hitOffsetY": 0
+									}
+								]
+							}
+						]
+					},
+					"endFlag": true
+				}
+			],
+			"transferStateDuration": 0.5
+		},
+		{
+			"comboId": 2,
+			"comboName": "DashAttack",
+			"comboSteps": [
+				{
+					"input": 4, 
+					"mode": 1,
+					"agentActionData": {
+						"statusName": "Dash",
+						"stateName": "Dash", 
+						"effectCollictions": [
+							{
+								"effects": []
+							}
+						]
+					},
+					"endFlag": false
+				},
+				{
+					"input": 8,
+					"mode": 1,
+					"agentActionData": {
+						"statusName": "Attack",
+						"stateName": "Attack",
+						"effectCollictions": [
+							{
+								"effects": [
+									{
+										"rlsTgt": 0,
+										"effectType": 0, 
+										"effectValueDict":{"value": 1, "time":1}, 
+										"hitShapeType": 0, 
+										"hitsizeX": 0.5, 
+										"hitsizeY": 0, 
+										"hitOffsetX": 0,
+										"hitOffsetY": 0
+									}
+								]
+							}
+						]
+					},
+					"endFlag": true
+				}
+			],
+			"transferStateDuration": 0.5
+		}
+	]
+}

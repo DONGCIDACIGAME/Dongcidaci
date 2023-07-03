@@ -55,6 +55,14 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     // 角色的冲刺速度
     protected float mDashDistance;
     protected string mName;
+    /// <summary>
+    /// 攻击半径
+    /// </summary>
+    protected float mAttackRadius;
+    /// <summary>
+    /// 交互半径
+    /// </summary>
+    protected float mInteractRadius;
 
     public uint GetAgentId()
     {
@@ -90,6 +98,26 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     public void SetName(string name)
     {
         mName = name;
+    }
+
+    public float GetAttackRadius()
+    {
+        return mAttackRadius;
+    }
+
+    public void SetAttackRadius(float radius)
+    {
+        mAttackRadius = radius;
+    }
+
+    public float GetInteractRadius()
+    {
+        return mInteractRadius;
+    }
+
+    public void SetInteractRadius(float radius)
+    {
+        mInteractRadius = radius;
     }
 
 

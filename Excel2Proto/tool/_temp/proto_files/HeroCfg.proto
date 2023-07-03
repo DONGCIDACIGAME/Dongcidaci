@@ -20,6 +20,10 @@ message HeroBaseCfg{
     float Speed = 4;
     /** 角色的冲刺距离 */ 
     float DashDistance = 5;
+    /** 攻击半径 */ 
+    float AttackRadius = 6;
+    /** 交互半径 */ 
+    float InteractRadius = 7;
 }
 
 message HeroCfg_Data {
