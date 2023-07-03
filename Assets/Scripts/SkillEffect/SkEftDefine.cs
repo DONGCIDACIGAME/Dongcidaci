@@ -13,7 +13,10 @@ public static class SkEftDefine
 
     public static SkillEffect GetSkEftBy(Agent user, SkillEffectData skEftData)
     {
-
+        if (skEftData.effectType == Damage)
+        {
+            
+        }
 
 
 

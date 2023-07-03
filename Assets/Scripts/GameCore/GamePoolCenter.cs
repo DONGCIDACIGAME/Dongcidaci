@@ -16,4 +16,7 @@ public class GamePoolCenter : Singleton<GamePoolCenter>
     public GeneralGamePool<GameCollider2D> GameCollider2DPool = new GeneralGamePool<GameCollider2D>();
     public GeneralGamePool<ConvexCollider2D> ConvexCollider2DPool = new GeneralGamePool<ConvexCollider2D>();
 
+
+    //public GeneralGamePool<SkillEffect> SkillEffectPool = new GeneralGamePool<SkillEffect>();
+
 }

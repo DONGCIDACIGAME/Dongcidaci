@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class GameBattleManager : ModuleManager<GameBattleManager>
 {
+    public override void Initialize()
+    {
+        return;
+    }
+
     public bool OnExcuteCombo(Agent user, ComboData rlsCombo)
     {
 
@@ -28,16 +33,20 @@ public class GameBattleManager : ModuleManager<GameBattleManager>
     }
 
 
-    /// <summary>
-    /// 当释放伤害给到对象
-    /// </summary>
-    /// <param name="user"></param>
-    /// <param name="tgt"></param>
-    /// <param name="dmg"></param>
-    public void OnApplyDmgToTgt(Agent user,Agent tgt, DmgEft dmg)
+    public void OnApplyDmgToTgt(Agent dmgUser,Agent dmgTgt, DmgEft dmg)
     {
 
     }
+
+    public void OnGetDmgFromUser(Agent dmgReceiver, Agent dmgUser, DmgEft dmg)
+    {
+
+    }
+
+
+
+
+
 
 
 
@@ -48,10 +57,7 @@ public class GameBattleManager : ModuleManager<GameBattleManager>
         throw new System.NotImplementedException();
     }
 
-    public override void Initialize()
-    {
-        throw new System.NotImplementedException();
-    }
+    
 
 
 }
