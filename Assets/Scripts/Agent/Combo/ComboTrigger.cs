@@ -50,7 +50,7 @@ public class ComboTrigger : IMeterHandler
         ComboDataGraph comboGraph = DataCenter.Ins.AgentComboGraphCenter.GetAgentComboGraph(agent.GetAgentId());
         if (comboGraph == null)
         {
-            Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, comboGraph is null!");
+            Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, comboGraph is null! " + agent.GetName());
             return;
         }
 

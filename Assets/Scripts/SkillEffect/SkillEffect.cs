@@ -7,13 +7,15 @@ public abstract class SkillEffect
     protected SkillEffectData _initSkEftData;
     protected Agent _eftUser;
 
+    protected IConvex2DShape eftCollideShape;
+
     public SkillEffect(SkillEffectData initSkEftData,Agent userAgt)
     {
         this._initSkEftData = initSkEftData;
         this._eftUser = userAgt;
 
         //InitSkEftWithValueStr(initSkEftData.effectValueStr);
-        TriggerSkEft();
+        //TriggerSkEft();
     }
 
     public abstract void InitSkEftWithValueStr(string valueStr);

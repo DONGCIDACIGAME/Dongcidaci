@@ -33,25 +33,15 @@ public class SkillEffectData
     /// </summary>
     public Dictionary<string, float> effectValueDict;
 
-    /// <summary>
-    /// hit点攻击范围的宽度
-    /// </summary>
-    public float hitRectWidth;
 
-    /// <summary>
-    /// hit点攻击范围的高度
-    /// </summary>
-    public float hitRectHeight;
+    public Convex2DShapeType hitShapeType = Convex2DShapeType.Rect;
 
-    /// <summary>
-    /// hit点攻击范围的中心偏移X
-    /// </summary>
-    public float hitRectOffsetX;
+    public float hitsizeX;
 
-    /// <summary>
-    /// hit点攻击范围的中心偏移Y
-    /// </summary>
-    public float hitRectOffsetY;
+    public float hitSizeY;
 
+    public float hitOffsetX;
+
+    public float hitOffsetY;
 
 }

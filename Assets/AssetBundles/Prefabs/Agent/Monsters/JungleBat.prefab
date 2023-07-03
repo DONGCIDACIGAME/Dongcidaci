@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ada0a45ff597a6499b19cb7978b5145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LogAI: 0
 --- !u!114 &6222825175260359845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shapeType: 3
-  size: {x: 10, y: 13}
+  size: {x: 20, y: 8}
   offset: {x: 0, y: 0.5}
   DrawGizmos: 1
 --- !u!1 &618879448179396839
