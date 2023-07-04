@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameEngine;
 
-public abstract class SkillEffect
+public abstract class SkillEffect : IRecycle
 {
     protected Agent _eftUser;
     protected SkillEffectData _initSkEftData;
@@ -11,6 +11,10 @@ public abstract class SkillEffect
 
     public abstract bool InitSkEft(Agent user, SkillEffectData initData);
     public abstract void TriggerSkEft();
+
+    public abstract void Dispose();
+    public abstract void Recycle();
+    public abstract void RecycleReset();
 
     public List<Agent> GetHitAgents()
     {
@@ -25,6 +29,8 @@ public abstract class SkillEffect
         
         if (hitRet)
         {
+            Log.Logic(LogLevel.Info, "GetHitAgents Damage -- with hit tgts");
+
             // 1 根据当前的使用者类型筛选 实际受击的对象
             ConvexCollider2D userCollider = _eftUser.GetCollider();
             MyColliderType userColliderType = userCollider.GetColliderType();
@@ -119,4 +125,7 @@ public abstract class SkillEffect
         return rets;
     }
 
+
+    
+    
 }

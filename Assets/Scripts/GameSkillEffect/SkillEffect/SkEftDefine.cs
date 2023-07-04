@@ -5,7 +5,7 @@ namespace GameSkillEffect
     {
         #region Skill Effect Type Define
 
-        public const int Damage = 1;
+        public const int Damage = 0;
 
 
 

@@ -67,7 +67,7 @@ namespace GameSkillEffect
 
         public void OnApplyDamage(Agent tgt, DmgEft rlsDmg)
         {
-
+            Log.Logic(LogLevel.Info, "{0} OnApplyDamage {1}", _bindAgent.GetAgentId(), rlsDmg.DmgValue);
         }
 
         public void OnGetDamage(Agent src, DmgEft gotDmg)

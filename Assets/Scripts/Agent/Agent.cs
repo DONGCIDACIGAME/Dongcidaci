@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class Agent : MapEntityWithCollider, IMeterHandler,IAgentWithSkEftHandler
+public abstract class Agent : MapEntityWithCollider, IMeterHandler
 {
     /// <summary>
     /// 角色id
@@ -45,13 +45,21 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler,IAgentWithSkE
     /// Added by Weng 0704
     /// 角色的技能效果状态管理器
     /// </summary>
-    private AgentSkEftHandler _skEftHandler;
+    public AgentSkEftHandler SkillEftHandler;
 
     /// <summary>
     /// Added by Weng 0704
-    /// 角色的技能效果状态管理器
+    /// 角色的属性
     /// </summary>
-    public AgentSkEftHandler SkEftHandler => _skEftHandler;
+    private AgentAttribute _mAgtAttr;
+
+    /// <summary>
+    /// Added by Weng 0704
+    /// 角色的属性结算变更管理器
+    /// </summary>
+    public AgentAttrHandler AttrHandler;
+
+
 
     /// <summary>
     /// 移动执行器
@@ -208,8 +216,12 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler,IAgentWithSkE
 
         // Added by weng 0704
         // 增加技能效果处理器的初始化
-        _skEftHandler = GamePoolCenter.Ins.AgtSkEftHandlerPool.Pop();
-        _skEftHandler.InitAgentSkEftHandler(this);
+        SkillEftHandler = GamePoolCenter.Ins.AgtSkEftHandlerPool.Pop();
+        SkillEftHandler.InitAgentSkEftHandler(this);
+
+        // Added by Weng 0704
+
+
 
         // 其他自定义初始化
         CustomInitialize();

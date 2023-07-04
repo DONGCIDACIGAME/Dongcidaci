@@ -28,6 +28,20 @@ message MonsterBaseCfg{
     float AttackRadius = 8;
     /** 交互半径 */ 
     float InteractRadius = 9;
+    /** 最大生命 */ 
+    int32 MaxHp = 10;
+    /** 基础攻击值 */ 
+    int32 BaseAttack = 11;
+    /** 伤害减免系数 */ 
+    float DefenseRate = 12;
+    /** 暴击率 */ 
+    float CriticalRate = 13;
+    /** 暴击伤害 */ 
+    float CriticalDmgRate = 14;
+    /** 闪避率 */ 
+    float DodgeRate = 15;
+    /** 移动速度 */ 
+    float MoveSpeed = 16;
 }
 
 message MonsterCfg_Data {

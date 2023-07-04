@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameSkillEffect;
 
 /// <summary>
 /// 可被角色携带的技能效果
