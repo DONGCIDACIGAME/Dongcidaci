@@ -77,6 +77,8 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
             for(int j = 0; j < hitEffect.effects.Length; j++)
             {
                 RectEffectExcutor excutor = GamePoolCenter.Ins.RectEffectExcutorPool.Pop();
+                // modified by weng 0704 
+                //excutor.Initialize(mAgt, hitpoint.progress * totalTime, hitEffect.effects[j]);
                 excutor.Initialize(mAgt, hitpoint.progress * totalTime, hitEffect.effects[j]);
                 effectExcutors.Add(excutor);
             }

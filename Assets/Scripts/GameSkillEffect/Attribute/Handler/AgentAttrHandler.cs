@@ -14,6 +14,29 @@ namespace GameSkillEffect
 
         }
 
+        /// <summary>
+        /// 检查是否会产生暴击
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckWillCauseCriticalDmg()
+        {
+            // do somthing here
+
+            return false;
+        }
+
+        /// <summary>
+        /// 检查是否会闪避伤害
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckWillDodgeDmg()
+        {
+
+            return false;
+        }
+
+
+
 
 
 
