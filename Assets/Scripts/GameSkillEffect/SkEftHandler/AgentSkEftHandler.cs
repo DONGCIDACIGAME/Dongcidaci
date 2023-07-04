@@ -17,8 +17,11 @@ namespace GameSkillEffect
             _carrySkEfts = new List<IPortableEffect>();
         }
 
-        public void OnExcuteComboEffect(SkillEffectData effectData)
+        public void OnExcuteComboEffect(SkEftDataCollection effectDatas)
         {
+            // 需要修改这里的逻辑
+
+            /**
             Log.Logic(LogLevel.Info, "{0} excute effect {1}", _bindAgent.GetAgentId(), effectData.effectType);
 
             // 查找carrySkEft中的效果是 ITriggerOnExcuteComboEft
@@ -62,6 +65,8 @@ namespace GameSkillEffect
             var rlsSkEft = SkEftDefine.GetSkEftBy(_bindAgent, effectData);
             if (rlsSkEft == null) return;
             rlsSkEft.TriggerSkEft();
+
+            */
         }
 
 

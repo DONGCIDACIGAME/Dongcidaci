@@ -1,10 +1,11 @@
 using GameEngine;
+using GameSkillEffect;
 
 /// <summary>
-/// 矩形范围的效果执行器
+/// 每一个 combo hit点的效果执行器
 /// 由外部驱动，如果外部被打断则不会执行效果
 /// </summary>
-public class RectEffectExcutor : IGameUpdate, IRecycle
+public class ComboEffectExcutor : IGameUpdate, IRecycle
 {
     /// <summary>
     /// 计时器
@@ -23,9 +24,10 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
     private float mExcuteTime;
 
     /// <summary>
-    /// 效果
+    /// 效果合集
+    /// Modified by Weng 0704
     /// </summary>
-    private SkillEffectData mEffect;
+    private SkEftDataCollection mEffects;
 
 
     public bool active { get; private set; }
@@ -36,12 +38,12 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
     /// <param name="agt">谁</param>
     /// <param name="excuteTime">多久之后</param>
     /// <param name="effect">执行什么效果</param>
-    public void Initialize(Agent agt, float excuteTime, SkillEffectData effect)
+    public void Initialize(Agent agt, float excuteTime, SkEftDataCollection effects)
     {
         mTimer = 0;
         mAgt = agt;
         mExcuteTime = excuteTime;
-        mEffect = effect;
+        mEffects = effects;
         active = true;
     }
 
@@ -51,20 +53,20 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
         mTimer = 0;
         mExcuteTime = 0;
         mAgt = null;
-        mEffect = null;
+        mEffects = null;
     }
 
-    private void Excute(Agent agt, SkillEffectData effect)
+    private void Excute(Agent agt, SkEftDataCollection effects)
     {
         //Log.Logic(LogLevel.Info, "{0} excute effect {1}", agt.GetAgentId(), effect.effectType);
-        // added by weng 0703
-        agt.SkillEftHandler.OnExcuteComboEffect(effect);
+        // Added by weng 0703
+        agt.SkillEftHandler.OnExcuteComboEffect(effects);
     }
 
     public void Recycle()
     {
         RecycleReset();
-        GamePoolCenter.Ins.RectEffectExcutorPool.Push(this);
+        GamePoolCenter.Ins.ComboEffectExcutorPool.Push(this);
     }
 
     public void OnUpdate(float deltaTime)
@@ -79,7 +81,7 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
 
         if(mTimer >= mExcuteTime)
         {
-            Excute(mAgt, mEffect);
+            Excute(mAgt, mEffects);
 
             Recycle();
         }
@@ -89,4 +91,6 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
     {
         Dispose();
     }
+
+
 }

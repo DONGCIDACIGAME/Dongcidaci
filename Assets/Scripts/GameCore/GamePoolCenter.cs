@@ -3,7 +3,8 @@ using GameSkillEffect;
 
 public class GamePoolCenter : Singleton<GamePoolCenter>
 {
-    public GeneralGamePool<RectEffectExcutor> RectEffectExcutorPool = new GeneralGamePool<RectEffectExcutor>();
+    // Changed by weng 0704
+    public GeneralGamePool<ComboEffectExcutor> ComboEffectExcutorPool = new GeneralGamePool<ComboEffectExcutor>();
     
     public GeneralGamePool<AnimMovementExcutor> MovementExcutorPool = new GeneralGamePool<AnimMovementExcutor>();
 

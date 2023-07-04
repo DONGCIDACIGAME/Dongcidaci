@@ -1,3 +1,5 @@
+using GameSkillEffect;
+
 [System.Serializable]
 public class AgentActionData
 {
@@ -16,5 +18,6 @@ public class AgentActionData
     /// <summary>
     /// 招式在所有击打点上的效果数组
     /// </summary>
-    public EffectCollection[] effectCollictions;
+    public SkEftDataCollection[] effectCollictions;
+
 }
