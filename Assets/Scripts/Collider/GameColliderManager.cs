@@ -294,7 +294,6 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
 
     }
 
-
     /// <summary>
     /// 检测某个形状是否会产生碰撞;
     /// 返回碰撞的对象按照距离 shape 的 anchor pos 进行排序
@@ -307,70 +306,150 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     {
         var tempIndexs = GetMaxEnvelopeOccupyGridIndexs(shape);
         detectedColliders = new List<ConvexCollider2D>();
-        if (tempIndexs != null)
+
+        // 没有包络大小
+        if (tempIndexs == null)
+            return false;
+
+        foreach (var mapIndex in tempIndexs)
         {
-            foreach (var mapIndex in tempIndexs)
+            if (!_gridIndexToCollidersDict.ContainsKey(mapIndex))
+                continue;
+
+            var collidersInThisGrid = _gridIndexToCollidersDict[mapIndex];
+
+            if (collidersInThisGrid == null) 
+                continue;
+
+            // 如果能抽个方法会好一点
+            foreach (ConvexCollider2D tgtCollider in collidersInThisGrid)
             {
-                if (_gridIndexToCollidersDict.ContainsKey(mapIndex) == false)
-                {
+                if (exceptCollider != null && tgtCollider.GetColliderUID() == exceptCollider.GetColliderUID())
                     continue;
-                }
 
-                var collidersInThisGrid = _gridIndexToCollidersDict[mapIndex];
-                if (collidersInThisGrid == null) continue;
+                if (!GameColliderHelper.CheckCollideSAT(shape, tgtCollider.Convex2DShape))
+                    continue;
 
-                foreach (ConvexCollider2D tgtCollider in collidersInThisGrid)
+                if (!detectedColliders.Contains(tgtCollider))
+                    continue;
+
+                if (detectedColliders.Count == 0)
                 {
-                    if (exceptCollider != null)
+                    detectedColliders.Add(tgtCollider);
+                }
+                else // 可以抽一个方法，专门做排序
+                {
+                    int insertIndex = -1;
+
+                    for (int i = 0; i < detectedColliders.Count; i++)
                     {
-                        if (tgtCollider.GetColliderUID() == exceptCollider.GetColliderUID()) continue;
+                        var crtDis = (detectedColliders[i].Convex2DShape.AnchorPos - shape.AnchorPos).magnitude;
+                        var tgtDis = (tgtCollider.Convex2DShape.AnchorPos - shape.AnchorPos).magnitude;
+                        if (tgtDis <= crtDis)
+                        {
+                            insertIndex = i;
+                            break;
+                        }
                     }
 
-                    if (GameColliderHelper.CheckCollideSAT(shape, tgtCollider.Convex2DShape))
+                    if (insertIndex >= 0)
                     {
-                        if (detectedColliders.Contains(tgtCollider) == false)
-                        {
-                            if (detectedColliders.Count == 0)
-                            {
-                                detectedColliders.Add(tgtCollider);
-                            }
-                            else if(detectedColliders.Count>0)
-                            {
-                                int insertIndex = -1;
-
-                                for (int i=0;i< detectedColliders.Count;i++)
-                                {
-                                    var crtDis = (detectedColliders[i].Convex2DShape.AnchorPos - shape.AnchorPos).magnitude;
-                                    var tgtDis = (tgtCollider.Convex2DShape.AnchorPos - shape.AnchorPos).magnitude;
-                                    if(tgtDis<= crtDis)
-                                    {
-                                        insertIndex = i;
-                                        break;
-                                    }
-                                }
-
-                                if (insertIndex >=0)
-                                {
-                                    detectedColliders.Insert(insertIndex, tgtCollider);
-                                }else if (insertIndex == -1)
-                                {
-                                    detectedColliders.Add(tgtCollider);
-                                }
-                                
-                            }
-                            
-                        }
-
+                        detectedColliders.Insert(insertIndex, tgtCollider);
+                    }
+                    else if (insertIndex == -1)
+                    {
+                        detectedColliders.Add(tgtCollider);
                     }
 
                 }
+
+
             }
         }
 
-        if (detectedColliders.Count > 0) return true;
-        return false;
-
+        return detectedColliders.Count > 0;
     }
+
+
+    ///// <summary>
+    ///// 检测某个形状是否会产生碰撞;
+    ///// 返回碰撞的对象按照距离 shape 的 anchor pos 进行排序
+    ///// </summary>
+    ///// <param name="shape"></param>
+    ///// <param name="detectedColliders"></param>
+    ///// <param name="exceptCollider"></param>
+    ///// <returns></returns>
+    //public bool CheckCollideHappenWithShape(IConvex2DShape shape, out List<ConvexCollider2D> detectedColliders, ConvexCollider2D exceptCollider)
+    //{
+    //    var tempIndexs = GetMaxEnvelopeOccupyGridIndexs(shape);
+    //    detectedColliders = new List<ConvexCollider2D>();
+
+
+    //    if (tempIndexs != null)
+    //    {
+    //        foreach (var mapIndex in tempIndexs)
+    //        {
+    //            if (_gridIndexToCollidersDict.ContainsKey(mapIndex) == false)
+    //            {
+    //                continue;
+    //            }
+
+    //            var collidersInThisGrid = _gridIndexToCollidersDict[mapIndex];
+    //            if (collidersInThisGrid == null) continue;
+
+    //            foreach (ConvexCollider2D tgtCollider in collidersInThisGrid)
+    //            {
+    //                if (exceptCollider != null)
+    //                {
+    //                    if (tgtCollider.GetColliderUID() == exceptCollider.GetColliderUID()) continue;
+    //                }
+
+    //                if (GameColliderHelper.CheckCollideSAT(shape, tgtCollider.Convex2DShape))
+    //                {
+    //                    if (detectedColliders.Contains(tgtCollider) == false)
+    //                    {
+    //                        if (detectedColliders.Count == 0)
+    //                        {
+    //                            detectedColliders.Add(tgtCollider);
+    //                        }
+    //                        else if(detectedColliders.Count>0)
+    //                        {
+    //                            int insertIndex = -1;
+
+    //                            for (int i=0;i< detectedColliders.Count;i++)
+    //                            {
+    //                                var crtDis = (detectedColliders[i].Convex2DShape.AnchorPos - shape.AnchorPos).magnitude;
+    //                                var tgtDis = (tgtCollider.Convex2DShape.AnchorPos - shape.AnchorPos).magnitude;
+    //                                if(tgtDis<= crtDis)
+    //                                {
+    //                                    insertIndex = i;
+    //                                    break;
+    //                                }
+    //                            }
+
+    //                            if (insertIndex >=0)
+    //                            {
+    //                                detectedColliders.Insert(insertIndex, tgtCollider);
+    //                            }else if (insertIndex == -1)
+    //                            {
+    //                                detectedColliders.Add(tgtCollider);
+    //                            }
+                                
+    //                        }
+                            
+    //                    }
+
+    //                }
+
+    //            }
+    //        }
+    //    }
+
+    //    if (detectedColliders.Count > 0) return true;
+    //    return false;
+
+    //}
+
 
 
 
@@ -380,7 +459,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     /// <param name="srcCollider"></param>
     /// <param name="handleCfg"></param>
     /// <returns></returns>
-    public bool CheckCollideHappen(ConvexCollider2D srcCollider, CollideHandleConfig handleCfg = CollideHandleConfig.HandleBoth)
+    public bool CheckCollideHappen(ConvexCollider2D srcCollider)
     {
         if (srcCollider == null) return false;
 
@@ -401,24 +480,8 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
 
                 if (GameColliderHelper.CheckCollideSAT(srcCollider.Convex2DShape, tgtCollider.Convex2DShape))
                 {
-                    switch (handleCfg)
-                    {
-                        case CollideHandleConfig.HandleBoth:
-                            ExcuteOnColliderHappen(srcCollider, tgtCollider);
-                            ExcuteOnColliderHappen(tgtCollider, srcCollider);
-                            break;
-                        case CollideHandleConfig.HandleSrc:
-                            ExcuteOnColliderHappen(srcCollider, tgtCollider);
-                            break;
-                        case CollideHandleConfig.HandleTgt:
-                            ExcuteOnColliderHappen(tgtCollider, srcCollider);
-                            break;
-                        case CollideHandleConfig.NoHandle:
-                            continue;
-                        default:
-                            continue;
-                    }
-
+                    ExcuteOnColliderHappen(srcCollider, tgtCollider);
+                    ExcuteOnColliderHappen(tgtCollider, srcCollider);
                     tgtCounter += 1;
                 }
             }
