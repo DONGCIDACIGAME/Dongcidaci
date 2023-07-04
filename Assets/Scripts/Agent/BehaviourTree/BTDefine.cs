@@ -61,6 +61,8 @@ public static class BTDefine
     public const int BT_Node_Type_Composite_Selector                    = BT_Node_Type_Composite * 100 + 2;
     public const int BT_Node_Type_Composite_Parallel                    = BT_Node_Type_Composite * 100 + 3;
     public const int BT_Node_Type_Composite_IfElse                      = BT_Node_Type_Composite * 100 + 4;
+    public const int BT_Node_Type_Composite_WithStateSequence           = BT_Node_Type_Composite * 100 + 5;
+    public const int BT_Node_Type_Composite_WithStateSelector           = BT_Node_Type_Composite * 100 + 6;
 
     public const int BT_Node_Type_Decor_Invert                          = BT_Node_Type_Decor * 100 + 1;
     public const int BT_Node_Type_Decor_Repeat                          = BT_Node_Type_Decor * 100 + 2;

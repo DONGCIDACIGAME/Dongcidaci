@@ -136,13 +136,21 @@ public  class ControlAIOperationArea : UIControl
         {
             AddPropertyPage<ControlParallelPropertyPage>("Composite/Ctl_PropertyPage_Parallel", node);
         }
-        else if (node is BTSelectNode)
+        else if (node is BTSelectorNode)
         {
             AddPropertyPage<ControlSelectorPropertyPage>("Composite/Ctl_PropertyPage_Selector", node);
         }
         else if (node is BTIfElseNode)
         {
             AddPropertyPage<ControlIfElsePropertyPage>("Composite/Ctl_PropertyPage_IfElse", node);
+        }
+        else if (node is BTWithStateSequenceNode)
+        {
+            AddPropertyPage<ControlWithStateSequencePropertyPage>("Composite/Ctl_PropertyPage_WithStateSequence", node);
+        }
+        else if (node is BTWithStateSelectorNode)
+        {
+            AddPropertyPage<ControlWithStateSelectorPropertyPage>("Composite/Ctl_PropertyPage_WithStateSelector", node);
         }
         #endregion
         #region decor

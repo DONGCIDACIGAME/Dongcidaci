@@ -13,6 +13,7 @@ public class BTParallelNode : BTCompositeNode
         if (mChildNodes == null || mChildNodes.Count == 0)
             return BTDefine.BT_ExcuteResult_Failed;
 
+        int ret = BTDefine.BT_ExcuteResult_Succeed;
         for (int i = 0; i < mChildNodes.Count; i++)
         {
             BTNode node = mChildNodes[i];
@@ -20,10 +21,13 @@ public class BTParallelNode : BTCompositeNode
 
             // 执行中的节点不会影响其他节点的继续执行
             if (result == BTDefine.BT_ExcuteResult_Running)
-                continue;
-
-            if (result == BTDefine.BT_ExcuteResult_Failed)
-                return BTDefine.BT_ExcuteResult_Failed;
+            {
+                ret = BTDefine.BT_ExcuteResult_Running;
+            }
+            else if (result == BTDefine.BT_ExcuteResult_Failed)
+            {
+                ret =  BTDefine.BT_ExcuteResult_Failed;
+            }
         }
 
         for (int i = 0; i < mChildNodes.Count; i++)
@@ -31,6 +35,7 @@ public class BTParallelNode : BTCompositeNode
             BTNode node = mChildNodes[i];
             node.Reset();
         }
-        return BTDefine.BT_ExcuteResult_Succeed;
+
+        return ret;
     }
 }

@@ -128,13 +128,19 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
                 return new BTSequenceNode();
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Composite_Selector)
-                return new BTSelectNode();
+                return new BTSelectorNode();
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Composite_Parallel)
                 return new BTParallelNode();
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Composite_IfElse)
                 return new BTIfElseNode();
+
+            if (nodeDetailType == BTDefine.BT_Node_Type_Composite_WithStateSequence)
+                return new BTWithStateSequenceNode();
+
+            if (nodeDetailType == BTDefine.BT_Node_Type_Composite_WithStateSelector)
+                return new BTWithStateSelectorNode();
         }
 
 

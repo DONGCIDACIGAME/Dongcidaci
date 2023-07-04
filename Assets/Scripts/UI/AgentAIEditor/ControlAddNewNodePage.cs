@@ -21,6 +21,8 @@ public class ControlAddNewNodePage : UIControl
     private Button Btn_Selector;
     private Button Btn_Parallel;
     private Button Btn_IfElse;
+    private Button Btn_WithStateSequence;
+    private Button Btn_WithStateSelector;
 
     /// <summary>
     /// decor
@@ -94,9 +96,12 @@ public class ControlAddNewNodePage : UIControl
 
 
         Btn_Sequence = BindButtonNode("Contain_CompositeNodes/Button_Sequence", () => { AddChildNode(new BTSequenceNode()); });
-        Btn_Selector = BindButtonNode("Contain_CompositeNodes/Button_Selector", () => { AddChildNode(new BTSelectNode()); });
+        Btn_Selector = BindButtonNode("Contain_CompositeNodes/Button_Selector", () => { AddChildNode(new BTSelectorNode()); });
         Btn_Parallel = BindButtonNode("Contain_CompositeNodes/Button_Parallel", () => { AddChildNode(new BTParallelNode()); });
         Btn_IfElse = BindButtonNode("Contain_CompositeNodes/Button_IfElse", () => { AddChildNode(new BTIfElseNode()); });
+        Btn_WithStateSequence = BindButtonNode("Contain_CompositeNodes/Button_WithStateSequence", () => { AddChildNode(new BTWithStateSequenceNode()); });
+        Btn_WithStateSelector = BindButtonNode("Contain_CompositeNodes/Button_WithStateSelector", () => { AddChildNode(new BTWithStateSelectorNode()); });
+
 
         Btn_Invert = BindButtonNode("Contain_DecorNodes/Button_Invert", () => { AddChildNode(new BTInvertNode()); });
         Btn_Repeat = BindButtonNode("Contain_DecorNodes/Button_Repeat", () => { AddChildNode(new BTRepeatNode()); });

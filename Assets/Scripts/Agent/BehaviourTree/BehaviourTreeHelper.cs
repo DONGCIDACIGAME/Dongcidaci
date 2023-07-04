@@ -41,6 +41,10 @@ public static class BehaviourTreeHelper
                 return "并行执行";
             case BTDefine.BT_Node_Type_Composite_IfElse:
                 return "IfElse逻辑";
+            case BTDefine.BT_Node_Type_Composite_WithStateSequence:
+                return "带状态的顺序执行";
+            case BTDefine.BT_Node_Type_Composite_WithStateSelector:
+                return "带状态的选择执行";
             case BTDefine.BT_Node_Type_Decor_Invert:
                 return "反转";
             case BTDefine.BT_Node_Type_Decor_Repeat:
