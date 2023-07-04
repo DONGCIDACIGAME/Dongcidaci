@@ -118,7 +118,7 @@
 										"effectValueDict":{"value": 1, "time":1}, 
 										"hitShapeType": 0, 
 										"hitSizeX": 0.5, 
-										"hitSizeY": 0, 
+										"hitsizeY": 0, 
 										"hitOffsetX": 0,
 										"hitOffsetY": 0
 									}

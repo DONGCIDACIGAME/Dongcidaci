@@ -2,6 +2,7 @@ using GameEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameSkillEffect;
 
 public class GameBattleManager : ModuleManager<GameBattleManager>
 {

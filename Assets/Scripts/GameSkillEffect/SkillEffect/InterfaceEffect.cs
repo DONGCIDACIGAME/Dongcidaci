@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameSkillEffect;
 
 /// <summary>
 /// 可被角色携带的技能效果
@@ -41,6 +42,11 @@ public interface ITriggerOnApplyDmg
     /// <param name="rlsDmg"></param>
     /// <returns></returns>
     public bool OnApplyDmg(Agent user, Agent tgt, DmgEft rlsDmg); 
+
+    /// <summary>
+    /// 这个效果在造成伤害时触发的优先级
+    /// </summary>
+    public int TrigOnApplyDmgPriority { get; }
 }
 
 public interface ITriggerOnGetDmg
@@ -54,6 +60,11 @@ public interface ITriggerOnGetDmg
     /// <param name="gotDmg"></param>
     /// <returns></returns>
     public bool OnGetDmg(Agent user, Agent receiver, DmgEft gotDmg);
+
+    /// <summary>
+    /// 这个效果在受到伤害时触发的优先级
+    /// </summary>
+    public int TrigOnGetDmgPriority { get; }
 }
 
 

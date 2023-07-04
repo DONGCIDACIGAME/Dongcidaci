@@ -58,7 +58,7 @@ public class RectEffectExcutor : IGameUpdate, IRecycle
     {
         //Log.Logic(LogLevel.Info, "{0} excute effect {1}", agt.GetAgentId(), effect.effectType);
         // added by weng 0703
-        GameBattleManager.Ins.OnExcuteComboEffect(agt,effect);
+        agt.SkillEftHandler.OnExcuteComboEffect(effect);
     }
 
     public void Recycle()

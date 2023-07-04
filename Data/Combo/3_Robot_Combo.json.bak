@@ -21,10 +21,10 @@
 										"effectType": 0, 
 										"effectValueDict":{"value": 1, "time":1}, 
 										"hitShapeType": 0, 
-										"hitsizeX": 0.5, 
-										"hitsizeY": 0, 
+										"hitSizeX": 3, 
+										"hitSizeY": 2, 
 										"hitOffsetX": 0,
-										"hitOffsetY": 0
+										"hitOffsetY": 0.5
 									}
 								]
 							}
@@ -46,7 +46,7 @@
 										"effectType": 0, 
 										"effectValueDict":{"value": 1, "time":1}, 
 										"hitShapeType": 0, 
-										"hitsizeX": 0.5, 
+										"hitSizeX": 0.5, 
 										"hitsizeY": 0, 
 										"hitOffsetX": 0,
 										"hitOffsetY": 0
@@ -71,7 +71,7 @@
 										"effectType": 0, 
 										"effectValueDict":{"value": 1, "time":1}, 
 										"hitShapeType": 0, 
-										"hitsizeX": 0.5, 
+										"hitSizeX": 0.5, 
 										"hitsizeY": 0, 
 										"hitOffsetX": 0,
 										"hitOffsetY": 0
@@ -112,12 +112,12 @@
 						"effectCollictions": [
 							{
 								"effects": [
-									{{
+									{
 										"rlsTgt": 0,
 										"effectType": 0, 
 										"effectValueDict":{"value": 1, "time":1}, 
 										"hitShapeType": 0, 
-										"hitsizeX": 0.5, 
+										"hitSizeX": 0.5, 
 										"hitsizeY": 0, 
 										"hitOffsetX": 0,
 										"hitOffsetY": 0

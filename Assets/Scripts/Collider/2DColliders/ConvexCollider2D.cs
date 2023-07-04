@@ -75,6 +75,11 @@ public class ConvexCollider2D : IConvex2DCollider, IRecycle
         this._colliderType = colliderType;
         this._entityId = bindEntityID;
 
+        this._convex2DShape = GameColliderHelper.GetRegularShapeWith(initColliderData.shapeType,initColliderData.offset,initColliderData.size);
+        _convex2DShape.AnchorPos = anchorPos;
+        _convex2DShape.AnchorAngle = anchorAngle;
+
+        /**
         // 碰撞的大小和偏移
         switch (initColliderData.shapeType)
         {
@@ -93,6 +98,7 @@ public class ConvexCollider2D : IConvex2DCollider, IRecycle
                 this._convex2DShape = new Rect2DShape(anchorPos, anchorAngle, initColliderData.offset, initColliderData.size);
                 break;
         }
+        */
 
         if (scale.x == 0 || scale.y == 0 || scale.z == 0)
         {

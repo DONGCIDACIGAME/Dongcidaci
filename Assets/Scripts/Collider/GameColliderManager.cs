@@ -30,7 +30,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     /// </summary>
     private Dictionary<int, HashSet<ValueTuple<int, int>>> _colliderToGridIndexsDict;
 
-    public List<GameCollider2D> tempTestColliders;
+    public List<ConvexCollider2D> tempTestColliders;
 
     /// <summary>
     /// 处于某个地图坐标中的碰撞体
@@ -42,7 +42,8 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
         _gridConfig = new UnLimitedGrid(6f,6f);
         _colliderToGridIndexsDict = new Dictionary<int, HashSet<(int, int)>>();
         _gridIndexToCollidersDict = new Dictionary<(int, int), HashSet<ConvexCollider2D>>();
-        //tempTestColliders = new List<GameCollider2D>();
+
+        tempTestColliders = new List<ConvexCollider2D>();
         Log.Logic(LogLevel.Info, "GameColliderManager Initialize Completed");
     }
 
@@ -107,7 +108,8 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
         if (_colliderToGridIndexsDict.ContainsKey(colliderId) == false)
         {
             _colliderToGridIndexsDict.Add(colliderId, new HashSet<(int, int)>());
-            //tempTestColliders.Add(collider);
+
+            tempTestColliders.Add(collider);
         }
         // 更新碰撞体所在的区域信息
         UpdateColliderInfoInGrid(collider);
@@ -238,7 +240,8 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
 
         // 清空 collide to grid indexs
         _colliderToGridIndexsDict.Remove(colliderId);
-        //tempTestColliders.Remove(collider);
+
+        tempTestColliders.Remove(collider);
         return true;
     }
 
@@ -334,6 +337,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
                             else if(detectedColliders.Count>0)
                             {
                                 int insertIndex = -1;
+
                                 for (int i=0;i< detectedColliders.Count;i++)
                                 {
                                     var crtDis = (detectedColliders[i].Convex2DShape.AnchorPos - shape.AnchorPos).magnitude;
@@ -344,7 +348,8 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
                                         break;
                                     }
                                 }
-                                if (insertIndex>=0)
+
+                                if (insertIndex >=0)
                                 {
                                     detectedColliders.Insert(insertIndex, tgtCollider);
                                 }else if (insertIndex == -1)
@@ -641,7 +646,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     {
         _colliderToGridIndexsDict = null;
         _gridIndexToCollidersDict = null;
-        //tempTestColliders = null;
+        tempTestColliders = null;
     }
 
 

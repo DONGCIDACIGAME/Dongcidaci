@@ -18,21 +18,22 @@ public class GameColliderMgrTest : MonoBehaviour
         Handles.color = Color.green;
         foreach (var collider in _tempTestColliders)
         {
-            var lines = GameColliderHelper.GetRectangleLines(collider);
+            var colliderVertexs = collider.Convex2DShape.GetVertexs();
+            if (colliderVertexs == null || colliderVertexs.Length == 0) continue;
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < colliderVertexs.Length; i++)
             {
-                //var line = lines[i,2];
-                var v0 = lines[i,0];
-                var v1 = lines[i, 1];
-                Handles.DrawDottedLine(new Vector3(v0.x,0,v0.y), new Vector3(v1.x,0,v1.y), lineThickness);
+                int nextIndex = i + 1;
+                if (nextIndex >= colliderVertexs.Length)
+                {
+                    //last point
+                    nextIndex = 0;
+                }
+
+                Handles.DrawDottedLine(new Vector3(colliderVertexs[i].x, 0, colliderVertexs[i].y), new Vector3(colliderVertexs[nextIndex].x, 0, colliderVertexs[nextIndex].y), lineThickness);
             }
+
         }
-
-
-
-
-
 
     }
 

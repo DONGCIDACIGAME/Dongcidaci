@@ -1,5 +1,6 @@
 using UnityEngine;
 using GameEngine;
+using GameSkillEffect;
 
 public class Hero : Agent
 {
@@ -7,6 +8,19 @@ public class Hero : Agent
     /// 英雄配置数据
     /// </summary>
     private DongciDaci.HeroBaseCfg mHeroCfg;
+
+    /// <summary>
+    /// 英雄的属性
+    /// Added by weng 0704
+    /// </summary>
+    private HeroAttribute _mHeroAttr;
+
+    /// <summary>
+    /// 英雄的属性管理
+    /// Added by weng 0704
+    /// </summary>
+    public HeroAttrHandler HeroAttrHandler;
+
 
     /// <summary>
     /// 相机跟随
@@ -63,6 +77,18 @@ public class Hero : Agent
 
     protected override void CustomInitialize()
     {
+        // added by weng 0704
+        // 英雄属性和属性管理器，和 agtAttr 和 attrHandler是同一个对象
+        _mHeroAttr = new HeroAttribute(
+            mHeroCfg.MaxHp, mHeroCfg.MaxHp, mHeroCfg.BaseAttack, mHeroCfg.DefenseRate,
+            mHeroCfg.CriticalRate, mHeroCfg.CriticalDmgRate, mHeroCfg.DodgeRate, mHeroCfg.MoveSpeed, 
+            0, mHeroCfg.ExtraEnergyGain,mHeroCfg.BeatTolerance,mHeroCfg.LuckyRate
+            );
+        _mAgtAttr = _mHeroAttr;
+        this.HeroAttrHandler = new HeroAttrHandler();
+        this.HeroAttrHandler.InitAgentAttr(_mAgtAttr);
+        this.AttrHandler = HeroAttrHandler;
+
         // 位置初始化
         // changed by weng 0626
         SetPosition(new Vector3(20f,0.2f,5f));

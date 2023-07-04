@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DongciDaci
+namespace GameSkillEffect
 {
 
     [System.Serializable]
@@ -26,7 +26,7 @@ namespace DongciDaci
         /// <summary>
         /// 防御百分比
         /// </summary>
-        public int defenseRate = 0;
+        public float defenseRate = 0;
 
         /// <summary>
         /// 暴击率
@@ -48,7 +48,7 @@ namespace DongciDaci
         /// </summary>
         public float moveSpeed = 2f;
 
-        public AgentAttribute(int crtHp,int maxHp,int bsAtk,int defenseRate,float criticalRate,float criticalDmgRate,float dodgeRate,float moveSpeed)
+        public AgentAttribute(int crtHp,int maxHp,int bsAtk,float defenseRate,float criticalRate,float criticalDmgRate,float dodgeRate,float moveSpeed)
         {
             this.crtHp = crtHp;
             this.maxHp = maxHp;
@@ -60,6 +60,20 @@ namespace DongciDaci
             this.moveSpeed = moveSpeed;
             
         }
+
+        /**
+        public int CalculateRealDamage(int tgtDmgValue)
+        {
+            return tgtDmgValue + baseAtk;
+        }
+
+        public void GetDamage(int dmgValue)
+        {
+            //var realDmg = (100- defenseRate)*0.01f *dmgValue
+        }
+        */
+
+
 
 
     }

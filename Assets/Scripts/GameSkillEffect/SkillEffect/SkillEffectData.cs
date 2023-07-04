@@ -43,7 +43,7 @@ public class SkillEffectData
     /// <summary>
     /// 碰撞形状宽
     /// </summary>
-    public float hitsizeX;
+    public float hitSizeX;
 
     /// <summary>
     /// 碰撞形状高
