@@ -1,9 +1,10 @@
 using GameEngine;
+using GameSkillEffect;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class Agent : MapEntityWithCollider, IMeterHandler
+public abstract class Agent : MapEntityWithCollider, IMeterHandler,IAgentWithSkEftHandler
 {
     /// <summary>
     /// 角色id
@@ -39,6 +40,18 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     /// 效果执行器
     /// </summary>
     public EffectExcutorController EffectExcutorCtl;
+
+    /// <summary>
+    /// Added by Weng 0704
+    /// 角色的技能效果状态管理器
+    /// </summary>
+    private AgentSkEftHandler _skEftHandler;
+
+    /// <summary>
+    /// Added by Weng 0704
+    /// 角色的技能效果状态管理器
+    /// </summary>
+    public AgentSkEftHandler SkEftHandler => _skEftHandler;
 
     /// <summary>
     /// 移动执行器
@@ -193,6 +206,11 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         // 状态机 初始化
         StatusMachine.Initialize(this);
 
+        // Added by weng 0704
+        // 增加技能效果处理器的初始化
+        _skEftHandler = GamePoolCenter.Ins.AgtSkEftHandlerPool.Pop();
+        _skEftHandler.InitAgentSkEftHandler(this);
+
         // 其他自定义初始化
         CustomInitialize();
 
@@ -266,6 +284,8 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     /// 这是上一个输入指令的一份数据拷贝
     /// </summary>
     private AgentInputCommand lastInputCmd;
+
+    
 
     public void OnCommand(AgentInputCommand cmd)
     {

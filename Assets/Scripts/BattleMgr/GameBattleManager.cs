@@ -25,11 +25,7 @@ public class GameBattleManager : ModuleManager<GameBattleManager>
 
     public void OnExcuteComboEffect(Agent user, SkillEffectData effectData)
     {
-        Log.Logic(LogLevel.Info, "{0} excute effect {1}", user.GetAgentId(), effectData.effectType);
-
-        var rlsSkEft = SkEftDefine.GetSkEftBy(user, effectData);
-        if (rlsSkEft == null) return;
-        rlsSkEft.TriggerSkEft();
+        
     }
 
 
