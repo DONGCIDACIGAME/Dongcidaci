@@ -1,4 +1,5 @@
 using GameEngine;
+using GameSkillEffect;
 using System.Collections.Generic;
 
 /// <summary>
@@ -7,18 +8,20 @@ using System.Collections.Generic;
 public class EffectExcutorController : IGameUpdate, IMeterHandler
 {
     private Agent mAgt;
-    private HashSet<RectEffectExcutor> effectExcutors;
+    //Changed by weng 0704
+    private HashSet<ComboEffectExcutor> effectExcutors;
     private bool mEnable;
 
     public void Initialize(Agent agt)
     {
-        effectExcutors = new HashSet<RectEffectExcutor>();
+        //Changed by weng 0704
+        effectExcutors = new HashSet<ComboEffectExcutor>();
         mAgt = agt;
         mEnable = false;
     }
 
     
-    public void Start(string statusName, string stateName, EffectCollection[] effectCollictions)
+    public void Start(string statusName, string stateName, SkEftDataCollection[] effectCollictions)
     {
         if (mAgt == null)
         {
@@ -72,16 +75,24 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
             // 第i个hit点的信息
             HitPointInfo hitpoint = hitPoints[i];
             // 第i个hit点的效果
-            EffectCollection hitEffect = effectCollictions[i];
+            SkEftDataCollection hitEffects = effectCollictions[i];
 
+            //Changed by weng 0704
+            //此处应该是个错误，对应的ComboEffectExcutor执行的应该是SkEftDataCollection
+            ComboEffectExcutor excutor = GamePoolCenter.Ins.ComboEffectExcutorPool.Pop();
+            excutor.Initialize(mAgt, hitpoint.progress * totalTime, hitEffects);
+            effectExcutors.Add(excutor);
+
+            /** old code
             for(int j = 0; j < hitEffect.effects.Length; j++)
             {
-                RectEffectExcutor excutor = GamePoolCenter.Ins.RectEffectExcutorPool.Pop();
+                ComboEffectExcutor excutor = GamePoolCenter.Ins.ComboEffectExcutorPool.Pop();
                 // modified by weng 0704 
                 //excutor.Initialize(mAgt, hitpoint.progress * totalTime, hitEffect.effects[j]);
                 excutor.Initialize(mAgt, hitpoint.progress * totalTime, hitEffect.effects[j]);
                 effectExcutors.Add(excutor);
             }
+            */
         }
 
         mEnable = true;
@@ -89,7 +100,7 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
 
     public void Reset()
     {
-        foreach (RectEffectExcutor excutor in effectExcutors)
+        foreach (ComboEffectExcutor excutor in effectExcutors)
         {
             excutor.Recycle();
         }
@@ -111,7 +122,7 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
             return;
 
         int totalActiveExcutor = 0;
-        foreach(RectEffectExcutor excutor in effectExcutors)
+        foreach(ComboEffectExcutor excutor in effectExcutors)
         {
             excutor.OnUpdate(deltaTime);
 
@@ -136,4 +147,6 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
     {
         
     }
+
+
 }
