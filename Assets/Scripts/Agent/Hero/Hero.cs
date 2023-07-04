@@ -1,5 +1,6 @@
 using UnityEngine;
 using GameEngine;
+using GameSkillEffect;
 
 public class Hero : Agent
 {
@@ -63,6 +64,16 @@ public class Hero : Agent
 
     protected override void CustomInitialize()
     {
+        // added by weng 0704
+        _mAgtAttr = new HeroAttribute(
+            mHeroCfg.MaxHp, mHeroCfg.MaxHp, mHeroCfg.BaseAttack, mHeroCfg.DefenseRate,
+            mHeroCfg.CriticalRate, mHeroCfg.CriticalDmgRate, mHeroCfg.DodgeRate, mHeroCfg.MoveSpeed, 
+            0, mHeroCfg.ExtraEnergyGain,mHeroCfg.BeatTolerance,mHeroCfg.LuckyRate
+            );
+        this.AttrHandler = new HeroAttrHandler();
+        this.AttrHandler.InitAgentAttr(_mAgtAttr);
+
+
         // 位置初始化
         // changed by weng 0626
         SetPosition(new Vector3(20f,0.2f,5f));

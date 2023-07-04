@@ -1,4 +1,5 @@
 using UnityEngine;
+using GameSkillEffect;
 
 public class Monster : Agent
 {
@@ -81,11 +82,20 @@ public class Monster : Agent
 
     protected override void CustomInitialize()
     {
+        // added by weng 0704
+        _mAgtAttr = new AgentAttribute(
+            mMonsterCfg.MaxHp, mMonsterCfg.MaxHp, mMonsterCfg.BaseAttack, mMonsterCfg.DefenseRate,
+            mMonsterCfg.CriticalRate, mMonsterCfg.CriticalDmgRate, mMonsterCfg.DodgeRate, mMonsterCfg.MoveSpeed
+            );
+        this.AttrHandler = new AgentAttrHandler();
+        this.AttrHandler.InitAgentAttr(_mAgtAttr);
+
+
         // 位置初始化
         SetPosition(new Vector3(22f, 0.2f, 5f));
         // 朝向初始化
         SetRotation(Vector3.zero);
-        // 缩放初始化
+        // 缩放初始化 modifiy by weng 0704
         SetScale(Vector3.one);
 
         MoveControl = new MonsterMoveControl(this);

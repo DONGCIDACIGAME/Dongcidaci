@@ -51,7 +51,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     /// Added by Weng 0704
     /// 角色的属性
     /// </summary>
-    private AgentAttribute _mAgtAttr;
+    protected AgentAttribute _mAgtAttr;
 
     /// <summary>
     /// Added by Weng 0704
@@ -218,9 +218,6 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         // 增加技能效果处理器的初始化
         SkillEftHandler = GamePoolCenter.Ins.AgtSkEftHandlerPool.Pop();
         SkillEftHandler.InitAgentSkEftHandler(this);
-
-        // Added by Weng 0704
-
 
 
         // 其他自定义初始化

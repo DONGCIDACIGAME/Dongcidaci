@@ -6,7 +6,7 @@ namespace GameSkillEffect
 {
     public class AgentAttrHandler
     {
-        private AgentAttribute _bindAttr;
+        protected AgentAttribute _bindAttr;
 
         public void InitAgentAttr(AgentAttribute agtAttr)
         {
