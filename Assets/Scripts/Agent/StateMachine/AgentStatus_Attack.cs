@@ -173,13 +173,11 @@ public class AgentStatus_Attack : AgentStatus
         if (agentActionData == null)
             return;
 
-        // 1. 播放攻击动画
+        // 1. 转向被攻击的方向
+        mAgent.MoveControl.TurnTo(-towards);
+        
+        // 2. 播放攻击动画
         mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
 
-        // 2. 转向攻击方向
-        mAgent.MoveControl.TurnTo(towards);
-
-        // 3. 造成伤害
-        
     }
 }

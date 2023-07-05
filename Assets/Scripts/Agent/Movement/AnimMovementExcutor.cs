@@ -22,9 +22,14 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
     private float mMoveEndTime;
 
     /// <summary>
-    /// 移动
+    /// 移动距离
     /// </summary>
-    private Movement mMovement;
+    private float mMoveDistance;
+
+    /// <summary>
+    /// 移动时间
+    /// </summary>
+    private float mMoveDuration;
 
     public bool active { get; private set; }
 
@@ -34,12 +39,13 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
     /// <param name="agt">谁</param>
     /// <param name="moveEndTime">移动结束时间</param>
     /// <param name="movement">移动数据</param>
-    public void Initialize(Agent agt, float moveEndTime, Movement movement)
+    public void Initialize(Agent agt, float moveEndTime, float distance, float duration)
     {
         mTimer = 0;
         mAgt = agt;
         mMoveEndTime = moveEndTime;
-        mMovement = movement;
+        mMoveDistance = distance;
+        mMoveDuration = duration;
         active = true;
     }
 
@@ -49,7 +55,8 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
         mTimer = 0;
         mMoveEndTime = 0;
         mAgt = null;
-        mMovement = null;
+        mMoveDistance = 0;
+        mMoveDuration = 0;
     }
 
     public void Recycle()
@@ -65,9 +72,9 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
 
         mTimer += deltaTime;
 
-        if (mTimer >= mMoveEndTime-mMovement.duration)
+        if (mTimer >= mMoveEndTime-mMoveDuration)
         {
-            mAgt.MoveControl.MoveDistanceInTime(mMovement.distance, mMovement.duration);
+            mAgt.MoveControl.MoveDistanceInTime(mMoveDistance, mMoveDuration);
 
             Recycle();
         }

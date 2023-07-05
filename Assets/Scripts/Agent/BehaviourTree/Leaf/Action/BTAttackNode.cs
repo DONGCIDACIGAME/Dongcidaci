@@ -18,7 +18,7 @@ public class BTAttackNode : BTLeafNode
 
         Vector3 towards = mExcutor.GetTowards();
 
-        // 发送idle指令
+        // 发送attack指令
         AgentInputCommand attackCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
         attackCmd.Initialize(AgentCommandDefine.ATTACK_SHORT, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);
         mExcutor.OnCommand(attackCmd);

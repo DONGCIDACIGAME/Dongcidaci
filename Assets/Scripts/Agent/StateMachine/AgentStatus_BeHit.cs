@@ -26,7 +26,14 @@ public class AgentStatus_BeHit : AgentStatus
         Vector3 towards = (Vector3)context["towards"];
         int triggerMeter = (int)context["triggerMeter"];
 
-        StatusDefaultAction(cmdType, towards, triggerMeter, statusDefaultActionData);
+
+        AgentActionData actionData = statusDefaultActionData;
+        if (context.TryGetValue("beHitAction", out object obj))
+        {
+            actionData = obj as AgentActionData;
+        }
+
+        StatusDefaultAction(cmdType, towards, triggerMeter, actionData);
     }
 
     public override void OnExit()
@@ -76,6 +83,13 @@ public class AgentStatus_BeHit : AgentStatus
     /// <param name="agentActionData"></param>
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
-        
+        if (agentActionData == null)
+            return;
+
+        // 1. 播放攻击动画
+        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
+
+        // 2. 转向攻击方向
+        mAgent.MoveControl.TurnTo(towards);
     }
 }

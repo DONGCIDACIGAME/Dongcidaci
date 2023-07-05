@@ -76,7 +76,7 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
             {
                 AnimMovementExcutor excutor = GamePoolCenter.Ins.MovementExcutorPool.Pop();
 
-                excutor.Initialize(mAgt, hitpoint.progress * totalTime, movement);
+                excutor.Initialize(mAgt, hitpoint.progress * totalTime, movement.distance, totalTime * movement.duration);
                 mMovementExcutors.Add(excutor);
             }
         }
