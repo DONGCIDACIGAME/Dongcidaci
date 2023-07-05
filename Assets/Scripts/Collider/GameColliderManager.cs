@@ -308,18 +308,17 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
         detectedColliders = new List<ConvexCollider2D>();
 
         // 没有包络大小
-        if (tempIndexs == null)
+        if (tempIndexs == null||tempIndexs.Count == 0)
             return false;
 
         foreach (var mapIndex in tempIndexs)
         {
-            if (!_gridIndexToCollidersDict.ContainsKey(mapIndex))
+            if (!_gridIndexToCollidersDict.TryGetValue(mapIndex, out HashSet<ConvexCollider2D> collidersInThisGrid))
+            {
                 continue;
-
-            var collidersInThisGrid = _gridIndexToCollidersDict[mapIndex];
-
-            if (collidersInThisGrid == null) 
-                continue;
+            }
+            
+            if (collidersInThisGrid == null) continue;
 
             // 如果能抽个方法会好一点
             foreach (ConvexCollider2D tgtCollider in collidersInThisGrid)
@@ -327,48 +326,27 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
                 if (exceptCollider != null && tgtCollider.GetColliderUID() == exceptCollider.GetColliderUID())
                     continue;
 
-                if (!GameColliderHelper.CheckCollideSAT(shape, tgtCollider.Convex2DShape))
+                if (GameColliderHelper.CheckCollideSAT(shape, tgtCollider.Convex2DShape) == false)
                     continue;
 
-                if (!detectedColliders.Contains(tgtCollider))
-                    continue;
-
-                if (detectedColliders.Count == 0)
+                if (detectedColliders.Contains(tgtCollider) == false)
                 {
                     detectedColliders.Add(tgtCollider);
                 }
-                else // 可以抽一个方法，专门做排序
-                {
-                    int insertIndex = -1;
-
-                    for (int i = 0; i < detectedColliders.Count; i++)
-                    {
-                        var crtDis = (detectedColliders[i].Convex2DShape.AnchorPos - shape.AnchorPos).magnitude;
-                        var tgtDis = (tgtCollider.Convex2DShape.AnchorPos - shape.AnchorPos).magnitude;
-                        if (tgtDis <= crtDis)
-                        {
-                            insertIndex = i;
-                            break;
-                        }
-                    }
-
-                    if (insertIndex >= 0)
-                    {
-                        detectedColliders.Insert(insertIndex, tgtCollider);
-                    }
-                    else if (insertIndex == -1)
-                    {
-                        detectedColliders.Add(tgtCollider);
-                    }
-
-                }
-
-
+                
             }
         }
 
-        return detectedColliders.Count > 0;
+        if (detectedColliders.Count > 0)
+        {
+            detectedColliders = GameColliderHelper.SortCollidersWithAnchorDisToTgtShape(detectedColliders, shape);
+            return true;
+        }
+
+        return false;
     }
+
+
 
 
     ///// <summary>

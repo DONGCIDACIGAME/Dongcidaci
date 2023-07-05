@@ -1,7 +1,71 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public static class GameColliderHelper
 {
+    /// <summary>
+    /// 对指定的碰撞体进行排序；
+    /// 根据到目标形状锚点的距离，越近的放的越前
+    /// </summary>
+    /// <param name="srcColliders"></param>
+    /// <param name="tgtShape"></param>
+    /// <returns></returns>
+    public static List<ConvexCollider2D> SortCollidersWithAnchorDisToTgtShape(List<ConvexCollider2D> srcColliders, IConvex2DShape tgtShape)
+    {
+        var ret = new List<ConvexCollider2D>();
+        if (srcColliders == null || srcColliders.Count == 0 || tgtShape==null) return ret;
+
+        for (int i = 0; i < srcColliders.Count; i++)
+        {
+            if (ret.Count == 0)
+            {
+                ret.Add(srcColliders[i]);
+            }
+            else
+            {
+                int insertIndex = -1;
+                for (int j = 0; j < ret.Count; j++)
+                {
+                    var crtDis = (srcColliders[i].Convex2DShape.AnchorPos - tgtShape.AnchorPos).magnitude;
+                    var retDis = (ret[j].Convex2DShape.AnchorPos - tgtShape.AnchorPos).magnitude;
+                    if (crtDis <= retDis)
+                    {
+                        insertIndex = j;
+                        break;
+                    }
+                }
+
+                if (insertIndex >= 0)
+                {
+                    ret.Insert(insertIndex, srcColliders[i]);
+                }
+                else
+                {
+                    ret.Add(srcColliders[i]);
+                }
+
+            }
+        }
+
+        return ret;
+    }
+
+
+    /// <summary>
+    /// 对指定的碰撞体进行排序；
+    /// 根据到目标碰撞体锚点的距离，越近的放的越前
+    /// </summary>
+    /// <param name="srcColliders"></param>
+    /// <param name="tgtCollider"></param>
+    /// <returns></returns>
+    public static List<ConvexCollider2D> SortCollidersWithAnchorDisToTgt(List<ConvexCollider2D> srcColliders, ConvexCollider2D tgtCollider)
+    {
+        var ret = new List<ConvexCollider2D>();
+        if (srcColliders == null || srcColliders.Count == 0 || tgtCollider ==null) return ret;
+        return SortCollidersWithAnchorDisToTgtShape(srcColliders,tgtCollider.Convex2DShape);
+    }
+
+
     /// <summary>
     /// 返回指定的正多边形，锚点0，0，旋转角度0
     /// </summary>
