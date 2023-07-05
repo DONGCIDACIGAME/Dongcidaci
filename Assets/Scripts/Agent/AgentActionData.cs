@@ -19,4 +19,5 @@ public class AgentActionData
     /// 招式在所有击打点上的效果数组
     /// </summary>
     public SkEftDataCollection[] effectCollictions;
+
 }
