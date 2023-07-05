@@ -17,9 +17,15 @@ namespace GameSkillEffect
             _carrySkEfts = new List<IPortableEffect>();
         }
 
+        /// <summary>
+        /// 在每个击打点需要执行的效果合集
+        /// </summary>
+        /// <param name="effectDatas"></param>
         public void OnExcuteComboEffect(SkEftDataCollection effectDatas)
         {
             // 需要修改这里的逻辑
+            if (effectDatas == null || effectDatas.effects == null || effectDatas.effects.Length == 0) return;
+
 
             /**
             Log.Logic(LogLevel.Info, "{0} excute effect {1}", _bindAgent.GetAgentId(), effectData.effectType);
@@ -70,15 +76,41 @@ namespace GameSkillEffect
         }
 
 
-        public void OnApplyDamage(Agent tgt, DmgEft rlsDmg)
+        public void OnApplyDamage(Agent tgt, Damage rlsDmg)
         {
             Log.Logic(LogLevel.Info, "{0} OnApplyDamage {1}", _bindAgent.GetAgentId(), rlsDmg.DmgValue);
         }
 
-        public void OnGetDamage(Agent src, DmgEft gotDmg)
+        public void OnGetDamage(Agent src, Damage gotDmg)
         {
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

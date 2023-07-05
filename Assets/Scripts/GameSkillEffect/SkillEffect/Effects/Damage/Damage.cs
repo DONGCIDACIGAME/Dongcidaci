@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace GameSkillEffect
 {
-    public class DmgEft : SkillEffect
+    public abstract class Damage : SkillEffect
     {
-        private int _dmgValue;
+        protected int _dmgValue;
         public int DmgValue { get { return _dmgValue; } set { _dmgValue = value; } }
 
         public override bool InitSkEft(Agent user, SkillEffectData initData)
@@ -35,8 +35,8 @@ namespace GameSkillEffect
 
         public override void TriggerSkEft()
         {
-            Log.Logic(LogLevel.Info, "TriggerSkEft Damage Trigger");
-            var tgtAgents = GetHitAgents();
+            Log.Logic(LogLevel.Info, "TriggerSkEft AttackDamage Trigger");
+            var tgtAgents = SkEftHelper.GetHitAgents(_eftUser,_eftCollideShape,_initSkEftData.rlsTgt);
             if (tgtAgents == null || tgtAgents.Count == 0)
             {
                 Log.Logic(LogLevel.Info, "TriggerSkEft Damage -- no tgt in damage area");
@@ -51,25 +51,12 @@ namespace GameSkillEffect
         }
 
 
-        public override void Dispose()
-        {
-            this._eftCollideShape = null;
-            this._eftUser = null;
-            this._initSkEftData = null;
-        }
 
-        public override void Recycle()
-        {
-            Dispose();
-            GameSkEftPool.Ins.Push<DmgEft>(this);
-        }
-
-        public override void RecycleReset()
-        {
-            Dispose();
-        }
 
     }
+
+
+
 }
 
 

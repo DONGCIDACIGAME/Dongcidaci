@@ -11,8 +11,6 @@ public interface IPortableEffect
 
 }
 
-
-
 public interface ITriggerOnExcuteComboEft
 {
     /// <summary>
@@ -41,7 +39,7 @@ public interface ITriggerOnApplyDmg
     /// <param name="tgt"></param>
     /// <param name="rlsDmg"></param>
     /// <returns></returns>
-    public bool OnApplyDmg(Agent user, Agent tgt, DmgEft rlsDmg); 
+    public bool OnApplyDmg(Agent user, Agent tgt, Damage rlsDmg);
 
     /// <summary>
     /// 这个效果在造成伤害时触发的优先级
@@ -59,7 +57,7 @@ public interface ITriggerOnGetDmg
     /// <param name="receiver"></param>
     /// <param name="gotDmg"></param>
     /// <returns></returns>
-    public bool OnGetDmg(Agent user, Agent receiver, DmgEft gotDmg);
+    public bool OnGetDmg(Agent user, Agent receiver, Damage gotDmg);
 
     /// <summary>
     /// 这个效果在受到伤害时触发的优先级
@@ -67,11 +65,33 @@ public interface ITriggerOnGetDmg
     public int TrigOnGetDmgPriority { get; }
 }
 
+public interface ITriggerOnApplyAtkDmg
+{
+    public bool OnApplyAtkDmg(Agent user, Agent tgt, AttackDamage rlsDmg);
 
+    public int TrigOnApplyAtkDmgPriority { get; }
+}
 
+public interface ITriggerOnGetAtkDmg
+{
+    public bool OnGetAtkDmg(Agent user, Agent tgt, AttackDamage rlsDmg);
 
+    public int TrigOnGetAtkDmgPriority { get; }
+}
 
+public interface ITriggerOnApplyEftDmg
+{
+    public bool OnApplyEftDmg(Agent user, Agent tgt, EffectDamage rlsDmg);
 
+    public int TrigOnApplyEftDmgPriority { get; }
+}
+
+public interface ITriggerOnGetEftDmg
+{
+    public bool OnGetEftDmg(Agent user, Agent tgt, EffectDamage rlsDmg);
+
+    public int TrigOnGetEftDmgPriority { get; }
+}
 
 
 
