@@ -11,8 +11,6 @@ public class AgentStatus_Idle : AgentStatus
     public override void CustomInitialize()
     {
         base.CustomInitialize();
-        mInputHandle = new KeyboardInputHandle_Idle(mAgent);
-        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 
     protected override void CustomDispose()
@@ -20,13 +18,13 @@ public class AgentStatus_Idle : AgentStatus
         base.CustomDispose();
     }
 
-    public override void OnEnter(Dictionary<string, object> context)
+    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context)
     {
-        base.OnEnter(context);
+        base.OnEnter(cmdType, towards, triggerMeter, context);
 
-        byte cmdType = (byte)context["cmdType"];
-        Vector3 towards = (Vector3)context["towards"];
-        int triggerMeter = (int)context["triggerMeter"];
+        //byte cmdType = (byte)context["cmdType"];
+        //Vector3 towards = (Vector3)context["towards"];
+        //int triggerMeter = (int)context["triggerMeter"];
 
         StatusDefaultAction(cmdType, towards, triggerMeter, statusDefaultActionData);
     }
@@ -103,13 +101,24 @@ public class AgentStatus_Idle : AgentStatus
 
         if (agentActionData == null)
         {
-            // 步进式动画继续
-            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
+            // 1. 转向移动放方向
+            mAgent.MoveControl.TurnTo(towards);
 
+            // 2. 步进式动画继续
+            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
             return;
         }
 
-        //  播放动画
+        // 1. 转向移动放方向
+        mAgent.MoveControl.TurnTo(towards);
+
+        // 2. 播放动画
         mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.stateName, agentActionData.stateName);
+    }
+
+    public override void RegisterInputHandle()
+    {
+        mInputHandle = new KeyboardInputHandle_Idle(mAgent);
+        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 }

@@ -10,7 +10,7 @@ public class AgentInputCommandBuffer : IGameDisposable
     {
         this.cmdList = 0;
         this.directionList = new Vector3[8];
-        this. triggerMeterList = new int[8];
+        this.triggerMeterList = new int[8];
     }
 
     public bool HasCommand()
@@ -49,6 +49,7 @@ public class AgentInputCommandBuffer : IGameDisposable
         if (index >= 0 && index < 8)
         {
             directionList[index] = DirectionDef.none;
+            triggerMeterList[index] = 0;
         }
     }
 
@@ -68,6 +69,7 @@ public class AgentInputCommandBuffer : IGameDisposable
                 if(index >= 0 && index < 8)
                 {
                     towards = directionList[index];
+                    triggerMeter = triggerMeterList[index];
                 }
                 return true;
             }

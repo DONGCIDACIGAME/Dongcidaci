@@ -12,8 +12,7 @@ public class AgentStatus_Attack : AgentStatus
     /// </summary>
     public override void CustomInitialize()
     {
-        mInputHandle = new KeyboardInputHandle_Attack(mAgent);
-        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
+        base.CustomDispose();
     }
 
     /// <summary>
@@ -28,13 +27,13 @@ public class AgentStatus_Attack : AgentStatus
     /// 状态进入
     /// </summary>
     /// <param name="context"></param>
-    public override void OnEnter(Dictionary<string, object> context)
+    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context)
     {
-        base.OnEnter(context);
+        base.OnEnter(cmdType, towards, triggerMeter, context);
 
-        byte cmdType = (byte)context["cmdType"];
-        Vector3 towards = (Vector3)context["towards"];
-        int triggerMeter = (int)context["triggerMeter"];
+        //byte cmdType = (byte)context["cmdType"];
+        //Vector3 towards = (Vector3)context["towards"];
+        //int triggerMeter = (int)context["triggerMeter"];
 
         TriggeredComboStep triggeredComboStep = null;
         if (context.TryGetValue("comboStep", out object obj))
@@ -174,10 +173,22 @@ public class AgentStatus_Attack : AgentStatus
             return;
 
         // 1. 转向被攻击的方向
-        mAgent.MoveControl.TurnTo(-towards);
-        
-        // 2. 播放攻击动画
-        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
+        mAgent.MoveControl.TurnTo(towards);
 
+        string statusName = agentActionData.statusName;
+        string stateName = agentActionData.stateName;
+
+        // 2. 播放攻击动画
+        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusName, stateName);
+
+        // 3. 处理动画相关的位移
+        mAgent.MovementExcutorCtl.Start(statusName, stateName, 0, mAgent.GetTowards());
+
+    }
+
+    public override void RegisterInputHandle()
+    {
+        mInputHandle = new KeyboardInputHandle_Attack(mAgent);
+        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 }

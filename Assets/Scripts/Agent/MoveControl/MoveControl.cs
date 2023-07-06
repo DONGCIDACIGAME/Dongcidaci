@@ -15,7 +15,7 @@ public class MoveControl
         mAgent = agt;
     }
 
-    public virtual void MoveTo(Vector3 towards, float distance, float duration)
+    public virtual void MoveTowards(Vector3 towards, float distance, float duration)
     {
         if (towards.Equals(DirectionDef.none))
             return;

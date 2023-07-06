@@ -1,4 +1,5 @@
 using GameEngine;
+using UnityEngine;
 
 /// <summary>
 /// 动画移动执行器
@@ -17,7 +18,12 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
     private Agent mAgt;
 
     /// <summary>
-    /// 执行时间
+    /// 移动开始时间
+    /// </summary>
+    private float mMoveStartTime;
+
+    /// <summary>
+    /// 移动结束时间
     /// </summary>
     private float mMoveEndTime;
 
@@ -27,9 +33,9 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
     private float mMoveDistance;
 
     /// <summary>
-    /// 移动时间
+    /// 移动方向
     /// </summary>
-    private float mMoveDuration;
+    private Vector3 mMoveTowards;
 
     public bool active { get; private set; }
 
@@ -37,15 +43,18 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
     /// 启动一个角色在击打点的效果执行器
     /// </summary>
     /// <param name="agt">谁</param>
-    /// <param name="moveEndTime">移动结束时间</param>
-    /// <param name="movement">移动数据</param>
-    public void Initialize(Agent agt, float moveEndTime, float distance, float duration)
+    /// <param name="moveStartTime">从当前帧开始计时，多久后开始移动</param>
+    /// <param name="moveEndTime">从当前帧开始计时，多久后结束移动</param>
+    /// <param name="towards">朝哪个方向</param>
+    /// <param name="distance">移动多远</param>
+    public void Initialize(Agent agt, float moveStartTime, float moveEndTime, Vector3 towards, float distance)
     {
         mTimer = 0;
         mAgt = agt;
+        mMoveStartTime = moveStartTime;
         mMoveEndTime = moveEndTime;
         mMoveDistance = distance;
-        mMoveDuration = duration;
+        mMoveTowards = towards;
         active = true;
     }
 
@@ -56,7 +65,7 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
         mMoveEndTime = 0;
         mAgt = null;
         mMoveDistance = 0;
-        mMoveDuration = 0;
+        mMoveStartTime = 0;
     }
 
     public void Recycle()
@@ -72,9 +81,9 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
 
         mTimer += deltaTime;
 
-        if (mTimer >= mMoveEndTime-mMoveDuration)
+        if (mTimer >= mMoveEndTime-mMoveStartTime)
         {
-            mAgt.MoveControl.MoveDistanceInTime(mMoveDistance, mMoveDuration);
+            mAgt.MoveControl.MoveDistanceInTime(mMoveTowards, mMoveDistance, mMoveStartTime);
 
             Recycle();
         }

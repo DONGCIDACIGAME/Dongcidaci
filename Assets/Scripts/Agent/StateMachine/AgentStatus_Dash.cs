@@ -11,8 +11,6 @@ public class AgentStatus_Dash : AgentStatus
     public override void CustomInitialize()
     {
         base.CustomInitialize();
-        mInputHandle = new KeyboardInputHandle_Dash(mAgent);
-        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 
     protected override void CustomDispose()
@@ -20,18 +18,12 @@ public class AgentStatus_Dash : AgentStatus
         base.CustomDispose();
     }
 
-    private void Dash()
+    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context)
     {
-        float meterTime = MeterManager.Ins.GetCurrentMeterTime();
-        mAgent.MoveControl.Dash(mAgent.GetDashDistance(), GamePlayDefine.DashMeterTime * meterTime);
-    }
-
-    public override void OnEnter(Dictionary<string, object> context)
-    {
-        base.OnEnter(context);
-        byte cmdType = (byte)context["cmdType"];
-        Vector3 towards = (Vector3)context["towards"];
-        int triggerMeter = (int)context["triggerMeter"];
+        base.OnEnter(cmdType, towards, triggerMeter, context);
+        //byte cmdType = (byte)context["cmdType"];
+        //Vector3 towards = (Vector3)context["towards"];
+        //int triggerMeter = (int)context["triggerMeter"];
 
         TriggeredComboStep triggeredComboStep = null;
         if (context.TryGetValue("comboStep", out object obj))
@@ -150,10 +142,22 @@ public class AgentStatus_Dash : AgentStatus
         if (agentActionData == null)
             return;
 
-        // 1. 播放冲刺动画
-        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
-       
-        // 2. 向当前方向冲刺一段距离
-        Dash();
+        // 1. 转向被攻击的方向
+        mAgent.MoveControl.TurnTo(towards);
+
+        string statusName = agentActionData.statusName;
+        string stateName = agentActionData.stateName;
+
+        // 2. 播放攻击动画
+        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusName, stateName);
+
+        // 3. 处理动画相关的位移
+        mAgent.MovementExcutorCtl.Start(statusName, stateName, 0, mAgent.GetTowards());
+    }
+
+    public override void RegisterInputHandle()
+    {
+        mInputHandle = new KeyboardInputHandle_Dash(mAgent);
+        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 }

@@ -26,14 +26,14 @@ public abstract class AgentMoveControl
     }
 
     /// <summary>
-    /// 指定时间移动指定距离
+    /// 朝指定方向指定时间移动指定距离
     /// </summary>
     /// <param name="duration"></param>
     /// <param name="distance"></param>
-    public virtual void MoveDistanceInTime(float distance, float duration)
+    public virtual void MoveDistanceInTime(Vector3 towards, float distance, float duration)
     {
         if (mMoveCtl != null)
-            mMoveCtl.MoveTo(mAgent.GetTowards().normalized, distance, duration);
+            mMoveCtl.MoveTowards(towards.normalized, distance, duration);
     }
 
     public void Dash(float distance, float duration)
@@ -48,7 +48,7 @@ public abstract class AgentMoveControl
             towards = mAgent.GetTowards();
 
         if (mMoveCtl != null)
-            mMoveCtl.MoveTo(towards, distance, duration);
+            mMoveCtl.MoveTowards(towards, distance, duration);
     }
 
     /// <summary>

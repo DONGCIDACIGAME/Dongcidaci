@@ -9,7 +9,6 @@
 			"comboSteps": [
 				{
 					"input": 8, 
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Attack",
 						"stateName": "Combo_1_With_Empty", 
@@ -34,7 +33,6 @@
 				},
 				{
 					"input": 8,
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Attack",
 						"stateName": "Combo_2_With_Empty",
@@ -50,7 +48,6 @@
 				},
 				{
 					"input": 8,
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Attack",
 						"stateName": "Combo_3_With_Empty",
@@ -73,7 +70,6 @@
 			"comboSteps": [
 				{
 					"input": 4, 
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Dash",
 						"stateName": "Dash", 
@@ -89,7 +85,6 @@
 				},
 				{
 					"input": 8,
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Attack",
 						"stateName": "Combo_2_With_Empty",

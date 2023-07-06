@@ -22,8 +22,6 @@ public class AgentStatus_Transfer : AgentStatus
     public override void CustomInitialize()
     {
         base.CustomInitialize();
-        mInputHandle = new KeyboardInputHandle_Transfer(mAgent);
-        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 
     protected override void CustomDispose()
@@ -31,9 +29,10 @@ public class AgentStatus_Transfer : AgentStatus
         base.CustomDispose();
     }
 
-    public override void OnEnter(Dictionary<string, object> context)
+    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context)
     {
-        base.OnEnter(context);
+        base.OnEnter(cmdType, towards, triggerMeter, context);
+
         mStateDuration = 0;
         mTime = 0;
         if (context.TryGetValue("duration", out object obj))
@@ -68,15 +67,21 @@ public class AgentStatus_Transfer : AgentStatus
         if(mTime >= mStateDuration)
         {
             Dictionary<string, object> args = new Dictionary<string, object>();
-            args.Add("cmdType", AgentCommandDefine.IDLE);
-            args.Add("towards", DirectionDef.none);
-            args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
-            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, args);
+            //args.Add("cmdType", AgentCommandDefine.IDLE);
+            //args.Add("towards", DirectionDef.none);
+            //args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
+            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args);
         }
     }
 
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
     {
         
+    }
+
+    public override void RegisterInputHandle()
+    {
+        mInputHandle = new KeyboardInputHandle_Transfer(mAgent);
+        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 }

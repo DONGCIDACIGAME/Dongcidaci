@@ -1,4 +1,5 @@
 using GameEngine;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AgentInputCommand : IRecycle
@@ -89,6 +90,9 @@ public class AgentInputCommand : IRecycle
 
     public void RecycleReset()
     {
-        Dispose();
+        this.CmdType = AgentCommandDefine.EMPTY;
+        this.Towards = DirectionDef.none;
+        this.TriggerMeter = -1;
+        this.Frame = -1;
     }
 }

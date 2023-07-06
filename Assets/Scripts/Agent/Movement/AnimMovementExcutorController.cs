@@ -1,5 +1,6 @@
 using GameEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// 动画移动执行控制器
@@ -17,7 +18,14 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
         mEnable = false;
     }
 
-    public void Start(string statusName, string stateName, Movement[] movements)
+    /// <summary>
+    /// 处理动画配置的移动
+    /// </summary>
+    /// <param name="statusName">角色状态</param>
+    /// <param name="stateName">动画状态</param>
+    /// <param name="moveMore">位移加成</param>
+    /// <param name="moveTorwards">位移方向</param>
+    public void Start(string statusName, string stateName, float moveMore, Vector3 moveTorwards)
     {
         if (mAgt == null)
         {
@@ -51,6 +59,7 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
             return;
         }
 
+        Movement[] movements = stateInfo.movements;
         if (movements == null || movements.Length == 0)
         {
             //Log.Error(LogLevel.Normal, "Start Movements Excutor Failed, effectCollictions is null or empty!");
@@ -61,7 +70,7 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
         float totalTime = MeterManager.Ins.GetTimeToMeter(stateInfo.stateMeterLen);
         if (hitPoints.Length != movements.Length)
         {
-            Log.Error(LogLevel.Normal, "Start Movements Excutor Failed, hitPoints.Length != actionData.effects.Length, ");
+            Log.Error(LogLevel.Normal, "Start Movements Excutor Failed, hitPoints.Length != actionData.effects.Length");
             return;
         }
 
@@ -76,7 +85,12 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
             {
                 AnimMovementExcutor excutor = GamePoolCenter.Ins.MovementExcutorPool.Pop();
 
-                excutor.Initialize(mAgt, hitpoint.progress * totalTime, movement.distance, totalTime * movement.duration);
+                float endTime = totalTime * hitpoint.progress;
+                float startTime = endTime - totalTime * movement.duration;
+                if (startTime < 0)
+                    startTime = 0;
+
+                excutor.Initialize(mAgt, startTime, endTime, moveTorwards, movement.distance + moveMore);
                 mMovementExcutors.Add(excutor);
             }
         }

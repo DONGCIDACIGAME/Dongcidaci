@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IAgentStatus: IGameUpdate, IMeterHandler, IGameDisposable
 {
-    void OnEnter(Dictionary<string,object> context);
+    void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context);
     string GetStatusName();
     void OnExit();
 }

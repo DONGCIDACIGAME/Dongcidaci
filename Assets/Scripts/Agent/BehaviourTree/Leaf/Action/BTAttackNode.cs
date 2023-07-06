@@ -16,12 +16,22 @@ public class BTAttackNode : BTLeafNode
             return BTDefine.BT_ExcuteResult_Failed;
         }
 
-        Vector3 towards = mExcutor.GetTowards();
+       Vector3 towards = mExcutor.GetTowards();
 
         // 发送attack指令
         AgentInputCommand attackCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
         attackCmd.Initialize(AgentCommandDefine.ATTACK_SHORT, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);
         mExcutor.OnCommand(attackCmd);
+
+
+        // 发送behit指令
+        if (mContext.TryGetValue("TargetEntity", out object obj))
+        {
+            Agent targetEntity = obj as Agent;
+            AgentInputCommand beHitCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
+            beHitCmd.Initialize(AgentCommandDefine.BE_HIT, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);
+            targetEntity.OnCommand(attackCmd);
+        }
 
         PrintLog("Attack...");
         return BTDefine.BT_ExcuteResult_Succeed;

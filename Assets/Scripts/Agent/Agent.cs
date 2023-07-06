@@ -225,10 +225,10 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
 
         // 加载完成后默认进入idle状态
         Dictionary<string, object> args = new Dictionary<string, object>();
-        args.Add("cmdType", AgentCommandDefine.IDLE);
-        args.Add("towards", DirectionDef.none);
-        args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
-        StatusMachine.SwitchToStatus(GetAgentId(), AgentStatusDefine.IDLE, args);
+        //args.Add("cmdType", AgentCommandDefine.IDLE);
+        //args.Add("towards", DirectionDef.none);
+        //args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
+        StatusMachine.SwitchToStatus(GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args);
     }
 
     /// <summary>

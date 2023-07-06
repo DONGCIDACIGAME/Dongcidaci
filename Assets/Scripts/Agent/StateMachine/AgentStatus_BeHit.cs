@@ -1,8 +1,12 @@
+using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AgentStatus_BeHit : AgentStatus
 {
+    private float mMoveMore;
+    private Vector3 mMoveTowards;
+
     public override void CustomInitialize()
     {
         base.CustomInitialize();
@@ -15,22 +19,27 @@ public class AgentStatus_BeHit : AgentStatus
 
     public override string GetStatusName()
     {
-        return AgentStatusDefine.BE_HIT;
+        return AgentStatusDefine.BEHIT;
     }
 
-    public override void OnEnter(Dictionary<string, object> context)
+    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context)
     {
-        base.OnEnter(context);
-
-        byte cmdType = (byte)context["cmdType"];
-        Vector3 towards = (Vector3)context["towards"];
-        int triggerMeter = (int)context["triggerMeter"];
+        base.OnEnter(cmdType, towards, triggerMeter, context);
+        mMoveTowards = towards;
+        //byte cmdType = (byte)context["cmdType"];
+        //Vector3 towards = (Vector3)context["towards"];
+        //int triggerMeter = (int)context["triggerMeter"];
 
 
         AgentActionData actionData = statusDefaultActionData;
-        if (context.TryGetValue("beHitAction", out object obj))
+        if (context.TryGetValue("beHitAction", out object obj1))
         {
-            actionData = obj as AgentActionData;
+            actionData = obj1 as AgentActionData;
+        }
+
+        if(context.TryGetValue("moveMove", out object obj2))
+        {
+            mMoveMore = (float)obj2;
         }
 
         StatusDefaultAction(cmdType, towards, triggerMeter, actionData);
@@ -39,6 +48,8 @@ public class AgentStatus_BeHit : AgentStatus
     public override void OnExit()
     {
         base.OnExit();
+        mMoveMore = 0;
+        mMoveTowards = DirectionDef.none;
     }
 
     protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
@@ -65,7 +76,18 @@ public class AgentStatus_BeHit : AgentStatus
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
+        // 逻辑拍结束前，不能响应缓存区指令
+        if (meterIndex <= mCurLogicStateEndMeter)
+        {
+            Log.Error(LogLevel.Info, "CustomOnMeterEnter--- meterIndex:{0}, logicMeterEnd:{1}", meterIndex, mCurLogicStateEndMeter);
+            return;
+        }
 
+        Dictionary<string, object> args = new Dictionary<string, object>();
+        //args.Add("cmdType", AgentCommandDefine.IDLE);
+        //args.Add("towards", DirectionDef.none);
+        //args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
+        GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args);
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)
@@ -86,10 +108,18 @@ public class AgentStatus_BeHit : AgentStatus
         if (agentActionData == null)
             return;
 
+        string statusName = agentActionData.statusName;
+        string stateName = agentActionData.stateName;
         // 1. 播放攻击动画
-        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.statusName, agentActionData.stateName);
+        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusName, stateName);
 
-        // 2. 转向攻击方向
-        mAgent.MoveControl.TurnTo(towards);
+        // 2. 处理动画相关的位移
+        mAgent.MovementExcutorCtl.Start(statusName, stateName, mMoveMore, mMoveTowards);
+    }
+
+    public override void RegisterInputHandle()
+    {
+        mInputHandle = new KeyboardInputHandle_BeHit(mAgent);
+        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 }

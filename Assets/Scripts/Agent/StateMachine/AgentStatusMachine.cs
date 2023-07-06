@@ -1,5 +1,6 @@
 using GameEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class AgentStatusMachine : IMeterHandler
 {
@@ -59,17 +60,18 @@ public class AgentStatusMachine : IMeterHandler
     {
         mAgent = agt;
         
-        mEventListener.Listen<uint, string, Dictionary<string, object>>("ChangeAgentStatus", SwitchToStatus);
+        mEventListener.Listen<uint, string, byte, Vector3, int, Dictionary<string, object>>("ChangeAgentStatus", SwitchToStatus);
 
         AddStatus(AgentStatusDefine.IDLE, new AgentStatus_Idle());
         AddStatus(AgentStatusDefine.RUN, new AgentStatus_Run());
         AddStatus(AgentStatusDefine.ATTACK, new AgentStatus_Attack());
         AddStatus(AgentStatusDefine.DASH, new AgentStatus_Dash());
+        AddStatus(AgentStatusDefine.BEHIT, new AgentStatus_BeHit());
         AddStatus(AgentStatusDefine.TRANSFER, new AgentStatus_Transfer());
     }
 
 
-    public void SwitchToStatus(uint agentId,string statusName, Dictionary<string, object> context)
+    public void SwitchToStatus(uint agentId,string statusName, byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context)
     {
         if (agentId != mAgent.GetAgentId())
             return;
@@ -86,7 +88,7 @@ public class AgentStatusMachine : IMeterHandler
                 CurStatus.OnExit();
             }
 
-            newStatus.OnEnter(context);
+            newStatus.OnEnter(cmdType, towards, triggerMeter, context);
             CurStatus = newStatus;
         }
         else

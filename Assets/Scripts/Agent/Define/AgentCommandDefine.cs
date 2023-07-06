@@ -38,6 +38,11 @@ public static class AgentCommandDefine
     public const byte BE_HIT = 1 << 5;
 
     /// <summary>
+    /// 死亡 64
+    /// </summary>
+    public const byte DIE = 1 << 6;
+
+    /// <summary>
     /// 指令到角色状态间的切换关系
     /// </summary>
     private static Dictionary<byte, string> CmdToStatusMap = new Dictionary<byte, string>
@@ -47,7 +52,7 @@ public static class AgentCommandDefine
         { DASH, AgentStatusDefine.DASH},
         { ATTACK_SHORT, AgentStatusDefine.ATTACK},
         { ATTACK_LONG, AgentStatusDefine.ATTACK},
-        { BE_HIT, AgentStatusDefine.BE_HIT},
+        { BE_HIT, AgentStatusDefine.BEHIT},
     };
 
     /// <summary>

@@ -12,8 +12,6 @@ public class AgentStatus_Run : AgentStatus
     public override void CustomInitialize()
     {
         base.CustomInitialize();
-        mInputHandle = new KeyboardInputHandle_Run(mAgent);
-        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 
     protected override void CustomDispose()
@@ -21,18 +19,13 @@ public class AgentStatus_Run : AgentStatus
         base.CustomDispose();
     }
 
-    public override void OnEnter(Dictionary<string, object> context)
+    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context)
     {
-        base.OnEnter(context);
+        base.OnEnter(cmdType, towards, triggerMeter, context);
 
-        if(context == null)
-        {
-            Log.Error(LogLevel.Critical, "AgentStatus_Run OnEnter Error, 传入的参数为空，请检查!");
-        }
-
-        byte cmdType = (byte)context["cmdType"];
-        Vector3 towards = (Vector3)context["towards"];
-        int triggerMeter = (int)context["triggerMeter"];
+        //byte cmdType = (byte)context["cmdType"];
+        //Vector3 towards = (Vector3)context["towards"];
+        //int triggerMeter = (int)context["triggerMeter"];
 
         StatusDefaultAction(cmdType, towards, triggerMeter, statusDefaultActionData);     
     }
@@ -118,20 +111,24 @@ public class AgentStatus_Run : AgentStatus
 
         if (agentActionData == null)
         {
-            // 1. 步进式动画继续
-            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
-
-            // 2. 转向移动放方向
+            // 1. 转向移动放方向
             mAgent.MoveControl.TurnTo(towards);
 
+            // 2. 步进式动画继续
+            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
             return;
         }
 
-        // 1. 播放动画
-        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.stateName, agentActionData.stateName);
-
-        // 2. 转向移动放方向
+        // 1. 转向移动放方向
         mAgent.MoveControl.TurnTo(towards);
+
+        // 2. 播放动画
+        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.stateName, agentActionData.stateName);
     }
 
+    public override void RegisterInputHandle()
+    {
+        mInputHandle = new KeyboardInputHandle_Run(mAgent);
+        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
+    }
 }

@@ -60,6 +60,7 @@ public abstract class AgentStatus : IAgentStatus
         mMeterEndActions = new Stack<MeterEndAction>();
         mCustomAnimDriver = new CustomAnimDriver(mAgent);
         mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
+        RegisterInputHandle();
     }
 
     /// <summary>
@@ -73,6 +74,8 @@ public abstract class AgentStatus : IAgentStatus
     /// <returns></returns>
     public abstract string GetStatusName();
 
+    public abstract void RegisterInputHandle();
+
     /// <summary>
     /// 状态默认的行为逻辑
     /// </summary>
@@ -82,7 +85,7 @@ public abstract class AgentStatus : IAgentStatus
     /// 进入状态
     /// </summary>
     /// <param name="context"></param>
-    public virtual void OnEnter(Dictionary<string, object> context) 
+    public virtual void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context) 
     {
         Log.Logic(LogLevel.Info, "OnEnter Status:{0}--cur meter:{1}", GetStatusName(), MeterManager.Ins.MeterIndex);
         cmdBuffer.ClearCommandBuffer();
@@ -192,9 +195,9 @@ public abstract class AgentStatus : IAgentStatus
 
         // 默认切换状态都带有 指令类型，指令方向，指令所属节拍信息
         Dictionary<string, object> args = new Dictionary<string, object>();
-        args.Add("cmdType", cmdType);
-        args.Add("towards", towards);
-        args.Add("triggerMeter", triggerMeter);
+        //args.Add("cmdType", cmdType);
+        //args.Add("towards", towards);
+        //args.Add("triggerMeter", triggerMeter);
 
         // 如果是combo的触发类型，并且触发了combo，就添加combo招式信息
         if (AgentCommandDefine.IsComboTrigger(cmdType) && triggeredComboStep != null)
@@ -202,7 +205,7 @@ public abstract class AgentStatus : IAgentStatus
             args.Add("comboStep", triggeredComboStep);
         }
 
-        GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), status, args);
+        GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), status, cmdType, towards, triggerMeter, args);
     }
 
     /// <summary>
@@ -253,21 +256,8 @@ public abstract class AgentStatus : IAgentStatus
 
         Log.Error(LogLevel.Info, "ExcuteCombo---comboName:{0}", triggeredComboStep.comboData.comboName);
 
-        // 1. 转向
-        mAgent.MoveControl.TurnTo(towards);
-
-        // 如果是叠加模式，执行默认逻辑
-        if (comboStep.mode == ComboDefine.ComboMode_Overlay)
-        {
-            StatusDefaultAction(cmdType, towards, triggerMeter, triggeredComboStep.comboStep.agentActionData);
-        }
-
-        // 如果是覆盖模式，播放动画
-        if (comboStep.mode == ComboDefine.ComboMode_Overwrite)
-        {
-            mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(comboStep.agentActionData.statusName, comboStep.agentActionData.stateName);
-        }
-
+        // 1. 执行状态的默认逻辑
+        StatusDefaultAction(cmdType, towards, triggerMeter, triggeredComboStep.comboStep.agentActionData);
 
         AgentActionData actionData = triggeredComboStep.comboStep.agentActionData;
         if (actionData == null)
@@ -276,10 +266,10 @@ public abstract class AgentStatus : IAgentStatus
             return;
         }
 
-        // 3. 效果执行器开始执行
+        // 2. 效果执行器开始执行
         mAgent.EffectExcutorCtl.Start(actionData.statusName, actionData.stateName, actionData.effectCollictions);
 
-        // 4. 如果是结束招式
+        // 3. 如果是结束招式
         if (comboStep.endFlag)
         {
             float transferStateDuration = triggeredComboStep.comboData.transferStateDuration;
@@ -290,14 +280,14 @@ public abstract class AgentStatus : IAgentStatus
                 
                 Dictionary<string, object> args = new Dictionary<string, object>();
                 args.Add("duration", transferStateDuration);
-                GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSFER, args);
+                GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSFER, AgentCommandDefine.EMPTY, DirectionDef.none, triggerMeter, args);
             }));
         }
 
-        // 回收combostep
+        // 4. 回收combostep
         triggeredComboStep.Recycle();
 
-        // 清理
+        // 5. 清理
         triggeredComboStep = null;
     }
 

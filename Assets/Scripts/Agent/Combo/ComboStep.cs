@@ -10,13 +10,6 @@ public class ComboStep
     public byte input;
 
     /// <summary>
-    /// 生效模式
-    /// 0：覆盖模式
-    /// 1：叠加模式
-    /// </summary>
-    public int mode;
-
-    /// <summary>
     /// 角色的
     /// </summary>
     public AgentActionData agentActionData;

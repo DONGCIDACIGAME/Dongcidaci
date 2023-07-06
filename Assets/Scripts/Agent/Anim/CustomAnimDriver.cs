@@ -1,3 +1,4 @@
+using UnityEngine;
 /// <summary>
 /// 自定义的动画驱动
 /// </summary>
@@ -10,6 +11,7 @@ public class CustomAnimDriver : AgentAnimDriver
 
     /// <summary>
     /// 带截断的动画状态播放
+    /// 
     /// </summary>
     /// <param name="stateName"></param>
     /// <returns></returns>
@@ -59,7 +61,7 @@ public class CustomAnimDriver : AgentAnimDriver
         float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, newMeterIndex);
 
         mAgent.AnimPlayer.CrossFadeToStateDynamic(stateName, newStateInfo.layer, newStateInfo.normalizedTime, duration, newStateInfo.animLen, totalMeterTime);
-        mAgent.MovementExcutorCtl.Start(statusName, stateName, newStateInfo.movements);
+        
         mCurAnimState = newStateInfo;
         
         // 动画结束拍=当前拍+动画持续拍-1
