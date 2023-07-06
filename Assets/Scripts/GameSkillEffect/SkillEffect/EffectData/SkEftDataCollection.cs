@@ -6,8 +6,9 @@ namespace GameSkillEffect
     {
         public SkillEffectData[] effects;
 
-
     }
+
+
 }
 
 

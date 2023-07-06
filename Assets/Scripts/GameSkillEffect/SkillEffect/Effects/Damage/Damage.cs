@@ -17,19 +17,19 @@ namespace GameSkillEffect
             this._eftBsCfg = eftCfg;
 
             //1 初始化这个伤害值
-            if (initData.effectValueDict.ContainsKey("value") == false)
+            if (initData.intValueDict.ContainsKey("value") == false)
             {
                 Log.Error(LogLevel.Critical, "Init DmgEft error no value in dict");
                 return false;
             }
 
-            this._dmgValue = Mathf.RoundToInt(initData.effectValueDict["value"]);
+            this._dmgValue = Mathf.RoundToInt(initData.intValueDict["value"]);
 
             // 2 init collide shape
             this._eftCollideShape = GameColliderHelper.GetRegularShapeWith(
-                initData.hitShapeType,
-                new Vector2(initData.hitOffsetX, initData.hitOffsetY),
-                new Vector2(initData.hitSizeX, initData.hitSizeY)
+                initData.hitShape.shapeType,
+                new Vector2(initData.hitShape.offsetX, initData.hitShape.offsetY),
+                new Vector2(initData.hitShape.sizeX, initData.hitShape.sizeY)
                 );
 
             return true;

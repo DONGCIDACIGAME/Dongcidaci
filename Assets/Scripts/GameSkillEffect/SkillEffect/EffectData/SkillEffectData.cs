@@ -7,6 +7,11 @@ using GameSkillEffect;
 public class SkillEffectData
 {
     /// <summary>
+    /// 这个配置数据的备注没有实际意义
+    /// </summary>
+    public string comment;
+
+    /// <summary>
     /// 效果的释放对象
     /// </summary>
     public EffectTgt rlsTgt = EffectTgt.Enemy;
@@ -17,35 +22,28 @@ public class SkillEffectData
     public uint effectCfgUID;
 
     /// <summary>
-    /// 效果具体的配置值字典
+    /// string 类型的初始值字典
     /// </summary>
-    public Dictionary<string, float> effectValueDict;
+    public Dictionary<string, string> strValueDict;
 
     /// <summary>
-    /// 碰撞的形状
+    /// int 类型的初始值字典
     /// </summary>
-    public Convex2DShapeType hitShapeType = Convex2DShapeType.Rect;
+    public Dictionary<string, int> intValueDict;
 
     /// <summary>
-    /// 碰撞形状宽
+    /// float 类型的初始值字典
     /// </summary>
-    public float hitSizeX;
+    public Dictionary<string, float> floatValueDict;
 
     /// <summary>
-    /// 碰撞形状高
+    /// 这个技能效果携带的子技能效果
     /// </summary>
-    public float hitSizeY;
+    public SkillEffectData[] subEffects;
 
     /// <summary>
-    /// 碰撞形状偏移x
+    /// 技能效果的碰撞形状
     /// </summary>
-    public float hitOffsetX;
-
-    /// <summary>
-    /// 碰撞形状偏移y
-    /// </summary>
-    public float hitOffsetY;
-
-
+    public SkEftHitShapeData hitShape;
 
 }

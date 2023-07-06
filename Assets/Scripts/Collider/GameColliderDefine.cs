@@ -8,6 +8,9 @@ public enum MyColliderType
     Collider_NPC,
     Collider_Block,
     Collider_Trap,
+
+    Collider_SkBullet,
+    
 }
 
 public enum CollideHandleConfig

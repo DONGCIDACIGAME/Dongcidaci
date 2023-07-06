@@ -20,4 +20,15 @@ public static class EntityTypeDefine
     public const int BlockDestructible = 55;
 
     public const int Dec = 5;
+
+    /// <summary>
+    /// 技能效果的实体子弹
+    /// </summary>
+    public const int SkEftBullet = 100;
+
+
+
+
+
+
 }

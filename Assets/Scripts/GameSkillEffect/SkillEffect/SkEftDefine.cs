@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using UnityEngine;
 
 namespace GameSkillEffect
 {
@@ -21,17 +22,13 @@ namespace GameSkillEffect
 
     public static class SkEftDefine
     {
-        #region Skill Effect Type Define
-
-        public const int Damage = 0;
-
-
-
-
-        #endregion
+        /// <summary>
+        /// 技能实体挂载的节点
+        /// </summary>
+        public static GameObject SkEftEntityNode => GameObject.Find("_SKILL");
 
 
-        
+
     }
 }
 

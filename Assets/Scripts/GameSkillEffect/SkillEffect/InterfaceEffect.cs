@@ -11,6 +11,17 @@ public interface IPortableEffect
 
 }
 
+
+public interface IRemoteEffect
+{
+    /// <summary>
+    /// 远程类效果的飞行距离
+    /// </summary>
+    public float FlightDis { get; }
+}
+
+
+
 public interface ITriggerOnExcuteComboEft
 {
     /// <summary>

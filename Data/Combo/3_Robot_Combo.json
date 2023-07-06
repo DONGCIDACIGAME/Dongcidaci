@@ -17,14 +17,14 @@
 							{
 								"effects": [
 									{
+										"comment": "damage",
 										"rlsTgt": 0,
-										"effectCfgUID": 0, 
-										"effectValueDict":{"value": 1, "time":1}, 
-										"hitShapeType": 0, 
-										"hitSizeX": 3, 
-										"hitSizeY": 2, 
-										"hitOffsetX": 0,
-										"hitOffsetY": 0.5
+										"effectCfgUID": 1001,
+										"strValueDict":{"bulletPrefab": ""},
+										"intValueDict":{"value": 1},
+										"floatValueDict":{"value": 1},
+										"subEffects":[],
+										"hitShape":{"shapeType": 0, "sizeX": 3, "sizeY": 2, "offsetX": 0,"offsetY": 0.5}
 									}
 								]
 							}
