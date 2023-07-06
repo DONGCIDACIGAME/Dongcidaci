@@ -6,7 +6,8 @@ namespace GameSkillEffect {
         /// <summary>
         /// 这个召唤类的效果绑定的效果实体对象
         /// </summary>
-        protected SkEftEntity _bindEftEntity;
+        /// 貌似不需要绑定，在触发时加载就可以
+        //protected SkEftEntity _bindEftEntity;
 
 
 

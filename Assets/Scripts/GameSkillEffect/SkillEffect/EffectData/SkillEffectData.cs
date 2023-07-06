@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using GameSkillEffect;
 
-
-
 [System.Serializable]
 public class SkillEffectData
 {

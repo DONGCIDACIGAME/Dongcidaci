@@ -90,6 +90,11 @@ namespace GameSkillEffect
         }
 
 
+        public bool OnApplyRemoteEft(IRemoteEffect rlsEft)
+        {
+
+            return true;
+        }
 
 
 

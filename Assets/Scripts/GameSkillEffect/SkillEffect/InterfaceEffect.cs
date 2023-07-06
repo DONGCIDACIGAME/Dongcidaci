@@ -22,7 +22,7 @@ public interface IRemoteEffect
 
 
 
-public interface ITriggerOnExcuteComboEft
+public interface ITrigOnExcuteComboEft
 {
     /// <summary>
     /// 角色初始化combo效果时触发；
@@ -40,7 +40,7 @@ public interface ITriggerOnExcuteComboEft
 }
 
 
-public interface ITriggerOnApplyDmg
+public interface ITrigOnApplyDmg
 {
     /// <summary>
     /// 释放伤害时触发；
@@ -58,7 +58,7 @@ public interface ITriggerOnApplyDmg
     public int TrigOnApplyDmgPriority { get; }
 }
 
-public interface ITriggerOnGetDmg
+public interface ITrigOnGetDmg
 {
     /// <summary>
     /// 受到伤害时触发；
@@ -76,32 +76,40 @@ public interface ITriggerOnGetDmg
     public int TrigOnGetDmgPriority { get; }
 }
 
-public interface ITriggerOnApplyAtkDmg
+public interface ITrigOnApplyAtkDmg
 {
     public bool OnApplyAtkDmg(Agent user, Agent tgt, AttackDamage rlsDmg);
 
     public int TrigOnApplyAtkDmgPriority { get; }
 }
 
-public interface ITriggerOnGetAtkDmg
+public interface ITrigOnGetAtkDmg
 {
     public bool OnGetAtkDmg(Agent user, Agent tgt, AttackDamage rlsDmg);
 
     public int TrigOnGetAtkDmgPriority { get; }
 }
 
-public interface ITriggerOnApplyEftDmg
+public interface ITrigOnApplyEftDmg
 {
     public bool OnApplyEftDmg(Agent user, Agent tgt, EffectDamage rlsDmg);
 
     public int TrigOnApplyEftDmgPriority { get; }
 }
 
-public interface ITriggerOnGetEftDmg
+public interface ITrigOnGetEftDmg
 {
     public bool OnGetEftDmg(Agent user, Agent tgt, EffectDamage rlsDmg);
 
     public int TrigOnGetEftDmgPriority { get; }
+}
+
+
+public interface ITrigOnApplyRemoteEft
+{
+    public bool OnApplyRemoteEft(Agent user, IRemoteEffect rlsEft);
+
+    public int TrigOnApplyRemoteEftPriority { get; }
 }
 
 
