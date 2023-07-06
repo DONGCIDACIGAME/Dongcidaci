@@ -1,3 +1,5 @@
+using System;
+using System.Reflection;
 
 namespace GameSkillEffect
 {
@@ -29,20 +31,7 @@ namespace GameSkillEffect
         #endregion
 
 
-        public static SkillEffect GetSkEftBy(Agent user, SkillEffectData skEftData)
-        {
-            if (skEftData.effectType == Damage)
-            {
-                //GameSkEftPool.Ins.Pop<DmgEft>(out DmgEft newDmg);
-                //newDmg.InitSkEft(user,skEftData);
-                //return newDmg;
-            }
-
-
-
-            return null;
-        }
-
+        
     }
 }
 

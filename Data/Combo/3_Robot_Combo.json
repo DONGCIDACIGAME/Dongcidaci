@@ -18,7 +18,7 @@
 								"effects": [
 									{
 										"rlsTgt": 0,
-										"effectType": 0, 
+										"effectCfgUID": 0, 
 										"effectValueDict":{"value": 1, "time":1}, 
 										"hitShapeType": 0, 
 										"hitSizeX": 3, 
@@ -41,16 +41,7 @@
 						"effectCollictions": [
 							{
 								"effects": [
-									{
-										"rlsTgt": 0,
-										"effectType": 0, 
-										"effectValueDict":{"value": 1, "time":1}, 
-										"hitShapeType": 0, 
-										"hitSizeX": 0.5, 
-										"hitSizeY": 0, 
-										"hitOffsetX": 0,
-										"hitOffsetY": 0
-									}
+									
 								]
 							}
 						]
@@ -66,16 +57,7 @@
 						"effectCollictions": [
 							{
 								"effects": [
-									{
-										"rlsTgt": 0,
-										"effectType": 0, 
-										"effectValueDict":{"value": 1, "time":1}, 
-										"hitShapeType": 0, 
-										"hitSizeX": 0.5, 
-										"hitSizeY": 0, 
-										"hitOffsetX": 0,
-										"hitOffsetY": 0
-									}
+									
 								]
 							}
 						]
@@ -97,7 +79,9 @@
 						"stateName": "Dash", 
 						"effectCollictions": [
 							{
-								"effects": []
+								"effects": [
+								
+								]
 							}
 						]
 					},
@@ -112,16 +96,7 @@
 						"effectCollictions": [
 							{
 								"effects": [
-									{
-										"rlsTgt": 0,
-										"effectType": 0, 
-										"effectValueDict":{"value": 1, "time":1}, 
-										"hitShapeType": 0, 
-										"hitSizeX": 0.5, 
-										"hitSizeY": 0, 
-										"hitOffsetX": 0,
-										"hitOffsetY": 0
-									}
+									
 								]
 							}
 						]

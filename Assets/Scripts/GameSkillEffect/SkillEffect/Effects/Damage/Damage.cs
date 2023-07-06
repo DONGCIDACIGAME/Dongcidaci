@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DongciDaci;
 
 namespace GameSkillEffect
 {
@@ -9,10 +10,11 @@ namespace GameSkillEffect
         protected int _dmgValue;
         public int DmgValue { get { return _dmgValue; } set { _dmgValue = value; } }
 
-        public override bool InitSkEft(Agent user, SkillEffectData initData)
+        public override bool InitSkEft(Agent user, SkillEffectData initData,SkEftBaseCfg eftCfg)
         {
             this._initSkEftData = initData;
             this._eftUser = user;
+            this._eftBsCfg = eftCfg;
 
             //1 初始化这个伤害值
             if (initData.effectValueDict.ContainsKey("value") == false)

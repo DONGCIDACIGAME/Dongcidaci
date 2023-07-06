@@ -10,6 +10,7 @@ namespace GameSkillEffect
             this._eftCollideShape = null;
             this._eftUser = null;
             this._initSkEftData = null;
+            
         }
 
         public override void Recycle()

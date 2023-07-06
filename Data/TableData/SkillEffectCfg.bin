@@ -1,0 +1,8 @@
+
+@�;�充能Charge"Charge*恢复人物相应的能量值
+��
+B�=�冲刺Dash"Dash*$往面朝的方向冲刺一段距离
+D�?�闪烁Blink"Blink*$往面朝的方向闪现一段距离
+q�l�效果伤害Effect Damage"EffectDamage*<效果造成的直接伤害，不受人物基础攻击影响
+t�o�攻击伤害Attack Damage"AttackDamage*?对目标攻击时造成伤害，会叠加人物的基础攻击
+<�7�治疗Heal"Heal*恢复人物相应的生命值

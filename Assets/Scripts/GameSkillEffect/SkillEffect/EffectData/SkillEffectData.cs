@@ -12,9 +12,9 @@ public class SkillEffectData
     public EffectTgt rlsTgt = EffectTgt.Enemy;
 
     /// <summary>
-    /// 效果类型
+    /// 指向效果配置数据的UID
     /// </summary>
-    public int effectType;
+    public uint effectCfgUID;
 
     /// <summary>
     /// 效果具体的配置值字典
