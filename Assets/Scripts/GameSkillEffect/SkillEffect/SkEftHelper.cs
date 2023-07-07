@@ -19,7 +19,7 @@ namespace GameSkillEffect
             eftCollideShape.AnchorPos = eftUser.GetPosition();
             eftCollideShape.AnchorAngle = eftUser.GetRotation().y;
 
-            var hitRet = GameColliderManager.Ins.CheckCollideHappenWithShape(eftCollideShape, out List<ConvexCollider2D> hitColliders, null);
+            var hitRet = GameColliderManager.Ins.CheckCollideHappenWithShape(eftCollideShape, ColliderHanlderDefine.EmptyHandler, out List<ConvexCollider2D> hitColliders);
 
             if (hitRet)
             {

@@ -38,40 +38,10 @@ public class MoveControl
     {
         ConvexCollider2D collider = mAgent.GetCollider();
 
-        /**
-        int ret = GameColliderManager.Ins.CheckCollideHappen(collider.size, collider.offset, 
-            position, collider.anchorAngle, collider.scale, 
-            GameColliderDefine.EMPTY_COLLIDER_HANDLER,
-            collider.GetColliderId());
-        if (!GameColliderDefine.CheckCanMoveThrough(ret))
-        {
-            Log.Logic(LogLevel.Info, "<color=grey>can not move on collider to {0}</color>", ret);
-            return;
-        }
-        */
-
-        /**
-        var ret = GameColliderManager.Ins.CheckCollideHappenWithRect(
-                position,
-                collider.AnchorAngle,
-                collider.Offset,
-                collider.Size,
-                out HashSet<GameCollider2D> detectedColliders,
-                collider
-            );
-
-        if(ret && !GameColliderDefine.CheckCanMoveThrough(detectedColliders))
-        {
-            Log.Logic(LogLevel.Info, "<color=grey>can not move on collider to {0}</color>", ret);
-            return;
-        }
-
-        */
         var checkShape = collider.Convex2DShape;
         checkShape.AnchorPos = tgtPosition;
-        Dictionary<ConvexCollider2D, Vector2> tgtsWithLeaveV2 = GameColliderManager.Ins.CheckCollideHappenWithShape(checkShape, null, collider);
-
-        if (tgtsWithLeaveV2 != null && tgtsWithLeaveV2.Count > 0)
+        bool ret = GameColliderManager.Ins.CheckCollideHappenWithShape(checkShape, mAgent.ColliderHandler, out Dictionary<ConvexCollider2D,Vector2> tgtsWithLeaveV2);
+        if (ret)
         {
             // 发生了碰撞
             var unMoveColliders = GameColliderDefine.GetUnMoveableColliders(tgtsWithLeaveV2.Keys.ToArray());

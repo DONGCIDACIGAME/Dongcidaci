@@ -89,6 +89,7 @@ public class Monster : Agent
             );
         this.AttrHandler = new AgentAttrHandler();
         this.AttrHandler.InitAgentAttr(_mAgtAttr);
+        this.ColliderHandler = new MonsterColliderHandler(this);
 
 
         // 位置初始化

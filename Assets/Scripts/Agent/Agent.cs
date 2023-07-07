@@ -60,6 +60,12 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     public AgentAttrHandler AttrHandler;
 
 
+    /// <summary>
+    /// 碰撞处理
+    /// </summary>
+    public IGameColliderHandler ColliderHandler;
+
+
 
     /// <summary>
     /// 移动执行器
@@ -412,8 +418,8 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     {
         var retAgents = new List<Agent>();
         var visionShape = mAgentView.GetVisionShape();
-        Dictionary<ConvexCollider2D, Vector2> tgtsDict = GameColliderManager.Ins.CheckCollideHappenWithShape(visionShape, null ,this.mCollider);
-        if (tgtsDict != null && tgtsDict.Count > 0)
+        bool ret = GameColliderManager.Ins.CheckCollideHappenWithShape(visionShape, ColliderHanlderDefine.EmptyHandler, out Dictionary<ConvexCollider2D, Vector2> tgtsDict);
+        if (ret)
         {
             var agentColliders = GameColliderDefine.GetAgentColliders(tgtsDict.Keys.ToArray());
             if (agentColliders.Count > 0)

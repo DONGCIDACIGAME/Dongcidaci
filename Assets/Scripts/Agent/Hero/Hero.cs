@@ -88,6 +88,7 @@ public class Hero : Agent
         this.HeroAttrHandler = new HeroAttrHandler();
         this.HeroAttrHandler.InitAgentAttr(_mAgtAttr);
         this.AttrHandler = HeroAttrHandler;
+        this.ColliderHandler = new HeroColliderHandler(this);
 
         // 位置初始化
         // changed by weng 0626
