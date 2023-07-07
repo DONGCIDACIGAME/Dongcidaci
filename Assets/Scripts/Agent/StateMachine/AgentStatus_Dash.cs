@@ -18,20 +18,11 @@ public class AgentStatus_Dash : AgentStatus
         base.CustomDispose();
     }
 
-    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context)
+    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.OnEnter(cmdType, towards, triggerMeter, context);
-        //byte cmdType = (byte)context["cmdType"];
-        //Vector3 towards = (Vector3)context["towards"];
-        //int triggerMeter = (int)context["triggerMeter"];
+        base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        TriggeredComboStep triggeredComboStep = null;
-        if (context.TryGetValue("comboStep", out object obj))
-        {
-            triggeredComboStep = obj as TriggeredComboStep;
-        }
-
-        ConditionalExcute(cmdType, towards, triggerMeter, triggeredComboStep);
+        ConditionalExcute(cmdType, towards, triggerMeter, args, triggeredComboStep);
     }
 
     public override void OnExit()
@@ -51,31 +42,31 @@ public class AgentStatus_Dash : AgentStatus
             // 超过输入的容差时间，进入idle
             if (!inInputTime && !cmdBuffer.HasCommand())
             {
-                ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null);
+                ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
             }
         }
     }
 
-    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
+    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
+        base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
         switch (cmdType)
         {
             // 接收到受击指令，马上切换到受击状态
             case AgentCommandDefine.BE_HIT:
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             // 根据节拍进度冲刺
             case AgentCommandDefine.DASH:
-                ConditionalExcute(cmdType, towards, triggerMeter, triggeredComboStep); 
+                ConditionalExcute(cmdType, towards, triggerMeter, args, triggeredComboStep); 
                 break;
             // 其他指令类型，都要等本次冲刺结束后执行，先放入指令缓存区
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboStep);
+                PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -93,7 +84,7 @@ public class AgentStatus_Dash : AgentStatus
         }
 
         // 缓存区取指令
-        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter))
+        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
 
@@ -104,16 +95,16 @@ public class AgentStatus_Dash : AgentStatus
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.ATTACK_SHORT:
                 case AgentCommandDefine.ATTACK_LONG:
-                    ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboStep);
+                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
                     break;
                 case AgentCommandDefine.DASH:
                     if (mCurTriggeredComboStep != null)
                     {
-                        ExcuteCombo(cmdType, towards, triggerMeter, ref mCurTriggeredComboStep);
+                        ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
                     }
                     else
                     {
-                        StatusDefaultAction(cmdType, towards, triggerMeter, statusDefaultActionData);
+                        StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
                     }
                     break;
                 case AgentCommandDefine.EMPTY:
@@ -137,7 +128,7 @@ public class AgentStatus_Dash : AgentStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
+    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, AgentActionData agentActionData)
     {
         if (agentActionData == null)
             return;

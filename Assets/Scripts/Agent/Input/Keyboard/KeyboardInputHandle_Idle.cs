@@ -25,7 +25,7 @@ public class KeyboardInputHandle_Idle : AgentKeyboardInputHandle
         if (mAgent == null)
             return;
 
-        AgentInputCommand cmd;
+        AgentCommand cmd;
 
         // 攻击判断>冲刺判断>跑动判断
         // 存在逻辑短路

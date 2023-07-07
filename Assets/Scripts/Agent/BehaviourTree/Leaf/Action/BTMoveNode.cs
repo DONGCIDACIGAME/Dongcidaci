@@ -29,7 +29,7 @@ public abstract class BTMoveNode : BTLeafNode
         // 获取运动方向
         Vector3 towards = GetTargetTowards();
         // 发送run指令
-        AgentInputCommand runCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
+        AgentCommand runCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
         runCmd.Initialize(AgentCommandDefine.RUN, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);
         mExcutor.OnCommand(runCmd);
     }
@@ -47,7 +47,7 @@ public abstract class BTMoveNode : BTLeafNode
     protected void StopMove()
     {
         // 发送idle指令
-        AgentInputCommand idleCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
+        AgentCommand idleCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
         idleCmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, DirectionDef.none);
         mExcutor.OnCommand(idleCmd);
     }

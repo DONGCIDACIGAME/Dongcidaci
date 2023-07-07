@@ -18,15 +18,11 @@ public class AgentStatus_Idle : AgentStatus
         base.CustomDispose();
     }
 
-    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context)
+    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.OnEnter(cmdType, towards, triggerMeter, context);
+        base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        //byte cmdType = (byte)context["cmdType"];
-        //Vector3 towards = (Vector3)context["towards"];
-        //int triggerMeter = (int)context["triggerMeter"];
-
-        StatusDefaultAction(cmdType, towards, triggerMeter, statusDefaultActionData);
+        StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
     }
 
     public override void OnExit()
@@ -34,9 +30,9 @@ public class AgentStatus_Idle : AgentStatus
         base.OnExit();
     }
 
-    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
+    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
+        base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
         switch (cmdType)
         {
@@ -45,10 +41,10 @@ public class AgentStatus_Idle : AgentStatus
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.IDLE:
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboStep);
+                PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -58,7 +54,7 @@ public class AgentStatus_Idle : AgentStatus
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
-        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter))
+        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string,object> args))
         {
             Log.Logic(LogLevel.Info, "PeekCommand--{0}", cmdType);
             switch (cmdType)
@@ -68,10 +64,10 @@ public class AgentStatus_Idle : AgentStatus
                 case AgentCommandDefine.ATTACK_LONG:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT:
-                    ChangeStatusOnCommand(cmdType, towards, meterIndex, mCurTriggeredComboStep);
+                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
                     break ;
                 case AgentCommandDefine.IDLE:
-                    StatusDefaultAction(cmdType, towards, triggerMeter, null);
+                    StatusDefaultAction(cmdType, towards, triggerMeter, args, null);
                     break;
                 case AgentCommandDefine.EMPTY:
                 default:
@@ -93,7 +89,7 @@ public class AgentStatus_Idle : AgentStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="triggeredComboStep"></param>
-    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
+    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args, AgentActionData agentActionData)
     {
         // 等待当前逻辑结束拍
         if (triggerMeter <= mCurLogicStateEndMeter)

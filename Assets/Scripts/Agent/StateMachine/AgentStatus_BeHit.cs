@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class AgentStatus_BeHit : AgentStatus
 {
-    private float mMoveMore;
-    private Vector3 mMoveTowards;
-
     public override void CustomInitialize()
     {
         base.CustomInitialize();
@@ -22,51 +19,38 @@ public class AgentStatus_BeHit : AgentStatus
         return AgentStatusDefine.BEHIT;
     }
 
-    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context)
+    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.OnEnter(cmdType, towards, triggerMeter, context);
-        mMoveTowards = towards;
-        //byte cmdType = (byte)context["cmdType"];
-        //Vector3 towards = (Vector3)context["towards"];
-        //int triggerMeter = (int)context["triggerMeter"];
-
+        base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
         AgentActionData actionData = statusDefaultActionData;
-        if (context.TryGetValue("beHitAction", out object obj1))
+        if (args != null && args.TryGetValue("beHitAction", out object obj1))
         {
             actionData = obj1 as AgentActionData;
         }
-
-        if(context.TryGetValue("moveMove", out object obj2))
-        {
-            mMoveMore = (float)obj2;
-        }
-
-        StatusDefaultAction(cmdType, towards, triggerMeter, actionData);
+        StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData) ;
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        mMoveMore = 0;
-        mMoveTowards = DirectionDef.none;
     }
 
-    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
+    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
+        base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
         switch (cmdType)
         {
             case AgentCommandDefine.BE_HIT:
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, triggeredComboStep);
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, triggeredComboStep);
+                PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -83,11 +67,9 @@ public class AgentStatus_BeHit : AgentStatus
             return;
         }
 
-        Dictionary<string, object> args = new Dictionary<string, object>();
-        //args.Add("cmdType", AgentCommandDefine.IDLE);
-        //args.Add("towards", DirectionDef.none);
-        //args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
-        GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args);
+        Dictionary<string, object> args = null;
+        TriggeredComboStep triggeredComboStep = null;
+        GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep);
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)
@@ -103,18 +85,26 @@ public class AgentStatus_BeHit : AgentStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
+    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
     {
         if (agentActionData == null)
             return;
 
+
+        float moveMore = 0;
+        if (args != null && args.TryGetValue("moveMove", out object obj2))
+        {
+            moveMore = (float)obj2;
+        }
+
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;
+
         // 1. 播放攻击动画
         mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusName, stateName);
 
         // 2. 处理动画相关的位移
-        mAgent.MovementExcutorCtl.Start(statusName, stateName, mMoveMore, mMoveTowards);
+        mAgent.MovementExcutorCtl.Start(statusName, stateName, moveMore, towards);
     }
 
     public override void RegisterInputHandle()

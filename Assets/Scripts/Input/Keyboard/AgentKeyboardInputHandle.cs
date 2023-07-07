@@ -34,7 +34,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         return towards;
     }
 
-    protected bool GetDashInputCommand(out AgentInputCommand cmd)
+    protected bool GetDashInputCommand(out AgentCommand cmd)
     {
         cmd = null;
         Vector3 towards = GetInputDirection();
@@ -48,7 +48,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         return false;
     }
 
-    protected bool GetAttackInputCmd(out AgentInputCommand cmd)
+    protected bool GetAttackInputCmd(out AgentCommand cmd)
     {
         cmd = null;
         int triggerMeter = -1;
@@ -80,7 +80,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         return false;
     }
 
-    protected bool GetRunInputCmd(out AgentInputCommand cmd)
+    protected bool GetRunInputCmd(out AgentCommand cmd)
     {
         cmd = null;
         Vector3 towards = GetInputDirection();

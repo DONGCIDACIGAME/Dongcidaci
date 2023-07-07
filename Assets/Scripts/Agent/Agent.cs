@@ -224,11 +224,9 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         CustomInitialize();
 
         // 加载完成后默认进入idle状态
-        Dictionary<string, object> args = new Dictionary<string, object>();
-        //args.Add("cmdType", AgentCommandDefine.IDLE);
-        //args.Add("towards", DirectionDef.none);
-        //args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
-        StatusMachine.SwitchToStatus(GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args);
+        TriggeredComboStep triggeredComboStep = null;
+        Dictionary<string, object> args = null;
+        StatusMachine.SwitchToStatus(GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep) ;
     }
 
     /// <summary>
@@ -292,11 +290,11 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     /// 记录上一个指令
     /// 这是上一个输入指令的一份数据拷贝
     /// </summary>
-    private AgentInputCommand lastInputCmd;
+    private AgentCommand lastInputCmd;
 
     
 
-    public void OnCommand(AgentInputCommand cmd)
+    public void OnCommand(AgentCommand cmd)
     {
         if(cmd == null)
         {
@@ -325,7 +323,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         }
 
         // 记录这次的指令数据
-        lastInputCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop().Copy(cmd);
+        lastInputCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop().ShallowCopy(cmd);
 
         if (StatusMachine == null)
         {

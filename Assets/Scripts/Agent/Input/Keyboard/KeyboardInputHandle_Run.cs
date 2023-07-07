@@ -24,7 +24,7 @@ public class KeyboardInputHandle_Run : AgentKeyboardInputHandle
         if (mAgent == null)
             return;
 
-        AgentInputCommand cmd; 
+        AgentCommand cmd; 
         bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
         if (!hasCmd)
         {

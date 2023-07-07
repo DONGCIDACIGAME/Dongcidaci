@@ -127,6 +127,16 @@ namespace GameEngine
             GameEventSystem.Ins.AddEventListen(mListenerId, evtName, cb);
         }
 
+        public void Listen<T1, T2, T3, T4, T5, T6, T7>(string evtName, Callback<T1, T2, T3, T4, T5, T6, T7> cb)
+        {
+            if (!BindEventCheck(evtName, cb))
+                return;
+
+            mEventTable.Add(evtName, cb);
+
+            GameEventSystem.Ins.AddEventListen(mListenerId, evtName, cb);
+        }
+
         public void RemoveEventListen(string evtName)
         {
             if (string.IsNullOrEmpty(evtName))

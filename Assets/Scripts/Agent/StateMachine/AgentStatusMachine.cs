@@ -60,7 +60,7 @@ public class AgentStatusMachine : IMeterHandler
     {
         mAgent = agt;
         
-        mEventListener.Listen<uint, string, byte, Vector3, int, Dictionary<string, object>>("ChangeAgentStatus", SwitchToStatus);
+        mEventListener.Listen<uint, string, byte, Vector3, int, Dictionary< string, object>, TriggeredComboStep>("ChangeAgentStatus", SwitchToStatus);
 
         AddStatus(AgentStatusDefine.IDLE, new AgentStatus_Idle());
         AddStatus(AgentStatusDefine.RUN, new AgentStatus_Run());
@@ -71,7 +71,7 @@ public class AgentStatusMachine : IMeterHandler
     }
 
 
-    public void SwitchToStatus(uint agentId,string statusName, byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context)
+    public void SwitchToStatus(uint agentId,string statusName, byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args,TriggeredComboStep triggeredComboStep)
     {
         if (agentId != mAgent.GetAgentId())
             return;
@@ -88,7 +88,7 @@ public class AgentStatusMachine : IMeterHandler
                 CurStatus.OnExit();
             }
 
-            newStatus.OnEnter(cmdType, towards, triggerMeter, context);
+            newStatus.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
             CurStatus = newStatus;
         }
         else

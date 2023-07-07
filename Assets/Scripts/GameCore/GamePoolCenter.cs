@@ -8,7 +8,7 @@ public class GamePoolCenter : Singleton<GamePoolCenter>
     
     public GeneralGamePool<AnimMovementExcutor> MovementExcutorPool = new GeneralGamePool<AnimMovementExcutor>();
 
-    public GeneralGamePool<AgentInputCommand> AgentInputCommandPool = new GeneralGamePool<AgentInputCommand>();
+    public GeneralGamePool<AgentCommand> AgentInputCommandPool = new GeneralGamePool<AgentCommand>();
 
     public GeneralGamePool<TriggeredComboStep> TriggeredComboActionPool = new GeneralGamePool<TriggeredComboStep>();
 

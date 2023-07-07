@@ -29,18 +29,12 @@ public class AgentStatus_Transfer : AgentStatus
         base.CustomDispose();
     }
 
-    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> context)
+    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.OnEnter(cmdType, towards, triggerMeter, context);
+        base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        mStateDuration = 0;
-        mTime = 0;
-        if (context.TryGetValue("duration", out object obj))
-        {
-            float duration = (float)obj;
-            mStateDuration = MeterManager.Ins.GetCurrentMeterTime() * duration;
-        }
 
+        StatusDefaultAction(cmdType, towards, triggerMeter, args, null);
     }
 
     public override void OnExit()
@@ -66,17 +60,21 @@ public class AgentStatus_Transfer : AgentStatus
 
         if(mTime >= mStateDuration)
         {
-            Dictionary<string, object> args = new Dictionary<string, object>();
-            //args.Add("cmdType", AgentCommandDefine.IDLE);
-            //args.Add("towards", DirectionDef.none);
-            //args.Add("triggerMeter", MeterManager.Ins.MeterIndex);
-            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args);
+            Dictionary<string, object> args = null;
+            TriggeredComboStep triggeredComboStep = null;
+            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep);
         }
     }
 
-    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, AgentActionData agentActionData)
+    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, AgentActionData agentActionData)
     {
-        
+        mStateDuration = 0;
+        mTime = 0;
+        if (args.TryGetValue("duration", out object obj))
+        {
+            float duration = (float)obj;
+            mStateDuration = MeterManager.Ins.GetCurrentMeterTime() * duration;
+        }
     }
 
     public override void RegisterInputHandle()

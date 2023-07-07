@@ -124,6 +124,14 @@ namespace GameEngine
                 evt.OnTrigger(arg1, arg2, arg3, arg4, arg5, arg6);
             }
         }
+
+        public void Fire<T1, T2, T3, T4, T5, T6, T7>(string evtName, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        {
+            if (mEventMap.TryGetValue(evtName, out GameEvent evt))
+            {
+                evt.OnTrigger(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            }
+        }
         #endregion
 
         #region Post
@@ -180,6 +188,14 @@ namespace GameEngine
             mToPostEvents.Enqueue(new PostEvent(evtName, () =>
             {
                 Fire(evtName, arg1, arg2, arg3, arg4, arg5, arg6);
+            }));
+        }
+
+        public void Post<T1, T2, T3, T4, T5, T6, T7>(string evtName, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        {
+            mToPostEvents.Enqueue(new PostEvent(evtName, () =>
+            {
+                Fire(evtName, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             }));
         }
         #endregion

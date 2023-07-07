@@ -14,7 +14,7 @@ public class BTIdleNode : BTLeafNode
         }
 
         // 发送idle指令
-        AgentInputCommand idleCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
+        AgentCommand idleCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
         idleCmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, DirectionDef.none);
         mExcutor.OnCommand(idleCmd);
 

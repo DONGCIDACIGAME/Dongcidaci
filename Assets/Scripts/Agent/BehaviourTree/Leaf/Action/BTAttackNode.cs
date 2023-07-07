@@ -19,7 +19,7 @@ public class BTAttackNode : BTLeafNode
        Vector3 towards = mExcutor.GetTowards();
 
         // 发送attack指令
-        AgentInputCommand attackCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
+        AgentCommand attackCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
         attackCmd.Initialize(AgentCommandDefine.ATTACK_SHORT, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);
         mExcutor.OnCommand(attackCmd);
 
@@ -28,7 +28,8 @@ public class BTAttackNode : BTLeafNode
         if (mContext.TryGetValue("TargetEntity", out object obj))
         {
             Agent targetEntity = obj as Agent;
-            AgentInputCommand beHitCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
+            AgentCommand beHitCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
+            beHitCmd.AddArg("moveMove", 1);
             beHitCmd.Initialize(AgentCommandDefine.BE_HIT, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);
             targetEntity.OnCommand(attackCmd);
         }

@@ -1,16 +1,30 @@
 using UnityEngine;
 using GameEngine;
+using System.Collections.Generic;
+
 public class AgentInputCommandBuffer : IGameDisposable
 {
     private byte cmdList;
     private Vector3[] directionList;
     private int[] triggerMeterList;
+    private Dictionary<string, object>[] argsList;
 
     public AgentInputCommandBuffer()
     {
         this.cmdList = 0;
         this.directionList = new Vector3[8];
         this.triggerMeterList = new int[8];
+        this.argsList = new Dictionary<string, object>[8]
+        {
+            new Dictionary<string, object>(),
+            new Dictionary<string, object>(),
+            new Dictionary<string, object>(),
+            new Dictionary<string, object>(),
+            new Dictionary<string, object>(),
+            new Dictionary<string, object>(),
+            new Dictionary<string, object>(),
+            new Dictionary<string, object>()
+        };
     }
 
     public bool HasCommand()
@@ -30,14 +44,31 @@ public class AgentInputCommandBuffer : IGameDisposable
 
         return -1;
     }
-    public void AddInputCommand(byte cmdType, Vector3 towards, int triggerMeter)
+    public void AddInputCommand(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args)
     {
+        // 记录指令类型
         cmdList |= cmdType;
+
+        // 获取该指令的缓存index
         int index = GetBufferIndex(cmdType);
         if(index >= 0 && index < 8)
         {
+            // 记录指令朝向
             directionList[index] = towards;
+            // 记录指令触发节拍
             triggerMeterList[index] = triggerMeter;
+            // 记录指令参数
+            if(args != null && args.Count > 0)
+            {
+                Dictionary<string, object> _args = this.argsList[index];
+                // 清除原来的参数
+                _args.Clear();
+                // 复制参数
+                foreach (KeyValuePair<string,object> kv in args)
+                {
+                    _args[kv.Key] = kv.Value;
+                }
+            }
         }
     }
 
@@ -50,14 +81,16 @@ public class AgentInputCommandBuffer : IGameDisposable
         {
             directionList[index] = DirectionDef.none;
             triggerMeterList[index] = 0;
+            argsList[index].Clear();
         }
     }
 
-    public bool PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter)
+    public bool PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string,object> args)
     {
         cmdType = AgentCommandDefine.EMPTY;
         towards = DirectionDef.none;
         triggerMeter = 0;
+        args = null;
 
         for (int i = 7; i >= 0; i--)
         {
@@ -85,6 +118,7 @@ public class AgentInputCommandBuffer : IGameDisposable
         {
             directionList[i] = DirectionDef.none;
             triggerMeterList[i] = 0;
+            argsList[i].Clear();
         }
     }
 
@@ -93,5 +127,6 @@ public class AgentInputCommandBuffer : IGameDisposable
         cmdList = 0;
         directionList = null;
         triggerMeterList = null;
+        argsList = null;
     }
 }

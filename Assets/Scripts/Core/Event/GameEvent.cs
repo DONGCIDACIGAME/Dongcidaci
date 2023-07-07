@@ -241,6 +241,33 @@ namespace GameEngine
             }
         }
 
+
+        public void OnTrigger<T1, T2, T3, T4, T5, T6, T7>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        {
+            foreach (KeyValuePair<int, Delegate> kv in mCallbacks)
+            {
+                int listenerId = kv.Key;
+                Callback<T1, T2, T3, T4, T5, T6, T7> cb = kv.Value as Callback<T1, T2, T3, T4, T5, T6, T7>;
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
+                {
+                    cb(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+                }
+            }
+
+            for (int i = 0; i < mToAddCallbacksBuffer.Count; i++)
+            {
+                GameEventData evt = mToAddCallbacksBuffer[i];
+
+                int listenerId = evt.listenerId;
+                Callback<T1, T2, T3, T4, T5, T6, T7> cb = evt.callback as Callback<T1, T2, T3, T4, T5, T6, T7>;
+
+                if (cb != null && !mToRemoveCallbacksBuffer.Contains(listenerId))
+                {
+                    cb(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+                }
+            }
+        }
+
         /// <summary>
         /// 移除事件监听
         /// </summary>
