@@ -8,15 +8,14 @@ namespace GameSkillEffect
     public class AgentSkEftHandler : IRecycle
     {
         private Agent _bindAgent;
-        private List<IPortableEffect> _carrySkEfts;
+        private List<PortableEffect> _carrySkEfts;
 
 
         public void InitAgentSkEftHandler(Agent agt)
         {
             _bindAgent = agt;
-            _carrySkEfts = new List<IPortableEffect>();
+            _carrySkEfts = new List<PortableEffect>();
         }
-
 
 
 
@@ -29,6 +28,21 @@ namespace GameSkillEffect
             // 需要修改这里的逻辑
             if (effectDatas == null || effectDatas.effects == null || effectDatas.effects.Length == 0) return;
 
+            // 1 创建效果
+            var tgtRlsEffects = new List<SkillEffect>();
+            foreach (var effectData in effectDatas.effects)
+            {
+                var rlsSkEft = GameSkEftPool.Ins.PopWithInit(_bindAgent,effectData);
+                if (rlsSkEft != null) tgtRlsEffects.Add(rlsSkEft);
+            }
+
+            // 2 优先查找身上的状态对这个操作存在影响的
+
+            // 3 触发剩下的效果
+            foreach (var tgtRlsEft in tgtRlsEffects)
+            {
+                tgtRlsEft.TriggerSkEft();
+            }
 
             /**
             Log.Logic(LogLevel.Info, "{0} excute effect {1}", _bindAgent.GetAgentId(), effectData.effectType);
@@ -97,41 +111,15 @@ namespace GameSkillEffect
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public void Dispose()
         {
             _bindAgent = null;
+
+            // 回收携带的每个技能效果
+            foreach (var skEft in _carrySkEfts)
+            {
+                skEft.Recycle();
+            }
             _carrySkEfts = null;
 
         }

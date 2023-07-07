@@ -134,4 +134,8 @@ public abstract class GameEntity : Entity
     }
 
     public abstract int GetEntityType();
+
+
+
+
 }

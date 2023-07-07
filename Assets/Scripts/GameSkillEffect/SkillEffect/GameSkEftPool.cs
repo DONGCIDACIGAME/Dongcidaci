@@ -73,7 +73,10 @@ namespace GameSkillEffect
             var newSkEft = Pop(eftCfg);
             if (newSkEft != null)
             {
-                newSkEft.InitSkEft(user, skEftData, eftCfg);
+                if(newSkEft.InitSkEft(user, skEftData, eftCfg) == false)
+                {
+                    return null;
+                }
             }
             return newSkEft;
         }

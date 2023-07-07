@@ -2,10 +2,10 @@ using GameEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// ×¢²á½øCommonUpdateCenterµÃupdater£¬¸üĞÂË³ĞòºÍ×¢²áË³ĞòÎŞ¹Ø
+/// æ³¨å†Œè¿›CommonUpdateCenterå¾—updaterï¼Œæ›´æ–°é¡ºåºå’Œæ³¨å†Œé¡ºåºæ— å…³
 /// TODO:
-/// 1.ÕâÀïĞèÒª¸ãÕâÃ´¸´ÔÓÃ´£¬ÊÇ·ñÓÃ¸öhashset¾Í¿ÉÒÔÁË
-/// 2.ÆäËûÄ£¿éµÄupdateÊÇ·ñÒ²·ÅÔÚÕâÀïÇı¶¯£¿ÓĞ¸öÎÊÌâ¾ÍÊÇÕâÀïµÄupdateÄ¿Ç°ÊÇÎŞĞòµÄ£¬¿ÉÄÜ»áÓĞÎÊÌâ
+/// 1.è¿™é‡Œéœ€è¦æè¿™ä¹ˆå¤æ‚ä¹ˆï¼Œæ˜¯å¦ç”¨ä¸ªhashsetå°±å¯ä»¥äº†
+/// 2.å…¶ä»–æ¨¡å—çš„updateæ˜¯å¦ä¹Ÿæ”¾åœ¨è¿™é‡Œé©±åŠ¨ï¼Ÿæœ‰ä¸ªé—®é¢˜å°±æ˜¯è¿™é‡Œçš„updateç›®å‰æ˜¯æ— åºçš„ï¼Œå¯èƒ½ä¼šæœ‰é—®é¢˜
 /// </summary>
 public class UpdateCenter : ModuleManager<UpdateCenter>
 {

@@ -16,12 +16,12 @@
 							{
 								"effects": [
 									{
-										"comment": "damage",
+										"comment": "Fire Test Bullet",
 										"rlsTgt": 0,
-										"effectCfgUID": 1001,
-										"strValueDict":{"bulletPrefab": ""},
+										"effectCfgUID": 1201,
+										"strValueDict":{"bulletPrefab": "Prefabs/SkillEffectEntity/Bullet/TestBullet"},
 										"intValueDict":{"value": 1},
-										"floatValueDict":{"value": 1},
+										"floatValueDict":{"fireSpeed": 0.1, "flightDis":5, "initPosX":0, "initPosY":0.5, "initPosZ":1.5, "rotateY":0},
 										"subEffects":[],
 										"hitShape":{"shapeType": 0, "sizeX": 3, "sizeY": 2, "offsetX": 0,"offsetY": 0.5}
 									}
