@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameSkillEffect;
 
-/// <summary>
-/// 可被角色携带的技能效果
-/// </summary>
-public interface IPortableEffect
-{
-
-}
-
 
 public interface IRemoteEffect
 {
@@ -29,9 +21,9 @@ public interface ITrigOnExcuteComboEft
     /// 该行为可以被阻止
     /// </summary>
     /// <param name="user"></param>
-    /// <param name="effectData"></param>
+    /// <param name="eftWaitForTrig"></param>
     /// <returns></returns>
-    public bool OnExcuteComboEft(Agent user, SkillEffectData effectData);
+    public bool OnExcuteComboEft(Agent user, SkillEffect eftWaitForTrig);
 
     /// <summary>
     /// 这个效果的执行优先级

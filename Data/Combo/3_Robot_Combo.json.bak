@@ -9,7 +9,6 @@
 			"comboSteps": [
 				{
 					"input": 8, 
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Attack",
 						"stateName": "Combo_1_With_Empty", 
@@ -17,14 +16,14 @@
 							{
 								"effects": [
 									{
-										"comment": "damage",
+										"comment": "Fire Test Bullet",
 										"rlsTgt": 0,
-										"effectCfgUID": 1001,
-										"strValueDict":{"bulletPrefab": ""},
+										"effectCfgUID": 1201,
+										"strValueDict":{"bulletPrefab": "Prefabs/SkillEffectEntity/Bullet/TestBullet"},
 										"intValueDict":{"value": 1},
-										"floatValueDict":{"value": 1},
+										"floatValueDict":{"fireSpeed": 0.15, "flightDis":5, "initPosX":0, "initPosY":0.5, "initPosZ":1.5, "rotateY":0},
 										"subEffects":[],
-										"hitShape":{"shapeType": 0, "sizeX": 3, "sizeY": 2, "offsetX": 0,"offsetY": 0.5},
+										"hitShape":{"shapeType": 0, "sizeX": 3, "sizeY": 2, "offsetX": 0,"offsetY": 0.5}
 									}
 								]
 							}
@@ -34,7 +33,6 @@
 				},
 				{
 					"input": 8,
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Attack",
 						"stateName": "Combo_2_With_Empty",
@@ -50,7 +48,6 @@
 				},
 				{
 					"input": 8,
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Attack",
 						"stateName": "Combo_3_With_Empty",
@@ -73,7 +70,6 @@
 			"comboSteps": [
 				{
 					"input": 4, 
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Dash",
 						"stateName": "Dash", 
@@ -89,7 +85,6 @@
 				},
 				{
 					"input": 8,
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Attack",
 						"stateName": "Combo_2_With_Empty",

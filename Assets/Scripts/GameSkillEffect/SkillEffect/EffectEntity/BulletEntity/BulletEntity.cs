@@ -5,31 +5,8 @@ using GameEngine;
 
 namespace GameSkillEffect
 {
-    public class BulletEntity : SkEftEntity
+    public class BulletEntity : SkEftEntity, IMeterHandler, IUpdateCenterDrive
     {
-        private BulletEntityView _bulletView;
-
-        public override void InitSkEftEntity(string eftEntityPrefab)
-        {
-            
-            var go = PrefabUtil.LoadPrefab(eftEntityPrefab, SkEftDefine.SkEftEntityNode, "Load Bullet Prefab");
-            if (go != null)
-            {
-                BulletEntityView bulletView = go.GetComponent<BulletEntityView>();
-                BindBulletView(bulletView);
-            }
-
-
-        }
-
-        private void BindBulletView(BulletEntityView bulletView)
-        {
-            BindMapEntityView(bulletView);
-            _bulletView = bulletView;
-
-        }
-
-
         protected override MyColliderType ColliderType => MyColliderType.Collider_SkBullet;
 
         public override int GetEntityType()
@@ -37,7 +14,131 @@ namespace GameSkillEffect
             return EntityTypeDefine.SkEftBullet;
         }
 
-        
+
+        private BulletEntityView _bulletView;
+
+        private SkEntityInitData _skEntityInitData;
+
+        private SkillEffect[] _carrySkEffects;
+
+
+        #region MOVE CONTROL
+        private bool _isMoveStart = false;
+        private float _crtMoveSpeed;
+        #endregion
+
+
+
+        public override void InitSkEftEntity(SkEntityInitData entityInitData, SkillEffect[] carrySkEfts)
+        {
+            var go = PrefabUtil.LoadPrefab(entityInitData.PrefabPath, SkEftDefine.SkEftEntityNode, "Load Bullet Prefab");
+            if(go == null)
+            {
+                Log.Error(LogLevel.Critical,"Init BulletEntity -- Load Prefab error");
+                Dispose();
+                return;
+            }
+            var ret = go.TryGetComponent<BulletEntityView>(out BulletEntityView bulletView);
+            if(ret == false)
+            {
+                Log.Error(LogLevel.Critical, "Init BulletEntity -- No Bullet View On Prefab");
+                Dispose();
+                return;
+            }
+
+            BindBulletView(bulletView);
+            _skEntityInitData = entityInitData;
+            _carrySkEffects = carrySkEfts;
+            
+
+            // 1 初始化位置信息
+            SetPosition(_skEntityInitData.WorldPos);
+            SetRotation(_skEntityInitData.RotateAngle);
+
+            // 注册到 Update Center
+            RegisterToUpdateCenter(this);
+            MeterManager.Ins.RegisterMeterHandler(this);
+            _isMoveStart = true;
+            _crtMoveSpeed = _skEntityInitData.FlightSpeed;
+        }
+
+        private void BindBulletView(BulletEntityView bulletView)
+        {
+            BindMapEntityView(bulletView);
+            _bulletView = bulletView;
+        }
+
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            UnregisterFromUpdateCenter(this);
+            MeterManager.Ins.UnregiseterMeterHandler(this);
+
+            _carrySkEffects = null;
+            _bulletView = null;
+            //销毁 bullet view
+
+
+        }
+
+
+        public void OnMeterEnter(int meterIndex)
+        {
+            if (_isMoveStart)
+            {
+                if(_crtMoveSpeed < _skEntityInitData.FlightSpeed)
+                {
+                    _crtMoveSpeed = _skEntityInitData.FlightSpeed;
+                }
+                else
+                {
+                    _crtMoveSpeed = _skEntityInitData.FlightSpeed * 0.2f;
+                }
+               
+            }
+        }
+
+        public void OnMeterEnd(int meterIndex)
+        {
+            if (_isMoveStart)
+            {
+               
+                
+            }
+        }
+
+        public void OnUpdate(float deltaTime)
+        {
+            if (!_isMoveStart) return;
+
+            // 判断是否到飞行距离
+            if ((GetPosition() - _skEntityInitData.WorldPos).magnitude >= _skEntityInitData.FlightDis)
+            {
+                //回收
+                Dispose();
+                return;
+            }
+
+            Vector3 pos = GetPosition() + _skEntityInitData.FlightDir * _crtMoveSpeed;
+            //MoveToPosition(pos);
+            SetPosition(pos);
+        }
+
+
+
+        public void RegisterToUpdateCenter(IGameUpdate updater)
+        {
+            UpdateCenter.Ins.RegisterUpdater(updater);
+        }
+
+        public void UnregisterFromUpdateCenter(IGameUpdate updater)
+        {
+            UpdateCenter.Ins.UnregisterUpdater(updater);
+        }
+
+
+
     }
 }
 

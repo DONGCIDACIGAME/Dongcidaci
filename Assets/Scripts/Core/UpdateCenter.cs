@@ -2,18 +2,21 @@ using GameEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// ×¢²á½øCommonUpdateCenterµÃupdater£¬¸üĞÂË³ĞòºÍ×¢²áË³ĞòÎŞ¹Ø
+/// æ³¨å†Œè¿›CommonUpdateCenterå¾—updaterï¼Œæ›´æ–°é¡ºåºå’Œæ³¨å†Œé¡ºåºæ— å…³
 /// TODO:
-/// 1.ÕâÀïĞèÒª¸ãÕâÃ´¸´ÔÓÃ´£¬ÊÇ·ñÓÃ¸öhashset¾Í¿ÉÒÔÁË
-/// 2.ÆäËûÄ£¿éµÄupdateÊÇ·ñÒ²·ÅÔÚÕâÀïÇı¶¯£¿ÓĞ¸öÎÊÌâ¾ÍÊÇÕâÀïµÄupdateÄ¿Ç°ÊÇÎŞĞòµÄ£¬¿ÉÄÜ»áÓĞÎÊÌâ
+/// 1.è¿™é‡Œéœ€è¦æè¿™ä¹ˆå¤æ‚ä¹ˆï¼Œæ˜¯å¦ç”¨ä¸ªhashsetå°±å¯ä»¥äº†
+/// 2.å…¶ä»–æ¨¡å—çš„updateæ˜¯å¦ä¹Ÿæ”¾åœ¨è¿™é‡Œé©±åŠ¨ï¼Ÿæœ‰ä¸ªé—®é¢˜å°±æ˜¯è¿™é‡Œçš„updateç›®å‰æ˜¯æ— åºçš„ï¼Œå¯èƒ½ä¼šæœ‰é—®é¢˜
 /// </summary>
 public class UpdateCenter : ModuleManager<UpdateCenter>
 {
-    private HashSet<IGameUpdate> mUpdates;
+    //private HashSet<IGameUpdate> mUpdates;
+    private List<IGameUpdate> mUpdates;
+
     public override void Initialize()
     {
         Log.Logic(LogLevel.Critical, "UpdateCenter Initialized...");
-        mUpdates = new HashSet<IGameUpdate>();
+        //mUpdates = new HashSet<IGameUpdate>();
+        mUpdates = new List<IGameUpdate>();
     }
 
     public void RegisterUpdater(IGameUpdate updater)
@@ -34,6 +37,20 @@ public class UpdateCenter : ModuleManager<UpdateCenter>
 
     public override void OnUpdate(float deltaTime)
     {
+        // modified by weng 0707
+        // è¿™ä¸ªåœ°æ–¹éœ€è¦ä»åå¾€å‰éå†ï¼Œå› ä¸ºå¦‚æœæ›´æ–°è€…åœ¨updateä¸­æ‰§è¡Œäº†æ³¨é”€çš„é€»è¾‘
+        // ä¼šå¯¼è‡´ç´¢å¼•è¶Šç•Œï¼Œforeach æ€§èƒ½åä½
+
+        if (mUpdates == null || mUpdates.Count == 0) return;
+        for (int i=mUpdates.Count-1; i>=0; i--)
+        {
+            if (mUpdates[i] != null)
+            {
+                mUpdates[i].OnUpdate(deltaTime);
+            }
+        }
+
+        /**
         foreach(IGameUpdate updater in mUpdates)
         {
             if(updater != null)
@@ -41,6 +58,8 @@ public class UpdateCenter : ModuleManager<UpdateCenter>
                 updater.OnUpdate(deltaTime);
             }
         }
+        */
+
     }
 
     public override void Dispose()

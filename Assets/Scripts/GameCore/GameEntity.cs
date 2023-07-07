@@ -134,4 +134,21 @@ public abstract class GameEntity : Entity
     }
 
     public abstract int GetEntityType();
+
+
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        // Added by weng 0707
+        // 这里需要再考虑下view回收的问题
+        if (mEntityView!=null)
+        {
+            GameObject.Destroy(mEntityView.gameObject);
+        }
+
+        mEntityView = null;
+
+    }
+
 }

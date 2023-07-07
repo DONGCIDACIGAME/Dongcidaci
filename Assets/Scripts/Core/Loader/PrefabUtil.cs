@@ -22,7 +22,8 @@ public static class PrefabUtil
         {
             go.transform.parent = parent.transform;
             go.transform.localPosition = Vector3.zero;
-            go.transform.localScale = Vector3.one;
+            // changed by weng 
+            //go.transform.localScale = Vector3.one;
             go.transform.rotation = Quaternion.identity;
         }
 
