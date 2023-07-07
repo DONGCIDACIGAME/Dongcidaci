@@ -127,7 +127,6 @@ namespace GameSkillEffect
         public override void RecycleReset()
         {
             Dispose();
-
         }
 
         
