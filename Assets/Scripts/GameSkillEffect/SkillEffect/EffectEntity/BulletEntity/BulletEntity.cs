@@ -78,6 +78,7 @@ namespace GameSkillEffect
             MeterManager.Ins.UnregiseterMeterHandler(this);
 
             _carrySkEffects = null;
+            _bulletView = null;
             //销毁 bullet view
 
 
@@ -86,27 +87,40 @@ namespace GameSkillEffect
 
         public void OnMeterEnter(int meterIndex)
         {
-
+            if (_isMoveStart)
+            {
+                if(_crtMoveSpeed < _skEntityInitData.FlightSpeed)
+                {
+                    _crtMoveSpeed = _skEntityInitData.FlightSpeed;
+                }
+                else
+                {
+                    _crtMoveSpeed = _skEntityInitData.FlightSpeed * 0.2f;
+                }
+               
+            }
         }
 
         public void OnMeterEnd(int meterIndex)
         {
             if (_isMoveStart)
             {
-                if (_crtMoveSpeed < _skEntityInitData.FlightSpeed)
-                {
-                    _crtMoveSpeed = _skEntityInitData.FlightSpeed;
-                }
-                else
-                {
-                    _crtMoveSpeed = _skEntityInitData.FlightSpeed *0.4f;
-                }
+               
+                
             }
         }
 
         public void OnUpdate(float deltaTime)
         {
             if (!_isMoveStart) return;
+
+            // 判断是否到飞行距离
+            if ((GetPosition() - _skEntityInitData.WorldPos).magnitude >= _skEntityInitData.FlightDis)
+            {
+                //回收
+                Dispose();
+                return;
+            }
 
             Vector3 pos = GetPosition() + _skEntityInitData.FlightDir * _crtMoveSpeed;
             //MoveToPosition(pos);

@@ -9,11 +9,14 @@ using System.Collections.Generic;
 /// </summary>
 public class UpdateCenter : ModuleManager<UpdateCenter>
 {
-    private HashSet<IGameUpdate> mUpdates;
+    //private HashSet<IGameUpdate> mUpdates;
+    private List<IGameUpdate> mUpdates;
+
     public override void Initialize()
     {
         Log.Logic(LogLevel.Critical, "UpdateCenter Initialized...");
-        mUpdates = new HashSet<IGameUpdate>();
+        //mUpdates = new HashSet<IGameUpdate>();
+        mUpdates = new List<IGameUpdate>();
     }
 
     public void RegisterUpdater(IGameUpdate updater)
@@ -34,6 +37,20 @@ public class UpdateCenter : ModuleManager<UpdateCenter>
 
     public override void OnUpdate(float deltaTime)
     {
+        // modified by weng 0707
+        // 这个地方需要从后往前遍历，因为如果更新者在update中执行了注销的逻辑
+        // 会导致索引越界，foreach 性能偏低
+
+        if (mUpdates == null || mUpdates.Count == 0) return;
+        for (int i=mUpdates.Count-1; i>=0; i--)
+        {
+            if (mUpdates[i] != null)
+            {
+                mUpdates[i].OnUpdate(deltaTime);
+            }
+        }
+
+        /**
         foreach(IGameUpdate updater in mUpdates)
         {
             if(updater != null)
@@ -41,6 +58,8 @@ public class UpdateCenter : ModuleManager<UpdateCenter>
                 updater.OnUpdate(deltaTime);
             }
         }
+        */
+
     }
 
     public override void Dispose()

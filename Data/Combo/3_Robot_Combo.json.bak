@@ -21,7 +21,7 @@
 										"effectCfgUID": 1201,
 										"strValueDict":{"bulletPrefab": "Prefabs/SkillEffectEntity/Bullet/TestBullet"},
 										"intValueDict":{"value": 1},
-										"floatValueDict":{"fireSpeed": 0.05, "flightDis":5, "initPosX":0, "initPosY":0.5, "initPosZ":1.5, "rotateY":0},
+										"floatValueDict":{"fireSpeed": 0.15, "flightDis":5, "initPosX":0, "initPosY":0.5, "initPosZ":1.5, "rotateY":0},
 										"subEffects":[],
 										"hitShape":{"shapeType": 0, "sizeX": 3, "sizeY": 2, "offsetX": 0,"offsetY": 0.5}
 									}
