@@ -1,13 +1,20 @@
 using GameEngine;
-
+using System.Collections.Generic;
 
 namespace GameSkillEffect
 {
     public class SkEftEntityManager : ModuleManager<SkEftEntityManager>, IMeterHandler
     {
+        /// <summary>
+        /// 用于存放所有注册进来的技能效果实体
+        /// </summary>
+        private List<SkEftEntity> _mEntitys;
+
+
         public override void Initialize()
         {
-            throw new System.NotImplementedException();
+            _mEntitys = new List<SkEftEntity>();
+
         }
 
         public override void Dispose()

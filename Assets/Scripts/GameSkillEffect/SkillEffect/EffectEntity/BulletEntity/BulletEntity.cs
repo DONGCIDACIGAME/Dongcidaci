@@ -25,8 +25,6 @@ namespace GameSkillEffect
         #region MOVE CONTROL
         private bool _isMoveStart = false;
         private float _crtMoveSpeed;
-
-
         #endregion
 
 
