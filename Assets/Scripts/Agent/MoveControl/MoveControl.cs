@@ -69,13 +69,9 @@ public class MoveControl
         */
         var checkShape = collider.Convex2DShape;
         checkShape.AnchorPos = tgtPosition;
-        var ret = GameColliderManager.Ins.CheckCollideHappenWithShape(
-                checkShape,
-                out Dictionary<ConvexCollider2D,Vector2> tgtsWithLeaveV2,
-                collider
-            );
+        Dictionary<ConvexCollider2D, Vector2> tgtsWithLeaveV2 = GameColliderManager.Ins.CheckCollideHappenWithShape(checkShape, null, collider);
 
-        if (ret)
+        if (tgtsWithLeaveV2 != null && tgtsWithLeaveV2.Count > 0)
         {
             // 发生了碰撞
             var unMoveColliders = GameColliderDefine.GetUnMoveableColliders(tgtsWithLeaveV2.Keys.ToArray());

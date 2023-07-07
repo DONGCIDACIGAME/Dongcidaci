@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using GameEngine;
 using UnityEngine;
 using System;
-using System.Linq;
 
 // 1 生成无限网格，将地图切分成虚拟的大块
 // 2 注册新的碰撞体时，计算这个碰撞体占据的地图大块的横纵索引并存储到字典中,包含这个碰撞体覆盖的坐标，地图坐标包含的碰撞体
@@ -253,45 +252,91 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     /// <param name="tgtsWithLeaveV2Dict"></param>
     /// <param name="exceptCollider"></param>
     /// <returns></returns>
-    public bool CheckCollideHappenWithShape(IConvex2DShape shape, out Dictionary<ConvexCollider2D,Vector2> tgtsWithLeaveV2Dict, ConvexCollider2D exceptCollider)
+    public Dictionary<ConvexCollider2D, Vector2> CheckCollideHappenWithShape(IConvex2DShape shape, IGameColliderHandler handler, ConvexCollider2D exceptCollider)
     {
         var tempIndexs = GetMaxEnvelopeOccupyGridIndexs(shape);
-        tgtsWithLeaveV2Dict = new Dictionary<ConvexCollider2D, Vector2>();
-        if (tempIndexs != null)
+        if (tempIndexs == null)
+            return null;
+
+        // 所有检测到的碰撞
+        Dictionary<ConvexCollider2D, Vector2> tgtsWithLeaveV2Dict = null;
+
+        foreach (var mapIndex in tempIndexs)
         {
-            foreach (var mapIndex in tempIndexs)
+            if (_gridIndexToCollidersDict.ContainsKey(mapIndex) == false)
+                continue;
+
+            var collidersInThisGrid = _gridIndexToCollidersDict[mapIndex];
+            if (collidersInThisGrid == null)
+                continue;
+
+            foreach (ConvexCollider2D tgtCollider in collidersInThisGrid)
             {
-                if (_gridIndexToCollidersDict.ContainsKey(mapIndex) == false)
-                {
+                if (exceptCollider != null && tgtCollider.GetColliderUID() == exceptCollider.GetColliderUID())
                     continue;
-                }
 
-                var collidersInThisGrid = _gridIndexToCollidersDict[mapIndex];
-                if (collidersInThisGrid == null) continue;
-
-                foreach (ConvexCollider2D tgtCollider in collidersInThisGrid)
+                if (GameColliderHelper.CheckCollideSATWithLeaveVector(shape, tgtCollider.Convex2DShape, out Vector2 leaveV2))
                 {
-                    if (exceptCollider != null)
-                    {
-                        if (tgtCollider.GetColliderUID() == exceptCollider.GetColliderUID()) continue;
-                    }
-                    
-                    if (GameColliderHelper.CheckCollideSATWithLeaveVector(shape,tgtCollider.Convex2DShape,out Vector2 leaveV2))
-                    {
-                        if(tgtsWithLeaveV2Dict.ContainsKey(tgtCollider) == false)
-                        {
-                            tgtsWithLeaveV2Dict.Add(tgtCollider, leaveV2);
-                        }
-                        
-                    }
+                    if (tgtsWithLeaveV2Dict == null)
+                        tgtsWithLeaveV2Dict = new Dictionary<ConvexCollider2D, Vector2>();
+
+                    if (!tgtsWithLeaveV2Dict.ContainsKey(tgtCollider))
+                        tgtsWithLeaveV2Dict.Add(tgtCollider, leaveV2);
 
                 }
+
             }
         }
 
-        if (tgtsWithLeaveV2Dict.Count > 0) return true;
-        return false;
+        return tgtsWithLeaveV2Dict;
+    }
 
+    /// <summary>
+    /// 检测某个形状是否会产生碰撞;
+    /// 返回碰撞的对象和它的分离向量无序
+    /// </summary>
+    /// <param name="shape"></param>
+    /// <param name="tgtsWithLeaveV2Dict"></param>
+    /// <param name="exceptCollider"></param>
+    /// <returns></returns>
+    public Dictionary<ConvexCollider2D, Vector2> CheckCollideHappenWithShape(ConvexCollider2D srcCollider, ConvexCollider2D exceptCollider)
+    {
+        var tempIndexs = GetMaxEnvelopeOccupyGridIndexs(srcCollider.Convex2DShape);
+        if (tempIndexs == null)
+            return null;
+
+        // 所有检测到的碰撞
+        Dictionary<ConvexCollider2D, Vector2> tgtsWithLeaveV2Dict = null;
+
+        foreach (var mapIndex in tempIndexs)
+        {
+            if (_gridIndexToCollidersDict.ContainsKey(mapIndex) == false)
+                continue;
+
+            var collidersInThisGrid = _gridIndexToCollidersDict[mapIndex];
+            if (collidersInThisGrid == null)
+                continue;
+
+            foreach (ConvexCollider2D tgtCollider in collidersInThisGrid)
+            {
+                if (exceptCollider != null && tgtCollider.GetColliderUID() == exceptCollider.GetColliderUID())
+                    continue;
+
+                if (GameColliderHelper.CheckCollideSATWithLeaveVector(srcCollider.Convex2DShape, tgtCollider.Convex2DShape, out Vector2 leaveV2))
+                {
+                    if (tgtsWithLeaveV2Dict == null)
+                        tgtsWithLeaveV2Dict = new Dictionary<ConvexCollider2D, Vector2>();
+
+                    if (!tgtsWithLeaveV2Dict.ContainsKey(tgtCollider))
+                        tgtsWithLeaveV2Dict.Add(tgtCollider, leaveV2);
+
+                    //ExcuteOnColliderHappen(srcCollider.)
+                }
+
+            }
+        }
+
+        return tgtsWithLeaveV2Dict;
     }
 
     /// <summary>
@@ -302,49 +347,47 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     /// <param name="detectedColliders"></param>
     /// <param name="exceptCollider"></param>
     /// <returns></returns>
-    public bool CheckCollideHappenWithShape(IConvex2DShape shape, out List<ConvexCollider2D> detectedColliders, ConvexCollider2D exceptCollider)
-    {
-        var tempIndexs = GetMaxEnvelopeOccupyGridIndexs(shape);
-        detectedColliders = new List<ConvexCollider2D>();
+    //public List<ConvexCollider2D> CheckCollideHappenWithShape(IConvex2DShape shape, IGameColliderHandler handler, ConvexCollider2D exceptCollider)
+    //{
+    //    var tempIndexs = GetMaxEnvelopeOccupyGridIndexs(shape);
+    //    List<ConvexCollider2D> detectedColliders = new List<ConvexCollider2D>();
 
-        // 没有包络大小
-        if (tempIndexs == null||tempIndexs.Count == 0)
-            return false;
+    //    // 没有包络大小
+    //    if (tempIndexs == null||tempIndexs.Count == 0)
+    //        return null;
 
-        foreach (var mapIndex in tempIndexs)
-        {
-            if (!_gridIndexToCollidersDict.TryGetValue(mapIndex, out HashSet<ConvexCollider2D> collidersInThisGrid))
-            {
-                continue;
-            }
-            
-            if (collidersInThisGrid == null) continue;
+    //    foreach (var mapIndex in tempIndexs)
+    //    {
+    //        if (!_gridIndexToCollidersDict.TryGetValue(mapIndex, out HashSet<ConvexCollider2D> collidersInThisGrid))
+    //            continue;
 
-            // 如果能抽个方法会好一点
-            foreach (ConvexCollider2D tgtCollider in collidersInThisGrid)
-            {
-                if (exceptCollider != null && tgtCollider.GetColliderUID() == exceptCollider.GetColliderUID())
-                    continue;
+    //        if (collidersInThisGrid == null) 
+    //            continue;
 
-                if (GameColliderHelper.CheckCollideSAT(shape, tgtCollider.Convex2DShape) == false)
-                    continue;
+    //        // 如果能抽个方法会好一点
+    //        foreach (ConvexCollider2D tgtCollider in collidersInThisGrid)
+    //        {
+    //            if (exceptCollider != null && tgtCollider.GetColliderUID() == exceptCollider.GetColliderUID())
+    //                continue;
 
-                if (detectedColliders.Contains(tgtCollider) == false)
-                {
-                    detectedColliders.Add(tgtCollider);
-                }
-                
-            }
-        }
+    //            if (!GameColliderHelper.CheckCollideSAT(shape, tgtCollider.Convex2DShape))
+    //                continue;
 
-        if (detectedColliders.Count > 0)
-        {
-            detectedColliders = GameColliderHelper.SortCollidersWithAnchorDisToTgtShape(detectedColliders, shape);
-            return true;
-        }
+    //            ExcuteOnColliderHappen(handler, tgtCollider.GetBindEntityId());
 
-        return false;
-    }
+    //            if (!detectedColliders.Contains(tgtCollider))
+    //                detectedColliders.Add(tgtCollider);
+
+    //        }
+    //    }
+
+    //    if (detectedColliders.Count > 0)
+    //    {
+    //        GameColliderHelper.SortCollidersWithAnchorDisToTgtShape(detectedColliders, shape);
+    //    }
+
+    //    return detectedColliders;
+    //}
 
 
 
@@ -412,9 +455,9 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     //                            {
     //                                detectedColliders.Add(tgtCollider);
     //                            }
-                                
+
     //                        }
-                            
+
     //                    }
 
     //                }
@@ -458,44 +501,43 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
 
                 if (GameColliderHelper.CheckCollideSAT(srcCollider.Convex2DShape, tgtCollider.Convex2DShape))
                 {
-                    ExcuteOnColliderHappen(srcCollider, tgtCollider);
-                    ExcuteOnColliderHappen(tgtCollider, srcCollider);
+                    //ExcuteOnColliderHappen(srcCollider, tgtCollider);
+                    //ExcuteOnColliderHappen(tgtCollider, srcCollider);
                     tgtCounter += 1;
                 }
             }
         }
 
-        if (tgtCounter > 0) return true;
-        return false;
+        return tgtCounter > 0;
     }
 
 
-    private void ExcuteOnColliderHappen(ConvexCollider2D srcCollider, ConvexCollider2D tgtCollider)
-    {
-        var srcEntityID = srcCollider.GetBindEntityId();
-        var tgtEntityID = tgtCollider.GetBindEntityId();
-        if (srcEntityID == 0 || tgtEntityID == 0)
-        {
-            Log.Error(LogLevel.Normal, "两个碰撞体中存在无Entity的情况");
-            return;
-        }
+    //private void ExcuteOnColliderHappen(ConvexCollider2D srcCollider, ConvexCollider2D tgtCollider)
+    //{
+    //    var srcEntityID = srcCollider.GetBindEntityId();
+    //    var tgtEntityID = tgtCollider.GetBindEntityId();
+    //    if (srcEntityID == 0 || tgtEntityID == 0)
+    //    {
+    //        Log.Error(LogLevel.Normal, "两个碰撞体中存在无Entity的情况");
+    //        return;
+    //    }
 
-        var srcEntity = EntityManager.Ins.GetEntity(srcEntityID);
-        if (srcEntity == null)
-        {
-            Log.Error(LogLevel.Normal, "ExcuteOnColliderHappen Error, can not find src collider's entity!");
-            return;
-        }
+    //    var srcEntity = EntityManager.Ins.GetEntity(srcEntityID);
+    //    if (srcEntity == null)
+    //    {
+    //        Log.Error(LogLevel.Normal, "ExcuteOnColliderHappen Error, can not find src collider's entity!");
+    //        return;
+    //    }
 
-        var tgtEntity = EntityManager.Ins.GetEntity(tgtEntityID);
-        if (tgtEntity == null)
-        {
-            Log.Error(LogLevel.Normal, "ExcuteOnColliderHappen Error, can not find tgt collider's entity!");
-            return;
-        }
+    //    var tgtEntity = EntityManager.Ins.GetEntity(tgtEntityID);
+    //    if (tgtEntity == null)
+    //    {
+    //        Log.Error(LogLevel.Normal, "ExcuteOnColliderHappen Error, can not find tgt collider's entity!");
+    //        return;
+    //    }
 
-        CollideHandleCenter.HandleCollideFromSrcToTgt(srcEntity, tgtEntity);
-    }
+    //    CollideHandleCenter.HandleCollideFromSrcToTgt(srcEntity, tgtEntity);
+    //}
 
 
 
@@ -650,6 +692,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     }
     
 
+*/
 
     private void ExcuteOnColliderHappen(IGameColliderHandler handler, int colliderToEntityId)
     {
@@ -679,7 +722,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
             handler.HandleColliderToMonster(entity as Monster);
         }
     }
-    */
+
 
 
 
