@@ -25,6 +25,21 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
     /// <param name="stateName">动画状态</param>
     /// <param name="moveMore">位移加成</param>
     /// <param name="moveTorwards">位移方向</param>
+    private void Start(float startTime, float endTime, Vector3 moveTorwards, float distance)
+    {
+        AnimMovementExcutor excutor = GamePoolCenter.Ins.MovementExcutorPool.Pop();
+        excutor.Initialize(mAgt, startTime, endTime, moveTorwards, distance);
+        mMovementExcutors.Add(excutor);
+    }
+
+
+    /// <summary>
+    /// 处理动画配置的移动
+    /// </summary>
+    /// <param name="statusName">角色状态</param>
+    /// <param name="stateName">动画状态</param>
+    /// <param name="moveMore">位移加成</param>
+    /// <param name="moveTorwards">位移方向</param>
     public void Start(string statusName, string stateName, float moveMore, Vector3 moveTorwards)
     {
         if (mAgt == null)
@@ -59,25 +74,34 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
             return;
         }
 
-        // 总时长
-        float totalTime = MeterManager.Ins.GetTimeToMeter(stateInfo.stateMeterLen);
-
         for (int i = 0; i < movements.Length; i++)
         {
             // 第i个hit点的效果
             Movement movement = movements[i];
 
-            if (movement != null)
-            {
-                AnimMovementExcutor excutor = GamePoolCenter.Ins.MovementExcutorPool.Pop();
+            if (movement == null)
+                continue;
 
+
+            if(movement.timeType == TimeDefine.TimeType_MeterRelated)
+            {
+                // 当前节拍的剩余时长
+                float totalTime = MeterManager.Ins.GetTimeToMeter(stateInfo.stateMeterLen);
                 float endTime = totalTime * movement.endTime;
                 float startTime = totalTime * movement.startTime;
                 if (startTime < 0)
                     startTime = 0;
 
-                excutor.Initialize(mAgt, startTime, endTime, moveTorwards, movement.distance + moveMore);
-                mMovementExcutors.Add(excutor);
+                Start(startTime, endTime, moveTorwards, movement.distance + moveMore);
+            }
+            else if(movement.timeType == TimeDefine.TimeType_AbsoluteTime)
+            {
+                float startTime = movement.startTime;
+                float endTime = movement.endTime;
+                if (startTime < 0)
+                    startTime = 0;
+
+                Start(startTime, endTime, moveTorwards, movement.distance + moveMore);
             }
         }
 

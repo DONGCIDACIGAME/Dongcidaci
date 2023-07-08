@@ -7,6 +7,13 @@ public class Movement
     public float distance;
 
     /// <summary>
+    /// 时间配置类型
+    /// 0：节拍进度
+    /// 1：绝对时间
+    /// </summary>
+    public int timeType;
+
+    /// <summary>
     /// 开始占比
     /// </summary>
     public float startTime;

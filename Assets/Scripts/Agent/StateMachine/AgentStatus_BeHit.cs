@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AgentStatus_BeHit : AgentStatus
 {
+    private float mExitTime;
+    private float mTimer;
+
     public override void CustomInitialize()
     {
         base.CustomInitialize();
@@ -29,11 +32,16 @@ public class AgentStatus_BeHit : AgentStatus
             actionData = obj1 as AgentActionData;
         }
         StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData) ;
+
+
     }
 
     public override void OnExit()
     {
         base.OnExit();
+
+        mTimer = 0;
+        mExitTime = 0;
     }
 
     protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
@@ -65,21 +73,22 @@ public class AgentStatus_BeHit : AgentStatus
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
-        // 逻辑拍结束前，不能响应缓存区指令
-        if (meterIndex <= mCurLogicStateEndMeter)
-        {
-            Log.Error(LogLevel.Info, "CustomOnMeterEnter--- meterIndex:{0}, logicMeterEnd:{1}", meterIndex, mCurLogicStateEndMeter);
-            return;
-        }
+        //// 逻辑拍结束前，不能响应缓存区指令
+        //Log.Error(LogLevel.Normal, "CustomOnMeterEnter--{0}", meterIndex);
+        //if (meterIndex <= mCurLogicStateEndMeter)
+        //{
+        //    Log.Error(LogLevel.Info, "CustomOnMeterEnter--- meterIndex:{0}, logicMeterEnd:{1}", meterIndex, mCurLogicStateEndMeter);
+        //    return;
+        //}
 
-        Dictionary<string, object> args = null;
-        TriggeredComboStep triggeredComboStep = null;
-        GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep);
+        //Dictionary<string, object> args = null;
+        //TriggeredComboStep triggeredComboStep = null;
+        //GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep);
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)
     {
-        
+        Log.Error(LogLevel.Normal, "CustomOnMeterEnd--{0}", meterIndex);
     }
 
     /// <summary>
@@ -104,11 +113,35 @@ public class AgentStatus_BeHit : AgentStatus
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;
 
+
         // 1. 播放攻击动画
         mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusName, stateName);
+        Log.Logic("<color=yellow>BeHit --- status default action! trigger meter:{0}, cur meter:{1}, end meter:{2}</color>", triggerMeter, MeterManager.Ins.MeterIndex, mCurLogicStateEndMeter);
 
         // 2. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, moveMore, towards);
+
+        mTimer = 0;
+        AgentAnimStateInfo animStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent,statusName, stateName);
+        if(animStateInfo != null)
+        {
+            mExitTime = animStateInfo.animLen;
+        }
+    }
+
+    public override void OnUpdate(float deltaTime)
+    {
+        base.OnUpdate(deltaTime);
+
+        if(mTimer >= mExitTime)
+        {
+            Dictionary<string, object> args = null;
+            TriggeredComboStep triggeredComboStep = null;
+            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep);
+            return;
+        }
+
+        mTimer += deltaTime;
     }
 
     public override void RegisterInputHandle()

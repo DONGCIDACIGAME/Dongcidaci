@@ -302,7 +302,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
 
     public void OnCommand(AgentCommand cmd)
     {
-        if(cmd == null)
+        if (cmd == null)
         {
             Log.Error(LogLevel.Normal, "Agent OnCommand Error, AgentInputCommand is null!");
             return;
