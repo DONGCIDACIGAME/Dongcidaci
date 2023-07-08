@@ -30,25 +30,20 @@ public abstract class AgentMoveControl
     /// </summary>
     /// <param name="duration"></param>
     /// <param name="distance"></param>
-    public virtual void MoveDistanceInTime(Vector3 towards, float distance, float duration)
+    public virtual void MoveTowards(Vector3 towards, float distance, float duration)
     {
         if (mMoveCtl != null)
             mMoveCtl.MoveTowards(towards.normalized, distance, duration);
     }
 
-    public void Dash(float distance, float duration)
+    /// <summary>
+    /// 移动到目标位置
+    /// </summary>
+    /// <param name="targetPos"></param>
+    public virtual void MoveToPosition(Vector3 targetPos)
     {
-        Vector3 towards = DirectionDef.none;
-        // 获取转向控件的目标转向
-        if (mTurnCtl != null)
-            towards = mTurnCtl.GetTowards();
-
-        // 如果没有目标转向，则使用角色当前朝向
-        if (towards.Equals(DirectionDef.none))
-            towards = mAgent.GetTowards();
-
         if (mMoveCtl != null)
-            mMoveCtl.MoveTowards(towards, distance, duration);
+            mMoveCtl.MoveToPosition(targetPos);
     }
 
     /// <summary>

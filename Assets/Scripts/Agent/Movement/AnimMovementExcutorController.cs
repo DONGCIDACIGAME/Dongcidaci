@@ -74,6 +74,7 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
             return;
         }
 
+        HitPointInfo lastHitPoint = null;
         for (int i = 0; i < hitPoints.Length; i++)
         {
             // 第i个hit点的信息
@@ -86,13 +87,14 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
                 AnimMovementExcutor excutor = GamePoolCenter.Ins.MovementExcutorPool.Pop();
 
                 float endTime = totalTime * hitpoint.progress;
-                float startTime = endTime - totalTime * movement.duration;
+                float startTime = (lastHitPoint == null ? 0 : totalTime * lastHitPoint.progress);
                 if (startTime < 0)
                     startTime = 0;
 
                 excutor.Initialize(mAgt, startTime, endTime, moveTorwards, movement.distance + moveMore);
                 mMovementExcutors.Add(excutor);
             }
+            lastHitPoint = hitpoint;
         }
 
         mEnable = true;

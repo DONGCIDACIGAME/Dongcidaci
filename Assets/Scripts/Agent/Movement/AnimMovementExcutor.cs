@@ -37,6 +37,11 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
     /// </summary>
     private Vector3 mMoveTowards;
 
+    /// <summary>
+    /// 移动速度
+    /// </summary>
+    private float mMoveStep;
+
     public bool active { get; private set; }
 
     /// <summary>
@@ -49,12 +54,28 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
     /// <param name="distance">移动多远</param>
     public void Initialize(Agent agt, float moveStartTime, float moveEndTime, Vector3 towards, float distance)
     {
+        // 如果移动距离<=0
+        if (mMoveDistance <= 0)
+        {
+            Recycle();
+        }
+
+        // 如果移动时间<=0
+        if (mMoveEndTime - mMoveStartTime <= 0)
+        {
+            Vector3 targetPos = agt.GetPosition() + mMoveTowards.normalized * mMoveDistance;
+            agt.MoveControl.MoveToPosition(targetPos);
+            Recycle();
+        }
+
+
         mTimer = 0;
         mAgt = agt;
         mMoveStartTime = moveStartTime;
         mMoveEndTime = moveEndTime;
         mMoveDistance = distance;
-        mMoveTowards = towards;
+        mMoveTowards = towards.normalized;
+        mMoveStep = mMoveDistance / (moveEndTime - moveStartTime);
         active = true;
     }
 
@@ -81,10 +102,14 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
 
         mTimer += deltaTime;
 
-        if (mTimer >= mMoveEndTime-mMoveStartTime)
+        if(mTimer >= mMoveStartTime && mTimer < mMoveEndTime)
         {
-            mAgt.MoveControl.MoveDistanceInTime(mMoveTowards, mMoveDistance, mMoveStartTime);
-
+            Vector3 curPos = mAgt.GetPosition();
+            Vector3 targetPos = curPos + mMoveTowards * mMoveStep * deltaTime;
+            mAgt.MoveControl.MoveToPosition(targetPos);
+        }
+        else if(mTimer > mMoveEndTime)
+        {
             Recycle();
         }
     }

@@ -29,7 +29,7 @@ public class BTAttackNode : BTLeafNode
         {
             Agent targetEntity = obj as Agent;
             AgentCommand beHitCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-            beHitCmd.AddArg("moveMove", 1);
+            beHitCmd.AddArg("moveMove", 1f);
             beHitCmd.Initialize(AgentCommandDefine.BE_HIT, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);
             targetEntity.OnCommand(attackCmd);
         }

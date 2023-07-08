@@ -70,7 +70,7 @@
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
-				"movements": [{"distance": 0.05, "duration": 0.01}],
+				"movements": [{"distance": 0.05}],
 				"hitPoints": [{"progress": 1}]
 			}]
 		},
@@ -134,8 +134,8 @@
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
-				"movements": [{"distance": 1, "duration": 0.5}],
-				"hitPoints": [{"progress": 0.5}]
+				"movements": [{"distance": 1}],
+				"hitPoints": [{"progress": 1}]
 			}]
 		}
 	}

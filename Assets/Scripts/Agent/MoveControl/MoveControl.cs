@@ -40,7 +40,7 @@ public class MoveControl
 
         var checkShape = collider.Convex2DShape;
         checkShape.AnchorPos = tgtPosition;
-        bool ret = GameColliderManager.Ins.CheckCollideHappenWithShape(checkShape, mAgent.ColliderHandler, out Dictionary<ConvexCollider2D,Vector2> tgtsWithLeaveV2);
+        bool ret = GameColliderManager.Ins.CheckCollideHappenWithShape(checkShape, mAgent.ColliderHandler, mAgent.GetCollider(), out Dictionary<ConvexCollider2D, Vector2> tgtsWithLeaveV2);
         if (ret)
         {
             // 发生了碰撞
@@ -53,9 +53,9 @@ public class MoveControl
 
                 // 单个墙障碍
                 var leaveV2 = tgtsWithLeaveV2[unMoveColliders[0]];
-                tgtPosition = new Vector3(tgtPosition.x + leaveV2.x, tgtPosition.y, tgtPosition.z+leaveV2.y);
+                tgtPosition = new Vector3(tgtPosition.x + leaveV2.x, tgtPosition.y, tgtPosition.z + leaveV2.y);
             }
-            
+
         }
 
         mAgent.SetPosition(tgtPosition);

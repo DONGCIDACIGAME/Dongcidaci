@@ -253,7 +253,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     /// <param name="exceptCollider">排除的碰撞体</param>
     /// <param name="tgtsWithLeaveV2Dict">碰撞的对象和它的分离向量无序</param>
     /// <returns></returns>
-    private bool CheckCollideHappenWithShape(IConvex2DShape shape, IGameColliderHandler handler, ConvexCollider2D exceptCollider, out Dictionary<ConvexCollider2D, Vector2> tgtsWithLeaveV2Dict)
+    public bool CheckCollideHappenWithShape(IConvex2DShape shape, IGameColliderHandler handler, ConvexCollider2D exceptCollider, out Dictionary<ConvexCollider2D, Vector2> tgtsWithLeaveV2Dict)
     {
         // 所有检测到的碰撞
         tgtsWithLeaveV2Dict = null;
@@ -315,7 +315,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     /// <param name="exceptCollider"></param>
     /// <param name="tgtColliders"></param>
     /// <returns></returns>
-    private bool CheckCollideHappenWithShape(IConvex2DShape shape, IGameColliderHandler handler, ConvexCollider2D exceptCollider, out List<ConvexCollider2D> tgtColliders)
+    public bool CheckCollideHappenWithShape(IConvex2DShape shape, IGameColliderHandler handler, ConvexCollider2D exceptCollider, out List<ConvexCollider2D> tgtColliders)
     {
         // 所有检测到的碰撞
         tgtColliders = null;
