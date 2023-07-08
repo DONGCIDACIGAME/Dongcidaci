@@ -120,14 +120,102 @@ namespace GameSkillEffect
         }
 
 
+        public static List<ITrigOnExcuteComboEft> GetSortedEftsTrigOnExcComboEft(List<PortableEffect> tgtEffects)
+        {
+            var iEftInSort = new List<ITrigOnExcuteComboEft>();
+            foreach (var portableEft in tgtEffects)
+            {
+                if (!(portableEft is ITrigOnExcuteComboEft)) continue;
+
+                var iEft = portableEft as ITrigOnExcuteComboEft;
+                if (iEftInSort.Count == 0)
+                {
+                    iEftInSort.Add(iEft);
+                    continue;
+                }
+
+                int insertIndex = -1;
+                for (int i = 0; i < iEftInSort.Count; i++)
+                {
+                    if (iEft.PriorityOnExcComboEft >= iEftInSort[i].PriorityOnExcComboEft)
+                    {
+                        insertIndex = i;
+                    }
+                }
+
+                if (insertIndex >= 0) iEftInSort.Insert(insertIndex,iEft);
+                if (insertIndex == -1) iEftInSort.Add(iEft);
+
+            }
+
+            return iEftInSort;
+
+        }
+
+        public static List<ITrigOnApplyDmg> GetSortedEftsTrigOnApplyDmg(List<PortableEffect> tgtEffects)
+        {
+            var iEftInSort = new List<ITrigOnApplyDmg>();
+            foreach (var portableEft in tgtEffects)
+            {
+                if (!(portableEft is ITrigOnApplyDmg)) continue;
+
+                var iEft = portableEft as ITrigOnApplyDmg;
+                if (iEftInSort.Count == 0)
+                {
+                    iEftInSort.Add(iEft);
+                    continue;
+                }
+
+                int insertIndex = -1;
+                for (int i = 0; i < iEftInSort.Count; i++)
+                {
+                    if (iEft.PriorityOnApplyDmg >= iEftInSort[i].PriorityOnApplyDmg)
+                    {
+                        insertIndex = i;
+                    }
+                }
+
+                if (insertIndex >= 0) iEftInSort.Insert(insertIndex, iEft);
+                if (insertIndex == -1) iEftInSort.Add(iEft);
+
+            }
+
+            return iEftInSort;
+
+        }
 
 
+        public static List<ITrigOnGetDmg> GetSortedEftsTrigOnGetDmg(List<PortableEffect> tgtEffects)
+        {
+            var iEftInSort = new List<ITrigOnGetDmg>();
+            foreach (var portableEft in tgtEffects)
+            {
+                if (!(portableEft is ITrigOnGetDmg)) continue;
 
+                var iEft = portableEft as ITrigOnGetDmg;
+                if (iEftInSort.Count == 0)
+                {
+                    iEftInSort.Add(iEft);
+                    continue;
+                }
 
+                int insertIndex = -1;
+                for (int i = 0; i < iEftInSort.Count; i++)
+                {
+                    if (iEft.PriorityOnGetDmg >= iEftInSort[i].PriorityOnGetDmg)
+                    {
+                        insertIndex = i;
+                    }
+                }
 
+                if (insertIndex >= 0) iEftInSort.Insert(insertIndex, iEft);
+                if (insertIndex == -1) iEftInSort.Add(iEft);
 
+            }
 
+            return iEftInSort;
 
+        }
 
 
 

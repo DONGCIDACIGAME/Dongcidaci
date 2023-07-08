@@ -4,12 +4,12 @@
 	"comboDatas": 
 	[
 		{
-			"comboId": 1,
+			"comboUID": 1,
 			"comboName": "JJJ",
+			"comboType": 0,
 			"comboSteps": [
 				{
 					"input": 8, 
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Attack",
 						"stateName": "Attack", 
@@ -25,7 +25,6 @@
 				},
 				{
 					"input": 8,
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Attack",
 						"stateName": "Attack",
@@ -41,7 +40,6 @@
 				},
 				{
 					"input": 8,
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Attack",
 						"stateName": "Attack",
@@ -61,10 +59,10 @@
 		{
 			"comboId": 2,
 			"comboName": "DashAttack",
+			"comboType": 0,
 			"comboSteps": [
 				{
 					"input": 4, 
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Dash",
 						"stateName": "Dash", 
@@ -80,23 +78,13 @@
 				},
 				{
 					"input": 8,
-					"mode": 1,
 					"agentActionData": {
 						"statusName": "Attack",
 						"stateName": "Attack",
 						"effectCollictions": [
 							{
 								"effects": [
-									{
-										"rlsTgt": 0,
-										"effectType": 0, 
-										"effectValueDict":{"value": 1, "time":1}, 
-										"hitShapeType": 0, 
-										"hitSizeX": 0.5, 
-										"hitSizeY": 0, 
-										"hitOffsetX": 0,
-										"hitOffsetY": 0
-									}
+									
 								]
 							}
 						]

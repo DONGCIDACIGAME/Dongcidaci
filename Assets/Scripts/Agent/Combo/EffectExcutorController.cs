@@ -21,7 +21,7 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
     }
 
     
-    public void Start(string statusName, string stateName, SkEftDataCollection[] effectCollictions)
+    public void Start(string statusName, string stateName, int comboUID, ComboType comboType, bool isLastStep ,SkEftDataCollection[] effectCollictions)
     {
         if (mAgt == null)
         {
@@ -75,12 +75,23 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
             // 第i个hit点的信息
             HitPointInfo hitpoint = hitPoints[i];
             // 第i个hit点的效果
+            // changed by weng 0708
             SkEftDataCollection hitEffects = effectCollictions[i];
-
+            var rlsEffects = new List<SkillEffect>();
+            if(hitEffects.effects != null)
+            {
+                foreach (var hitEftData in hitEffects.effects)
+                {
+                    var rlsSkEft = GameSkEftPool.Ins.PopWithInit(mAgt,hitEftData);
+                    if (rlsSkEft != null) rlsEffects.Add(rlsSkEft);
+                }
+            }
+            // 生成这个combo hit 的数据
+            var comboHitData = new ComboHitEffectsData(comboUID,comboType,isLastStep,rlsEffects);
             //Changed by weng 0704
             //此处应该是个错误，对应的ComboEffectExcutor执行的应该是SkEftDataCollection
             ComboEffectExcutor excutor = GamePoolCenter.Ins.ComboEffectExcutorPool.Pop();
-            excutor.Initialize(mAgt, hitpoint.progress * totalTime, hitEffects);
+            excutor.Initialize(mAgt, hitpoint.progress * totalTime, comboHitData);
             effectExcutors.Add(excutor);
 
             /** old code

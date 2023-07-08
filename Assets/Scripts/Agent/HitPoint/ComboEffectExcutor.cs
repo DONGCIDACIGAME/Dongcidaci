@@ -24,10 +24,10 @@ public class ComboEffectExcutor : IGameUpdate, IRecycle
     private float mExcuteTime;
 
     /// <summary>
-    /// 效果合集
-    /// Modified by Weng 0704
+    /// 描述某一个combo在hit点打出的效果
+    /// Modified by Weng 0708
     /// </summary>
-    private SkEftDataCollection mEffects;
+    private ComboHitEffectsData mEffects;
 
 
     public bool active { get; private set; }
@@ -38,12 +38,12 @@ public class ComboEffectExcutor : IGameUpdate, IRecycle
     /// <param name="agt">谁</param>
     /// <param name="excuteTime">多久之后</param>
     /// <param name="effect">执行什么效果</param>
-    public void Initialize(Agent agt, float excuteTime, SkEftDataCollection effects)
+    public void Initialize(Agent agt, float excuteTime, ComboHitEffectsData hitEffects)
     {
         mTimer = 0;
         mAgt = agt;
         mExcuteTime = excuteTime;
-        mEffects = effects;
+        mEffects = hitEffects;
         active = true;
     }
 
@@ -56,11 +56,11 @@ public class ComboEffectExcutor : IGameUpdate, IRecycle
         mEffects = null;
     }
 
-    private void Excute(Agent agt, SkEftDataCollection effects)
+    private void Excute(Agent agt, ComboHitEffectsData hitEffects)
     {
         //Log.Logic(LogLevel.Info, "{0} excute effect {1}", agt.GetAgentId(), effect.effectType);
         // Added by weng 0703
-        agt.SkillEftHandler.OnExcuteComboEffect(effects);
+        agt.SkillEftHandler.OnExcHitPointComboEffects(hitEffects);
     }
 
     public void Recycle()

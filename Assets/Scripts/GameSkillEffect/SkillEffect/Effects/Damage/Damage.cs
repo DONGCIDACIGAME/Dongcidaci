@@ -47,12 +47,25 @@ namespace GameSkillEffect
 
             foreach (var tgtAgt in tgtAgents)
             {
-                this._eftUser.SkillEftHandler.OnApplyDamage(tgtAgt,this);
+                if (_eftUser.SkillEftHandler.OnApplyDamage(tgtAgt, this))
+                {
+                    // 使用者成功释放伤害
+                    if (tgtAgt.SkillEftHandler.OnGetDamage(_eftUser, this))
+                    {
+                        // 目标成功受到伤害
+                        // 目标进入受击状态
+                        Log.Logic(LogLevel.Info, "TriggerSkEft Damage Success -- Value is {0}",DmgValue);
+                        AgentCommand beHitCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
+                        beHitCmd.AddArg("moveMove", 1f);
+                        beHitCmd.Initialize(AgentCommandDefine.BE_HIT, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, tgtAgt.GetTowards());
+                        tgtAgt.OnCommand(beHitCmd);
+                    }
+                }
             }
 
+            Recycle();
+
         }
-
-
 
 
     }

@@ -246,6 +246,7 @@ public abstract class AgentStatus : IAgentStatus
         Log.Error(LogLevel.Info, "ExcuteCombo---comboName:{0}", triggeredComboStep.comboData.comboName);
 
         // 1. 执行状态的默认逻辑
+        // 在这个地方切换进动画的状态？
         StatusDefaultAction(cmdType, towards, triggerMeter, args, triggeredComboStep.comboStep.agentActionData);
 
         AgentActionData actionData = triggeredComboStep.comboStep.agentActionData;
@@ -256,7 +257,11 @@ public abstract class AgentStatus : IAgentStatus
         }
 
         // 2. 效果执行器开始执行
-        mAgent.EffectExcutorCtl.Start(actionData.statusName, actionData.stateName, actionData.effectCollictions);
+        // changed by weng 0708
+        // 执行效果时，需要把combo的一些信息同时传入
+        mAgent.EffectExcutorCtl.Start(actionData.statusName, actionData.stateName, triggeredComboStep.comboData.comboUID,triggeredComboStep.comboData.comboType,
+            triggeredComboStep.comboStep.endFlag, actionData.effectCollictions);
+
 
         // 3. 如果是结束招式
         if (comboStep.endFlag)

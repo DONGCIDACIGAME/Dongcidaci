@@ -5,11 +5,10 @@ using GameEngine;
 
 namespace GameSkillEffect
 {
-    public class AgentSkEftHandler : IRecycle
+    public class AgentSkEftHandler : IRecycle,IGameUpdate,IMeterHandler
     {
         private Agent _bindAgent;
         private List<PortableEffect> _carrySkEfts;
-
 
         public void InitAgentSkEftHandler(Agent agt)
         {
@@ -18,89 +17,65 @@ namespace GameSkillEffect
         }
 
 
-
-        /// <summary>
-        /// 在每个击打点需要执行的效果合集
-        /// </summary>
-        /// <param name="effectDatas"></param>
-        public void OnExcuteComboEffect(SkEftDataCollection effectDatas)
+        public void OnExcHitPointComboEffects(ComboHitEffectsData hitEffects)
         {
             // 需要修改这里的逻辑
-            if (effectDatas == null || effectDatas.effects == null || effectDatas.effects.Length == 0) return;
+            if (hitEffects == null || hitEffects.effectsForRls == null || hitEffects.effectsForRls.Count == 0) return;
 
-            // 1 创建效果
-            var tgtRlsEffects = new List<SkillEffect>();
-            foreach (var effectData in effectDatas.effects)
+            // 1 优先查找身上的状态对这个操作存在影响的
+            var iTrigOnExcComboEfts = SkEftHelper.GetSortedEftsTrigOnExcComboEft(_carrySkEfts);
+            foreach (var iTrigOnExcComboEft in iTrigOnExcComboEfts)
             {
-                var rlsSkEft = GameSkEftPool.Ins.PopWithInit(_bindAgent,effectData);
-                if (rlsSkEft != null) tgtRlsEffects.Add(rlsSkEft);
+                iTrigOnExcComboEft.OnExcuteComboEfts(_bindAgent, hitEffects);
             }
 
-            // 2 优先查找身上的状态对这个操作存在影响的
-
-            // 3 触发剩下的效果
-            foreach (var tgtRlsEft in tgtRlsEffects)
+            // 2 触发剩下的效果
+            foreach (var tgtRlsEft in hitEffects.effectsForRls)
             {
                 tgtRlsEft.TriggerSkEft();
             }
-
-            /**
-            Log.Logic(LogLevel.Info, "{0} excute effect {1}", _bindAgent.GetAgentId(), effectData.effectType);
-
-            // 查找carrySkEft中的效果是 ITriggerOnExcuteComboEft
-            // 按照TrigOnExComboEftPriority 优先级进行排序，优先级高的在前面
-            var iEftInSort = new List<ITriggerOnExcuteComboEft>();
-            foreach (var portableEft in _carrySkEfts)
-            {
-                if (!(portableEft is ITriggerOnExcuteComboEft)) continue;
-                
-                var iEft = portableEft as ITriggerOnExcuteComboEft;
-                if (iEftInSort.Count == 0)
-                {
-                    iEftInSort.Add(iEft);
-                    continue;
-                }
-
-                for (int i = 0; i < iEftInSort.Count; i++)
-                {
-                    if (iEft.TrigOnExComboEftPriority >= iEftInSort[i].TrigOnExComboEftPriority)
-                    {
-                        iEftInSort.Insert(i, iEft);
-
-                    }
-                    else if (i == iEftInSort.Count - 1)
-                    {
-                        // 优先级最小
-                        iEftInSort.Add(iEft);
-                    }
-                }
-            }
-
-            foreach (var iEft in iEftInSort)
-            {
-                if (iEft.OnExcuteComboEft(_bindAgent, effectData) == false)
-                {
-                    // 这个初始化效果的行为被打断了
-                    return;
-                }
-            }
-
-            var rlsSkEft = SkEftDefine.GetSkEftBy(_bindAgent, effectData);
-            if (rlsSkEft == null) return;
-            rlsSkEft.TriggerSkEft();
-
-            */
+            
         }
 
 
-        public void OnApplyDamage(Agent tgt, Damage rlsDmg)
+        public bool OnApplyDamage(Agent tgt, Damage rlsDmg)
         {
-            Log.Logic(LogLevel.Info, "{0} OnApplyDamage {1}", _bindAgent.GetAgentId(), rlsDmg.DmgValue);
+            if (rlsDmg == null) return false;
+
+            // 查找在这个时机触发的技能效果
+            var iTrigOnApplyDmgEfts = SkEftHelper.GetSortedEftsTrigOnApplyDmg(_carrySkEfts);
+            foreach (var iTrigOnApplyDmg in iTrigOnApplyDmgEfts)
+            {
+                if(iTrigOnApplyDmg.OnApplyDmg(_bindAgent, tgt, rlsDmg) == false)
+                {
+                    return false;
+                }
+            }
+
+            // 通过属性handler判断是否产生暴击
+
+
+            return true;
         }
 
-        public void OnGetDamage(Agent src, Damage gotDmg)
+        public bool OnGetDamage(Agent src, Damage gotDmg)
         {
+            if (gotDmg == null) return false;
 
+            // 查找在这个时机触发的技能效果
+            var iTrigOnGetDmgEfts = SkEftHelper.GetSortedEftsTrigOnGetDmg(_carrySkEfts);
+            foreach (var iTrigOnGetDmg in iTrigOnGetDmgEfts)
+            {
+                if (iTrigOnGetDmg.OnGetDmg(src, _bindAgent, gotDmg) == false)
+                {
+                    return false;
+                }
+            }
+
+            // 通过属性handler判断是否闪避
+
+
+            return true;
         }
 
 
@@ -109,6 +84,24 @@ namespace GameSkillEffect
 
             return true;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         public void Dispose()
@@ -134,6 +127,27 @@ namespace GameSkillEffect
         {
             Dispose();
         }
+
+        /// <summary>
+        /// 每帧调用，此处的调用者是Agent中的OnUpdate
+        /// </summary>
+        /// <param name="deltaTime"></param>
+        public void OnUpdate(float deltaTime)
+        {
+            
+        }
+
+        public void OnMeterEnter(int meterIndex)
+        {
+            
+        }
+
+        public void OnMeterEnd(int meterIndex)
+        {
+            
+        }
+
+
 
     }
 
