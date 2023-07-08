@@ -97,7 +97,7 @@ public class Monster : Agent
         // 朝向初始化
         SetRotation(Vector3.zero);
         // 缩放初始化 modifiy by weng 0704
-        SetScale(Vector3.one);
+        //SetScale(Vector3.one);
 
         MoveControl = new MonsterMoveControl(this);
         SetSpeed(mMonsterCfg.Speed);

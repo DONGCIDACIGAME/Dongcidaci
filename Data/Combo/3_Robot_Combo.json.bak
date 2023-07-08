@@ -48,7 +48,7 @@
 										"intValueDict":{"value": 15},
 										"floatValueDict":{},
 										"subEffects":[],
-										"hitShape":{"shapeType": 0, "sizeX": 3, "sizeY": 2, "offsetX": 0,"offsetY": 0.5}
+										"hitShape":{"shapeType": 0, "sizeX": 4, "sizeY": 3, "offsetX": 0,"offsetY": 0.5}
 									}
 								]
 							}
@@ -64,7 +64,16 @@
 						"effectCollictions": [
 							{
 								"effects": [
-									
+									{
+										"comment": "Damage Attack Test",
+										"rlsTgt": 0,
+										"effectCfgUID": 1001,
+										"strValueDict":{},
+										"intValueDict":{"value": 15},
+										"floatValueDict":{},
+										"subEffects":[],
+										"hitShape":{"shapeType": 0, "sizeX": 4, "sizeY": 3, "offsetX": 0,"offsetY": 0.5}
+									}
 								]
 							}
 						]

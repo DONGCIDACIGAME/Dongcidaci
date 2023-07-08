@@ -56,7 +56,7 @@ namespace GameSkillEffect
                         // 目标进入受击状态
                         Log.Logic(LogLevel.Info, "TriggerSkEft Damage Success -- Value is {0}",DmgValue);
                         AgentCommand beHitCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-                        beHitCmd.AddArg("moveMove", 1f);
+                        //beHitCmd.AddArg("moveMove", 1f);
                         beHitCmd.Initialize(AgentCommandDefine.BE_HIT, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, _eftUser.GetTowards());
                         tgtAgt.OnCommand(beHitCmd);
                     }
