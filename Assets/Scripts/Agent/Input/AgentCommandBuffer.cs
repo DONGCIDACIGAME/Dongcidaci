@@ -2,14 +2,14 @@ using UnityEngine;
 using GameEngine;
 using System.Collections.Generic;
 
-public class AgentInputCommandBuffer : IGameDisposable
+public class AgentCommandBuffer : IGameDisposable
 {
     private byte cmdList;
     private Vector3[] directionList;
     private int[] triggerMeterList;
     private Dictionary<string, object>[] argsList;
 
-    public AgentInputCommandBuffer()
+    public AgentCommandBuffer()
     {
         this.cmdList = 0;
         this.directionList = new Vector3[8];

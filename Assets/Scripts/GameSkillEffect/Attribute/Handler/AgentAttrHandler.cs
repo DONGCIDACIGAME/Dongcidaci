@@ -35,11 +35,24 @@ namespace GameSkillEffect
             return false;
         }
 
+        /// <summary>
+        /// 检测指令类型是否可以响应
+        /// </summary>
+        /// <param name="cmdType"></param>
+        /// <returns></returns>
+        public bool CheckCmdReact(byte cmdType)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                int ret = cmdType & (1 << i);
+                if (ret > 0)
+                {
+                    return _bindAttr.cmdDisableRecord[i] == 0;
+                }
+            }
 
-
-
-
-
+            return false;
+        }
     }
 }
 
