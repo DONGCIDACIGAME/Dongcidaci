@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 namespace GameSkillEffect
 {
+    #region Skill effect supplement
+    //技能效果的补充接口
+
+    /// <summary>
+    /// 如果是远程类的效果继承这个接口
+    /// </summary>
     public interface IRemoteEffect
     {
         /// <summary>
@@ -10,6 +16,20 @@ namespace GameSkillEffect
         /// </summary>
         public float FlightDis { get; }
     }
+
+    /// <summary>
+    /// 如果是控制类的效果继承这个接口
+    /// </summary>
+    public interface IControlEffect
+    {
+
+
+    }
+
+    #endregion
+
+
+
 
 
     #region Triggerable Eft should assigned from these interface

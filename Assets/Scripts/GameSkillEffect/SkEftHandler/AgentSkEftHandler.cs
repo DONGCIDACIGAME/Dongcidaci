@@ -78,6 +78,19 @@ namespace GameSkillEffect
             return true;
         }
 
+        public bool OnApplyCriticalDamage(Agent tgt, Damage criticalDmg)
+        {
+
+            return true;
+        }
+
+        public bool OnGetCriticalDamage(Agent src,Damage criticalDmg)
+        {
+            return true;
+        }
+
+
+
 
         public bool OnApplyRemoteEft(IRemoteEffect rlsEft)
         {

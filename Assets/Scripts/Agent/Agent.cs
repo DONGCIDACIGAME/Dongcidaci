@@ -387,6 +387,13 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         Combo_Trigger.OnMeterEnter(meterIndex);
         EffectExcutorCtl.OnMeterEnter(meterIndex);
         MovementExcutorCtl.OnMeterEnter(meterIndex);
+        // Added by weng 0708
+        // Qustion :Is grammer SkillEftHandler?.OnMeterEnter(meterIndex) can be used?
+        if (SkillEftHandler != null)
+        {
+            SkillEftHandler.OnMeterEnter(meterIndex);
+        }
+        
     }
 
     
@@ -396,6 +403,11 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         Combo_Trigger.OnMeterEnd(meterIndex);
         EffectExcutorCtl.OnMeterEnd(meterIndex);
         MovementExcutorCtl.OnMeterEnd(meterIndex);
+        // Added by weng 0708
+        if (SkillEftHandler != null)
+        {
+            SkillEftHandler.OnMeterEnd(meterIndex);
+        }
     }
 
 
@@ -410,6 +422,12 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         EffectExcutorCtl.OnUpdate(deltaTime);
         MovementExcutorCtl.OnUpdate(deltaTime);
         mAgentView.OnMyUpdate(this, deltaTime);
+        // Added by weng 0708
+        if (SkillEftHandler != null)
+        {
+            SkillEftHandler.OnUpdate(deltaTime);
+        }
+
     }
 
     public virtual void OnLateUpdate(float deltaTime)
