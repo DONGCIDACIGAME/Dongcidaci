@@ -314,6 +314,10 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
             return;
         }
 
+        // 不是可以响应的指令类型
+        if (!AttrHandler.CheckCmdReact(cmd.CmdType))
+            return;
+
         // 对于可优化的指令，同一拍的同一个指令不做处理
         if (AgentCommandDefine.IsOptimizable(cmd.CmdType) && cmd.Equals(lastInputCmd))
         {

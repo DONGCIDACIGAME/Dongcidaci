@@ -30,7 +30,7 @@ public abstract class AgentStatus : IAgentStatus
     /// <summary>
     /// 等待执行的指令集缓存区
     /// </summary>
-    protected AgentInputCommandBuffer cmdBuffer;
+    protected AgentCommandBuffer cmdBuffer;
 
     /// <summary>
     /// 当前触发的combo招式缓存
@@ -56,7 +56,7 @@ public abstract class AgentStatus : IAgentStatus
     {
         mAgent = agt;
         statusDefaultActionData = AgentHelper.GetAgentDefaultStatusActionData(agt, GetStatusName());
-        cmdBuffer = new AgentInputCommandBuffer();
+        cmdBuffer = new AgentCommandBuffer();
         mMeterEndActions = new Stack<MeterEndAction>();
         mCustomAnimDriver = new CustomAnimDriver(mAgent);
         mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
