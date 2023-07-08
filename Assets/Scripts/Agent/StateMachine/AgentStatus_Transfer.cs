@@ -70,7 +70,7 @@ public class AgentStatus_Transfer : AgentStatus
     {
         mStateDuration = 0;
         mTime = 0;
-        if (args.TryGetValue("duration", out object obj))
+        if (args != null && args.TryGetValue("duration", out object obj))
         {
             float duration = (float)obj;
             mStateDuration = MeterManager.Ins.GetCurrentMeterTime() * duration;
