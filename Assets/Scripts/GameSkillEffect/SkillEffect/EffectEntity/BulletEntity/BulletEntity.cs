@@ -5,7 +5,7 @@ using GameEngine;
 
 namespace GameSkillEffect
 {
-    public class BulletEntity : SkEftEntity, IMeterHandler, IUpdateCenterDrive
+    public class BulletEntity : SkEftEntity, IMeterHandler, IGameUpdate
     {
         protected override MyColliderType ColliderType => MyColliderType.Collider_SkBullet;
 
@@ -56,8 +56,7 @@ namespace GameSkillEffect
             SetRotation(_skEntityInitData.RotateAngle);
 
             // 注册到 Update Center
-            RegisterToUpdateCenter(this);
-            MeterManager.Ins.RegisterMeterHandler(this);
+            SkEftEntityManager.Ins.RegisterNewSkEftEntity(this);
             _isMoveStart = true;
             _crtMoveSpeed = _skEntityInitData.FlightSpeed;
         }
@@ -72,13 +71,11 @@ namespace GameSkillEffect
         public override void Dispose()
         {
             base.Dispose();
-            UnregisterFromUpdateCenter(this);
-            MeterManager.Ins.UnregiseterMeterHandler(this);
+            SkEftEntityManager.Ins.UnRegisterSkEftEntity(this);
 
             _carrySkEffects = null;
             _bulletView = null;
             //销毁 bullet view
-
 
         }
 
@@ -101,11 +98,7 @@ namespace GameSkillEffect
 
         public void OnMeterEnd(int meterIndex)
         {
-            if (_isMoveStart)
-            {
-               
-                
-            }
+            
         }
 
         public void OnUpdate(float deltaTime)
@@ -127,17 +120,7 @@ namespace GameSkillEffect
 
 
 
-        public void RegisterToUpdateCenter(IGameUpdate updater)
-        {
-            UpdateCenter.Ins.RegisterUpdater(updater);
-        }
-
-        public void UnregisterFromUpdateCenter(IGameUpdate updater)
-        {
-            UpdateCenter.Ins.UnregisterUpdater(updater);
-        }
-
-
+        
 
     }
 }
