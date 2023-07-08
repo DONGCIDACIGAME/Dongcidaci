@@ -43,7 +43,12 @@ public class AgentStatus_BeHit : AgentStatus
         switch (cmdType)
         {
             case AgentCommandDefine.BE_HIT:
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                AgentActionData actionData = statusDefaultActionData;
+                if (args != null && args.TryGetValue("beHitAction", out object obj1))
+                {
+                    actionData = obj1 as AgentActionData;
+                }
+                StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);
                 break;
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
@@ -89,7 +94,6 @@ public class AgentStatus_BeHit : AgentStatus
     {
         if (agentActionData == null)
             return;
-
 
         float moveMore = 0;
         if (args != null && args.TryGetValue("moveMove", out object obj2))
