@@ -34,7 +34,11 @@ public class BTAttackNode : BTLeafNode
             targetEntity.OnCommand(attackCmd);
         }
 
-        PrintLog("Attack...");
+        if (mLogEnable)
+        {
+            PrintLog("Attack...");
+        }
+
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

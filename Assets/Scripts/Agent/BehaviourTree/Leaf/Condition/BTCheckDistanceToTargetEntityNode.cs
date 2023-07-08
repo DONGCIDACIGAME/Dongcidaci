@@ -4,6 +4,7 @@ public class BTCheckDistanceToTargetEntityNode : BTCheckDistanceNode
     {
         return 2;
     }
+
     protected override int ParseNodeArgs(BTNodeArg[] args)
     {
         return base.ParseNodeArgs(args);
@@ -62,12 +63,17 @@ public class BTCheckDistanceToTargetEntityNode : BTCheckDistanceNode
 
         if(!ret)
         {
-            PrintLog(string.Format("Check failed! now dis:{0}, target dis:{1}", distance, mCheckDistance));
+            if (mLogEnable)
+            {
+                PrintLog(string.Format("Check failed! now dis:{0}, target dis:{1}", distance, mCheckDistance));
+            }
             return BTDefine.BT_ExcuteResult_Failed;
         }
 
-
-        PrintLog(string.Format("Check distance succeed~ now dis:{0}, target dis:{1}",distance, mCheckDistance));
+        if (mLogEnable)
+        {
+            PrintLog(string.Format("Check distance succeed~ now dis:{0}, target dis:{1}", distance, mCheckDistance));
+        }
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

@@ -14,7 +14,10 @@ public class BTMoveOneFrameNode : BTMoveNode
         }
 
         MoveAndStop();
-        PrintLog("move one frame...");
+        if (mLogEnable)
+        {
+            PrintLog("move one frame...");
+        }
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

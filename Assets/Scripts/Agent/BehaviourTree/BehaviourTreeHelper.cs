@@ -81,6 +81,8 @@ public static class BehaviourTreeHelper
                 return "到目标位置距离";
             case BTDefine.BT_Node_Type_Leaf_CheckTargetEntityInLogicArea:
                 return "检测在逻辑区域内";
+            case BTDefine.BT_Node_Type_Leaf_CheckInStatus:
+                return "检测在目标状态下";
             case BTDefine.BT_Node_Type_Leaf_ClearTarget:
                 return "清除目标";
             case BTDefine.BT_Node_Type_Leaf_Idle:

@@ -100,11 +100,17 @@ public class BTCheckTargetEntityInLogicAreaNode : BTLeafNode
 
         if(!ret)
         {
-            PrintLog(string.Format("Check Result: NOT in {0}", GetLogicAreaName(mLogicAreaType)));
+            if (mLogEnable)
+            {
+                PrintLog(string.Format("Check Result: NOT in {0}", GetLogicAreaName(mLogicAreaType)));
+            }
             return BTDefine.BT_ExcuteResult_Failed;
         }
 
-        PrintLog(string.Format("Check Result: in {0}", GetLogicAreaName(mLogicAreaType)));
+        if (mLogEnable)
+        {
+            PrintLog(string.Format("Check Result: in {0}", GetLogicAreaName(mLogicAreaType)));
+        }
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 }

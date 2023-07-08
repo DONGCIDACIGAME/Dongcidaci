@@ -74,7 +74,10 @@ public class BTAgentChangeTowardsNode : BTLeafNode
         {
             Vector3 towards = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
             PushTowardsToContext(towards);
-            PrintLog("ChangeTowardsType:Random, ret:Succeed");
+            if (mLogEnable)
+            {
+                PrintLog("ChangeTowardsType:Random, ret:Succeed");
+            }
             return BTDefine.BT_ExcuteResult_Succeed;
         }
         else if(mChangeTowardsType == BTDefine.BT_ChangeTowardsTo_Invert)
@@ -82,7 +85,10 @@ public class BTAgentChangeTowardsNode : BTLeafNode
             Vector3 towards = mExcutor.GetTowards();
             Vector3 invertTowards = new Vector3(-towards.x, 0, -towards.z);
             PushTowardsToContext(invertTowards);
-            PrintLog("ChangeTowardsType:Invert, ret:Succeed");
+            if (mLogEnable)
+            {
+                PrintLog("ChangeTowardsType:Invert, ret:Succeed");
+            }
             return BTDefine.BT_ExcuteResult_Succeed;
         }
         else if(mChangeTowardsType == BTDefine.BT_ChangeTowardsTo_GivenTarget)
@@ -102,7 +108,10 @@ public class BTAgentChangeTowardsNode : BTLeafNode
 
             Vector3 towards = targetEntity.GetPosition() - mExcutor.GetPosition();
             PushTowardsToContext(towards);
-            PrintLog("ChangeTowardsType:GivenTarget, ret:Succeed");
+            if (mLogEnable)
+            {
+                PrintLog("ChangeTowardsType:GivenTarget, ret:Succeed");
+            }
             return BTDefine.BT_ExcuteResult_Succeed;
         }
 

@@ -18,7 +18,10 @@ public class BTIdleNode : BTLeafNode
         idleCmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, DirectionDef.none);
         mExcutor.OnCommand(idleCmd);
 
-        PrintLog("ChangeToIdle...");
+        if (mLogEnable)
+        {
+            PrintLog("ChangeToIdle...");
+        }
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

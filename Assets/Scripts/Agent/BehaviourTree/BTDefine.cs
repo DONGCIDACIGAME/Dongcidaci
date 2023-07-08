@@ -88,6 +88,7 @@ public static class BTDefine
     public const int BT_Node_Type_Leaf_CheckDistanceToEntity            = BT_Node_Type_Leaf * 100 + 101;
     public const int BT_Node_Type_Leaf_CheckDistanceToPosition          = BT_Node_Type_Leaf * 100 + 102;
     public const int BT_Node_Type_Leaf_CheckTargetEntityInLogicArea     = BT_Node_Type_Leaf * 100 + 103;
+    public const int BT_Node_Type_Leaf_CheckInStatus                    = BT_Node_Type_Leaf * 100 + 104;
 
 
     /// <summary>

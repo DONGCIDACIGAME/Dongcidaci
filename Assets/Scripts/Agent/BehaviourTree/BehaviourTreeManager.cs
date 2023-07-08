@@ -203,6 +203,9 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_CheckTargetEntityInLogicArea)
                 return new BTCheckTargetEntityInLogicAreaNode();
 
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_CheckInStatus)
+                return new BTCheckInStatusNode();
+
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_ClearTarget)
                 return new BTClearTargetNode();
 

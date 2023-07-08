@@ -54,11 +54,13 @@ public class BTWaitTimeNode : BTLeafNode
 
         if(mHasWaitTime < mTotalWaitTime)
         {
-            //PrintLog(string.Format("waiting! has wait time:{0}, total wait time:{1}", mHasWaitTime, mTotalWaitTime));
             return BTDefine.BT_ExcuteResult_Running;
         }
 
-        PrintLog(string.Format("wait time {0} end, ret:succeed~", mTotalWaitTime));
+        if (mLogEnable)
+        {
+            PrintLog(string.Format("wait time {0} end, ret:succeed~", mTotalWaitTime));
+        }
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

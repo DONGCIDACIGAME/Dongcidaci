@@ -188,6 +188,10 @@ public  class ControlAIOperationArea : UIControl
         {
             AddPropertyPage<ControlCheckEntityInLogicAreaPropertyPage>("Condition/Ctl_PropertyPage_CheckEntityInLogicArea", node);
         }
+        else if (node is BTCheckInStatusNode)
+        {
+            AddPropertyPage<ControlCheckInStatusPropertyPage>("Condition/Ctl_PropertyPage_CheckInStatus", node);
+        }
         #endregion
         #region action
         else if (node is BTWaitTimeNode)

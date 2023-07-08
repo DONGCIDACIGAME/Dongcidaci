@@ -87,7 +87,10 @@ public class BTMoveDistanceNode : BTMoveNode
         mHasMoveTime += deltaTime;
         if(mHasMoveTime >= mMoveMaxTime)
         {
-            PrintLog("move end! over time! ret: Succeed");
+            if (mLogEnable)
+            {
+                PrintLog("move end! over time! ret: Succeed");
+            }
             return BTDefine.BT_ExcuteResult_Succeed;
         }
 
@@ -101,12 +104,18 @@ public class BTMoveDistanceNode : BTMoveNode
         {
             Move();
             mLastPos = mExcutor.GetPosition();
-            PrintLog(string.Format("Moving... hasMoved:{0}, totalDis:{1}, ret: Succeed", mHasMoveDistance, mTotalMoveDistance));
+            if (mLogEnable)
+            {
+                PrintLog(string.Format("Moving... hasMoved:{0}, totalDis:{1}, ret: Succeed", mHasMoveDistance, mTotalMoveDistance));
+            }
             return BTDefine.BT_ExcuteResult_Running;
         }
 
         StopMove();
-        PrintLog("move end! distance coverd! ret: Succeed");
+        if (mLogEnable)
+        {
+            PrintLog("move end! distance coverd! ret: Succeed");
+        }
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

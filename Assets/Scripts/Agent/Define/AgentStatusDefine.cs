@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public static class AgentStatusDefine
 {
     public static string EMPTY = "Empty";
@@ -8,6 +10,18 @@ public static class AgentStatusDefine
     public static string ATTACK = "Attack";
     public static string BEHIT = "BeHit";
     public static string DEAD = "Dead";
+
+    public static List<string> ALL_STATUS = new List<string>
+    {
+        EMPTY,
+        IDLE,
+        RUN,
+        DASH,
+        TRANSFER,
+        ATTACK,
+        BEHIT,
+        DEAD
+    };
 
     public static bool IsResetComboStatus(string statusName)
     {

@@ -61,16 +61,13 @@ public abstract class BTNode : IGameDisposable
 
     protected void PrintLog(string additionalInfo)
     {
-        if (mLogEnable)
-        {
-            string print = string.Format("<color=grey>Excute Node [{0}]-[{1}]---AdditionalInfo:{2}</color>",NodeName, BehaviourTreeHelper.GetNodeDetailTypeName(GetNodeDetailType()) , additionalInfo);
+        string print = string.Format("<color=grey>Excute Node [{0}]-[{1}]---AdditionalInfo:{2}</color>",NodeName, BehaviourTreeHelper.GetNodeDetailTypeName(GetNodeDetailType()) , additionalInfo);
 
-            if (print.Equals(mLastLog))
-                return;
+        if (print.Equals(mLastLog))
+            return;
 
-            mLastLog = print;
-            Log.Logic(LogLevel.Info, print);
-        }
+        mLastLog = print;
+        Log.Logic(LogLevel.Info, print);
     }
 
     public void UnpackChildNode(BTNode node)

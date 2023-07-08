@@ -15,6 +15,14 @@ public class AgentStatusMachine : IMeterHandler
         mEventListener = GamePoolCenter.Ins.GameEventLIstenerPool.Pop();
     }
 
+    public string GetCurStatusName()
+    {
+        if (CurStatus == null)
+            return AgentStatusDefine.EMPTY;
+
+        return CurStatus.GetStatusName();
+    }
+
     public void OnMeterEnter(int meterIndex)
     {
         if (CurStatus != null)

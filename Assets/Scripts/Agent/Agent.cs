@@ -19,7 +19,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     /// <summary>
     /// 状态机
     /// </summary>
-    protected AgentStatusMachine StatusMachine;
+    public AgentStatusMachine StatusMachine;
 
     /// <summary>
     /// 移动控制

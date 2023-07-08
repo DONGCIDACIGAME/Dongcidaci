@@ -45,11 +45,17 @@ public class BTWaitFrameNode : BTLeafNode
 
         if (mHasWaitFrame < mTotalWaitFrame)
         {
-            PrintLog(string.Format("waiting! has wait frame:{0}, total wait frame:{1}", mHasWaitFrame, mTotalWaitFrame));
+            if (mLogEnable)
+            {
+                PrintLog(string.Format("waiting! has wait frame:{0}, total wait frame:{1}", mHasWaitFrame, mTotalWaitFrame));
+            }
             return BTDefine.BT_ExcuteResult_Running;
         }
 
-        PrintLog("wait end, ret:succeed~");
+        if (mLogEnable)
+        {
+            PrintLog("wait end, ret:succeed~");
+        }
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 

@@ -13,7 +13,10 @@ public class BTClearTargetNode : BTLeafNode
             mContext.Remove("TargetEntity");
         }
 
-        PrintLog("ret: Succeed");
+        if (mLogEnable)
+        {
+            PrintLog("Clear Target...");
+        }
         return BTDefine.BT_ExcuteResult_Succeed;
     }
 
