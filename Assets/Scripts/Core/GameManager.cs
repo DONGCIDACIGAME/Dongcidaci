@@ -1,7 +1,7 @@
 using UnityEngine;
 using GameEngine;
 using System.Collections.Generic;
-
+using GameSkillEffect;
 
 public class GameManager:MonoBehaviour
 {
@@ -37,6 +37,9 @@ public class GameManager:MonoBehaviour
 
     private GameMapManager GameMapMgr; // 地图管理器
 
+    // added by weng 0708
+    private SkEftEntityManager SkEftEntityMgr; //技能效果实体的管理器
+
     private List<IModuleManager> mAllModuleMgrs;
 
     public GameConfig GetGameConfig()
@@ -70,6 +73,7 @@ public class GameManager:MonoBehaviour
         GameColliderMgr = RegisterModuleMgr(GameColliderManager.Ins);
         GameMapMgr = RegisterModuleMgr(GameMapManager.Ins);
         BehaviourTreeMgr = RegisterModuleMgr(BehaviourTreeManager.Ins);
+        SkEftEntityMgr = RegisterModuleMgr(SkEftEntityManager.Ins);
 
         // 先做所有模块的初始化
         foreach (IModuleManager mm in mAllModuleMgrs)
@@ -123,6 +127,8 @@ public class GameManager:MonoBehaviour
         GameColliderMgr = null;
         BehaviourTreeMgr = null;
         GameMapMgr = null;
+        // added by weng 0708
+        SkEftEntityMgr = null;
     }
 
     private T RegisterModuleMgr<T>(T mgr) where T:IModuleManager
@@ -192,6 +198,8 @@ public class GameManager:MonoBehaviour
             UpdateCenter.OnUpdate(deltaTime);
             GameColliderMgr.OnUpdate(deltaTime);
             BehaviourTreeMgr.OnUpdate(deltaTime);
+            // added by weng 0708
+            SkEftEntityMgr.OnUpdate(deltaTime);
         }
 
         UIMgr.OnUpdate(deltaTime);
