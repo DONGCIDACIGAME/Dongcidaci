@@ -52,13 +52,6 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
             return;
         }
 
-        HitPointInfo[] hitPoints = stateInfo.hitPoints;
-        if (hitPoints == null || hitPoints.Length == 0)
-        {
-            //Log.Error(LogLevel.Normal, "Start Movements Excutor Failed, hitPoints is null or empty, agentId:{0}, status:{1}, state:{2}!", mAgt.GetAgentId(), comboStep.agentActionData.statusName, comboStep.agentActionData.stateName);
-            return;
-        }
-
         Movement[] movements = stateInfo.movements;
         if (movements == null || movements.Length == 0)
         {
@@ -68,17 +61,9 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
 
         // 总时长
         float totalTime = MeterManager.Ins.GetTimeToMeter(stateInfo.stateMeterLen);
-        if (hitPoints.Length != movements.Length)
-        {
-            Log.Error(LogLevel.Normal, "Start Movements Excutor Failed, hitPoints.Length != actionData.effects.Length");
-            return;
-        }
 
-        HitPointInfo lastHitPoint = null;
-        for (int i = 0; i < hitPoints.Length; i++)
+        for (int i = 0; i < movements.Length; i++)
         {
-            // 第i个hit点的信息
-            HitPointInfo hitpoint = hitPoints[i];
             // 第i个hit点的效果
             Movement movement = movements[i];
 
@@ -86,15 +71,14 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
             {
                 AnimMovementExcutor excutor = GamePoolCenter.Ins.MovementExcutorPool.Pop();
 
-                float endTime = totalTime * hitpoint.progress;
-                float startTime = (lastHitPoint == null ? 0 : totalTime * lastHitPoint.progress);
+                float endTime = totalTime * movement.endTime;
+                float startTime = totalTime * movement.startTime;
                 if (startTime < 0)
                     startTime = 0;
 
                 excutor.Initialize(mAgt, startTime, endTime, moveTorwards, movement.distance + moveMore);
                 mMovementExcutors.Add(excutor);
             }
-            lastHitPoint = hitpoint;
         }
 
         mEnable = true;
