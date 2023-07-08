@@ -112,7 +112,6 @@ public class Monster : Agent
 
         // 加载行为树
         BehaviourTree = BehaviourTreeManager.Ins.LoadTreeWithTreeName(mMonsterCfg.BehaviourTree);
-        //BehaviourTree = BehaviourTreeManager.Ins.LoadTreeWithTreeName("Bat2");
         BehaviourTree.Initialize(this, new System.Collections.Generic.Dictionary<string,object>());
 
     }
@@ -122,7 +121,7 @@ public class Monster : Agent
         base.OnUpdate(deltaTime);
         if (BehaviourTree != null)
         {
-            // BehaviourTree.Excute(deltaTime);
+            BehaviourTree.Excute(deltaTime);
         }
     }
 
