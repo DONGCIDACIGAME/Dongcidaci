@@ -111,8 +111,8 @@
 				"normalizedTime": 0.1,
 				"layer": 0,
 				"animLen": 1.0,
-				"movements": [{"distance": 5, "timeType": 0, "startTime":0, "endTime":0.2}],
-				"hitPoints": []
+				"movements": [{"distance": 5, "timeType": 0, "startTime":0, "endTime":0.3}],
+				"hitPoints": [{"progress": 1}]
 			}]
 		},
 		"Transfer": {

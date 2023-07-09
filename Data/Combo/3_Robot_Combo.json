@@ -106,7 +106,16 @@
 						"effectCollictions": [
 							{
 								"effects": [
-								
+									{
+										"comment": "Dash Effect Test",
+										"rlsTgt": 0,
+										"effectCfgUID": 1101,
+										"strValueDict":{},
+										"intValueDict":{},
+										"floatValueDict":{"distance": 3,"speed":2},
+										"subEffects":[],
+										"hitShape":{"shapeType": 0, "sizeX": 4, "sizeY": 3, "offsetX": 0,"offsetY": 0.5}
+									}
 								]
 							}
 						]

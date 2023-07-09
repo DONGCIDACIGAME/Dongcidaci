@@ -70,7 +70,7 @@
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
-				"movements": [{"distance": 0.05, "duration": 0.01}],
+				"movements": [{"distance": 0.05, "timeType": 0, "startTime":0.8, "endTime":1}],
 				"hitPoints": [{"progress": 1}]
 			},{
 				"stateName": "Combo_2_With_Empty",
@@ -79,7 +79,7 @@
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
-				"movements": [{"distance": 0.05, "duration": 0.01}],
+				"movements": [{"distance": 0.05, "timeType": 0, "startTime":0.8, "endTime":1}],
 				"hitPoints": [{"progress": 1}]
 			},{
 				"stateName": "Combo_3_With_Empty",
@@ -88,7 +88,7 @@
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
-				"movements": [{"distance": 2, "duration": 0.05}],
+				"movements": [{"distance": 1, "timeType": 0, "startTime":0.8, "endTime":1}],
 				"hitPoints": [{"progress": 1}]
 			}]
 		},
@@ -111,7 +111,8 @@
 				"normalizedTime": 0.1,
 				"layer": 0,
 				"animLen": 1.0,
-				"hitPoints": [{"progress": 1}]
+				"movements": [{"distance": 5, "timeType": 0, "startTime":0, "endTime":0.3}],
+				"hitPoints": [{"progress": 0.2}]
 			}]
 		},
 		"Transfer": {
@@ -135,6 +136,25 @@
 				"animLen": 0.5,
 				"movements": [],
 				"hitPoints": []
+			}]
+		},
+		"BeHit":{
+			"statusName": "BeHit",
+			"defaultAciton":
+			{
+				"statusName": "BeHit",
+				"stateName": "BeHit",
+				"effectCollictions": []
+			},
+			"animStates": [{
+				"stateName": "BeHit",
+				"loopTime": 1,
+				"stateMeterLen": 1,
+				"normalizedTime": 0.05,
+				"layer": 0,
+				"animLen": 0.5,
+				"movements": [{"distance": 0.2, "timeType": 1, "startTime":0, "endTime":0.2}],
+				"hitPoints": [] 
 			}]
 		}
 	}
