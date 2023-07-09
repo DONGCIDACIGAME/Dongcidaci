@@ -23,6 +23,7 @@ namespace GameSkillEffect
                 return;
 
             _skEftPool.Add(skEft);
+            Log.Logic(LogLevel.Info, "Game Sk Effect Pool push a new skill effect");
         }
 
         /// <summary>

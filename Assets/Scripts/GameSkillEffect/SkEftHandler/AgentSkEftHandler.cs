@@ -10,6 +10,25 @@ namespace GameSkillEffect
         private Agent _bindAgent;
         private List<PortableEffect> _carrySkEfts;
 
+        /// <summary>
+        /// 获取当前携带的所有buff
+        /// </summary>
+        /// <returns></returns>
+        public List<Buff> GetAllCarryBuffs()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 获取当前携带的所有被动效果
+        /// </summary>
+        /// <returns></returns>
+        public List<PassiveEffect> GetAllPasvEfts()
+        {
+            return null;
+        } 
+
+
         public void InitAgentSkEftHandler(Agent agt)
         {
             _bindAgent = agt;
@@ -17,15 +36,32 @@ namespace GameSkillEffect
         }
 
 
+        public void AddAPortableEft(PortableEffect newEft)
+        {
+
+        }
+
+        public void RemoveAPortableEft(PortableEffect eftToRemove)
+        {
+
+        }
+
+
+
+        /// <summary>
+        /// 当执行触发一个combo的打击点效果时
+        /// </summary>
+        /// <param name="hitEffects"></param>
         public void OnExcHitPointComboEffects(ComboHitEffectsData hitEffects)
         {
             // 需要修改这里的逻辑
             if (hitEffects == null || hitEffects.effectsForRls == null || hitEffects.effectsForRls.Count == 0) return;
 
             // 1 优先查找身上的状态对这个操作存在影响的
-            var iTrigOnExcComboEfts = SkEftHelper.GetSortedEftsTrigOnExcComboEft(_carrySkEfts);
-            foreach (var iTrigOnExcComboEft in iTrigOnExcComboEfts)
+            var iTrigEfts = SkEftHelper.GetSortedTriggerableEfts<ITrigOnExcuteComboEft>(_carrySkEfts);
+            foreach (var iTrigEft in iTrigEfts)
             {
+                var iTrigOnExcComboEft = iTrigEft as ITrigOnExcuteComboEft;
                 iTrigOnExcComboEft.OnExcuteComboEfts(_bindAgent, hitEffects);
             }
 
@@ -37,56 +73,110 @@ namespace GameSkillEffect
             
         }
 
+        #region DAMAGE HANDLE REGION
 
-        public bool OnApplyDamage(Agent tgt, Damage rlsDmg)
+        public void OnApplyDamage(Agent tgt, Damage rlsDmg)
         {
-            if (rlsDmg == null) return false;
+            if (rlsDmg == null) return;
 
             // 查找在这个时机触发的技能效果
-            var iTrigOnApplyDmgEfts = SkEftHelper.GetSortedEftsTrigOnApplyDmg(_carrySkEfts);
-            foreach (var iTrigOnApplyDmg in iTrigOnApplyDmgEfts)
+            var iTrigEfts = SkEftHelper.GetSortedTriggerableEfts<ITrigOnApplyDmg>(_carrySkEfts);
+            foreach (var iTrigEft in iTrigEfts)
             {
-                if(iTrigOnApplyDmg.OnApplyDmg(_bindAgent, tgt, rlsDmg) == false)
+                var iTrigOnApplyDmg = iTrigEft as ITrigOnApplyDmg;
+                if (iTrigOnApplyDmg.OnApplyDmg(_bindAgent, tgt, rlsDmg) == false)
                 {
-                    return false;
+                    return;
                 }
             }
 
             // 通过属性handler判断是否产生暴击
+            if (_bindAgent.AttrHandler.GetCriticalDmg(ref rlsDmg))
+            {
+                OnApplyCriticalDamage(tgt,rlsDmg);
+            }
+            else
+            {
+                tgt.SkillEftHandler.OnGetDamage(_bindAgent,rlsDmg);
+            }
 
-
-            return true;
         }
 
-        public bool OnGetDamage(Agent src, Damage gotDmg)
+        public void OnGetDamage(Agent src, Damage gotDmg)
         {
-            if (gotDmg == null) return false;
+            if (gotDmg == null) return;
 
             // 查找在这个时机触发的技能效果
-            var iTrigOnGetDmgEfts = SkEftHelper.GetSortedEftsTrigOnGetDmg(_carrySkEfts);
-            foreach (var iTrigOnGetDmg in iTrigOnGetDmgEfts)
+            var iTrigEfts = SkEftHelper.GetSortedTriggerableEfts<ITrigOnGetDmg>(_carrySkEfts);
+            foreach (var iTrigEft in iTrigEfts)
             {
+                var iTrigOnGetDmg = iTrigEft as ITrigOnGetDmg;
                 if (iTrigOnGetDmg.OnGetDmg(src, _bindAgent, gotDmg) == false)
                 {
-                    return false;
+                    return;
                 }
             }
 
             // 通过属性handler判断是否闪避
+            if (_bindAgent.AttrHandler.CheckWillDodgeDmg())
+            {
+                // 成功闪避了这次伤害
+                // 调用当我闪避了伤害的效果
+                OnDodgeADamage(src,gotDmg);
+                // 调用释放者的伤害被闪避
+                src.SkillEftHandler.OnDamageBeDodged(_bindAgent,gotDmg);
+            }
+            else
+            {
+                OnFinalGetADmg(src, gotDmg);
+            }
 
-
-            return true;
         }
 
-        public bool OnApplyCriticalDamage(Agent tgt, Damage criticalDmg)
+        public void OnApplyCriticalDamage(Agent tgt, Damage criticalDmg)
         {
+            if (criticalDmg == null) return;
+            // 检查身上的效果是否会在此刻触发
 
-            return true;
+
+
+
+            // 目标受到暴击伤害
+            tgt.SkillEftHandler.OnGetCriticalDamage(_bindAgent,criticalDmg);
         }
 
         public bool OnGetCriticalDamage(Agent src,Damage criticalDmg)
         {
             return true;
+        }
+
+        public void OnDodgeADamage(Agent src, Damage dmgDodged)
+        {
+
+        }
+
+        public void OnDamageBeDodged(Agent tgt, Damage dmgDodged)
+        {
+
+        }
+
+       
+        public void OnFinalGetADmg(Agent srcAgt,Damage finalGotDmg)
+        {
+            //调用自己的attrHandler处理受到伤害的逻辑
+            _bindAgent.AttrHandler.GetFinalDamage(srcAgt,finalGotDmg);
+        }
+
+        #endregion
+
+        public void OnApplyHeal()
+        {
+
+        }
+
+        public void OnGetHeal()
+        {
+
         }
 
 
@@ -99,19 +189,22 @@ namespace GameSkillEffect
         }
 
 
+        public bool OnApplyBuff(Agent tgt, Buff rlsBuff)
+        {
+            return true;
+        }
+
+        public bool OnGetBuff(Agent src, Buff buffGot)
+        {
+
+            return true;
+        }
 
 
-
-
-
-
-
-
-
-
-
-
-
+        public bool OnApplyMoveEffect(MobilityEffect moveEftToRls)
+        {
+            return true;
+        }
 
 
 

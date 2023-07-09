@@ -7,21 +7,61 @@ namespace GameSkillEffect
     public class AgentAttrHandler
     {
         protected AgentAttribute _bindAttr;
+        protected Agent _bindAgt;
 
-        public void InitAgentAttr(AgentAttribute agtAttr)
+        public void InitAgentAttr(Agent agt, AgentAttribute agtAttr)
         {
+            _bindAgt = agt;
             _bindAttr = agtAttr;
-
         }
+
+
+        public void GetFinalDamage(Agent srcAgt, Damage finalDmg)
+        {
+            // 只有 attack damage 会触发受击的状态
+            var realDmgValue = Mathf.RoundToInt((1f - _bindAttr.defenseRate) * (float)finalDmg.DmgValue);
+            if (realDmgValue < 0) realDmgValue = 0;
+
+            _bindAttr.crtHp -= realDmgValue;
+            if (_bindAttr.crtHp < 0) _bindAttr.crtHp = 0;
+
+            if(finalDmg is AttackDamage)
+            {
+                // trigger hit status
+                Log.Logic(LogLevel.Info, "Got Final Damage Success -- Value is {0}", realDmgValue);
+                AgentCommand beHitCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
+                beHitCmd.Initialize(AgentCommandDefine.BE_HIT, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, srcAgt.GetTowards());
+                _bindAgt.OnCommand(beHitCmd);
+            }
+        }
+
+
+
 
         /// <summary>
         /// 检查是否会产生暴击
         /// </summary>
         /// <returns></returns>
-        public bool CheckWillCauseCriticalDmg()
+        private bool CheckWillCauseCriticalDmg()
         {
             // do somthing here
+            var rateValue = Mathf.RoundToInt(_bindAttr.criticalRate * 100f);
+            var rdValue = Random.Range(0,100);
+            return rdValue <= rateValue;
+        }
 
+        /// <summary>
+        /// 获取暴击伤害
+        /// </summary>
+        /// <param name="criticalDmg"></param>
+        /// <returns>未触发暴击则返回原有的伤害</returns>
+        public bool GetCriticalDmg(ref Damage criticalDmg)
+        {
+            if (CheckWillCauseCriticalDmg())
+            {
+                criticalDmg.DmgValue = Mathf.RoundToInt((float)criticalDmg.DmgValue * _bindAttr.criticalDmgRate);
+                return true;
+            }
             return false;
         }
 
@@ -31,8 +71,9 @@ namespace GameSkillEffect
         /// <returns></returns>
         public bool CheckWillDodgeDmg()
         {
-
-            return false;
+            var rateValue = Mathf.RoundToInt(_bindAttr.dodgeRate * 100f);
+            var rdValue = Random.Range(0, 100);
+            return rdValue <= rateValue;
         }
 
         /// <summary>
@@ -53,6 +94,13 @@ namespace GameSkillEffect
 
             return false;
         }
+
+
+
+
+
+
+
     }
 }
 

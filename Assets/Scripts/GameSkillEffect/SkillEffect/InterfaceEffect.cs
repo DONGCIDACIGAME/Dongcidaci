@@ -33,12 +33,29 @@ namespace GameSkillEffect
 
 
     #region Triggerable Eft should assigned from these interface
+
+    public struct TrigEftPriorityCfg
+    {
+        public int PriorityOnExcComboEft;
+
+        public int PriorityOnApplyDmg;
+        public int PriorityOnGetDmg;
+        public int PriorityOnApplyCriticalDmg;
+        public int PriorityOnGetCriticalDmg;
+        public int PriorityOnDodgeDmg;
+        public int PriorityOnDmgBeDodged;
+
+        public int PriorityOnApplyRemoteEft;
+
+    }
+
+
     /// <summary>
     /// 触发型的效果
     /// </summary>
     public interface ITriggerableEft
     {
-
+        public TrigEftPriorityCfg PriorityCfg { get; }
     }
 
     public interface ITrigOnExcuteComboEft : ITriggerableEft
@@ -51,11 +68,6 @@ namespace GameSkillEffect
         /// <param name="eftWaitForTrig"></param>
         /// <returns></returns>
         public void OnExcuteComboEfts(Agent user, ComboHitEffectsData comboHitData);
-
-        /// <summary>
-        /// 这个效果的执行优先级
-        /// </summary>
-        public int PriorityOnExcComboEft { get; }
 
     }
 
@@ -72,11 +84,6 @@ namespace GameSkillEffect
         /// <returns></returns>
         public bool OnApplyDmg(Agent user, Agent tgt, Damage rlsDmg);
 
-        /// <summary>
-        /// 这个效果在造成伤害时触发的优先级
-        /// 优先级越高，在这个触发时刻会越早被执行
-        /// </summary>
-        public int PriorityOnApplyDmg { get; }
     }
 
 
@@ -92,10 +99,6 @@ namespace GameSkillEffect
         /// <returns></returns>
         public bool OnGetDmg(Agent user, Agent receiver, Damage gotDmg);
 
-        /// <summary>
-        /// 这个效果在受到伤害时触发的优先级
-        /// </summary>
-        public int PriorityOnGetDmg { get; }
     }
 
 
@@ -103,8 +106,13 @@ namespace GameSkillEffect
     {
         public bool OnApplyRemoteEft(Agent user, IRemoteEffect rlsEft);
 
-        public int PriorityOnApplyRemoteEft { get; }
     }
+
+
+
+
+
+
 
 
     #endregion

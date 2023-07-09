@@ -86,7 +86,7 @@ public class Hero : Agent
             );
         _mAgtAttr = _mHeroAttr;
         this.HeroAttrHandler = new HeroAttrHandler();
-        this.HeroAttrHandler.InitAgentAttr(_mAgtAttr);
+        this.HeroAttrHandler.InitAgentAttr(this, _mAgtAttr);
         this.AttrHandler = HeroAttrHandler;
         this.ColliderHandler = new HeroColliderHandler(this);
 

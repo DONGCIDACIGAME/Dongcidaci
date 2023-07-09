@@ -88,7 +88,7 @@ public class Monster : Agent
             mMonsterCfg.CriticalRate, mMonsterCfg.CriticalDmgRate, mMonsterCfg.DodgeRate, mMonsterCfg.MoveSpeed
             );
         this.AttrHandler = new AgentAttrHandler();
-        this.AttrHandler.InitAgentAttr(_mAgtAttr);
+        this.AttrHandler.InitAgentAttr(this,_mAgtAttr);
         this.ColliderHandler = new MonsterColliderHandler(this);
 
 
