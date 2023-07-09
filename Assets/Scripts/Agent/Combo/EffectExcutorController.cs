@@ -9,13 +9,13 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
 {
     private Agent mAgt;
     //Changed by weng 0704
-    private HashSet<ComboEffectExcutor> effectExcutors;
+    private List<ComboEffectExcutor> effectExcutors;
     private bool mEnable;
 
     public void Initialize(Agent agt)
     {
         //Changed by weng 0704
-        effectExcutors = new HashSet<ComboEffectExcutor>();
+        effectExcutors = new List<ComboEffectExcutor>();
         mAgt = agt;
         mEnable = false;
     }
@@ -116,6 +116,7 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
             excutor.Recycle();
         }
 
+
         effectExcutors.Clear();
         mEnable = false;
     }
@@ -133,8 +134,10 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
             return;
 
         int totalActiveExcutor = 0;
-        foreach(ComboEffectExcutor excutor in effectExcutors)
+        for(int i = 0;i<effectExcutors.Count;i++)
         {
+            ComboEffectExcutor excutor = effectExcutors[i];
+
             excutor.OnUpdate(deltaTime);
 
             if (excutor.active)
@@ -143,7 +146,7 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
             }
         }
 
-        if(totalActiveExcutor == 0)
+        if (totalActiveExcutor == 0)
         {
             Reset();
         }

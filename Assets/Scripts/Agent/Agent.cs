@@ -14,7 +14,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     /// <summary>
     /// 动画播放控制器
     /// </summary>
-    public AgentAnimPlayer AnimPlayer;
+    public AnimPlayer AnimPlayer;
 
     /// <summary>
     /// 状态机
@@ -297,7 +297,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     public Agent(uint agentId)
     {
         mAgentId = agentId;
-        AnimPlayer = new AgentAnimPlayer();
+        AnimPlayer = new AnimPlayer();
         StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
         StatusMachine = new AgentStatusMachine();
         Combo_Trigger = new ComboTrigger();

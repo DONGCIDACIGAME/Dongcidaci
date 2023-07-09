@@ -1,13 +1,13 @@
-using UnityEngine;
 /// <summary>
 /// 自定义的动画驱动
 /// </summary>
-public class CustomAnimDriver : AgentAnimDriver
+public class CrossfadeByMeterAnimDriver : AgentAnimDriver
 {
-    public CustomAnimDriver(Agent agt) : base(agt)
+    public CrossfadeByMeterAnimDriver(Agent agt) : base(agt)
     {
 
     }
+
 
     /// <summary>
     /// 带截断的动画状态播放
@@ -19,7 +19,7 @@ public class CustomAnimDriver : AgentAnimDriver
     {
         //Log.Error(LogLevel.Info, "PlayAnimStateWithCut=======================play {0}-{1}", statusName, stateName);
 
-        Log.Logic(LogLevel.Info, "<color=green>PlayAnimStateWithCut--statusName:{0}, stateName:{1}</color>", statusName, stateName);
+        Log.Logic(LogLevel.Info, "<color=blue>{0} PlayAnimStateWithCut--statusName:{1}, stateName:{2}</color>", mAgent.GetAgentId(), statusName, stateName);
 
         if (string.IsNullOrEmpty(statusName))
         {

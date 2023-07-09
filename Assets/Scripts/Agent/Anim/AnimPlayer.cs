@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 ///  角色动画播放器
 /// </summary>
-public class AgentAnimPlayer
+public class AnimPlayer
 {
     public Animator mAnimator;
 
@@ -31,7 +31,7 @@ public class AgentAnimPlayer
 
 
 
-    public AgentAnimPlayer()
+    public AnimPlayer()
     {
         CurStateName = string.Empty;
     }

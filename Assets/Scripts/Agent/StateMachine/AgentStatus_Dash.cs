@@ -62,12 +62,12 @@ public class AgentStatus_Dash : AgentStatus
                 ConditionalExcute(cmdType, towards, triggerMeter, args, triggeredComboStep); 
                 break;
             // 其他指令类型，都要等本次冲刺结束后执行，先放入指令缓存区
-            case AgentCommandDefine.RUN:
-            case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.ATTACK_LONG:
-            case AgentCommandDefine.ATTACK_SHORT:
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
-                break;
+            //case AgentCommandDefine.RUN:
+            //case AgentCommandDefine.IDLE:s
+            //case AgentCommandDefine.ATTACK_LONG:
+            //case AgentCommandDefine.ATTACK_SHORT:
+            //    PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
+            //    break;
             case AgentCommandDefine.EMPTY:
             default:
                 break;
@@ -91,10 +91,10 @@ public class AgentStatus_Dash : AgentStatus
             switch (cmdType)
             {
                 case AgentCommandDefine.BE_HIT:
-                case AgentCommandDefine.RUN:
-                case AgentCommandDefine.IDLE:
-                case AgentCommandDefine.ATTACK_SHORT:
-                case AgentCommandDefine.ATTACK_LONG:
+                //case AgentCommandDefine.RUN:
+                //case AgentCommandDefine.IDLE:
+                //case AgentCommandDefine.ATTACK_SHORT:
+                //case AgentCommandDefine.ATTACK_LONG:
                     ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
                     break;
                 case AgentCommandDefine.DASH:
@@ -133,14 +133,14 @@ public class AgentStatus_Dash : AgentStatus
         if (agentActionData == null)
             return;
 
-        // 1. 转向被攻击的方向
+        // 1. 转向
         mAgent.MoveControl.TurnTo(towards);
 
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;
 
         // 2. 播放冲刺动画
-        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusName, stateName);
+        mCurLogicStateEndMeter = mCrossfadeByMeterAnimDriver.PlayAnimStateWithCut(statusName, stateName);
 
         if(args != null)
         {

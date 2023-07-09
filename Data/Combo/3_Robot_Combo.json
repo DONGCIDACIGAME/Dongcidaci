@@ -112,7 +112,7 @@
 										"effectCfgUID": 1101,
 										"strValueDict":{},
 										"intValueDict":{},
-										"floatValueDict":{"distance": 3,"speed":2},
+										"floatValueDict":{},
 										"subEffects":[],
 										"hitShape":{"shapeType": 0, "sizeX": 4, "sizeY": 3, "offsetX": 0,"offsetY": 0.5}
 									}

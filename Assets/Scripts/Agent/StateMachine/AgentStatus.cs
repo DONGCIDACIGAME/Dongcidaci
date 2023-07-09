@@ -13,14 +13,20 @@ public abstract class AgentStatus : IAgentStatus
     protected IInputHandle mInputHandle;
 
     /// <summary>
-    /// 自定义动画驱动器
+    /// 根据节拍融合的动画驱动器
     /// </summary>
-    protected CustomAnimDriver mCustomAnimDriver;
+    protected CrossfadeByMeterAnimDriver mCrossfadeByMeterAnimDriver;
 
     /// <summary>
     /// 步进式动画驱动器
     /// </summary>
     protected StepLoopAnimDriver mStepLoopAnimDriver;
+
+    /// <summary>
+    /// 根据时间融合的动画驱动器
+    /// </summary>
+    protected CrossfadeByTimeAnimDriver mCrossFadeByTimeAnimDriver;
+
 
     /// <summary>
     /// 当前逻辑状态结束节拍index
@@ -58,8 +64,9 @@ public abstract class AgentStatus : IAgentStatus
         statusDefaultActionData = AgentHelper.GetAgentDefaultStatusActionData(agt, GetStatusName());
         cmdBuffer = new AgentCommandBuffer();
         mMeterEndActions = new Stack<MeterEndAction>();
-        mCustomAnimDriver = new CustomAnimDriver(mAgent);
+        mCrossfadeByMeterAnimDriver = new CrossfadeByMeterAnimDriver(mAgent);
         mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
+        mCrossFadeByTimeAnimDriver = new CrossfadeByTimeAnimDriver(mAgent);
         RegisterInputHandle();
     }
 
@@ -109,7 +116,7 @@ public abstract class AgentStatus : IAgentStatus
         mMeterEndActions.Clear();
         mCurTriggeredComboStep = null;
         mStepLoopAnimDriver.Reset();
-        mCustomAnimDriver.Reset();
+        mCrossfadeByMeterAnimDriver.Reset();
     }
 
     /// <summary>
@@ -130,10 +137,10 @@ public abstract class AgentStatus : IAgentStatus
             mInputHandle = null;
         }
 
-        if (mCustomAnimDriver != null)
+        if (mCrossfadeByMeterAnimDriver != null)
         {
-            mCustomAnimDriver.Dispose();
-            mCustomAnimDriver = null;
+            mCrossfadeByMeterAnimDriver.Dispose();
+            mCrossfadeByMeterAnimDriver = null;
         }
 
         if (mStepLoopAnimDriver != null)

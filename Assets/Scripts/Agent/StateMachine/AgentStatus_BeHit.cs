@@ -32,8 +32,6 @@ public class AgentStatus_BeHit : AgentStatus
             actionData = obj1 as AgentActionData;
         }
         StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData) ;
-
-
     }
 
     public override void OnExit()
@@ -113,20 +111,16 @@ public class AgentStatus_BeHit : AgentStatus
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;
 
-
-        // 1. 播放攻击动画
-        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusName, stateName);
-        Log.Logic("<color=yellow>BeHit --- status default action! trigger meter:{0}, cur meter:{1}, end meter:{2}</color>", triggerMeter, MeterManager.Ins.MeterIndex, mCurLogicStateEndMeter);
-
-        // 2. 处理动画相关的位移
-        mAgent.MovementExcutorCtl.Start(statusName, stateName, towards, moveMore);
-
-        mTimer = 0;
+        // 1. 播放受击动画
         AgentAnimStateInfo animStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent,statusName, stateName);
-        if(animStateInfo != null)
+        if (animStateInfo != null)
         {
+            mTimer = 0;
+            mCrossFadeByTimeAnimDriver.PlayAnim(statusName, stateName, animStateInfo.animLen);
             mExitTime = animStateInfo.animLen;
         }
+        // 2. 处理动画相关的位移
+        mAgent.MovementExcutorCtl.Start(statusName, stateName, towards, moveMore);
     }
 
     public override void OnUpdate(float deltaTime)

@@ -119,7 +119,7 @@ public class AgentStatus_Run : AgentStatus
         mAgent.MoveControl.TurnTo(towards);
 
         // 2. 播放动画
-        mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(agentActionData.stateName, agentActionData.stateName);
+        mCurLogicStateEndMeter = mCrossfadeByMeterAnimDriver.PlayAnimStateWithCut(agentActionData.stateName, agentActionData.stateName);
     }
 
     public override void RegisterInputHandle()
