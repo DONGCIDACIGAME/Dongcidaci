@@ -10,14 +10,13 @@ public class ControlChangeTowardsPropertyPage : ControlAINodePropertyPage
     {
         base.BindUINodes();
 
-        Dropdown_ChangeTowards = BindDropDownNode("Dropdown_ChangeTowards", new List<TMP_Dropdown.OptionData>()
+        List<TMP_Dropdown.OptionData> changeTowardsOps = new List<TMP_Dropdown.OptionData>();
+        for(int i = 0; i<BTDefine.BT_ALL_CHANGE_TOWARDS_TYPES.Length;i++)
         {
-            new TMP_Dropdown.OptionData("Undefined"),
-            new TMP_Dropdown.OptionData("Random"),
-            new TMP_Dropdown.OptionData("Invert"),
-            new TMP_Dropdown.OptionData("GivenTarget")
-        },
-        OnSelectChangeTowardsType);
+            changeTowardsOps.Add(new TMP_Dropdown.OptionData(BTDefine.BT_ALL_CHANGE_TOWARDS_TYPES[i].Desc));
+        }
+
+        Dropdown_ChangeTowards = BindDropDownNode("Dropdown_ChangeTowards", changeTowardsOps,OnSelectChangeTowardsType);
 
     }
 
@@ -31,27 +30,13 @@ public class ControlChangeTowardsPropertyPage : ControlAINodePropertyPage
             return;
         }
 
-        int agentType = AgentDefine.AgentType_NotDefine;
-        switch (index)
+        int changeTowardsType = BTDefine.BT_ChangeTowardsTo_NotDefine;
+        if(index < BTDefine.BT_ALL_CHANGE_TOWARDS_TYPES.Length)
         {
-            case 0:
-                agentType = BTDefine.BT_ChangeTowardsTo_NotDefine;
-                break;
-            case 1:
-                agentType = BTDefine.BT_ChangeTowardsTo_Random;
-                break;
-            case 2:
-                agentType = BTDefine.BT_ChangeTowardsTo_Invert;
-                break;
-            case 3:
-                agentType = BTDefine.BT_ChangeTowardsTo_GivenTarget;
-                break;
-            default:
-                break;
-
+            changeTowardsType = BTDefine.BT_ALL_CHANGE_TOWARDS_TYPES[index].Type;
         }
 
-        node.SetChangeTowardsType(agentType);
+        node.SetChangeTowardsType(changeTowardsType);
     }
 
     protected override void Initialize()
@@ -67,20 +52,14 @@ public class ControlChangeTowardsPropertyPage : ControlAINodePropertyPage
         }
 
         int index = 0;
-        switch (node.GetChangeTowardsType())
+        int changeTowardsType = node.GetChangeTowardsType();
+        for (int i = 0; i < BTDefine.BT_ALL_CHANGE_TOWARDS_TYPES.Length; i++)
         {
-            case BTDefine.BT_ChangeTowardsTo_Random:
-                index = 1;
+            if (changeTowardsType == BTDefine.BT_ALL_CHANGE_TOWARDS_TYPES[i].Type)
+            {
+                index = i;
                 break;
-            case BTDefine.BT_ChangeTowardsTo_Invert:
-                index = 2;
-                break;
-            case BTDefine.BT_ChangeTowardsTo_GivenTarget:
-                index = 3;
-                break;
-            default:
-                break;
-
+            }
         }
 
         Dropdown_ChangeTowards.value = index;

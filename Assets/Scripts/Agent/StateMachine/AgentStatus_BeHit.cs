@@ -119,7 +119,7 @@ public class AgentStatus_BeHit : AgentStatus
         Log.Logic("<color=yellow>BeHit --- status default action! trigger meter:{0}, cur meter:{1}, end meter:{2}</color>", triggerMeter, MeterManager.Ins.MeterIndex, mCurLogicStateEndMeter);
 
         // 2. 处理动画相关的位移
-        mAgent.MovementExcutorCtl.Start(statusName, stateName, moveMore, towards);
+        mAgent.MovementExcutorCtl.Start(statusName, stateName, towards, moveMore);
 
         mTimer = 0;
         AgentAnimStateInfo animStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent,statusName, stateName);

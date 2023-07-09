@@ -173,7 +173,7 @@ public class AgentStatus_Attack : AgentStatus
         mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusName, stateName);
 
         // 3. 处理动画相关的位移
-        mAgent.MovementExcutorCtl.Start(statusName, stateName, 0, mAgent.GetTowards());
+        mAgent.MovementExcutorCtl.Start(statusName, stateName, mAgent.GetTowards(), 0);
 
     }
 

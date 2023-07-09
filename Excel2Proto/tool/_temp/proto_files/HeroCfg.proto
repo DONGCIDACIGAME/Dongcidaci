@@ -24,26 +24,28 @@ message HeroBaseCfg{
     float AttackRadius = 6;
     /** 交互半径 */ 
     float InteractRadius = 7;
+    /** 跟随半径 */ 
+    float FollowRadius = 8;
     /** 最大生命 */ 
-    int32 MaxHp = 8;
+    int32 MaxHp = 9;
     /** 基础攻击值 */ 
-    int32 BaseAttack = 9;
+    int32 BaseAttack = 10;
     /** 伤害减免系数 */ 
-    float DefenseRate = 10;
+    float DefenseRate = 11;
     /** 暴击率 */ 
-    float CriticalRate = 11;
+    float CriticalRate = 12;
     /** 暴击伤害 */ 
-    float CriticalDmgRate = 12;
+    float CriticalDmgRate = 13;
     /** 闪避率 */ 
-    float DodgeRate = 13;
+    float DodgeRate = 14;
     /** 移动速度 */ 
-    float MoveSpeed = 14;
+    float MoveSpeed = 15;
     /** 额外能量获取 */ 
-    int32 ExtraEnergyGain = 15;
+    int32 ExtraEnergyGain = 16;
     /** 节拍容差 */ 
-    float BeatTolerance = 16;
+    float BeatTolerance = 17;
     /** 幸运值 */ 
-    int32 LuckyRate = 17;
+    int32 LuckyRate = 18;
 }
 
 message HeroCfg_Data {

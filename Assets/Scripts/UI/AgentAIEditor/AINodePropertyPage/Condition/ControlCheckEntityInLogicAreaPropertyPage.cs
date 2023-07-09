@@ -9,13 +9,13 @@ public class ControlCheckEntityInLogicAreaPropertyPage : ControlAINodePropertyPa
     {
         base.BindUINodes();
 
-        Dropdown_OperatorType = BindDropDownNode("Dropdown_LogicAreaType", new List<TMP_Dropdown.OptionData>()
+        List<TMP_Dropdown.OptionData> areaOps = new List<TMP_Dropdown.OptionData>();
+        for(int i = 0;i<BTDefine.BT_ALL_LOGIC_AREA_TYPES.Length;i++)
         {
-            new TMP_Dropdown.OptionData("Undefined"),
-            new TMP_Dropdown.OptionData("Attack"),
-            new TMP_Dropdown.OptionData("Interact")
-        },
-        OnSelectLogicAreaType);
+            areaOps.Add(new TMP_Dropdown.OptionData(BTDefine.BT_ALL_LOGIC_AREA_TYPES[i].Desc));
+        }
+
+        Dropdown_OperatorType = BindDropDownNode("Dropdown_LogicAreaType", areaOps, OnSelectLogicAreaType);
 
     }
 
@@ -30,20 +30,9 @@ public class ControlCheckEntityInLogicAreaPropertyPage : ControlAINodePropertyPa
         }
 
         int logicAreaType = BTDefine.BT_LogicArea_Type_Undefine;
-        switch (index)
+        if(index < BTDefine.BT_ALL_LOGIC_AREA_TYPES.Length)
         {
-            case 0:
-                logicAreaType = BTDefine.BT_LogicArea_Type_Undefine;
-                break;
-            case 1:
-                logicAreaType = BTDefine.BT_LogicArea_Type_Attack;
-                break;
-            case 2:
-                logicAreaType = BTDefine.BT_LogicArea_Type_Interact;
-                break;
-            default:
-                break;
-
+            logicAreaType = BTDefine.BT_ALL_LOGIC_AREA_TYPES[index].Type;
         }
 
         node.SetLogicAreaType(logicAreaType);
@@ -62,17 +51,14 @@ public class ControlCheckEntityInLogicAreaPropertyPage : ControlAINodePropertyPa
         }
 
         int index = 0;
-        switch (node.GetLogicAreaType())
+        int logicAreaType = node.GetLogicAreaType();
+        for(int i =0;i<BTDefine.BT_ALL_LOGIC_AREA_TYPES.Length;i++)
         {
-            case BTDefine.BT_LogicArea_Type_Attack:
-                index = 1;
+            if(BTDefine.BT_ALL_LOGIC_AREA_TYPES[i].Type == logicAreaType)
+            {
+                index = i;
                 break;
-            case BTDefine.BT_LogicArea_Type_Interact:
-                index = 2;
-                break;
-            default:
-                break;
-
+            }
         }
 
         Dropdown_OperatorType.value = index;

@@ -10,16 +10,12 @@ public abstract class ControlCheckDistancePropertyPage : ControlAINodePropertyPa
     {
         base.BindUINodes();
 
-        Dropdown_OperatorType = BindDropDownNode("Dropdown_OperatorType", new List<TMP_Dropdown.OptionData>()
+        List<TMP_Dropdown.OptionData> operatorOps = new List<TMP_Dropdown.OptionData>();
+        for(int i = 0;i< BTDefine.BT_ALL_OPERATORS.Length;i++)
         {
-            new TMP_Dropdown.OptionData("undefine"),
-            new TMP_Dropdown.OptionData("<"),
-            new TMP_Dropdown.OptionData("<="),
-            new TMP_Dropdown.OptionData("="),
-            new TMP_Dropdown.OptionData(">"),
-            new TMP_Dropdown.OptionData(">=")
-        },
-        OnSelectOperatorType);
+            operatorOps.Add(new TMP_Dropdown.OptionData(BTDefine.BT_ALL_OPERATORS[i].Desc));
+        }
+        Dropdown_OperatorType = BindDropDownNode("Dropdown_OperatorType", operatorOps, OnSelectOperatorType);
 
         InputField_Distance = BindInputFieldNode("InputField_Distance", OnEditDistance);
 
@@ -50,32 +46,9 @@ public abstract class ControlCheckDistancePropertyPage : ControlAINodePropertyPa
         }
 
         int op = BTDefine.BT_Operator_Undefine;
-        switch (index)
+        if(index < BTDefine.BT_ALL_OPERATORS.Length)
         {
-            case 0:
-                op = BTDefine.BT_Operator_Undefine;
-                break;
-            case 1:
-                op = BTDefine.BT_Operator_LessThan;
-                break;
-            case 2:
-                op = BTDefine.BT_Operator_LessEqual;
-                break;
-            case 3:
-                op = BTDefine.BT_Operator_Equal;
-                break;
-            case 4:
-                op = BTDefine.BT_Operator_GreaterThan;
-                break;
-            case 5:
-                op = BTDefine.BT_Operator_GreaterEqual;
-                break;
-            case 6:
-                op = BTDefine.BT_Operator_LessThan;
-                break;
-            default:
-                break;
-
+            op = BTDefine.BT_ALL_OPERATORS[index].Type;
         }
 
         node.SetOperator(op);
@@ -94,30 +67,17 @@ public abstract class ControlCheckDistancePropertyPage : ControlAINodePropertyPa
         }
 
         int index = 0;
-        switch (node.GetOperator())
+        int operatorType = node.GetOperator();
+        for(int i = 0;i<BTDefine.BT_ALL_OPERATORS.Length;i++)
         {
-            case BTDefine.BT_Operator_LessThan:
-                index = 1;
+            if(operatorType == BTDefine.BT_ALL_OPERATORS[i].Type)
+            {
+                index = i;
                 break;
-            case BTDefine.BT_Operator_LessEqual:
-                index = 2;
-                break;
-            case BTDefine.BT_Operator_Equal:
-                index = 3;
-                break;
-            case BTDefine.BT_Operator_GreaterThan:
-                index = 4;
-                break;
-            case BTDefine.BT_Operator_GreaterEqual:
-                index = 5;
-                break;
-            default:
-                break;
-
+            }
         }
 
         Dropdown_OperatorType.value = index;
-
         InputField_Distance.text = node.GetDistance().ToString();
     }
 }

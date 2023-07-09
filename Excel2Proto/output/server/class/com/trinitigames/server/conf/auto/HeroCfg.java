@@ -24,6 +24,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>uint32 ID = 1;</code>
+     * @return The iD.
      */
     int getID();
 
@@ -33,6 +34,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Name = 2;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -41,6 +43,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Name = 2;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -51,6 +54,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Prefab = 3;</code>
+     * @return The prefab.
      */
     java.lang.String getPrefab();
     /**
@@ -59,6 +63,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Prefab = 3;</code>
+     * @return The bytes for prefab.
      */
     com.google.protobuf.ByteString
         getPrefabBytes();
@@ -69,6 +74,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>float Speed = 4;</code>
+     * @return The speed.
      */
     float getSpeed();
 
@@ -78,6 +84,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>float DashDistance = 5;</code>
+     * @return The dashDistance.
      */
     float getDashDistance();
 
@@ -87,6 +94,7 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>float AttackRadius = 6;</code>
+     * @return The attackRadius.
      */
     float getAttackRadius();
 
@@ -96,15 +104,27 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>float InteractRadius = 7;</code>
+     * @return The interactRadius.
      */
     float getInteractRadius();
+
+    /**
+     * <pre>
+     ** 跟随半径 
+     * </pre>
+     *
+     * <code>float FollowRadius = 8;</code>
+     * @return The followRadius.
+     */
+    float getFollowRadius();
 
     /**
      * <pre>
      ** 最大生命 
      * </pre>
      *
-     * <code>int32 MaxHp = 8;</code>
+     * <code>int32 MaxHp = 9;</code>
+     * @return The maxHp.
      */
     int getMaxHp();
 
@@ -113,7 +133,8 @@ public final class HeroCfg {
      ** 基础攻击值 
      * </pre>
      *
-     * <code>int32 BaseAttack = 9;</code>
+     * <code>int32 BaseAttack = 10;</code>
+     * @return The baseAttack.
      */
     int getBaseAttack();
 
@@ -122,7 +143,8 @@ public final class HeroCfg {
      ** 伤害减免系数 
      * </pre>
      *
-     * <code>float DefenseRate = 10;</code>
+     * <code>float DefenseRate = 11;</code>
+     * @return The defenseRate.
      */
     float getDefenseRate();
 
@@ -131,7 +153,8 @@ public final class HeroCfg {
      ** 暴击率 
      * </pre>
      *
-     * <code>float CriticalRate = 11;</code>
+     * <code>float CriticalRate = 12;</code>
+     * @return The criticalRate.
      */
     float getCriticalRate();
 
@@ -140,7 +163,8 @@ public final class HeroCfg {
      ** 暴击伤害 
      * </pre>
      *
-     * <code>float CriticalDmgRate = 12;</code>
+     * <code>float CriticalDmgRate = 13;</code>
+     * @return The criticalDmgRate.
      */
     float getCriticalDmgRate();
 
@@ -149,7 +173,8 @@ public final class HeroCfg {
      ** 闪避率 
      * </pre>
      *
-     * <code>float DodgeRate = 13;</code>
+     * <code>float DodgeRate = 14;</code>
+     * @return The dodgeRate.
      */
     float getDodgeRate();
 
@@ -158,7 +183,8 @@ public final class HeroCfg {
      ** 移动速度 
      * </pre>
      *
-     * <code>float MoveSpeed = 14;</code>
+     * <code>float MoveSpeed = 15;</code>
+     * @return The moveSpeed.
      */
     float getMoveSpeed();
 
@@ -167,7 +193,8 @@ public final class HeroCfg {
      ** 额外能量获取 
      * </pre>
      *
-     * <code>int32 ExtraEnergyGain = 15;</code>
+     * <code>int32 ExtraEnergyGain = 16;</code>
+     * @return The extraEnergyGain.
      */
     int getExtraEnergyGain();
 
@@ -176,7 +203,8 @@ public final class HeroCfg {
      ** 节拍容差 
      * </pre>
      *
-     * <code>float BeatTolerance = 16;</code>
+     * <code>float BeatTolerance = 17;</code>
+     * @return The beatTolerance.
      */
     float getBeatTolerance();
 
@@ -185,14 +213,15 @@ public final class HeroCfg {
      ** 幸运值 
      * </pre>
      *
-     * <code>int32 LuckyRate = 17;</code>
+     * <code>int32 LuckyRate = 18;</code>
+     * @return The luckyRate.
      */
     int getLuckyRate();
   }
   /**
    * Protobuf type {@code DongciDaci.HeroBaseCfg}
    */
-  public  static final class HeroBaseCfg extends
+  public static final class HeroBaseCfg extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:DongciDaci.HeroBaseCfg)
       HeroBaseCfgOrBuilder {
@@ -202,155 +231,17 @@ public final class HeroCfg {
       super(builder);
     }
     private HeroBaseCfg() {
-      iD_ = 0;
       name_ = "";
       prefab_ = "";
-      speed_ = 0F;
-      dashDistance_ = 0F;
-      attackRadius_ = 0F;
-      interactRadius_ = 0F;
-      maxHp_ = 0;
-      baseAttack_ = 0;
-      defenseRate_ = 0F;
-      criticalRate_ = 0F;
-      criticalDmgRate_ = 0F;
-      dodgeRate_ = 0F;
-      moveSpeed_ = 0F;
-      extraEnergyGain_ = 0;
-      beatTolerance_ = 0F;
-      luckyRate_ = 0;
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new HeroBaseCfg();
     }
-    private HeroBaseCfg(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
 
-              iD_ = input.readUInt32();
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              name_ = s;
-              break;
-            }
-            case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              prefab_ = s;
-              break;
-            }
-            case 37: {
-
-              speed_ = input.readFloat();
-              break;
-            }
-            case 45: {
-
-              dashDistance_ = input.readFloat();
-              break;
-            }
-            case 53: {
-
-              attackRadius_ = input.readFloat();
-              break;
-            }
-            case 61: {
-
-              interactRadius_ = input.readFloat();
-              break;
-            }
-            case 64: {
-
-              maxHp_ = input.readInt32();
-              break;
-            }
-            case 72: {
-
-              baseAttack_ = input.readInt32();
-              break;
-            }
-            case 85: {
-
-              defenseRate_ = input.readFloat();
-              break;
-            }
-            case 93: {
-
-              criticalRate_ = input.readFloat();
-              break;
-            }
-            case 101: {
-
-              criticalDmgRate_ = input.readFloat();
-              break;
-            }
-            case 109: {
-
-              dodgeRate_ = input.readFloat();
-              break;
-            }
-            case 117: {
-
-              moveSpeed_ = input.readFloat();
-              break;
-            }
-            case 120: {
-
-              extraEnergyGain_ = input.readInt32();
-              break;
-            }
-            case 133: {
-
-              beatTolerance_ = input.readFloat();
-              break;
-            }
-            case 136: {
-
-              luckyRate_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.trinitigames.server.conf.auto.HeroCfg.internal_static_DongciDaci_HeroBaseCfg_descriptor;
@@ -365,27 +256,32 @@ public final class HeroCfg {
     }
 
     public static final int ID_FIELD_NUMBER = 1;
-    private int iD_;
+    private int iD_ = 0;
     /**
      * <pre>
      ** ID 
      * </pre>
      *
      * <code>uint32 ID = 1;</code>
+     * @return The iD.
      */
+    @java.lang.Override
     public int getID() {
       return iD_;
     }
 
     public static final int NAME_FIELD_NUMBER = 2;
-    private volatile java.lang.Object name_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object name_ = "";
     /**
      * <pre>
      ** 名称 
      * </pre>
      *
      * <code>string Name = 2;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -404,7 +300,9 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Name = 2;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -420,14 +318,17 @@ public final class HeroCfg {
     }
 
     public static final int PREFAB_FIELD_NUMBER = 3;
-    private volatile java.lang.Object prefab_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object prefab_ = "";
     /**
      * <pre>
      ** 预制体路径 
      * </pre>
      *
      * <code>string Prefab = 3;</code>
+     * @return The prefab.
      */
+    @java.lang.Override
     public java.lang.String getPrefab() {
       java.lang.Object ref = prefab_;
       if (ref instanceof java.lang.String) {
@@ -446,7 +347,9 @@ public final class HeroCfg {
      * </pre>
      *
      * <code>string Prefab = 3;</code>
+     * @return The bytes for prefab.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPrefabBytes() {
       java.lang.Object ref = prefab_;
@@ -462,183 +365,226 @@ public final class HeroCfg {
     }
 
     public static final int SPEED_FIELD_NUMBER = 4;
-    private float speed_;
+    private float speed_ = 0F;
     /**
      * <pre>
      ** 角色的移动速度 
      * </pre>
      *
      * <code>float Speed = 4;</code>
+     * @return The speed.
      */
+    @java.lang.Override
     public float getSpeed() {
       return speed_;
     }
 
     public static final int DASHDISTANCE_FIELD_NUMBER = 5;
-    private float dashDistance_;
+    private float dashDistance_ = 0F;
     /**
      * <pre>
      ** 角色的冲刺距离 
      * </pre>
      *
      * <code>float DashDistance = 5;</code>
+     * @return The dashDistance.
      */
+    @java.lang.Override
     public float getDashDistance() {
       return dashDistance_;
     }
 
     public static final int ATTACKRADIUS_FIELD_NUMBER = 6;
-    private float attackRadius_;
+    private float attackRadius_ = 0F;
     /**
      * <pre>
      ** 攻击半径 
      * </pre>
      *
      * <code>float AttackRadius = 6;</code>
+     * @return The attackRadius.
      */
+    @java.lang.Override
     public float getAttackRadius() {
       return attackRadius_;
     }
 
     public static final int INTERACTRADIUS_FIELD_NUMBER = 7;
-    private float interactRadius_;
+    private float interactRadius_ = 0F;
     /**
      * <pre>
      ** 交互半径 
      * </pre>
      *
      * <code>float InteractRadius = 7;</code>
+     * @return The interactRadius.
      */
+    @java.lang.Override
     public float getInteractRadius() {
       return interactRadius_;
     }
 
-    public static final int MAXHP_FIELD_NUMBER = 8;
-    private int maxHp_;
+    public static final int FOLLOWRADIUS_FIELD_NUMBER = 8;
+    private float followRadius_ = 0F;
+    /**
+     * <pre>
+     ** 跟随半径 
+     * </pre>
+     *
+     * <code>float FollowRadius = 8;</code>
+     * @return The followRadius.
+     */
+    @java.lang.Override
+    public float getFollowRadius() {
+      return followRadius_;
+    }
+
+    public static final int MAXHP_FIELD_NUMBER = 9;
+    private int maxHp_ = 0;
     /**
      * <pre>
      ** 最大生命 
      * </pre>
      *
-     * <code>int32 MaxHp = 8;</code>
+     * <code>int32 MaxHp = 9;</code>
+     * @return The maxHp.
      */
+    @java.lang.Override
     public int getMaxHp() {
       return maxHp_;
     }
 
-    public static final int BASEATTACK_FIELD_NUMBER = 9;
-    private int baseAttack_;
+    public static final int BASEATTACK_FIELD_NUMBER = 10;
+    private int baseAttack_ = 0;
     /**
      * <pre>
      ** 基础攻击值 
      * </pre>
      *
-     * <code>int32 BaseAttack = 9;</code>
+     * <code>int32 BaseAttack = 10;</code>
+     * @return The baseAttack.
      */
+    @java.lang.Override
     public int getBaseAttack() {
       return baseAttack_;
     }
 
-    public static final int DEFENSERATE_FIELD_NUMBER = 10;
-    private float defenseRate_;
+    public static final int DEFENSERATE_FIELD_NUMBER = 11;
+    private float defenseRate_ = 0F;
     /**
      * <pre>
      ** 伤害减免系数 
      * </pre>
      *
-     * <code>float DefenseRate = 10;</code>
+     * <code>float DefenseRate = 11;</code>
+     * @return The defenseRate.
      */
+    @java.lang.Override
     public float getDefenseRate() {
       return defenseRate_;
     }
 
-    public static final int CRITICALRATE_FIELD_NUMBER = 11;
-    private float criticalRate_;
+    public static final int CRITICALRATE_FIELD_NUMBER = 12;
+    private float criticalRate_ = 0F;
     /**
      * <pre>
      ** 暴击率 
      * </pre>
      *
-     * <code>float CriticalRate = 11;</code>
+     * <code>float CriticalRate = 12;</code>
+     * @return The criticalRate.
      */
+    @java.lang.Override
     public float getCriticalRate() {
       return criticalRate_;
     }
 
-    public static final int CRITICALDMGRATE_FIELD_NUMBER = 12;
-    private float criticalDmgRate_;
+    public static final int CRITICALDMGRATE_FIELD_NUMBER = 13;
+    private float criticalDmgRate_ = 0F;
     /**
      * <pre>
      ** 暴击伤害 
      * </pre>
      *
-     * <code>float CriticalDmgRate = 12;</code>
+     * <code>float CriticalDmgRate = 13;</code>
+     * @return The criticalDmgRate.
      */
+    @java.lang.Override
     public float getCriticalDmgRate() {
       return criticalDmgRate_;
     }
 
-    public static final int DODGERATE_FIELD_NUMBER = 13;
-    private float dodgeRate_;
+    public static final int DODGERATE_FIELD_NUMBER = 14;
+    private float dodgeRate_ = 0F;
     /**
      * <pre>
      ** 闪避率 
      * </pre>
      *
-     * <code>float DodgeRate = 13;</code>
+     * <code>float DodgeRate = 14;</code>
+     * @return The dodgeRate.
      */
+    @java.lang.Override
     public float getDodgeRate() {
       return dodgeRate_;
     }
 
-    public static final int MOVESPEED_FIELD_NUMBER = 14;
-    private float moveSpeed_;
+    public static final int MOVESPEED_FIELD_NUMBER = 15;
+    private float moveSpeed_ = 0F;
     /**
      * <pre>
      ** 移动速度 
      * </pre>
      *
-     * <code>float MoveSpeed = 14;</code>
+     * <code>float MoveSpeed = 15;</code>
+     * @return The moveSpeed.
      */
+    @java.lang.Override
     public float getMoveSpeed() {
       return moveSpeed_;
     }
 
-    public static final int EXTRAENERGYGAIN_FIELD_NUMBER = 15;
-    private int extraEnergyGain_;
+    public static final int EXTRAENERGYGAIN_FIELD_NUMBER = 16;
+    private int extraEnergyGain_ = 0;
     /**
      * <pre>
      ** 额外能量获取 
      * </pre>
      *
-     * <code>int32 ExtraEnergyGain = 15;</code>
+     * <code>int32 ExtraEnergyGain = 16;</code>
+     * @return The extraEnergyGain.
      */
+    @java.lang.Override
     public int getExtraEnergyGain() {
       return extraEnergyGain_;
     }
 
-    public static final int BEATTOLERANCE_FIELD_NUMBER = 16;
-    private float beatTolerance_;
+    public static final int BEATTOLERANCE_FIELD_NUMBER = 17;
+    private float beatTolerance_ = 0F;
     /**
      * <pre>
      ** 节拍容差 
      * </pre>
      *
-     * <code>float BeatTolerance = 16;</code>
+     * <code>float BeatTolerance = 17;</code>
+     * @return The beatTolerance.
      */
+    @java.lang.Override
     public float getBeatTolerance() {
       return beatTolerance_;
     }
 
-    public static final int LUCKYRATE_FIELD_NUMBER = 17;
-    private int luckyRate_;
+    public static final int LUCKYRATE_FIELD_NUMBER = 18;
+    private int luckyRate_ = 0;
     /**
      * <pre>
      ** 幸运值 
      * </pre>
      *
-     * <code>int32 LuckyRate = 17;</code>
+     * <code>int32 LuckyRate = 18;</code>
+     * @return The luckyRate.
      */
+    @java.lang.Override
     public int getLuckyRate() {
       return luckyRate_;
     }
@@ -660,55 +606,58 @@ public final class HeroCfg {
       if (iD_ != 0) {
         output.writeUInt32(1, iD_);
       }
-      if (!getNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
       }
-      if (!getPrefabBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(prefab_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, prefab_);
       }
-      if (speed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
         output.writeFloat(4, speed_);
       }
-      if (dashDistance_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(dashDistance_) != 0) {
         output.writeFloat(5, dashDistance_);
       }
-      if (attackRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(attackRadius_) != 0) {
         output.writeFloat(6, attackRadius_);
       }
-      if (interactRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(interactRadius_) != 0) {
         output.writeFloat(7, interactRadius_);
       }
+      if (java.lang.Float.floatToRawIntBits(followRadius_) != 0) {
+        output.writeFloat(8, followRadius_);
+      }
       if (maxHp_ != 0) {
-        output.writeInt32(8, maxHp_);
+        output.writeInt32(9, maxHp_);
       }
       if (baseAttack_ != 0) {
-        output.writeInt32(9, baseAttack_);
+        output.writeInt32(10, baseAttack_);
       }
-      if (defenseRate_ != 0F) {
-        output.writeFloat(10, defenseRate_);
+      if (java.lang.Float.floatToRawIntBits(defenseRate_) != 0) {
+        output.writeFloat(11, defenseRate_);
       }
-      if (criticalRate_ != 0F) {
-        output.writeFloat(11, criticalRate_);
+      if (java.lang.Float.floatToRawIntBits(criticalRate_) != 0) {
+        output.writeFloat(12, criticalRate_);
       }
-      if (criticalDmgRate_ != 0F) {
-        output.writeFloat(12, criticalDmgRate_);
+      if (java.lang.Float.floatToRawIntBits(criticalDmgRate_) != 0) {
+        output.writeFloat(13, criticalDmgRate_);
       }
-      if (dodgeRate_ != 0F) {
-        output.writeFloat(13, dodgeRate_);
+      if (java.lang.Float.floatToRawIntBits(dodgeRate_) != 0) {
+        output.writeFloat(14, dodgeRate_);
       }
-      if (moveSpeed_ != 0F) {
-        output.writeFloat(14, moveSpeed_);
+      if (java.lang.Float.floatToRawIntBits(moveSpeed_) != 0) {
+        output.writeFloat(15, moveSpeed_);
       }
       if (extraEnergyGain_ != 0) {
-        output.writeInt32(15, extraEnergyGain_);
+        output.writeInt32(16, extraEnergyGain_);
       }
-      if (beatTolerance_ != 0F) {
-        output.writeFloat(16, beatTolerance_);
+      if (java.lang.Float.floatToRawIntBits(beatTolerance_) != 0) {
+        output.writeFloat(17, beatTolerance_);
       }
       if (luckyRate_ != 0) {
-        output.writeInt32(17, luckyRate_);
+        output.writeInt32(18, luckyRate_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -721,69 +670,73 @@ public final class HeroCfg {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, iD_);
       }
-      if (!getNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
       }
-      if (!getPrefabBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(prefab_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, prefab_);
       }
-      if (speed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(4, speed_);
       }
-      if (dashDistance_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(dashDistance_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(5, dashDistance_);
       }
-      if (attackRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(attackRadius_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(6, attackRadius_);
       }
-      if (interactRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(interactRadius_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(7, interactRadius_);
       }
+      if (java.lang.Float.floatToRawIntBits(followRadius_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(8, followRadius_);
+      }
       if (maxHp_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(8, maxHp_);
+          .computeInt32Size(9, maxHp_);
       }
       if (baseAttack_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(9, baseAttack_);
+          .computeInt32Size(10, baseAttack_);
       }
-      if (defenseRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(defenseRate_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(10, defenseRate_);
+          .computeFloatSize(11, defenseRate_);
       }
-      if (criticalRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(criticalRate_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(11, criticalRate_);
+          .computeFloatSize(12, criticalRate_);
       }
-      if (criticalDmgRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(criticalDmgRate_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(12, criticalDmgRate_);
+          .computeFloatSize(13, criticalDmgRate_);
       }
-      if (dodgeRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(dodgeRate_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(13, dodgeRate_);
+          .computeFloatSize(14, dodgeRate_);
       }
-      if (moveSpeed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(moveSpeed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(14, moveSpeed_);
+          .computeFloatSize(15, moveSpeed_);
       }
       if (extraEnergyGain_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(15, extraEnergyGain_);
+          .computeInt32Size(16, extraEnergyGain_);
       }
-      if (beatTolerance_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(beatTolerance_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(16, beatTolerance_);
+          .computeFloatSize(17, beatTolerance_);
       }
       if (luckyRate_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(17, luckyRate_);
+          .computeInt32Size(18, luckyRate_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -798,63 +751,55 @@ public final class HeroCfg {
       }
       com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg other = (com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg) obj;
 
-      boolean result = true;
-      result = result && (getID()
-          == other.getID());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && getPrefab()
-          .equals(other.getPrefab());
-      result = result && (
-          java.lang.Float.floatToIntBits(getSpeed())
-          == java.lang.Float.floatToIntBits(
-              other.getSpeed()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getDashDistance())
-          == java.lang.Float.floatToIntBits(
-              other.getDashDistance()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getAttackRadius())
-          == java.lang.Float.floatToIntBits(
-              other.getAttackRadius()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getInteractRadius())
-          == java.lang.Float.floatToIntBits(
-              other.getInteractRadius()));
-      result = result && (getMaxHp()
-          == other.getMaxHp());
-      result = result && (getBaseAttack()
-          == other.getBaseAttack());
-      result = result && (
-          java.lang.Float.floatToIntBits(getDefenseRate())
-          == java.lang.Float.floatToIntBits(
-              other.getDefenseRate()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getCriticalRate())
-          == java.lang.Float.floatToIntBits(
-              other.getCriticalRate()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getCriticalDmgRate())
-          == java.lang.Float.floatToIntBits(
-              other.getCriticalDmgRate()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getDodgeRate())
-          == java.lang.Float.floatToIntBits(
-              other.getDodgeRate()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getMoveSpeed())
-          == java.lang.Float.floatToIntBits(
-              other.getMoveSpeed()));
-      result = result && (getExtraEnergyGain()
-          == other.getExtraEnergyGain());
-      result = result && (
-          java.lang.Float.floatToIntBits(getBeatTolerance())
-          == java.lang.Float.floatToIntBits(
-              other.getBeatTolerance()));
-      result = result && (getLuckyRate()
-          == other.getLuckyRate());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getID()
+          != other.getID()) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!getPrefab()
+          .equals(other.getPrefab())) return false;
+      if (java.lang.Float.floatToIntBits(getSpeed())
+          != java.lang.Float.floatToIntBits(
+              other.getSpeed())) return false;
+      if (java.lang.Float.floatToIntBits(getDashDistance())
+          != java.lang.Float.floatToIntBits(
+              other.getDashDistance())) return false;
+      if (java.lang.Float.floatToIntBits(getAttackRadius())
+          != java.lang.Float.floatToIntBits(
+              other.getAttackRadius())) return false;
+      if (java.lang.Float.floatToIntBits(getInteractRadius())
+          != java.lang.Float.floatToIntBits(
+              other.getInteractRadius())) return false;
+      if (java.lang.Float.floatToIntBits(getFollowRadius())
+          != java.lang.Float.floatToIntBits(
+              other.getFollowRadius())) return false;
+      if (getMaxHp()
+          != other.getMaxHp()) return false;
+      if (getBaseAttack()
+          != other.getBaseAttack()) return false;
+      if (java.lang.Float.floatToIntBits(getDefenseRate())
+          != java.lang.Float.floatToIntBits(
+              other.getDefenseRate())) return false;
+      if (java.lang.Float.floatToIntBits(getCriticalRate())
+          != java.lang.Float.floatToIntBits(
+              other.getCriticalRate())) return false;
+      if (java.lang.Float.floatToIntBits(getCriticalDmgRate())
+          != java.lang.Float.floatToIntBits(
+              other.getCriticalDmgRate())) return false;
+      if (java.lang.Float.floatToIntBits(getDodgeRate())
+          != java.lang.Float.floatToIntBits(
+              other.getDodgeRate())) return false;
+      if (java.lang.Float.floatToIntBits(getMoveSpeed())
+          != java.lang.Float.floatToIntBits(
+              other.getMoveSpeed())) return false;
+      if (getExtraEnergyGain()
+          != other.getExtraEnergyGain()) return false;
+      if (java.lang.Float.floatToIntBits(getBeatTolerance())
+          != java.lang.Float.floatToIntBits(
+              other.getBeatTolerance())) return false;
+      if (getLuckyRate()
+          != other.getLuckyRate()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -882,6 +827,9 @@ public final class HeroCfg {
       hash = (37 * hash) + INTERACTRADIUS_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getInteractRadius());
+      hash = (37 * hash) + FOLLOWRADIUS_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getFollowRadius());
       hash = (37 * hash) + MAXHP_FIELD_NUMBER;
       hash = (53 * hash) + getMaxHp();
       hash = (37 * hash) + BASEATTACK_FIELD_NUMBER;
@@ -908,7 +856,7 @@ public final class HeroCfg {
           getBeatTolerance());
       hash = (37 * hash) + LUCKYRATE_FIELD_NUMBER;
       hash = (53 * hash) + getLuckyRate();
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -957,11 +905,13 @@ public final class HeroCfg {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1025,56 +975,36 @@ public final class HeroCfg {
 
       // Construct using com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         iD_ = 0;
-
         name_ = "";
-
         prefab_ = "";
-
         speed_ = 0F;
-
         dashDistance_ = 0F;
-
         attackRadius_ = 0F;
-
         interactRadius_ = 0F;
-
+        followRadius_ = 0F;
         maxHp_ = 0;
-
         baseAttack_ = 0;
-
         defenseRate_ = 0F;
-
         criticalRate_ = 0F;
-
         criticalDmgRate_ = 0F;
-
         dodgeRate_ = 0F;
-
         moveSpeed_ = 0F;
-
         extraEnergyGain_ = 0;
-
         beatTolerance_ = 0F;
-
         luckyRate_ = 0;
-
         return this;
       }
 
@@ -1101,58 +1031,100 @@ public final class HeroCfg {
       @java.lang.Override
       public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg buildPartial() {
         com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg result = new com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg(this);
-        result.iD_ = iD_;
-        result.name_ = name_;
-        result.prefab_ = prefab_;
-        result.speed_ = speed_;
-        result.dashDistance_ = dashDistance_;
-        result.attackRadius_ = attackRadius_;
-        result.interactRadius_ = interactRadius_;
-        result.maxHp_ = maxHp_;
-        result.baseAttack_ = baseAttack_;
-        result.defenseRate_ = defenseRate_;
-        result.criticalRate_ = criticalRate_;
-        result.criticalDmgRate_ = criticalDmgRate_;
-        result.dodgeRate_ = dodgeRate_;
-        result.moveSpeed_ = moveSpeed_;
-        result.extraEnergyGain_ = extraEnergyGain_;
-        result.beatTolerance_ = beatTolerance_;
-        result.luckyRate_ = luckyRate_;
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
+      private void buildPartial0(com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.iD_ = iD_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.name_ = name_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.prefab_ = prefab_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.speed_ = speed_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.dashDistance_ = dashDistance_;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.attackRadius_ = attackRadius_;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.interactRadius_ = interactRadius_;
+        }
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.followRadius_ = followRadius_;
+        }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.maxHp_ = maxHp_;
+        }
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          result.baseAttack_ = baseAttack_;
+        }
+        if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.defenseRate_ = defenseRate_;
+        }
+        if (((from_bitField0_ & 0x00000800) != 0)) {
+          result.criticalRate_ = criticalRate_;
+        }
+        if (((from_bitField0_ & 0x00001000) != 0)) {
+          result.criticalDmgRate_ = criticalDmgRate_;
+        }
+        if (((from_bitField0_ & 0x00002000) != 0)) {
+          result.dodgeRate_ = dodgeRate_;
+        }
+        if (((from_bitField0_ & 0x00004000) != 0)) {
+          result.moveSpeed_ = moveSpeed_;
+        }
+        if (((from_bitField0_ & 0x00008000) != 0)) {
+          result.extraEnergyGain_ = extraEnergyGain_;
+        }
+        if (((from_bitField0_ & 0x00010000) != 0)) {
+          result.beatTolerance_ = beatTolerance_;
+        }
+        if (((from_bitField0_ & 0x00020000) != 0)) {
+          result.luckyRate_ = luckyRate_;
+        }
+      }
+
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1171,10 +1143,12 @@ public final class HeroCfg {
         }
         if (!other.getName().isEmpty()) {
           name_ = other.name_;
+          bitField0_ |= 0x00000002;
           onChanged();
         }
         if (!other.getPrefab().isEmpty()) {
           prefab_ = other.prefab_;
+          bitField0_ |= 0x00000004;
           onChanged();
         }
         if (other.getSpeed() != 0F) {
@@ -1188,6 +1162,9 @@ public final class HeroCfg {
         }
         if (other.getInteractRadius() != 0F) {
           setInteractRadius(other.getInteractRadius());
+        }
+        if (other.getFollowRadius() != 0F) {
+          setFollowRadius(other.getFollowRadius());
         }
         if (other.getMaxHp() != 0) {
           setMaxHp(other.getMaxHp());
@@ -1219,7 +1196,7 @@ public final class HeroCfg {
         if (other.getLuckyRate() != 0) {
           setLuckyRate(other.getLuckyRate());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -1234,19 +1211,123 @@ public final class HeroCfg {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                iD_ = input.readUInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                name_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 26: {
+                prefab_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 26
+              case 37: {
+                speed_ = input.readFloat();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 37
+              case 45: {
+                dashDistance_ = input.readFloat();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 45
+              case 53: {
+                attackRadius_ = input.readFloat();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 53
+              case 61: {
+                interactRadius_ = input.readFloat();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 61
+              case 69: {
+                followRadius_ = input.readFloat();
+                bitField0_ |= 0x00000080;
+                break;
+              } // case 69
+              case 72: {
+                maxHp_ = input.readInt32();
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 72
+              case 80: {
+                baseAttack_ = input.readInt32();
+                bitField0_ |= 0x00000200;
+                break;
+              } // case 80
+              case 93: {
+                defenseRate_ = input.readFloat();
+                bitField0_ |= 0x00000400;
+                break;
+              } // case 93
+              case 101: {
+                criticalRate_ = input.readFloat();
+                bitField0_ |= 0x00000800;
+                break;
+              } // case 101
+              case 109: {
+                criticalDmgRate_ = input.readFloat();
+                bitField0_ |= 0x00001000;
+                break;
+              } // case 109
+              case 117: {
+                dodgeRate_ = input.readFloat();
+                bitField0_ |= 0x00002000;
+                break;
+              } // case 117
+              case 125: {
+                moveSpeed_ = input.readFloat();
+                bitField0_ |= 0x00004000;
+                break;
+              } // case 125
+              case 128: {
+                extraEnergyGain_ = input.readInt32();
+                bitField0_ |= 0x00008000;
+                break;
+              } // case 128
+              case 141: {
+                beatTolerance_ = input.readFloat();
+                bitField0_ |= 0x00010000;
+                break;
+              } // case 141
+              case 144: {
+                luckyRate_ = input.readInt32();
+                bitField0_ |= 0x00020000;
+                break;
+              } // case 144
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
+      private int bitField0_;
 
       private int iD_ ;
       /**
@@ -1255,7 +1336,9 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>uint32 ID = 1;</code>
+       * @return The iD.
        */
+      @java.lang.Override
       public int getID() {
         return iD_;
       }
@@ -1265,10 +1348,13 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>uint32 ID = 1;</code>
+       * @param value The iD to set.
+       * @return This builder for chaining.
        */
       public Builder setID(int value) {
-        
+
         iD_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -1278,9 +1364,10 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>uint32 ID = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearID() {
-        
+        bitField0_ = (bitField0_ & ~0x00000001);
         iD_ = 0;
         onChanged();
         return this;
@@ -1293,6 +1380,7 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -1312,6 +1400,7 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -1332,14 +1421,14 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         name_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -1349,10 +1438,11 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
-        
         name_ = getDefaultInstance().getName();
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -1362,15 +1452,15 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         name_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -1382,6 +1472,7 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Prefab = 3;</code>
+       * @return The prefab.
        */
       public java.lang.String getPrefab() {
         java.lang.Object ref = prefab_;
@@ -1401,6 +1492,7 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Prefab = 3;</code>
+       * @return The bytes for prefab.
        */
       public com.google.protobuf.ByteString
           getPrefabBytes() {
@@ -1421,14 +1513,14 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Prefab = 3;</code>
+       * @param value The prefab to set.
+       * @return This builder for chaining.
        */
       public Builder setPrefab(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         prefab_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -1438,10 +1530,11 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Prefab = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPrefab() {
-        
         prefab_ = getDefaultInstance().getPrefab();
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
@@ -1451,15 +1544,15 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>string Prefab = 3;</code>
+       * @param value The bytes for prefab to set.
+       * @return This builder for chaining.
        */
       public Builder setPrefabBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         prefab_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -1471,7 +1564,9 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float Speed = 4;</code>
+       * @return The speed.
        */
+      @java.lang.Override
       public float getSpeed() {
         return speed_;
       }
@@ -1481,10 +1576,13 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float Speed = 4;</code>
+       * @param value The speed to set.
+       * @return This builder for chaining.
        */
       public Builder setSpeed(float value) {
-        
+
         speed_ = value;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -1494,9 +1592,10 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float Speed = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSpeed() {
-        
+        bitField0_ = (bitField0_ & ~0x00000008);
         speed_ = 0F;
         onChanged();
         return this;
@@ -1509,7 +1608,9 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float DashDistance = 5;</code>
+       * @return The dashDistance.
        */
+      @java.lang.Override
       public float getDashDistance() {
         return dashDistance_;
       }
@@ -1519,10 +1620,13 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float DashDistance = 5;</code>
+       * @param value The dashDistance to set.
+       * @return This builder for chaining.
        */
       public Builder setDashDistance(float value) {
-        
+
         dashDistance_ = value;
+        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
@@ -1532,9 +1636,10 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float DashDistance = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDashDistance() {
-        
+        bitField0_ = (bitField0_ & ~0x00000010);
         dashDistance_ = 0F;
         onChanged();
         return this;
@@ -1547,7 +1652,9 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float AttackRadius = 6;</code>
+       * @return The attackRadius.
        */
+      @java.lang.Override
       public float getAttackRadius() {
         return attackRadius_;
       }
@@ -1557,10 +1664,13 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float AttackRadius = 6;</code>
+       * @param value The attackRadius to set.
+       * @return This builder for chaining.
        */
       public Builder setAttackRadius(float value) {
-        
+
         attackRadius_ = value;
+        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -1570,9 +1680,10 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float AttackRadius = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAttackRadius() {
-        
+        bitField0_ = (bitField0_ & ~0x00000020);
         attackRadius_ = 0F;
         onChanged();
         return this;
@@ -1585,7 +1696,9 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float InteractRadius = 7;</code>
+       * @return The interactRadius.
        */
+      @java.lang.Override
       public float getInteractRadius() {
         return interactRadius_;
       }
@@ -1595,10 +1708,13 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float InteractRadius = 7;</code>
+       * @param value The interactRadius to set.
+       * @return This builder for chaining.
        */
       public Builder setInteractRadius(float value) {
-        
+
         interactRadius_ = value;
+        bitField0_ |= 0x00000040;
         onChanged();
         return this;
       }
@@ -1608,10 +1724,55 @@ public final class HeroCfg {
        * </pre>
        *
        * <code>float InteractRadius = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearInteractRadius() {
-        
+        bitField0_ = (bitField0_ & ~0x00000040);
         interactRadius_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float followRadius_ ;
+      /**
+       * <pre>
+       ** 跟随半径 
+       * </pre>
+       *
+       * <code>float FollowRadius = 8;</code>
+       * @return The followRadius.
+       */
+      @java.lang.Override
+      public float getFollowRadius() {
+        return followRadius_;
+      }
+      /**
+       * <pre>
+       ** 跟随半径 
+       * </pre>
+       *
+       * <code>float FollowRadius = 8;</code>
+       * @param value The followRadius to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFollowRadius(float value) {
+
+        followRadius_ = value;
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       ** 跟随半径 
+       * </pre>
+       *
+       * <code>float FollowRadius = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFollowRadius() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        followRadius_ = 0F;
         onChanged();
         return this;
       }
@@ -1622,8 +1783,10 @@ public final class HeroCfg {
        ** 最大生命 
        * </pre>
        *
-       * <code>int32 MaxHp = 8;</code>
+       * <code>int32 MaxHp = 9;</code>
+       * @return The maxHp.
        */
+      @java.lang.Override
       public int getMaxHp() {
         return maxHp_;
       }
@@ -1632,11 +1795,14 @@ public final class HeroCfg {
        ** 最大生命 
        * </pre>
        *
-       * <code>int32 MaxHp = 8;</code>
+       * <code>int32 MaxHp = 9;</code>
+       * @param value The maxHp to set.
+       * @return This builder for chaining.
        */
       public Builder setMaxHp(int value) {
-        
+
         maxHp_ = value;
+        bitField0_ |= 0x00000100;
         onChanged();
         return this;
       }
@@ -1645,10 +1811,11 @@ public final class HeroCfg {
        ** 最大生命 
        * </pre>
        *
-       * <code>int32 MaxHp = 8;</code>
+       * <code>int32 MaxHp = 9;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaxHp() {
-        
+        bitField0_ = (bitField0_ & ~0x00000100);
         maxHp_ = 0;
         onChanged();
         return this;
@@ -1660,8 +1827,10 @@ public final class HeroCfg {
        ** 基础攻击值 
        * </pre>
        *
-       * <code>int32 BaseAttack = 9;</code>
+       * <code>int32 BaseAttack = 10;</code>
+       * @return The baseAttack.
        */
+      @java.lang.Override
       public int getBaseAttack() {
         return baseAttack_;
       }
@@ -1670,11 +1839,14 @@ public final class HeroCfg {
        ** 基础攻击值 
        * </pre>
        *
-       * <code>int32 BaseAttack = 9;</code>
+       * <code>int32 BaseAttack = 10;</code>
+       * @param value The baseAttack to set.
+       * @return This builder for chaining.
        */
       public Builder setBaseAttack(int value) {
-        
+
         baseAttack_ = value;
+        bitField0_ |= 0x00000200;
         onChanged();
         return this;
       }
@@ -1683,10 +1855,11 @@ public final class HeroCfg {
        ** 基础攻击值 
        * </pre>
        *
-       * <code>int32 BaseAttack = 9;</code>
+       * <code>int32 BaseAttack = 10;</code>
+       * @return This builder for chaining.
        */
       public Builder clearBaseAttack() {
-        
+        bitField0_ = (bitField0_ & ~0x00000200);
         baseAttack_ = 0;
         onChanged();
         return this;
@@ -1698,8 +1871,10 @@ public final class HeroCfg {
        ** 伤害减免系数 
        * </pre>
        *
-       * <code>float DefenseRate = 10;</code>
+       * <code>float DefenseRate = 11;</code>
+       * @return The defenseRate.
        */
+      @java.lang.Override
       public float getDefenseRate() {
         return defenseRate_;
       }
@@ -1708,11 +1883,14 @@ public final class HeroCfg {
        ** 伤害减免系数 
        * </pre>
        *
-       * <code>float DefenseRate = 10;</code>
+       * <code>float DefenseRate = 11;</code>
+       * @param value The defenseRate to set.
+       * @return This builder for chaining.
        */
       public Builder setDefenseRate(float value) {
-        
+
         defenseRate_ = value;
+        bitField0_ |= 0x00000400;
         onChanged();
         return this;
       }
@@ -1721,10 +1899,11 @@ public final class HeroCfg {
        ** 伤害减免系数 
        * </pre>
        *
-       * <code>float DefenseRate = 10;</code>
+       * <code>float DefenseRate = 11;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDefenseRate() {
-        
+        bitField0_ = (bitField0_ & ~0x00000400);
         defenseRate_ = 0F;
         onChanged();
         return this;
@@ -1736,8 +1915,10 @@ public final class HeroCfg {
        ** 暴击率 
        * </pre>
        *
-       * <code>float CriticalRate = 11;</code>
+       * <code>float CriticalRate = 12;</code>
+       * @return The criticalRate.
        */
+      @java.lang.Override
       public float getCriticalRate() {
         return criticalRate_;
       }
@@ -1746,11 +1927,14 @@ public final class HeroCfg {
        ** 暴击率 
        * </pre>
        *
-       * <code>float CriticalRate = 11;</code>
+       * <code>float CriticalRate = 12;</code>
+       * @param value The criticalRate to set.
+       * @return This builder for chaining.
        */
       public Builder setCriticalRate(float value) {
-        
+
         criticalRate_ = value;
+        bitField0_ |= 0x00000800;
         onChanged();
         return this;
       }
@@ -1759,10 +1943,11 @@ public final class HeroCfg {
        ** 暴击率 
        * </pre>
        *
-       * <code>float CriticalRate = 11;</code>
+       * <code>float CriticalRate = 12;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCriticalRate() {
-        
+        bitField0_ = (bitField0_ & ~0x00000800);
         criticalRate_ = 0F;
         onChanged();
         return this;
@@ -1774,8 +1959,10 @@ public final class HeroCfg {
        ** 暴击伤害 
        * </pre>
        *
-       * <code>float CriticalDmgRate = 12;</code>
+       * <code>float CriticalDmgRate = 13;</code>
+       * @return The criticalDmgRate.
        */
+      @java.lang.Override
       public float getCriticalDmgRate() {
         return criticalDmgRate_;
       }
@@ -1784,11 +1971,14 @@ public final class HeroCfg {
        ** 暴击伤害 
        * </pre>
        *
-       * <code>float CriticalDmgRate = 12;</code>
+       * <code>float CriticalDmgRate = 13;</code>
+       * @param value The criticalDmgRate to set.
+       * @return This builder for chaining.
        */
       public Builder setCriticalDmgRate(float value) {
-        
+
         criticalDmgRate_ = value;
+        bitField0_ |= 0x00001000;
         onChanged();
         return this;
       }
@@ -1797,10 +1987,11 @@ public final class HeroCfg {
        ** 暴击伤害 
        * </pre>
        *
-       * <code>float CriticalDmgRate = 12;</code>
+       * <code>float CriticalDmgRate = 13;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCriticalDmgRate() {
-        
+        bitField0_ = (bitField0_ & ~0x00001000);
         criticalDmgRate_ = 0F;
         onChanged();
         return this;
@@ -1812,8 +2003,10 @@ public final class HeroCfg {
        ** 闪避率 
        * </pre>
        *
-       * <code>float DodgeRate = 13;</code>
+       * <code>float DodgeRate = 14;</code>
+       * @return The dodgeRate.
        */
+      @java.lang.Override
       public float getDodgeRate() {
         return dodgeRate_;
       }
@@ -1822,11 +2015,14 @@ public final class HeroCfg {
        ** 闪避率 
        * </pre>
        *
-       * <code>float DodgeRate = 13;</code>
+       * <code>float DodgeRate = 14;</code>
+       * @param value The dodgeRate to set.
+       * @return This builder for chaining.
        */
       public Builder setDodgeRate(float value) {
-        
+
         dodgeRate_ = value;
+        bitField0_ |= 0x00002000;
         onChanged();
         return this;
       }
@@ -1835,10 +2031,11 @@ public final class HeroCfg {
        ** 闪避率 
        * </pre>
        *
-       * <code>float DodgeRate = 13;</code>
+       * <code>float DodgeRate = 14;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDodgeRate() {
-        
+        bitField0_ = (bitField0_ & ~0x00002000);
         dodgeRate_ = 0F;
         onChanged();
         return this;
@@ -1850,8 +2047,10 @@ public final class HeroCfg {
        ** 移动速度 
        * </pre>
        *
-       * <code>float MoveSpeed = 14;</code>
+       * <code>float MoveSpeed = 15;</code>
+       * @return The moveSpeed.
        */
+      @java.lang.Override
       public float getMoveSpeed() {
         return moveSpeed_;
       }
@@ -1860,11 +2059,14 @@ public final class HeroCfg {
        ** 移动速度 
        * </pre>
        *
-       * <code>float MoveSpeed = 14;</code>
+       * <code>float MoveSpeed = 15;</code>
+       * @param value The moveSpeed to set.
+       * @return This builder for chaining.
        */
       public Builder setMoveSpeed(float value) {
-        
+
         moveSpeed_ = value;
+        bitField0_ |= 0x00004000;
         onChanged();
         return this;
       }
@@ -1873,10 +2075,11 @@ public final class HeroCfg {
        ** 移动速度 
        * </pre>
        *
-       * <code>float MoveSpeed = 14;</code>
+       * <code>float MoveSpeed = 15;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMoveSpeed() {
-        
+        bitField0_ = (bitField0_ & ~0x00004000);
         moveSpeed_ = 0F;
         onChanged();
         return this;
@@ -1888,8 +2091,10 @@ public final class HeroCfg {
        ** 额外能量获取 
        * </pre>
        *
-       * <code>int32 ExtraEnergyGain = 15;</code>
+       * <code>int32 ExtraEnergyGain = 16;</code>
+       * @return The extraEnergyGain.
        */
+      @java.lang.Override
       public int getExtraEnergyGain() {
         return extraEnergyGain_;
       }
@@ -1898,11 +2103,14 @@ public final class HeroCfg {
        ** 额外能量获取 
        * </pre>
        *
-       * <code>int32 ExtraEnergyGain = 15;</code>
+       * <code>int32 ExtraEnergyGain = 16;</code>
+       * @param value The extraEnergyGain to set.
+       * @return This builder for chaining.
        */
       public Builder setExtraEnergyGain(int value) {
-        
+
         extraEnergyGain_ = value;
+        bitField0_ |= 0x00008000;
         onChanged();
         return this;
       }
@@ -1911,10 +2119,11 @@ public final class HeroCfg {
        ** 额外能量获取 
        * </pre>
        *
-       * <code>int32 ExtraEnergyGain = 15;</code>
+       * <code>int32 ExtraEnergyGain = 16;</code>
+       * @return This builder for chaining.
        */
       public Builder clearExtraEnergyGain() {
-        
+        bitField0_ = (bitField0_ & ~0x00008000);
         extraEnergyGain_ = 0;
         onChanged();
         return this;
@@ -1926,8 +2135,10 @@ public final class HeroCfg {
        ** 节拍容差 
        * </pre>
        *
-       * <code>float BeatTolerance = 16;</code>
+       * <code>float BeatTolerance = 17;</code>
+       * @return The beatTolerance.
        */
+      @java.lang.Override
       public float getBeatTolerance() {
         return beatTolerance_;
       }
@@ -1936,11 +2147,14 @@ public final class HeroCfg {
        ** 节拍容差 
        * </pre>
        *
-       * <code>float BeatTolerance = 16;</code>
+       * <code>float BeatTolerance = 17;</code>
+       * @param value The beatTolerance to set.
+       * @return This builder for chaining.
        */
       public Builder setBeatTolerance(float value) {
-        
+
         beatTolerance_ = value;
+        bitField0_ |= 0x00010000;
         onChanged();
         return this;
       }
@@ -1949,10 +2163,11 @@ public final class HeroCfg {
        ** 节拍容差 
        * </pre>
        *
-       * <code>float BeatTolerance = 16;</code>
+       * <code>float BeatTolerance = 17;</code>
+       * @return This builder for chaining.
        */
       public Builder clearBeatTolerance() {
-        
+        bitField0_ = (bitField0_ & ~0x00010000);
         beatTolerance_ = 0F;
         onChanged();
         return this;
@@ -1964,8 +2179,10 @@ public final class HeroCfg {
        ** 幸运值 
        * </pre>
        *
-       * <code>int32 LuckyRate = 17;</code>
+       * <code>int32 LuckyRate = 18;</code>
+       * @return The luckyRate.
        */
+      @java.lang.Override
       public int getLuckyRate() {
         return luckyRate_;
       }
@@ -1974,11 +2191,14 @@ public final class HeroCfg {
        ** 幸运值 
        * </pre>
        *
-       * <code>int32 LuckyRate = 17;</code>
+       * <code>int32 LuckyRate = 18;</code>
+       * @param value The luckyRate to set.
+       * @return This builder for chaining.
        */
       public Builder setLuckyRate(int value) {
-        
+
         luckyRate_ = value;
+        bitField0_ |= 0x00020000;
         onChanged();
         return this;
       }
@@ -1987,10 +2207,11 @@ public final class HeroCfg {
        ** 幸运值 
        * </pre>
        *
-       * <code>int32 LuckyRate = 17;</code>
+       * <code>int32 LuckyRate = 18;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLuckyRate() {
-        
+        bitField0_ = (bitField0_ & ~0x00020000);
         luckyRate_ = 0;
         onChanged();
         return this;
@@ -1998,7 +2219,7 @@ public final class HeroCfg {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -2028,7 +2249,18 @@ public final class HeroCfg {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new HeroBaseCfg(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -2075,21 +2307,21 @@ public final class HeroCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
-
-    com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
+    /* nullable */
+com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
         int key,
-        com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue);
+        /* nullable */
+com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue);
     /**
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
-
     com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrThrow(
         int key);
   }
   /**
    * Protobuf type {@code DongciDaci.HeroCfg_Data}
    */
-  public  static final class HeroCfg_Data extends
+  public static final class HeroCfg_Data extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:DongciDaci.HeroCfg_Data)
       HeroCfg_DataOrBuilder {
@@ -2102,61 +2334,12 @@ public final class HeroCfg {
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new HeroCfg_Data();
     }
-    private HeroCfg_Data(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                heroBaseCfgItems_ = com.google.protobuf.MapField.newMapField(
-                    HeroBaseCfgItemsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000001;
-              }
-              com.google.protobuf.MapEntry<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg>
-              heroBaseCfgItems__ = input.readMessage(
-                  HeroBaseCfgItemsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-              heroBaseCfgItems_.getMutableMap().put(
-                  heroBaseCfgItems__.getKey(), heroBaseCfgItems__.getValue());
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
+
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.trinitigames.server.conf.auto.HeroCfg.internal_static_DongciDaci_HeroCfg_Data_descriptor;
@@ -2194,6 +2377,7 @@ public final class HeroCfg {
                   com.google.protobuf.WireFormat.FieldType.MESSAGE,
                   com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg.getDefaultInstance());
     }
+    @SuppressWarnings("serial")
     private com.google.protobuf.MapField<
         java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> heroBaseCfgItems_;
     private com.google.protobuf.MapField<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg>
@@ -2204,22 +2388,22 @@ public final class HeroCfg {
       }
       return heroBaseCfgItems_;
     }
-
     public int getHeroBaseCfgItemsCount() {
       return internalGetHeroBaseCfgItems().getMap().size();
     }
     /**
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
-
+    @java.lang.Override
     public boolean containsHeroBaseCfgItems(
         int key) {
-      
+
       return internalGetHeroBaseCfgItems().getMap().containsKey(key);
     }
     /**
      * Use {@link #getHeroBaseCfgItemsMap()} instead.
      */
+    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> getHeroBaseCfgItems() {
       return getHeroBaseCfgItemsMap();
@@ -2227,18 +2411,20 @@ public final class HeroCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
-
+    @java.lang.Override
     public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> getHeroBaseCfgItemsMap() {
       return internalGetHeroBaseCfgItems().getMap();
     }
     /**
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
-
-    public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
+    @java.lang.Override
+    public /* nullable */
+com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
         int key,
-        com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
-      
+        /* nullable */
+com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
+
       java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> map =
           internalGetHeroBaseCfgItems().getMap();
       return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -2246,10 +2432,10 @@ public final class HeroCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
-
+    @java.lang.Override
     public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrThrow(
         int key) {
-      
+
       java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> map =
           internalGetHeroBaseCfgItems().getMap();
       if (!map.containsKey(key)) {
@@ -2278,7 +2464,7 @@ public final class HeroCfg {
           internalGetHeroBaseCfgItems(),
           HeroBaseCfgItemsDefaultEntryHolder.defaultEntry,
           1);
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -2297,7 +2483,7 @@ public final class HeroCfg {
         size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(1, heroBaseCfgItems__);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -2312,11 +2498,10 @@ public final class HeroCfg {
       }
       com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data other = (com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data) obj;
 
-      boolean result = true;
-      result = result && internalGetHeroBaseCfgItems().equals(
-          other.internalGetHeroBaseCfgItems());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!internalGetHeroBaseCfgItems().equals(
+          other.internalGetHeroBaseCfgItems())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2330,7 +2515,7 @@ public final class HeroCfg {
         hash = (37 * hash) + HEROBASECFG_ITEMS_FIELD_NUMBER;
         hash = (53 * hash) + internalGetHeroBaseCfgItems().hashCode();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -2379,11 +2564,13 @@ public final class HeroCfg {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2469,22 +2656,18 @@ public final class HeroCfg {
 
       // Construct using com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         internalGetMutableHeroBaseCfgItems().clear();
         return this;
       }
@@ -2512,44 +2695,50 @@ public final class HeroCfg {
       @java.lang.Override
       public com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data buildPartial() {
         com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data result = new com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data(this);
-        int from_bitField0_ = bitField0_;
-        result.heroBaseCfgItems_ = internalGetHeroBaseCfgItems();
-        result.heroBaseCfgItems_.makeImmutable();
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
+      private void buildPartial0(com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.heroBaseCfgItems_ = internalGetHeroBaseCfgItems();
+          result.heroBaseCfgItems_.makeImmutable();
+        }
+      }
+
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -2565,7 +2754,8 @@ public final class HeroCfg {
         if (other == com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data.getDefaultInstance()) return this;
         internalGetMutableHeroBaseCfgItems().mergeFrom(
             other.internalGetHeroBaseCfgItems());
-        this.mergeUnknownFields(other.unknownFields);
+        bitField0_ |= 0x00000001;
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -2580,17 +2770,39 @@ public final class HeroCfg {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                com.google.protobuf.MapEntry<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg>
+                heroBaseCfgItems__ = input.readMessage(
+                    HeroBaseCfgItemsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                internalGetMutableHeroBaseCfgItems().getMutableMap().put(
+                    heroBaseCfgItems__.getKey(), heroBaseCfgItems__.getValue());
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.trinitigames.server.conf.auto.HeroCfg.HeroCfg_Data) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -2598,7 +2810,7 @@ public final class HeroCfg {
       private com.google.protobuf.MapField<
           java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> heroBaseCfgItems_;
       private com.google.protobuf.MapField<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg>
-      internalGetHeroBaseCfgItems() {
+          internalGetHeroBaseCfgItems() {
         if (heroBaseCfgItems_ == null) {
           return com.google.protobuf.MapField.emptyMapField(
               HeroBaseCfgItemsDefaultEntryHolder.defaultEntry);
@@ -2606,8 +2818,7 @@ public final class HeroCfg {
         return heroBaseCfgItems_;
       }
       private com.google.protobuf.MapField<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg>
-      internalGetMutableHeroBaseCfgItems() {
-        onChanged();;
+          internalGetMutableHeroBaseCfgItems() {
         if (heroBaseCfgItems_ == null) {
           heroBaseCfgItems_ = com.google.protobuf.MapField.newMapField(
               HeroBaseCfgItemsDefaultEntryHolder.defaultEntry);
@@ -2615,24 +2826,26 @@ public final class HeroCfg {
         if (!heroBaseCfgItems_.isMutable()) {
           heroBaseCfgItems_ = heroBaseCfgItems_.copy();
         }
+        bitField0_ |= 0x00000001;
+        onChanged();
         return heroBaseCfgItems_;
       }
-
       public int getHeroBaseCfgItemsCount() {
         return internalGetHeroBaseCfgItems().getMap().size();
       }
       /**
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
-
+      @java.lang.Override
       public boolean containsHeroBaseCfgItems(
           int key) {
-        
+
         return internalGetHeroBaseCfgItems().getMap().containsKey(key);
       }
       /**
        * Use {@link #getHeroBaseCfgItemsMap()} instead.
        */
+      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> getHeroBaseCfgItems() {
         return getHeroBaseCfgItemsMap();
@@ -2640,18 +2853,20 @@ public final class HeroCfg {
       /**
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
-
+      @java.lang.Override
       public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> getHeroBaseCfgItemsMap() {
         return internalGetHeroBaseCfgItems().getMap();
       }
       /**
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
-
-      public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
+      @java.lang.Override
+      public /* nullable */
+com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
           int key,
-          com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
-        
+          /* nullable */
+com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue) {
+
         java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> map =
             internalGetHeroBaseCfgItems().getMap();
         return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -2659,10 +2874,10 @@ public final class HeroCfg {
       /**
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
-
+      @java.lang.Override
       public com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrThrow(
           int key) {
-        
+
         java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> map =
             internalGetHeroBaseCfgItems().getMap();
         if (!map.containsKey(key)) {
@@ -2670,8 +2885,8 @@ public final class HeroCfg {
         }
         return map.get(key);
       }
-
       public Builder clearHeroBaseCfgItems() {
+        bitField0_ = (bitField0_ & ~0x00000001);
         internalGetMutableHeroBaseCfgItems().getMutableMap()
             .clear();
         return this;
@@ -2679,10 +2894,9 @@ public final class HeroCfg {
       /**
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
-
       public Builder removeHeroBaseCfgItems(
           int key) {
-        
+
         internalGetMutableHeroBaseCfgItems().getMutableMap()
             .remove(key);
         return this;
@@ -2692,7 +2906,8 @@ public final class HeroCfg {
        */
       @java.lang.Deprecated
       public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg>
-      getMutableHeroBaseCfgItems() {
+          getMutableHeroBaseCfgItems() {
+        bitField0_ |= 0x00000001;
         return internalGetMutableHeroBaseCfgItems().getMutableMap();
       }
       /**
@@ -2701,26 +2916,27 @@ public final class HeroCfg {
       public Builder putHeroBaseCfgItems(
           int key,
           com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg value) {
-        
-        if (value == null) { throw new java.lang.NullPointerException(); }
+
+        if (value == null) { throw new NullPointerException("map value"); }
         internalGetMutableHeroBaseCfgItems().getMutableMap()
             .put(key, value);
+        bitField0_ |= 0x00000001;
         return this;
       }
       /**
        * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
        */
-
       public Builder putAllHeroBaseCfgItems(
           java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg> values) {
         internalGetMutableHeroBaseCfgItems().getMutableMap()
             .putAll(values);
+        bitField0_ |= 0x00000001;
         return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -2750,7 +2966,18 @@ public final class HeroCfg {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new HeroCfg_Data(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -2794,40 +3021,33 @@ public final class HeroCfg {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rHeroCfg.proto\022\nDongciDaci\"\332\002\n\013HeroBase" +
+      "\n\rHeroCfg.proto\022\nDongciDaci\"\360\002\n\013HeroBase" +
       "Cfg\022\n\n\002ID\030\001 \001(\r\022\014\n\004Name\030\002 \001(\t\022\016\n\006Prefab\030" +
       "\003 \001(\t\022\r\n\005Speed\030\004 \001(\002\022\024\n\014DashDistance\030\005 \001" +
       "(\002\022\024\n\014AttackRadius\030\006 \001(\002\022\026\n\016InteractRadi" +
-      "us\030\007 \001(\002\022\r\n\005MaxHp\030\010 \001(\005\022\022\n\nBaseAttack\030\t " +
-      "\001(\005\022\023\n\013DefenseRate\030\n \001(\002\022\024\n\014CriticalRate" +
-      "\030\013 \001(\002\022\027\n\017CriticalDmgRate\030\014 \001(\002\022\021\n\tDodge" +
-      "Rate\030\r \001(\002\022\021\n\tMoveSpeed\030\016 \001(\002\022\027\n\017ExtraEn" +
-      "ergyGain\030\017 \001(\005\022\025\n\rBeatTolerance\030\020 \001(\002\022\021\n" +
-      "\tLuckyRate\030\021 \001(\005\"\253\001\n\014HeroCfg_Data\022I\n\021Her" +
-      "oBaseCfg_items\030\001 \003(\0132..DongciDaci.HeroCf" +
-      "g_Data.HeroBaseCfgItemsEntry\032P\n\025HeroBase" +
-      "CfgItemsEntry\022\013\n\003key\030\001 \001(\r\022&\n\005value\030\002 \001(" +
-      "\0132\027.DongciDaci.HeroBaseCfg:\0028\001B#\n!com.tr" +
-      "initigames.server.conf.autob\006proto3"
+      "us\030\007 \001(\002\022\024\n\014FollowRadius\030\010 \001(\002\022\r\n\005MaxHp\030" +
+      "\t \001(\005\022\022\n\nBaseAttack\030\n \001(\005\022\023\n\013DefenseRate" +
+      "\030\013 \001(\002\022\024\n\014CriticalRate\030\014 \001(\002\022\027\n\017Critical" +
+      "DmgRate\030\r \001(\002\022\021\n\tDodgeRate\030\016 \001(\002\022\021\n\tMove" +
+      "Speed\030\017 \001(\002\022\027\n\017ExtraEnergyGain\030\020 \001(\005\022\025\n\r" +
+      "BeatTolerance\030\021 \001(\002\022\021\n\tLuckyRate\030\022 \001(\005\"\253" +
+      "\001\n\014HeroCfg_Data\022I\n\021HeroBaseCfg_items\030\001 \003" +
+      "(\0132..DongciDaci.HeroCfg_Data.HeroBaseCfg" +
+      "ItemsEntry\032P\n\025HeroBaseCfgItemsEntry\022\013\n\003k" +
+      "ey\030\001 \001(\r\022&\n\005value\030\002 \001(\0132\027.DongciDaci.Her" +
+      "oBaseCfg:\0028\001B#\n!com.trinitigames.server." +
+      "conf.autob\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_DongciDaci_HeroBaseCfg_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_DongciDaci_HeroBaseCfg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DongciDaci_HeroBaseCfg_descriptor,
-        new java.lang.String[] { "ID", "Name", "Prefab", "Speed", "DashDistance", "AttackRadius", "InteractRadius", "MaxHp", "BaseAttack", "DefenseRate", "CriticalRate", "CriticalDmgRate", "DodgeRate", "MoveSpeed", "ExtraEnergyGain", "BeatTolerance", "LuckyRate", });
+        new java.lang.String[] { "ID", "Name", "Prefab", "Speed", "DashDistance", "AttackRadius", "InteractRadius", "FollowRadius", "MaxHp", "BaseAttack", "DefenseRate", "CriticalRate", "CriticalDmgRate", "DodgeRate", "MoveSpeed", "ExtraEnergyGain", "BeatTolerance", "LuckyRate", });
     internal_static_DongciDaci_HeroCfg_Data_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_DongciDaci_HeroCfg_Data_fieldAccessorTable = new

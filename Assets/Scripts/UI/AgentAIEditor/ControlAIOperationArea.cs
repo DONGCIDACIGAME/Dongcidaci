@@ -192,6 +192,10 @@ public  class ControlAIOperationArea : UIControl
         {
             AddPropertyPage<ControlCheckInStatusPropertyPage>("Condition/Ctl_PropertyPage_CheckInStatus", node);
         }
+        else if (node is BTCheckHasTarget)
+        {
+            AddPropertyPage<ControlCheckHasTargetPropertyPage>("Condition/Ctl_PropertyPage_CheckHasTarget", node);
+        }
         #endregion
         #region action
         else if (node is BTWaitTimeNode)
@@ -226,9 +230,9 @@ public  class ControlAIOperationArea : UIControl
         {
             AddPropertyPage<ControlMoveToPositionPropertyPage>("Action/Ctl_PropertyPage_MoveToPosition", node);
         }
-        else if (node is BTDetectAgentNode)
+        else if (node is BTDetectAgentInAreaNode)
         {
-            AddPropertyPage<ControlDetectAgentPropertyPage>("Action/Ctl_PropertyPage_DetectAgent", node);
+            AddPropertyPage<ControlDetectAgentInAreaPropertyPage>("Action/Ctl_PropertyPage_DetectAgent", node);
         }
         else if (node is BTMoveOneFrameNode)
         {
@@ -240,7 +244,7 @@ public  class ControlAIOperationArea : UIControl
         }
         else if (node is BTIdleNode)
         {
-            AddPropertyPage<ControlIdlePropertyPage>("Action/Ctl_PropertyPage_Idle", node);
+            AddPropertyPage<ControlChangeToIdlePropertyPage>("Action/Ctl_PropertyPage_Idle", node);
         }
         else if (node is BTAttackNode)
         {

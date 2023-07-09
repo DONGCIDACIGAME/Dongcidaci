@@ -45,7 +45,7 @@ public class ControlAddNewNodePage : UIControl
     private Button Btn_MoveMeter;
     private Button Btn_MoveToPosition;
     private Button Btn_MoveDistance;
-    private Button Btn_DetectAgent;
+    private Button Btn_DetectAgentInArea;
     private Button Btn_MoveOneFrame;
     private Button Btn_ClearTarget;
     private Button Btn_Idle;
@@ -59,6 +59,7 @@ public class ControlAddNewNodePage : UIControl
     private Button Btn_CheckDistanceToTargetPosition;
     private Button Btn_CheckTargetEntityInLogicArea;
     private Button Btn_CheckInStatus;
+    private Button Btn_CheckHasTarget;
 
 
     private BTNode mNode;
@@ -119,7 +120,7 @@ public class ControlAddNewNodePage : UIControl
         Btn_MoveMeter = BindButtonNode("Contain_ActionNodes/Button_MoveMeter", () => { AddChildNode(new BTMoveMeterNode()); });
         Btn_MoveToPosition = BindButtonNode("Contain_ActionNodes/Button_MoveToPosition", () => { AddChildNode(new BTMoveToPositionNode()); });
         Btn_MoveDistance = BindButtonNode("Contain_ActionNodes/Button_MoveDistance", () => { AddChildNode(new BTMoveDistanceNode()); });
-        Btn_DetectAgent = BindButtonNode("Contain_ActionNodes/Button_DetectAgent", () => { AddChildNode(new BTDetectAgentNode()); });
+        Btn_DetectAgentInArea = BindButtonNode("Contain_ActionNodes/Button_DetectAgentInArea", () => { AddChildNode(new BTDetectAgentInAreaNode()); });
         Btn_MoveOneFrame = BindButtonNode("Contain_ActionNodes/Button_MoveOneFrame", () => { AddChildNode(new BTMoveOneFrameNode()); });
         Btn_ClearTarget = BindButtonNode("Contain_ActionNodes/Button_ClearTarget", () => { AddChildNode(new BTClearTargetNode()); });
         Btn_Idle = BindButtonNode("Contain_ActionNodes/Button_Idle", () => { AddChildNode(new BTIdleNode()); });
@@ -130,6 +131,7 @@ public class ControlAddNewNodePage : UIControl
         Btn_CheckDistanceToTargetPosition = BindButtonNode("Contain_ConditionNodes/Button_CheckDistanceToPosition", () => { AddChildNode(new BTCheckDistanceToTargetPositionNode()); });
         Btn_CheckTargetEntityInLogicArea = BindButtonNode("Contain_ConditionNodes/Button_CheckTargetEntityInLogicArea", () => { AddChildNode(new BTCheckTargetEntityInLogicAreaNode()); });
         Btn_CheckInStatus = BindButtonNode("Contain_ConditionNodes/Button_CheckInStatus", () => { AddChildNode(new BTCheckInStatusNode()); });
+        Btn_CheckHasTarget = BindButtonNode("Contain_ConditionNodes/Button_CheckHasTarget", () => { AddChildNode(new BTCheckHasTarget()); });
     }
 
     public void SetBTNode(BTNode node)

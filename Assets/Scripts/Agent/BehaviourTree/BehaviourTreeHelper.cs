@@ -73,8 +73,8 @@ public static class BehaviourTreeHelper
                 return "移动一帧";
             case BTDefine.BT_Node_Type_Leaf_MoveToPosition:
                 return "移动到指定位置";
-            case BTDefine.BT_Node_Type_Leaf_DetectAgent:
-                return "检测到角色";
+            case BTDefine.BT_Node_Type_Leaf_DetectAgentInArea:
+                return "检测指定范围内的指定角色";
             case BTDefine.BT_Node_Type_Leaf_CheckDistanceToEntity:
                 return "到目标Entity距离";
             case BTDefine.BT_Node_Type_Leaf_CheckDistanceToPosition:
@@ -83,6 +83,8 @@ public static class BehaviourTreeHelper
                 return "检测在逻辑区域内";
             case BTDefine.BT_Node_Type_Leaf_CheckInStatus:
                 return "检测在目标状态下";
+            case BTDefine.BT_Node_Type_Leaf_CheckHasTarget:
+                return "有目标对象";
             case BTDefine.BT_Node_Type_Leaf_ClearTarget:
                 return "清除目标";
             case BTDefine.BT_Node_Type_Leaf_Idle:

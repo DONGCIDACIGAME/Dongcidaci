@@ -90,6 +90,10 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     /// 交互半径
     /// </summary>
     protected float mInteractRadius;
+    /// <summary>
+    /// 跟随半径
+    /// </summary>
+    protected float mFollowRadius;
 
     public uint GetAgentId()
     {
@@ -147,6 +151,16 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         mInteractRadius = radius;
     }
 
+
+    public float GetFollowRadius()
+    {
+        return mFollowRadius;
+    }
+
+    public void SetFollowRadius(float radius)
+    {
+        mFollowRadius = radius;
+    }
 
     #endregion
 
@@ -435,6 +449,26 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         mAgentView.OnMyLateUpdate(this, deltaTime);
     }
     
+    public List<T> DetectMapEntityInVision<T>() where T: MapEntity
+    {
+        List<T> entityInVision = new List<T>();
+        var visionShape = mAgentView.GetVisionShape();
+        bool ret = GameColliderManager.Ins.CheckCollideHappenWithShape(visionShape, ColliderHanlderDefine.EmptyHandler, out Dictionary<ConvexCollider2D, Vector2> tgtsDict);
+        if (!ret)
+            return null;
+
+        foreach(KeyValuePair< ConvexCollider2D, Vector2> kv in tgtsDict)
+        {
+            ConvexCollider2D collider = kv.Key;
+            Entity entity = EntityManager.Ins.GetEntity(collider.GetBindEntityId());
+            if(entity is T)
+            {
+                entityInVision.Add(entity as T);
+            }
+        }
+        return entityInVision;
+    }
+
 
     public List<Agent> DetectAgentInVision()
     {

@@ -37,7 +37,10 @@ namespace GameSkillEffect
                 // 执行状态的切换
                 AgentCommand dashCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
                 dashCmd.AddArg("distance",dashDistance);
-                dashCmd.AddArg("speed", dashSpeed);
+                //dashCmd.AddArg("speed", dashSpeed);
+                dashCmd.AddArg("startTime", 0f);
+                dashCmd.AddArg("endTime", dashDistance/dashSpeed);
+                dashCmd.AddArg("timeType", TimeDefine.TimeType_AbsoluteTime);
                 dashCmd.Initialize(AgentCommandDefine.DASH, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, _eftUser.GetTowards());
                 _eftUser.OnCommand(dashCmd);
             }

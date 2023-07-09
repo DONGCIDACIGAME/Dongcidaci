@@ -28,20 +28,22 @@ message MonsterBaseCfg{
     float AttackRadius = 8;
     /** 交互半径 */ 
     float InteractRadius = 9;
+    /** 跟随半径 */ 
+    float FollowRadius = 10;
     /** 最大生命 */ 
-    int32 MaxHp = 10;
+    int32 MaxHp = 11;
     /** 基础攻击值 */ 
-    int32 BaseAttack = 11;
+    int32 BaseAttack = 12;
     /** 伤害减免系数 */ 
-    float DefenseRate = 12;
+    float DefenseRate = 13;
     /** 暴击率 */ 
-    float CriticalRate = 13;
+    float CriticalRate = 14;
     /** 暴击伤害 */ 
-    float CriticalDmgRate = 14;
+    float CriticalDmgRate = 15;
     /** 闪避率 */ 
-    float DodgeRate = 15;
+    float DodgeRate = 16;
     /** 移动速度 */ 
-    float MoveSpeed = 16;
+    float MoveSpeed = 17;
 }
 
 message MonsterCfg_Data {

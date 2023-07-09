@@ -173,8 +173,8 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_WaitMeter)
                 return new BTWaitMeterNode();
 
-            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_DetectAgent)
-                return new BTDetectAgentNode();
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_DetectAgentInArea)
+                return new BTDetectAgentInAreaNode();
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_ChangeTowards)
                 return new BTAgentChangeTowardsNode();
@@ -205,6 +205,9 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_CheckInStatus)
                 return new BTCheckInStatusNode();
+
+            if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_CheckHasTarget)
+                return new BTCheckHasTarget();
 
             if (nodeDetailType == BTDefine.BT_Node_Type_Leaf_ClearTarget)
                 return new BTClearTargetNode();

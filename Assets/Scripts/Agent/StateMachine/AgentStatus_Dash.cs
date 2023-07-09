@@ -139,11 +139,24 @@ public class AgentStatus_Dash : AgentStatus
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;
 
-        // 2. 播放攻击动画
+        // 2. 播放冲刺动画
         mCurLogicStateEndMeter = mCustomAnimDriver.PlayAnimStateWithCut(statusName, stateName);
 
-        // 3. 处理动画相关的位移
-        mAgent.MovementExcutorCtl.Start(statusName, stateName, 0, towards);
+        if(args != null)
+        {
+            float dashDistance = (float)args["distance"];
+            float startTime = (float)args["startTime"];
+            float endTime = (float)args["endTime"];
+
+            // 3. 处理动画相关的位移
+            mAgent.MovementExcutorCtl.Start(startTime, endTime, mAgent.GetTowards(), dashDistance);
+        }
+        else
+        {
+
+            // 3. 处理动画相关的位移
+            mAgent.MovementExcutorCtl.Start(statusName, stateName, towards, 0);
+        }
     }
 
     public override void RegisterInputHandle()

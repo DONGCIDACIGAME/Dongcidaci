@@ -42,13 +42,25 @@ public abstract class BTCheckDistanceNode : BTLeafNode
 
     public override bool BTNodeDataCheck(ref string info)
     {
-        if (mOperator != BTDefine.BT_Operator_Equal
-            && mOperator != BTDefine.BT_Operator_GreaterThan
-            && mOperator != BTDefine.BT_Operator_GreaterEqual
-            && mOperator != BTDefine.BT_Operator_LessEqual
-            && mOperator != BTDefine.BT_Operator_LessThan)
+        bool hasOperator = false;
+        for(int i = 0;i<BTDefine.BT_ALL_OPERATORS.Length;i++)
+        {
+            if(BTDefine.BT_ALL_OPERATORS[i].Type == mOperator)
+            {
+                hasOperator = true;
+                break;
+            }
+        }
+
+        if (!hasOperator)
         {
             info = string.Format("Node {0} has Invalid Operator Type:{1}", NodeName, mOperator);
+            return false;
+        }
+
+        if (mOperator == BTDefine.BT_Operator_Undefine)
+        {
+            info = string.Format("Node {0} operator undefine is invalid", NodeName);
             return false;
         }
 

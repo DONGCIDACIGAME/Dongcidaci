@@ -37,11 +37,25 @@ public class BTAgentChangeTowardsNode : BTLeafNode
 
     public override bool BTNodeDataCheck(ref string info)
     {
-        if(mChangeTowardsType != BTDefine.BT_ChangeTowardsTo_Random
-            && mChangeTowardsType != BTDefine.BT_ChangeTowardsTo_Invert
-            && mChangeTowardsType != BTDefine.BT_ChangeTowardsTo_GivenTarget)
+        bool hasChangeTowardsType = false;
+        for(int i = 0;i<BTDefine.BT_ALL_CHANGE_TOWARDS_TYPES.Length;i++)
+        {
+            if(mChangeTowardsType == BTDefine.BT_ALL_CHANGE_TOWARDS_TYPES[i].Type)
+            {
+                hasChangeTowardsType = true;
+                break;
+            }
+        }
+
+        if(!hasChangeTowardsType)
         {
             info = string.Format("Node {0} has invalid change towards type:{1}", NodeName, mChangeTowardsType);
+            return false;
+        }
+
+        if (mChangeTowardsType == BTDefine.BT_ChangeTowardsTo_NotDefine)
+        {
+            info = string.Format("Node {0} change towards type undefine is invalid!", NodeName);
             return false;
         }
 

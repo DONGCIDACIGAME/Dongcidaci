@@ -105,6 +105,7 @@ public class Monster : Agent
         SetName(mMonsterCfg.Name);
         SetAttackRadius(mMonsterCfg.AttackRadius);
         SetInteractRadius(mMonsterCfg.InteractRadius);
+        SetFollowRadius(mMonsterCfg.FollowRadius);
 
         //Combo_Trigger.SetComboActive("JJJ", true);
         //Combo_Trigger.SetComboActive("DashAttack", true);

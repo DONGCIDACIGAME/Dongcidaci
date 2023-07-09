@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class BTCheckTargetEntityInLogicAreaNode : BTLeafNode
 {
     private int mLogicAreaType;
@@ -35,10 +37,25 @@ public class BTCheckTargetEntityInLogicAreaNode : BTLeafNode
 
     public override bool BTNodeDataCheck(ref string info)
     {
-        if (mLogicAreaType != BTDefine.BT_LogicArea_Type_Attack
-            && mLogicAreaType != BTDefine.BT_LogicArea_Type_Interact)
+        bool hasType = false;
+        for(int i = 0;i<BTDefine.BT_ALL_LOGIC_AREA_TYPES.Length;i++)
+        {
+            if(BTDefine.BT_ALL_LOGIC_AREA_TYPES[i].Type == mLogicAreaType)
+            {
+                hasType = true;
+                break;
+            }
+        }
+
+        if (!hasType)
         {
             info = string.Format("Node {0} has Invalid LogicArea Type:{1}", NodeName, mLogicAreaType);
+            return false;
+        }
+
+        if(mLogicAreaType == BTDefine.BT_LogicArea_Type_Undefine)
+        {
+            info = string.Format("Node {0} undefined area type is invalid", NodeName);
             return false;
         }
 
@@ -52,15 +69,16 @@ public class BTCheckTargetEntityInLogicAreaNode : BTLeafNode
 
     private string GetLogicAreaName(int logicAreaType)
     {
-        switch(logicAreaType)
+
+        for (int i = 0; i < BTDefine.BT_ALL_LOGIC_AREA_TYPES.Length; i++)
         {
-            case BTDefine.BT_LogicArea_Type_Attack:
-                return "Attack Area";
-            case BTDefine.BT_LogicArea_Type_Interact:
-                return "Interact Area";
-            default:
-                return "Undefined";
+            if (BTDefine.BT_ALL_LOGIC_AREA_TYPES[i].Type == logicAreaType)
+            {
+                return BTDefine.BT_ALL_LOGIC_AREA_TYPES[i].Desc;
+            }
         }
+
+        return "undefine";
     }
 
     public override int Excute(float deltaTime)
@@ -84,15 +102,24 @@ public class BTCheckTargetEntityInLogicAreaNode : BTLeafNode
             return BTDefine.BT_ExcuteResult_Failed;
         }
 
-        float distance = (mExcutor.GetPosition() - target.GetPosition()).magnitude;
         bool ret = false;
         switch (mLogicAreaType)
         {
             case BTDefine.BT_LogicArea_Type_Attack:
+                float distance = (mExcutor.GetPosition() - target.GetPosition()).magnitude;
                 ret = distance <= mExcutor.GetAttackRadius();
                 break;
             case BTDefine.BT_LogicArea_Type_Interact:
+                distance = (mExcutor.GetPosition() - target.GetPosition()).magnitude;
                 ret = distance <= mExcutor.GetInteractRadius();
+                break;
+            case BTDefine.BT_LogicArea_Type_Vision:
+                List <MapEntity> detectedEntities = mExcutor.DetectMapEntityInVision<MapEntity>();
+                ret = (detectedEntities != null) && detectedEntities.Contains(target);
+                break;
+            case BTDefine.BT_LogicArea_Type_Follow:
+                distance = (mExcutor.GetPosition() - target.GetPosition()).magnitude;
+                ret = distance <= mExcutor.GetFollowRadius();
                 break;
             default:
                 break;

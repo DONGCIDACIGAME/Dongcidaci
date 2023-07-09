@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public enum BT_CHILD_NODE_NUM
 {
     Zero,
@@ -26,7 +28,7 @@ public static class BTDefine
     public const int BT_LoadNodeResult_Failed_InvalidArgNum = -5;
     public const int BT_LoadNodeResult_Failed_InvalidArgType = -6;
     public const int BT_LoadNodeResult_Failed_NullArg = -7;
-    public const int BT_LoadNodeResult_Failed_ParseArgFailed= -8;
+    public const int BT_LoadNodeResult_Failed_ParseArgFailed = -8;
     public const int BT_LoadNodeResult_Failed_Unkown = -9;
 
     /// <summary>
@@ -57,38 +59,39 @@ public static class BTDefine
     public const int BT_Node_Type_Tree_Entry = 0;
     public const int BT_Node_Type_Tree_ChildTree = 1;
 
-    public const int BT_Node_Type_Composite_Sequence                    = BT_Node_Type_Composite * 100 + 1;
-    public const int BT_Node_Type_Composite_Selector                    = BT_Node_Type_Composite * 100 + 2;
-    public const int BT_Node_Type_Composite_Parallel                    = BT_Node_Type_Composite * 100 + 3;
-    public const int BT_Node_Type_Composite_IfElse                      = BT_Node_Type_Composite * 100 + 4;
-    public const int BT_Node_Type_Composite_WithStateSequence           = BT_Node_Type_Composite * 100 + 5;
-    public const int BT_Node_Type_Composite_WithStateSelector           = BT_Node_Type_Composite * 100 + 6;
+    public const int BT_Node_Type_Composite_Sequence = BT_Node_Type_Composite * 100 + 1;
+    public const int BT_Node_Type_Composite_Selector = BT_Node_Type_Composite * 100 + 2;
+    public const int BT_Node_Type_Composite_Parallel = BT_Node_Type_Composite * 100 + 3;
+    public const int BT_Node_Type_Composite_IfElse = BT_Node_Type_Composite * 100 + 4;
+    public const int BT_Node_Type_Composite_WithStateSequence = BT_Node_Type_Composite * 100 + 5;
+    public const int BT_Node_Type_Composite_WithStateSelector = BT_Node_Type_Composite * 100 + 6;
 
-    public const int BT_Node_Type_Decor_Invert                          = BT_Node_Type_Decor * 100 + 1;
-    public const int BT_Node_Type_Decor_Repeat                          = BT_Node_Type_Decor * 100 + 2;
-    public const int BT_Node_Type_Decor_Reset                           = BT_Node_Type_Decor * 100 + 3;
-    public const int BT_Node_Type_Decor_UntilTrue                       = BT_Node_Type_Decor * 100 + 4;
-    public const int BT_Node_Type_Decor_Once                            = BT_Node_Type_Decor * 100 + 5;
+    public const int BT_Node_Type_Decor_Invert = BT_Node_Type_Decor * 100 + 1;
+    public const int BT_Node_Type_Decor_Repeat = BT_Node_Type_Decor * 100 + 2;
+    public const int BT_Node_Type_Decor_Reset = BT_Node_Type_Decor * 100 + 3;
+    public const int BT_Node_Type_Decor_UntilTrue = BT_Node_Type_Decor * 100 + 4;
+    public const int BT_Node_Type_Decor_Once = BT_Node_Type_Decor * 100 + 5;
 
-    public const int BT_Node_Type_Leaf_WaitTime                         = BT_Node_Type_Leaf * 100 + 1;
-    public const int BT_Node_Type_Leaf_WaitFrame                        = BT_Node_Type_Leaf * 100 + 2;
-    public const int BT_Node_Type_Leaf_WaitMeter                        = BT_Node_Type_Leaf * 100 + 3;
-    public const int BT_Node_Type_Leaf_DetectAgent                      = BT_Node_Type_Leaf * 100 + 4;
-    public const int BT_Node_Type_Leaf_ChangeTowards                    = BT_Node_Type_Leaf * 100 + 5;
-    public const int BT_Node_Type_Leaf_MoveTime                         = BT_Node_Type_Leaf * 100 + 6;
-    public const int BT_Node_Type_Leaf_MoveMeter                        = BT_Node_Type_Leaf * 100 + 7;
-    public const int BT_Node_Type_Leaf_MoveToPosition                   = BT_Node_Type_Leaf * 100 + 8;
-    public const int BT_Node_Type_Leaf_MoveDistance                     = BT_Node_Type_Leaf * 100 + 9;
-    public const int BT_Node_Type_Leaf_MoveOneFrame                     = BT_Node_Type_Leaf * 100 + 10;
-    public const int BT_Node_Type_Leaf_ClearTarget                      = BT_Node_Type_Leaf * 100 + 11;
-    public const int BT_Node_Type_Leaf_Idle                             = BT_Node_Type_Leaf * 100 + 12;
-    public const int BT_Node_Type_Leaf_Attack                           = BT_Node_Type_Leaf * 100 + 13;
+    public const int BT_Node_Type_Leaf_WaitTime = BT_Node_Type_Leaf * 100 + 1;
+    public const int BT_Node_Type_Leaf_WaitFrame = BT_Node_Type_Leaf * 100 + 2;
+    public const int BT_Node_Type_Leaf_WaitMeter = BT_Node_Type_Leaf * 100 + 3;
+    public const int BT_Node_Type_Leaf_DetectAgentInArea = BT_Node_Type_Leaf * 100 + 4;
+    public const int BT_Node_Type_Leaf_ChangeTowards = BT_Node_Type_Leaf * 100 + 5;
+    public const int BT_Node_Type_Leaf_MoveTime = BT_Node_Type_Leaf * 100 + 6;
+    public const int BT_Node_Type_Leaf_MoveMeter = BT_Node_Type_Leaf * 100 + 7;
+    public const int BT_Node_Type_Leaf_MoveToPosition = BT_Node_Type_Leaf * 100 + 8;
+    public const int BT_Node_Type_Leaf_MoveDistance = BT_Node_Type_Leaf * 100 + 9;
+    public const int BT_Node_Type_Leaf_MoveOneFrame = BT_Node_Type_Leaf * 100 + 10;
+    public const int BT_Node_Type_Leaf_ClearTarget = BT_Node_Type_Leaf * 100 + 11;
+    public const int BT_Node_Type_Leaf_Idle = BT_Node_Type_Leaf * 100 + 12;
+    public const int BT_Node_Type_Leaf_Attack = BT_Node_Type_Leaf * 100 + 13;
 
 
-    public const int BT_Node_Type_Leaf_CheckDistanceToEntity            = BT_Node_Type_Leaf * 100 + 101;
-    public const int BT_Node_Type_Leaf_CheckDistanceToPosition          = BT_Node_Type_Leaf * 100 + 102;
-    public const int BT_Node_Type_Leaf_CheckTargetEntityInLogicArea     = BT_Node_Type_Leaf * 100 + 103;
-    public const int BT_Node_Type_Leaf_CheckInStatus                    = BT_Node_Type_Leaf * 100 + 104;
+    public const int BT_Node_Type_Leaf_CheckDistanceToEntity = BT_Node_Type_Leaf * 100 + 101;
+    public const int BT_Node_Type_Leaf_CheckDistanceToPosition = BT_Node_Type_Leaf * 100 + 102;
+    public const int BT_Node_Type_Leaf_CheckTargetEntityInLogicArea = BT_Node_Type_Leaf * 100 + 103;
+    public const int BT_Node_Type_Leaf_CheckInStatus = BT_Node_Type_Leaf * 100 + 104;
+    public const int BT_Node_Type_Leaf_CheckHasTarget = BT_Node_Type_Leaf * 100 + 105;
 
 
     /// <summary>
@@ -116,6 +119,16 @@ public static class BTDefine
     public const int BT_ChangeTowardsTo_GivenTarget = 3;
 
 
+    public static TypeWithDesc[] BT_ALL_CHANGE_TOWARDS_TYPES = new TypeWithDesc[]
+    {
+        new TypeWithDesc(BT_ChangeTowardsTo_NotDefine,"undefine"),
+        new TypeWithDesc(BT_ChangeTowardsTo_Random,"random"),
+        new TypeWithDesc(BT_ChangeTowardsTo_Invert,"invert"),
+        new TypeWithDesc(BT_ChangeTowardsTo_GivenTarget,"given target")
+    };
+
+
+
     /// <summary>
     /// 操作符定义
     /// </summary>
@@ -126,6 +139,17 @@ public static class BTDefine
     public const int BT_Operator_GreaterEqual = 4;
     public const int BT_Operator_GreaterThan = 5;
 
+    public static TypeWithDesc[] BT_ALL_OPERATORS = new TypeWithDesc[]
+    {
+        new TypeWithDesc(BT_Operator_Undefine,"undefine"),
+        new TypeWithDesc(BT_Operator_LessThan,"<"),
+        new TypeWithDesc(BT_Operator_LessEqual,"<="),
+        new TypeWithDesc(BT_Operator_Equal,"="),
+        new TypeWithDesc(BT_Operator_GreaterEqual,">="),
+        new TypeWithDesc(BT_Operator_GreaterThan,">")
+    };
+
+
 
     /// <summary>
     /// 逻辑区域类型定义
@@ -133,5 +157,16 @@ public static class BTDefine
     public const int BT_LogicArea_Type_Undefine = 0;
     public const int BT_LogicArea_Type_Attack = 1;
     public const int BT_LogicArea_Type_Interact = 2;
+    public const int BT_LogicArea_Type_Vision = 3;
+    public const int BT_LogicArea_Type_Follow = 4;
+
+    public static TypeWithDesc[] BT_ALL_LOGIC_AREA_TYPES = new TypeWithDesc[]
+    {
+        new TypeWithDesc(BT_LogicArea_Type_Undefine, "undefine"),
+        new TypeWithDesc(BT_LogicArea_Type_Attack,"Attack"),
+        new TypeWithDesc(BT_LogicArea_Type_Interact,"Interact"),
+        new TypeWithDesc(BT_LogicArea_Type_Vision,"Vision"),
+        new TypeWithDesc(BT_LogicArea_Type_Follow,"Follow"),
+    };
 
 }
