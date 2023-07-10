@@ -46,10 +46,9 @@ namespace GameSkillEffect
             fxCfg.transInfo.scaleX = 1.2f;
             fxCfg.transInfo.scaleY = 1.2f;
             fxCfg.transInfo.scaleZ = 1.2f;
-            fxCfg.transInfo.posY = 0.3f;
-            fxCfg.transInfo.posZ = 0.5f;
-            GameFXManager.Ins.ShowAFX(fxCfg,_eftUser.GetPosition(),_eftUser.GetRotation());
-
+            //fxCfg.transInfo.posY = 0.3f;
+            //fxCfg.transInfo.posZ = 0.5f;
+            GameFXManager.Ins.ShowAFX(fxCfg,_eftUser.GetFXCarryNode(FXCarryNodeDefine.AgentWeaponNode));
 
             var tgtAgents = SkEftHelper.GetHitAgents(_eftUser,_eftCollideShape,_initSkEftData.rlsTgt);
             if (tgtAgents == null || tgtAgents.Count == 0)

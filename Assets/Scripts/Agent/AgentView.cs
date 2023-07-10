@@ -1,5 +1,41 @@
+using UnityEngine;
+
 public abstract class AgentView : MapEntityViewWithCollider
 {
+    // Added by Weng 0710
+    #region FX CARRY POINT DEFINE
+
+    /// <summary>
+    /// 受击效果的特效挂载点
+    /// </summary>
+    [SerializeField] private GameObject _hitFXCarryNode;
+
+    /// <summary>
+    /// 武器特效的挂载点
+    /// </summary>
+    [SerializeField] private GameObject _weaponFXCarryNode;
+
+
+    public GameObject GetFXCarryNode(FXCarryNodeDefine carryNodeType)
+    {
+        switch (carryNodeType)
+        {
+            case FXCarryNodeDefine.AgentHitNode:
+                return _hitFXCarryNode;
+            case FXCarryNodeDefine.AgentWeaponNode:
+                return _weaponFXCarryNode;
+            default:
+                return null;
+        }
+    }
+
+
+
+    #endregion
+
+
+
+
     /// <summary>
     /// 角色的视野范围配置 added by weng 0629
     /// </summary>
@@ -18,6 +54,7 @@ public abstract class AgentView : MapEntityViewWithCollider
         shape.AnchorAngle = mVisionView.transform.eulerAngles.y;
         return shape;
     }
+
 
 
     public virtual void OnMyUpdate(Agent agt,float deltaTime)

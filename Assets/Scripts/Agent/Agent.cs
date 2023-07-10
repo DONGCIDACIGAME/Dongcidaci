@@ -495,4 +495,15 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         return retAgents;
     }
 
+    /// <summary>
+    /// Added by weng 0710
+    /// 获取这个角色的特效挂载点
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetFXCarryNode(FXCarryNodeDefine nodeType)
+    {
+        return mAgentView.GetFXCarryNode(nodeType);
+    }
+
+
 }

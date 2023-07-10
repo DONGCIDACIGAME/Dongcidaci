@@ -8,23 +8,23 @@ public class GameFXManager : ModuleManager<GameFXManager>
     public GameObject FXPoolNode => GameObject.Find("_FX_POOL");
     public GameObject FXDefaultCarryNode => GameObject.Find("_FX_DEFAULT");
 
-    private const string FXPathPreffix = "Prefabs/FX/";
-
-    private List<GameObject> _fxObjs;
+    private List<GameObject> _fxObjs = new List<GameObject>();
 
     public void ShowAFX(FXConfigData fxCfg, Vector3 anchorPos,Vector3 anchorRotate)
     {
         var popRet = PopAFXFromPoolWith(fxCfg.fxName);
         if (popRet == null)
         {
-            popRet = PrefabUtil.LoadPrefab(FXPathPreffix+fxCfg.fxName,"Load a fx obj");
+            popRet = PrefabUtil.LoadPrefab(GameFXDefine.FXPathPreffix + fxCfg.fxName,"Load a fx obj");
             popRet.transform.SetParent(FXDefaultCarryNode.transform,false);
         }
         else
         {
+            
             popRet.transform.SetParent(FXDefaultCarryNode.transform, false);
             //popRet.SetActive(true);
         }
+        popRet.name = fxCfg.fxName;
 
         var realAngle = anchorRotate + new Vector3(fxCfg.transInfo.angleX, fxCfg.transInfo.angleY, fxCfg.transInfo.angleZ);
         var initPosV3 = new Vector3(fxCfg.transInfo.posX, fxCfg.transInfo.posY, fxCfg.transInfo.posZ);
@@ -38,14 +38,49 @@ public class GameFXManager : ModuleManager<GameFXManager>
         popRet.SetActive(true);
     }
 
+
+    public void ShowAFX(FXConfigData fxCfg,GameObject tgtCarryNode)
+    {
+        if(tgtCarryNode == null)
+        {
+            return;
+        }
+
+        var popRet = PopAFXFromPoolWith(fxCfg.fxName);
+        if (popRet == null)
+        {
+            popRet = PrefabUtil.LoadPrefab(GameFXDefine.FXPathPreffix + fxCfg.fxName, "Load a fx obj");
+            popRet.transform.SetParent(tgtCarryNode.transform, false);
+        }
+        else
+        {
+
+            popRet.transform.SetParent(tgtCarryNode.transform, false);
+        }
+
+        popRet.name = fxCfg.fxName;
+
+        var realAngle = new Vector3(fxCfg.transInfo.angleX, fxCfg.transInfo.angleY, fxCfg.transInfo.angleZ);
+        var initPosV3 = new Vector3(fxCfg.transInfo.posX, fxCfg.transInfo.posY, fxCfg.transInfo.posZ);
+
+        popRet.transform.localPosition = initPosV3;
+        popRet.transform.localEulerAngles = realAngle;
+        popRet.transform.localScale = new Vector3(fxCfg.transInfo.scaleX, fxCfg.transInfo.scaleY, fxCfg.transInfo.scaleZ);
+        popRet.SetActive(true);
+    }
+
+
+
+
     private GameObject PopAFXFromPoolWith(string fxName)
     {
         if (_fxObjs == null || _fxObjs.Count == 0) return null;
         int pushIndex = -1;
         for (int i=0;i<_fxObjs.Count;i++)
         {
-            if (_fxObjs[i].name == fxName)
+            if (_fxObjs[i].name.Equals(fxName))
             {
+                Log.Logic(LogLevel.Normal, "PopAFXFromPoolWith find old one");
                 pushIndex = i;
                 break;
             }
@@ -66,7 +101,8 @@ public class GameFXManager : ModuleManager<GameFXManager>
         fxObj.SetActive(false);
         fxObj.transform.SetParent(FXPoolNode.transform,false);
         fxObj.transform.position = Vector3.zero;
-
+        fxObj.transform.eulerAngles = Vector3.zero;
+        fxObj.transform.localScale = Vector3.one;
         _fxObjs.Add(fxObj);
     }
 

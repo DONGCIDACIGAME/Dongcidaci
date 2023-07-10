@@ -22,9 +22,9 @@ public class FXConfigData
 {
     public string fxName;
 
+    public FXCarryNodeDefine carryNodeType;
+
     public ObjTransformData transInfo;
-
-
 
 
 }
