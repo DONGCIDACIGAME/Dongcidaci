@@ -73,7 +73,7 @@ namespace GameSkillEffect
             for(int i = 0; i < 8; i++)
             {
                 int ret = cmdType & (1 << i);
-                if(ret > 0 )
+                if(ret > 0)
                 {
                     int record = cmdDisableRecord[i];
                     cmdDisableRecord[i] = record == 0 ? 0 : --record;

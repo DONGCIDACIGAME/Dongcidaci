@@ -49,6 +49,7 @@ public class AgentStatus_BeHit : AgentStatus
         switch (cmdType)
         {
             case AgentCommandDefine.BE_HIT:
+            case AgentCommandDefine.BE_HIT_BREAK:
                 AgentActionData actionData = statusDefaultActionData;
                 if (args != null && args.TryGetValue("beHitAction", out object obj1))
                 {

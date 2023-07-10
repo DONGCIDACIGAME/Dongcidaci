@@ -53,8 +53,8 @@ public class AgentStatus_Attack : AgentStatus
 
         switch (cmdType)
         {
-            // 接收到受击指令，马上切换到受击状态
-            case AgentCommandDefine.BE_HIT:
+            // 接收到打断型的受击指令，马上切换到受击状态
+            case AgentCommandDefine.BE_HIT_BREAK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.ATTACK_LONG:
@@ -67,6 +67,7 @@ public class AgentStatus_Attack : AgentStatus
             case AgentCommandDefine.IDLE:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
+            case AgentCommandDefine.BE_HIT://攻击状态下，非打断的受击行为不做处理
             case AgentCommandDefine.EMPTY:
                 break;
             default:
@@ -95,7 +96,7 @@ public class AgentStatus_Attack : AgentStatus
 
             switch (cmdType)
             {
-                case AgentCommandDefine.BE_HIT:
+                case AgentCommandDefine.BE_HIT_BREAK:
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.IDLE:
@@ -113,6 +114,7 @@ public class AgentStatus_Attack : AgentStatus
                     }
                     break;
                 case AgentCommandDefine.EMPTY:
+                case AgentCommandDefine.BE_HIT:
                 default:
                     break;
             }

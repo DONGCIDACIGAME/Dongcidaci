@@ -24,16 +24,6 @@ public class BTAttackNode : BTLeafNode
         mExcutor.OnCommand(attackCmd);
 
 
-        // 发送behit指令
-        if (mContext.TryGetValue("TargetEntity", out object obj))
-        {
-            Agent targetEntity = obj as Agent;
-            AgentCommand beHitCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-            beHitCmd.AddArg("moveMove", 1f);
-            beHitCmd.Initialize(AgentCommandDefine.BE_HIT, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);
-            targetEntity.OnCommand(attackCmd);
-        }
-
         if (mLogEnable)
         {
             PrintLog("Attack...");

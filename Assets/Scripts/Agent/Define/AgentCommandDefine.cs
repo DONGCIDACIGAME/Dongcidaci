@@ -32,15 +32,21 @@ public static class AgentCommandDefine
     /// </summary>
     public const byte ATTACK_LONG = 1 << 4;
 
+
     /// <summary>
-    /// 受击 32
+    /// 受击32 不打断当前行为
     /// </summary>
     public const byte BE_HIT = 1 << 5;
 
     /// <summary>
-    /// 死亡 64
+    /// 受击 64 打断当前行为
     /// </summary>
-    public const byte DIE = 1 << 6;
+    public const byte BE_HIT_BREAK = 1 << 6;
+
+    /// <summary>
+    /// 死亡 128
+    /// </summary>
+    public const byte DEAD = 1 << 7;
 
     /// <summary>
     /// 指令到角色状态间的切换关系
@@ -53,6 +59,8 @@ public static class AgentCommandDefine
         { ATTACK_SHORT, AgentStatusDefine.ATTACK},
         { ATTACK_LONG, AgentStatusDefine.ATTACK},
         { BE_HIT, AgentStatusDefine.BEHIT},
+        { BE_HIT_BREAK, AgentStatusDefine.BEHIT},
+        { DEAD, AgentStatusDefine.DEAD},
     };
 
     /// <summary>

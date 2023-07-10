@@ -54,7 +54,7 @@ public class AgentStatus_Dash : AgentStatus
         switch (cmdType)
         {
             // 接收到受击指令，马上切换到受击状态
-            case AgentCommandDefine.BE_HIT:
+            case AgentCommandDefine.BE_HIT_BREAK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             // 根据节拍进度冲刺
@@ -68,6 +68,7 @@ public class AgentStatus_Dash : AgentStatus
             case AgentCommandDefine.ATTACK_SHORT:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
+            case AgentCommandDefine.BE_HIT:// 冲刺状态下，非打断的受击指令不处理
             case AgentCommandDefine.EMPTY:
             default:
                 break;
@@ -90,7 +91,7 @@ public class AgentStatus_Dash : AgentStatus
 
             switch (cmdType)
             {
-                case AgentCommandDefine.BE_HIT:
+                case AgentCommandDefine.BE_HIT_BREAK:
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.ATTACK_SHORT:
@@ -107,6 +108,7 @@ public class AgentStatus_Dash : AgentStatus
                         StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
                     }
                     break;
+                case AgentCommandDefine.BE_HIT:// 冲刺状态下，非打断的受击指令不处理
                 case AgentCommandDefine.EMPTY:
                 default:
                     break;

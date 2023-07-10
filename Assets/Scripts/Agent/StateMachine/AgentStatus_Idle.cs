@@ -37,6 +37,7 @@ public class AgentStatus_Idle : AgentStatus
         switch (cmdType)
         {
             case AgentCommandDefine.BE_HIT:
+            case AgentCommandDefine.BE_HIT_BREAK:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.ATTACK_LONG:
@@ -64,6 +65,7 @@ public class AgentStatus_Idle : AgentStatus
                 case AgentCommandDefine.ATTACK_LONG:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT:
+                case AgentCommandDefine.BE_HIT_BREAK:
                     ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
                     break ;
                 case AgentCommandDefine.IDLE:
