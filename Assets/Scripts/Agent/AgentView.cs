@@ -10,6 +10,9 @@ public abstract class AgentView : MapEntityViewWithCollider
     /// </summary>
     [SerializeField] private GameObject _hitFXCarryNode;
 
+
+    [SerializeField] private GameObject _frontAtkFXCarryNode;
+
     /// <summary>
     /// 武器特效的挂载点
     /// </summary>
