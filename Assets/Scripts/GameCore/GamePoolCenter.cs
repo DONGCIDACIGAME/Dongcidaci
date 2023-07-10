@@ -22,4 +22,17 @@ public class GamePoolCenter : Singleton<GamePoolCenter>
     public GeneralGamePool<AgentSkEftHandler> AgtSkEftHandlerPool = new GeneralGamePool<AgentSkEftHandler>();
 
 
+
+    public void Dispose()
+    {
+        ComboEffectExcutorPool.Dispose();
+        MovementExcutorPool.Dispose();
+        AgentInputCommandPool.Dispose();
+        TriggeredComboActionPool.Dispose();
+        GameEventLIstenerPool.Dispose();
+        GameCollider2DPool.Dispose();
+        ConvexCollider2DPool.Dispose();
+        AgtSkEftHandlerPool.Dispose();
+    }
+
 }

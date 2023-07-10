@@ -106,6 +106,7 @@ public class GameManager:MonoBehaviour
             }
         }
 
+        GamePoolCenter.Ins.Dispose();
 
         mGameConf = null;
         enableUpdate = false;

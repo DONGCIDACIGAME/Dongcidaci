@@ -34,5 +34,10 @@ namespace GameEngine
 
             mPool.Push(obj);
         }
+
+        public void Dispose()
+        {
+            mPool = null;
+        }
     }
 }
