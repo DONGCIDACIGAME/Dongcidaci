@@ -38,6 +38,19 @@ namespace GameSkillEffect
         public override void TriggerSkEft()
         {
             Log.Logic(LogLevel.Info, "TriggerSkEft Damage Trigger");
+
+            //just test particle
+            var fxCfg = new FXConfigData();
+            fxCfg.fxName = "FX_Slash_01";
+            fxCfg.transInfo = new ObjTransformData();
+            fxCfg.transInfo.scaleX = 1.2f;
+            fxCfg.transInfo.scaleY = 1.2f;
+            fxCfg.transInfo.scaleZ = 1.2f;
+            fxCfg.transInfo.posY = 0.3f;
+            fxCfg.transInfo.posZ = 0.5f;
+            GameFXManager.Ins.ShowAFX(fxCfg,_eftUser.GetPosition(),_eftUser.GetRotation());
+
+
             var tgtAgents = SkEftHelper.GetHitAgents(_eftUser,_eftCollideShape,_initSkEftData.rlsTgt);
             if (tgtAgents == null || tgtAgents.Count == 0)
             {
