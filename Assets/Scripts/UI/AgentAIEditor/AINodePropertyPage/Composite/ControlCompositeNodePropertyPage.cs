@@ -70,7 +70,7 @@ public class ControlCompositeNodePropertyPage : ControlAINodePropertyPage
             return;
 
         BTCompositeNode oldNode = mNode as BTCompositeNode;
-        BTCompositeNode newNode = BehaviourTreeManager.Ins.CreateBTNode(BTDefine.BT_Node_Type_Composite, detailType) as BTCompositeNode;
+        BTCompositeNode newNode = BehaviourTreeHelper.CreateBTNode(BTDefine.BT_Node_Type_Composite, detailType) as BTCompositeNode;
         newNode.NodeName = oldNode.NodeName;
         newNode.NodeDesc = oldNode.NodeDesc;
 

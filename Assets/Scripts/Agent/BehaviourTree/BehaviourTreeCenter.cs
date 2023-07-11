@@ -1,10 +1,11 @@
 using GameEngine;
 using System.Collections.Generic;
+using System.IO;
 
 /// <summary>
 /// 行为树管理器
 /// </summary>
-public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
+public class BehaviourTreeCenter
 {
     /// <summary>
     /// 已经加载过的行为树数据都缓存在这里面
@@ -12,9 +13,33 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
     /// </summary>
     private Dictionary<string, BTNodeData> mLoadedBTNodeDatas;
 
-    public override void Initialize()
+    public void Initialize()
     {
         mLoadedBTNodeDatas = new Dictionary<string, BTNodeData>();
+        string dirPath = null;
+#if UNITY_EDITOR
+        dirPath = PathDefine.EDITOR_DATA_DIR_PATH + "/BehaviourTree";
+#else
+        dirPath = PathDefine.RELEASE_DATA_DIR_PATH + "/BehaviourTree";
+#endif
+        LoadAllBehaviourTree(dirPath);
+    }
+
+    private void LoadAllBehaviourTree(string dirPath)
+    {
+        if (string.IsNullOrEmpty(dirPath))
+            return;
+
+        DirectoryInfo di = new DirectoryInfo(dirPath);
+        foreach (DirectoryInfo subDi in di.EnumerateDirectories())
+        {
+            LoadAllBehaviourTree(subDi.FullName);
+        }
+
+        foreach (FileInfo fi in di.EnumerateFiles("*.tree"))
+        {
+            LoadTreeWithFileFullPath(fi.FullName, false);
+        }
     }
 
     /// <summary>
@@ -223,7 +248,7 @@ public class BehaviourTreeManager : ModuleManager<BehaviourTreeManager>
         return null;
     }
 
-    public override void Dispose()
+    public void Dispose()
     {
         mLoadedBTNodeDatas = null;
     }

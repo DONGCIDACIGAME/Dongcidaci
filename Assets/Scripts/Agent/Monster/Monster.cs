@@ -112,7 +112,7 @@ public class Monster : Agent
 
 
         // 加载行为树
-        BehaviourTree = BehaviourTreeManager.Ins.LoadTreeWithTreeName(mMonsterCfg.BehaviourTree);
+        BehaviourTree = DataCenter.Ins.BehaviourTreeCenter.LoadTreeWithTreeName(mMonsterCfg.BehaviourTree);
         BehaviourTree.Initialize(this, new System.Collections.Generic.Dictionary<string,object>());
 
     }

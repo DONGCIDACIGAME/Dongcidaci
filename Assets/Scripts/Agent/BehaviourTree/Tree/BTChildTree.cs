@@ -133,8 +133,8 @@ public class BTChildTree : BTTree
         {
             // 加载子节点
             string childTreeFullPath = BehaviourTreeHelper.TreeNameToFileFullPath(mChildTreeName);
-            BTNodeData nodeData = BehaviourTreeManager.Ins.LoadTreeData(childTreeFullPath, true);
-            BTNode node = BehaviourTreeManager.Ins.CreateBTNode(nodeData);
+            BTNodeData nodeData = DataCenter.Ins.BehaviourTreeCenter.LoadTreeData(childTreeFullPath, true);
+            BTNode node = BehaviourTreeHelper.CreateBTNode(nodeData);
             int childLoadResult = node.LoadFromBTNodeData(nodeData);
 
             // 严格要求所有节点都正确加载，这个AI行为树才可以使用
@@ -148,7 +148,7 @@ public class BTChildTree : BTTree
         {
             // 加载子节点
             BTNodeData nodeData = childNodes[0];
-            BTNode node = BehaviourTreeManager.Ins.CreateBTNode(nodeData);
+            BTNode node = BehaviourTreeHelper.CreateBTNode(nodeData);
             int childLoadResult = node.LoadFromBTNodeData(nodeData);
 
             // 严格要求所有节点都正确加载，这个AI行为树才可以使用

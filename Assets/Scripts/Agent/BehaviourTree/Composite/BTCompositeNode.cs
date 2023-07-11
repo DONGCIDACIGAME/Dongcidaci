@@ -38,7 +38,7 @@ public abstract class BTCompositeNode : BTNode
         for (int i = 0; i < chlidNodes.Length; i++)
         {
             BTNodeData childNode = chlidNodes[i];
-            BTNode node = BehaviourTreeManager.Ins.CreateBTNode(childNode);
+            BTNode node = BehaviourTreeHelper.CreateBTNode(childNode);
             int childLoadResult = node.LoadFromBTNodeData(childNode);
 
             // 严格要求所有节点都正确加载，这个AI行为树才可以使用

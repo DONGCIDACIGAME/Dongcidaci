@@ -17,6 +17,11 @@ public class DataCenter : ModuleManager<DataCenter>
     /// </summary>
     public AgentComboGraphCenter AgentComboGraphCenter;
 
+    /// <summary>
+    /// 行为树数据中心
+    /// </summary>
+    public BehaviourTreeCenter BehaviourTreeCenter;
+
 
     public override void Dispose()
     {
@@ -37,6 +42,12 @@ public class DataCenter : ModuleManager<DataCenter>
             AgentComboGraphCenter.Dispose();
             AgentComboGraphCenter = null;
         }
+
+        if(BehaviourTreeCenter != null)
+        {
+            BehaviourTreeCenter.Dispose();
+            BehaviourTreeCenter = null;
+        }
     }
 
     public override void Initialize()
@@ -52,6 +63,10 @@ public class DataCenter : ModuleManager<DataCenter>
         // 加载所有combo配置
         AgentComboGraphCenter = new AgentComboGraphCenter();
         AgentComboGraphCenter.Initialize();
+
+        // 加载所有行为树配置
+        BehaviourTreeCenter = new BehaviourTreeCenter();
+        BehaviourTreeCenter.Initialize();
     }
 
     /// <summary>

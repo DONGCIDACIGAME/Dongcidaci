@@ -87,7 +87,7 @@ public abstract class BTDecorNode : BTNode
     {
         // 加载子节点
         BTNodeData nodeData = childNodes[0];
-        BTNode node = BehaviourTreeManager.Ins.CreateBTNode(nodeData);
+        BTNode node = BehaviourTreeHelper.CreateBTNode(nodeData);
         int childLoadResult = node.LoadFromBTNodeData(nodeData);
 
         // 严格要求所有节点都正确加载，这个AI行为树才可以使用

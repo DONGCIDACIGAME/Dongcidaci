@@ -387,7 +387,7 @@ public abstract class BTNode : IGameDisposable
     public BTNode Copy()
     {
         BTNodeData data = ToBTNodeData();
-        BTNode node = BehaviourTreeManager.Ins.CreateBTNode(data);
+        BTNode node = BehaviourTreeHelper.CreateBTNode(data);
         node.LoadFromBTNodeData(data);
         return node;
     }

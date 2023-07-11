@@ -73,12 +73,12 @@ public class ControlAddNewNodePage : UIControl
 
     private void AddChildTreeFromFile(string childTreeFilePath)
     {
-        BTChildTree childTree = BehaviourTreeManager.Ins.CreateBTNode(BTDefine.BT_Node_Type_Tree, BTDefine.BT_Node_Type_Tree_ChildTree) as BTChildTree;
+        BTChildTree childTree = BehaviourTreeHelper.CreateBTNode(BTDefine.BT_Node_Type_Tree, BTDefine.BT_Node_Type_Tree_ChildTree) as BTChildTree;
         string childTreeName = BehaviourTreeHelper.FileFullPathToTreeName(childTreeFilePath);
         childTree.SetChildTreeName(childTreeName);
         // 从文件加载的子树默认是浅拷贝
         childTree.SetCopyType(BTDefine.BT_ChildTreeCopyType_Reference);
-        BTTreeEntry treeEntry = BehaviourTreeManager.Ins.LoadTreeWithFileFullPath(childTreeFilePath, true);
+        BTTreeEntry treeEntry = DataCenter.Ins.BehaviourTreeCenter.LoadTreeWithFileFullPath(childTreeFilePath, true);
         childTree.SetChildNode(treeEntry);
         AddChildNode(childTree);
     }

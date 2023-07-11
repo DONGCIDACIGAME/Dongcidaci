@@ -74,7 +74,7 @@ public class PanelAIEditor : UIPanel
 
     private void LoadTree(string filePath)
     {
-        BTTree tree = BehaviourTreeManager.Ins.LoadTreeWithFileFullPath(filePath, true);
+        BTTree tree = DataCenter.Ins.BehaviourTreeCenter.LoadTreeWithFileFullPath(filePath, true);
         mTreeFileName = BehaviourTreeHelper.FileFullPathToTreeName(filePath);
         mCurEditingTree = tree;
         DrawTree(mCurEditingTree);
@@ -105,8 +105,8 @@ public class PanelAIEditor : UIPanel
             UIManager.Ins.OpenPanel<PanelMessageBox>("Prefabs/UI/Common/Panel_MessageBox",
                 new Dictionary<string, object>
                 {
-                                {"title", "行为树保存失败"},
-                                {"content", info }
+                    {"title", "行为树保存失败"},
+                    {"content", info }
                 });
 
             GameEventSystem.Ins.Fire("SelectNode", node);
@@ -116,14 +116,14 @@ public class PanelAIEditor : UIPanel
         string fileFullPath = BehaviourTreeHelper.TreeNameToFileFullPath(treeName);
         if(!string.IsNullOrEmpty(fileFullPath))
         {
-            BehaviourTreeManager.Ins.SaveTree(fileFullPath, mCurEditingTree);
+            DataCenter.Ins.BehaviourTreeCenter.SaveTree(fileFullPath, mCurEditingTree);
             mDataChanged = false;
         }
     }
 
     private void CreateNewTree()
     {
-        mCurEditingTree = BehaviourTreeManager.Ins.CreateBTNode(BTDefine.BT_Node_Type_Tree, BTDefine.BT_Node_Type_Tree_Entry) as BTTree;
+        mCurEditingTree = BehaviourTreeHelper.CreateBTNode(BTDefine.BT_Node_Type_Tree, BTDefine.BT_Node_Type_Tree_Entry) as BTTree;
         DrawTree(mCurEditingTree);
         mTreeFileName = string.Empty;
         GameEventSystem.Ins.Fire("SelectNode", mCurEditingTree);
