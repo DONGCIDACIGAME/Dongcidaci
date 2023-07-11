@@ -52,7 +52,7 @@ public class BehaviourTreeCenter
         BTNodeData data = LoadTreeData(filePath, forceReload);
         if (data == null)
             return null;
-        BTTreeEntry tree = CreateBTNode(data) as BTTreeEntry;
+        BTTreeEntry tree = BehaviourTreeHelper.CreateBTNode(data) as BTTreeEntry;
         tree.LoadFromBTNodeData(data);
         return tree;
     }
