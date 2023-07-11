@@ -2,37 +2,68 @@ using UnityEngine;
 
 public abstract class AgentView : MapEntityViewWithCollider
 {
+
+    private void Start()
+    {
+        // 查找所有的特效的挂载点
+        // Added by weng 0711
+        if (_HIT_FX == null)
+        {
+            var retT = CommanHelper.FindChildNode(this.transform, "_HIT_FX");
+            if (retT != null) _HIT_FX = retT.gameObject;
+        }
+
+        if (_FRONT_ATK_FX == null)
+        {
+            var retT = CommanHelper.FindChildNode(this.transform, "_FRONT_ATK_FX");
+            if (retT != null) _FRONT_ATK_FX = retT.gameObject;
+        }
+
+        if (_WEAPON_FX == null)
+        {
+            var retT = CommanHelper.FindChildNode(this.transform, "_WEAPON_FX");
+            if (retT != null) _WEAPON_FX = retT.gameObject;
+        }
+
+    }
+
     // Added by Weng 0710
     #region FX CARRY POINT DEFINE
 
     /// <summary>
     /// 受击效果的特效挂载点
     /// </summary>
-    [SerializeField] private GameObject _hitFXCarryNode;
+    [SerializeField] private GameObject _HIT_FX;
 
-
-    [SerializeField] private GameObject _frontAtkFXCarryNode;
+    /// <summary>
+    /// 前方攻击特效的挂载点
+    /// </summary>
+    [SerializeField] private GameObject _FRONT_ATK_FX;
 
     /// <summary>
     /// 武器特效的挂载点
     /// </summary>
-    [SerializeField] private GameObject _weaponFXCarryNode;
+    [SerializeField] private GameObject _WEAPON_FX;
 
 
-    public GameObject GetFXCarryNode(FXCarryNodeDefine carryNodeType)
+    public GameObject GetFXCarryNode(string nodeName)
     {
-        switch (carryNodeType)
+        if (nodeName == "_HIT_FX") return _HIT_FX;
+        if (nodeName == "_FRONT_ATK_FX") return _FRONT_ATK_FX;
+        if (nodeName == "_WEAPON_FX") return _WEAPON_FX;
+
+        // no defined
+        var retT = CommanHelper.FindChildNode(this.transform, nodeName);
+        if (retT != null)
         {
-            case FXCarryNodeDefine.AgentHitNode:
-                return _hitFXCarryNode;
-            case FXCarryNodeDefine.AgentWeaponNode:
-                return _weaponFXCarryNode;
-            default:
-                return null;
+            return retT.gameObject;
+        }
+        else
+        {
+            Log.Error(LogLevel.Critical, "GetFXCarryNode in AgentView error, no fx node called {0}",nodeName);
+            return null;
         }
     }
-
-
 
     #endregion
 

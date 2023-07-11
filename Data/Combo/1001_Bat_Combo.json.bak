@@ -15,6 +15,16 @@
 						"stateName": "Attack", 
 						"effectCollictions": [
 							{
+								"rlsFxCfg":{
+									"fxName":"", 
+									"carryNodeName":"", 
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
+								"hitFxCfg":{
+									"fxName":"",
+									"carryNodeName":"",
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
 								"effects": [
 									
 								]
@@ -57,9 +67,9 @@
 			"transferStateDuration": 0.5
 		},
 		{
-			"comboId": 2,
+			"comboUID": 2,
 			"comboName": "DashAttack",
-			"comboType": 0,
+			"comboType": 1,
 			"comboSteps": [
 				{
 					"input": 4, 

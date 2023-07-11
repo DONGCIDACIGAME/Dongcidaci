@@ -10,7 +10,7 @@ public class GameFXManager : ModuleManager<GameFXManager>
 
     private List<GameObject> _fxObjs = new List<GameObject>();
 
-    public void ShowAFX(FXConfigData fxCfg, Vector3 anchorPos,Vector3 anchorRotate)
+    public void ShowAFXUnderDefaultNode(FXConfigData fxCfg, Vector3 anchorPos,Vector3 anchorRotate)
     {
         var popRet = PopAFXFromPoolWith(fxCfg.fxName);
         if (popRet == null)
@@ -36,6 +36,15 @@ public class GameFXManager : ModuleManager<GameFXManager>
         popRet.transform.eulerAngles = realAngle;
         popRet.transform.localScale = new Vector3(fxCfg.transInfo.scaleX, fxCfg.transInfo.scaleY, fxCfg.transInfo.scaleZ);
         popRet.SetActive(true);
+    }
+
+
+    public void ShowAFX(FXConfigData fxCfg, Agent tgtAgent)
+    {
+        if (fxCfg == null || tgtAgent == null) return;
+        var tgtCarryNode = tgtAgent.GetFXCarryNode(fxCfg.carryNodeName);
+        if (tgtCarryNode == null) return;
+        ShowAFX(fxCfg, tgtCarryNode);
     }
 
 

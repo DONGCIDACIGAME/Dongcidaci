@@ -9,6 +9,7 @@ namespace GameSkillEffect
             this._eftCollideShape = null;
             this._eftUser = null;
             this._initSkEftData = null;
+            this.DmgHitFXCfg = null;
         }
 
         public override void Recycle()

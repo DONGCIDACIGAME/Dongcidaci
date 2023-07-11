@@ -87,7 +87,7 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
                 }
             }
             // 生成这个combo hit 的数据
-            var comboHitData = new ComboHitEffectsData(comboUID,comboType,isLastStep,rlsEffects);
+            var comboHitData = new ComboHitEffectsData(comboUID,comboType,isLastStep,rlsEffects,hitEffects.rlsFxCfg,hitEffects.hitFxCfg);
             //Changed by weng 0704
             //此处应该是个错误，对应的ComboEffectExcutor执行的应该是SkEftDataCollection
             ComboEffectExcutor excutor = GamePoolCenter.Ins.ComboEffectExcutorPool.Pop();

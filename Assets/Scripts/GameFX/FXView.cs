@@ -23,7 +23,6 @@ public class FXView : MonoBehaviour
 
     public void OnParticleSystemStopped()
     {
-        this.gameObject.SetActive(false);
         GameFXManager.Ins.RecycleAFX(this.gameObject);
     }
 

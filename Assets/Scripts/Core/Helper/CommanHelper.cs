@@ -4,6 +4,12 @@ using UnityEngine;
 
 public static class CommanHelper
 {
+    /// <summary>
+    /// 通过递归的方式查找子物体下特定名称的节点
+    /// </summary>
+    /// <param name="rootNode"></param>
+    /// <param name="name"></param>
+    /// <returns></returns>
     public static Transform FindChildNode(Transform rootNode, string name)
     {
         if (rootNode == null)

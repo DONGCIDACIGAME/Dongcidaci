@@ -10,7 +10,7 @@ using System.Collections.Generic;
 public class UpdateCenter : ModuleManager<UpdateCenter>
 {
     //private HashSet<IGameUpdate> mUpdates;
-    private List<IGameUpdate> mUpdates;
+    private List<IGameUpdate> mUpdates = new List<IGameUpdate>();
 
     public override void Initialize()
     {

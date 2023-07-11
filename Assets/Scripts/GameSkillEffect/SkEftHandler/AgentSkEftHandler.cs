@@ -65,9 +65,19 @@ namespace GameSkillEffect
                 iTrigOnExcComboEft.OnExcuteComboEfts(_bindAgent, hitEffects);
             }
 
+            // 显示这个hit的特效
+            GameFXManager.Ins.ShowAFX(hitEffects.rlsFxCfg, _bindAgent);
+
             // 2 触发剩下的效果
             foreach (var tgtRlsEft in hitEffects.effectsForRls)
             {
+                // 仅针对当前击打点触发的效果中有攻击伤害时才会产生被击打的特效
+                if(tgtRlsEft is Damage)
+                {
+                    var rlsDmg = tgtRlsEft as Damage;
+                    rlsDmg.DmgHitFXCfg = hitEffects.hitFxCfg;
+                }
+
                 tgtRlsEft.TriggerSkEft();
             }
             
@@ -163,6 +173,9 @@ namespace GameSkillEffect
        
         public void OnFinalGetADmg(Agent srcAgt,Damage finalGotDmg)
         {
+            // 显示被打中的特效
+            GameFXManager.Ins.ShowAFX(finalGotDmg.DmgHitFXCfg,_bindAgent);
+
             //调用自己的attrHandler处理受到伤害的逻辑
             _bindAgent.AttrHandler.GetFinalDamage(srcAgt,finalGotDmg);
         }

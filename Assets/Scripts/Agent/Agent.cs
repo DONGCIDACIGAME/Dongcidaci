@@ -500,9 +500,9 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     /// 获取这个角色的特效挂载点
     /// </summary>
     /// <returns></returns>
-    public GameObject GetFXCarryNode(FXCarryNodeDefine nodeType)
+    public GameObject GetFXCarryNode(string nodeName)
     {
-        return mAgentView.GetFXCarryNode(nodeType);
+        return mAgentView.GetFXCarryNode(nodeName);
     }
 
 

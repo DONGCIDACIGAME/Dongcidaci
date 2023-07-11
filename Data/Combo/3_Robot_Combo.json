@@ -15,6 +15,16 @@
 						"stateName": "Combo_1_With_Empty", 
 						"effectCollictions": [
 							{
+								"rlsFxCfg":{
+									"fxName":"FX_Slash_01", 
+									"carryNodeName":"_FRONT_ATK_FX", 
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
+								"hitFxCfg":{
+									"fxName":"FX_Slash_01_Hit",
+									"carryNodeName":"_HIT_FX",
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
 								"effects": [
 									{
 										"comment": "Fire Test Bullet",
@@ -49,6 +59,16 @@
 						"stateName": "Combo_2_With_Empty",
 						"effectCollictions": [
 							{
+								"rlsFxCfg":{
+									"fxName":"FX_Slash_01", 
+									"carryNodeName":"_FRONT_ATK_FX", 
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
+								"hitFxCfg":{
+									"fxName":"FX_Slash_01_Hit",
+									"carryNodeName":"_HIT_FX",
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
 								"effects": [
 									{
 										"comment": "Damage Attack Test",
@@ -73,6 +93,16 @@
 						"stateName": "Combo_3_With_Empty",
 						"effectCollictions": [
 							{
+								"rlsFxCfg":{
+									"fxName":"FX_Slash_01", 
+									"carryNodeName":"_FRONT_ATK_FX", 
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
+								"hitFxCfg":{
+									"fxName":"FX_Slash_01_Hit",
+									"carryNodeName":"_HIT_FX",
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
 								"effects": [
 									{
 										"comment": "Damage Attack Test",
@@ -105,6 +135,16 @@
 						"stateName": "Dash", 
 						"effectCollictions": [
 							{
+								"rlsFxCfg":{
+									"fxName":"", 
+									"carryNodeName":"", 
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
+								"hitFxCfg":{
+									"fxName":"",
+									"carryNodeName":"",
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
 								"effects": [
 									{
 										"comment": "Dash Effect Test",
@@ -129,6 +169,16 @@
 						"stateName": "Combo_2_With_Empty",
 						"effectCollictions": [
 							{
+								"rlsFxCfg":{
+									"fxName":"", 
+									"carryNodeName":"", 
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
+								"hitFxCfg":{
+									"fxName":"",
+									"carryNodeName":"",
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
 								"effects": [
 									
 								]

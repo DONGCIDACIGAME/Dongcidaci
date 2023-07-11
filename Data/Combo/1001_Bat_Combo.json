@@ -15,6 +15,16 @@
 						"stateName": "Attack", 
 						"effectCollictions": [
 							{
+								"rlsFxCfg":{
+									"fxName":"", 
+									"carryNodeName":"", 
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
+								"hitFxCfg":{
+									"fxName":"",
+									"carryNodeName":"",
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
 								"effects": [
 									
 								]
@@ -30,6 +40,16 @@
 						"stateName": "Attack",
 						"effectCollictions": [
 							{
+								"rlsFxCfg":{
+									"fxName":"", 
+									"carryNodeName":"", 
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
+								"hitFxCfg":{
+									"fxName":"",
+									"carryNodeName":"",
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
 								"effects": [
 									
 								]
@@ -45,6 +65,16 @@
 						"stateName": "Attack",
 						"effectCollictions": [
 							{
+								"rlsFxCfg":{
+									"fxName":"", 
+									"carryNodeName":"", 
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
+								"hitFxCfg":{
+									"fxName":"",
+									"carryNodeName":"",
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
 								"effects": [
 									
 								]
@@ -68,6 +98,16 @@
 						"stateName": "Dash", 
 						"effectCollictions": [
 							{
+								"rlsFxCfg":{
+									"fxName":"", 
+									"carryNodeName":"", 
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
+								"hitFxCfg":{
+									"fxName":"",
+									"carryNodeName":"",
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
 								"effects": [
 								
 								]
@@ -83,6 +123,16 @@
 						"stateName": "Attack",
 						"effectCollictions": [
 							{
+								"rlsFxCfg":{
+									"fxName":"", 
+									"carryNodeName":"", 
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
+								"hitFxCfg":{
+									"fxName":"",
+									"carryNodeName":"",
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
 								"effects": [
 									
 								]

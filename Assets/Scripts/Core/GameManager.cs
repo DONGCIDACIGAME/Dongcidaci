@@ -90,7 +90,7 @@ public class GameManager:MonoBehaviour
     private void Awake()
     {
         Debug.developerConsoleVisible = true;
-        DisposeGame();
+        //DisposeGame();
         Initialize();
         Launch();
     }
