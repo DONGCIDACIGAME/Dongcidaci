@@ -62,7 +62,7 @@
 								"rlsFxCfg":{
 									"fxName":"FX_Slash_01", 
 									"carryNodeName":"_FRONT_ATK_FX", 
-									"transInfo":{"posX":0, "posY":0.2, "posZ":-0.3, "angleX":0, "angleY":0, "angleZ":200, "scaleX":1, "scaleY":1, "scaleZ":1}
+									"transInfo":{"posX":0, "posY":0.1, "posZ":-0.3, "angleX":0, "angleY":0, "angleZ":190, "scaleX":1, "scaleY":1, "scaleZ":1}
 								},
 								"hitFxCfg":{
 									"fxName":"FX_Slash_01_Hit",
@@ -152,7 +152,7 @@
 										"effectCfgUID": 1101,
 										"strValueDict":{},
 										"intValueDict":{},
-										"floatValueDict":{},
+										"floatValueDict":{"distance":3,"speed":0.5},
 										"subEffects":[],
 										"hitShape":{"shapeType": 0, "sizeX": 4, "sizeY": 3, "offsetX": 0,"offsetY": 0.5}
 									}
@@ -166,7 +166,7 @@
 					"input": 8,
 					"agentActionData": {
 						"statusName": "Attack",
-						"stateName": "Combo_2_With_Empty",
+						"stateName": "DashAtk1_Inplace",
 						"effectCollictions": [
 							{
 								"rlsFxCfg":{

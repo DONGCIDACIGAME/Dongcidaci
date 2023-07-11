@@ -152,7 +152,7 @@
 										"effectCfgUID": 1101,
 										"strValueDict":{},
 										"intValueDict":{},
-										"floatValueDict":{},
+										"floatValueDict":{"distance":4,"speed":0.5},
 										"subEffects":[],
 										"hitShape":{"shapeType": 0, "sizeX": 4, "sizeY": 3, "offsetX": 0,"offsetY": 0.5}
 									}
@@ -166,7 +166,7 @@
 					"input": 8,
 					"agentActionData": {
 						"statusName": "Attack",
-						"stateName": "Combo_2_With_Empty",
+						"stateName": "DashAtk1_Inplace",
 						"effectCollictions": [
 							{
 								"rlsFxCfg":{

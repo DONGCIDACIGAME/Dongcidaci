@@ -41,7 +41,7 @@ public class GameFXManager : ModuleManager<GameFXManager>
 
     public void ShowAFX(FXConfigData fxCfg, Agent tgtAgent)
     {
-        if (fxCfg == null || tgtAgent == null) return;
+        if (fxCfg == null || tgtAgent == null || fxCfg.fxName == string.Empty) return;
         var tgtCarryNode = tgtAgent.GetFXCarryNode(fxCfg.carryNodeName);
         if (tgtCarryNode == null) return;
         ShowAFX(fxCfg, tgtCarryNode);
@@ -50,7 +50,7 @@ public class GameFXManager : ModuleManager<GameFXManager>
 
     public void ShowAFX(FXConfigData fxCfg,GameObject tgtCarryNode)
     {
-        if(tgtCarryNode == null)
+        if(tgtCarryNode == null || fxCfg.fxName == string.Empty)
         {
             return;
         }

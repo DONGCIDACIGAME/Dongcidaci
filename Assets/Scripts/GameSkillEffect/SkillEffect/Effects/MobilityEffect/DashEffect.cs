@@ -35,6 +35,7 @@ namespace GameSkillEffect
             if (_eftUser.SkillEftHandler.OnApplyMoveEffect(this))
             {
                 // 执行状态的切换
+                /**
                 AgentCommand dashCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
                 dashCmd.AddArg("distance",dashDistance);
                 //dashCmd.AddArg("speed", dashSpeed);
@@ -43,6 +44,11 @@ namespace GameSkillEffect
                 dashCmd.AddArg("timeType", TimeDefine.TimeType_AbsoluteTime);
                 dashCmd.Initialize(AgentCommandDefine.DASH, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, _eftUser.GetTowards());
                 _eftUser.OnCommand(dashCmd);
+                */
+
+                // 此处不在进行状态的切换，而是直接控制移动
+                //_eftUser.MoveControl.MoveTowards(_eftUser.GetTowards(), dashDistance,0.4f);
+                _eftUser.MovementExcutorCtl.Start(0f,0.4f,_eftUser.GetTowards(),5f);
             }
 
             Recycle();
