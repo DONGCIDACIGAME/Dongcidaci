@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace GameEngine
@@ -27,7 +27,7 @@ namespace GameEngine
             _toStopCoroutines = null;
         }
 
-        public override  void OnUpdate(float deltaTime)
+        public override void OnUpdate(float deltaTime)
         {
             if(_coroutines == null || _toStopCoroutines == null)
             {
