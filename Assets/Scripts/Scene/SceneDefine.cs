@@ -5,7 +5,7 @@ public static class SceneDefine
     public const string Launch = "Launch";
     public const string SceneSelect = "SceneSelect";
     public const string MusicEditor = "MusicEditor";
-    public const string Demo = "Demo";
+    public const string Demo = "DemoScene";
 
     public static Dictionary<string, IScene> RegisteredScenes = new Dictionary<string, IScene>
     {

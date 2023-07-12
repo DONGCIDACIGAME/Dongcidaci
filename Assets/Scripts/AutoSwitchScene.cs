@@ -7,6 +7,6 @@ public class AutoSwitchScene : MonoBehaviour
 
     private void Start()
     {
-        GameSceneManager.Ins.SwitchToScene(SwitchTo);
+        GameSceneManager.Ins.LoadAndSwitchToScene(SwitchTo);
     }
 }

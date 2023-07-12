@@ -172,7 +172,7 @@ public class GameColliderManager : ModuleManager<GameColliderManager>,IColliderS
     /// 更新碰撞体在网格中的信息
     /// </summary>
     /// <param name="collider"></param>
-    public void UpdateColliderInfoInGrid(ConvexCollider2D collider)
+    private void UpdateColliderInfoInGrid(ConvexCollider2D collider)
     {
         if(collider == null)
         {

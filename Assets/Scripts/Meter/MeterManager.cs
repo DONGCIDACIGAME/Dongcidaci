@@ -33,15 +33,12 @@ public class MeterManager : ModuleManager<MeterManager>
     /// Added by Weng 2023/05/05
     /// 当前距离这1拍索引已经经过的时间
     /// </summary>
-    public float CrtMeterPassedTime {
-
-        get
-        {
-            //Added By Weng 2023/05/05
-            int meterIndexInMusic = GetMeterIndexInMusic(MeterIndex);
-            float gap = timeRecord - mCurAudioMeterData.baseMeters[meterIndexInMusic];
-            return gap > 0 ? gap : 0;
-        }
+    public float GetCurMeterPassedTime()
+    {
+        //Added By Weng 2023/05/05
+        int meterIndexInMusic = GetMeterIndexInMusic(MeterIndex);
+        float gap = timeRecord - mCurAudioMeterData.baseMeters[meterIndexInMusic];
+        return gap > 0 ? gap : 0;
     }
 
     /// <summary>
@@ -398,7 +395,7 @@ public class MeterManager : ModuleManager<MeterManager>
     /// 获取当前拍子的总时间
     /// </summary>
     /// <returns></returns>
-    public float GetCurrentMeterTime()
+    public float GetCurrentMeterTotalTime()
     {
         int targetMeter = GetMeterIndex(MeterIndex, 1);
         return GetTotalMeterTime(MeterIndex, targetMeter);

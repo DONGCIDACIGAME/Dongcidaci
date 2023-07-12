@@ -30,7 +30,7 @@ public class CurveMoveWithMeter : BehaviourWithMeter
         if (!meterTriggered)
             return;
 
-        meterDuration = MeterManager.Ins.GetCurrentMeterTime();
+        meterDuration = MeterManager.Ins.GetCurrentMeterTotalTime();
         mOriPos = this.transform.position;
         timeRecord = 0;
     }

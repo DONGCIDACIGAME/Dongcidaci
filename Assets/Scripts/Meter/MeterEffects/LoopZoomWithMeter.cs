@@ -53,7 +53,7 @@ public class LoopZoomWithMeter : BehaviourWithMeter
         if (!meterTriggered)
             return;
 
-        meterDuration = MeterManager.Ins.GetCurrentMeterTime();
+        meterDuration = MeterManager.Ins.GetCurrentMeterTotalTime();
         this.transform.localScale = zoomFrom;
         timeRecord = 0;
     }

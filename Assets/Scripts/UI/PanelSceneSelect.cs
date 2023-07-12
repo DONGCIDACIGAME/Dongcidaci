@@ -16,7 +16,7 @@ public class PanelSceneSelect : UIPanel
 
     private void OnClickDemoSceen()
     {
-        GameSceneManager.Ins.SwitchToScene(SceneDefine.Demo);
+        GameSceneManager.Ins.LoadAndSwitchToScene(SceneDefine.Demo);
     }
 
     private void OnClickMonsterAIEditor()

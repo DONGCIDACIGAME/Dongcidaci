@@ -7,6 +7,8 @@ namespace GameEngine
 
     public abstract partial class UIEntity
     {
+        private static AutoIncrementIndex mIndexer = new AutoIncrementIndex();
+
         /// <summary>
         /// 关闭前执行
         /// </summary>
@@ -44,7 +46,7 @@ namespace GameEngine
         // 构造函数
         protected UIEntity() 
         {
-            mUIEntityID = UIManager.Ins.PopUIEntityId();
+            mUIEntityID = mIndexer.GetIndex();
         } 
 
         public void Initialize(string resPath, GameObject rootGo, GameObject parent, UIEntity holder) 

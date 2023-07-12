@@ -23,7 +23,7 @@ namespace GameEngine
             mCurScene = null;
         }
 
-        public void SwitchToScene(string sceneName)
+        private void SwitchToScene(string sceneName)
         {
             if(string.IsNullOrEmpty(sceneName))
             {

@@ -25,7 +25,6 @@ public class GameManager:MonoBehaviour
     //public GameScopeManager       GameScopeMgr { get; private set; }     // 域管理器
     private AgentManager                        AgentMgr;                                           // 角色控制器 
     private DataCenter                          DataCenter;                                         // 数据中心
-    private ConfigDatabase                      ConfigCenter;                                       // 配置数据中心
     private TimerCenter                         TimerCenter;                                        // 定时器中心
     private MeterTimerCenter                    MeterTimerCenter;                                   // 节拍定时器中心
     private UpdateCenter                        UpdateCenter;                                       // Update驱动中心

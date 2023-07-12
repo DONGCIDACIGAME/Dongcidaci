@@ -69,7 +69,7 @@ public class TimerCenter : ModuleManager<TimerCenter>
         {
             timer.OnUpdate(deltaTime);
 
-            // ¶¨Ê±Æ÷½áÊøÊ±£¬·ÅÈëÁĞ±íÖĞµÈ´ı»ØÊÕ
+            // å®šæ—¶å™¨ç»“æŸæ—¶ï¼Œæ”¾å…¥åˆ—è¡¨ä¸­ç­‰å¾…å›æ”¶
             if(timer.CheckEnd())
             {
                 toPushTimers.Add(timer);
@@ -82,7 +82,7 @@ public class TimerCenter : ModuleManager<TimerCenter>
     {
         base.OnLateUpdate(deltaTime);
 
-        // »ØÊÕÒÑ½áÊøµÄ¶¨Ê±Æ÷
+        // å›æ”¶å·²ç»“æŸçš„å®šæ—¶å™¨
         foreach (GameTimer timer in toPushTimers)
         {
             RemoveTimer(timer);
