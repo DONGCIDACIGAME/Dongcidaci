@@ -282,7 +282,7 @@ public abstract class AgentStatus : IAgentStatus
                 Dictionary<string, object> _args = new Dictionary<string, object>();
                 _args.Add("duration", transferStateDuration);
                 TriggeredComboStep _triggeredComboStep = null;
-                GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSFER, AgentCommandDefine.EMPTY, DirectionDef.none, triggerMeter, args, _triggeredComboStep);
+                GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSFER, AgentCommandDefine.EMPTY, DirectionDef.none, triggerMeter, _args, _triggeredComboStep);
             }));
         }
 

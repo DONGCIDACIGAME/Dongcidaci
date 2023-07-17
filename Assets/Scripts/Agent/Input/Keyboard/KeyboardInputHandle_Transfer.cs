@@ -22,6 +22,14 @@ public class KeyboardInputHandle_Transfer : AgentKeyboardInputHandle
 
     public override void OnUpdate(float deltaTime)
     {
-        
+        if (mAgent == null)
+            return;
+
+        AgentCommand cmd;
+        bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
+        if (hasCmd)
+        {
+            mAgent.OnCommand(cmd);
+        }
     }
 }

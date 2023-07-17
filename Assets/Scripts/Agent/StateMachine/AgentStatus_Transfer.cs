@@ -60,10 +60,38 @@ public class AgentStatus_Transfer : AgentStatus
 
         if(mTime >= mStateDuration)
         {
-            Dictionary<string, object> args = null;
-            TriggeredComboStep triggeredComboStep = null;
-            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep);
+            int meterIndex = MeterManager.Ins.MeterIndex;
+            // 缓存区取指令
+            if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+            {
+                Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
+
+                switch (cmdType)
+                {
+                    case AgentCommandDefine.BE_HIT_BREAK:
+                    case AgentCommandDefine.RUN:
+                    case AgentCommandDefine.DASH:
+                    case AgentCommandDefine.IDLE:
+                    case AgentCommandDefine.ATTACK_SHORT:
+                    case AgentCommandDefine.ATTACK_LONG:
+                        PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
+                        break;
+                    case AgentCommandDefine.EMPTY:
+                    case AgentCommandDefine.BE_HIT:
+                    default:
+                        break;
+                }
+            }
+
+            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, mCurTriggeredComboStep);
         }
+    }
+
+    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    {
+        base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
+
+        PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
     }
 
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, AgentActionData agentActionData)

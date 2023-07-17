@@ -100,11 +100,11 @@ public class AgentStatus_Attack : AgentStatus
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.IDLE:
-                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
+                    //ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
                     break;
                 case AgentCommandDefine.ATTACK_SHORT:
                 case AgentCommandDefine.ATTACK_LONG:
-                    if(mCurTriggeredComboStep != null)
+                    if (mCurTriggeredComboStep != null)
                     {
                         ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
                     }
@@ -135,6 +135,42 @@ public class AgentStatus_Attack : AgentStatus
         {
             // 是否在输入的容差时间内
             bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.DashMeterCheckTolerance, GamePlayDefine.DashMeterCheckOffset);
+
+
+            if(!inInputTime)
+            {
+                int meterIndex = MeterManager.Ins.MeterIndex;
+                // 缓存区取指令
+                if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+                {
+                    Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
+
+                    switch (cmdType)
+                    {
+                        case AgentCommandDefine.BE_HIT_BREAK:
+                        case AgentCommandDefine.RUN:
+                        case AgentCommandDefine.DASH:
+                        case AgentCommandDefine.IDLE:
+                            ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
+                            break;
+                        case AgentCommandDefine.ATTACK_SHORT:
+                        case AgentCommandDefine.ATTACK_LONG:
+                            //if (mCurTriggeredComboStep != null)
+                            //{
+                            //    ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
+                            //}
+                            //else
+                            //{
+                            //    StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
+                            //}
+                            //break;
+                        case AgentCommandDefine.EMPTY:
+                        case AgentCommandDefine.BE_HIT:
+                        default:
+                            break;
+                    }
+                }
+            }
 
             // 超过输入的容差时间，且当前指令缓存区里没有指令（没有待执行指令）
             if (!inInputTime && !cmdBuffer.HasCommand())
