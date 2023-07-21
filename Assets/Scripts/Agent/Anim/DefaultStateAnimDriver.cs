@@ -21,14 +21,14 @@ public class DefaultStateAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        float duration = MeterManager.Ins.GetTimeToMeterWithOffset(mCurAnimState.stateMeterLen);
+        float duration = MeterManager.Ins.GetTimeToMeterWithOffset(mCurAnimState.meterLen);
         if (duration == 0)
         {
-            Log.Error(LogLevel.Normal, "DefaultStateAnimDriver Play Error time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
+            Log.Error(LogLevel.Normal, "DefaultStateAnimDriver Play Error time to target meter is 0,anim state len:{0}", mCurAnimState.meterLen);
             return MeterManager.Ins.MeterIndex;
         }
 
-        int endMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, mCurAnimState.stateMeterLen);
+        int endMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, mCurAnimState.meterLen);
         float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, endMeterIndex);
 
         // 原来的逻辑，直接融合

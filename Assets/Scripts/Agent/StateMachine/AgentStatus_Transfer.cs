@@ -83,7 +83,10 @@ public class AgentStatus_Transfer : AgentStatus
                         break;
                 }
             }
-
+            else
+            {
+                ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
+            }
             //GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, mCurTriggeredComboStep);
         }
     }

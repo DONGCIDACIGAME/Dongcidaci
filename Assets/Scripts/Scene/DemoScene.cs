@@ -12,8 +12,8 @@ public class DemoScene : GameScene
 
     public override void OnSceneEnter()
     {
-        //AudioManager.Ins.LoadBgm("Audio/Music/Thunder Love");
-        AudioManager.Ins.LoadBgm("Audio/Music/The Rush");
+        AudioManager.Ins.LoadBgm("Audio/Music/Thunder Love");
+        //AudioManager.Ins.LoadBgm("Audio/Music/The Rush");
         //AudioManager.Ins.LoadBgm("Audio/Music/Tobu - Higher");
         AudioManager.Ins.PlayBgm(true);
         UIManager.Ins.OpenPanel<PanelDemo>("Prefabs/UI/Panel_Demo");

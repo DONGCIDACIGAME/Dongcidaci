@@ -38,14 +38,14 @@ public class StepLoopAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        float duration = MeterManager.Ins.GetTimeToMeterWithOffset(mCurAnimState.stateMeterLen);
+        float duration = MeterManager.Ins.GetTimeToMeterWithOffset(mCurAnimState.meterLen);
         if (duration == 0)
         {
-            Log.Error(LogLevel.Normal, "StepLoopAnimDriver AnimRepeatePlay Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
+            Log.Error(LogLevel.Normal, "StepLoopAnimDriver AnimRepeatePlay Error, time to target meter is 0,anim state len:{0}", mCurAnimState.meterLen);
             return MeterManager.Ins.MeterIndex;
         }
 
-        int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, mCurAnimState.stateMeterLen);
+        int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, mCurAnimState.meterLen);
         mAgent.AnimPlayer.UpdateAnimSpeedWithFix(mCurAnimState.layer, mCurAnimState.animLen, duration);
 
         // 动画结束拍=当前拍+动画持续拍-1
@@ -67,14 +67,14 @@ public class StepLoopAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        float duration = MeterManager.Ins.GetTimeToMeterWithOffset(mCurAnimState.stateMeterLen);
+        float duration = MeterManager.Ins.GetTimeToMeterWithOffset(mCurAnimState.meterLen);
         if (duration == 0)
         {
-            Log.Error(LogLevel.Normal, "StepLoopAnimDriver AnimMoveNextPlay Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
+            Log.Error(LogLevel.Normal, "StepLoopAnimDriver AnimMoveNextPlay Error, time to target meter is 0,anim state len:{0}", mCurAnimState.meterLen);
             return MeterManager.Ins.MeterIndex;
         }
 
-        int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, mCurAnimState.stateMeterLen);
+        int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, mCurAnimState.meterLen);
         float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, newMeterIndex);
         mAgent.AnimPlayer.CrossFadeToState(stateName, mCurAnimState.layer, mCurAnimState.normalizedTime, mCurAnimState.animLen, duration, totalMeterTime);
 

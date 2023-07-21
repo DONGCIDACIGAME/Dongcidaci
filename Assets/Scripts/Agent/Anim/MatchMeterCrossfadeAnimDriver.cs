@@ -40,14 +40,14 @@ public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        float duration = MeterManager.Ins.GetTimeToMeterWithOffset(newStateInfo.stateMeterLen);
+        float duration = MeterManager.Ins.GetTimeToMeterWithOffset(newStateInfo.meterLen);
         if (duration == 0)
         {
-            Log.Error(LogLevel.Normal, "PlayAnimStateWithCut Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
+            Log.Error(LogLevel.Normal, "PlayAnimStateWithCut Error, time to target meter is 0,anim meter len:{0}", newStateInfo.meterLen);
             return MeterManager.Ins.MeterIndex;
         }
 
-        int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, newStateInfo.stateMeterLen);
+        int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, newStateInfo.meterLen);
 
         // 同一个状态的动画无法进行融合
         // 转为从头完整播放

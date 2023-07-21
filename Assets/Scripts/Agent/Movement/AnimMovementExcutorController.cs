@@ -86,7 +86,7 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
             if(movement.timeType == TimeDefine.TimeType_MeterRelated)
             {
                 // 当前节拍的剩余时长
-                float totalTime = MeterManager.Ins.GetTimeToMeterWithOffset(stateInfo.stateMeterLen);
+                float totalTime = MeterManager.Ins.GetTimeToMeterWithOffset(stateInfo.meterLen);
                 float endTime = totalTime * movement.endTime;
                 float startTime = totalTime * movement.startTime;
                 if (startTime < 0)

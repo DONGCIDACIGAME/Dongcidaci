@@ -56,6 +56,8 @@ public static class AgentCommandDefine
         { IDLE, AgentStatusDefine.IDLE},
         { RUN, AgentStatusDefine.RUN},
         { DASH, AgentStatusDefine.DASH},
+        //{ ATTACK_SHORT, AgentStatusDefine.ATTACK},
+        //{ ATTACK_LONG, AgentStatusDefine.ATTACK},
         { ATTACK_SHORT, AgentStatusDefine.ATTACK},
         { ATTACK_LONG, AgentStatusDefine.ATTACK},
         { BE_HIT, AgentStatusDefine.BEHIT},

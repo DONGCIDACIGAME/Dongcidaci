@@ -49,7 +49,7 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
         }
 
         // 总时长
-        float totalTime = MeterManager.Ins.GetTimeToMeterWithOffset(stateInfo.stateMeterLen);
+        float totalTime = MeterManager.Ins.GetTimeToMeterWithOffset(stateInfo.meterLen);
 
         HitPointInfo[] hitPoints = stateInfo.hitPoints;
         if(hitPoints == null || hitPoints.Length == 0)

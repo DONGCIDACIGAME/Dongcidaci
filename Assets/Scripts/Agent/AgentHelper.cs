@@ -24,7 +24,7 @@ public static class AgentHelper
         {
             if(asi.animStates[i].stateName.Equals(stateName))
             {
-                return asi.animStates[i].stateMeterLen;
+                return asi.animStates[i].meterLen;
             }
         }
 

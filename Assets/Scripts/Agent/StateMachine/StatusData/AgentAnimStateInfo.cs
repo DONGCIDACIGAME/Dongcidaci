@@ -14,7 +14,7 @@ public class AgentAnimStateInfo
     /// <summary>
     /// 动画状态占几拍
     /// </summary>
-    public int stateMeterLen;
+    public int meterLen;
 
     /// <summary>
     /// 动画所在layer

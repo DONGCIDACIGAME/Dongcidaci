@@ -12,7 +12,7 @@
 					"input": 8, 
 					"agentActionData": {
 						"statusName": "Attack",
-						"stateName": "Test1", 
+						"stateName": "Combo_1_With_Empty", 
 						"effectCollictions": [
 							{
 								"rlsFxCfg":{
@@ -56,7 +56,7 @@
 					"input": 8,
 					"agentActionData": {
 						"statusName": "Attack",
-						"stateName": "Test2",
+						"stateName": "Combo_2_With_Empty",
 						"effectCollictions": [
 							{
 								"rlsFxCfg":{
@@ -90,7 +90,7 @@
 					"input": 8,
 					"agentActionData": {
 						"statusName": "Attack",
-						"stateName": "Test3",
+						"stateName": "Combo_3_With_Empty",
 						"effectCollictions": [
 							{
 								"rlsFxCfg":{
