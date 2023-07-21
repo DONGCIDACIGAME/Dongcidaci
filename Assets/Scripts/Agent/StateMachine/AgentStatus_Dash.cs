@@ -142,7 +142,7 @@ public class AgentStatus_Dash : AgentStatus
         string stateName = agentActionData.stateName;
 
         // 2. 播放冲刺动画
-        mCurLogicStateEndMeter = mCrossfadeByMeterAnimDriver.PlayAnimStateWithCut(statusName, stateName);
+        mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.CrossFadeToState(statusName, stateName);
 
         if(args != null)
         {
@@ -151,13 +151,13 @@ public class AgentStatus_Dash : AgentStatus
             float endTime = (float)args["endTime"];
 
             // 3. 处理动画相关的位移
-            mAgent.MovementExcutorCtl.Start(startTime, endTime, mAgent.GetTowards(), dashDistance);
+            mAgent.MovementExcutorCtl.Start(startTime, endTime, DirectionDef.RealTowards, DirectionDef.none, dashDistance);
         }
         else
         {
 
             // 3. 处理动画相关的位移
-            mAgent.MovementExcutorCtl.Start(statusName, stateName, towards, 0);
+            mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
         }
     }
 

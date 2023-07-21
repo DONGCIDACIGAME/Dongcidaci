@@ -15,7 +15,7 @@ public abstract class AgentStatus : IAgentStatus
     /// <summary>
     /// 根据节拍融合的动画驱动器
     /// </summary>
-    protected CrossfadeByMeterAnimDriver mCrossfadeByMeterAnimDriver;
+    protected MatchMeterCrossfadeAnimDriver mMatchMeterCrossfadeAnimDriver;
 
     /// <summary>
     /// 步进式动画驱动器
@@ -23,9 +23,9 @@ public abstract class AgentStatus : IAgentStatus
     protected StepLoopAnimDriver mStepLoopAnimDriver;
 
     /// <summary>
-    /// 根据时间融合的动画驱动器
+    /// 正常融合的动画驱动器
     /// </summary>
-    protected CrossfadeByTimeAnimDriver mCrossFadeByTimeAnimDriver;
+    protected DefaultCrossfadeAnimDriver mDefaultCrossAnimDriver;
 
 
     /// <summary>
@@ -64,9 +64,9 @@ public abstract class AgentStatus : IAgentStatus
         statusDefaultActionData = AgentHelper.GetAgentDefaultStatusActionData(agt, GetStatusName());
         cmdBuffer = new AgentCommandBuffer();
         mMeterEndActions = new Stack<MeterEndAction>();
-        mCrossfadeByMeterAnimDriver = new CrossfadeByMeterAnimDriver(mAgent);
+        mMatchMeterCrossfadeAnimDriver = new MatchMeterCrossfadeAnimDriver(mAgent);
         mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
-        mCrossFadeByTimeAnimDriver = new CrossfadeByTimeAnimDriver(mAgent);
+        mDefaultCrossAnimDriver = new DefaultCrossfadeAnimDriver(mAgent);
         RegisterInputHandle();
     }
 
@@ -116,7 +116,7 @@ public abstract class AgentStatus : IAgentStatus
         mMeterEndActions.Clear();
         mCurTriggeredComboStep = null;
         mStepLoopAnimDriver.Reset();
-        mCrossfadeByMeterAnimDriver.Reset();
+        mMatchMeterCrossfadeAnimDriver.Reset();
     }
 
     /// <summary>
@@ -137,10 +137,10 @@ public abstract class AgentStatus : IAgentStatus
             mInputHandle = null;
         }
 
-        if (mCrossfadeByMeterAnimDriver != null)
+        if (mMatchMeterCrossfadeAnimDriver != null)
         {
-            mCrossfadeByMeterAnimDriver.Dispose();
-            mCrossfadeByMeterAnimDriver = null;
+            mMatchMeterCrossfadeAnimDriver.Dispose();
+            mMatchMeterCrossfadeAnimDriver = null;
         }
 
         if (mStepLoopAnimDriver != null)

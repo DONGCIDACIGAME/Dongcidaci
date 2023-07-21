@@ -208,10 +208,10 @@ public class AgentStatus_Attack : AgentStatus
         string stateName = agentActionData.stateName;
 
         // 2. 播放攻击动画
-        mCurLogicStateEndMeter = mCrossfadeByMeterAnimDriver.PlayAnimStateWithCut(statusName, stateName);
+        mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.CrossFadeToState(statusName, stateName);
 
         // 3. 处理动画相关的位移
-        mAgent.MovementExcutorCtl.Start(statusName, stateName, mAgent.GetTowards(), 0);
+        mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
 
     }
 

@@ -48,7 +48,7 @@ namespace GameSkillEffect
 
                 // 此处不在进行状态的切换，而是直接控制移动
                 //_eftUser.MoveControl.MoveTowards(_eftUser.GetTowards(), dashDistance,0.4f);
-                _eftUser.MovementExcutorCtl.Start(0f,0.4f,_eftUser.GetTowards(),5f);
+                _eftUser.MovementExcutorCtl.Start(0f,0.4f, DirectionDef.FixedTowards, _eftUser.GetTowards(),5f);
             }
 
             Recycle();

@@ -318,7 +318,7 @@ public class MeterManager : ModuleManager<MeterManager>
     /// </summary>
     /// <param name="offset"></param>
     /// <returns></returns>
-    public float GetTimeToMeter(int offset)
+    public float GetTimeToMeterWithOffset(int offset)
     {
         if (mCurAudioMeterData == null)
             return -1f;
@@ -404,7 +404,7 @@ public class MeterManager : ModuleManager<MeterManager>
     public float GetCurrentMeterProgress()
     {
         // 当前拍的剩余时间
-        float timeToNextMeter = GetTimeToMeter(1);
+        float timeToNextMeter = GetTimeToMeterWithOffset(1);
         // 当前拍的总时间
         float timeOfCurrentMeter = GetTotalMeterTime(MeterIndex, MeterIndex + 1);
 

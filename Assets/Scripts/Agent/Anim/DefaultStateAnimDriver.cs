@@ -21,7 +21,7 @@ public class DefaultStateAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        float duration = MeterManager.Ins.GetTimeToMeter(mCurAnimState.stateMeterLen);
+        float duration = MeterManager.Ins.GetTimeToMeterWithOffset(mCurAnimState.stateMeterLen);
         if (duration == 0)
         {
             Log.Error(LogLevel.Normal, "DefaultStateAnimDriver Play Error time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
@@ -32,7 +32,7 @@ public class DefaultStateAnimDriver : AgentAnimDriver
         float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, endMeterIndex);
 
         // 原来的逻辑，直接融合
-        mAgent.AnimPlayer.CrossFadeToStateDynamic(mCurAnimState.stateName, mCurAnimState.layer, mCurAnimState.normalizedTime, duration, mCurAnimState.animLen, totalMeterTime);
+        mAgent.AnimPlayer.CrossFadeToState(mCurAnimState.stateName, mCurAnimState.layer, mCurAnimState.normalizedTime, mCurAnimState.animLen, duration, totalMeterTime);
         return endMeterIndex;
     }
 

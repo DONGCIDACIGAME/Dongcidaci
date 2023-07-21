@@ -1,11 +1,11 @@
-public class CrossfadeByTimeAnimDriver : AgentAnimDriver
+public class DefaultCrossfadeAnimDriver : AgentAnimDriver
 {
-    public CrossfadeByTimeAnimDriver(Agent agt) : base(agt)
+    public DefaultCrossfadeAnimDriver(Agent agt) : base(agt)
     {
     }
 
 
-    public void PlayAnim(string statusName, string stateName, float animTime)
+    public void CrossFadeToState(string statusName, string stateName)
     {
         Log.Logic(LogLevel.Info, "<color=blue>{0} -- PlayAnim--statusName:{1}, stateName:{2}</color>", mAgent.GetAgentId(), statusName, stateName);
 
@@ -32,12 +32,12 @@ public class CrossfadeByTimeAnimDriver : AgentAnimDriver
         // 转为从头完整播放
         if (mCurAnimState != null && mCurAnimState.stateName.Equals(stateName))
         {
-            mAgent.AnimPlayer.PlayState(stateName, newStateInfo.animLen, newStateInfo.layer, 0, animTime);
+            mAgent.AnimPlayer.PlayState(stateName, newStateInfo.animLen, newStateInfo.layer, 0, newStateInfo.animLen);
             mCurAnimState = newStateInfo;
             return;
         }
 
-        mAgent.AnimPlayer.CrossFadeToStateDynamic(stateName, newStateInfo.layer, newStateInfo.normalizedTime, animTime, newStateInfo.animLen, animTime);
+        mAgent.AnimPlayer.CrossFadeToState(stateName, newStateInfo.layer, newStateInfo.normalizedTime, newStateInfo.animLen);
         mCurAnimState = newStateInfo;
     }
 }

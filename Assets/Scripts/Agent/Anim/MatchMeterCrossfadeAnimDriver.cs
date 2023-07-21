@@ -1,9 +1,9 @@
 /// <summary>
-/// 自定义的动画驱动
+/// 卡节拍的融合动画驱动
 /// </summary>
-public class CrossfadeByMeterAnimDriver : AgentAnimDriver
+public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver
 {
-    public CrossfadeByMeterAnimDriver(Agent agt) : base(agt)
+    public MatchMeterCrossfadeAnimDriver(Agent agt) : base(agt)
     {
 
     }
@@ -15,7 +15,7 @@ public class CrossfadeByMeterAnimDriver : AgentAnimDriver
     /// </summary>
     /// <param name="stateName"></param>
     /// <returns></returns>
-    public int PlayAnimStateWithCut(string statusName, string stateName)
+    public int CrossFadeToState(string statusName, string stateName)
     {
         //Log.Error(LogLevel.Info, "PlayAnimStateWithCut=======================play {0}-{1}", statusName, stateName);
 
@@ -40,7 +40,7 @@ public class CrossfadeByMeterAnimDriver : AgentAnimDriver
             return MeterManager.Ins.MeterIndex;
         }
 
-        float duration = MeterManager.Ins.GetTimeToMeter(newStateInfo.stateMeterLen);
+        float duration = MeterManager.Ins.GetTimeToMeterWithOffset(newStateInfo.stateMeterLen);
         if (duration == 0)
         {
             Log.Error(LogLevel.Normal, "PlayAnimStateWithCut Error, time to target meter is 0,anim state len:{0}", mCurAnimState.stateMeterLen);
@@ -60,7 +60,7 @@ public class CrossfadeByMeterAnimDriver : AgentAnimDriver
 
         float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, newMeterIndex);
 
-        mAgent.AnimPlayer.CrossFadeToStateDynamic(stateName, newStateInfo.layer, newStateInfo.normalizedTime, duration, newStateInfo.animLen, totalMeterTime);
+        mAgent.AnimPlayer.CrossFadeToState(stateName, newStateInfo.layer, newStateInfo.normalizedTime, newStateInfo.animLen, duration, totalMeterTime);
         
         mCurAnimState = newStateInfo;
         

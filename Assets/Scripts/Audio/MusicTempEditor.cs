@@ -10,23 +10,19 @@ public class MusicTempEditor : MonoBehaviour
 {
     public AudioClip music;
     public AudioSource audioSource;
-    public TextMeshPro moveText;
-    public TextMeshPro attackText;
+    public TextMeshPro meterRecord;
     
 
     private bool recordMeter;
-    private bool recordBaseMeter;
     private bool startPlayback;
 
     private float musicLen;
 
     public List<float> meterRecords = new List<float>();
-    public List<float> basemeterRecords = new List<float>();
 
     private void Awake()
     {
         LoadMeter();
-        LoadBaseMeter();
         audioSource.clip = music;
         musicLen = music.length;
     }
@@ -35,7 +31,6 @@ public class MusicTempEditor : MonoBehaviour
     {
         startPlayback = false;
         recordMeter = false;
-        recordBaseMeter = false;
         audioSource.Stop();
     }
 
@@ -67,26 +62,15 @@ public class MusicTempEditor : MonoBehaviour
             meterRecords.Clear();
         }
 
-        if (!recordBaseMeter && Input.GetKeyDown(KeyCode.B))
-        {
-            recordBaseMeter = true;
-            audioSource.PlayDelayed(3);
-            audioSource.loop = false;
-            basemeterRecords.Clear();
-            return;
-        }
 
         if(audioSource.isPlaying)
         {
             RecordMeter();
-            RecordBaseMeter();
         }
 
         if (audioSource.time >= musicLen)
         {
             SaveMeter();
-            SaveBaseMeter();
-
             Reset();
         }
     }
@@ -102,16 +86,6 @@ public class MusicTempEditor : MonoBehaviour
         }
     }
 
-    private void RecordBaseMeter()
-    {
-        if (!recordBaseMeter)
-            return;
-
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            basemeterRecords.Add(audioSource.time);
-        }
-    }
 
     private void SaveMeter()
     {
@@ -123,17 +97,6 @@ public class MusicTempEditor : MonoBehaviour
         FileHelper.WriteStr(Path.Combine(Application.dataPath, music.name + ".meter"), str.ToString(), Encoding.UTF8);
     }
 
-    private void SaveBaseMeter()
-    {
-        if (music == null)
-            return;
-        StringBuilder str = new StringBuilder();
-        for (int i = 0; i < basemeterRecords.Count; i++)
-        {
-            str.Append(basemeterRecords[i] + ",");
-        }
-        FileHelper.WriteStr(Path.Combine(Application.dataPath, music.name + ".basemeter"), str.ToString(), Encoding.UTF8);
-    }
 
     private void LoadMeter()
     {
@@ -155,52 +118,23 @@ public class MusicTempEditor : MonoBehaviour
         }
     }
 
-    private void LoadBaseMeter()
-    {
-        if (music == null)
-            return;
-        string path = Path.Combine(Application.dataPath, music.name + ".basemeter");
-
-        if (!FileHelper.FileExist(path))
-            return;
-
-        string data = FileHelper.ReadText(path, Encoding.UTF8);
-
-        string[] basemeters = data.Split(',', StringSplitOptions.RemoveEmptyEntries);
-
-        for (int i = 0; i < basemeters.Length; i++)
-        {
-            basemeterRecords.Add(float.Parse(basemeters[i]));
-        }
-    }
-
 
     float playbackTime;
-    private int moveIndex;
-    private int attackIndex;
+    private int meterIndex;
     private void PlayBack(float deltaTime)
     {
         if (!startPlayback)
             return;
 
-        if (attackIndex < meterRecords.Count)
+        if (meterIndex < meterRecords.Count)
         {
-            if (playbackTime >= meterRecords[attackIndex])
+            if (playbackTime >= meterRecords[meterIndex])
             {
-                attackText.text = attackIndex.ToString();
-                attackIndex++;
+                meterRecord.text = meterIndex.ToString();
+                meterIndex++;
             }
 
 
-        }
-
-        if(moveIndex < basemeterRecords.Count)
-        {
-            if (playbackTime >= basemeterRecords[moveIndex])
-            {
-                moveText.text = moveIndex.ToString();
-                moveIndex++;
-            }
         }
 
         if (audioSource.time >= music.length)

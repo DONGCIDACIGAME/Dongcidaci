@@ -117,11 +117,11 @@ public class AgentStatus_BeHit : AgentStatus
         if (animStateInfo != null)
         {
             mTimer = 0;
-            mCrossFadeByTimeAnimDriver.PlayAnim(statusName, stateName, animStateInfo.animLen);
+            mDefaultCrossAnimDriver.CrossFadeToState(statusName, stateName);
             mExitTime = animStateInfo.animLen;
         }
         // 2. 处理动画相关的位移
-        mAgent.MovementExcutorCtl.Start(statusName, stateName, towards, moveMore);
+        mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.FixedTowards, towards, moveMore);
     }
 
     public override void OnUpdate(float deltaTime)

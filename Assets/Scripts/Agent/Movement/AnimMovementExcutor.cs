@@ -33,6 +33,11 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
     private float mMoveDistance;
 
     /// <summary>
+    /// 移动方向类型
+    /// </summary>
+    private int mMoveTowardsType;
+
+    /// <summary>
     /// 移动方向
     /// </summary>
     private Vector3 mMoveTowards;
@@ -50,9 +55,10 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
     /// <param name="agt">谁</param>
     /// <param name="moveStartTime">从当前帧开始计时，多久后开始移动</param>
     /// <param name="moveEndTime">从当前帧开始计时，多久后结束移动</param>
-    /// <param name="towards">朝哪个方向</param>
+    /// <param name="towardsType">朝向类型 0：实时朝向 1：固定朝向</param>
+    /// <param name="towards">朝哪个方向/param>
     /// <param name="distance">移动多远</param>
-    public void Initialize(Agent agt, float moveStartTime, float moveEndTime, Vector3 towards, float distance)
+    public void Initialize(Agent agt, float moveStartTime, float moveEndTime, int towardsType, Vector3 towards, float distance)
     {
         // 如果移动距离<=0
         if (mMoveDistance <= 0)
@@ -74,6 +80,7 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
         mMoveStartTime = moveStartTime;
         mMoveEndTime = moveEndTime;
         mMoveDistance = distance;
+        mMoveTowardsType = towardsType;
         mMoveTowards = towards.normalized;
         mMoveStep = mMoveDistance / (moveEndTime - moveStartTime);
         active = true;
@@ -102,10 +109,20 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
 
         mTimer += deltaTime;
 
+        Vector3 towards = DirectionDef.none;
         if(mTimer >= mMoveStartTime && mTimer < mMoveEndTime)
         {
+            if (mMoveTowardsType.Equals(DirectionDef.RealTowards))
+            {
+                towards = mAgt.GetTowards();
+            }
+            else if (mMoveTowardsType.Equals(DirectionDef.FixedTowards))
+            {
+                towards = mMoveTowards;
+            }
+
             Vector3 curPos = mAgt.GetPosition();
-            Vector3 targetPos = curPos + mMoveTowards * mMoveStep * deltaTime;
+            Vector3 targetPos = curPos + towards * mMoveStep * deltaTime;
             mAgt.MoveControl.MoveToPosition(targetPos);
         }
         else if(mTimer > mMoveEndTime)

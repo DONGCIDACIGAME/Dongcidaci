@@ -25,10 +25,10 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
     /// <param name="stateName">动画状态</param>
     /// <param name="moveMore">位移加成</param>
     /// <param name="moveTorwards">位移方向</param>
-    public void Start(float startTime, float endTime, Vector3 moveTorwards, float distance)
+    public void Start(float startTime, float endTime, int towardsType, Vector3 moveTorwards, float distance)
     {
         AnimMovementExcutor excutor = GamePoolCenter.Ins.MovementExcutorPool.Pop();
-        excutor.Initialize(mAgt, startTime, endTime, moveTorwards, distance);
+        excutor.Initialize(mAgt, startTime, endTime, towardsType, moveTorwards, distance);
         mMovementExcutors.Add(excutor);
     }
 
@@ -40,7 +40,7 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
     /// <param name="stateName">动画状态</param>
     /// <param name="moveMore">位移加成</param>
     /// <param name="moveTorwards">位移方向</param>
-    public void Start(string statusName, string stateName, Vector3 moveTorwards, float moveMore)
+    public void Start(string statusName, string stateName, int towardsType, Vector3 moveTorwards, float moveMore)
     {
         if (mAgt == null)
         {
@@ -86,13 +86,13 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
             if(movement.timeType == TimeDefine.TimeType_MeterRelated)
             {
                 // 当前节拍的剩余时长
-                float totalTime = MeterManager.Ins.GetTimeToMeter(stateInfo.stateMeterLen);
+                float totalTime = MeterManager.Ins.GetTimeToMeterWithOffset(stateInfo.stateMeterLen);
                 float endTime = totalTime * movement.endTime;
                 float startTime = totalTime * movement.startTime;
                 if (startTime < 0)
                     startTime = 0;
 
-                Start(startTime, endTime, moveTorwards, movement.distance + moveMore);
+                Start(startTime, endTime, towardsType, moveTorwards, movement.distance + moveMore);
             }
             else if(movement.timeType == TimeDefine.TimeType_AbsoluteTime)
             {
@@ -101,7 +101,7 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
                 if (startTime < 0)
                     startTime = 0;
 
-                Start(startTime, endTime, moveTorwards, movement.distance + moveMore);
+                Start(startTime, endTime, towardsType, moveTorwards, movement.distance + moveMore);
             }
         }
 
