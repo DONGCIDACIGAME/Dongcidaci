@@ -18,7 +18,6 @@
 				"stateName": "Idle",
 				"loopTime": 0,
 				"stateMeterLen": 2,
-				"minDuration": 0,
 				"normalizedTime": 0.5,
 				"layer": 0,
 				"animLen": 1.0,

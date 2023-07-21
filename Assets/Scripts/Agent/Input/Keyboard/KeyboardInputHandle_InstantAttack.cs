@@ -1,13 +1,13 @@
-public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
+public class KeyboardInputHandle_InstantAttack : AgentKeyboardInputHandle
 {
-    public KeyboardInputHandle_Attack(Agent agt) : base(agt)
+    public KeyboardInputHandle_InstantAttack(Agent agt) : base(agt)
     {
 
     }
 
     public override string GetHandleName()
     {
-        return InputDef.KeyboardInputHandle_Attack;
+        return InputDef.KeyboardInputHandle_InstantAttack;
     }
 
 
@@ -25,14 +25,12 @@ public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
     {
         if (mAgent == null)
             return;
-        
+
         AgentCommand cmd;
         bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
-        if(hasCmd)
+        if (hasCmd)
         {
             mAgent.OnCommand(cmd);
         }
     }
-
 }
-

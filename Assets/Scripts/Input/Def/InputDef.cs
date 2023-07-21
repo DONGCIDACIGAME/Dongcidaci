@@ -8,6 +8,7 @@ public static class InputDef
     public const string KeyboardInputHandle_Run = "KeyboardInputHandle_Run";
     public const string KeyboardInputHandle_Dash = "KeyboardInputHandle_Dash";
     public const string KeyboardInputHandle_Attack = "KeyboardInputHandle_Attack";
+    public const string KeyboardInputHandle_InstantAttack = "KeyboardInputHandle_InstantAttack";
     public const string KeyboardInputHandle_BeHit = "KeyboardInputHandle_BeHit";
     public const string KeyboardInputHandle_Transfer = "KeyboardInputHandle_Transfer";
 

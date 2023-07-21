@@ -335,7 +335,7 @@ public abstract class AgentStatus : IAgentStatus
     /// 否则，使用状态默认的行为数据
     /// </summary>
     /// <returns></returns>
-    private AgentActionData GetAgentActionData()
+    protected AgentActionData GetAgentActionData()
     {
         if(mCurTriggeredComboStep != null)
         {

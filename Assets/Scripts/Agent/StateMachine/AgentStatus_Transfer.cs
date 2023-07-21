@@ -7,12 +7,12 @@ public class AgentStatus_Transfer : AgentStatus
     /// <summary>
     /// 状态持续时间
     /// </summary>
-    private float mStateDuration;
+    private float mExitTime;
 
     /// <summary>
     /// 计时
     /// </summary>
-    private float mTime;
+    private float mTimer;
 
     public override string GetStatusName()
     {
@@ -56,9 +56,9 @@ public class AgentStatus_Transfer : AgentStatus
     {
         base.OnUpdate(deltaTime);
 
-        mTime += deltaTime;
+        mTimer += deltaTime;
 
-        if(mTime >= mStateDuration)
+        if(mTimer >= mExitTime)
         {
             int meterIndex = MeterManager.Ins.MeterIndex;
             // 缓存区取指令
@@ -74,7 +74,8 @@ public class AgentStatus_Transfer : AgentStatus
                     case AgentCommandDefine.IDLE:
                     case AgentCommandDefine.ATTACK_SHORT:
                     case AgentCommandDefine.ATTACK_LONG:
-                        PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
+                        GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentCommandDefine.GetChangeToStatus(cmdType), cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
+                        //PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
                         break;
                     case AgentCommandDefine.EMPTY:
                     case AgentCommandDefine.BE_HIT:
@@ -83,7 +84,7 @@ public class AgentStatus_Transfer : AgentStatus
                 }
             }
 
-            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, mCurTriggeredComboStep);
+            //GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, mCurTriggeredComboStep);
         }
     }
 
@@ -96,12 +97,12 @@ public class AgentStatus_Transfer : AgentStatus
 
     public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, AgentActionData agentActionData)
     {
-        mStateDuration = 0;
-        mTime = 0;
+        mExitTime = 0;
+        mTimer = 0;
         if (args != null && args.TryGetValue("duration", out object obj))
         {
             float duration = (float)obj;
-            mStateDuration = MeterManager.Ins.GetCurrentMeterTotalTime() * duration;
+            mExitTime = MeterManager.Ins.GetCurrentMeterTotalTime() * duration;
         }
     }
 
