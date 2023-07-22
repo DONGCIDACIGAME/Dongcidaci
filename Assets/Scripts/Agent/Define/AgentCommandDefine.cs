@@ -48,37 +48,9 @@ public static class AgentCommandDefine
     /// </summary>
     public const byte DEAD = 1 << 7;
 
-    /// <summary>
-    /// 指令到角色状态间的切换关系
-    /// </summary>
-    private static Dictionary<byte, string> CmdToStatusMap = new Dictionary<byte, string>
-    {
-        { IDLE, AgentStatusDefine.IDLE},
-        { RUN, AgentStatusDefine.RUN},
-        { DASH, AgentStatusDefine.DASH},
-        //{ ATTACK_SHORT, AgentStatusDefine.ATTACK},
-        //{ ATTACK_LONG, AgentStatusDefine.ATTACK},
-        { ATTACK_SHORT, AgentStatusDefine.ATTACK},
-        { ATTACK_LONG, AgentStatusDefine.ATTACK},
-        { BE_HIT, AgentStatusDefine.BEHIT},
-        { BE_HIT_BREAK, AgentStatusDefine.BEHIT},
-        { DEAD, AgentStatusDefine.DEAD},
-    };
 
-    /// <summary>
-    /// 根据指令获取要切换到的状态
-    /// </summary>
-    /// <param name="cmdType"></param>
-    /// <returns></returns>
-    public static string GetChangeToStatus(byte cmdType)
-    {
-        if(CmdToStatusMap.TryGetValue(cmdType, out string statusName))
-        {
-            return statusName;
-        }
 
-        return string.Empty;
-    }
+
 
 
     /// <summary>

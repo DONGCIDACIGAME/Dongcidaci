@@ -72,8 +72,8 @@ public class AgentStatusMachine : IMeterHandler
 
         AddStatus(AgentStatusDefine.IDLE, new AgentStatus_Idle());
         AddStatus(AgentStatusDefine.RUN, new AgentStatus_Run());
-        //AddStatus(AgentStatusDefine.ATTACK, new AgentStatus_Attack());
-        AddStatus(AgentStatusDefine.ATTACK, new AgentStatus_InstantAttack());
+        AddStatus(AgentStatusDefine.ATTACK, new AgentStatus_Attack());
+        AddStatus(AgentStatusDefine.INSTANT_ATTACK, new AgentStatus_InstantAttack());
         AddStatus(AgentStatusDefine.DASH, new AgentStatus_Dash());
         AddStatus(AgentStatusDefine.BEHIT, new AgentStatus_BeHit());
         AddStatus(AgentStatusDefine.TRANSFER, new AgentStatus_Transfer());

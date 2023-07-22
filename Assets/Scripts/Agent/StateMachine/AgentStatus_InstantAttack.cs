@@ -17,13 +17,8 @@ public class AgentStatus_InstantAttack : AgentStatus
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 
-    /// <summary>
-    /// 状态进入
-    /// </summary>
-    /// <param name="context"></param>
-    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    private void ExcuteCmd(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
         if (triggeredComboStep != null)
         {
             ExcuteCombo(cmdType, towards, triggerMeter, args, ref triggeredComboStep);
@@ -32,6 +27,17 @@ public class AgentStatus_InstantAttack : AgentStatus
         {
             StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
         }
+    }
+
+    /// <summary>
+    /// 状态进入
+    /// </summary>
+    /// <param name="context"></param>
+    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    {
+        base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
+
+        ExcuteCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
     }
 
     /// <summary>
@@ -59,14 +65,7 @@ public class AgentStatus_InstantAttack : AgentStatus
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                if (triggeredComboStep != null)
-                {
-                    ExcuteCombo(cmdType, towards, triggerMeter, args, ref triggeredComboStep);
-                }
-                else
-                {
-                    StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
-                }
+                ExcuteCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
                 break;
             // 其他指令类型，都要等本次攻击结束后执行，先放入指令缓存区
@@ -118,6 +117,10 @@ public class AgentStatus_InstantAttack : AgentStatus
                     break;
             }
         }
+        else
+        {
+            ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, meterIndex, null, null);
+        }
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)
@@ -133,6 +136,7 @@ public class AgentStatus_InstantAttack : AgentStatus
 
         if (mTimer >= mExitTime)
         {
+            //cmdBuffer.ClearCommandBuffer();
             // 缓存区取指令
             if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
             {
@@ -188,13 +192,17 @@ public class AgentStatus_InstantAttack : AgentStatus
         string stateName = agentActionData.stateName;
 
         // 2. 播放攻击动画
-        mDefaultCrossAnimDriver.CrossFadeToState(statusName, stateName);
+        mDefaultCrossFadeAnimDriver.CrossFadeToState(statusName, stateName);
 
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
 
         AgentAnimStateInfo animStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
+        
+        // 攻击动作拍数
+        mCurLogicStateEndMeter = MeterManager.Ins.GetMeterIndex(triggerMeter, animStateInfo.meterLen)-1;
 
+        // 攻击动作的时长
         mExitTime = animStateInfo.animLen;
         mTimer = 0;
     }

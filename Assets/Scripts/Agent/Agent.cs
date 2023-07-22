@@ -75,7 +75,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     /// <summary>
     ///  用于更新Agent相关的基础表现逻辑，对外，对上层都不开放
     /// </summary>
-    private AgentView mAgentView;
+    public AgentView Agent_View;
 
     // 角色移动速度
     protected float mSpeed;
@@ -194,12 +194,12 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     protected virtual void BindAgentView(AgentView agentView)
     {
         BindMapEntityView(agentView);
-        mAgentView = agentView;
+        Agent_View = agentView;
 
-        if (mAgentView != null)
+        if (Agent_View != null)
         {
-            mAgentView.name = GetName();
-            AnimPlayer.Initialize(mAgentView.GetComponent<Animator>());
+            Agent_View.name = GetName();
+            AnimPlayer.Initialize(Agent_View.GetComponent<Animator>());
         }
     }
 
@@ -287,10 +287,10 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
             StatusMachine = null;
         }
 
-        if(mAgentView != null)
+        if(Agent_View != null)
         {
-            mAgentView.Dispose();
-            mAgentView = null;
+            Agent_View.Dispose();
+            Agent_View = null;
         }
     }
 
@@ -435,7 +435,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         StatusMachine.OnUpdate(deltaTime);
         EffectExcutorCtl.OnUpdate(deltaTime);
         MovementExcutorCtl.OnUpdate(deltaTime);
-        mAgentView.OnMyUpdate(this, deltaTime);
+        Agent_View.OnMyUpdate(this, deltaTime);
         // Added by weng 0708
         if (SkillEftHandler != null)
         {
@@ -446,13 +446,13 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
 
     public virtual void OnLateUpdate(float deltaTime)
     {
-        mAgentView.OnMyLateUpdate(this, deltaTime);
+        Agent_View.OnMyLateUpdate(this, deltaTime);
     }
     
     public List<T> DetectMapEntityInVision<T>() where T: MapEntity
     {
         List<T> entityInVision = new List<T>();
-        var visionShape = mAgentView.GetVisionShape();
+        var visionShape = Agent_View.GetVisionShape();
         bool ret = GameColliderManager.Ins.CheckCollideHappenWithShape(visionShape, ColliderHanlderDefine.EmptyHandler, out Dictionary<ConvexCollider2D, Vector2> tgtsDict);
         if (!ret)
             return null;
@@ -473,7 +473,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     public List<Agent> DetectAgentInVision()
     {
         var retAgents = new List<Agent>();
-        var visionShape = mAgentView.GetVisionShape();
+        var visionShape = Agent_View.GetVisionShape();
         bool ret = GameColliderManager.Ins.CheckCollideHappenWithShape(visionShape, ColliderHanlderDefine.EmptyHandler, out Dictionary<ConvexCollider2D, Vector2> tgtsDict);
         if (ret)
         {
@@ -502,7 +502,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     /// <returns></returns>
     public GameObject GetFXCarryNode(string nodeName)
     {
-        return mAgentView.GetFXCarryNode(nodeName);
+        return Agent_View.GetFXCarryNode(nodeName);
     }
 
 

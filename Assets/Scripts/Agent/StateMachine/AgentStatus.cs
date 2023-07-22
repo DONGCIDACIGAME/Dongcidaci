@@ -25,7 +25,7 @@ public abstract class AgentStatus : IAgentStatus
     /// <summary>
     /// 正常融合的动画驱动器
     /// </summary>
-    protected DefaultCrossfadeAnimDriver mDefaultCrossAnimDriver;
+    protected DefaultCrossfadeAnimDriver mDefaultCrossFadeAnimDriver;
 
 
     /// <summary>
@@ -66,7 +66,7 @@ public abstract class AgentStatus : IAgentStatus
         mMeterEndActions = new Stack<MeterEndAction>();
         mMatchMeterCrossfadeAnimDriver = new MatchMeterCrossfadeAnimDriver(mAgent);
         mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
-        mDefaultCrossAnimDriver = new DefaultCrossfadeAnimDriver(mAgent);
+        mDefaultCrossFadeAnimDriver = new DefaultCrossfadeAnimDriver(mAgent);
         RegisterInputHandle();
     }
 
@@ -87,6 +87,42 @@ public abstract class AgentStatus : IAgentStatus
     /// 状态默认的行为逻辑
     /// </summary>
     public abstract void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args, AgentActionData agentActionData);
+
+    /// <summary>
+    /// 获取指令切换的状态类型
+    /// </summary>
+    /// <param name="cmdType"></param>
+    /// <returns></returns>
+    public virtual string GetChangeToStatus(byte cmdType)
+    {
+        switch (cmdType)
+        {
+            case AgentCommandDefine.IDLE:
+                return AgentStatusDefine.IDLE;
+            case AgentCommandDefine.RUN:
+                return AgentStatusDefine.RUN;
+            case AgentCommandDefine.ATTACK_LONG:
+            case AgentCommandDefine.ATTACK_SHORT:
+                if (mAgent.Agent_View.InstantAttack)
+                {
+                    return AgentStatusDefine.INSTANT_ATTACK;
+                }
+                else
+                {
+                    return AgentStatusDefine.ATTACK;
+                }
+            case AgentCommandDefine.BE_HIT:
+                return AgentStatusDefine.BEHIT;
+            case AgentCommandDefine.DASH:
+                return AgentStatusDefine.DASH;
+            case AgentCommandDefine.DEAD:
+                return AgentStatusDefine.DEAD;
+            default:
+                Log.Error(LogLevel.Normal, "GetChangeToStatus Error, status not defined to cmd:{0}", cmdType);
+                return string.Empty;
+        }
+    }
+
 
     /// <summary>
     /// 进入状态
@@ -193,7 +229,7 @@ public abstract class AgentStatus : IAgentStatus
     /// <param name="triggeredComboStep"></param>
     protected void ChangeStatusOnCommand(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args, TriggeredComboStep triggeredComboStep)
     {
-        string status = AgentCommandDefine.GetChangeToStatus(cmdType);
+        string status = GetChangeToStatus(cmdType);
         if (string.IsNullOrEmpty(status))
         {
             Log.Error(LogLevel.Normal, "ChangeStatusOnCommand Failed, no matching status to cmdType:{0}", cmdType);

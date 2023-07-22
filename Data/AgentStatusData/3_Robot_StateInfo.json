@@ -98,6 +98,31 @@
 				"animLen": 0.5,
 				"movements": [{"distance": 2, "timeType": 0, "startTime":0.5, "endTime":1}],
 				"hitPoints": [{"progress": 1}]
+			}]
+		},
+		"InstantAttack":{
+			"statusName": "InstantAttack",
+			"defaultAciton":
+			{
+				"statusName": "InstantAttack",
+				"stateName": "Test1",
+				"effectCollictions": [
+					{
+						"effects":[
+							{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+						]
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "DashAtk1_Inplace",
+				"loopTime": 1,
+				"meterLen": 1,
+				"normalizedTime": 0.05,
+				"layer": 0,
+				"animLen": 0.5,
+				"movements": [{"distance": 2, "timeType": 0, "startTime":0.5, "endTime":1}],
+				"hitPoints": [{"progress": 1}]
 			},
 			{
 				"stateName": "Test1",

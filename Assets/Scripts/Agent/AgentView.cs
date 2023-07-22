@@ -2,6 +2,7 @@ using UnityEngine;
 
 public abstract class AgentView : MapEntityViewWithCollider
 {
+    public bool InstantAttack;
 
     private void Start()
     {

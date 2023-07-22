@@ -117,7 +117,7 @@ public class AgentStatus_BeHit : AgentStatus
         if (animStateInfo != null)
         {
             mTimer = 0;
-            mDefaultCrossAnimDriver.CrossFadeToState(statusName, stateName);
+            mDefaultCrossFadeAnimDriver.CrossFadeToState(statusName, stateName);
             mExitTime = animStateInfo.animLen;
         }
         // 2. 处理动画相关的位移

@@ -74,7 +74,7 @@ public class AgentStatus_Transfer : AgentStatus
                     case AgentCommandDefine.IDLE:
                     case AgentCommandDefine.ATTACK_SHORT:
                     case AgentCommandDefine.ATTACK_LONG:
-                        GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentCommandDefine.GetChangeToStatus(cmdType), cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
+                        GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), GetChangeToStatus(cmdType), cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
                         //PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
                         break;
                     case AgentCommandDefine.EMPTY:
