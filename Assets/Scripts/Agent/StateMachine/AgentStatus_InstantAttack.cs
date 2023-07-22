@@ -134,40 +134,40 @@ public class AgentStatus_InstantAttack : AgentStatus
 
         mTimer += deltaTime;
 
-        if (mTimer >= mExitTime)
-        {
-            //cmdBuffer.ClearCommandBuffer();
-            // 缓存区取指令
-            if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
-            {
-                Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, triggerMeter);
+        //if (mTimer >= mExitTime)
+        //{
+        //    //cmdBuffer.ClearCommandBuffer();
+        //    // 缓存区取指令
+        //    if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+        //    {
+        //        Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, triggerMeter);
 
-                switch (cmdType)
-                {
-                    case AgentCommandDefine.BE_HIT_BREAK:
-                    case AgentCommandDefine.RUN:
-                    case AgentCommandDefine.DASH:
-                    case AgentCommandDefine.IDLE:
-                        ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
-                        break;
-                    case AgentCommandDefine.ATTACK_SHORT:
-                    case AgentCommandDefine.ATTACK_LONG:
-                    //if (mCurTriggeredComboStep != null)
-                    //{
-                    //    ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
-                    //}
-                    //else
-                    //{
-                    //    StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
-                    //}
-                    //break;
-                    case AgentCommandDefine.EMPTY:
-                    case AgentCommandDefine.BE_HIT:
-                    default:
-                        break;
-                }
-            }
-        }
+        //        switch (cmdType)
+        //        {
+        //            case AgentCommandDefine.BE_HIT_BREAK:
+        //            case AgentCommandDefine.RUN:
+        //            case AgentCommandDefine.DASH:
+        //            case AgentCommandDefine.IDLE:
+        //                ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
+        //                break;
+        //            case AgentCommandDefine.ATTACK_SHORT:
+        //            case AgentCommandDefine.ATTACK_LONG:
+        //            //if (mCurTriggeredComboStep != null)
+        //            //{
+        //            //    ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
+        //            //}
+        //            //else
+        //            //{
+        //            //    StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
+        //            //}
+        //            //break;
+        //            case AgentCommandDefine.EMPTY:
+        //            case AgentCommandDefine.BE_HIT:
+        //            default:
+        //                break;
+        //        }
+        //    }
+        //}
     }
 
     /// <summary>
