@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class AgentCommandBuffer : IGameDisposable
 {
-    private byte cmdList;
+    private int cmdList;
     private Vector3[] directionList;
     private int[] triggerMeterList;
     private Dictionary<string, object>[] argsList;
@@ -12,19 +12,16 @@ public class AgentCommandBuffer : IGameDisposable
     public AgentCommandBuffer()
     {
         this.cmdList = 0;
-        this.directionList = new Vector3[8];
-        this.triggerMeterList = new int[8];
-        this.argsList = new Dictionary<string, object>[8]
+        this.directionList = new Vector3[32];
+        this.triggerMeterList = new int[32];
+        this.argsList = new Dictionary<string, object>[32];
+
+        for(int i = 0;i<32;i++)
         {
-            new Dictionary<string, object>(),
-            new Dictionary<string, object>(),
-            new Dictionary<string, object>(),
-            new Dictionary<string, object>(),
-            new Dictionary<string, object>(),
-            new Dictionary<string, object>(),
-            new Dictionary<string, object>(),
-            new Dictionary<string, object>()
-        };
+            directionList[i] = DirectionDef.none;
+            triggerMeterList[i] = 0;
+            argsList[i] = new Dictionary<string, object>();
+        }
     }
 
     public bool HasCommand()
@@ -32,9 +29,9 @@ public class AgentCommandBuffer : IGameDisposable
         return cmdList != AgentCommandDefine.EMPTY;
     }
 
-    private int GetBufferIndex(byte cmdType)
+    private int GetBufferIndex(int cmdType)
     {
-        for(int i = 7; i >= 0; i--)
+        for(int i = 31; i >= 0; i--)
         {
             if((cmdType >> i) > 0)
             {
@@ -44,14 +41,14 @@ public class AgentCommandBuffer : IGameDisposable
 
         return -1;
     }
-    public void AddInputCommand(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args)
+    public void AddInputCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args)
     {
         // 记录指令类型
         cmdList |= cmdType;
 
         // 获取该指令的缓存index
         int index = GetBufferIndex(cmdType);
-        if(index >= 0 && index < 8)
+        if(index >= 0 && index < 32)
         {
             // 记录指令朝向
             directionList[index] = towards;
@@ -72,12 +69,12 @@ public class AgentCommandBuffer : IGameDisposable
         }
     }
 
-    public void RemoveCmd(byte cmdType)
+    public void RemoveCmd(int cmdType)
     {
-        cmdList &= (byte)(~cmdType);
+        cmdList &= (~cmdType);
 
         int index = GetBufferIndex(cmdType);
-        if (index >= 0 && index < 8)
+        if (index >= 0 && index < 32)
         {
             directionList[index] = DirectionDef.none;
             triggerMeterList[index] = 0;
@@ -85,16 +82,16 @@ public class AgentCommandBuffer : IGameDisposable
         }
     }
 
-    public bool PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string,object> args)
+    public bool PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string,object> args)
     {
         cmdType = AgentCommandDefine.EMPTY;
         towards = DirectionDef.none;
         triggerMeter = 0;
         args = null;
 
-        for (int i = 7; i >= 0; i--)
+        for (int i = 32; i >= 0; i--)
         {
-            byte _cmdType = (byte)((1 << i) & cmdList);
+            int _cmdType = ((1 << i) & cmdList);
             if (_cmdType > 0)
             {
                 cmdType = _cmdType;
@@ -103,6 +100,7 @@ public class AgentCommandBuffer : IGameDisposable
                 {
                     towards = directionList[index];
                     triggerMeter = triggerMeterList[index];
+                    args = argsList[index];
                 }
                 return true;
             }
@@ -114,7 +112,7 @@ public class AgentCommandBuffer : IGameDisposable
     public void ClearCommandBuffer()
     {
         cmdList = 0;
-        for(int i = 0; i < 8; i++)
+        for(int i = 0; i < 32; i++)
         {
             directionList[i] = DirectionDef.none;
             triggerMeterList[i] = 0;

@@ -2,7 +2,7 @@ using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AgentStatus_BeHit : AgentStatus
+public class MonsterStatus_Behit : MonsterStatus
 {
     private float mExitTime;
     private float mTimer;
@@ -22,7 +22,7 @@ public class AgentStatus_BeHit : AgentStatus
         return AgentStatusDefine.BEHIT;
     }
 
-    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
@@ -31,7 +31,7 @@ public class AgentStatus_BeHit : AgentStatus
         {
             actionData = obj1 as AgentActionData;
         }
-        StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData) ;
+        StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);
     }
 
     public override void OnExit()
@@ -42,7 +42,7 @@ public class AgentStatus_BeHit : AgentStatus
         mExitTime = 0;
     }
 
-    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
@@ -72,22 +72,12 @@ public class AgentStatus_BeHit : AgentStatus
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
-        //// 逻辑拍结束前，不能响应缓存区指令
-        //Log.Error(LogLevel.Normal, "CustomOnMeterEnter--{0}", meterIndex);
-        //if (meterIndex <= mCurLogicStateEndMeter)
-        //{
-        //    Log.Error(LogLevel.Info, "CustomOnMeterEnter--- meterIndex:{0}, logicMeterEnd:{1}", meterIndex, mCurLogicStateEndMeter);
-        //    return;
-        //}
 
-        //Dictionary<string, object> args = null;
-        //TriggeredComboStep triggeredComboStep = null;
-        //GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep);
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)
     {
-        Log.Error(LogLevel.Normal, "CustomOnMeterEnd--{0}", meterIndex);
+        
     }
 
     /// <summary>
@@ -98,7 +88,7 @@ public class AgentStatus_BeHit : AgentStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
+    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
     {
         if (agentActionData == null)
             return;
@@ -113,7 +103,7 @@ public class AgentStatus_BeHit : AgentStatus
         string stateName = agentActionData.stateName;
 
         // 1. 播放受击动画
-        AgentAnimStateInfo animStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent,statusName, stateName);
+        AgentAnimStateInfo animStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
         if (animStateInfo != null)
         {
             mTimer = 0;
@@ -128,7 +118,7 @@ public class AgentStatus_BeHit : AgentStatus
     {
         base.OnUpdate(deltaTime);
 
-        if(mTimer >= mExitTime)
+        if (mTimer >= mExitTime)
         {
             Dictionary<string, object> args = null;
             TriggeredComboStep triggeredComboStep = null;
@@ -137,11 +127,5 @@ public class AgentStatus_BeHit : AgentStatus
         }
 
         mTimer += deltaTime;
-    }
-
-    public override void RegisterInputHandle()
-    {
-        mInputHandle = new KeyboardInputHandle_BeHit(mAgent);
-        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 }

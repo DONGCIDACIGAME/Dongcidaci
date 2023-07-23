@@ -6,23 +6,28 @@ using UnityEngine.UI;
 using TMPro;
 
 
-public class PanelDemo : UIPanel
+public class PanelDemo : UIPanel, IMeterHandler
 {
-    private Button Btn_Start;
+    private TMP_Text Text_MeterShow;
 
     public override string GetPanelLayerPath()
     {
         return UIPathDef.UI_LAYER_NORMAL_STATIC;
     }
 
-    private void OnClickStart()
+    public void OnMeterEnd(int meterIndex)
     {
-        //AudioManager.Ins.PlayBgm(true);
+
+    }
+
+    public void OnMeterEnter(int meterIndex)
+    {
+        Text_MeterShow.text = meterIndex.ToString();
     }
 
     protected override void BindUINodes()
     {
-        Btn_Start = BindButtonNode("Btn_Start", OnClickStart);
+        Text_MeterShow = BindTextNode("Text_MeterShow");
     }
 
     protected override void OnClose()
@@ -32,6 +37,6 @@ public class PanelDemo : UIPanel
 
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
-        
+        MeterManager.Ins.RegisterMeterHandler(this);
     }
 }

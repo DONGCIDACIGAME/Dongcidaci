@@ -100,7 +100,7 @@ public class ComboTrigger : IMeterHandler
         }
     }
 
-    private TriggeredComboStep Trigger(byte newInput, int meterIndex)
+    private TriggeredComboStep Trigger(int newInput, int meterIndex)
     {
         TriggeredComboStep tcs = null;
 
@@ -137,7 +137,7 @@ public class ComboTrigger : IMeterHandler
     /// <param name="newInput">输入</param>
     /// <param name="meterIndex">输入对应的节拍index</param>
     /// <returns>触发combo的结果</returns>
-    public int OnNewInput(byte newInput, int meterIndex, out TriggeredComboStep triggeredComboStep)
+    public int OnNewInput(int newInput, int meterIndex, out TriggeredComboStep triggeredComboStep)
     {
         triggeredComboStep = null;
         if (meterIndex > comboLogicEndMeter && resetFlag)

@@ -119,7 +119,7 @@ public class Hero : Agent
 
     public Hero(uint agentId) : base(agentId)
     {
-
+        StatusMachine = new HeroStatusMachine();
     }
 
     public override void OnUpdate(float deltaTime)

@@ -48,9 +48,6 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
             return;
         }
 
-        // 总时长
-        float totalTime = MeterManager.Ins.GetTimeToMeterWithOffset(stateInfo.meterLen);
-
         HitPointInfo[] hitPoints = stateInfo.hitPoints;
         if(hitPoints == null || hitPoints.Length == 0)
         {
@@ -91,7 +88,17 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
             //Changed by weng 0704
             //此处应该是个错误，对应的ComboEffectExcutor执行的应该是SkEftDataCollection
             ComboEffectExcutor excutor = GamePoolCenter.Ins.ComboEffectExcutorPool.Pop();
-            excutor.Initialize(mAgt, hitpoint.progress * totalTime, comboHitData);
+            
+            if(hitpoint.timeType == TimeDefine.TimeType_MeterRelated)// 关联节拍的
+            {
+                // 总时长
+                float totalTime = MeterManager.Ins.GetTimeToMeterWithOffset(stateInfo.meterLen);
+                excutor.Initialize(mAgt, hitpoint.progress * totalTime, comboHitData);
+            }
+            else if(hitpoint.timeType == TimeDefine.TimeType_AbsoluteTime)// 绝对时间的
+            {
+                excutor.Initialize(mAgt, hitpoint.progress, comboHitData);
+            }
             effectExcutors.Add(excutor);
 
             /** old code

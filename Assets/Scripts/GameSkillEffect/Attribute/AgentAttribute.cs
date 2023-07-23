@@ -53,7 +53,7 @@ namespace GameSkillEffect
         /// 目前指令数量不足8个，数组大小只做到8
         /// 每一个int代表这种类型的指令被禁用的次数
         /// </summary>
-        public int[] cmdDisableRecord = new int[8];
+        public int[] cmdDisableRecord = new int[32];
 
 
         public AgentAttribute(int crtHp,int maxHp,int bsAtk,float defenseRate,float criticalRate,float criticalDmgRate,float dodgeRate,float moveSpeed)
@@ -68,9 +68,9 @@ namespace GameSkillEffect
             this.moveSpeed = moveSpeed;
         }
 
-        public void EnableCmdType(byte cmdType)
+        public void EnableCmdType(int cmdType)
         {
-            for(int i = 0; i < 8; i++)
+            for(int i = 0; i < 32; i++)
             {
                 int ret = cmdType & (1 << i);
                 if(ret > 0)
@@ -81,9 +81,9 @@ namespace GameSkillEffect
             }
         }
 
-        public void DisableCmdType(byte cmdType)
+        public void DisableCmdType(int cmdType)
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 32; i++)
             {
                 int ret = cmdType & (1 << i);
                 if (ret > 0)

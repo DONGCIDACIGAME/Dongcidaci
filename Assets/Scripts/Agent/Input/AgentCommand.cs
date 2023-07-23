@@ -12,7 +12,7 @@ public class AgentCommand : IRecycle
     /// <summary>
     /// 指令类型
     /// </summary>
-    public byte CmdType { get; private set; }
+    public int CmdType { get; private set; }
 
     /// <summary>
     /// 触发在第几拍
@@ -34,7 +34,7 @@ public class AgentCommand : IRecycle
     /// </summary>
     public Dictionary<string, object> Args;
 
-    public void Initialize(byte cmdType, int triggerMeter, long frame, Vector3 towards)
+    public void Initialize(int cmdType, int triggerMeter, long frame, Vector3 towards)
     {
         this.CmdType = cmdType;
         this.TriggerMeter = triggerMeter;

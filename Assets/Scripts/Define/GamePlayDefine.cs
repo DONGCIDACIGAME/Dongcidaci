@@ -17,6 +17,9 @@ public static class GamePlayDefine
     /// </summary>
     public const float DashMeterCheckOffset = 0f;
 
+    public const float RunMeterCheckTolerance = 0.4f;
+    public const float RunMeterCheckOffset = 0f;
+
     /// <summary>
     /// 攻击指令执行的节拍进度判定
     /// </summary>

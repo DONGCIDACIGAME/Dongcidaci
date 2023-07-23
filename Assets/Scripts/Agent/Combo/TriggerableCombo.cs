@@ -97,7 +97,7 @@ public class TriggerableCombo
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public bool TryTriggerOnNewInput(byte input)
+    public bool TryTriggerOnNewInput(int input)
     {
         if (!active)
             return false;

@@ -1,11 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-/// <summary>
-/// 攻击状态
-/// </summary>
-public class AgentStatus_Attack : AgentStatus
+public class MonsterStatus_Attack : MonsterStatus
 {
     /// <summary>
     /// 初始化
@@ -27,7 +23,7 @@ public class AgentStatus_Attack : AgentStatus
     /// 状态进入
     /// </summary>
     /// <param name="context"></param>
-    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
@@ -47,7 +43,7 @@ public class AgentStatus_Attack : AgentStatus
     /// 常规指令直接处理逻辑
     /// </summary>
     /// <param name="cmd"></param>
-    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
@@ -90,7 +86,7 @@ public class AgentStatus_Attack : AgentStatus
         }
 
         // 缓存区取指令
-        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+        if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
 
@@ -123,7 +119,7 @@ public class AgentStatus_Attack : AgentStatus
 
     protected override void CustomOnMeterEnd(int meterIndex)
     {
-        
+
     }
 
     public override void OnUpdate(float deltaTime)
@@ -137,11 +133,11 @@ public class AgentStatus_Attack : AgentStatus
             bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.DashMeterCheckTolerance, GamePlayDefine.DashMeterCheckOffset);
 
 
-            if(!inInputTime)
+            if (!inInputTime)
             {
                 int meterIndex = MeterManager.Ins.MeterIndex;
                 // 缓存区取指令
-                if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+                if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
                 {
                     Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
 
@@ -155,15 +151,15 @@ public class AgentStatus_Attack : AgentStatus
                             break;
                         case AgentCommandDefine.ATTACK_SHORT:
                         case AgentCommandDefine.ATTACK_LONG:
-                            //if (mCurTriggeredComboStep != null)
-                            //{
-                            //    ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
-                            //}
-                            //else
-                            //{
-                            //    StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
-                            //}
-                            //break;
+                        //if (mCurTriggeredComboStep != null)
+                        //{
+                        //    ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
+                        //}
+                        //else
+                        //{
+                        //    StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
+                        //}
+                        //break;
                         case AgentCommandDefine.EMPTY:
                         case AgentCommandDefine.BE_HIT:
                         default:
@@ -196,7 +192,7 @@ public class AgentStatus_Attack : AgentStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
+    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
     {
         if (agentActionData == null)
             return;
@@ -213,11 +209,5 @@ public class AgentStatus_Attack : AgentStatus
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
 
-    }
-
-    public override void RegisterInputHandle()
-    {
-        mInputHandle = new KeyboardInputHandle_Attack(mAgent);
-        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 }

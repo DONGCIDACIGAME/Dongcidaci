@@ -299,7 +299,6 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         mAgentId = agentId;
         AnimPlayer = new AnimPlayer();
         StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
-        StatusMachine = new AgentStatusMachine();
         Combo_Trigger = new ComboTrigger();
         EffectExcutorCtl = new EffectExcutorController();
         MovementExcutorCtl = new AnimMovementExcutorController();

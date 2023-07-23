@@ -301,6 +301,7 @@ public class MeterManager : ModuleManager<MeterManager>
         int meterIndexInMusic = GetMeterIndexInMusic(MeterIndex);
         if (timeRecord >= mCurAudioMeterData.baseMeters[meterIndexInMusic + 1])
         {
+
             // 节拍结束
             TriggerMeterEnd();
             // 节拍自增
@@ -336,6 +337,32 @@ public class MeterManager : ModuleManager<MeterManager>
         else
         {
             time = mCurAudioMeterData.baseMeters[meterIndexInMusic_new] - timeRecord;
+        }
+
+        //Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
+        return time;
+    }
+
+    /// <summary>
+    /// 获取当前到接下来第offset拍的时间
+    /// </summary>
+    /// <param name="offset"></param>
+    /// <returns></returns>
+    public float GetTimeToMeter(int meterIndex)
+    {
+        if (mCurAudioMeterData == null)
+            return -1f;
+
+        float time = 0;
+        // 如果新的节拍index < 老的节拍index， 说明过了音乐的最后一拍，循环到开头了
+        if (meterIndex < this.MeterIndex)
+        {
+            time += mCurAudioMeterData.audioLen - timeRecord;
+            time += mCurAudioMeterData.baseMeters[meterIndex];
+        }
+        else
+        {
+            time = mCurAudioMeterData.baseMeters[meterIndex] - timeRecord;
         }
 
         //Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);

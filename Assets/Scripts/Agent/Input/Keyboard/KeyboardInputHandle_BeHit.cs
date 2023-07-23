@@ -1,6 +1,6 @@
 public class KeyboardInputHandle_BeHit : AgentKeyboardInputHandle
 {
-    public KeyboardInputHandle_BeHit(Agent agt) : base(agt)
+    public KeyboardInputHandle_BeHit(Hero hero) : base(hero)
     {
     }
 
@@ -21,16 +21,6 @@ public class KeyboardInputHandle_BeHit : AgentKeyboardInputHandle
 
     public override void OnUpdate(float deltaTime)
     {
-        //if (mAgent == null)
-        //    return;
 
-        //AgentInputCommand cmd;
-        //bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
-        //if (!hasCmd)
-        //{
-        //    cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-        //    cmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, DirectionDef.none);
-        //}
-        //mAgent.OnCommand(cmd);
     }
 }

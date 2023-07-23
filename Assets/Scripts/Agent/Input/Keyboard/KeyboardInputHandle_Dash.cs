@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
 {
-    public KeyboardInputHandle_Dash(Agent agt) : base(agt)
+    public KeyboardInputHandle_Dash(Hero hero) : base(hero)
     {
     }
 
@@ -35,23 +35,11 @@ public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
             towards += DirectionDef.right;
         }
 
-        mAgent.MoveControl.TurnTo(towards);
+        mHero.MoveControl.TurnTo(towards);
     }
 
     public override void OnMeterEnd(int meterIndex)
     {
 
-    }
-    public override void OnUpdate(float deltaTime)
-    {
-        if (mAgent == null)
-            return;
-
-        AgentCommand cmd;
-        bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
-        if(hasCmd)
-        {
-            mAgent.OnCommand(cmd);
-        }
     }
 }

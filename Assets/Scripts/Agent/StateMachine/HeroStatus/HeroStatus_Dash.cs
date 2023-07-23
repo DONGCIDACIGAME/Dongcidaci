@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AgentStatus_Dash : AgentStatus
+public class HeroStatus_Dash : HeroStatus
 {
     public override string GetStatusName()
     {
@@ -18,7 +18,7 @@ public class AgentStatus_Dash : AgentStatus
         base.CustomDispose();
     }
 
-    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
@@ -47,7 +47,7 @@ public class AgentStatus_Dash : AgentStatus
         }
     }
 
-    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
@@ -59,7 +59,7 @@ public class AgentStatus_Dash : AgentStatus
                 break;
             // 根据节拍进度冲刺
             case AgentCommandDefine.DASH:
-                ConditionalExcute(cmdType, towards, triggerMeter, args, triggeredComboStep); 
+                ConditionalExcute(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             // 其他指令类型，都要等本次冲刺结束后执行，先放入指令缓存区
             case AgentCommandDefine.RUN:
@@ -85,7 +85,7 @@ public class AgentStatus_Dash : AgentStatus
         }
 
         // 缓存区取指令
-        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+        if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
 
@@ -118,7 +118,7 @@ public class AgentStatus_Dash : AgentStatus
 
     protected override void CustomOnMeterEnd(int meterIndex)
     {
-        
+
     }
 
     /// <summary>
@@ -130,7 +130,7 @@ public class AgentStatus_Dash : AgentStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, AgentActionData agentActionData)
+    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
     {
         if (agentActionData == null)
             return;
@@ -144,7 +144,7 @@ public class AgentStatus_Dash : AgentStatus
         // 2. 播放冲刺动画
         mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.CrossFadeToState(statusName, stateName);
 
-        if(args != null)
+        if (args != null)
         {
             float dashDistance = (float)args["distance"];
             float startTime = (float)args["startTime"];
@@ -163,7 +163,7 @@ public class AgentStatus_Dash : AgentStatus
 
     public override void RegisterInputHandle()
     {
-        mInputHandle = new KeyboardInputHandle_Dash(mAgent);
+        mInputHandle = new KeyboardInputHandle_Dash(mAgent as Hero);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 }

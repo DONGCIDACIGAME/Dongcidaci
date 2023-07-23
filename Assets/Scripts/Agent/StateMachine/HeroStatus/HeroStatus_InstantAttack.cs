@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AgentStatus_InstantAttack : AgentStatus
+public class HeroStatus_InstantAttack : HeroStatus
 {
     private float mExitTime;
     private float mTimer;
@@ -13,11 +13,11 @@ public class AgentStatus_InstantAttack : AgentStatus
 
     public override void RegisterInputHandle()
     {
-        mInputHandle = new KeyboardInputHandle_InstantAttack(mAgent);
+        mInputHandle = new KeyboardInputHandle_InstantAttack(mAgent as Hero);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 
-    private void ExcuteCmd(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    private void ExcuteCmd(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         if (triggeredComboStep != null)
         {
@@ -33,7 +33,7 @@ public class AgentStatus_InstantAttack : AgentStatus
     /// 状态进入
     /// </summary>
     /// <param name="context"></param>
-    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
@@ -53,7 +53,7 @@ public class AgentStatus_InstantAttack : AgentStatus
     /// 常规指令直接处理逻辑
     /// </summary>
     /// <param name="cmd"></param>
-    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
@@ -97,7 +97,7 @@ public class AgentStatus_InstantAttack : AgentStatus
         }
 
         // 缓存区取指令
-        if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+        if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
 
@@ -134,40 +134,40 @@ public class AgentStatus_InstantAttack : AgentStatus
 
         mTimer += deltaTime;
 
-        //if (mTimer >= mExitTime)
-        //{
-        //    //cmdBuffer.ClearCommandBuffer();
-        //    // 缓存区取指令
-        //    if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
-        //    {
-        //        Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, triggerMeter);
+        if (mTimer >= mExitTime)
+        {
+            //cmdBuffer.ClearCommandBuffer();
+            // 缓存区取指令
+            if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+            {
+                Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, triggerMeter);
 
-        //        switch (cmdType)
-        //        {
-        //            case AgentCommandDefine.BE_HIT_BREAK:
-        //            case AgentCommandDefine.RUN:
-        //            case AgentCommandDefine.DASH:
-        //            case AgentCommandDefine.IDLE:
-        //                ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
-        //                break;
-        //            case AgentCommandDefine.ATTACK_SHORT:
-        //            case AgentCommandDefine.ATTACK_LONG:
-        //            //if (mCurTriggeredComboStep != null)
-        //            //{
-        //            //    ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
-        //            //}
-        //            //else
-        //            //{
-        //            //    StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
-        //            //}
-        //            //break;
-        //            case AgentCommandDefine.EMPTY:
-        //            case AgentCommandDefine.BE_HIT:
-        //            default:
-        //                break;
-        //        }
-        //    }
-        //}
+                switch (cmdType)
+                {
+                    case AgentCommandDefine.BE_HIT_BREAK:
+                    case AgentCommandDefine.RUN:
+                    case AgentCommandDefine.DASH:
+                    case AgentCommandDefine.IDLE:
+                        ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
+                        break;
+                    case AgentCommandDefine.ATTACK_SHORT:
+                    case AgentCommandDefine.ATTACK_LONG:
+                    //if (mCurTriggeredComboStep != null)
+                    //{
+                    //    ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
+                    //}
+                    //else
+                    //{
+                    //    StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
+                    //}
+                    //break;
+                    case AgentCommandDefine.EMPTY:
+                    case AgentCommandDefine.BE_HIT:
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -180,7 +180,7 @@ public class AgentStatus_InstantAttack : AgentStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
+    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
     {
         if (agentActionData == null)
             return;
@@ -198,9 +198,9 @@ public class AgentStatus_InstantAttack : AgentStatus
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
 
         AgentAnimStateInfo animStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
-        
+
         // 攻击动作拍数
-        mCurLogicStateEndMeter = MeterManager.Ins.GetMeterIndex(triggerMeter, animStateInfo.meterLen)-1;
+        mCurLogicStateEndMeter = MeterManager.Ins.GetMeterIndex(triggerMeter, animStateInfo.meterLen) - 1;
 
         // 攻击动作的时长
         mExitTime = animStateInfo.animLen;

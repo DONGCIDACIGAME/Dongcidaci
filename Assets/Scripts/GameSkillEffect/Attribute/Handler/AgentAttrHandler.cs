@@ -81,9 +81,9 @@ namespace GameSkillEffect
         /// </summary>
         /// <param name="cmdType"></param>
         /// <returns></returns>
-        public bool CheckCmdReact(byte cmdType)
+        public bool CheckCmdReact(int cmdType)
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 32; i++)
             {
                 int ret = cmdType & (1 << i);
                 if (ret > 0)
@@ -94,13 +94,6 @@ namespace GameSkillEffect
 
             return false;
         }
-
-
-
-
-
-
-
     }
 }
 

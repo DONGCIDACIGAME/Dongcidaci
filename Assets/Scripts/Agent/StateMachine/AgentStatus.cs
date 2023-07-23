@@ -8,9 +8,9 @@ public abstract class AgentStatus : IAgentStatus
     protected Agent mAgent;
 
     /// <summary>
-    /// 输入处理器
+    /// 当前执行中的指令
     /// </summary>
-    protected IInputHandle mInputHandle;
+    protected int mCurExcutingCmdType;
 
     /// <summary>
     /// 根据节拍融合的动画驱动器
@@ -67,7 +67,6 @@ public abstract class AgentStatus : IAgentStatus
         mMatchMeterCrossfadeAnimDriver = new MatchMeterCrossfadeAnimDriver(mAgent);
         mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
         mDefaultCrossFadeAnimDriver = new DefaultCrossfadeAnimDriver(mAgent);
-        RegisterInputHandle();
     }
 
     /// <summary>
@@ -81,54 +80,26 @@ public abstract class AgentStatus : IAgentStatus
     /// <returns></returns>
     public abstract string GetStatusName();
 
-    public abstract void RegisterInputHandle();
+    
 
     /// <summary>
     /// 状态默认的行为逻辑
     /// </summary>
-    public abstract void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args, AgentActionData agentActionData);
+    public abstract void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args, AgentActionData agentActionData);
 
     /// <summary>
     /// 获取指令切换的状态类型
     /// </summary>
     /// <param name="cmdType"></param>
     /// <returns></returns>
-    public virtual string GetChangeToStatus(byte cmdType)
-    {
-        switch (cmdType)
-        {
-            case AgentCommandDefine.IDLE:
-                return AgentStatusDefine.IDLE;
-            case AgentCommandDefine.RUN:
-                return AgentStatusDefine.RUN;
-            case AgentCommandDefine.ATTACK_LONG:
-            case AgentCommandDefine.ATTACK_SHORT:
-                if (mAgent.Agent_View.InstantAttack)
-                {
-                    return AgentStatusDefine.INSTANT_ATTACK;
-                }
-                else
-                {
-                    return AgentStatusDefine.ATTACK;
-                }
-            case AgentCommandDefine.BE_HIT:
-                return AgentStatusDefine.BEHIT;
-            case AgentCommandDefine.DASH:
-                return AgentStatusDefine.DASH;
-            case AgentCommandDefine.DEAD:
-                return AgentStatusDefine.DEAD;
-            default:
-                Log.Error(LogLevel.Normal, "GetChangeToStatus Error, status not defined to cmd:{0}", cmdType);
-                return string.Empty;
-        }
-    }
+    public abstract string GetChangeToStatus(int cmdType);
 
 
     /// <summary>
     /// 进入状态
     /// </summary>
     /// <param name="context"></param>
-    public virtual void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep) 
+    public virtual void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep) 
     {
         Log.Logic(LogLevel.Info, "OnEnter Status:{0}--cur meter:{1}", GetStatusName(), MeterManager.Ins.MeterIndex);
         cmdBuffer.ClearCommandBuffer();
@@ -138,8 +109,8 @@ public abstract class AgentStatus : IAgentStatus
             mAgent.Combo_Trigger.ResetAllCombo();
         }
         mCurTriggeredComboStep = null;
-        mInputHandle.SetEnable(true);
         mCurLogicStateEndMeter = -1;
+        mCurExcutingCmdType = cmdType;
     }
     
     /// <summary>
@@ -147,12 +118,12 @@ public abstract class AgentStatus : IAgentStatus
     /// </summary>
     public virtual void OnExit() 
     {
-        mInputHandle.SetEnable(false);
         cmdBuffer.ClearCommandBuffer();
         mMeterEndActions.Clear();
         mCurTriggeredComboStep = null;
         mStepLoopAnimDriver.Reset();
         mMatchMeterCrossfadeAnimDriver.Reset();
+        mCurExcutingCmdType = AgentCommandDefine.EMPTY;
     }
 
     /// <summary>
@@ -167,11 +138,6 @@ public abstract class AgentStatus : IAgentStatus
     {
         mAgent = null;
         mCurLogicStateEndMeter = 0;
-
-        if(mInputHandle != null)
-        {
-            mInputHandle = null;
-        }
 
         if (mMatchMeterCrossfadeAnimDriver != null)
         {
@@ -227,7 +193,7 @@ public abstract class AgentStatus : IAgentStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="triggeredComboStep"></param>
-    protected void ChangeStatusOnCommand(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args, TriggeredComboStep triggeredComboStep)
+    protected void ChangeStatusOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args, TriggeredComboStep triggeredComboStep)
     {
         string status = GetChangeToStatus(cmdType);
         if (string.IsNullOrEmpty(status))
@@ -245,7 +211,7 @@ public abstract class AgentStatus : IAgentStatus
     /// </summary>
     /// <param name="cmdType"></param>
     /// <param name="towards"></param>
-    public void PushInputCommandToBuffer(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    public void PushInputCommandToBuffer(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         cmdBuffer.AddInputCommand(cmdType, towards, triggerMeter, args);
         if(triggeredComboStep != null)
@@ -254,7 +220,7 @@ public abstract class AgentStatus : IAgentStatus
         }
     }
 
-    protected virtual void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args, TriggeredComboStep triggeredComboStep) { }
+    protected virtual void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args, TriggeredComboStep triggeredComboStep) { }
 
     public void OnCommand(AgentCommand cmd, TriggeredComboStep triggeredComboStep)
     {
@@ -265,13 +231,15 @@ public abstract class AgentStatus : IAgentStatus
         }
 
         CustomOnCommand(cmd.CmdType, cmd.Towards, cmd.TriggerMeter, cmd.Args, triggeredComboStep);
+
+        mCurExcutingCmdType = cmd.CmdType;
     }
 
     /// <summary>
     /// 执行Combo
     /// </summary>
     /// <param name="triggeredComboAction"></param>
-    protected void ExcuteCombo(byte cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, ref TriggeredComboStep triggeredComboStep)
+    protected void ExcuteCombo(int cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, ref TriggeredComboStep triggeredComboStep)
     {
         if (triggeredComboStep == null)
         {
@@ -339,7 +307,7 @@ public abstract class AgentStatus : IAgentStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="triggeredComboStep"></param>
-    protected bool ConditionalExcute(byte cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    protected bool ConditionalExcute(int cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         if (triggerMeter <= mCurLogicStateEndMeter)
             return false;

@@ -2,7 +2,7 @@ using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AgentStatus_Transfer : AgentStatus
+public class MonsterStatus_Transfer : MonsterStatus
 {
     /// <summary>
     /// 状态持续时间
@@ -29,7 +29,7 @@ public class AgentStatus_Transfer : AgentStatus
         base.CustomDispose();
     }
 
-    public override void OnEnter(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
@@ -44,12 +44,12 @@ public class AgentStatus_Transfer : AgentStatus
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
-        
+
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)
     {
-        
+
     }
 
     public override void OnUpdate(float deltaTime)
@@ -58,11 +58,11 @@ public class AgentStatus_Transfer : AgentStatus
 
         mTimer += deltaTime;
 
-        if(mTimer >= mExitTime)
+        if (mTimer >= mExitTime)
         {
             int meterIndex = MeterManager.Ins.MeterIndex;
             // 缓存区取指令
-            if (cmdBuffer.PeekCommand(out byte cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+            if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
             {
                 Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
 
@@ -91,14 +91,14 @@ public class AgentStatus_Transfer : AgentStatus
         }
     }
 
-    protected override void CustomOnCommand(byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
         PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
     }
 
-    public override void StatusDefaultAction(byte cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, AgentActionData agentActionData)
+    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
     {
         mExitTime = 0;
         mTimer = 0;
@@ -107,11 +107,5 @@ public class AgentStatus_Transfer : AgentStatus
             float duration = (float)obj;
             mExitTime = MeterManager.Ins.GetCurrentMeterTotalTime() * duration;
         }
-    }
-
-    public override void RegisterInputHandle()
-    {
-        mInputHandle = new KeyboardInputHandle_Transfer(mAgent);
-        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 }
