@@ -29,6 +29,9 @@ public class MeterManager : ModuleManager<MeterManager>
         return meterIndex % totalMeterLen;
     }
 
+
+    private float speedScaler;
+
     /// <summary>
     /// Added by Weng 2023/05/05
     /// 当前距离这1拍索引已经经过的时间
@@ -130,10 +133,11 @@ public class MeterManager : ModuleManager<MeterManager>
     }
 
 
-    public void Start(string audioName)
+    public void Start(string audioName, float speed)
     {
         Reset();
         LoadAudioMeterInfo(audioName);
+        speedScaler = speed;
     }
 
     public void Reset()
@@ -141,6 +145,7 @@ public class MeterManager : ModuleManager<MeterManager>
         timeRecord = 0;
         enable = true;
         MeterIndex = 0;
+        speedScaler = 0;
     }
 
     public void Stop()
@@ -203,12 +208,12 @@ public class MeterManager : ModuleManager<MeterManager>
         // 对于音乐起始拍和结束拍的特殊处理
         if (meterIndexInMusic == 0 || meterIndexInMusic == totalMeterLen - 1)
         {
-            return (timeRecord >= mCurAudioMeterData.baseMeters[totalMeterLen - 1] - tolerance/2 + offset)
-                        && timeRecord <= mCurAudioMeterData.baseMeters[0] + tolerance/2 + offset;
+            return timeRecord >= (mCurAudioMeterData.baseMeters[totalMeterLen - 1] - tolerance / 2 + offset)
+                        && timeRecord <= (mCurAudioMeterData.baseMeters[0] + tolerance / 2 + offset);
         }
 
-        return timeRecord >= mCurAudioMeterData.baseMeters[meterIndex] - tolerance / 2 + offset
-                    && timeRecord <= mCurAudioMeterData.baseMeters[meterIndex] + tolerance/2 + offset;
+        return timeRecord >= (mCurAudioMeterData.baseMeters[meterIndex] - tolerance / 2 + offset)
+                    && timeRecord <= (mCurAudioMeterData.baseMeters[meterIndex] + tolerance / 2 + offset);
     }
 
     /// <summary>
@@ -340,7 +345,7 @@ public class MeterManager : ModuleManager<MeterManager>
         }
 
         //Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
-        return time;
+        return time / speedScaler;
     }
 
     /// <summary>
@@ -366,7 +371,7 @@ public class MeterManager : ModuleManager<MeterManager>
         }
 
         //Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
-        return time;
+        return time / speedScaler;
     }
 
     /// <summary>
@@ -414,7 +419,7 @@ public class MeterManager : ModuleManager<MeterManager>
         }
 
         //Log.Logic(LogLevel.Info, "GetCurrentMeterTime--from:{0},to:{1},totalTime:{2}", from,to, time);
-        return time;
+        return time / speedScaler;
     }
 
 

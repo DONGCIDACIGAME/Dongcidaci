@@ -65,6 +65,8 @@ public class HeroStatus_InstantAttack : HeroStatus
                 break;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
+            case AgentCommandDefine.ATTACK_LONG_INSTANT:
+            case AgentCommandDefine.ATTACK_SHORT_INSTANT:
                 ExcuteCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
                 break;
@@ -72,6 +74,7 @@ public class HeroStatus_InstantAttack : HeroStatus
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
+            case AgentCommandDefine.RUN_METER:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.BE_HIT://攻击状态下，非打断的受击行为不做处理

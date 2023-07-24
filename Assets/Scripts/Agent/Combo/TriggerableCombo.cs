@@ -37,6 +37,8 @@ public class TriggerableCombo
     public void SetActive(bool active)
     {
         this.active = active;
+        if (!active)
+            Reset();
     }
 
     public bool IsCombo(string comboName)

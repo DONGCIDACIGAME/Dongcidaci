@@ -122,7 +122,7 @@ public class Monster : Agent
         base.OnUpdate(deltaTime);
         if (BehaviourTree != null)
         {
-            //BehaviourTree.Excute(deltaTime);
+            BehaviourTree.Excute(deltaTime);
         }
     }
 

@@ -163,11 +163,9 @@ public abstract class AgentKeyboardInputHandle : InputHandle
             return;
         AgentCommand cmd;
         bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
-        if (!hasCmd)
+        if (hasCmd)
         {
-            cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-            cmd.Initialize(AgentCommandDefine.IDLE, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, DirectionDef.none);
+            mHero.OnCommand(cmd);
         }
-        mHero.OnCommand(cmd);
     }
 }

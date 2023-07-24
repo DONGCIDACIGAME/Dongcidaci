@@ -76,7 +76,7 @@
 			"defaultAciton":
 			{
 				"statusName": "Attack",
-				"stateName": "Test1",
+				"stateName": "Combo_1_With_Empty",
 				"effectCollictions": [
 					{
 						"effects":[

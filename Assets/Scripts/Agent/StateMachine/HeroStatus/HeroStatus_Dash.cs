@@ -63,9 +63,12 @@ public class HeroStatus_Dash : HeroStatus
                 break;
             // 其他指令类型，都要等本次冲刺结束后执行，先放入指令缓存区
             case AgentCommandDefine.RUN:
+            case AgentCommandDefine.RUN_METER:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
+            case AgentCommandDefine.ATTACK_LONG_INSTANT:
+            case AgentCommandDefine.ATTACK_SHORT_INSTANT:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.BE_HIT:// 冲刺状态下，非打断的受击指令不处理

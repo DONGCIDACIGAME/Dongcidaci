@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class HeroStatus_Run : HeroStatus
 {
+    private bool mRunning;
+
     public override string GetStatusName()
     {
         return AgentStatusDefine.RUN;
@@ -11,13 +13,14 @@ public class HeroStatus_Run : HeroStatus
     public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
-
+        mRunning = false;
         StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
     }
 
     public override void OnExit()
     {
         base.OnExit();
+        mRunning = false;
     }
 
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
@@ -26,17 +29,19 @@ public class HeroStatus_Run : HeroStatus
 
         switch (cmdType)
         {
-            case AgentCommandDefine.BE_HIT:
-            case AgentCommandDefine.BE_HIT_BREAK:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
+            case AgentCommandDefine.RUN_METER:
+            case AgentCommandDefine.ATTACK_LONG_INSTANT:
+            case AgentCommandDefine.ATTACK_SHORT_INSTANT:
+            case AgentCommandDefine.BE_HIT:
+            case AgentCommandDefine.BE_HIT_BREAK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.RUN:
-                mAgent.MoveControl.TurnTo(towards);
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -55,13 +60,11 @@ public class HeroStatus_Run : HeroStatus
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.ATTACK_SHORT:
                 case AgentCommandDefine.ATTACK_LONG:
-                case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.BE_HIT_BREAK:
                     ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
                     break;
+                case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.RUN:
-                    StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
-                    break;
                 case AgentCommandDefine.EMPTY:
                 default:
                     break;
@@ -78,7 +81,14 @@ public class HeroStatus_Run : HeroStatus
     {
         base.OnUpdate(deltaTime);
 
+        if(!mRunning)
+        {
+            ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
+            return;
+        }
+
         mAgent.MoveControl.Move(deltaTime);
+        mRunning = false;
     }
 
     /// <summary>
@@ -92,25 +102,16 @@ public class HeroStatus_Run : HeroStatus
     /// <param name="agentActionData"></param>
     public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
     {
-        // 等待当前逻辑结束拍
-        if (triggerMeter <= mCurLogicStateEndMeter)
-            return;
-
         // 1. 转向移动放方向
         mAgent.MoveControl.TurnTo(towards);
 
         // 2. 步进式动画继续
-        mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
-        //if (agentActionData == null)
-        //{
-        //    return;
-        //}
+        if(triggerMeter > mCurLogicStateEndMeter)
+        {
+            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
+        }
 
-        //// 1. 转向移动放方向
-        //mAgent.MoveControl.TurnTo(towards);
-
-        //// 2. 播放动画
-        //mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.CrossFadeToState(agentActionData.stateName, agentActionData.stateName);
+        mRunning = true;
     }
 
     public override void RegisterInputHandle()

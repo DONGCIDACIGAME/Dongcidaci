@@ -121,7 +121,7 @@ public class ComboTrigger : IMeterHandler
 
                 // combo的逻辑结束拍=combo触发拍+combo招式持续拍-1
                 comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, comboStep.agentActionData.statusName, comboStep.agentActionData.stateName) - 1;
-                Log.Error(LogLevel.Info, "Combo Trigger OnNewInput -------new triggered---meterIndex:{0}, comboLogicEndMeter:{1}", meterIndex, comboLogicEndMeter);
+                //Log.Error(LogLevel.Info, "Combo Trigger OnNewInput -------new triggered---meterIndex:{0}, comboLogicEndMeter:{1}", meterIndex, comboLogicEndMeter);
 
                 // 记录这个被触发的招式，记录时不仅要记录招式数据，还要记录是谁触发的，combo的名字，招式的index, 触发在那一拍
                 tcs.Initialize(mAgent.GetAgentId(), tc.GetComboData(), tc.triggeredAt, meterIndex, comboLogicEndMeter, comboStep);
@@ -151,14 +151,14 @@ public class ComboTrigger : IMeterHandler
             return ComboDefine.ComboTriggerResult_NotComboTrigger;
         }
 
-        Log.Error(LogLevel.Info, "Combo Trigger OnNewInput -------newInput:{0}---meterIndex:{1}", newInput, meterIndex);
+        //Log.Error(LogLevel.Info, "Combo Trigger OnNewInput -------newInput:{0}---meterIndex:{1}", newInput, meterIndex);
         // 如果已经在combo招式的执行过程中，且新的输入的触发节拍不是在当前combo招式的结束拍，则该输入就被丢弃
         // |---a-----------b---|
         // 对于输入a，应该属于前面那个竖杠的拍子，对于输入b，应该属于后面竖杠的按个拍子
         // 所以这里的输入丢弃逻辑应该没有问题
         if (meterIndex <= comboLogicEndMeter)
         {
-            Log.Error(LogLevel.Info, "Combo Trigger OnNewInput -------Excuting---meterIndex:{0}, comboLogicEndMeter:{1}", meterIndex, comboLogicEndMeter);
+            //Log.Error(LogLevel.Info, "Combo Trigger OnNewInput -------Excuting---meterIndex:{0}, comboLogicEndMeter:{1}", meterIndex, comboLogicEndMeter);
             return ComboDefine.ComboTriggerResult_ComboExcuting;
         }
 

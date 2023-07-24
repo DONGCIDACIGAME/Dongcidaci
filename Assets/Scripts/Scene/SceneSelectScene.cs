@@ -14,6 +14,9 @@ public class SceneSelectScene : GameScene
     {
         Log.Logic(LogLevel.Info, "select scene....open select panel");
         UIManager.Ins.OpenPanel<PanelSceneSelect>("Prefabs/UI/Panel_SceneSelect");
+
+        AudioManager.Ins.LoadBgm("Audio/Music/The Rush");
+        AudioManager.Ins.PlayBgm(true);
     }
 
     public override void OnSceneExit()

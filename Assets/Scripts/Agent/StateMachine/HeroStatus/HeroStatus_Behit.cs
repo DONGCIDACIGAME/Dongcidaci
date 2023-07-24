@@ -1,5 +1,4 @@
 using GameEngine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -49,7 +48,6 @@ public class HeroStatus_Behit : HeroStatus
 
         switch (cmdType)
         {
-            case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.BE_HIT_BREAK:
                 AgentActionData actionData = statusDefaultActionData;
                 if (args != null && args.TryGetValue("beHitAction", out object obj1))
@@ -60,11 +58,15 @@ public class HeroStatus_Behit : HeroStatus
                 break;
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
+            case AgentCommandDefine.RUN_METER:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
+            case AgentCommandDefine.ATTACK_LONG_INSTANT:
+            case AgentCommandDefine.ATTACK_SHORT_INSTANT:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
+            case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.EMPTY:
             default:
                 break;

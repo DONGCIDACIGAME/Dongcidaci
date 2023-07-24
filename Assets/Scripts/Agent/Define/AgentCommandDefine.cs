@@ -63,9 +63,9 @@ public static class AgentCommandDefine
 
 
     /// <summary>
-    /// 可以进行优化的指令集
+    /// 可以进行优化的指令集(1拍里多个相同指令时可以优化为1个)
     /// </summary>
-    private static int OptimizableCommands = IDLE | RUN;
+    private static int OptimizableCommands = IDLE;
 
     /// <summary>
     /// 是否是可优化的指令
@@ -77,7 +77,10 @@ public static class AgentCommandDefine
         return (OptimizableCommands & cmdType) > 0;
     }
 
-    private static int ComboTriggerCommands = DASH | ATTACK_SHORT | ATTACK_LONG;
+    /// <summary>
+    /// 所有可以触发combo的指令类型
+    /// </summary>
+    private static int ComboTriggerCommands = DASH | ATTACK_SHORT | ATTACK_LONG | ATTACK_SHORT_INSTANT | ATTACK_LONG_INSTANT;
 
     /// <summary>
     /// 是否是可以触发combo的指令

@@ -68,17 +68,20 @@ public class HeroStatus_Transfer : HeroStatus
 
                 switch (cmdType)
                 {
-                    case AgentCommandDefine.BE_HIT_BREAK:
+                    case AgentCommandDefine.IDLE:
                     case AgentCommandDefine.RUN:
                     case AgentCommandDefine.DASH:
-                    case AgentCommandDefine.IDLE:
+                    case AgentCommandDefine.RUN_METER:
                     case AgentCommandDefine.ATTACK_SHORT:
                     case AgentCommandDefine.ATTACK_LONG:
+                    case AgentCommandDefine.ATTACK_LONG_INSTANT:
+                    case AgentCommandDefine.ATTACK_SHORT_INSTANT:
+                    case AgentCommandDefine.BE_HIT:
+                    case AgentCommandDefine.BE_HIT_BREAK:
                         GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), GetChangeToStatus(cmdType), cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
                         //PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
                         break;
                     case AgentCommandDefine.EMPTY:
-                    case AgentCommandDefine.BE_HIT:
                     default:
                         break;
                 }

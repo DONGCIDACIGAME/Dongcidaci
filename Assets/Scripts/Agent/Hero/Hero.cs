@@ -131,6 +131,8 @@ public class Hero : Agent
             mCft.OnUpdate(deltaTime);
         }
 
+
+
         // 临时
         if(!Hero_View.InstantAttack)
         {
