@@ -135,7 +135,7 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
         mAgt = null;
     }
 
-    public void OnUpdate(float deltaTime)
+    public void OnGameUpdate(float deltaTime)
     {
         if (!mEnable)
             return;
@@ -145,7 +145,7 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
         {
             ComboEffectExcutor excutor = effectExcutors[i];
 
-            excutor.OnUpdate(deltaTime);
+            excutor.OnGameUpdate(deltaTime);
 
             if (excutor.active)
             {
@@ -169,5 +169,8 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
         
     }
 
-
+    public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+        
+    }
 }

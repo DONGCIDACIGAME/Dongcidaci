@@ -577,7 +577,7 @@ namespace GameEngine
         ///  UI Root Update...
         /// </summary>
         /// <param name="deltaTime"></param>
-        public override void OnUpdate(float deltaTime)
+        public override void OnGameUpdate(float deltaTime)
         {
             _OpenPanels();       // open panels
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LoopZoomWithMeter : BehaviourWithMeter
+public class CurveZoomWithMeter : BehaviourWithMeter
 {
     /// <summary>
     /// 时长（本节拍时长）
@@ -31,7 +31,7 @@ public class LoopZoomWithMeter : BehaviourWithMeter
     }
 
 
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
         if (!UpdateEnable || !meterTriggered)
             return;
@@ -61,5 +61,10 @@ public class LoopZoomWithMeter : BehaviourWithMeter
     public override void OnMeterEnd(int meterIndex)
     {
 
+    }
+
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+        
     }
 }

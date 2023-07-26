@@ -18,4 +18,6 @@ public abstract class InputHandle : IInputHandle
     public abstract void OnMeterEnter(int meterIndex);
 
     public abstract void OnMeterEnd(int meterIndex);
+
+    public abstract void OnDisplayPointBeforeMeterEnter(int meterIndex);
 }

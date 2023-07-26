@@ -18,6 +18,11 @@ public class MouseInputHandle_CommonInput : InputHandle
         
     }
 
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+
+    }
+
     public override void OnUpdate(float deltaTime)
     {
         if(Input.GetMouseButtonDown(0))

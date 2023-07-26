@@ -29,7 +29,7 @@ public abstract class BehaviourWithMeter : MonoBehaviour, IGameUpdate, IMeterHan
     /// </summary>
     protected float timeRecord;
 
-    public abstract void OnUpdate(float deltaTime);
+    public abstract void OnGameUpdate(float deltaTime);
     protected virtual void Initialize() { }
     protected virtual void Dispose() { }
        
@@ -69,4 +69,6 @@ public abstract class BehaviourWithMeter : MonoBehaviour, IGameUpdate, IMeterHan
     public abstract void OnMeterEnter(int meterIndex);
 
     public abstract void OnMeterEnd(int meterIndex);
+
+    public abstract void OnDisplayPointBeforeMeterEnter(int meterIndex);
 }

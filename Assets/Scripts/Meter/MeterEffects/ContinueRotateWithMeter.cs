@@ -12,10 +12,6 @@ public class ContinueRotateWithMeter : BehaviourWithMeter
     /// </summary>
     public Vector3 RotationOffset;
 
-    /// <summary>
-    /// 旋转的时间
-    /// </summary>
-    public float RotateDuration;
 
     protected override void Initialize()
     {
@@ -26,6 +22,16 @@ public class ContinueRotateWithMeter : BehaviourWithMeter
 
     public override void OnMeterEnter(int meterIndex)
     {
+
+    }
+
+    public override void OnMeterEnd(int meterIndex)
+    {
+
+    }
+
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
         meterTriggered = CheckTrigger(meterIndex);
         if (!meterTriggered)
             return;
@@ -34,28 +40,24 @@ public class ContinueRotateWithMeter : BehaviourWithMeter
         timeRecord = 0;
     }
 
-    public override void OnUpdate(float deltaTime)
+
+    public override void OnGameUpdate(float deltaTime)
     {
         if (!UpdateEnable || !meterTriggered)
             return;
 
-        if (timeRecord >= RotateDuration)
+        if (timeRecord >= GamePlayDefine.DisplayTimeToMatchMeter)
             return;
 
-        float progress = timeRecord / RotateDuration;
+        float progress = timeRecord / GamePlayDefine.DisplayTimeToMatchMeter;
 
         Vector3 rotateOffset = Vector3.Lerp(Vector3.zero, RotationOffset, progress);
         Vector3 rotate = mOriRotation + rotateOffset;
         this.transform.rotation = Quaternion.Euler(rotate);
         timeRecord += deltaTime;
-        if (timeRecord >= RotateDuration)
+        if (timeRecord >= GamePlayDefine.DisplayTimeToMatchMeter)
         {
             this.transform.rotation = Quaternion.Euler(mOriRotation+RotationOffset);
         }
-    }
-
-    public override void OnMeterEnd(int meterIndex)
-    {
-        
     }
 }

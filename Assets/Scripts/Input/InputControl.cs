@@ -78,4 +78,16 @@ public abstract class InputControl : IInputControl
             }
         }
     }
+
+    public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+        foreach (KeyValuePair<string, IInputHandle> kv in mHandleDic)
+        {
+            IInputHandle handle = kv.Value;
+            if (handle.CheckEnable())
+            {
+                handle.OnDisplayPointBeforeMeterEnter(meterIndex);
+            }
+        }
+    }
 }

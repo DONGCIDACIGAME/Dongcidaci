@@ -269,6 +269,14 @@ public class MeterManager : ModuleManager<MeterManager>
         }
     }
 
+    private void TriggerBeforeMeterDisplay()
+    {
+        foreach (IMeterHandler handler in mMeterHandlers)
+        {
+            handler.OnDisplayPointBeforeMeterEnter(MeterIndex+1);
+        }
+    }
+
     /// <summary>
     /// 触发在拍子上需要执行的操作
     /// </summary>
@@ -283,7 +291,7 @@ public class MeterManager : ModuleManager<MeterManager>
     /// <summary>
     /// </summary>
     /// <param name="deltaTime"></param>
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
         if (!enable)
             return;
@@ -295,18 +303,31 @@ public class MeterManager : ModuleManager<MeterManager>
             return;
 
 
+        float lastTime = timeRecord;
         timeRecord = AudioManager.Ins.GetCurBgmTime();
+
+
+
+        // 获取节拍在音乐中的index
+        int meterIndexInMusic = GetMeterIndexInMusic(MeterIndex);
+
+
+
+        float displayPointBeforeMeter = mCurAudioMeterData.baseMeters[meterIndexInMusic+1] - GamePlayDefine.DisplayTimeToMatchMeter;
+        if (lastTime <= displayPointBeforeMeter && timeRecord >= displayPointBeforeMeter)
+        {
+            TriggerBeforeMeterDisplay();
+        }
+
 
         if (timeRecord >= mCurAudioMeterData.audioLen)
         {
             timeRecord %= mCurAudioMeterData.audioLen;
         }
 
-        // 获取节拍在音乐中的index
-        int meterIndexInMusic = GetMeterIndexInMusic(MeterIndex);
+
         if (timeRecord >= mCurAudioMeterData.baseMeters[meterIndexInMusic + 1])
         {
-
             // 节拍结束
             TriggerMeterEnd();
             // 节拍自增

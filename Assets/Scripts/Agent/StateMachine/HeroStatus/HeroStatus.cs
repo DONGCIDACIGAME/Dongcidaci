@@ -73,8 +73,8 @@ public abstract class HeroStatus : AgentStatus
         }
     }
 
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
-        base.OnUpdate(deltaTime);
+        base.OnGameUpdate(deltaTime);
     }
 }

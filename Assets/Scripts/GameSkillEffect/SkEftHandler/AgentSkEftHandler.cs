@@ -251,7 +251,7 @@ namespace GameSkillEffect
         /// 每帧调用，此处的调用者是Agent中的OnUpdate
         /// </summary>
         /// <param name="deltaTime"></param>
-        public void OnUpdate(float deltaTime)
+        public void OnGameUpdate(float deltaTime)
         {
             
         }
@@ -266,7 +266,10 @@ namespace GameSkillEffect
             
         }
 
+        public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+        {
 
+        }
 
     }
 

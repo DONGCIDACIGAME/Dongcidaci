@@ -181,7 +181,12 @@ public abstract class AgentStatus : IAgentStatus
         }
     }
 
-    public virtual void OnUpdate(float deltaTime)
+    public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+
+    }
+
+    public virtual void OnGameUpdate(float deltaTime)
     {
         
     }

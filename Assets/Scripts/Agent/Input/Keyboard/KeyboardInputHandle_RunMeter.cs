@@ -18,4 +18,8 @@ public class KeyboardInputHandle_RunMeter : AgentKeyboardInputHandle
     {
         
     }
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+
+    }
 }

@@ -30,9 +30,9 @@ public class MonsterStatus_Dash : MonsterStatus
         base.OnExit();
     }
 
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
-        base.OnUpdate(deltaTime);
+        base.OnGameUpdate(deltaTime);
 
         if (MeterManager.Ins.MeterIndex > mCurLogicStateEndMeter)
         {

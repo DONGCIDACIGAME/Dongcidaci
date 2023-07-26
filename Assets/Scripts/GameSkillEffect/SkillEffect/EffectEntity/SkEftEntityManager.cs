@@ -48,7 +48,7 @@ namespace GameSkillEffect
             MeterManager.Ins.UnregiseterMeterHandler(this);
         }
 
-        public override void OnUpdate(float deltaTime)
+        public override void OnGameUpdate(float deltaTime)
         {
             //base.OnUpdate(deltaTime);
 
@@ -58,7 +58,7 @@ namespace GameSkillEffect
                 if(_mEntitys[i] is IGameUpdate)
                 {
                     var updateEntity = _mEntitys[i] as IGameUpdate;
-                    updateEntity.OnUpdate(deltaTime);
+                    updateEntity.OnGameUpdate(deltaTime);
                 }
             }
         }
@@ -90,7 +90,18 @@ namespace GameSkillEffect
             }
         }
 
-
+        public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+        {
+            if (_mEntitys == null || _mEntitys.Count == 0) return;
+            for (int i = _mEntitys.Count - 1; i >= 0; i--)
+            {
+                if (_mEntitys[i] is IMeterHandler)
+                {
+                    var meterHandleEntity = _mEntitys[i] as IMeterHandler;
+                    meterHandleEntity.OnDisplayPointBeforeMeterEnter(meterIndex);
+                }
+            }
+        }
     }
 }
 

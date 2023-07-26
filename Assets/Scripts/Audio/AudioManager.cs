@@ -100,9 +100,9 @@ public class AudioManager : ModuleManager<AudioManager>
         return BGMPlayer.time;
     }
 
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
-        base.OnUpdate(deltaTime);
+        base.OnGameUpdate(deltaTime);
     }
 
 }

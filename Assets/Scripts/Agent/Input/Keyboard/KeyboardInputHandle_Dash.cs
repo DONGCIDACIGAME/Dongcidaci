@@ -42,4 +42,8 @@ public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
     {
 
     }
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+
+    }
 }

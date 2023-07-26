@@ -35,7 +35,7 @@ public class UpdateCenter : ModuleManager<UpdateCenter>
             mUpdates.Remove(updater);
     }
 
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
         // modified by weng 0707
         // 这个地方需要从后往前遍历，因为如果更新者在update中执行了注销的逻辑
@@ -46,7 +46,7 @@ public class UpdateCenter : ModuleManager<UpdateCenter>
         {
             if (mUpdates[i] != null)
             {
-                mUpdates[i].OnUpdate(deltaTime);
+                mUpdates[i].OnGameUpdate(deltaTime);
             }
         }
 

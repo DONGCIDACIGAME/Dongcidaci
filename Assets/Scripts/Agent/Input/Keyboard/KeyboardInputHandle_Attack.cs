@@ -20,5 +20,10 @@ public class KeyboardInputHandle_Attack : AgentKeyboardInputHandle
     {
 
     }
+
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+
+    }
 }
 

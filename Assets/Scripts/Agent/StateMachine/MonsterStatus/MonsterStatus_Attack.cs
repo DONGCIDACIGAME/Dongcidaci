@@ -122,9 +122,9 @@ public class MonsterStatus_Attack : MonsterStatus
 
     }
 
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
-        base.OnUpdate(deltaTime);
+        base.OnGameUpdate(deltaTime);
 
         // 在逻辑结束拍之后
         if (MeterManager.Ins.MeterIndex > mCurLogicStateEndMeter)

@@ -77,9 +77,9 @@ public class HeroStatus_Run : HeroStatus
 
     }
 
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
-        base.OnUpdate(deltaTime);
+        base.OnGameUpdate(deltaTime);
 
         if(!mRunning)
         {

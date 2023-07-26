@@ -254,4 +254,9 @@ public class ComboTrigger : IMeterHandler
             ResetAllCombo();
         }
     }
+
+    public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+        
+    }
 }

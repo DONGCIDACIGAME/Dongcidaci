@@ -90,9 +90,15 @@ public class MeterTimerCenter : MeterModuleManager<MeterTimerCenter>
 
     }
 
-    public override void OnUpdate(float deltaTime)
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
     {
-        base.OnUpdate(deltaTime);
+
+    }
+
+
+    public override void OnGameUpdate(float deltaTime)
+    {
+        base.OnGameUpdate(deltaTime);
 
         if(toWorkTimers.Count > 0)
         {

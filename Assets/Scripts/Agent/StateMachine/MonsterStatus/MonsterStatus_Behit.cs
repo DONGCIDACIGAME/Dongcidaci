@@ -114,9 +114,9 @@ public class MonsterStatus_Behit : MonsterStatus
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.FixedTowards, towards, moveMore);
     }
 
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
-        base.OnUpdate(deltaTime);
+        base.OnGameUpdate(deltaTime);
 
         if (mTimer >= mExitTime)
         {

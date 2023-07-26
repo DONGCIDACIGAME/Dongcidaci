@@ -19,6 +19,9 @@ public class KeyboardInputHandle_Idle : AgentKeyboardInputHandle
     {
 
     }
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
 
+    }
 }
 

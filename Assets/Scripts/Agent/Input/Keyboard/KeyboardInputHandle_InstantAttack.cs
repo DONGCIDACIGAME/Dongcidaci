@@ -20,4 +20,8 @@ public class KeyboardInputHandle_InstantAttack : AgentKeyboardInputHandle
     {
 
     }
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+
+    }
 }

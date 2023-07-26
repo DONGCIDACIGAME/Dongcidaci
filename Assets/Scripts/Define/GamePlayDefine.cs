@@ -34,4 +34,10 @@ public static class GamePlayDefine
     /// 冲刺时间占一拍时间的百分比
     /// </summary>
     public const float DashMeterTime = 0.8f;
+
+    /// <summary>
+    /// 节拍前的公共进入点（时间）
+    /// 用来做卡节拍的各种表现
+    /// </summary>
+    public const float DisplayTimeToMatchMeter = 0.1f;
 }

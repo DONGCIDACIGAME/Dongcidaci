@@ -23,4 +23,8 @@ public class KeyboardInputHandle_BeHit : AgentKeyboardInputHandle
     {
 
     }
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+
+    }
 }

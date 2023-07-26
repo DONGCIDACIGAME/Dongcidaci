@@ -39,6 +39,14 @@ public abstract class AgentStatusMachine : IMeterHandler
         }
     }
 
+    public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+        if(CurStatus != null)
+        {
+            CurStatus.OnDisplayPointBeforeMeterEnter(meterIndex);
+        }
+    }
+
     protected void AddStatus(string statusName, AgentStatus status)
     {
         if(string.IsNullOrEmpty(statusName))
@@ -107,7 +115,7 @@ public abstract class AgentStatusMachine : IMeterHandler
     {
         if(CurStatus != null)
         {
-            CurStatus.OnUpdate(deltaTime);
+            CurStatus.OnGameUpdate(deltaTime);
         }
     }
 

@@ -126,7 +126,7 @@ namespace GameEngine
             Log.Logic(LogLevel.Info, "Unregister Input Control {0} Ok", ctlName);
         }
 
-        public override void OnUpdate(float deltaTime)
+        public override void OnGameUpdate(float deltaTime)
         {
             if (!mInputEnable)
                 return;
@@ -162,6 +162,18 @@ namespace GameEngine
                 if (inputCtl != null)
                 {
                     inputCtl.OnMeterEnd(meterIndex);
+                }
+            }
+        }
+
+        public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
+        {
+            foreach (KeyValuePair<string, IInputControl> kv in mInputControlMap)
+            {
+                IInputControl inputCtl = kv.Value;
+                if (inputCtl != null)
+                {
+                    inputCtl.OnDisplayPointBeforeMeterEnter(meterIndex);
                 }
             }
         }

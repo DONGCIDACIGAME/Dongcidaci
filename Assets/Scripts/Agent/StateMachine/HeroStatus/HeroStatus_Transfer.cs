@@ -52,9 +52,9 @@ public class HeroStatus_Transfer : HeroStatus
 
     }
 
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
-        base.OnUpdate(deltaTime);
+        base.OnGameUpdate(deltaTime);
 
         mTimer += deltaTime;
 

@@ -2,7 +2,7 @@ namespace GameEngine
 {
     public interface IGameUpdate
     {
-        void OnUpdate(float deltaTime);
+        void OnGameUpdate(float deltaTime);
     }
 
     /// <summary>

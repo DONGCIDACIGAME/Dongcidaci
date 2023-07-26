@@ -423,6 +423,11 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         }
     }
 
+    public virtual void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+
+    }
+
 
     /// <summary>
     /// update
@@ -432,13 +437,13 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     {
         MoveControl.OnUpdate(deltaTime);
         StatusMachine.OnUpdate(deltaTime);
-        EffectExcutorCtl.OnUpdate(deltaTime);
-        MovementExcutorCtl.OnUpdate(deltaTime);
+        EffectExcutorCtl.OnGameUpdate(deltaTime);
+        MovementExcutorCtl.OnGameUpdate(deltaTime);
         Agent_View.OnMyUpdate(this, deltaTime);
         // Added by weng 0708
         if (SkillEftHandler != null)
         {
-            SkillEftHandler.OnUpdate(deltaTime);
+            SkillEftHandler.OnGameUpdate(deltaTime);
         }
 
     }

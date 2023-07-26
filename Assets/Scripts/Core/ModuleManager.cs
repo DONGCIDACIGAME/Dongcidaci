@@ -27,7 +27,7 @@ namespace GameEngine
                 mEventListener.ClearAllEventListen();
         }
 
-        public virtual void OnUpdate(float deltaTime) { }
+        public virtual void OnGameUpdate(float deltaTime) { }
 
         public virtual void OnLateUpdate(float deltaTime) { }
 

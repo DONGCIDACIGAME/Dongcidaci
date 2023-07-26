@@ -126,7 +126,7 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
         mAgt = null;
     }
 
-    public void OnUpdate(float deltaTime)
+    public void OnGameUpdate(float deltaTime)
     {
         if (!mEnable)
             return;
@@ -134,7 +134,7 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
         int totalActiveExcutor = 0;
         foreach (AnimMovementExcutor excutor in mMovementExcutors)
         {
-            excutor.OnUpdate(deltaTime);
+            excutor.OnGameUpdate(deltaTime);
 
             if (excutor.active)
             {
@@ -156,5 +156,10 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
     public void OnMeterEnd(int meterIndex)
     {
         
+    }
+
+    public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+
     }
 }

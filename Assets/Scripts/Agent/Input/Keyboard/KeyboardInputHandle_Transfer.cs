@@ -19,4 +19,8 @@ public class KeyboardInputHandle_Transfer : AgentKeyboardInputHandle
     {
 
     }
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+
+    }
 }

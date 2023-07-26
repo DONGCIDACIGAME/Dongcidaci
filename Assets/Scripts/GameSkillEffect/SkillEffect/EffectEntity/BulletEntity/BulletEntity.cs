@@ -101,7 +101,12 @@ namespace GameSkillEffect
             
         }
 
-        public void OnUpdate(float deltaTime)
+        public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+        {
+
+        }
+
+        public void OnGameUpdate(float deltaTime)
         {
             if (!_isMoveStart) return;
 

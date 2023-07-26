@@ -102,7 +102,7 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
         GamePoolCenter.Ins.MovementExcutorPool.Push(this);
     }
 
-    public void OnUpdate(float deltaTime)
+    public void OnGameUpdate(float deltaTime)
     {
         if (!active)
             return;
