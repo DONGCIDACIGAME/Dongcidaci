@@ -312,10 +312,11 @@ public class MeterManager : ModuleManager<MeterManager>
         int meterIndexInMusic = GetMeterIndexInMusic(MeterIndex);
 
 
-
         float displayPointBeforeMeter = mCurAudioMeterData.baseMeters[meterIndexInMusic+1] - GamePlayDefine.DisplayTimeToMatchMeter;
         if (lastTime <= displayPointBeforeMeter && timeRecord >= displayPointBeforeMeter)
         {
+            // 进入节拍前的表现节点
+            // 设计上大部分卡节拍的表现都使用GamePlayDefine.DisplayTimeToMatchMeter这个时间来做卡点表现时间
             TriggerBeforeMeterDisplay();
         }
 

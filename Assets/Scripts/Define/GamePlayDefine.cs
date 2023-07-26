@@ -36,7 +36,7 @@ public static class GamePlayDefine
     public const float DashMeterTime = 0.8f;
 
     /// <summary>
-    /// 节拍前的公共进入点（时间）
+    /// 节拍前的表现进入时间点
     /// 用来做卡节拍的各种表现
     /// </summary>
     public const float DisplayTimeToMatchMeter = 0.1f;
