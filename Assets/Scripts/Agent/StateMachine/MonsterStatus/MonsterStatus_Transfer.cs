@@ -93,8 +93,6 @@ public class MonsterStatus_Transfer : MonsterStatus
 
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
-
         PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
     }
 

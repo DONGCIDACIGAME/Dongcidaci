@@ -49,8 +49,6 @@ public class HeroStatus_Dash : HeroStatus
 
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
-
         switch (cmdType)
         {
             // 接收到受击指令，马上切换到受击状态
@@ -99,6 +97,8 @@ public class HeroStatus_Dash : HeroStatus
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.ATTACK_SHORT:
                 case AgentCommandDefine.ATTACK_LONG:
+                case AgentCommandDefine.ATTACK_LONG_INSTANT:
+                case AgentCommandDefine.ATTACK_SHORT_INSTANT:
                     ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
                     break;
                 case AgentCommandDefine.DASH:
@@ -147,11 +147,14 @@ public class HeroStatus_Dash : HeroStatus
         // 2. 播放冲刺动画
         mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.CrossFadeToState(statusName, stateName);
 
-        if (args != null)
+        if (args != null 
+            && args.TryGetValue("distance", out object distanceObj) 
+            && args.TryGetValue("startTime",out object startTimeObj)
+            && args.TryGetValue("endTime", out object endTimeObj))
         {
-            float dashDistance = (float)args["distance"];
-            float startTime = (float)args["startTime"];
-            float endTime = (float)args["endTime"];
+            float dashDistance = (float)distanceObj;
+            float startTime = (float)startTimeObj;
+            float endTime = (float)endTimeObj;
 
             // 3. 处理动画相关的位移
             mAgent.MovementExcutorCtl.Start(startTime, endTime, DirectionDef.RealTowards, DirectionDef.none, dashDistance);
@@ -166,7 +169,7 @@ public class HeroStatus_Dash : HeroStatus
 
     public override void RegisterInputHandle()
     {
-        mInputHandle = new KeyboardInputHandle_Dash(mAgent as Hero);
+        mInputHandle = new AgentKeyboardInputHandle_Dash(mAgent as Hero);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 }

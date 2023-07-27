@@ -32,8 +32,6 @@ public class MonsterStatus_Idle : MonsterStatus
 
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
-
         switch (cmdType)
         {
             case AgentCommandDefine.BE_HIT:
@@ -75,6 +73,10 @@ public class MonsterStatus_Idle : MonsterStatus
                 default:
                     break;
             }
+        }
+        else
+        {
+            StatusDefaultAction(AgentCommandDefine.IDLE, DirectionDef.none, meterIndex, null, null);
         }
     }
 

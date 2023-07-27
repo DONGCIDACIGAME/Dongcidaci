@@ -45,8 +45,6 @@ public class MonsterStatus_Attack : MonsterStatus
     /// <param name="cmd"></param>
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
-
         switch (cmdType)
         {
             // 接收到打断型的受击指令，马上切换到受击状态
@@ -114,6 +112,10 @@ public class MonsterStatus_Attack : MonsterStatus
                 default:
                     break;
             }
+        }
+        else
+        {
+            ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
         }
     }
 

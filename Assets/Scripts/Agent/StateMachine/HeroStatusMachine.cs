@@ -12,5 +12,6 @@ public class HeroStatusMachine : AgentStatusMachine
         AddStatus(AgentStatusDefine.DASH, new HeroStatus_Dash());
         AddStatus(AgentStatusDefine.BEHIT, new HeroStatus_Behit());
         AddStatus(AgentStatusDefine.TRANSFER, new HeroStatus_Transfer());
+        AddStatus(AgentStatusDefine.TRANSITION, new HeroStatus_Transition());
     }
 }

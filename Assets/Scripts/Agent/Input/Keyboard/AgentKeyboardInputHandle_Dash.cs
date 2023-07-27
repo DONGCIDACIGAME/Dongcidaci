@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
+public class AgentKeyboardInputHandle_Dash : AgentKeyboardInputHandle
 {
-    public KeyboardInputHandle_Dash(Hero hero) : base(hero)
+    public AgentKeyboardInputHandle_Dash(Hero hero) : base(hero)
     {
     }
 
     public override string GetHandleName()
     {
-        return InputDef.KeyboardInputHandle_Dash;
+        return InputDef.AgentKeyboardInputHandle_Dash;
     }
 
     public override void OnMeterEnter(int meterIndex)
@@ -36,14 +36,5 @@ public class KeyboardInputHandle_Dash : AgentKeyboardInputHandle
         }
 
         mHero.MoveControl.TurnTo(towards);
-    }
-
-    public override void OnMeterEnd(int meterIndex)
-    {
-
-    }
-    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
-    {
-
     }
 }

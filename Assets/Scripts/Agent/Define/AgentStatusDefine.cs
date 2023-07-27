@@ -8,6 +8,7 @@ public static class AgentStatusDefine
     public static string RUN_METER = "RunMeter";
     public static string DASH = "Dash";
     public static string TRANSFER = "Transfer";
+    public static string TRANSITION = "Transition";
     public static string ATTACK = "Attack";
     public static string INSTANT_ATTACK = "InstantAttack";
     public static string BEHIT = "BeHit";

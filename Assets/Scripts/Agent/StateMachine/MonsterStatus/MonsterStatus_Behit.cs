@@ -44,8 +44,6 @@ public class MonsterStatus_Behit : MonsterStatus
 
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
-
         switch (cmdType)
         {
             case AgentCommandDefine.BE_HIT:

@@ -44,8 +44,6 @@ public class HeroStatus_Behit : HeroStatus
 
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
-
         switch (cmdType)
         {
             case AgentCommandDefine.BE_HIT_BREAK:
@@ -144,7 +142,7 @@ public class HeroStatus_Behit : HeroStatus
 
     public override void RegisterInputHandle()
     {
-        mInputHandle = new KeyboardInputHandle_BeHit(mAgent as Hero);
+        mInputHandle = new AgentKeyboardInputHandle_BeHit(mAgent as Hero);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 }

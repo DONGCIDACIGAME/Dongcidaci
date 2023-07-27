@@ -157,6 +157,22 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         return false;
     }
 
+
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+        
+    }
+
+    public override void OnMeterEnter(int meterIndex)
+    {
+        
+    }
+
+    public override void OnMeterEnd(int meterIndex)
+    {
+        
+    }
+
     public override void OnUpdate(float deltaTime)
     {
         if (mHero == null)

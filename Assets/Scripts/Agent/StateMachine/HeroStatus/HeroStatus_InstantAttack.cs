@@ -1,3 +1,4 @@
+using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public class HeroStatus_InstantAttack : HeroStatus
 
     public override void RegisterInputHandle()
     {
-        mInputHandle = new KeyboardInputHandle_InstantAttack(mAgent as Hero);
+        mInputHandle = new AgentKeyboardInputHandle_InstantAttack(mAgent as Hero);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 
@@ -55,8 +56,6 @@ public class HeroStatus_InstantAttack : HeroStatus
     /// <param name="cmd"></param>
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
-
         switch (cmdType)
         {
             // 接收到打断型的受击指令，马上切换到受击状态
@@ -68,7 +67,6 @@ public class HeroStatus_InstantAttack : HeroStatus
             case AgentCommandDefine.ATTACK_LONG_INSTANT:
             case AgentCommandDefine.ATTACK_SHORT_INSTANT:
                 ExcuteCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
-                break;
                 break;
             // 其他指令类型，都要等本次攻击结束后执行，先放入指令缓存区
             case AgentCommandDefine.DASH:
@@ -122,8 +120,9 @@ public class HeroStatus_InstantAttack : HeroStatus
         }
         else
         {
-            ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, meterIndex, null, null);
+            ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
         }
+
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)
@@ -139,37 +138,9 @@ public class HeroStatus_InstantAttack : HeroStatus
 
         if (mTimer >= mExitTime)
         {
-            //cmdBuffer.ClearCommandBuffer();
-            // 缓存区取指令
-            if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
-            {
-                Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, triggerMeter);
-
-                switch (cmdType)
-                {
-                    case AgentCommandDefine.BE_HIT_BREAK:
-                    case AgentCommandDefine.RUN:
-                    case AgentCommandDefine.DASH:
-                    case AgentCommandDefine.IDLE:
-                        ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
-                        break;
-                    case AgentCommandDefine.ATTACK_SHORT:
-                    case AgentCommandDefine.ATTACK_LONG:
-                    //if (mCurTriggeredComboStep != null)
-                    //{
-                    //    ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
-                    //}
-                    //else
-                    //{
-                    //    StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
-                    //}
-                    //break;
-                    case AgentCommandDefine.EMPTY:
-                    case AgentCommandDefine.BE_HIT:
-                    default:
-                        break;
-                }
-            }
+            Dictionary<string, object> _args = null;
+            TriggeredComboStep _triggeredComboStep = null;
+            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSITION, AgentCommandDefine.EMPTY, DirectionDef.none, MeterManager.Ins.MeterIndex, _args, _triggeredComboStep);
         }
     }
 

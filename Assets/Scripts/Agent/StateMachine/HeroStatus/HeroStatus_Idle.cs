@@ -32,8 +32,6 @@ public class HeroStatus_Idle : HeroStatus
 
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
-
         switch (cmdType)
         {
             case AgentCommandDefine.RUN:
@@ -82,6 +80,10 @@ public class HeroStatus_Idle : HeroStatus
                     break;
             }
         }
+        else
+        {
+            StatusDefaultAction(AgentCommandDefine.IDLE, DirectionDef.none, meterIndex, null, null);
+        }
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)
@@ -112,7 +114,7 @@ public class HeroStatus_Idle : HeroStatus
 
     public override void RegisterInputHandle()
     {
-        mInputHandle = new KeyboardInputHandle_Idle(mAgent as Hero);
+        mInputHandle = new AgentKeyboardInputHandle_Idle(mAgent as Hero);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 }

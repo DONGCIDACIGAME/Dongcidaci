@@ -225,7 +225,7 @@ public abstract class AgentStatus : IAgentStatus
         }
     }
 
-    protected virtual void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args, TriggeredComboStep triggeredComboStep) { }
+    protected abstract void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep);
 
     public void OnCommand(AgentCommand cmd, TriggeredComboStep triggeredComboStep)
     {
@@ -279,21 +279,21 @@ public abstract class AgentStatus : IAgentStatus
             triggeredComboStep.comboStep.endFlag, actionData.effectCollictions);
 
 
-        // 3. 如果是结束招式
-        if (comboStep.endFlag)
-        {
-            float transferStateDuration = triggeredComboStep.comboData.transferStateDuration;
+        //// 3. 如果是结束招式
+        //if (comboStep.endFlag)
+        //{
+            //float transferStateDuration = triggeredComboStep.comboData.transferStateDuration;
 
-            // 在节拍结束时切换到过度状态
-            mMeterEndActions.Push(new MeterEndAction(mCurLogicStateEndMeter, () =>
-            {
+            //// 在节拍结束时切换到过度状态
+            //mMeterEndActions.Push(new MeterEndAction(mCurLogicStateEndMeter, () =>
+            //{
                 
-                Dictionary<string, object> _args = new Dictionary<string, object>();
-                _args.Add("duration", transferStateDuration);
-                TriggeredComboStep _triggeredComboStep = null;
-                GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSFER, AgentCommandDefine.EMPTY, DirectionDef.none, triggerMeter, _args, _triggeredComboStep);
-            }));
-        }
+            //    Dictionary<string, object> _args = new Dictionary<string, object>();
+            //    _args.Add("duration", transferStateDuration);
+            //    TriggeredComboStep _triggeredComboStep = null;
+            //    GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSFER, AgentCommandDefine.EMPTY, DirectionDef.none, triggerMeter, _args, _triggeredComboStep);
+            //}));
+        //}
 
         // 4. 回收combostep
         triggeredComboStep.Recycle();

@@ -96,8 +96,6 @@ public class HeroStatus_Transfer : HeroStatus
 
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        base.CustomOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
-
         PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
     }
 
@@ -114,7 +112,7 @@ public class HeroStatus_Transfer : HeroStatus
 
     public override void RegisterInputHandle()
     {
-        mInputHandle = new KeyboardInputHandle_Transfer(mAgent as Hero);
+        mInputHandle = new AgentKeyboardInputHandle_Transfer(mAgent as Hero);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 }
