@@ -1,37 +1,54 @@
-using System.Collections;
+
 using System.Collections.Generic;
-using UnityEngine;
 using GameEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine.UI;
 
-
-public class PanelDemo : UIPanel
+public class PanelDemo : UIPanel, IMeterHandler
 {
-    private Button Btn_Start;
+    private TMP_Text Text_MeterShow;
+    private ColorLoopOnce MeterHint;
 
     public override string GetPanelLayerPath()
     {
         return UIPathDef.UI_LAYER_NORMAL_STATIC;
     }
 
-    private void OnClickStart()
+    public void OnDisplayPointBeforeMeterEnter(int meterIndex)
     {
-        //AudioManager.Ins.PlayBgm(true);
+        if(MeterHint != null)
+        {
+            MeterHint.LoopOnce();
+        }
+    }
+
+    public void OnMeterEnd(int meterIndex)
+    {
+
+    }
+
+    public void OnMeterEnter(int meterIndex)
+    {
+        Text_MeterShow.text = meterIndex.ToString();
     }
 
     protected override void BindUINodes()
     {
-        Btn_Start = BindButtonNode("Btn_Start", OnClickStart);
+        Text_MeterShow = BindTextNode("Text_MeterShow");
+        Image MeterHintImg = BindImageNode("Image_MeterHint");
+        if (MeterHintImg != null)
+        {
+            MeterHint = MeterHintImg.GetComponent<ColorLoopOnce>();
+        }
     }
 
     protected override void OnClose()
     {
-        
+        MeterManager.Ins.UnregiseterMeterHandler(this);
     }
 
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
-        
+        MeterManager.Ins.RegisterMeterHandler(this);
     }
 }

@@ -5,7 +5,7 @@ public abstract class MonsterStatus : AgentStatus
     /// <summary>
     /// 指令到角色状态间的切换关系
     /// </summary>
-    private Dictionary<byte, string> CmdToStatusMap = new Dictionary<byte, string>
+    private Dictionary<int, string> CmdToStatusMap = new Dictionary<int, string>
     {
         { AgentCommandDefine.IDLE, AgentStatusDefine.IDLE},
         { AgentCommandDefine.RUN, AgentStatusDefine.RUN},
@@ -22,7 +22,7 @@ public abstract class MonsterStatus : AgentStatus
     /// </summary>
     /// <param name="cmdType"></param>
     /// <returns></returns>
-    public override string GetChangeToStatus(byte cmdType)
+    public override string GetChangeToStatus(int cmdType)
     {
         if (CmdToStatusMap.TryGetValue(cmdType, out string statusName))
         {

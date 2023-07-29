@@ -69,7 +69,7 @@ public class ComboEffectExcutor : IGameUpdate, IRecycle
         GamePoolCenter.Ins.ComboEffectExcutorPool.Push(this);
     }
 
-    public void OnUpdate(float deltaTime)
+    public void OnGameUpdate(float deltaTime)
     {
         if (!active)
             return;

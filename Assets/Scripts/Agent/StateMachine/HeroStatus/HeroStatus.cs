@@ -1,11 +1,19 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 public abstract class HeroStatus : AgentStatus
 {
+    /// <summary>
+    /// 输入处理器
+    /// </summary>
+    protected IInputHandle mInputHandle;
+
     /// <summary>
     /// 根据指令获取要切换到的状态
     /// </summary>
     /// <param name="cmdType"></param>
     /// <returns></returns>
-    public override string GetChangeToStatus(byte cmdType)
+    public override string GetChangeToStatus(int cmdType)
     {
         switch(cmdType)
         {
@@ -13,16 +21,14 @@ public abstract class HeroStatus : AgentStatus
                 return AgentStatusDefine.IDLE;
             case AgentCommandDefine.RUN:
                 return AgentStatusDefine.RUN;
+            case AgentCommandDefine.RUN_METER:
+                return AgentStatusDefine.RUN_METER;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-                if(mAgent.Agent_View.InstantAttack)
-                {
-                    return AgentStatusDefine.INSTANT_ATTACK;
-                }
-                else
-                {
-                    return AgentStatusDefine.ATTACK;
-                }
+                return AgentStatusDefine.ATTACK;
+            case AgentCommandDefine.ATTACK_SHORT_INSTANT:
+            case AgentCommandDefine.ATTACK_LONG_INSTANT:
+                return AgentStatusDefine.INSTANT_ATTACK;
             case AgentCommandDefine.BE_HIT:
                 return AgentStatusDefine.BEHIT;
             case AgentCommandDefine.DASH:
@@ -32,5 +38,43 @@ public abstract class HeroStatus : AgentStatus
             default:
                 return string.Empty;
         }
+    }
+
+    public abstract void RegisterInputHandle();
+
+    public override void CustomInitialize()
+    {
+        base.CustomInitialize();
+
+        RegisterInputHandle();
+    }
+
+    public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    {
+        base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
+
+        mInputHandle.SetEnable(true);
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+
+        mInputHandle.SetEnable(false);
+    }
+
+    protected override void CustomDispose()
+    {
+        base.CustomDispose();
+
+        if (mInputHandle != null)
+        {
+            mInputHandle = null;
+        }
+    }
+
+    public override void OnGameUpdate(float deltaTime)
+    {
+        base.OnGameUpdate(deltaTime);
     }
 }

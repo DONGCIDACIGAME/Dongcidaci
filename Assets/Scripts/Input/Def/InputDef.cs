@@ -4,13 +4,15 @@ public static class InputDef
 {
     public const string KeyboardInput = "KeyboardInput";
 
-    public const string KeyboardInputHandle_Idle = "KeyboardInputHandle_Idle";
-    public const string KeyboardInputHandle_Run = "KeyboardInputHandle_Run";
-    public const string KeyboardInputHandle_Dash = "KeyboardInputHandle_Dash";
-    public const string KeyboardInputHandle_Attack = "KeyboardInputHandle_Attack";
-    public const string KeyboardInputHandle_InstantAttack = "KeyboardInputHandle_InstantAttack";
-    public const string KeyboardInputHandle_BeHit = "KeyboardInputHandle_BeHit";
-    public const string KeyboardInputHandle_Transfer = "KeyboardInputHandle_Transfer";
+    public const string AgentKeyboardInputHandle_Idle               = "AgentKeyboardInputHandle_Idle";
+    public const string AgentKeyboardInputHandle_Run                = "AgentKeyboardInputHandle_Run";
+    public const string AgentKeyboardInputHandle_MeterRun           = "AgentKeyboardInputHandle_MeterRun";
+    public const string AgentKeyboardInputHandle_Dash               = "AgentKeyboardInputHandle_Dash";
+    public const string AgentKeyboardInputHandle_Attack             = "AgentKeyboardInputHandle_Attack";
+    public const string AgentKeyboardInputHandle_InstantAttack      = "AgentKeyboardInputHandle_InstantAttack";
+    public const string AgentKeyboardInputHandle_BeHit              = "AgentKeyboardInputHandle_BeHit";
+    public const string AgentKeyboardInputHandle_Transfer           = "AgentKeyboardInputHandle_Transfer";
+    public const string AgentKeyboardInputHandle_Transition         = "AgentKeyboardInputHandle_Transition";
 
 
     public const string MouseInput = "MouseInput";

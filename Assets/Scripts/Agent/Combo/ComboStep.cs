@@ -7,7 +7,7 @@ public class ComboStep
     /// <summary>
     /// 输入类型
     /// </summary>
-    public byte input;
+    public int input;
 
     /// <summary>
     /// 角色的

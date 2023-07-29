@@ -18,8 +18,8 @@ public class Monster : Agent
     public BTTree BehaviourTree;
 
     public Monster(uint agentId) : base(agentId)
-    { 
-
+    {
+        StatusMachine = new MonsterStatusMachine();
     }
 
 
@@ -122,7 +122,7 @@ public class Monster : Agent
         base.OnUpdate(deltaTime);
         if (BehaviourTree != null)
         {
-            BehaviourTree.Excute(deltaTime);
+            //BehaviourTree.Excute(deltaTime);
         }
     }
 

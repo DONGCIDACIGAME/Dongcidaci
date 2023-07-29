@@ -2,7 +2,7 @@ using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AgentStatusMachine : IMeterHandler
+public abstract class AgentStatusMachine : IMeterHandler
 {
     private GameEventListener mEventListener;
     public AgentStatus CurStatus { get; private set; }
@@ -39,7 +39,15 @@ public class AgentStatusMachine : IMeterHandler
         }
     }
 
-    private void AddStatus(string statusName, AgentStatus status)
+    public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+        if(CurStatus != null)
+        {
+            CurStatus.OnDisplayPointBeforeMeterEnter(meterIndex);
+        }
+    }
+
+    protected void AddStatus(string statusName, AgentStatus status)
     {
         if(string.IsNullOrEmpty(statusName))
         {
@@ -64,23 +72,15 @@ public class AgentStatusMachine : IMeterHandler
         status.CustomInitialize();
     }
 
-    public void Initialize(Agent agt)
+    public virtual void Initialize(Agent agt)
     {
         mAgent = agt;
         
-        mEventListener.Listen<uint, string, byte, Vector3, int, Dictionary< string, object>, TriggeredComboStep>("ChangeAgentStatus", SwitchToStatus);
-
-        AddStatus(AgentStatusDefine.IDLE, new AgentStatus_Idle());
-        AddStatus(AgentStatusDefine.RUN, new AgentStatus_Run());
-        AddStatus(AgentStatusDefine.ATTACK, new AgentStatus_Attack());
-        AddStatus(AgentStatusDefine.INSTANT_ATTACK, new AgentStatus_InstantAttack());
-        AddStatus(AgentStatusDefine.DASH, new AgentStatus_Dash());
-        AddStatus(AgentStatusDefine.BEHIT, new AgentStatus_BeHit());
-        AddStatus(AgentStatusDefine.TRANSFER, new AgentStatus_Transfer());
+        mEventListener.Listen<uint, string, int, Vector3, int, Dictionary< string, object>, TriggeredComboStep>("ChangeAgentStatus", SwitchToStatus);
     }
 
 
-    public void SwitchToStatus(uint agentId,string statusName, byte cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args,TriggeredComboStep triggeredComboStep)
+    public void SwitchToStatus(uint agentId,string statusName, int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args,TriggeredComboStep triggeredComboStep)
     {
         if (agentId != mAgent.GetAgentId())
             return;
@@ -115,7 +115,7 @@ public class AgentStatusMachine : IMeterHandler
     {
         if(CurStatus != null)
         {
-            CurStatus.OnUpdate(deltaTime);
+            CurStatus.OnGameUpdate(deltaTime);
         }
     }
 

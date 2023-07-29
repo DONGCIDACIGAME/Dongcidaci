@@ -37,6 +37,8 @@ public class TriggerableCombo
     public void SetActive(bool active)
     {
         this.active = active;
+        if (!active)
+            Reset();
     }
 
     public bool IsCombo(string comboName)
@@ -97,7 +99,7 @@ public class TriggerableCombo
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public bool TryTriggerOnNewInput(byte input)
+    public bool TryTriggerOnNewInput(int input)
     {
         if (!active)
             return false;

@@ -67,4 +67,9 @@ public class MeterTimer : IMeterHandler
     {
         
     }
+
+    public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+        
+    }
 }

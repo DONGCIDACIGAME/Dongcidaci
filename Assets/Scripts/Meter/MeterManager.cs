@@ -29,6 +29,9 @@ public class MeterManager : ModuleManager<MeterManager>
         return meterIndex % totalMeterLen;
     }
 
+
+    private float speedScaler;
+
     /// <summary>
     /// Added by Weng 2023/05/05
     /// 当前距离这1拍索引已经经过的时间
@@ -130,10 +133,11 @@ public class MeterManager : ModuleManager<MeterManager>
     }
 
 
-    public void Start(string audioName)
+    public void Start(string audioName, float speed)
     {
         Reset();
         LoadAudioMeterInfo(audioName);
+        speedScaler = speed;
     }
 
     public void Reset()
@@ -141,6 +145,7 @@ public class MeterManager : ModuleManager<MeterManager>
         timeRecord = 0;
         enable = true;
         MeterIndex = 0;
+        speedScaler = 0;
     }
 
     public void Stop()
@@ -203,12 +208,12 @@ public class MeterManager : ModuleManager<MeterManager>
         // 对于音乐起始拍和结束拍的特殊处理
         if (meterIndexInMusic == 0 || meterIndexInMusic == totalMeterLen - 1)
         {
-            return (timeRecord >= mCurAudioMeterData.baseMeters[totalMeterLen - 1] - tolerance/2 + offset)
-                        && timeRecord <= mCurAudioMeterData.baseMeters[0] + tolerance/2 + offset;
+            return timeRecord >= (mCurAudioMeterData.baseMeters[totalMeterLen - 1] - tolerance / 2 + offset)
+                        && timeRecord <= (mCurAudioMeterData.baseMeters[0] + tolerance / 2 + offset);
         }
 
-        return timeRecord >= mCurAudioMeterData.baseMeters[meterIndex] - tolerance / 2 + offset
-                    && timeRecord <= mCurAudioMeterData.baseMeters[meterIndex] + tolerance/2 + offset;
+        return timeRecord >= (mCurAudioMeterData.baseMeters[meterIndex] - tolerance / 2 + offset)
+                    && timeRecord <= (mCurAudioMeterData.baseMeters[meterIndex] + tolerance / 2 + offset);
     }
 
     /// <summary>
@@ -264,6 +269,14 @@ public class MeterManager : ModuleManager<MeterManager>
         }
     }
 
+    private void TriggerBeforeMeterDisplay()
+    {
+        foreach (IMeterHandler handler in mMeterHandlers)
+        {
+            handler.OnDisplayPointBeforeMeterEnter(MeterIndex+1);
+        }
+    }
+
     /// <summary>
     /// 触发在拍子上需要执行的操作
     /// </summary>
@@ -278,7 +291,7 @@ public class MeterManager : ModuleManager<MeterManager>
     /// <summary>
     /// </summary>
     /// <param name="deltaTime"></param>
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
         if (!enable)
             return;
@@ -290,15 +303,30 @@ public class MeterManager : ModuleManager<MeterManager>
             return;
 
 
+        float lastTime = timeRecord;
         timeRecord = AudioManager.Ins.GetCurBgmTime();
+
+
+
+        // 获取节拍在音乐中的index
+        int meterIndexInMusic = GetMeterIndexInMusic(MeterIndex);
+
+
+        float displayPointBeforeMeter = mCurAudioMeterData.baseMeters[meterIndexInMusic+1] - GamePlayDefine.DisplayTimeToMatchMeter;
+        if (lastTime <= displayPointBeforeMeter && timeRecord >= displayPointBeforeMeter)
+        {
+            // 进入节拍前的表现节点
+            // 设计上大部分卡节拍的表现都使用GamePlayDefine.DisplayTimeToMatchMeter这个时间来做卡点表现时间
+            TriggerBeforeMeterDisplay();
+        }
+
 
         if (timeRecord >= mCurAudioMeterData.audioLen)
         {
             timeRecord %= mCurAudioMeterData.audioLen;
         }
 
-        // 获取节拍在音乐中的index
-        int meterIndexInMusic = GetMeterIndexInMusic(MeterIndex);
+
         if (timeRecord >= mCurAudioMeterData.baseMeters[meterIndexInMusic + 1])
         {
             // 节拍结束
@@ -339,7 +367,33 @@ public class MeterManager : ModuleManager<MeterManager>
         }
 
         //Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
-        return time;
+        return time / speedScaler;
+    }
+
+    /// <summary>
+    /// 获取当前到接下来第offset拍的时间
+    /// </summary>
+    /// <param name="offset"></param>
+    /// <returns></returns>
+    public float GetTimeToMeter(int meterIndex)
+    {
+        if (mCurAudioMeterData == null)
+            return -1f;
+
+        float time = 0;
+        // 如果新的节拍index < 老的节拍index， 说明过了音乐的最后一拍，循环到开头了
+        if (meterIndex < this.MeterIndex)
+        {
+            time += mCurAudioMeterData.audioLen - timeRecord;
+            time += mCurAudioMeterData.baseMeters[meterIndex];
+        }
+        else
+        {
+            time = mCurAudioMeterData.baseMeters[meterIndex] - timeRecord;
+        }
+
+        //Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
+        return time / speedScaler;
     }
 
     /// <summary>
@@ -387,7 +441,7 @@ public class MeterManager : ModuleManager<MeterManager>
         }
 
         //Log.Logic(LogLevel.Info, "GetCurrentMeterTime--from:{0},to:{1},totalTime:{2}", from,to, time);
-        return time;
+        return time / speedScaler;
     }
 
 

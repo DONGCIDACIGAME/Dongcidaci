@@ -71,7 +71,7 @@
 				"layer": 0,
 				"animLen": 0.5,
 				"movements": [{"distance": 0.05, "timeType": 0, "startTime":0.8, "endTime":1}],
-				"hitPoints": [{"progress": 1}]
+				"hitPoints": [{"progress": 1, "timeType": 0}]
 			}]
 		},
 		"Dash": {
@@ -94,7 +94,7 @@
 				"layer": 0,
 				"animLen": 1.0,
 				"movements": [{"distance": 1, "timeType": 0, "startTime":0, "endTime":0.2}],
-				"hitPoints": [{"progress": 1}]
+				"hitPoints": [{"progress": 1, "timeType": 0}]
 			}]
 		},
 		"Transfer": {
@@ -136,7 +136,7 @@
 				"layer": 0,
 				"animLen": 0.5,
 				"movements": [{"distance": 1, "timeType": 1, "startTime":0, "endTime":0.2}],
-				"hitPoints": [{"progress": 1}]
+				"hitPoints": [{"progress": 0.2, "timeType": 1}]
 			}]
 		}
 	}

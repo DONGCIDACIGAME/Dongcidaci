@@ -1528,6 +1528,8 @@ MonoBehaviour:
   _HIT_FX: {fileID: 583869993232900899}
   _FRONT_ATK_FX: {fileID: 1142007235966078855}
   _WEAPON_FX: {fileID: 4114483785796376413}
+  InstantAttack: 1
+  MeterRun: 0
 --- !u!114 &2817548254920797197
 MonoBehaviour:
   m_ObjectHideFlags: 0

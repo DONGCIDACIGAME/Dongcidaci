@@ -65,7 +65,7 @@ namespace GameEngine
             }
 
             IEnumerator routine = AsyncLoadScene(sceneName);
-            GameManager.Ins.CoroutineMgr.StartCoroutine(routine);
+            CoroutineManager.Ins.StartCoroutine(routine);
         }
 
         private IEnumerator AsyncLoadScene(string sceneName)
@@ -86,7 +86,7 @@ namespace GameEngine
             SwitchToScene(sceneName);
         }
 
-        public override void OnUpdate(float deltaTime)
+        public override void OnGameUpdate(float deltaTime)
         {
             if (mCurScene != null)
             {

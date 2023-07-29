@@ -32,6 +32,7 @@ public class AudioManager : ModuleManager<AudioManager>
 
         if (AttackEffectPlayer == null)
             Log.Error(LogLevel.Critical, "AudioManager AttackEffectPlayer Player Initialize Failed!");
+
     }
 
     public override void Dispose()
@@ -69,7 +70,7 @@ public class AudioManager : ModuleManager<AudioManager>
 
         if (mCurBgm != null)
         {
-            MeterManager.Ins.Start(mCurBgm.name);
+            MeterManager.Ins.Start(mCurBgm.name, GetBGMSpeed());
             BGMPlayer.Stop();
             BGMPlayer.clip = mCurBgm;
             BGMPlayer.loop = loop;
@@ -77,14 +78,31 @@ public class AudioManager : ModuleManager<AudioManager>
         }
     }
 
+    public void ChangeBGMSpeed(float speed)
+    {
+        if(speed > 0)
+        {
+            BGMPlayer.pitch = speed;
+        }
+        else
+        {
+            BGMPlayer.pitch = 1;
+        }
+    }
+
+    public float GetBGMSpeed()
+    {
+        return BGMPlayer.pitch;
+    }
+
     public float GetCurBgmTime()
     {
         return BGMPlayer.time;
     }
 
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
-        base.OnUpdate(deltaTime);
+        base.OnGameUpdate(deltaTime);
     }
 
 }

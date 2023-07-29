@@ -62,9 +62,9 @@ public class TimerCenter : ModuleManager<TimerCenter>
         toPushTimers = null;
     }
 
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
-        base.OnUpdate(deltaTime);
+        base.OnGameUpdate(deltaTime);
         foreach(GameTimer timer in mWorkingTimers)
         {
             timer.OnUpdate(deltaTime);

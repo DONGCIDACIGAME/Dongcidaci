@@ -299,7 +299,6 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         mAgentId = agentId;
         AnimPlayer = new AnimPlayer();
         StatusGraph = DataCenter.Ins.AgentStatusGraphCenter.GetAgentStatusGraph(mAgentId);
-        StatusMachine = new AgentStatusMachine();
         Combo_Trigger = new ComboTrigger();
         EffectExcutorCtl = new EffectExcutorController();
         MovementExcutorCtl = new AnimMovementExcutorController();
@@ -364,14 +363,14 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
             cmd.Recycle();
             return;
         }
-
+        
         // 新的输入尝试触发combo
         int result = Combo_Trigger.OnNewInput(cmd.CmdType, cmd.TriggerMeter, out TriggeredComboStep triggeredComboStep);
 
         // 如果触发了combo，就需要同时处理指令和combo的逻辑
         if (result == ComboDefine.ComboTriggerResult_Succeed)
         {
-            Log.Error(LogLevel.Info, "Trigger combo {0}-{1}", triggeredComboStep.comboData.comboName, triggeredComboStep.comboStep.agentActionData.stateName);
+            //Log.Error(LogLevel.Info, "Trigger combo {0}-{1}", triggeredComboStep.comboData.comboName, triggeredComboStep.comboStep.agentActionData.stateName);
             curStatus.OnCommand(cmd, triggeredComboStep);
         }
         // 如果不是combo的触发命令类型，就直接执行指令
@@ -424,6 +423,11 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         }
     }
 
+    public virtual void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+
+    }
+
 
     /// <summary>
     /// update
@@ -433,13 +437,13 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     {
         MoveControl.OnUpdate(deltaTime);
         StatusMachine.OnUpdate(deltaTime);
-        EffectExcutorCtl.OnUpdate(deltaTime);
-        MovementExcutorCtl.OnUpdate(deltaTime);
+        EffectExcutorCtl.OnGameUpdate(deltaTime);
+        MovementExcutorCtl.OnGameUpdate(deltaTime);
         Agent_View.OnMyUpdate(this, deltaTime);
         // Added by weng 0708
         if (SkillEftHandler != null)
         {
-            SkillEftHandler.OnUpdate(deltaTime);
+            SkillEftHandler.OnGameUpdate(deltaTime);
         }
 
     }

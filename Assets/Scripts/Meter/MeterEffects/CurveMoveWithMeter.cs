@@ -35,7 +35,7 @@ public class CurveMoveWithMeter : BehaviourWithMeter
         timeRecord = 0;
     }
 
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
         if (!UpdateEnable || !meterTriggered)
             return;
@@ -56,6 +56,11 @@ public class CurveMoveWithMeter : BehaviourWithMeter
     }
 
     public override void OnMeterEnd(int meterIndex)
+    {
+        
+    }
+
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
     {
         
     }

@@ -196,7 +196,7 @@
 			"comboType": 0,
 			"comboSteps": [
 				{
-					"input": 8, 
+					"input": 256, 
 					"agentActionData": {
 						"statusName": "InstantAttack",
 						"stateName": "Test1", 
@@ -240,7 +240,7 @@
 					"endFlag": false
 				},
 				{
-					"input": 8,
+					"input": 256,
 					"agentActionData": {
 						"statusName": "InstantAttack",
 						"stateName": "Test2",
@@ -274,7 +274,7 @@
 					"endFlag": false
 				},
 				{
-					"input": 8,
+					"input": 256,
 					"agentActionData": {
 						"statusName": "InstantAttack",
 						"stateName": "Test3",

@@ -222,9 +222,9 @@ namespace GameEngine
         }
 
 
-        public override void OnUpdate(float deltaTime)
+        public override void OnGameUpdate(float deltaTime)
         {
-            base.OnUpdate(deltaTime);
+            base.OnGameUpdate(deltaTime);
 
             int cnt = 0;
             while(cnt <= EventDef.MaxPostEventInOneFrame)

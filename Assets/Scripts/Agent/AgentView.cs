@@ -2,8 +2,6 @@ using UnityEngine;
 
 public abstract class AgentView : MapEntityViewWithCollider
 {
-    public bool InstantAttack;
-
     private void Start()
     {
         // 查找所有的特效的挂载点

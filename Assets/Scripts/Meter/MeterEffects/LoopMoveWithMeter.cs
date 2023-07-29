@@ -11,10 +11,6 @@ public class LoopMoveWithMeter : BehaviourWithMeter
     /// </summary>
     public Vector3 MoveOffset;
 
-    /// <summary>
-    /// 移动的时间
-    /// </summary>
-    public float MoveDuration;
 
     protected override void Initialize()
     {
@@ -24,6 +20,16 @@ public class LoopMoveWithMeter : BehaviourWithMeter
 
     public override void OnMeterEnter(int meterIndex)
     {
+
+    }
+
+    public override void OnMeterEnd(int meterIndex)
+    {
+
+    }
+
+    public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
         meterTriggered = CheckTrigger(meterIndex);
         if (!meterTriggered)
             return;
@@ -32,20 +38,15 @@ public class LoopMoveWithMeter : BehaviourWithMeter
         timeRecord = 0;
     }
 
-    public override void OnMeterEnd(int meterIndex)
-    {
-
-    }
-
-    public override void OnUpdate(float deltaTime)
+    public override void OnGameUpdate(float deltaTime)
     {
         if (!UpdateEnable || !meterTriggered)
             return;
 
-        if (timeRecord >= MoveDuration)
+        if (timeRecord >= GamePlayDefine.DisplayTimeToMatchMeter)
             return;
 
-        float progress = timeRecord / MoveDuration;
+        float progress = timeRecord / GamePlayDefine.DisplayTimeToMatchMeter;
         if(progress >= 0.5f)
         {
             progress = 1f - progress;
@@ -57,7 +58,7 @@ public class LoopMoveWithMeter : BehaviourWithMeter
         Vector3 offset = Vector3.Lerp(Vector3.zero, MoveOffset, progress);
         this.transform.position = mOriPos + offset;
         timeRecord += deltaTime;
-        if (timeRecord >= MoveDuration)
+        if (timeRecord >= GamePlayDefine.DisplayTimeToMatchMeter)
         {
             this.transform.position = mOriPos;
         }
