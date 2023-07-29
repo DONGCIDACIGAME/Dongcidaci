@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 5602910828336990452}
   - component: {fileID: 5643342082986656640}
   - component: {fileID: 6222825175260359845}
+  - component: {fileID: 8140611048141926772}
   m_Layer: 0
   m_Name: JungleBat
   m_TagString: Untagged
@@ -119,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ada0a45ff597a6499b19cb7978b5145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InstantAttack: 0
   _HIT_FX: {fileID: 6710498499859621763}
   _FRONT_ATK_FX: {fileID: 0}
   _WEAPON_FX: {fileID: 0}
@@ -139,6 +141,28 @@ MonoBehaviour:
   size: {x: 20, y: 8}
   offset: {x: 0, y: 0.5}
   DrawGizmos: 1
+--- !u!195 &8140611048141926772
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376123470208558552}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &618879448179396839
 GameObject:
   m_ObjectHideFlags: 0

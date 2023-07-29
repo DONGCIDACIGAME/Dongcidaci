@@ -1,6 +1,7 @@
 using UnityEngine;
 using GameSkillEffect;
-
+using Unity.AI.Navigation;
+using UnityEngine.AI;
 public class Monster : Agent
 {
 
@@ -17,9 +18,13 @@ public class Monster : Agent
     // AI行为树
     public BTTree BehaviourTree;
 
+    public float m_Range = 100.0f;
+    UnityEngine.AI.NavMeshAgent m_Agent;
     public Monster(uint agentId) : base(agentId)
     {
+
         StatusMachine = new MonsterStatusMachine();
+
     }
 
 
@@ -27,7 +32,7 @@ public class Monster : Agent
     {
         base.Dispose();
 
-        if(BehaviourTree != null)
+        if (BehaviourTree != null)
         {
             BehaviourTree.Dispose();
         }
@@ -77,6 +82,7 @@ public class Monster : Agent
         {
             MonsterView monsterView = go.GetComponent<MonsterView>();
             BindMonsterView(monsterView);
+            m_Agent = go.GetComponent<UnityEngine.AI.NavMeshAgent>();
         }
     }
 
@@ -88,7 +94,7 @@ public class Monster : Agent
             mMonsterCfg.CriticalRate, mMonsterCfg.CriticalDmgRate, mMonsterCfg.DodgeRate, mMonsterCfg.MoveSpeed
             );
         this.AttrHandler = new AgentAttrHandler();
-        this.AttrHandler.InitAgentAttr(this,_mAgtAttr);
+        this.AttrHandler.InitAgentAttr(this, _mAgtAttr);
         this.ColliderHandler = new MonsterColliderHandler(this);
 
 
@@ -113,17 +119,25 @@ public class Monster : Agent
 
         // 加载行为树
         BehaviourTree = DataCenter.Ins.BehaviourTreeCenter.LoadTreeWithTreeName(mMonsterCfg.BehaviourTree);
-        BehaviourTree.Initialize(this, new System.Collections.Generic.Dictionary<string,object>());
+        BehaviourTree.Initialize(this, new System.Collections.Generic.Dictionary<string, object>());
+
 
     }
+
+
 
     public override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);
         if (BehaviourTree != null)
         {
-            //BehaviourTree.Excute(deltaTime);
+            BehaviourTree.Excute(deltaTime);
         }
+        //随机游走
+        //if (m_Agent.pathPending || m_Agent.remainingDistance > 0.1f)
+        //    return;
+
+        //m_Agent.destination = m_Range * Random.insideUnitCircle;
     }
 
     public override void OnMeterEnter(int meterIndex)

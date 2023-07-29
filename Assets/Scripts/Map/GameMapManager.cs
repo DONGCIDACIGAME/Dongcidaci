@@ -15,6 +15,8 @@ public class GameMapManager : ModuleManager<GameMapManager>
     private List<MapGround> _mapGrounds;
     private List<MapBlock> _mapBlocks;
 
+    private MavMeshOnLoad _navMeshLoad;
+
 
     private string mapBasePrefabPath = "Prefabs/Maps/Base/";
 
@@ -45,23 +47,28 @@ public class GameMapManager : ModuleManager<GameMapManager>
         {
             this._mapData = JsonUtility.FromJson<GameMapData>(jsonStr);
         }
-        catch(System.Exception ex)
+        catch (System.Exception ex)
         {
             Debug.LogError(ex.Message);
             return;
         }
 
         // 2 生成 map grid
-        this._mapGridConfig = new MapGridInfo(_mapData.mapColCount,_mapData.mapRowCount,_mapData.mapCellWidth,_mapData.mapCellHeight,30);
+        this._mapGridConfig = new MapGridInfo(_mapData.mapColCount, _mapData.mapRowCount, _mapData.mapCellWidth, _mapData.mapCellHeight, 30);
 
         _mapGrounds = new List<MapGround>();
         _mapBlocks = new List<MapBlock>();
+
     }
 
     public void LoadMap()
     {
         LoadMapBase();
         LoadMapEvents();
+        //GameObject gameObject = new GameObject("MavMeshOnLoad");
+        //_navMeshLoad = gameObject.AddComponent<MavMeshOnLoad>();
+        //_navMeshLoad.GetSurfaceComponent();
+        //_navMeshLoad.Bake();
     }
 
     public bool IsPosOnGround(Vector3 worldPos)
@@ -81,18 +88,18 @@ public class GameMapManager : ModuleManager<GameMapManager>
     {
         var basePrefabFullPath = mapBasePrefabPath + _mapData.mapBasePrefabName;
         var go = PrefabUtil.LoadPrefab(basePrefabFullPath, "Load MapBase Prefab");
-        go.transform.SetParent(BaseLayerNode.transform,false);
+        go.transform.SetParent(BaseLayerNode.transform, false);
 
         //生成地面
         var groundNodeT = go.transform.Find("_GROUND_LAYER");
         if (groundNodeT != null)
         {
-            if(groundNodeT.childCount > 0)
+            if (groundNodeT.childCount > 0)
             {
-                for (int i=0;i<groundNodeT.childCount;i++)
+                for (int i = 0; i < groundNodeT.childCount; i++)
                 {
                     groundNodeT.GetChild(i).TryGetComponent<MapGroundView>(out MapGroundView groundView);
-                    if (groundView!=null)
+                    if (groundView != null)
                     {
                         this._mapGrounds.Add(new MapGround(groundView));
                     }
@@ -119,7 +126,7 @@ public class GameMapManager : ModuleManager<GameMapManager>
 
 
     }
-    
+
     private void LoadMapEvents()
     {
 
@@ -128,9 +135,8 @@ public class GameMapManager : ModuleManager<GameMapManager>
 
 
     public override void OnGameUpdate(float deltaTime)
-    { 
+    {
 
-    
     }
 
     public override void Dispose()
@@ -140,6 +146,6 @@ public class GameMapManager : ModuleManager<GameMapManager>
         _mapBlocks = null;
     }
 
-    
+
 
 }
