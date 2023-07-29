@@ -224,6 +224,29 @@
 				"hitPoints": []
 			}]
 		},
+		"Transition": {
+			"statusName": "Transition",
+			"defaultAciton":
+			{
+				"statusName": "Transition",
+				"stateName": "Empty",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "Empty",
+				"loopTime": 1,
+				"meterLen": 1,
+				"normalizedTime": 0,
+				"layer": 0,
+				"animLen": 0.2,
+				"movements": [],
+				"hitPoints": []
+			}]
+		},
 		"BeHit":{
 			"statusName": "BeHit",
 			"defaultAciton":

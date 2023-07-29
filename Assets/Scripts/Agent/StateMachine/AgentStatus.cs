@@ -259,7 +259,7 @@ public abstract class AgentStatus : IAgentStatus
             return;
         }
 
-        Log.Error(LogLevel.Info, "ExcuteCombo---comboName:{0}", triggeredComboStep.comboData.comboName);
+        //Log.Error(LogLevel.Info, "ExcuteCombo---comboName:{0}", triggeredComboStep.comboData.comboName);
 
         // 1. 执行状态的默认逻辑
         // 在这个地方切换进动画的状态？

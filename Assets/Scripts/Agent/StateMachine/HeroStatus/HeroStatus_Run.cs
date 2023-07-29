@@ -72,10 +72,7 @@ public class HeroStatus_Run : HeroStatus
                     break;
             }
         }
-        else
-        {
-            ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, meterIndex, null, null);
-        }
+        // 退出逻辑在update里
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)

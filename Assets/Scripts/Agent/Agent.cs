@@ -370,7 +370,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         // 如果触发了combo，就需要同时处理指令和combo的逻辑
         if (result == ComboDefine.ComboTriggerResult_Succeed)
         {
-            Log.Error(LogLevel.Info, "Trigger combo {0}-{1}", triggeredComboStep.comboData.comboName, triggeredComboStep.comboStep.agentActionData.stateName);
+            //Log.Error(LogLevel.Info, "Trigger combo {0}-{1}", triggeredComboStep.comboData.comboName, triggeredComboStep.comboStep.agentActionData.stateName);
             curStatus.OnCommand(cmd, triggeredComboStep);
         }
         // 如果不是combo的触发命令类型，就直接执行指令
