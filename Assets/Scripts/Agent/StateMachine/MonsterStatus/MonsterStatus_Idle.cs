@@ -22,7 +22,7 @@ public class MonsterStatus_Idle : MonsterStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
+        StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
     }
 
     public override void OnExit()
@@ -53,9 +53,10 @@ public class MonsterStatus_Idle : MonsterStatus
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
-        if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+        if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
         {
             Log.Logic(LogLevel.Info, "PeekCommand--{0}", cmdType);
+            cmdBuffer.ClearCommandBuffer();
             switch (cmdType)
             {
                 case AgentCommandDefine.RUN:
@@ -64,10 +65,10 @@ public class MonsterStatus_Idle : MonsterStatus
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.BE_HIT_BREAK:
-                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
+                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
                     break;
                 case AgentCommandDefine.IDLE:
-                    StatusDefaultAction(cmdType, towards, triggerMeter, args, null);
+                    StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
                     break;
                 case AgentCommandDefine.EMPTY:
                 default:

@@ -62,10 +62,10 @@ public class MonsterStatus_Transfer : MonsterStatus
         {
             int meterIndex = MeterManager.Ins.MeterIndex;
             // 缓存区取指令
-            if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+            if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
             {
                 Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
-
+                cmdBuffer.ClearCommandBuffer();
                 switch (cmdType)
                 {
                     case AgentCommandDefine.BE_HIT_BREAK:
@@ -74,7 +74,8 @@ public class MonsterStatus_Transfer : MonsterStatus
                     case AgentCommandDefine.IDLE:
                     case AgentCommandDefine.ATTACK_SHORT:
                     case AgentCommandDefine.ATTACK_LONG:
-                        GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), GetChangeToStatus(cmdType), cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
+                        ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, comboStep);
+                        //GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), GetChangeToStatus(cmdType), cmdType, towards, triggerMeter, args, comboStep);
                         //PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, mCurTriggeredComboStep);
                         break;
                     case AgentCommandDefine.EMPTY:

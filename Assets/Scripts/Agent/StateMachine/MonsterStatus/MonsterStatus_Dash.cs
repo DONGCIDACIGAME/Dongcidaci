@@ -83,10 +83,10 @@ public class MonsterStatus_Dash : MonsterStatus
         }
 
         // 缓存区取指令
-        if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+        if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
-
+            cmdBuffer.ClearCommandBuffer();
             switch (cmdType)
             {
                 case AgentCommandDefine.BE_HIT_BREAK:
@@ -94,17 +94,10 @@ public class MonsterStatus_Dash : MonsterStatus
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.ATTACK_SHORT:
                 case AgentCommandDefine.ATTACK_LONG:
-                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
+                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
                     break;
                 case AgentCommandDefine.DASH:
-                    if (mCurTriggeredComboStep != null)
-                    {
-                        ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
-                    }
-                    else
-                    {
-                        StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
-                    }
+                    ExcuteComboTriggerCmd(cmdType, towards, meterIndex, args, comboStep);
                     break;
                 case AgentCommandDefine.BE_HIT:// 冲刺状态下，非打断的受击指令不处理
                 case AgentCommandDefine.EMPTY:

@@ -22,7 +22,7 @@ public class HeroStatus_Idle : HeroStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
+        StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
     }
 
     public override void OnExit()
@@ -56,9 +56,10 @@ public class HeroStatus_Idle : HeroStatus
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
-        if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+        if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
         {
             Log.Logic(LogLevel.Info, "PeekCommand--{0}", cmdType);
+            cmdBuffer.ClearCommandBuffer();
             switch (cmdType)
             {
                 case AgentCommandDefine.RUN:
@@ -69,7 +70,7 @@ public class HeroStatus_Idle : HeroStatus
                 case AgentCommandDefine.ATTACK_SHORT_INSTANT:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT_BREAK:
-                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
+                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
                     break;
                 case AgentCommandDefine.IDLE:
                     StatusDefaultAction(cmdType, towards, triggerMeter, args, null);

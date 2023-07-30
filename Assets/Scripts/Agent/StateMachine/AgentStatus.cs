@@ -41,7 +41,7 @@ public abstract class AgentStatus : IAgentStatus
     /// <summary>
     /// 当前触发的combo招式缓存
     /// </summary>
-    protected TriggeredComboStep mCurTriggeredComboStep;
+    //protected TriggeredComboStep mCurTriggeredComboStep;
 
     /// <summary>
     /// 节拍结束时的待执行行为
@@ -51,7 +51,7 @@ public abstract class AgentStatus : IAgentStatus
     /// <summary>
     /// 状态的默认行为数据
     /// </summary>
-    protected AgentActionData statusDefaultActionData;
+    private AgentActionData mStatusDefaultActionData;
 
     /// <summary>
     /// 初始化
@@ -61,7 +61,7 @@ public abstract class AgentStatus : IAgentStatus
     public void Initialize(Agent agt)
     {
         mAgent = agt;
-        statusDefaultActionData = AgentHelper.GetAgentDefaultStatusActionData(agt, GetStatusName());
+        mStatusDefaultActionData = AgentHelper.GetAgentDefaultStatusActionData(agt, GetStatusName());
         cmdBuffer = new AgentCommandBuffer();
         mMeterEndActions = new Stack<MeterEndAction>();
         mMatchMeterCrossfadeAnimDriver = new MatchMeterCrossfadeAnimDriver(mAgent);
@@ -108,9 +108,8 @@ public abstract class AgentStatus : IAgentStatus
         {
             mAgent.Combo_Trigger.ResetAllCombo();
         }
-        mCurTriggeredComboStep = null;
-        mCurLogicStateEndMeter = -1;
         mCurExcutingCmdType = cmdType;
+        mCurLogicStateEndMeter = -1;
     }
     
     /// <summary>
@@ -120,7 +119,6 @@ public abstract class AgentStatus : IAgentStatus
     {
         cmdBuffer.ClearCommandBuffer();
         mMeterEndActions.Clear();
-        mCurTriggeredComboStep = null;
         mStepLoopAnimDriver.Reset();
         mMatchMeterCrossfadeAnimDriver.Reset();
         mCurExcutingCmdType = AgentCommandDefine.EMPTY;
@@ -218,11 +216,11 @@ public abstract class AgentStatus : IAgentStatus
     /// <param name="towards"></param>
     public void PushInputCommandToBuffer(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        cmdBuffer.AddInputCommand(cmdType, towards, triggerMeter, args);
-        if(triggeredComboStep != null)
-        {
-            mCurTriggeredComboStep = triggeredComboStep;
-        }
+        cmdBuffer.AddInputCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
+        //if(triggeredComboStep != null)
+        //{
+        //    mCurTriggeredComboStep = triggeredComboStep;
+        //}
     }
 
     protected abstract void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep);
@@ -240,11 +238,27 @@ public abstract class AgentStatus : IAgentStatus
         mCurExcutingCmdType = cmd.CmdType;
     }
 
+    protected void ExcuteComboTriggerCmd(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    {
+        if (triggeredComboStep != null)
+        {
+            ExcuteCombo(triggeredComboStep);
+        }
+
+        AgentActionData actionData = mStatusDefaultActionData;
+        if(triggeredComboStep != null && triggeredComboStep != ComboDefine.EmptyComboStep)
+        {
+            actionData = triggeredComboStep.comboStep.agentActionData;
+        }
+
+        StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);
+    }
+
     /// <summary>
     /// 执行Combo
     /// </summary>
     /// <param name="triggeredComboAction"></param>
-    protected void ExcuteCombo(int cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, ref TriggeredComboStep triggeredComboStep)
+    private void ExcuteCombo(TriggeredComboStep triggeredComboStep)
     {
         if (triggeredComboStep == null)
         {
@@ -258,12 +272,6 @@ public abstract class AgentStatus : IAgentStatus
             Log.Error(LogLevel.Normal, "ExcuteCombo Error, comboStep is null, combo name:{0}, index:{1}!", triggeredComboStep.comboData.comboName, triggeredComboStep.stepIndex);
             return;
         }
-
-        //Log.Error(LogLevel.Info, "ExcuteCombo---comboName:{0}", triggeredComboStep.comboData.comboName);
-
-        // 1. 执行状态的默认逻辑
-        // 在这个地方切换进动画的状态？
-        StatusDefaultAction(cmdType, towards, triggerMeter, args, triggeredComboStep.comboStep.agentActionData);
 
         AgentActionData actionData = triggeredComboStep.comboStep.agentActionData;
         if (actionData == null)
@@ -294,12 +302,6 @@ public abstract class AgentStatus : IAgentStatus
             //    GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSFER, AgentCommandDefine.EMPTY, DirectionDef.none, triggerMeter, _args, _triggeredComboStep);
             //}));
         //}
-
-        // 4. 回收combostep
-        triggeredComboStep.Recycle();
-
-        // 5. 清理
-        triggeredComboStep = null;
     }
 
 
@@ -321,14 +323,7 @@ public abstract class AgentStatus : IAgentStatus
         float progress = MeterManager.Ins.GetCurrentMeterProgress();
         if (progress <= GamePlayDefine.AttackMeterProgressWait)
         {
-            if(triggeredComboStep != null)
-            {
-                ExcuteCombo(cmdType, towards, triggerMeter, args, ref triggeredComboStep);
-            }
-            else
-            {
-                StatusDefaultAction(cmdType, towards, triggerMeter, args, GetAgentActionData());
-            }
+            ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
             return true;
         }
         else
@@ -339,18 +334,27 @@ public abstract class AgentStatus : IAgentStatus
     }
 
     /// <summary>
+    /// 默认行为数据
+    /// </summary>
+    /// <returns></returns>
+    protected AgentActionData GetStatusDefaultActionData()
+    {
+        return mStatusDefaultActionData;
+    }
+
+    /// <summary>
     /// 获取角色的行为数据
     /// 如果当前触发了combo，就使用combo的行为数据
     /// 否则，使用状态默认的行为数据
     /// </summary>
     /// <returns></returns>
-    protected AgentActionData GetAgentActionData()
-    {
-        if(mCurTriggeredComboStep != null)
-        {
-            return mCurTriggeredComboStep.comboStep.agentActionData;
-        }
+    //protected AgentActionData GetAgentActionData()
+    //{
+    //    if (mCurTriggeredComboStep != null)
+    //    {
+    //        return mCurTriggeredComboStep.comboStep.agentActionData;
+    //    }
 
-        return AgentHelper.GetAgentDefaultStatusActionData(mAgent, GetStatusName());
-    }
+    //    return AgentHelper.GetAgentDefaultStatusActionData(mAgent, GetStatusName());
+    //}
 }
