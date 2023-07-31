@@ -196,7 +196,7 @@
 				"meterLen": 1,
 				"normalizedTime": 0.1,
 				"layer": 0,
-				"animLen": 1.0,
+				"animLen": 0.5,
 				"movements": [{"distance": 0, "timeType": 0, "startTime":0, "endTime":0.1}],
 				"hitPoints": [{"progress": 0.1}]
 			}]
@@ -242,7 +242,7 @@
 				"meterLen": 1,
 				"normalizedTime": 0,
 				"layer": 0,
-				"animLen": 0.2,
+				"animLen": 0.1,
 				"movements": [],
 				"hitPoints": []
 			}]

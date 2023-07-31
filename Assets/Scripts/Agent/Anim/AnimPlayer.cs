@@ -108,8 +108,8 @@ public class AnimPlayer
         }
 
         mAnimator.speed = stateLen / (duration + timeOffset);
-        Log.Logic(LogLevel.Info, "UpdateAnimSpeed----speed:{0}, progressOffset:{1}, timeOffset:{2},mCurStateRealTime:{3}, duration:{4}",
-            mAnimator.speed, progressOffset, timeOffset, mLastStateLen, duration);
+        //Log.Logic(LogLevel.Info, "UpdateAnimSpeed----speed:{0}, progressOffset:{1}, timeOffset:{2},mCurStateRealTime:{3}, duration:{4}",
+        //    mAnimator.speed, progressOffset, timeOffset, mLastStateLen, duration);
         mLastStateLen = duration;
     }
 

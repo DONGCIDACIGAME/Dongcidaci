@@ -26,7 +26,7 @@ public class HeroStatus_Behit : HeroStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        AgentActionData actionData = statusDefaultActionData;
+        AgentActionData actionData = GetStatusDefaultActionData();
         if (args != null && args.TryGetValue("beHitAction", out object obj1))
         {
             actionData = obj1 as AgentActionData;
@@ -47,7 +47,7 @@ public class HeroStatus_Behit : HeroStatus
         switch (cmdType)
         {
             case AgentCommandDefine.BE_HIT_BREAK:
-                AgentActionData actionData = statusDefaultActionData;
+                AgentActionData actionData = GetStatusDefaultActionData();
                 if (args != null && args.TryGetValue("beHitAction", out object obj1))
                 {
                     actionData = obj1 as AgentActionData;
@@ -105,7 +105,7 @@ public class HeroStatus_Behit : HeroStatus
             return;
 
         float moveMore = 0;
-        if (args != null && args.TryGetValue("moveMove", out object obj2))
+        if (args != null && args.TryGetValue("moveMore", out object obj2))
         {
             moveMore = (float)obj2;
         }

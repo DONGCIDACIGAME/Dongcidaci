@@ -4,7 +4,9 @@ using UnityEngine;
 public class HeroStatus_Transition : HeroStatus
 {
     private float mTimer;
-    private float mExitTime = 0.1f;
+    private float mExitTime;
+
+    private Vector3 mLastTowards;
 
     public override string GetStatusName()
     {
@@ -29,12 +31,25 @@ public class HeroStatus_Transition : HeroStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
         mTimer = 0;
+        AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, GetStatusName(), "Empty");
+        if(stateInfo != null)
+        {
+            mExitTime = stateInfo.animLen;
+        }
+        mLastTowards = towards;
     }
 
     public override void OnExit()
     {
         base.OnExit();
         mTimer = 0;
+    }
+
+    private bool CheckTowardsBigChange(Vector3 newTowards, Vector3 oldTowards, float threshold)
+    {
+        //Log.Error(LogLevel.Info, "CheckTowardsBigChange-----newTowards:{0}, oldTowards:{1}", newTowards, oldTowards);
+
+        return (oldTowards.normalized - newTowards.normalized).magnitude >= threshold;
     }
 
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
@@ -65,7 +80,11 @@ public class HeroStatus_Transition : HeroStatus
                 break;
             // 其他指令类型，都要等本次攻击结束后执行，先放入指令缓存区
             case AgentCommandDefine.RUN:
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                if(CheckTowardsBigChange(towards, mLastTowards, 0.5f))
+                {
+                    ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                    mLastTowards = towards;
+                }
                 break;
             case AgentCommandDefine.BE_HIT://攻击状态下，非打断的受击行为不做处理
             case AgentCommandDefine.EMPTY:
@@ -89,21 +108,21 @@ public class HeroStatus_Transition : HeroStatus
     protected override void CustomOnMeterEnter(int meterIndex)
     {
         // 缓存区取指令
-        if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+        if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
-
+            cmdBuffer.ClearCommandBuffer();
             switch (cmdType)
             {
-                case AgentCommandDefine.BE_HIT_BREAK:
-                case AgentCommandDefine.RUN:
-                case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.ATTACK_SHORT:
                 case AgentCommandDefine.ATTACK_LONG:
                 case AgentCommandDefine.ATTACK_SHORT_INSTANT:
                 case AgentCommandDefine.ATTACK_LONG_INSTANT:
-                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
+                case AgentCommandDefine.RUN:
+                case AgentCommandDefine.BE_HIT_BREAK:
+                case AgentCommandDefine.IDLE:
+                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
                     break;
                 case AgentCommandDefine.EMPTY:
                 case AgentCommandDefine.BE_HIT:

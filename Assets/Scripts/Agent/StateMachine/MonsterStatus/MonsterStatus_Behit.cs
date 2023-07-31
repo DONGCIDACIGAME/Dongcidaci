@@ -26,7 +26,7 @@ public class MonsterStatus_Behit : MonsterStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        AgentActionData actionData = statusDefaultActionData;
+        AgentActionData actionData = GetStatusDefaultActionData();
         if (args != null && args.TryGetValue("beHitAction", out object obj1))
         {
             actionData = obj1 as AgentActionData;
@@ -48,7 +48,7 @@ public class MonsterStatus_Behit : MonsterStatus
         {
             case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.BE_HIT_BREAK:
-                AgentActionData actionData = statusDefaultActionData;
+                AgentActionData actionData = GetStatusDefaultActionData();
                 if (args != null && args.TryGetValue("beHitAction", out object obj1))
                 {
                     actionData = obj1 as AgentActionData;
@@ -92,7 +92,7 @@ public class MonsterStatus_Behit : MonsterStatus
             return;
 
         float moveMore = 0;
-        if (args != null && args.TryGetValue("moveMove", out object obj2))
+        if (args != null && args.TryGetValue("moveMore", out object obj2))
         {
             moveMore = (float)obj2;
         }

@@ -14,7 +14,7 @@ public class HeroStatus_Run : HeroStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
         mRunning = false;
-        StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
+        StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
     }
 
     public override void OnExit()
@@ -39,7 +39,7 @@ public class HeroStatus_Run : HeroStatus
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.RUN:
-                StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
+                StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -49,9 +49,10 @@ public class HeroStatus_Run : HeroStatus
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
-        if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+        if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
         {
             Log.Logic(LogLevel.Info, "PeekCommand--{0}, meterIndex:{1}, towards:{2}", cmdType, meterIndex, towards);
+            cmdBuffer.ClearCommandBuffer();
             switch (cmdType)
             {
                 case AgentCommandDefine.IDLE:
@@ -61,10 +62,10 @@ public class HeroStatus_Run : HeroStatus
                 case AgentCommandDefine.ATTACK_LONG_INSTANT:
                 case AgentCommandDefine.ATTACK_SHORT_INSTANT:
                 case AgentCommandDefine.BE_HIT_BREAK:
-                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
+                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
                     break;
                 case AgentCommandDefine.RUN:
-                    StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
+                    StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
                     break;
                 case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.EMPTY:

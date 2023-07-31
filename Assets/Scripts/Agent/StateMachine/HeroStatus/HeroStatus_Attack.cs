@@ -69,9 +69,10 @@ public class HeroStatus_Attack : HeroStatus
         }
 
         // 缓存区取指令
-        if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+        if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
+            cmdBuffer.ClearCommandBuffer();
 
             switch (cmdType)
             {
@@ -85,14 +86,7 @@ public class HeroStatus_Attack : HeroStatus
                 case AgentCommandDefine.ATTACK_LONG:
                 case AgentCommandDefine.ATTACK_LONG_INSTANT:
                 case AgentCommandDefine.ATTACK_SHORT_INSTANT:
-                    if (mCurTriggeredComboStep != null)
-                    {
-                        ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
-                    }
-                    else
-                    {
-                        StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
-                    }
+                    ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
                     break;
                 case AgentCommandDefine.EMPTY:
                 case AgentCommandDefine.BE_HIT:
@@ -126,17 +120,17 @@ public class HeroStatus_Attack : HeroStatus
             {
                 int meterIndex = MeterManager.Ins.MeterIndex;
                 // 缓存区取指令
-                if (cmdBuffer.PeekCommand(out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args))
+                if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
                 {
                     Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
-
+                    cmdBuffer.ClearCommandBuffer();
                     switch (cmdType)
                     {
                         case AgentCommandDefine.BE_HIT_BREAK:
                         case AgentCommandDefine.RUN:
                         case AgentCommandDefine.DASH:
                         case AgentCommandDefine.IDLE:
-                            ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
+                            ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
                             break;
                         case AgentCommandDefine.ATTACK_SHORT:
                         case AgentCommandDefine.ATTACK_LONG:
