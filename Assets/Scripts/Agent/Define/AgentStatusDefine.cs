@@ -32,8 +32,11 @@ public static class AgentStatusDefine
         //    || statusName == BEHIT || statusName == DEAD)
         //    return true;
 
-        if (statusName == IDLE || statusName == TRANSFER
-    || statusName == BEHIT || statusName == DEAD)
+    //    if (statusName == IDLE || statusName == TRANSFER
+    //|| statusName == BEHIT || statusName == DEAD)
+    //        return true;
+
+        if (statusName == TRANSFER || statusName == BEHIT || statusName == DEAD)
             return true;
 
         return false;
