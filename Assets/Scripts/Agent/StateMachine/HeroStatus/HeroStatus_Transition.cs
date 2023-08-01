@@ -80,7 +80,7 @@ public class HeroStatus_Transition : HeroStatus
                 break;
             // 其他指令类型，都要等本次攻击结束后执行，先放入指令缓存区
             case AgentCommandDefine.RUN:
-                if(CheckTowardsBigChange(towards, mLastTowards, 0.5f))
+                if(CheckTowardsBigChange(towards, mLastTowards, 1f))
                 {
                     ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                     mLastTowards = towards;

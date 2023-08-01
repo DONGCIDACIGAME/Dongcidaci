@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.015587477, g: 0.0075471234, b: 0.031963583, a: 1}
+  m_IndirectSpecularColor: {r: 0.015513601, g: 0.007531304, b: 0.03183741, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -460,7 +460,6 @@ MonoBehaviour:
   UseCustomMeterTrigger: 0
   CustomBehaviourMeterTrigger: 
   RotationOffset: {x: 0, y: 30, z: 0}
-  RotateDuration: 0.2
 --- !u!114 &92840403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -879,7 +878,6 @@ MonoBehaviour:
   UseCustomMeterTrigger: 0
   CustomBehaviourMeterTrigger: 
   MoveOffset: {x: 2, y: 0, z: 0}
-  MoveDuration: 0.2
 --- !u!114 &332924749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,7 +894,6 @@ MonoBehaviour:
   UseCustomMeterTrigger: 0
   CustomBehaviourMeterTrigger: 
   MoveOffset: {x: 0.5, y: 0, z: -0.5}
-  MoveDuration: 0.2
 --- !u!114 &332924750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1735,7 +1732,6 @@ MonoBehaviour:
   UseCustomMeterTrigger: 0
   CustomBehaviourMeterTrigger: 
   RotationOffset: {x: 0, y: 30, z: 0}
-  RotateDuration: 0.2
 --- !u!114 &572737305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3873,7 +3869,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.668
+  m_Volume: 0.112
   m_Pitch: 1
   Loop: 0
   Mute: 0
