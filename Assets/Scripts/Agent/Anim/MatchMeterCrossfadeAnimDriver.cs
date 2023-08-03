@@ -19,33 +19,34 @@ public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver
     {
         //Log.Error(LogLevel.Info, "PlayAnimStateWithCut=======================play {0}-{1}", statusName, stateName);
 
-        Log.Logic(LogLevel.Info, "<color=blue>{0} PlayAnimStateWithCut--statusName:{1}, stateName:{2}</color>", mAgent.GetAgentId(), statusName, stateName);
+        Log.Logic(LogLevel.Info, "<color=blue>{0} CrossFadeToState--statusName:{1}, stateName:{2}</color>", mAgent.GetAgentId(), statusName, stateName);
 
         if (string.IsNullOrEmpty(statusName))
         {
-            Log.Error(LogLevel.Normal, "PlayAnimStateWithCut Error, statusName is null or empty!");
+            Log.Error(LogLevel.Normal, "CrossFadeToState Error, statusName is null or empty!");
             return MeterManager.Ins.MeterIndex;
         }
 
         if (string.IsNullOrEmpty(stateName))
         {
-            Log.Error(LogLevel.Normal, "PlayAnimStateWithCut Error, stateName is null or empty!");
+            Log.Error(LogLevel.Normal, "CrossFadeToState Error, stateName is null or empty!");
             return MeterManager.Ins.MeterIndex;
         }
 
         AgentAnimStateInfo newStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
         if (newStateInfo == null)
         {
-            Log.Error(LogLevel.Normal, "PlayAnimStateWithCut Error, status:{0} can not find state:{1}", statusName, stateName);
+            Log.Error(LogLevel.Normal, "CrossFadeToState Error, status:{0} can not find state:{1}", statusName, stateName);
             return MeterManager.Ins.MeterIndex;
         }
 
         float duration = MeterManager.Ins.GetTimeToMeterWithOffset(newStateInfo.meterLen);
         if (duration == 0)
         {
-            Log.Error(LogLevel.Normal, "PlayAnimStateWithCut Error, time to target meter is 0,anim meter len:{0}", newStateInfo.meterLen);
+            Log.Error(LogLevel.Normal, "CrossFadeToState Error, time to target meter is 0,anim meter len:{0}", newStateInfo.meterLen);
             return MeterManager.Ins.MeterIndex;
         }
+
 
         int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, newStateInfo.meterLen);
 
@@ -59,6 +60,7 @@ public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver
         }
 
         float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, newMeterIndex);
+        Log.Error(LogLevel.Info, "CrossFadeToState ---------- {0} ---{1} ----{2} --- {3}", statusName, stateName, duration, totalMeterTime);
 
         mAgent.AnimPlayer.CrossFadeToState(stateName, newStateInfo.layer, newStateInfo.normalizedTime, newStateInfo.animLen, duration, totalMeterTime);
         

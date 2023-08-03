@@ -31,6 +31,11 @@
 							}
 						]
 					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Empty",
+						"effectCollictions": null
+					},
 					"endFlag": false
 				},
 				{
@@ -80,6 +85,11 @@
 								]
 							}
 						]
+					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Empty",
+						"effectCollictions": null
 					},
 					"endFlag": true
 				}
@@ -114,6 +124,11 @@
 							}
 						]
 					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Empty",
+						"effectCollictions": null
+					},
 					"endFlag": false
 				},
 				{
@@ -138,6 +153,11 @@
 								]
 							}
 						]
+					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Empty",
+						"effectCollictions": null
 					},
 					"endFlag": true
 				}

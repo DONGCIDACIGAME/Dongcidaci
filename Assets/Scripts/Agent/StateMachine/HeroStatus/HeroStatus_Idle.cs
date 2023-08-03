@@ -35,7 +35,6 @@ public class HeroStatus_Idle : HeroStatus
         switch (cmdType)
         {
             case AgentCommandDefine.RUN:
-            case AgentCommandDefine.RUN_METER:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
@@ -63,7 +62,6 @@ public class HeroStatus_Idle : HeroStatus
             switch (cmdType)
             {
                 case AgentCommandDefine.RUN:
-                case AgentCommandDefine.RUN_METER:
                 case AgentCommandDefine.ATTACK_SHORT:
                 case AgentCommandDefine.ATTACK_LONG:
                 case AgentCommandDefine.ATTACK_LONG_INSTANT:

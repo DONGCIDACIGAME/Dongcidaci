@@ -126,35 +126,13 @@ public abstract class AgentKeyboardInputHandle : InputHandle
     protected bool GetRunInputCmd(out AgentCommand cmd)
     {
         cmd = null;
+        Vector3 towards = GetInputDirection();
+        if (towards.Equals(DirectionDef.none))
+            return false;
 
-
-        if(mHero.Hero_View.MeterRun)
-        {
-            Vector3 towards = GetInputDirectionOnKeyDown();
-            if (towards.Equals(DirectionDef.none))
-                return false;
-
-            if (MeterManager.Ins.CheckTriggered(GamePlayDefine.RunMeterCheckTolerance, GamePlayDefine.RunMeterCheckOffset, out int triggerMeter))
-            {
-                cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-                cmd.Initialize(AgentCommandDefine.RUN_METER, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
-                //Log.Error(LogLevel.Info, "Trigger light attack--------------------------------------------------{0}", triggerMeter);
-                return true;
-            }
-        }
-        else
-        {
-            Vector3 towards = GetInputDirection();
-            if (towards.Equals(DirectionDef.none))
-                return false;
-
-            cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-            cmd.Initialize(AgentCommandDefine.RUN, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);
-            return true;
-        }
-
-
-        return false;
+        cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
+        cmd.Initialize(AgentCommandDefine.RUN, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);
+        return true;
     }
 
 

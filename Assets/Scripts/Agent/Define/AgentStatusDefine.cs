@@ -5,7 +5,7 @@ public static class AgentStatusDefine
     public static string EMPTY = "Empty";
     public static string IDLE = "Idle";
     public static string RUN = "Run";
-    public static string RUN_METER = "RunMeter";
+    public static string TRANSITION_RUN = "RunMeter";
     public static string DASH = "Dash";
     public static string TRANSFER = "Transfer";
     public static string TRANSITION = "Transition";

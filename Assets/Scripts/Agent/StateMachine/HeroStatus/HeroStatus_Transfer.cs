@@ -71,7 +71,6 @@ public class HeroStatus_Transfer : HeroStatus
                     case AgentCommandDefine.IDLE:
                     case AgentCommandDefine.RUN:
                     case AgentCommandDefine.DASH:
-                    case AgentCommandDefine.RUN_METER:
                     case AgentCommandDefine.ATTACK_SHORT:
                     case AgentCommandDefine.ATTACK_LONG:
                     case AgentCommandDefine.ATTACK_LONG_INSTANT:

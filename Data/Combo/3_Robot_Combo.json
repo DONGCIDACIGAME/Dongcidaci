@@ -50,13 +50,17 @@
 							}
 						]
 					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Empty",
+						"effectCollictions": null
+					},
 					"endFlag": false
 				},
 				{
 					"input": 8,
 					"agentActionData": {
 						"statusName": "Attack",
-						"stateName": "Combo_2_With_Empty",
 						"effectCollictions": [
 							{
 								"rlsFxCfg":{
@@ -83,6 +87,11 @@
 								]
 							}
 						]
+					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Empty",
+						"effectCollictions": null
 					},
 					"endFlag": false
 				},
@@ -117,6 +126,11 @@
 								]
 							}
 						]
+					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Empty",
+						"effectCollictions": null
 					},
 					"endFlag": true
 				}
@@ -160,6 +174,11 @@
 							}
 						]
 					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Empty",
+						"effectCollictions": null
+					},
 					"endFlag": false
 				},
 				{
@@ -184,6 +203,11 @@
 								]
 							}
 						]
+					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Empty",
+						"effectCollictions": null
 					},
 					"endFlag": true
 				}
@@ -237,6 +261,11 @@
 							}
 						]
 					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Combo1TansToCombo2",
+						"effectCollictions": null
+					},
 					"endFlag": false
 				},
 				{
@@ -271,6 +300,11 @@
 							}
 						]
 					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Combo2TansToCombo3",
+						"effectCollictions": null
+					},
 					"endFlag": false
 				},
 				{
@@ -304,6 +338,11 @@
 								]
 							}
 						]
+					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Empty",
+						"effectCollictions": null
 					},
 					"endFlag": true
 				}

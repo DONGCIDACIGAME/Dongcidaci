@@ -31,7 +31,6 @@ public class HeroStatus_Run : HeroStatus
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
-            case AgentCommandDefine.RUN_METER:
             case AgentCommandDefine.ATTACK_LONG_INSTANT:
             case AgentCommandDefine.ATTACK_SHORT_INSTANT:
             case AgentCommandDefine.BE_HIT:

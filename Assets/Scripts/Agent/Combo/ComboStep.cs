@@ -15,6 +15,11 @@ public class ComboStep
     public AgentActionData agentActionData;
 
     /// <summary>
+    /// 过度动画名称
+    /// </summary>
+    public AgentActionData transitionData;
+
+    /// <summary>
     /// 结束combo的标志
     /// </summary>
     public bool endFlag;

@@ -1,6 +1,6 @@
 using GameEngine;
 
-public class TriggeredComboStep : IRecycle
+public class TriggeredComboStep
 {
     /// <summary>
     /// combo action data
@@ -69,15 +69,15 @@ public class TriggeredComboStep : IRecycle
         this.comboStep = null;
     }
 
-    public void Recycle()
-    {
-        RecycleReset();
+    //public void Recycle()
+    //{
+    //    RecycleReset();
 
-        GamePoolCenter.Ins.TriggeredComboActionPool.Push(this);
-    }
+    //    GamePoolCenter.Ins.TriggeredComboActionPool.Push(this);
+    //}
 
-    public void RecycleReset()
-    {
-        Dispose();
-    }
+    //public void RecycleReset()
+    //{
+    //    Dispose();
+    //}
 }

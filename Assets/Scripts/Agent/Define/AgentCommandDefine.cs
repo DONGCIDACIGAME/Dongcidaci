@@ -56,11 +56,6 @@ public static class AgentCommandDefine
     /// </summary>
     public const int ATTACK_LONG_INSTANT = 1 << 9;
 
-    /// <summary>
-    /// 移动-按节拍
-    /// </summary>
-    public const int RUN_METER = 1 << 10;
-
 
     /// <summary>
     /// 可以进行优化的指令集(1拍里多个相同指令时可以优化为1个)

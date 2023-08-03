@@ -245,6 +245,26 @@
 				"animLen": 0.1,
 				"movements": [],
 				"hitPoints": []
+			},
+			{
+				"stateName": "Combo1TansToCombo2",
+				"loopTime": 1,
+				"meterLen": 1,
+				"normalizedTime": 0.1,
+				"layer": 0,
+				"animLen": 0.3,
+				"movements": [],
+				"hitPoints": []
+			},
+			{
+				"stateName": "Combo2TansToCombo3",
+				"loopTime": 1,
+				"meterLen": 1,
+				"normalizedTime": 0.1,
+				"layer": 0,
+				"animLen": 0.3,
+				"movements": [],
+				"hitPoints": []
 			}]
 		},
 		"BeHit":{

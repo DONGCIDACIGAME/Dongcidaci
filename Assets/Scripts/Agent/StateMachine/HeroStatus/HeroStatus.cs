@@ -21,8 +21,6 @@ public abstract class HeroStatus : AgentStatus
                 return AgentStatusDefine.IDLE;
             case AgentCommandDefine.RUN:
                 return AgentStatusDefine.RUN;
-            case AgentCommandDefine.RUN_METER:
-                return AgentStatusDefine.RUN_METER;
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:
                 return AgentStatusDefine.ATTACK;

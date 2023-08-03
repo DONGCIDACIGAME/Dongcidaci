@@ -115,7 +115,7 @@ public class ComboTrigger : IMeterHandler
             if (triggered && tcs == null)
             {
                 // get from pool
-                tcs = GamePoolCenter.Ins.TriggeredComboActionPool.Pop();
+                tcs = new TriggeredComboStep();
 
                 ComboStep comboStep = tc.GetCurrentComboStep();
 

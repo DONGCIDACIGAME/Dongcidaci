@@ -56,7 +56,6 @@ public class HeroStatus_Behit : HeroStatus
                 break;
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
-            case AgentCommandDefine.RUN_METER:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.ATTACK_LONG:
             case AgentCommandDefine.ATTACK_SHORT:

@@ -1,3 +1,4 @@
+using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,13 +31,9 @@ public class HeroStatus_Transition : HeroStatus
     public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
-        mTimer = 0;
-        AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, GetStatusName(), "Empty");
-        if(stateInfo != null)
-        {
-            mExitTime = stateInfo.animLen;
-        }
-        mLastTowards = towards;
+
+        AgentActionData actionData = args["transitionAction"] as AgentActionData;
+        StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);
     }
 
     public override void OnExit()
@@ -54,7 +51,7 @@ public class HeroStatus_Transition : HeroStatus
 
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        if(cmdType == AgentCommandDefine.BE_HIT_BREAK)
+        if (cmdType == AgentCommandDefine.BE_HIT_BREAK)
         {
             ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
             return;
@@ -80,9 +77,10 @@ public class HeroStatus_Transition : HeroStatus
                 break;
             // 其他指令类型，都要等本次攻击结束后执行，先放入指令缓存区
             case AgentCommandDefine.RUN:
-                if(CheckTowardsBigChange(towards, mLastTowards, 1f))
+                if (CheckTowardsBigChange(towards, mLastTowards, 1f))
                 {
-                    ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                    //ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                    GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.RUN, cmdType, towards, triggerMeter, args, triggeredComboStep);
                     mLastTowards = towards;
                 }
                 break;
@@ -97,7 +95,17 @@ public class HeroStatus_Transition : HeroStatus
 
     public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
     {
-        
+        string statusName = agentActionData.statusName;
+        string stateName = agentActionData.stateName;
+        mMatchMeterCrossfadeAnimDriver.CrossFadeToState(statusName, stateName);
+
+        //mTimer = 0;
+        //AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
+        //if (stateInfo != null)
+        //{
+        //    mExitTime = stateInfo.animLen;
+        //}
+        //mLastTowards = towards;
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)

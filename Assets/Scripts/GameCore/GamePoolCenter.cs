@@ -10,8 +10,6 @@ public class GamePoolCenter : Singleton<GamePoolCenter>
 
     public GeneralGamePool<AgentCommand> AgentInputCommandPool = new GeneralGamePool<AgentCommand>();
 
-    public GeneralGamePool<TriggeredComboStep> TriggeredComboActionPool = new GeneralGamePool<TriggeredComboStep>();
-
     public GeneralGamePool<GameEventListener> GameEventLIstenerPool = new GeneralGamePool<GameEventListener>();
 
     // changed by weng 0626
@@ -28,7 +26,6 @@ public class GamePoolCenter : Singleton<GamePoolCenter>
         ComboEffectExcutorPool.Dispose();
         MovementExcutorPool.Dispose();
         AgentInputCommandPool.Dispose();
-        TriggeredComboActionPool.Dispose();
         GameEventLIstenerPool.Dispose();
         GameCollider2DPool.Dispose();
         ConvexCollider2DPool.Dispose();

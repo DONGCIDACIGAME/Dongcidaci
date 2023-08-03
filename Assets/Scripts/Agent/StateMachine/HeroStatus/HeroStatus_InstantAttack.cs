@@ -8,6 +8,7 @@ public class HeroStatus_InstantAttack : HeroStatus
     private float mTimer;
     private Vector3 mAttackTowards;
 
+    private ComboStep mComboStep;
     public override string GetStatusName()
     {
         return AgentStatusDefine.INSTANT_ATTACK;
@@ -28,6 +29,7 @@ public class HeroStatus_InstantAttack : HeroStatus
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
         ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
+        mComboStep = triggeredComboStep.comboStep;
     }
 
     /// <summary>
@@ -89,7 +91,6 @@ public class HeroStatus_InstantAttack : HeroStatus
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.RUN_METER:
             case AgentCommandDefine.BE_HIT://攻击状态下，非打断的受击行为不做处理
             case AgentCommandDefine.EMPTY:
             default:
@@ -152,7 +153,8 @@ public class HeroStatus_InstantAttack : HeroStatus
 
         if (mTimer >= mExitTime)
         {
-            Dictionary<string, object> _args = null;
+            Dictionary<string, object> _args = new Dictionary<string, object>();
+            _args.Add("transitionAction", mComboStep.transitionData);
             TriggeredComboStep _triggeredComboStep = null;
             GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSITION, AgentCommandDefine.EMPTY, mAttackTowards, MeterManager.Ins.MeterIndex, _args, _triggeredComboStep);
         }
