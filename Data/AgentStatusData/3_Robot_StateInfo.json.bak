@@ -17,8 +17,7 @@
 			"animStates": [{
 				"stateName": "Idle",
 				"loopTime": 0,
-				"stateMeterLen": 2,
-				"minDuration": 0,
+				"meterLen": 2,
 				"normalizedTime": 0.5,
 				"layer": 0,
 				"animLen": 1.0,
@@ -41,7 +40,30 @@
 			"animStates": [{
 				"stateName": "Run",
 				"loopTime": 0,
-				"stateMeterLen": 2,
+				"meterLen": 2,
+				"normalizedTime": 0.1,
+				"layer": 0,
+				"animLen": 1.000,
+				"movements": [],
+				"hitPoints": []
+			}]
+		},
+		"RunMeter": {
+			"statusName": "RunMeter",
+			"defaultAciton":
+			{
+				"statusName": "RunMeter",
+				"stateName": "Run",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "Run",
+				"loopTime": 0,
+				"meterLen": 2,
 				"normalizedTime": 0.1,
 				"layer": 0,
 				"animLen": 1.000,
@@ -66,39 +88,94 @@
 			"animStates": [{
 				"stateName": "Combo_1_With_Empty",
 				"loopTime": 1,
-				"stateMeterLen": 1,
+				"meterLen": 1,
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
-				"movements": [{"distance": 0.1, "timeType": 0, "startTime":0.8, "endTime":1}],
-				"hitPoints": [{"progress": 1}]
+				"movements": [{"distance": 0.2, "timeType": 0, "startTime":0.8, "endTime":1}],
+				"hitPoints": [{"progress": 1, "timeType": 0}]
 			},{
 				"stateName": "Combo_2_With_Empty",
 				"loopTime": 1,
-				"stateMeterLen": 1,
+				"meterLen": 1,
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
-				"movements": [{"distance": 0.1, "timeType": 0, "startTime":0.8, "endTime":1}],
-				"hitPoints": [{"progress": 1}]
+				"movements": [{"distance": 0.2, "timeType": 0, "startTime":0.8, "endTime":1}],
+				"hitPoints": [{"progress": 1, "timeType": 0}]
 			},{
 				"stateName": "Combo_3_With_Empty",
 				"loopTime": 1,
-				"stateMeterLen": 1,
+				"meterLen": 1,
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
 				"movements": [{"distance": 1, "timeType": 0, "startTime":0.8, "endTime":1}],
-				"hitPoints": [{"progress": 1}]
+				"hitPoints": [{"progress": 1, "timeType": 0}]
 			},{
 				"stateName": "DashAtk1_Inplace",
 				"loopTime": 1,
-				"stateMeterLen": 1,
+				"meterLen": 1,
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
 				"movements": [{"distance": 2, "timeType": 0, "startTime":0.5, "endTime":1}],
-				"hitPoints": [{"progress": 1}]
+				"hitPoints": [{"progress": 1, "timeType": 0}]
+			}]
+		},
+		"InstantAttack":{
+			"statusName": "InstantAttack",
+			"defaultAciton":
+			{
+				"statusName": "InstantAttack",
+				"stateName": "Test1",
+				"effectCollictions": [
+					{
+						"effects":[
+							{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+						]
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "DashAtk1_Inplace",
+				"loopTime": 1,
+				"meterLen": 1,
+				"normalizedTime": 0.05,
+				"layer": 0,
+				"animLen": 0.5,
+				"movements": [{"distance": 2, "timeType": 0, "startTime":0.5, "endTime":1}],
+				"hitPoints": [{"progress": 1, "timeType": 0}]
+			},
+			{
+				"stateName": "Test1",
+				"loopTime": 1,
+				"meterLen": 1,
+				"normalizedTime": 0.2,
+				"layer": 0,
+				"animLen": 0.117,
+				"movements": [{"distance": 0.1, "timeType": 1, "startTime":0, "endTime":0.05}],
+				"hitPoints": [{"progress": 0.05, "timeType": 1}]
+			},
+			{
+				"stateName": "Test2",
+				"loopTime": 1,
+				"meterLen": 1,
+				"normalizedTime": 0.2,
+				"layer": 0,
+				"animLen": 0.117,
+				"movements": [{"distance": 0.1, "timeType": 1, "startTime":0, "endTime":0.05}],
+				"hitPoints": [{"progress": 0.05, "timeType": 1}]
+			},
+			{
+				"stateName": "Test3",
+				"loopTime": 1,
+				"meterLen": 1,
+				"normalizedTime": 0.2,
+				"layer": 0,
+				"animLen": 0.117,
+				"movements": [{"distance": 0.1, "timeType": 1, "startTime":0, "endTime":0.05}],
+				"hitPoints": [{"progress": 0.05, "timeType": 1}]
 			}]
 		},
 		"Dash": {
@@ -116,10 +193,10 @@
 			"animStates": [{
 				"stateName": "Dash",
 				"loopTime": 1,
-				"stateMeterLen": 2,
+				"meterLen": 1,
 				"normalizedTime": 0.1,
 				"layer": 0,
-				"animLen": 1.0,
+				"animLen": 0.5,
 				"movements": [{"distance": 0, "timeType": 0, "startTime":0, "endTime":0.1}],
 				"hitPoints": [{"progress": 0.1}]
 			}]
@@ -139,10 +216,33 @@
 			"animStates": [{
 				"stateName": "Empty",
 				"loopTime": 1,
-				"stateMeterLen": 1,
+				"meterLen": 1,
 				"normalizedTime": 0.5,
 				"layer": 0,
 				"animLen": 0.5,
+				"movements": [],
+				"hitPoints": []
+			}]
+		},
+		"Transition": {
+			"statusName": "Transition",
+			"defaultAciton":
+			{
+				"statusName": "Transition",
+				"stateName": "Empty",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "Empty",
+				"loopTime": 1,
+				"meterLen": 1,
+				"normalizedTime": 0,
+				"layer": 0,
+				"animLen": 0.1,
 				"movements": [],
 				"hitPoints": []
 			}]
@@ -158,7 +258,7 @@
 			"animStates": [{
 				"stateName": "BeHit",
 				"loopTime": 1,
-				"stateMeterLen": 1,
+				"meterLen": 1,
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
