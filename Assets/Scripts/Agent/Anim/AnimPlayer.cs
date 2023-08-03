@@ -150,6 +150,9 @@ public class AnimPlayer
     /// <param name="targetFullTime">动画完全播完所需要的预期时长（即假设融合后从第0帧开始播放）</param>
     public void CrossFadeToState(string stateName, int layer, float normalizedTime, float animLen, float targetDuration, float targetFullTime)
     {
+        if (stateName.Equals("Empty"))
+            return;
+
         if (targetFullTime <= 0)
         {
             Log.Error(LogLevel.Normal, "CrossFadeToState Error, targetFullTime must be greater than 0!");
@@ -220,6 +223,9 @@ public class AnimPlayer
     /// <param name="animLen"></param>
     public void CrossFadeToState(string stateName, int layer, float normalizedTime, float animLen)
     {
+        if (stateName.Equals("Empty"))
+            return;
+
         // 不能和同一个状态进行动画融合，直接播放
         if (CurStateName.Equals(stateName))
         {
@@ -252,6 +258,9 @@ public class AnimPlayer
     /// <param name="targetDuration">新动画的预期播放时间</param>
     public void PlayState(string stateName, float animLen, int layer, float normalizedTime, float targetDuration)
     {
+        if (stateName.Equals("Empty"))
+            return;
+
         if (targetDuration <= 0)
         {
             Log.Error(LogLevel.Normal, "PlayStateInTime Error,  mush greater than 0!");

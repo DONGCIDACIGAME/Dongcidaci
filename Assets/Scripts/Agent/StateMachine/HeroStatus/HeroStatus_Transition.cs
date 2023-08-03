@@ -97,15 +97,16 @@ public class HeroStatus_Transition : HeroStatus
     {
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;
-        mMatchMeterCrossfadeAnimDriver.CrossFadeToState(statusName, stateName);
-
-        //mTimer = 0;
-        //AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
-        //if (stateInfo != null)
-        //{
-        //    mExitTime = stateInfo.animLen;
-        //}
-        //mLastTowards = towards;
+        mDefaultCrossFadeAnimDriver.CrossFadeToState(statusName, stateName);
+        // 3. 处理动画相关的位移
+        mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
+        mTimer = 0;
+        AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
+        if (stateInfo != null)
+        {
+            mExitTime = stateInfo.animLen;
+        }
+        mLastTowards = towards;
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)

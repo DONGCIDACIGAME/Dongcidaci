@@ -240,9 +240,9 @@
 				"stateName": "Empty",
 				"loopTime": 1,
 				"meterLen": 1,
-				"normalizedTime": 0,
+				"normalizedTime": 0.1,
 				"layer": 0,
-				"animLen": 0.1,
+				"animLen": 0.05,
 				"movements": [],
 				"hitPoints": []
 			},
@@ -253,7 +253,7 @@
 				"normalizedTime": 0.1,
 				"layer": 0,
 				"animLen": 0.3,
-				"movements": [],
+				"movements": [{"distance": 0.5, "timeType": 1, "startTime":0, "endTime":0.3}],
 				"hitPoints": []
 			},
 			{
@@ -263,7 +263,7 @@
 				"normalizedTime": 0.1,
 				"layer": 0,
 				"animLen": 0.3,
-				"movements": [],
+				"movements": [{"distance": 0.5, "timeType": 1, "startTime":0, "endTime":0.3}],
 				"hitPoints": []
 			}]
 		},
