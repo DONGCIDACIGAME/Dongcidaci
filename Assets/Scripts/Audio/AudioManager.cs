@@ -110,4 +110,11 @@ public class AudioManager : ModuleManager<AudioManager>
         base.OnGameUpdate(deltaTime);
     }
 
+    public void StopAll()
+    {
+        BGMPlayer.Stop();
+        AttackEffectPlayer.Stop();
+        GameEffectPlayer.Stop();
+    }
+
 }

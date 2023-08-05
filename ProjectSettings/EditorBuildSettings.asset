@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/DemoScene.unity
     guid: 64b6b1adef30a994c8c65bc8f21d3d96
   - enabled: 1
-    path: Assets/Scenes/MusicEditorScene.unity
+    path: Assets/Scenes/MusicEditor.unity
     guid: 6912379fc6451f14ea49d9679143e484
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 55226ff120292e24a8cfa5ad16951f08, type: 2}

@@ -13,11 +13,13 @@ public class MusicEditorScene : GameScene
     public override void OnSceneEnter()
     {
         UIManager.Ins.OpenPanel<PanelMusicEditor>("Prefabs/UI/MusicEditor/Panel_MusicEditor");
+
+        AudioManager.Ins.StopAll();
     }
 
     public override void OnSceneExit()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void OnSceneLateUpdate(float deltaTime)

@@ -12,7 +12,12 @@ public class DemoScene : GameScene
 
     public override void OnSceneEnter()
     {
-        AudioManager.Ins.LoadBgm("Audio/Music/Thunder Love");
+        //AudioManager.Ins.LoadBgm("Audio/Music/Thunder Love");
+        //AudioManager.Ins.LoadBgm("Audio/Music/bass-gone-walking_preview-150bpm");
+        //AudioManager.Ins.LoadBgm("Audio/Music/broke-neck_preview-146bpm");
+        //AudioManager.Ins.LoadBgm("Audio/Music/downtown-drummer_preview-119bpm");
+        //AudioManager.Ins.LoadBgm("Audio/Music/groove-child_preview-125bpm");
+        AudioManager.Ins.LoadBgm("Audio/Music/livin'-dat-life_preview-90bpm");
         //AudioManager.Ins.LoadBgm("Audio/Music/The Rush");
         //AudioManager.Ins.LoadBgm("Audio/Music/Tobu - Higher");
         AudioManager.Ins.PlayBgm(true);
