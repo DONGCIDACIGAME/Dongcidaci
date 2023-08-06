@@ -10,7 +10,7 @@ public class MusicEditorScene : GameScene
         return SceneDefine.MusicEditor;
     }
 
-    public override void OnSceneEnter()
+    public override void OnSceneEnter(Dictionary<string, object> args)
     {
         UIManager.Ins.OpenPanel<PanelMusicEditor>("Prefabs/UI/MusicEditor/Panel_MusicEditor");
 

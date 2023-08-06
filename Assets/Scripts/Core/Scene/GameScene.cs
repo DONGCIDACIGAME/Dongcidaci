@@ -8,14 +8,14 @@ public abstract class GameScene : IScene
 
     public abstract string GetSceneName();
 
-    public virtual void BeforeSceneEnter()
+    public virtual void BeforeSceneEnter(Dictionary<string, object> args)
     {
         string sceneName = GetSceneName();
         mScope = GameScope.SceneScope.CreateChildScope(sceneName);
         mEventListener =  GamePoolCenter.Ins.GameEventLIstenerPool.Pop();
     }
 
-    public abstract void OnSceneEnter();
+    public abstract void OnSceneEnter(Dictionary<string, object> args);
 
     public abstract void OnSceneExit();
 

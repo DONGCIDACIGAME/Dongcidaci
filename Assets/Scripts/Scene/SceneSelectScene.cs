@@ -10,7 +10,7 @@ public class SceneSelectScene : GameScene
         return SceneDefine.SceneSelect;
     }
 
-    public override void OnSceneEnter()
+    public override void OnSceneEnter(Dictionary<string, object> args)
     {
         Log.Logic(LogLevel.Info, "select scene....open select panel");
         UIManager.Ins.OpenPanel<PanelSceneSelect>("Prefabs/UI/Panel_SceneSelect");

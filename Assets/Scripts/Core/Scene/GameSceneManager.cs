@@ -23,7 +23,7 @@ namespace GameEngine
             mCurScene = null;
         }
 
-        private void SwitchToScene(string sceneName)
+        private void SwitchToScene(string sceneName, Dictionary<string, object> args)
         {
             if(string.IsNullOrEmpty(sceneName))
             {
@@ -51,11 +51,11 @@ namespace GameEngine
 
             mCurScene = toScene;
             Log.Logic(LogLevel.Info, "Enter {0} Scene...", toScene.GetSceneName());
-            mCurScene.OnSceneEnter();
-            mCurScene.BeforeSceneEnter();
+            mCurScene.BeforeSceneEnter(args);
+            mCurScene.OnSceneEnter(args);
         }
 
-        public void LoadAndSwitchToScene(string sceneName)
+        public void LoadAndSwitchToScene(string sceneName, Dictionary<string, object> args = null)
         {
             // 要切换的scene和当前所处的scene相同时，不执行切换操作
             if (mCurScene != null && mCurScene.GetSceneName().Equals(sceneName))
@@ -64,11 +64,11 @@ namespace GameEngine
                 return;
             }
 
-            IEnumerator routine = AsyncLoadScene(sceneName);
+            IEnumerator routine = AsyncLoadScene(sceneName, args);
             CoroutineManager.Ins.StartCoroutine(routine);
         }
 
-        private IEnumerator AsyncLoadScene(string sceneName)
+        private IEnumerator AsyncLoadScene(string sceneName, Dictionary<string, object> args)
         {
             if (!mSceneMap.ContainsKey(sceneName))
             {
@@ -83,7 +83,7 @@ namespace GameEngine
                 yield return null;
             }
 
-            SwitchToScene(sceneName);
+            SwitchToScene(sceneName, args);
         }
 
         public override void OnGameUpdate(float deltaTime)

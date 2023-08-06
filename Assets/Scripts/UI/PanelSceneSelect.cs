@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using GameEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class PanelSceneSelect : UIPanel
 {
@@ -17,7 +18,14 @@ public class PanelSceneSelect : UIPanel
 
     private void OnClickDemoSceen()
     {
-        GameSceneManager.Ins.LoadAndSwitchToScene(SceneDefine.Demo);
+        Dictionary<string, object> args = new Dictionary<string, object>()
+        {
+            { "root_dir", "Data/Meter"},
+            { "ext",".meter"},
+            { "loadEvent", "OnLoadMeterFile"}
+        };
+
+        UIManager.Ins.OpenPanel<PanelLoadFileHUD>("Prefabs/UI/Common/Panel_LoadFileHUD", args);
     }
 
     private void OnClickMonsterAIEditor()
@@ -53,5 +61,24 @@ public class PanelSceneSelect : UIPanel
     protected override void OnOpen(Dictionary<string, object> openArgs)
     {
         Log.Logic(LogLevel.Info, "panel select scene open....");
+    }
+
+    private void OnLoadMeterFile(string fileFullPath)
+    {
+        string[] temp = fileFullPath.Split("/");
+        string fileName = temp[temp.Length - 1].Replace(".meter", "");
+        Dictionary<string, object> args = new Dictionary<string, object>()
+        {
+            { "music",fileName }
+        };
+        GameSceneManager.Ins.LoadAndSwitchToScene(SceneDefine.Demo, args);
+        UIManager.Ins.ClosePanel<PanelSceneSelect>();
+    }
+
+    protected override void BindEvents()
+    {
+        base.BindEvents();
+
+        mEventListener.Listen<string>("OnLoadMeterFile", OnLoadMeterFile);
     }
 }

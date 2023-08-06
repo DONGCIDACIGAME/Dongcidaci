@@ -10,16 +10,10 @@ public class DemoScene : GameScene
         return SceneDefine.Demo;
     }
 
-    public override void OnSceneEnter()
+    public override void OnSceneEnter(Dictionary<string, object> args)
     {
-        //AudioManager.Ins.LoadBgm("Audio/Music/Thunder Love");
-        //AudioManager.Ins.LoadBgm("Audio/Music/bass-gone-walking_preview-150bpm");
-        //AudioManager.Ins.LoadBgm("Audio/Music/broke-neck_preview-146bpm");
-        //AudioManager.Ins.LoadBgm("Audio/Music/downtown-drummer_preview-119bpm");
-        //AudioManager.Ins.LoadBgm("Audio/Music/groove-child_preview-125bpm");
-        AudioManager.Ins.LoadBgm("Audio/Music/livin'-dat-life_preview-90bpm");
-        //AudioManager.Ins.LoadBgm("Audio/Music/The Rush");
-        //AudioManager.Ins.LoadBgm("Audio/Music/Tobu - Higher");
+        string musicName = args["music"] as string;
+        AudioManager.Ins.LoadBgm("Audio/Music/" + musicName);
         AudioManager.Ins.PlayBgm(true);
         UIManager.Ins.OpenPanel<PanelDemo>("Prefabs/UI/Panel_Demo");
 

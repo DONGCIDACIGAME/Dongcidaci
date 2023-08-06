@@ -1,39 +1,29 @@
 using GameEngine;
+using System.Collections.Generic;
 
-public class LaunchScene : IScene
+public class LaunchScene : GameScene
 {
-    public void AfterSceneExit()
-    {
-        
-    }
-
-    public void BeforeSceneEnter()
-    {
-        
-    }
-
-    public string GetSceneName()
+    public override string GetSceneName()
     {
         return SceneDefine.Launch;
     }
 
-    public void OnSceneEnter()
-    {
-
-
-    }
-
-    public void OnSceneExit()
+    public override void OnSceneEnter(Dictionary<string, object> args)
     {
         
     }
 
-    public void OnSceneLateUpdate(float deltaTime)
+    public override void OnSceneExit()
     {
         
     }
 
-    public void OnSceneUpdate(float deltaTime)
+    public override void OnSceneLateUpdate(float deltaTime)
+    {
+        
+    }
+
+    public override void OnSceneUpdate(float deltaTime)
     {
         
     }

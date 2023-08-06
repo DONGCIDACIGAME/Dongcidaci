@@ -1,10 +1,12 @@
-﻿public interface IScene
+using System.Collections.Generic;
+
+public interface IScene
 {
     string GetSceneName();
 
-    void BeforeSceneEnter();
+    void BeforeSceneEnter(Dictionary<string, object> args);
 
-    void OnSceneEnter();
+    void OnSceneEnter(Dictionary<string, object> args);
 
     void OnSceneUpdate(float deltaTime);
 
