@@ -65,7 +65,7 @@ public class Hero : Agent
             return;
         }
 
-        var go = PrefabUtil.LoadPrefab(mHeroCfg.Prefab, AgentManager.Ins.GetHeroNode(), "Load Agent Prefab");
+        var go = PrefabUtil.LoadPrefab(mHeroCfg.Prefab, GameNodeCenter.Ins.HeroNode, "Load Agent Prefab");
         if(go != null)
         {
             HeroView heroView = go.GetComponent<HeroView>();
@@ -130,8 +130,6 @@ public class Hero : Agent
         {
             mCft.OnUpdate(deltaTime);
         }
-
-
 
         // 临时
         if(!Hero_View.InstantAttack)

@@ -14,11 +14,6 @@ public class HeroStatus_Transition : HeroStatus
         return AgentStatusDefine.TRANSITION;
     }
 
-    public override void RegisterInputHandle()
-    {
-        mInputHandle = new AgentKeyboardInputHandle_Transition(mAgent as Hero);
-        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
-    }
 
     public override void OnGameUpdate(float deltaTime)
     {
@@ -149,5 +144,17 @@ public class HeroStatus_Transition : HeroStatus
         {
             ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, meterIndex, null, null);
         }
+    }
+
+
+    public override void RegisterInputHandle()
+    {
+        mInputHandle = new AgentKeyboardInputHandle_Transition(mAgent as Hero);
+        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
+    }
+
+    public override void UnregisterInputHandle()
+    {
+        InputControlCenter.KeyboardInputCtl.UnregisterInputHandle(mInputHandle.GetHandleName());
     }
 }

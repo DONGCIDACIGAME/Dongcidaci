@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameEngine;
 
-public class DemoScene : GameScene
+public class DemoScene : GameScene, IMeterHandler
 {
+    private AgentManager mAgtMgr;
+    private GameMapManager mMapMgr;
+
     public override string GetSceneName()
     {
         return SceneDefine.Demo;
@@ -12,31 +15,70 @@ public class DemoScene : GameScene
 
     public override void OnSceneEnter(Dictionary<string, object> args)
     {
-        AgentManager.Ins.Initialize();
+        mAgtMgr = new AgentManager();
+        mAgtMgr.Initialize();
+
+        mMapMgr = new GameMapManager();
+        mMapMgr.Initialize();
+
+        GameNodeCenter.Ins.InitliazeAgentNodes();
+        GameNodeCenter.Ins.InitliazeMapNodes();
 
         string musicName = args["music"] as string;
         AudioManager.Ins.LoadBgm("Audio/Music/" + musicName);
         AudioManager.Ins.PlayBgm(true);
         UIManager.Ins.OpenPanel<PanelDemo>("Prefabs/UI/Panel_Demo");
 
-        AgentManager.Ins.LoadHero(3);
-        AgentManager.Ins.LoadMonster(1001);
-        GameMapManager.Ins.LoadMap();
+        mAgtMgr.LoadHero(3);
+        mAgtMgr.LoadMonster(1001);
+        mMapMgr.LoadMap();
+
+        MeterManager.Ins.RegisterMeterHandler(this);
     }
 
     public override void OnSceneExit()
     {
         UIManager.Ins.ClosePanel<PanelDemo>();
-        AgentManager.Ins.Dispose();
+
+        mAgtMgr.Dispose();
+        mAgtMgr = null;
+
+        mMapMgr.Dispose();
+        mMapMgr = null;
+
+        GameNodeCenter.Ins.DisposeAgentNodes();
+        GameNodeCenter.Ins.DisposeMapNodes();
+
+        MeterManager.Ins.UnregiseterMeterHandler(this);
     }
 
     public override void OnSceneLateUpdate(float deltaTime)
     {
-        AgentManager.Ins.OnLateUpdate(deltaTime);
+        mAgtMgr.OnLateUpdate(deltaTime);
+        mMapMgr.OnLateUpdate(deltaTime);
     }
 
     public override void OnSceneUpdate(float deltaTime)
     {
-        AgentManager.Ins.OnGameUpdate(deltaTime);
+        mAgtMgr.OnGameUpdate(deltaTime);
+        mMapMgr.OnGameUpdate(deltaTime);
+    }
+
+    public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+        mAgtMgr.OnDisplayPointBeforeMeterEnter(meterIndex);
+        mMapMgr.OnDisplayPointBeforeMeterEnter(meterIndex);
+    }
+
+    public void OnMeterEnd(int meterIndex)
+    {
+        mAgtMgr.OnMeterEnd(meterIndex);
+        mMapMgr.OnMeterEnd(meterIndex);
+    }
+
+    public void OnMeterEnter(int meterIndex)
+    {
+        mAgtMgr.OnMeterEnter(meterIndex);
+        mMapMgr.OnMeterEnter(meterIndex);
     }
 }

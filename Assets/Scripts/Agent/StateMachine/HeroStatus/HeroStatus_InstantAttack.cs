@@ -14,12 +14,6 @@ public class HeroStatus_InstantAttack : HeroStatus
         return AgentStatusDefine.INSTANT_ATTACK;
     }
 
-    public override void RegisterInputHandle()
-    {
-        mInputHandle = new AgentKeyboardInputHandle_InstantAttack(mAgent as Hero);
-        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
-    }
-
     /// <summary>
     /// 状态进入
     /// </summary>
@@ -196,5 +190,16 @@ public class HeroStatus_InstantAttack : HeroStatus
         mExitTime = animStateInfo.animLen;
         mTimer = 0;
         mAttackTowards = towards;
+    }
+
+    public override void RegisterInputHandle()
+    {
+        mInputHandle = new AgentKeyboardInputHandle_InstantAttack(mAgent as Hero);
+        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
+    }
+
+    public override void UnregisterInputHandle()
+    {
+        InputControlCenter.KeyboardInputCtl.UnregisterInputHandle(mInputHandle.GetHandleName());
     }
 }

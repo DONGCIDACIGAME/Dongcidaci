@@ -4,12 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-public class GameMapManager : ModuleManager<GameMapManager>
+public class GameMapManager : IMeterHandler
 {
-    public GameObject MapRootNode { get { return GameObject.Find(GameDefine._MAP_ROOT); } }
-    public GameObject BaseLayerNode { get { return GameObject.Find("_SCENE/_MAP/_BASE_LAYER"); } }
-    public GameObject EventLayerNode { get { return GameObject.Find("_SCENE/_MAP/_EVENT_LAYER"); } }
-
     private MapGridInfo _mapGridConfig;
     private GameMapData _mapData;
     private List<MapGround> _mapGrounds;
@@ -30,8 +26,7 @@ public class GameMapManager : ModuleManager<GameMapManager>
         return this._mapGridConfig.GetMapIndex(WorldPos);
     }
 
-
-    public override void Initialize()
+    public void Initialize()
     {
         // 1 从 datacenter 获取地图数据
         string mapDataPath = Path.Combine(PathDefine.MAP_DATA_DIR_PATH, "_Level_0_1.json");
@@ -88,7 +83,7 @@ public class GameMapManager : ModuleManager<GameMapManager>
     {
         var basePrefabFullPath = mapBasePrefabPath + _mapData.mapBasePrefabName;
         var go = PrefabUtil.LoadPrefab(basePrefabFullPath, "Load MapBase Prefab");
-        go.transform.SetParent(BaseLayerNode.transform, false);
+        go.transform.SetParent(GameNodeCenter.Ins.BaseLayerNode.transform, false);
 
         //生成地面
         var groundNodeT = go.transform.Find("_GROUND_LAYER");
@@ -132,20 +127,35 @@ public class GameMapManager : ModuleManager<GameMapManager>
 
     }
 
-
-
-    public override void OnGameUpdate(float deltaTime)
+    public void OnGameUpdate(float deltaTime)
     {
 
     }
 
-    public override void Dispose()
+    public void OnLateUpdate(float deltaTime)
+    {
+
+    }
+
+    public void OnMeterEnter(int meterIndex)
+    {
+        
+    }
+
+    public void OnMeterEnd(int meterIndex)
+    {
+        
+    }
+
+    public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+        
+    }
+
+    public void Dispose()
     {
         _mapData = null;
         _mapGrounds = null;
         _mapBlocks = null;
     }
-
-
-
 }

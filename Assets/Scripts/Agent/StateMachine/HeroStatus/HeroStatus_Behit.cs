@@ -144,4 +144,9 @@ public class HeroStatus_Behit : HeroStatus
         mInputHandle = new AgentKeyboardInputHandle_BeHit(mAgent as Hero);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
+
+    public override void UnregisterInputHandle()
+    {
+        InputControlCenter.KeyboardInputCtl.UnregisterInputHandle(mInputHandle.GetHandleName());
+    }
 }

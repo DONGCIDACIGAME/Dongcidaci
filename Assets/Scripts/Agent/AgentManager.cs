@@ -1,34 +1,16 @@
 using System.Collections.Generic;
-using UnityEngine;
-using GameEngine;
 
-public class AgentManager : Singleton<AgentManager>
+public class AgentManager : IMeterHandler
 {
-    private GameObject mHeroNode;
-    private GameObject mMonsterNode;
-
     private Hero mHero;
     private HashSet<Monster> mMonsters;
-
-
 
     public void Initialize()
     {
         mHero = null;
         mMonsters = new HashSet<Monster>();
-        mHeroNode = GameObject.Find("_AGENT/_HERO");
-        mMonsterNode = GameObject.Find("_AGENT/_MONSTER");
     }
 
-    public GameObject GetHeroNode()
-    {
-        return mHeroNode;
-    }
-
-    public GameObject GetMonsterNode()
-    {
-        return mMonsterNode;
-    }
 
     public void LoadHero(uint heroId)
     {
@@ -77,9 +59,6 @@ public class AgentManager : Singleton<AgentManager>
     {
         RemoveHero();
         RemoveAllMonsters();
-
-        mHeroNode = null;
-        mMonsterNode = null;
     }
 
     public void OnGameUpdate(float deltaTime)
@@ -105,6 +84,45 @@ public class AgentManager : Singleton<AgentManager>
         foreach (Monster monster in mMonsters)
         {
             monster.OnLateUpdate(deltaTime);
+        }
+    }
+
+    public void OnMeterEnter(int meterIndex)
+    {
+        if (mHero != null)
+        {
+            mHero.OnMeterEnter(meterIndex);
+        }
+
+        foreach (Monster monster in mMonsters)
+        {
+            monster.OnMeterEnter(meterIndex);
+        }
+    }
+
+    public void OnMeterEnd(int meterIndex)
+    {
+        if (mHero != null)
+        {
+            mHero.OnMeterEnd(meterIndex);
+        }
+
+        foreach (Monster monster in mMonsters)
+        {
+            monster.OnMeterEnd(meterIndex);
+        }
+    }
+
+    public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+        if (mHero != null)
+        {
+            mHero.OnDisplayPointBeforeMeterEnter(meterIndex);
+        }
+
+        foreach (Monster monster in mMonsters)
+        {
+            monster.OnDisplayPointBeforeMeterEnter(meterIndex);
         }
     }
 }

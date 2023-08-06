@@ -228,12 +228,6 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         // 移动控制器 初始化
         MovementExcutorCtl.Initialize(this);
 
-        // 注册节拍处理
-        MeterManager.Ins.RegisterMeterHandler(this);
-
-        // 状态机 初始化
-        StatusMachine.Initialize(this);
-
         // Added by weng 0704
         // 增加技能效果处理器的初始化
         SkillEftHandler = GamePoolCenter.Ins.AgtSkEftHandlerPool.Pop();
@@ -242,6 +236,9 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
 
         // 其他自定义初始化
         CustomInitialize();
+
+        // 状态机 初始化
+        StatusMachine.Initialize(this);
 
         // 加载完成后默认进入idle状态
         TriggeredComboStep triggeredComboStep = null;
@@ -255,7 +252,6 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     public override void Dispose()
     {
         base.Dispose();
-        MeterManager.Ins.UnregiseterMeterHandler(this);
 
         if(AnimPlayer != null)
         {

@@ -122,7 +122,14 @@ public abstract class AgentStatusMachine : IMeterHandler
     public void Dispose()
     {
         CurStatus = null;
+
+        foreach(AgentStatus status in mStatusMap.Values)
+        {
+            status.Dispose();
+        }
         mStatusMap = null;
+
+
         if(mEventListener != null)
         {
             mEventListener.ClearAllEventListen();

@@ -116,4 +116,9 @@ public class HeroStatus_Idle : HeroStatus
         mInputHandle = new AgentKeyboardInputHandle_Idle(mAgent as Hero);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
+
+    public override void UnregisterInputHandle()
+    {
+        InputControlCenter.KeyboardInputCtl.UnregisterInputHandle(mInputHandle.GetHandleName());
+    }
 }

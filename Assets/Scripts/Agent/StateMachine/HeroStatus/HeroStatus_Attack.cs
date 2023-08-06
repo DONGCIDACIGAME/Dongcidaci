@@ -199,4 +199,9 @@ public class HeroStatus_Attack : HeroStatus
         mInputHandle = new AgentKeyboardInputHandle_Attack(mAgent as Hero);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
+
+    public override void UnregisterInputHandle()
+    {
+        InputControlCenter.KeyboardInputCtl.UnregisterInputHandle(mInputHandle.GetHandleName());
+    }
 }

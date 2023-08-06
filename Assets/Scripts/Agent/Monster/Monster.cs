@@ -77,7 +77,7 @@ public class Monster : Agent
             return;
         }
 
-        var go = PrefabUtil.LoadPrefab(mMonsterCfg.Prefab, AgentManager.Ins.GetMonsterNode(), "Load Agent Prefab");
+        var go = PrefabUtil.LoadPrefab(mMonsterCfg.Prefab, GameNodeCenter.Ins.MonsterNode, "Load Agent Prefab");
         if (go != null)
         {
             MonsterView monsterView = go.GetComponent<MonsterView>();
@@ -120,8 +120,6 @@ public class Monster : Agent
         // 加载行为树
         BehaviourTree = DataCenter.Ins.BehaviourTreeCenter.LoadTreeWithTreeName(mMonsterCfg.BehaviourTree);
         BehaviourTree.Initialize(this, new System.Collections.Generic.Dictionary<string, object>());
-
-
     }
 
 
@@ -131,7 +129,7 @@ public class Monster : Agent
         base.OnUpdate(deltaTime);
         if (BehaviourTree != null)
         {
-            //BehaviourTree.Excute(deltaTime);
+            BehaviourTree.Excute(deltaTime);
         }
         //随机游走
         //if (m_Agent.pathPending || m_Agent.remainingDistance > 0.1f)

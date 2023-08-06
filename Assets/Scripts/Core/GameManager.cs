@@ -31,7 +31,7 @@ public class GameManager:MonoBehaviour
     private TimeMgr                                 TimeMgr;                                        // 时间中心
 
     private GameColliderManager                     GameColliderMgr;                                // 碰撞中心
-    private GameMapManager                          GameMapMgr;                                     // 地图管理器
+    //private GameMapManager                          GameMapMgr;                                     // 地图管理器
 
     // added by weng 0708
     private SkEftEntityManager                      SkEftEntityMgr;                                 //技能效果实体的管理器
@@ -67,7 +67,7 @@ public class GameManager:MonoBehaviour
         MeterTimerCenter = RegisterModuleMgr(MeterTimerCenter.Ins);
         //AgentMgr = RegisterModuleMgr(AgentManager.Ins);
         GameColliderMgr = RegisterModuleMgr(GameColliderManager.Ins);
-        GameMapMgr = RegisterModuleMgr(GameMapManager.Ins);
+        //GameMapMgr = RegisterModuleMgr(GameMapManager.Ins);
         SkEftEntityMgr = RegisterModuleMgr(SkEftEntityManager.Ins);
 
         // 先做所有模块的初始化
@@ -121,7 +121,7 @@ public class GameManager:MonoBehaviour
         MeterTimerCenter = null;
         TimeMgr = null;
         GameColliderMgr = null;
-        GameMapMgr = null;
+        //GameMapMgr = null;
         // added by weng 0708
         SkEftEntityMgr = null;
     }

@@ -8,11 +8,6 @@ public class HeroStatus_TransitionRun : HeroStatus
         return AgentStatusDefine.TRANSITION_RUN;
     }
 
-    public override void RegisterInputHandle()
-    {
-        mInputHandle = new AgentKeyboardInputHandle_TransitionRun(mAgent as Hero);
-        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
-    }
 
     public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
@@ -110,5 +105,17 @@ public class HeroStatus_TransitionRun : HeroStatus
         mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
 
         mAgent.MoveControl.MoveTowards(towards, distance * 0.5f, time);
+    }
+
+
+    public override void RegisterInputHandle()
+    {
+        mInputHandle = new AgentKeyboardInputHandle_TransitionRun(mAgent as Hero);
+        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
+    }
+
+    public override void UnregisterInputHandle()
+    {
+        InputControlCenter.KeyboardInputCtl.UnregisterInputHandle(mInputHandle.GetHandleName());
     }
 }

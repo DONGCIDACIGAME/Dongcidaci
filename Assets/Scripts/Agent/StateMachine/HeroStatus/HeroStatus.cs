@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class HeroStatus : AgentStatus
 {
+
     /// <summary>
     /// 输入处理器
     /// </summary>
@@ -39,12 +40,13 @@ public abstract class HeroStatus : AgentStatus
     }
 
     public abstract void RegisterInputHandle();
+    public abstract void UnregisterInputHandle();
 
     public override void CustomInitialize()
     {
         base.CustomInitialize();
-
         RegisterInputHandle();
+        mInputHandle.SetEnable(false);
     }
 
     public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
@@ -65,10 +67,8 @@ public abstract class HeroStatus : AgentStatus
     {
         base.CustomDispose();
 
-        if (mInputHandle != null)
-        {
-            mInputHandle = null;
-        }
+        UnregisterInputHandle();
+        mInputHandle = null;
     }
 
     public override void OnGameUpdate(float deltaTime)
