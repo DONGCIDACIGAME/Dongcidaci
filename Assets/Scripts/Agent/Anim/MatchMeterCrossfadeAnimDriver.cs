@@ -60,7 +60,7 @@ public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver
         }
 
         float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, newMeterIndex);
-        Log.Error(LogLevel.Info, "CrossFadeToState ---------- {0} ---{1} ----{2} --- {3}", statusName, stateName, duration, totalMeterTime);
+        //Log.Error(LogLevel.Info, "CrossFadeToState ---------- {0} ---{1} ----{2} --- {3}", statusName, stateName, duration, totalMeterTime);
 
         mAgent.AnimPlayer.CrossFadeToState(stateName, newStateInfo.layer, newStateInfo.normalizedTime, newStateInfo.animLen, duration, totalMeterTime);
         

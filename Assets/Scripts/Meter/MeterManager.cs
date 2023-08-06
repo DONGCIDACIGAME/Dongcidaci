@@ -389,9 +389,9 @@ public class MeterManager : ModuleManager<MeterManager>
     }
 
     /// <summary>
-    /// 获取当前到接下来第offset拍的时间
+    /// 获取到meterIndex拍的时间
     /// </summary>
-    /// <param name="offset"></param>
+    /// <param name="meterIndex">使用绝对拍数</param>
     /// <returns></returns>
     public float GetTimeToMeter(int meterIndex)
     {
@@ -400,7 +400,7 @@ public class MeterManager : ModuleManager<MeterManager>
 
         float time = 0;
         // 如果新的节拍index < 老的节拍index， 说明过了音乐的最后一拍，循环到开头了
-        if (meterIndex < this.MeterIndex)
+        if (meterIndex < MeterIndex)
         {
             time += mCurAudioMeterData.audioLen - timeRecord;
             time += mCurAudioMeterData.baseMeters[meterIndex];

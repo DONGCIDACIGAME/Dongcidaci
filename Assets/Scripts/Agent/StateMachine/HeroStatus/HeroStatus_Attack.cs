@@ -113,7 +113,7 @@ public class HeroStatus_Attack : HeroStatus
         if (MeterManager.Ins.MeterIndex > mCurLogicStateEndMeter)
         {
             // 是否在输入的容差时间内
-            bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.DashMeterCheckTolerance, GamePlayDefine.DashMeterCheckOffset);
+            bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset);
 
 
             if (!inInputTime)

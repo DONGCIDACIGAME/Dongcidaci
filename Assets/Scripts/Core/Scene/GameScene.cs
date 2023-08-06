@@ -25,6 +25,9 @@ public abstract class GameScene : IScene
         {
             mEventListener.ClearAllEventListen();
         }
+
+        string sceneName = GetSceneName();
+        GameScope.SceneScope.RemoveChildScope(sceneName);
         mScope.Dispose();
     }
 

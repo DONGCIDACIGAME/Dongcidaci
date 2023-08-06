@@ -2,23 +2,14 @@ using UnityEngine;
 
 public static class GamePlayDefine
 {
-    public const float AttackMeterCheckTolerance = 0.4f;
     /// <summary>
-    /// 攻击指令的节拍检测偏移
+    /// 输入指令的节拍检测总容差
     /// </summary>
-    public const float AttackMeterCheckOffset = 0f;
-
+    public const float InputCheckTolerance = 0.4f;
     /// <summary>
-    /// 冲刺指令的节拍检测总容差
+    /// 输入指令的节拍检测偏移
     /// </summary>
-    public const float DashMeterCheckTolerance = 0.4f;
-    /// <summary>
-    /// 冲刺指令的节拍检测偏移
-    /// </summary>
-    public const float DashMeterCheckOffset = 0f;
-
-    public const float RunMeterCheckTolerance = 0.4f;
-    public const float RunMeterCheckOffset = 0f;
+    public const float InputCheckOffset = 0f;
 
     /// <summary>
     /// 攻击指令执行的节拍进度判定

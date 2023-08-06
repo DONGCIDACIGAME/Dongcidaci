@@ -39,7 +39,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
     {
         cmd = null;
         Vector3 towards = GetInputDirection();
-        if (Input.GetKeyDown(InputDef.DashKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.DashMeterCheckTolerance, GamePlayDefine.DashMeterCheckOffset, out int triggerMeter))
+        if (Input.GetKeyDown(InputDef.DashKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset, out int triggerMeter))
         {
             cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
             cmd.Initialize(AgentCommandDefine.DASH, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
@@ -57,7 +57,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
 
         if (Input.GetKeyDown(InputDef.AttackShortKeyCode))
         {
-            if(MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset, out triggerMeter))
+            if(MeterManager.Ins.CheckTriggered(GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset, out triggerMeter))
             {
                 cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
 
@@ -77,7 +77,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
             }
         }
 
-        if (Input.GetKeyDown(InputDef.AttackLongKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.AttackMeterCheckTolerance, GamePlayDefine.AttackMeterCheckOffset, out triggerMeter))
+        if (Input.GetKeyDown(InputDef.AttackLongKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset, out triggerMeter))
         {
             cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
             if (mHero.Hero_View.InstantAttack)

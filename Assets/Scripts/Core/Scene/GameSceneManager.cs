@@ -55,6 +55,7 @@ namespace GameEngine
             mCurScene.OnSceneEnter(args);
         }
 
+
         public void LoadAndSwitchToScene(string sceneName, Dictionary<string, object> args = null)
         {
             // 要切换的scene和当前所处的scene相同时，不执行切换操作

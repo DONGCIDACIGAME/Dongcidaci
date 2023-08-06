@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace GameEngine
 {
@@ -163,6 +163,21 @@ namespace GameEngine
             GameScope scope = new GameScope(scopeName, this);
             mChildScopes.Add(scopeName, scope);
             return scope;
+        }
+
+        public void RemoveChildScope(string scopeName)
+        {
+            if (string.IsNullOrEmpty(scopeName))
+            {
+                Log.Error(LogLevel.Critical, "[{0}] Remove Child Scope Failed, scope name is null or empty!", mScopeName);
+                return;
+            }
+
+            //Log.Logic(LogLevel.Info, "thisScope:{0}----CreateChildScope:{1}",mScopeFullName, scopeName);
+            if(mChildScopes.ContainsKey(scopeName))
+            {
+                mChildScopes.Remove(scopeName);
+            }
         }
 
         public void Dispose()

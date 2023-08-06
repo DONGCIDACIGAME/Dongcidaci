@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameEngine;
 
-public class AgentManager : ModuleManager<AgentManager>
+public class AgentManager : Singleton<AgentManager>
 {
     private GameObject mHeroNode;
     private GameObject mMonsterNode;
@@ -13,12 +13,7 @@ public class AgentManager : ModuleManager<AgentManager>
 
 
 
-    public override void Dispose()
-    {
-        
-    }
-
-    public override void Initialize()
+    public void Initialize()
     {
         mHero = null;
         mMonsters = new HashSet<Monster>();
@@ -69,10 +64,27 @@ public class AgentManager : ModuleManager<AgentManager>
             mMonsters.Remove(monster);
     }
 
-    public override void OnGameUpdate(float deltaTime)
+    public void RemoveAllMonsters()
     {
-        base.OnGameUpdate(deltaTime);
+        foreach(Monster monster in mMonsters)
+        {
+            monster.Dispose();
+        }
 
+        mMonsters = null;
+    }
+
+    public void Dispose()
+    {
+        RemoveHero();
+        RemoveAllMonsters();
+
+        mHeroNode = null;
+        mMonsterNode = null;
+    }
+
+    public void OnGameUpdate(float deltaTime)
+    {
         if(mHero != null)
         {
             mHero.OnUpdate(deltaTime);
@@ -84,10 +96,8 @@ public class AgentManager : ModuleManager<AgentManager>
         }
     }
 
-    public override void OnLateUpdate(float deltaTime)
+    public void OnLateUpdate(float deltaTime)
     {
-        base.OnLateUpdate(deltaTime);
-
         if (mHero != null)
         {
             mHero.OnLateUpdate(deltaTime);

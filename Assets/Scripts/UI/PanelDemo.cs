@@ -8,6 +8,7 @@ public class PanelDemo : UIPanel, IMeterHandler
 {
     private TMP_Text Text_MeterShow;
     private ColorLoopOnce MeterHint;
+    private Button Btn_Quit;
 
     public override string GetPanelLayerPath()
     {
@@ -40,6 +41,12 @@ public class PanelDemo : UIPanel, IMeterHandler
         {
             MeterHint = MeterHintImg.GetComponent<ColorLoopOnce>();
         }
+        Btn_Quit = BindButtonNode("Btn_Quit", OnBtnQuitClick);
+    }
+
+    private void OnBtnQuitClick()
+    {
+        GameSceneManager.Ins.LoadAndSwitchToScene(SceneDefine.SceneSelect);
     }
 
     protected override void OnClose()

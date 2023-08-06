@@ -24,8 +24,8 @@ public class HeroStatus_Transition : HeroStatus
     {
         base.OnGameUpdate(deltaTime);
 
-        if (mTimer < mExitTime)
-            mTimer += deltaTime;
+        //if (mTimer < mExitTime)
+        //    mTimer += deltaTime;
     }
 
     public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
@@ -57,8 +57,8 @@ public class HeroStatus_Transition : HeroStatus
             return;
         }
 
-        if (mTimer < mExitTime)
-            return;
+        //if (mTimer < mExitTime)
+        //    return;
 
 
         switch (cmdType)
@@ -97,15 +97,21 @@ public class HeroStatus_Transition : HeroStatus
     {
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;
-        mDefaultCrossFadeAnimDriver.CrossFadeToState(statusName, stateName);
+        //mDefaultCrossFadeAnimDriver.CrossFadeToState(statusName, stateName);
+
+        AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
+        float timeToMeter = MeterManager.Ins.GetTimeToMeter(triggerMeter + 1);
+        float totalTime = timeToMeter + GamePlayDefine.InputCheckOffset/2 + GamePlayDefine.InputCheckOffset;
+        mDefaultCrossFadeAnimDriver.CrossFadeToState(stateName, stateInfo.layer, stateInfo.loopTime, stateInfo.meterLen, stateInfo.normalizedTime, totalTime);
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
         mTimer = 0;
-        AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
-        if (stateInfo != null)
-        {
-            mExitTime = stateInfo.animLen;
-        }
+        //AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
+        //if (stateInfo != null)
+        //{
+        //mExitTime = stateInfo.animLen;
+        //}
+        mExitTime = totalTime;
         mLastTowards = towards;
     }
 
