@@ -145,6 +145,16 @@
         "com.unity.2d.tilemap.extras": "2.2.5"
       }
     },
+    "com.unity.film-internal-utilities": {
+      "version": "0.18.4-preview",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.uielements": "1.0.0",
+        "com.unity.timeline": "1.2.18"
+      },
+      "url": "https://packages.unity.cn"
+    },
     "com.unity.ide.rider": {
       "version": "3.0.18",
       "depth": 0,
@@ -276,6 +286,16 @@
       "dependencies": {
         "com.unity.sysroot": "2.0.5",
         "com.unity.sysroot.linux-x86_64": "2.0.4"
+      },
+      "url": "https://packages.unity.cn"
+    },
+    "com.unity.toonshader": {
+      "version": "0.9.4-preview",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.film-internal-utilities": "0.18.4-preview",
+        "com.unity.render-pipelines.core": "10.0.0"
       },
       "url": "https://packages.unity.cn"
     },
