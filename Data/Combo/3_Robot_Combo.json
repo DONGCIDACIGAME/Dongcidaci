@@ -223,7 +223,7 @@
 					"input": 256, 
 					"agentActionData": {
 						"statusName": "InstantAttack",
-						"stateName": "Test1", 
+						"stateName": "Combo1_1", 
 						"effectCollictions": [
 							{
 								"rlsFxCfg":{
@@ -272,7 +272,7 @@
 					"input": 256,
 					"agentActionData": {
 						"statusName": "InstantAttack",
-						"stateName": "Test2",
+						"stateName": "Combo1_2",
 						"effectCollictions": [
 							{
 								"rlsFxCfg":{
@@ -311,7 +311,7 @@
 					"input": 256,
 					"agentActionData": {
 						"statusName": "InstantAttack",
-						"stateName": "Test3",
+						"stateName": "Combo1_3",
 						"effectCollictions": [
 							{
 								"rlsFxCfg":{
@@ -341,7 +341,7 @@
 					},
 					"transitionData":{
 						"statusName": "Transition",
-						"stateName": "Empty",
+						"stateName": "Combo3TransToIdle",
 						"effectCollictions": null
 					},
 					"endFlag": true

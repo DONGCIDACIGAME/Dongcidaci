@@ -5,9 +5,7 @@ public static class AgentStatusDefine
     public static string EMPTY = "Empty";
     public static string IDLE = "Idle";
     public static string RUN = "Run";
-    public static string TRANSITION_RUN = "RunMeter";
     public static string DASH = "Dash";
-    public static string TRANSFER = "Transfer";
     public static string TRANSITION = "Transition";
     public static string ATTACK = "Attack";
     public static string INSTANT_ATTACK = "InstantAttack";
@@ -20,7 +18,6 @@ public static class AgentStatusDefine
         IDLE,
         RUN,
         DASH,
-        TRANSFER,
         ATTACK,
         BEHIT,
         DEAD
@@ -32,7 +29,7 @@ public static class AgentStatusDefine
         //    || statusName == BEHIT || statusName == DEAD)
         //    return true;
 
-        if (statusName == IDLE || statusName == TRANSFER || statusName == BEHIT || statusName == DEAD)
+        if (statusName == IDLE || statusName == BEHIT || statusName == DEAD)
            return true;
 
         //if (statusName == TRANSFER || statusName == BEHIT || statusName == DEAD)

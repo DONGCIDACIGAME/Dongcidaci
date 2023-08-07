@@ -9,6 +9,5 @@ public class MonsterStatusMachine : AgentStatusMachine
         AddStatus(AgentStatusDefine.ATTACK, new MonsterStatus_Attack());
         AddStatus(AgentStatusDefine.DASH, new MonsterStatus_Dash());
         AddStatus(AgentStatusDefine.BEHIT, new MonsterStatus_Behit());
-        AddStatus(AgentStatusDefine.TRANSFER, new MonsterStatus_Transfer());
     }
 }

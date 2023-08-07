@@ -21,20 +21,31 @@ public class MeterManager : ModuleManager<MeterManager>
     /// </summary>
     private float timeRecord;
 
-    private int GetMeterIndexInMusic(int meterIndex)
+    /// <summary>
+    /// 转换为音乐节拍
+    /// </summary>
+    /// <param name="meterIndex">绝对节拍</param>
+    /// <param name="autoLoop">是否在音乐结束拍自动loop到第0拍</param>
+    /// <returns></returns>
+    public int GetMeterIndexInMusic(int meterIndex, bool autoLoop)
     {
         if (meterIndex < 0)
             return -1;
 
-        return meterIndex % (totalMeterLen-1);
+        int v = meterIndex % (totalMeterLen - 1);
+
+        if (!autoLoop && v == 0)
+            return totalMeterLen - 1;
+
+        return v;
     }
 
 
     private float speedScaler;
 
-    private float GetTimeInMusic()
+    public float GetTimeInMusic(float time)
     {
-        return timeRecord % mCurAudioMeterData.audioLen;
+        return time % mCurAudioMeterData.audioLen;
     }
 
     /// <summary>
@@ -44,8 +55,8 @@ public class MeterManager : ModuleManager<MeterManager>
     public float GetCurMeterPassedTime()
     {
         //Added By Weng 2023/05/05
-        int meterIndexInMusic = GetMeterIndexInMusic(MeterIndex);
-        float timeInMusic = GetTimeInMusic();
+        int meterIndexInMusic = GetMeterIndexInMusic(MeterIndex, true);
+        float timeInMusic = GetTimeInMusic(timeRecord);
         float gap = timeInMusic - mCurAudioMeterData.baseMeters[meterIndexInMusic];
         return gap > 0 ? gap : 0;
     }
@@ -180,7 +191,7 @@ public class MeterManager : ModuleManager<MeterManager>
         }
 
         // 获取节拍在音乐中的index
-        int meterIndexInMusic = GetMeterIndexInMusic(meterIndex);
+        int meterIndexInMusic = GetMeterIndexInMusic(meterIndex, true);
 
         // 获取节拍在触发数组中的index
         int localIndex = meterIndexInMusic % mCurAudioMeterData.sceneBehaviourMeterTrigger.Length;
@@ -209,17 +220,18 @@ public class MeterManager : ModuleManager<MeterManager>
         }
 
         // 获取节拍在音乐中的index
-        int meterIndexInMusic = GetMeterIndexInMusic(meterIndex);
+        int meterIndexInMusic = GetMeterIndexInMusic(meterIndex, true);
+        float timeInMusic = GetTimeInMusic(timeRecord);
 
         // 对于音乐起始拍和结束拍的特殊处理
         if (meterIndexInMusic == 0 || meterIndexInMusic == totalMeterLen - 1)
         {
-            return timeRecord >= (mCurAudioMeterData.baseMeters[totalMeterLen - 1] - tolerance / 2 + offset)
-                        && timeRecord <= (mCurAudioMeterData.baseMeters[0] + tolerance / 2 + offset);
+            return timeInMusic >= (mCurAudioMeterData.baseMeters[totalMeterLen - 1] - tolerance / 2 + offset)
+                        && timeInMusic <= (mCurAudioMeterData.baseMeters[0] + tolerance / 2 + offset);
         }
 
-        return timeRecord >= (mCurAudioMeterData.baseMeters[meterIndex] - tolerance / 2 + offset)
-                    && timeRecord <= (mCurAudioMeterData.baseMeters[meterIndex] + tolerance / 2 + offset);
+        return timeInMusic >= (mCurAudioMeterData.baseMeters[meterIndex] - tolerance / 2 + offset)
+                    && timeInMusic <= (mCurAudioMeterData.baseMeters[meterIndex] + tolerance / 2 + offset);
     }
 
     /// <summary>
@@ -235,24 +247,26 @@ public class MeterManager : ModuleManager<MeterManager>
         if (mCurAudioMeterData == null)
             return false;
 
-       int nextMeter = GetMeterIndex(MeterIndex, 1);
+        int nextMeter = GetMeterIndex(MeterIndex, 1);
+        int curMeterInMusic = GetMeterIndexInMusic(MeterIndex, true);
+        int nextMeterInMusic = GetMeterIndexInMusic(nextMeter, false);
 
         /*
          *          触发检测
          *   |---------------------|---------------------|
-         *    0000                 00
+         *    0000             0000
          *    000：检测部分
          *   检测触发时，只有本拍的开始段和本拍的结束段是可以触发的区域
          *   注意不能使用上一拍，因为上一拍已经过去了，再怎么检测也是触发不了的
          *   检测的容差可以传入偏移
          */
 
-        float trigger1_Start = mCurAudioMeterData.baseMeters[MeterIndex];
+        float trigger1_Start = mCurAudioMeterData.baseMeters[curMeterInMusic];
         float trigger1_End = trigger1_Start + tolerance/2f + offset;
-        float trigger2_End = mCurAudioMeterData.baseMeters[nextMeter];
+        float trigger2_End = mCurAudioMeterData.baseMeters[nextMeterInMusic];
         float trigger2_Start = trigger2_End - tolerance/2f + offset;
 
-        float timeInMusic = GetTimeInMusic();
+        float timeInMusic = GetTimeInMusic(timeRecord);
         if(timeInMusic >= trigger1_Start && timeInMusic <= trigger1_End)
         {
             triggerMeter = MeterIndex;
@@ -309,13 +323,13 @@ public class MeterManager : ModuleManager<MeterManager>
         if (totalMeterLen < 2)
             return;
 
-        if (!AudioManager.Ins.IsBgmPlaying())
-            return;
+        //if (!AudioManager.Ins.IsBgmPlaying())
+        //    return;
 
         // 记录当前音乐的所在的loop
         int lastLoop = (int)(timeRecord / mCurAudioMeterData.audioLen);
         // 记录当前的音乐时间
-        float lastTime = GetTimeInMusic();
+        float lastTime = GetTimeInMusic(timeRecord);
 
         // 第一拍时使用音乐时间（加载时音乐时间和实际时间可能会产生较大出入，所以第一拍不通过update计时）
         if (MeterIndex == 0)
@@ -329,14 +343,15 @@ public class MeterManager : ModuleManager<MeterManager>
         // 记录更新后的音乐所在的loop
         int newLoop = (int)(timeRecord / mCurAudioMeterData.audioLen);
         // 记录更新后的音乐时间
-        float timeInMusic = GetTimeInMusic();
+        float timeInMusic = GetTimeInMusic(timeRecord);
 
 
         // 获取节拍在音乐中的index
-        int meterIndexInMusic = GetMeterIndexInMusic(MeterIndex);
+        int nextMeter = GetMeterIndex(MeterIndex, 1);
+        int nextMeterInMusic = GetMeterIndexInMusic(nextMeter, false);
 
         //// 获取节拍前的表现点
-        float displayPointBeforeMeter = mCurAudioMeterData.baseMeters[meterIndexInMusic + 1] - GamePlayDefine.DisplayTimeToMatchMeter;
+        float displayPointBeforeMeter = mCurAudioMeterData.baseMeters[nextMeterInMusic] - GamePlayDefine.DisplayTimeToMatchMeter;
         if (lastTime <= displayPointBeforeMeter && timeInMusic >= displayPointBeforeMeter)
         {
             // 进入节拍前的表现节点
@@ -345,7 +360,7 @@ public class MeterManager : ModuleManager<MeterManager>
         }
 
         // 跨拍或者音乐进入新的loop时
-        if (timeInMusic >= mCurAudioMeterData.baseMeters[meterIndexInMusic + 1] || newLoop > lastLoop)
+        if (timeInMusic >= mCurAudioMeterData.baseMeters[nextMeterInMusic] || newLoop > lastLoop)
         {
             // 节拍结束
             TriggerMeterEnd();
@@ -368,24 +383,8 @@ public class MeterManager : ModuleManager<MeterManager>
         if (mCurAudioMeterData == null)
             return -1f;
 
-        int meterIndexInMusic_ori = GetMeterIndexInMusic(MeterIndex);
-        int meterIndexInMusic_new = GetMeterIndexInMusic(GetMeterIndex(MeterIndex, offset));
-
-        float time = 0;
-        float timeInMusic = GetTimeInMusic();
-        // 如果新的节拍index < 老的节拍index， 说明过了音乐的最后一拍，循环到开头了
-        if(meterIndexInMusic_new < meterIndexInMusic_ori)
-        {
-            time += mCurAudioMeterData.audioLen - timeInMusic;
-            time += mCurAudioMeterData.baseMeters[meterIndexInMusic_new];
-        }
-        else
-        {
-            time = mCurAudioMeterData.baseMeters[meterIndexInMusic_new] - timeInMusic;
-        }
-
-        //Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
-        return time / speedScaler;
+        int newMeter = GetMeterIndex(MeterIndex, offset);
+        return GetTimeToMeter(newMeter);
     }
 
     /// <summary>
@@ -393,21 +392,26 @@ public class MeterManager : ModuleManager<MeterManager>
     /// </summary>
     /// <param name="meterIndex">使用绝对拍数</param>
     /// <returns></returns>
-    public float GetTimeToMeter(int meterIndex)
+    public float GetTimeToMeter(int targetMeter)
     {
         if (mCurAudioMeterData == null)
             return -1f;
 
+        int meterIndexInMusic_ori = GetMeterIndexInMusic(MeterIndex, true);
+        //int newMeter = GetMeterIndex(MeterIndex, offset);
+        int meterIndexInMusic_new = GetMeterIndexInMusic(targetMeter, true);
+
         float time = 0;
+        float timeInMusic = GetTimeInMusic(timeRecord);
         // 如果新的节拍index < 老的节拍index， 说明过了音乐的最后一拍，循环到开头了
-        if (meterIndex < MeterIndex)
+        if (meterIndexInMusic_new < meterIndexInMusic_ori)
         {
-            time += mCurAudioMeterData.audioLen - timeRecord;
-            time += mCurAudioMeterData.baseMeters[meterIndex];
+            time += mCurAudioMeterData.audioLen - timeInMusic;
+            time += mCurAudioMeterData.baseMeters[meterIndexInMusic_new];
         }
         else
         {
-            time = mCurAudioMeterData.baseMeters[meterIndex] - timeRecord;
+            time = mCurAudioMeterData.baseMeters[meterIndexInMusic_new] - timeInMusic;
         }
 
         //Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
@@ -443,8 +447,8 @@ public class MeterManager : ModuleManager<MeterManager>
         if (mCurAudioMeterData == null)
             return -1f;
 
-        int meterIndexInMusic_ori = GetMeterIndexInMusic(from);
-        int meterIndexInMusic_new = GetMeterIndexInMusic(to);
+        int meterIndexInMusic_ori = GetMeterIndexInMusic(from, true);
+        int meterIndexInMusic_new = GetMeterIndexInMusic(to, true);
 
         float time = 0;
         // 如果新的节拍index < 老的节拍index， 说明过了音乐的最后一拍，循环到开头了

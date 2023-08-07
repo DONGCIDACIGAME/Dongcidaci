@@ -48,29 +48,6 @@
 				"hitPoints": []
 			}]
 		},
-		"RunMeter": {
-			"statusName": "RunMeter",
-			"defaultAciton":
-			{
-				"statusName": "RunMeter",
-				"stateName": "Run",
-				"effectCollictions": [
-					{
-						"effects": []
-					}
-				]
-			},
-			"animStates": [{
-				"stateName": "Run",
-				"loopTime": 0,
-				"meterLen": 2,
-				"normalizedTime": 0.1,
-				"layer": 0,
-				"animLen": 1.000,
-				"movements": [],
-				"hitPoints": []
-			}]
-		},
 		"Attack":{
 			"statusName": "Attack",
 			"defaultAciton":
@@ -148,7 +125,7 @@
 				"hitPoints": [{"progress": 1, "timeType": 0}]
 			},
 			{
-				"stateName": "Test1",
+				"stateName": "Combo1_1",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0.05,
@@ -158,7 +135,7 @@
 				"hitPoints": [{"progress": 0.05, "timeType": 1}]
 			},
 			{
-				"stateName": "Test2",
+				"stateName": "Combo1_2",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0,
@@ -168,7 +145,7 @@
 				"hitPoints": [{"progress": 0.05, "timeType": 1}]
 			},
 			{
-				"stateName": "Test3",
+				"stateName": "Combo1_3",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0,
@@ -199,29 +176,6 @@
 				"animLen": 0.5,
 				"movements": [{"distance": 0, "timeType": 0, "startTime":0, "endTime":0.1}],
 				"hitPoints": [{"progress": 0.1}]
-			}]
-		},
-		"Transfer": {
-			"statusName": "Transfer",
-			"defaultAciton":
-			{
-				"statusName": "Transfer",
-				"stateName": "Empty",
-				"effectCollictions": [
-					{
-						"effects": []
-					}
-				]
-			},
-			"animStates": [{
-				"stateName": "Empty",
-				"loopTime": 1,
-				"meterLen": 1,
-				"normalizedTime": 0.5,
-				"layer": 0,
-				"animLen": 0.5,
-				"movements": [],
-				"hitPoints": []
 			}]
 		},
 		"Transition": {
@@ -258,6 +212,16 @@
 			},
 			{
 				"stateName": "Combo2TansToCombo3",
+				"loopTime": 1,
+				"meterLen": 1,
+				"normalizedTime": 0.05,
+				"layer": 0,
+				"animLen": 0.3,
+				"movements": [{"distance": 0.5, "timeType": 1, "startTime":0, "endTime":0.3}],
+				"hitPoints": []
+			},
+			{
+				"stateName": "Combo3TransToIdle",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0.05,
