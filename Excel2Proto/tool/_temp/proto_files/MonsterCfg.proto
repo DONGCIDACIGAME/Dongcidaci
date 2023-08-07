@@ -1,0 +1,52 @@
+/**
+* @file:   MonsterCfg
+* @author: Triniti Interactive Limited 
+* @brief:  这个文件是通过工具自动生成的，建议不要手动修改
+*/
+syntax = "proto3";
+
+option java_package ="com.trinitigames.server.conf.auto";
+
+package DongciDaci;
+
+message MonsterBaseCfg{
+    /** ID */ 
+    uint32 ID = 1;
+    /** 名称 */ 
+    string Name = 2;
+    /** 英文名称 */ 
+    string NickName = 3;
+    /** 预制体路径 */ 
+    string Prefab = 4;
+    /** 角色的移动速度 */ 
+    float Speed = 5;
+    /** 角色的冲刺距离 */ 
+    float DashDistance = 6;
+    /** 行为树名称 */ 
+    string BehaviourTree = 7;
+    /** 攻击半径 */ 
+    float AttackRadius = 8;
+    /** 交互半径 */ 
+    float InteractRadius = 9;
+    /** 跟随半径 */ 
+    float FollowRadius = 10;
+    /** 最大生命 */ 
+    int32 MaxHp = 11;
+    /** 基础攻击值 */ 
+    int32 BaseAttack = 12;
+    /** 伤害减免系数 */ 
+    float DefenseRate = 13;
+    /** 暴击率 */ 
+    float CriticalRate = 14;
+    /** 暴击伤害 */ 
+    float CriticalDmgRate = 15;
+    /** 闪避率 */ 
+    float DodgeRate = 16;
+    /** 移动速度 */ 
+    float MoveSpeed = 17;
+}
+
+message MonsterCfg_Data {
+   map<uint32,  MonsterBaseCfg> MonsterBaseCfg_items = 1;
+
+}
