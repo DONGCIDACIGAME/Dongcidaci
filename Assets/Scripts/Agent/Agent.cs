@@ -441,7 +441,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         {
             SkillEftHandler.OnGameUpdate(deltaTime);
         }
-
+        Combo_Trigger.OnGameUpdate(deltaTime);
     }
 
     public virtual void OnLateUpdate(float deltaTime)

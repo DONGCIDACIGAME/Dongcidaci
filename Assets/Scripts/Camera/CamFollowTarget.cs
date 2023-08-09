@@ -28,7 +28,7 @@ public class CamFollowTarget : MonoBehaviour
         if (mFollowTarget == null)
             return;
 
-        Vector3 posChange = mFollowTarget.transform.position - mTargetLastPos;
+        Vector3 posChange = (mFollowTarget.transform.position - mTargetLastPos)/1f;
 
         transform.position += posChange;
 

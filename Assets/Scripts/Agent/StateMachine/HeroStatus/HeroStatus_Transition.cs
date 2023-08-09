@@ -19,8 +19,13 @@ public class HeroStatus_Transition : HeroStatus
     {
         base.OnGameUpdate(deltaTime);
 
-        //if (mTimer < mExitTime)
-        //    mTimer += deltaTime;
+        if (mTimer < mExitTime)
+        {
+            mTimer += deltaTime;
+            return;
+        }
+
+        ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
     }
 
     public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
@@ -68,14 +73,15 @@ public class HeroStatus_Transition : HeroStatus
             case AgentCommandDefine.ATTACK_SHORT_INSTANT:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.IDLE:
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                //PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             // 其他指令类型，都要等本次攻击结束后执行，先放入指令缓存区
             case AgentCommandDefine.RUN:
                 if (CheckTowardsBigChange(towards, mLastTowards, 1f))
                 {
-                    //ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
-                    GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.RUN, cmdType, towards, triggerMeter, args, triggeredComboStep);
+                    ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                    //GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.RUN, cmdType, towards, triggerMeter, args, triggeredComboStep);
                     mLastTowards = towards;
                 }
                 break;
@@ -140,10 +146,10 @@ public class HeroStatus_Transition : HeroStatus
                     break;
             }
         }
-        else
-        {
-            ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, meterIndex, null, null);
-        }
+        //else
+        //{
+        //    ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, meterIndex, null, null);
+        //}
     }
 
 

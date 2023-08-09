@@ -240,15 +240,16 @@ public abstract class AgentStatus : IAgentStatus
 
     protected void ExcuteComboTriggerCmd(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
+        AgentActionData actionData = mStatusDefaultActionData;
+
         if (triggeredComboStep != null)
         {
+            Log.Error(LogLevel.Info, "ExcuteComboTriggerCmd-----------{0}-{1}", triggeredComboStep.comboData.comboName, triggeredComboStep.stepIndex);
             ExcuteCombo(triggeredComboStep);
-        }
-
-        AgentActionData actionData = mStatusDefaultActionData;
-        if(triggeredComboStep != null && triggeredComboStep != ComboDefine.EmptyComboStep)
-        {
-            actionData = triggeredComboStep.comboStep.agentActionData;
+            if(triggeredComboStep != ComboDefine.EmptyComboStep)
+            {
+                actionData = triggeredComboStep.comboStep.agentActionData;
+            }
         }
 
         StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);

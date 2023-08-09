@@ -129,7 +129,7 @@ public class Monster : Agent
         base.OnUpdate(deltaTime);
         if (BehaviourTree != null)
         {
-            BehaviourTree.Excute(deltaTime);
+            //BehaviourTree.Excute(deltaTime);
         }
         //随机游走
         //if (m_Agent.pathPending || m_Agent.remainingDistance > 0.1f)

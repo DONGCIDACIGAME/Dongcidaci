@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using GameEngine;
 
 /// <summary>
 /// Combo触发器
 /// </summary>
-public class ComboTrigger : IMeterHandler
+public class ComboTrigger : IMeterHandler, IGameUpdate
 {
     private List<TriggerableCombo> mSortedTriggerableCombos;
     private Agent mAgent;
@@ -12,6 +13,8 @@ public class ComboTrigger : IMeterHandler
     /// combo的逻辑完成拍
     /// </summary>
     private int comboLogicEndMeter;
+
+    private float mResetComboTimer;
 
     /// <summary>
     /// 重置标志
@@ -98,6 +101,8 @@ public class ComboTrigger : IMeterHandler
                 mSortedTriggerableCombos.Add(tc);
             }
         }
+
+        mResetComboTimer = float.MaxValue;
     }
 
     private TriggeredComboStep Trigger(int newInput, int meterIndex)
@@ -112,7 +117,7 @@ public class ComboTrigger : IMeterHandler
             bool triggered = tc.TryTriggerOnNewInput(newInput);
 
             // 成功触发combo时，记录第一个被触发的combo
-            if (triggered && tcs == null)
+            if (triggered)
             {
                 // get from pool
                 tcs = new TriggeredComboStep();
@@ -123,8 +128,21 @@ public class ComboTrigger : IMeterHandler
                 comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, comboStep.agentActionData.statusName, comboStep.agentActionData.stateName) - 1;
                 //Log.Error(LogLevel.Info, "Combo Trigger OnNewInput -------new triggered---meterIndex:{0}, comboLogicEndMeter:{1}", meterIndex, comboLogicEndMeter);
 
+                // 记录combo结束标签
+                if (comboStep.endFlag)
+                {
+                    mResetComboTimer = MeterManager.Ins.GetTimeToMeter(comboLogicEndMeter+1);
+                }
+                else
+                {
+                    mResetComboTimer = MeterManager.Ins.GetTimeToMeter(comboLogicEndMeter+1) + GamePlayDefine.InputCheckOffset / 2 + GamePlayDefine.InputCheckOffset;
+                }
+
+
                 // 记录这个被触发的招式，记录时不仅要记录招式数据，还要记录是谁触发的，combo的名字，招式的index, 触发在那一拍
                 tcs.Initialize(mAgent.GetAgentId(), tc.GetComboData(), tc.triggeredAt, meterIndex, comboLogicEndMeter, comboStep);
+
+                break;
             }
         }
 
@@ -209,7 +227,7 @@ public class ComboTrigger : IMeterHandler
         if (triggeredComboStep != null)
         {
             // 记录combo结束标签
-            resetFlag = triggeredComboStep.comboStep.endFlag;
+            //resetFlag = triggeredComboStep.comboStep.endFlag;
 
             // 返回combo触发成功
             return ComboDefine.ComboTriggerResult_Succeed;
@@ -231,6 +249,7 @@ public class ComboTrigger : IMeterHandler
             mSortedTriggerableCombos[i].Reset();
         }
         resetFlag = false;
+        mResetComboTimer = float.MaxValue;
     }
 
     public void Dispose()
@@ -258,5 +277,15 @@ public class ComboTrigger : IMeterHandler
     public void OnDisplayPointBeforeMeterEnter(int meterIndex)
     {
         
+    }
+
+    public void OnGameUpdate(float deltaTime)
+    {
+        if(mResetComboTimer <= 0)
+        {
+            ResetAllCombo();
+        }
+
+        mResetComboTimer -= deltaTime;
     }
 }

@@ -15,10 +15,18 @@ public class MoveControl
         mAgent = agt;
     }
 
+    private void Reset()
+    {
+        MoveTime = 0;
+        MoveRecord = 0;
+    }
+
     public virtual void MoveTowards(Vector3 towards, float distance, float duration)
     {
         if (towards.Equals(DirectionDef.none))
             return;
+
+        Reset();
 
         Vector3 offset = towards.normalized * distance;
         MoveFromPos = mAgent.GetPosition();
@@ -36,6 +44,8 @@ public class MoveControl
 
     public void MoveToPosition(Vector3 tgtPosition)
     {
+        Reset();
+
         ConvexCollider2D collider = mAgent.GetCollider();
 
         var checkShape = collider.Convex2DShape;

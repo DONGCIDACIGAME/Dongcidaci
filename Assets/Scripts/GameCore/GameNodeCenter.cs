@@ -6,8 +6,9 @@ using UnityEngine;
 /// </summary>
 public class GameNodeCenter: Singleton<GameNodeCenter>
 {
-    public GameObject HeroNode;
-    public GameObject MonsterNode;
+    #region Agent
+    public GameObject HeroNode { get; private set; }
+    public GameObject MonsterNode { get; private set; }
 
     public void InitliazeAgentNodes()
     {
@@ -21,11 +22,14 @@ public class GameNodeCenter: Singleton<GameNodeCenter>
         MonsterNode = null;
     }
 
+    #endregion
 
 
-    public GameObject MapRootNode;
-    public GameObject BaseLayerNode;
-    public GameObject EventLayerNode;
+    #region Map
+
+    public GameObject MapRootNode { get; private set; }
+    public GameObject BaseLayerNode { get; private set; }
+    public GameObject EventLayerNode { get; private set; }
 
 
     public void InitliazeMapNodes()
@@ -41,4 +45,23 @@ public class GameNodeCenter: Singleton<GameNodeCenter>
         BaseLayerNode = null;
         EventLayerNode = null;
     }
+    #endregion
+
+    #region Camera
+    public GameObject MainCamNode { get; private set; }
+    public GameObject UICamNode { get; private set; }
+
+    public void InitializeCameraNodes()
+    {
+        MainCamNode = GameObject.Find("_MAIN_CAMERA");
+        UICamNode = GameObject.Find("_UI_CAMERA");
+    }
+
+    public void DisposeCameraNodes()
+    {
+        MainCamNode = null;
+        UICamNode = null;
+    }
+
+    #endregion
 }

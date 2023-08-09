@@ -7,25 +7,9 @@ namespace GameEngine
         private Camera MainCam;
         private Camera UICam;
 
-        public void SetMainCam(Camera cam)
-        {
-            if(cam == null)
-            {
-                Log.Error(LogLevel.Critical, "SetMainCam Failed, target cam is null!");
-                return;
-            }
-
-            MainCam = cam;
-        }
-
         public Camera GetMainCam()
         {
             return MainCam;
-        }
-
-        public void SetUICamera(Camera camera)
-        {
-            UICam = camera;
         }
 
         public Camera GetUICam()
@@ -85,12 +69,14 @@ namespace GameEngine
 
         public override void Initialize()
         {
-            MainCam = GameObject.Find("_MAIN_CAMERA").GetComponent<Camera>();
-            UICam = GameObject.Find("_UI_CAMERA").GetComponent<Camera>();
+            GameNodeCenter.Ins.InitializeCameraNodes();
+            MainCam = GameNodeCenter.Ins.MainCamNode.GetComponent<Camera>();
+            UICam = GameNodeCenter.Ins.UICamNode.GetComponent<Camera>();
         }
 
         public override void Dispose()
         {
+            GameNodeCenter.Ins.DisposeCameraNodes();
             MainCam = null;
             UICam = null;
         }
