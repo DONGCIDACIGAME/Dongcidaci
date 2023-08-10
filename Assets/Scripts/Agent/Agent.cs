@@ -384,6 +384,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         {
             Log.Error(LogLevel.Info, "##上一个combo还未执行完成，请降低输入频率, cmd:{0}", cmd.CmdType);
             // 后面可能会在这里做一些UI提示
+            Combo_Trigger.ResetAllCombo();
         }
 
         // 指令归还指令池
