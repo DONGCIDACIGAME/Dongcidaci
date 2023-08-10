@@ -10,4 +10,16 @@ public class AgentKeyboardInputHandle_InstantAttack : AgentKeyboardInputHandle
         return InputDef.AgentKeyboardInputHandle_InstantAttack;
     }
 
+    public override void OnUpdate(float deltaTime)
+    {
+        if (mHero == null)
+            return;
+        AgentCommand cmd;
+        bool hasCmd = GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
+        if (hasCmd)
+        {
+            mHero.OnCommand(cmd);
+        }
+    }
+
 }
