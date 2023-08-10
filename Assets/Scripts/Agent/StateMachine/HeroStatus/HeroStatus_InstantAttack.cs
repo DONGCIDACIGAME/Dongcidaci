@@ -83,8 +83,8 @@ public class HeroStatus_InstantAttack : HeroStatus
             case AgentCommandDefine.ATTACK_LONG_INSTANT:
             case AgentCommandDefine.ATTACK_SHORT_INSTANT:
             case AgentCommandDefine.DASH:
-                //PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
-                ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                //ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
