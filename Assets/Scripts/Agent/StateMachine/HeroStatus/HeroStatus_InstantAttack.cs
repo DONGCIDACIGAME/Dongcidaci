@@ -45,32 +45,6 @@ public class HeroStatus_InstantAttack : HeroStatus
     /// <param name="cmd"></param>
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        //switch (cmdType)
-        //{
-        //    // 接收到打断型的受击指令，马上切换到受击状态
-        //    case AgentCommandDefine.BE_HIT_BREAK:
-        //        ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
-        //        break;
-        //    case AgentCommandDefine.ATTACK_LONG:
-        //    case AgentCommandDefine.ATTACK_SHORT:
-        //    case AgentCommandDefine.ATTACK_LONG_INSTANT:
-        //    case AgentCommandDefine.ATTACK_SHORT_INSTANT:
-        //        ExcuteCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
-        //        break;
-        //    // 其他指令类型，都要等本次攻击结束后执行，先放入指令缓存区
-        //    case AgentCommandDefine.DASH:
-        //    case AgentCommandDefine.RUN:
-        //    case AgentCommandDefine.IDLE:
-        //    case AgentCommandDefine.RUN_METER:
-        //        PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
-        //        break;
-        //    case AgentCommandDefine.BE_HIT://攻击状态下，非打断的受击行为不做处理
-        //    case AgentCommandDefine.EMPTY:
-        //        break;
-        //    default:
-        //        break;
-        //}
-
         // 只响应打断型受击状态
         switch (cmdType)
         {
