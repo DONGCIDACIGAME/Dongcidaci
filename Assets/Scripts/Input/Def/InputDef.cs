@@ -16,6 +16,8 @@ public static class InputDef
 
 
     public const string MouseInput = "MouseInput";
+
+    public const string AgentMouseInputHandle_Attack = "AgentMouseInputHandle_Attack";
     public const string MouseInputHandle_CommonInput = "MouseInputHandle_CommonInput";
 
 

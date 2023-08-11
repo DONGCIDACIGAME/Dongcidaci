@@ -75,6 +75,8 @@ public class Hero : Agent
 
 
 
+    private IInputHandle attackmouseInput;
+
     protected override void CustomInitialize()
     {
         // added by weng 0704
@@ -115,6 +117,10 @@ public class Hero : Agent
         Combo_Trigger.SetComboActive("JJJ", true);
         Combo_Trigger.SetComboActive("JJJ_Instant", false);
         Combo_Trigger.SetComboActive("DashAttack", true);
+
+        attackmouseInput = new AgentMouseInputHandle_Attack(this);
+        InputControlCenter.MouseInputCtl.RegisterInputHandle("Test", attackmouseInput);
+        attackmouseInput.SetEnable(true);
     }
 
     public Hero(uint agentId) : base(agentId)
@@ -147,6 +153,8 @@ public class Hero : Agent
     public override void Dispose()
     {
         base.Dispose();
+        attackmouseInput.SetEnable(false);
+        InputControlCenter.MouseInputCtl.UnregisterInputHandle("Test");
     }
 
     public override int GetEntityType()

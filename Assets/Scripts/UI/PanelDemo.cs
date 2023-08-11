@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using GameEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PanelDemo : UIPanel, IMeterHandler
 {
     private TMP_Text Text_MeterShow;
     private ColorLoopOnce MeterHint;
+    private GameObject Node_AttackTowards;
     private Button Btn_Quit;
 
     public override string GetPanelLayerPath()
@@ -41,12 +43,25 @@ public class PanelDemo : UIPanel, IMeterHandler
         {
             MeterHint = MeterHintImg.GetComponent<ColorLoopOnce>();
         }
+        Node_AttackTowards = BindNode("Node_AttackTowards");
         Btn_Quit = BindButtonNode("Btn_Quit", OnBtnQuitClick);
     }
 
     private void OnBtnQuitClick()
     {
         GameSceneManager.Ins.LoadAndSwitchToScene(SceneDefine.SceneSelect);
+    }
+
+    protected override void BindEvents()
+    {
+        base.BindEvents();
+
+        mEventListener.Listen<Vector3>("ChangeAttackTowards", OnChangeAttackTowards);
+    }
+
+    private void OnChangeAttackTowards(Vector3 towards)
+    {
+        Node_AttackTowards.transform.localRotation = Quaternion.FromToRotation(Vector3.right, towards);
     }
 
     protected override void OnClose()

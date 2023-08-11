@@ -208,6 +208,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     /// </summary>
     protected abstract void CustomInitialize();
 
+
     /// <summary>
     /// 初始化
     /// </summary>
@@ -243,7 +244,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         // 加载完成后默认进入idle状态
         TriggeredComboStep triggeredComboStep = null;
         Dictionary<string, object> args = null;
-        StatusMachine.SwitchToStatus(GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep) ;
+        StatusMachine.SwitchToStatus(GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep);
     }
 
     /// <summary>
@@ -318,7 +319,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         }
 
         // 如果和上一个指令在同一帧，则该指令也会被丢弃
-        if(lastInputCmd != null && cmd.Frame == lastInputCmd.Frame)
+        if(lastInputCmd != null && cmd.CmdType == lastInputCmd.CmdType && cmd.Frame == lastInputCmd.Frame)
         {
             return;
         }

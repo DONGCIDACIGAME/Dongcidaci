@@ -7,6 +7,7 @@ public abstract class HeroStatus : AgentStatus
     /// <summary>
     /// 输入处理器
     /// </summary>
+    protected Stack<IInputHandle> mInputHandles;
     protected IInputHandle mInputHandle;
 
     /// <summary>
@@ -68,7 +69,12 @@ public abstract class HeroStatus : AgentStatus
         base.CustomDispose();
 
         UnregisterInputHandle();
-        mInputHandle = null;
+        mInputHandles = null;
+
+        foreach(InputHandle inputHandle in mInputHandles)
+        {
+
+        }
     }
 
     public override void OnGameUpdate(float deltaTime)
