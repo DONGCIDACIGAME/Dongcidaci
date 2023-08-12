@@ -10,7 +10,11 @@ public class PanelDemo : UIPanel, IMeterHandler
     private TMP_Text Text_MeterShow;
     private ColorLoopOnce MeterHint;
     private GameObject Node_AttackTowards;
+    private GameObject Image_AttackArrow;
     private Button Btn_Quit;
+
+    private float attack_arrow_min_radius = 150f;
+    private float attack_arrow_max_radius = 400f;
 
     public override string GetPanelLayerPath()
     {
@@ -44,6 +48,7 @@ public class PanelDemo : UIPanel, IMeterHandler
             MeterHint = MeterHintImg.GetComponent<ColorLoopOnce>();
         }
         Node_AttackTowards = BindNode("Node_AttackTowards");
+        Image_AttackArrow = BindNode("Image_AttackArrow");
         Btn_Quit = BindButtonNode("Btn_Quit", OnBtnQuitClick);
     }
 
@@ -59,9 +64,34 @@ public class PanelDemo : UIPanel, IMeterHandler
         mEventListener.Listen<Vector3>("ChangeAttackTowards", OnChangeAttackTowards);
     }
 
-    private void OnChangeAttackTowards(Vector3 towards)
+    private Vector2 GetArrowPos(Vector2 mouseLocalPos)
     {
-        Node_AttackTowards.transform.localRotation = Quaternion.FromToRotation(Vector3.right, towards);
+        float radius = mouseLocalPos.magnitude;
+        Vector2 pos = mouseLocalPos;
+
+        if (radius < attack_arrow_min_radius)
+        {
+            pos = mouseLocalPos.normalized * attack_arrow_min_radius;
+        }
+        else if(radius > attack_arrow_max_radius)
+        {
+            pos = mouseLocalPos.normalized * attack_arrow_max_radius;
+        }
+
+        return pos;
+    }
+
+
+    private void OnChangeAttackTowards(Vector3 mousePos)
+    {
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(Node_AttackTowards.transform as RectTransform, mousePos,
+            CameraManager.Ins.GetUICam(), out Vector2 mouseLocalPos);
+
+
+        Vector2 localPos = GetArrowPos(mouseLocalPos);
+        Image_AttackArrow.transform.localPosition = localPos;
+
+        Image_AttackArrow.transform.localRotation = Quaternion.FromToRotation(Node_AttackTowards.transform.right, localPos.normalized);
     }
 
     protected override void OnClose()

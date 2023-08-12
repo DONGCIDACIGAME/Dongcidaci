@@ -57,10 +57,8 @@ public class HeroStatus_Behit : HeroStatus
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.ATTACK_LONG:
-            case AgentCommandDefine.ATTACK_SHORT:
-            case AgentCommandDefine.ATTACK_LONG_INSTANT:
-            case AgentCommandDefine.ATTACK_SHORT_INSTANT:
+            case AgentCommandDefine.ACCUMULATING_ATTACK_START:
+            case AgentCommandDefine.INSTANT_ATTACK:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.BE_HIT:

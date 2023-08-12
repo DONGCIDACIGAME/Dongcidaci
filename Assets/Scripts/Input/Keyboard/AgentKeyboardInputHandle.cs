@@ -49,7 +49,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         return false;
     }
 
-    protected bool GetAttackInputCmd(out AgentCommand cmd)
+    protected bool GetInstantAttackInputCmd(out AgentCommand cmd)
     {
         cmd = null;
         int triggerMeter = -1;
@@ -60,36 +60,13 @@ public abstract class AgentKeyboardInputHandle : InputHandle
             if(MeterManager.Ins.CheckTriggered(GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset, out triggerMeter))
             {
                 cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-
-                if (mHero.Hero_View.InstantAttack)
-                {
-                    cmd.Initialize(AgentCommandDefine.ATTACK_SHORT_INSTANT, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
-                }
-                else
-                {
-                    cmd.Initialize(AgentCommandDefine.ATTACK_SHORT, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
-                }
+                cmd.Initialize(AgentCommandDefine.INSTANT_ATTACK, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
                 return true;
             }
             else
             {
                 Log.Error(LogLevel.Info, "---------------------------Trigger light attack FAILED{0}---------------{1}", triggerMeter, AudioManager.Ins.GetCurBgmTime());
             }
-        }
-
-        if (Input.GetKeyDown(InputDef.AttackLongKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset, out triggerMeter))
-        {
-            cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-            if (mHero.Hero_View.InstantAttack)
-            {
-                cmd.Initialize(AgentCommandDefine.ATTACK_LONG_INSTANT, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
-            }
-            else
-            {
-                cmd.Initialize(AgentCommandDefine.ATTACK_LONG, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
-            }
-            //Log.Error(LogLevel.Info, "Trigger hard attack+++++++++++++++++++++++++++++++{0}", triggerMeter);
-            return true;
         }
 
         return false;
@@ -135,6 +112,26 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         return true;
     }
 
+    protected bool GetAccumulatingAttackCmd(out AgentCommand cmd)
+    {
+        cmd = null;
+        int triggerMeter = -1;
+        Vector3 towards = GetInputDirection();
+
+
+
+        if (Input.GetKeyDown(InputDef.AttackLongKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset, out triggerMeter))
+        {
+            cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
+            cmd.Initialize(AgentCommandDefine.ACCUMULATING_ATTACK_START, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
+            //Log.Error(LogLevel.Info, "Trigger hard attack+++++++++++++++++++++++++++++++{0}", triggerMeter);
+            return true;
+        }
+
+        return false;
+    }
+
+
 
     public override void OnDisplayPointBeforeMeterEnter(int meterIndex)
     {
@@ -156,7 +153,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         if (mHero == null)
             return;
         AgentCommand cmd;
-        bool hasCmd = GetAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
+        bool hasCmd = GetInstantAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
         if (hasCmd)
         {
             mHero.OnCommand(cmd);

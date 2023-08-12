@@ -106,7 +106,7 @@ public class Hero : Agent
             mCft = mainCam.gameObject.AddComponent<CamFollowTarget>();
             // changed by weng 0626
             // turn vector3(0,10,-10) to vector3(0,10,-6.5)
-            mCft.SetFollowTarget(Hero_View.GetGameObject(), new Vector3(0, 10f, -7f));
+            mCft.SetFollowTarget(Hero_View.GetGameObject(), new Vector3(0, 10f, -5f));
         }
 
         MoveControl = new PlayerMoveControl(this);
@@ -137,17 +137,7 @@ public class Hero : Agent
             mCft.OnUpdate(deltaTime);
         }
 
-        // 临时
-        if(!Hero_View.InstantAttack)
-        {
-            Combo_Trigger.SetComboActive("JJJ", true);
-            Combo_Trigger.SetComboActive("JJJ_Instant", false);
-        }
-        else
-        {
-            Combo_Trigger.SetComboActive("JJJ", false);
-            Combo_Trigger.SetComboActive("JJJ_Instant", true);
-        }
+        Combo_Trigger.SetComboActive("JJJ_Instant", true);
     }
 
     public override void Dispose()

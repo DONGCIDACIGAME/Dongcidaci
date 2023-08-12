@@ -23,12 +23,9 @@ public abstract class HeroStatus : AgentStatus
                 return AgentStatusDefine.IDLE;
             case AgentCommandDefine.RUN:
                 return AgentStatusDefine.RUN;
-            case AgentCommandDefine.ATTACK_LONG:
-            case AgentCommandDefine.ATTACK_SHORT:
+            case AgentCommandDefine.INSTANT_ATTACK:
+            case AgentCommandDefine.ACCUMULATING_ATTACK_START:
                 return AgentStatusDefine.ATTACK;
-            case AgentCommandDefine.ATTACK_SHORT_INSTANT:
-            case AgentCommandDefine.ATTACK_LONG_INSTANT:
-                return AgentStatusDefine.INSTANT_ATTACK;
             case AgentCommandDefine.BE_HIT:
                 return AgentStatusDefine.BEHIT;
             case AgentCommandDefine.DASH:

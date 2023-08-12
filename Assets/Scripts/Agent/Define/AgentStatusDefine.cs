@@ -8,7 +8,6 @@ public static class AgentStatusDefine
     public static string DASH = "Dash";
     public static string TRANSITION = "Transition";
     public static string ATTACK = "Attack";
-    public static string INSTANT_ATTACK = "InstantAttack";
     public static string BEHIT = "BeHit";
     public static string DEAD = "Dead";
 

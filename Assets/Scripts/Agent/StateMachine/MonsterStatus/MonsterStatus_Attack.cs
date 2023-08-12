@@ -51,8 +51,8 @@ public class MonsterStatus_Attack : MonsterStatus
             case AgentCommandDefine.BE_HIT_BREAK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
-            case AgentCommandDefine.ATTACK_LONG:
-            case AgentCommandDefine.ATTACK_SHORT:
+            case AgentCommandDefine.ACCUMULATING_ATTACK_START:
+            case AgentCommandDefine.INSTANT_ATTACK:
                 ConditionalExcute(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             // 其他指令类型，都要等本次攻击结束后执行，先放入指令缓存区
@@ -96,8 +96,8 @@ public class MonsterStatus_Attack : MonsterStatus
                 case AgentCommandDefine.IDLE:
                     //ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
                     break;
-                case AgentCommandDefine.ATTACK_SHORT:
-                case AgentCommandDefine.ATTACK_LONG:
+                case AgentCommandDefine.INSTANT_ATTACK:
+                case AgentCommandDefine.ACCUMULATING_ATTACK_START:
                     ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
                     break;
                 case AgentCommandDefine.EMPTY:
@@ -144,8 +144,8 @@ public class MonsterStatus_Attack : MonsterStatus
                         case AgentCommandDefine.IDLE:
                             ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
                             break;
-                        case AgentCommandDefine.ATTACK_SHORT:
-                        case AgentCommandDefine.ATTACK_LONG:
+                        case AgentCommandDefine.INSTANT_ATTACK:
+                        case AgentCommandDefine.ACCUMULATING_ATTACK_START:
                         //if (mCurTriggeredComboStep != null)
                         //{
                         //    ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);

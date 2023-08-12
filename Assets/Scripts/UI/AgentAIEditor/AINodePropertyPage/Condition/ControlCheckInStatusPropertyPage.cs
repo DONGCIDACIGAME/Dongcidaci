@@ -17,7 +17,6 @@ public class ControlCheckInStatusPropertyPage : ControlAINodePropertyPage
             new TMP_Dropdown.OptionData(AgentStatusDefine.DASH),
             new TMP_Dropdown.OptionData(AgentStatusDefine.TRANSITION),
             new TMP_Dropdown.OptionData(AgentStatusDefine.ATTACK),
-            new TMP_Dropdown.OptionData(AgentStatusDefine.INSTANT_ATTACK),
             new TMP_Dropdown.OptionData(AgentStatusDefine.BEHIT),
             new TMP_Dropdown.OptionData(AgentStatusDefine.DEAD),
         }, OnSelectTargetStatus) ;
@@ -58,12 +57,9 @@ public class ControlCheckInStatusPropertyPage : ControlAINodePropertyPage
                 targetStatus = AgentStatusDefine.ATTACK;
                 break;
             case 6:
-                targetStatus = AgentStatusDefine.INSTANT_ATTACK;
-                break;
-            case 7:
                 targetStatus = AgentStatusDefine.BEHIT;
                 break;
-            case 8:
+            case 7:
                 targetStatus = AgentStatusDefine.DEAD;
                 break;
             default:
@@ -111,17 +107,13 @@ public class ControlCheckInStatusPropertyPage : ControlAINodePropertyPage
         {
             index = 5;
         }
-        else if (AgentStatusDefine.INSTANT_ATTACK.Equals(targetStatus))
+        else if (AgentStatusDefine.BEHIT.Equals(targetStatus))
         {
             index = 6;
         }
-        else if (AgentStatusDefine.BEHIT.Equals(targetStatus))
-        {
-            index = 7;
-        }
         else if (AgentStatusDefine.DEAD.Equals(targetStatus))
         {
-            index = 8;
+            index = 7;
         }
 
 

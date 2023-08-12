@@ -1,8 +1,18 @@
+using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HeroStatus_Attack : HeroStatus
 {
+    private float mExitTime;
+    private float mTimer;
+    private Vector3 mAttackTowards;
+
+    private ComboStep mComboStep;
+    public override string GetStatusName()
+    {
+        return AgentStatusDefine.ATTACK;
+    }
 
     /// <summary>
     /// 状态进入
@@ -12,7 +22,8 @@ public class HeroStatus_Attack : HeroStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        ConditionalExcute(cmdType, towards, triggerMeter, args, triggeredComboStep);
+        ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
+        mComboStep = triggeredComboStep.comboStep;
     }
 
     /// <summary>
@@ -21,6 +32,10 @@ public class HeroStatus_Attack : HeroStatus
     public override void OnExit()
     {
         base.OnExit();
+
+        mTimer = 0;
+        mExitTime = 0;
+        mAttackTowards = DirectionDef.none;
     }
 
 
@@ -30,25 +45,23 @@ public class HeroStatus_Attack : HeroStatus
     /// <param name="cmd"></param>
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
+        // 只响应打断型受击状态
         switch (cmdType)
         {
             // 接收到打断型的受击指令，马上切换到受击状态
             case AgentCommandDefine.BE_HIT_BREAK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
-            case AgentCommandDefine.ATTACK_LONG:
-            case AgentCommandDefine.ATTACK_SHORT:
-                ConditionalExcute(cmdType, towards, triggerMeter, args, triggeredComboStep);
-                break;
-            // 其他指令类型，都要等本次攻击结束后执行，先放入指令缓存区
+            case AgentCommandDefine.ACCUMULATING_ATTACK_START:
+            case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.DASH:
+                PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                //ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                break;
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
-                break;
             case AgentCommandDefine.BE_HIT://攻击状态下，非打断的受击行为不做处理
             case AgentCommandDefine.EMPTY:
-                break;
             default:
                 break;
         }
@@ -72,32 +85,28 @@ public class HeroStatus_Attack : HeroStatus
         if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
         {
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
-            cmdBuffer.ClearCommandBuffer();
 
             switch (cmdType)
             {
                 case AgentCommandDefine.BE_HIT_BREAK:
-                case AgentCommandDefine.RUN:
                 case AgentCommandDefine.DASH:
-                case AgentCommandDefine.IDLE:
-                    //ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
-                    break;
-                case AgentCommandDefine.ATTACK_SHORT:
-                case AgentCommandDefine.ATTACK_LONG:
-                case AgentCommandDefine.ATTACK_LONG_INSTANT:
-                case AgentCommandDefine.ATTACK_SHORT_INSTANT:
+                case AgentCommandDefine.INSTANT_ATTACK:
+                case AgentCommandDefine.ACCUMULATING_ATTACK_START:
                     ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
                     break;
+                case AgentCommandDefine.IDLE:
+                case AgentCommandDefine.RUN:
                 case AgentCommandDefine.EMPTY:
                 case AgentCommandDefine.BE_HIT:
                 default:
                     break;
             }
         }
-        else
-        {
-            ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
-        }
+        //else
+        //{
+        //    ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
+        //}
+
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)
@@ -109,60 +118,39 @@ public class HeroStatus_Attack : HeroStatus
     {
         base.OnGameUpdate(deltaTime);
 
-        // 在逻辑结束拍之后
-        if (MeterManager.Ins.MeterIndex > mCurLogicStateEndMeter)
+        mTimer += deltaTime;
+
+        if (mTimer >= mExitTime)
         {
-            // 是否在输入的容差时间内
-            bool inInputTime = MeterManager.Ins.IsInMeterWithTolerance(MeterManager.Ins.MeterIndex, GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset);
-
-
-            if (!inInputTime)
+            // 缓存区取指令
+            if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
             {
-                int meterIndex = MeterManager.Ins.MeterIndex;
-                // 缓存区取指令
-                if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
+                switch (cmdType)
                 {
-                    Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
-                    cmdBuffer.ClearCommandBuffer();
-                    switch (cmdType)
-                    {
-                        case AgentCommandDefine.BE_HIT_BREAK:
-                        case AgentCommandDefine.RUN:
-                        case AgentCommandDefine.DASH:
-                        case AgentCommandDefine.IDLE:
-                            ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
-                            break;
-                        case AgentCommandDefine.ATTACK_SHORT:
-                        case AgentCommandDefine.ATTACK_LONG:
-                        //if (mCurTriggeredComboStep != null)
-                        //{
-                        //    ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
-                        //}
-                        //else
-                        //{
-                        //    StatusDefaultAction(cmdType, towards, triggerMeter, args, statusDefaultActionData);
-                        //}
-                        //break;
-                        case AgentCommandDefine.EMPTY:
-                        case AgentCommandDefine.BE_HIT:
-                        default:
-                            break;
-                    }
+                    case AgentCommandDefine.BE_HIT_BREAK:
+                    case AgentCommandDefine.DASH:
+                    case AgentCommandDefine.INSTANT_ATTACK:
+                    case AgentCommandDefine.ACCUMULATING_ATTACK_START:
+                        ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
+                        return;
+                    case AgentCommandDefine.RUN:
+                    case AgentCommandDefine.IDLE:
+                    case AgentCommandDefine.EMPTY:
+                    case AgentCommandDefine.BE_HIT:
+                    default:
+                        break;
                 }
             }
+            //else
+            //{
+            //    ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
+            //}
 
-            // 超过输入的容差时间，且当前指令缓存区里没有指令（没有待执行指令）
-            if (!inInputTime && !cmdBuffer.HasCommand())
-            {
-                ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
-            }
+            Dictionary<string, object> _args = new Dictionary<string, object>();
+            _args.Add("transitionAction", mComboStep.transitionData);
+            TriggeredComboStep _triggeredComboStep = null;
+            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSITION, AgentCommandDefine.EMPTY, mAttackTowards, MeterManager.Ins.MeterIndex, _args, _triggeredComboStep);
         }
-        //Log.Logic(LogLevel.Info, "cur anim state:{0}, progress:{1}", mAgent.AnimPlayer.CurStateName, mAgent.AnimPlayer.CurStateProgress);
-    }
-
-    public override string GetStatusName()
-    {
-        return AgentStatusDefine.ATTACK;
     }
 
     /// <summary>
@@ -187,16 +175,26 @@ public class HeroStatus_Attack : HeroStatus
         string stateName = agentActionData.stateName;
 
         // 2. 播放攻击动画
-        mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.CrossFadeToState(statusName, stateName);
+        //mDefaultCrossFadeAnimDriver.CrossFadeToState(statusName, stateName);
+        mDefaultCrossFadeAnimDriver.CrossFadeToState(stateName, 0, 1, 1, 0.1f ,0.2f);
 
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
 
+        AgentAnimStateInfo animStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
+
+        // 攻击动作拍数
+        mCurLogicStateEndMeter = MeterManager.Ins.GetMeterIndex(triggerMeter, animStateInfo.meterLen) - 1;
+
+        // 攻击动作的时长
+        mExitTime = animStateInfo.animLen;
+        mTimer = 0;
+        mAttackTowards = towards;
     }
 
     public override void RegisterInputHandle()
     {
-        mInputHandle = new AgentKeyboardInputHandle_Attack(mAgent as Hero);
+        mInputHandle = new AgentKeyboardInputHandle_InstantAttack(mAgent as Hero);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 

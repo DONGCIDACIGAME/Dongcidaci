@@ -9,8 +9,8 @@ public class AgentMouseInputHandle_Attack : AgentMouseInputHandle
 
     public AgentMouseInputHandle_Attack(Hero hero) : base(hero)
     {
-        towards = DirectionDef.none;
         screenCenter = new Vector3(Screen.width/2f, Screen.height/2f, 0);
+        towards = (Input.mousePosition - screenCenter).normalized;
     }
 
     protected bool GetAttackInputCmd(out AgentCommand cmd)
@@ -26,14 +26,7 @@ public class AgentMouseInputHandle_Attack : AgentMouseInputHandle
 
                 Vector3 attackTowards = new Vector3(towards.x, 0, towards.y);
 
-                if (mHero.Hero_View.InstantAttack)
-                {
-                    cmd.Initialize(AgentCommandDefine.ATTACK_SHORT_INSTANT, triggerMeter, TimeMgr.Ins.FrameIndex, attackTowards);
-                }
-                else
-                {
-                    cmd.Initialize(AgentCommandDefine.ATTACK_SHORT, triggerMeter, TimeMgr.Ins.FrameIndex, attackTowards);
-                }
+                cmd.Initialize(AgentCommandDefine.INSTANT_ATTACK, triggerMeter, TimeMgr.Ins.FrameIndex, attackTowards);
                 return true;
             }
             else
@@ -85,9 +78,9 @@ public class AgentMouseInputHandle_Attack : AgentMouseInputHandle
         if (mHero == null)
             return;
 
-        towards = Input.mousePosition - screenCenter;
+        towards = (Input.mousePosition - screenCenter).normalized;
 
-        GameEventSystem.Ins.Fire("ChangeAttackTowards", towards);
+        GameEventSystem.Ins.Fire("ChangeAttackTowards", Input.mousePosition);
 
         AgentCommand cmd;
         bool hasCmd = GetAttackInputCmd(out cmd);

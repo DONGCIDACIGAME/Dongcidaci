@@ -58,8 +58,8 @@ public class MonsterStatus_Behit : MonsterStatus
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.ATTACK_LONG:
-            case AgentCommandDefine.ATTACK_SHORT:
+            case AgentCommandDefine.ACCUMULATING_ATTACK_START:
+            case AgentCommandDefine.INSTANT_ATTACK:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.EMPTY:

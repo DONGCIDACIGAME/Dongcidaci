@@ -62,8 +62,8 @@ public class MonsterStatus_Dash : MonsterStatus
             // 其他指令类型，都要等本次冲刺结束后执行，先放入指令缓存区
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.ATTACK_LONG:
-            case AgentCommandDefine.ATTACK_SHORT:
+            case AgentCommandDefine.ACCUMULATING_ATTACK_START:
+            case AgentCommandDefine.INSTANT_ATTACK:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.BE_HIT:// 冲刺状态下，非打断的受击指令不处理
@@ -92,8 +92,8 @@ public class MonsterStatus_Dash : MonsterStatus
                 case AgentCommandDefine.BE_HIT_BREAK:
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.IDLE:
-                case AgentCommandDefine.ATTACK_SHORT:
-                case AgentCommandDefine.ATTACK_LONG:
+                case AgentCommandDefine.INSTANT_ATTACK:
+                case AgentCommandDefine.ACCUMULATING_ATTACK_START:
                     ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
                     break;
                 case AgentCommandDefine.DASH:

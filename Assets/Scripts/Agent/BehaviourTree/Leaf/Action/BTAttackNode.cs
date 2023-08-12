@@ -20,7 +20,7 @@ public class BTAttackNode : BTLeafNode
 
         // 发送attack指令
         AgentCommand attackCmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-        attackCmd.Initialize(AgentCommandDefine.ATTACK_SHORT, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);
+        attackCmd.Initialize(AgentCommandDefine.INSTANT_ATTACK, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);
         mExcutor.OnCommand(attackCmd);
 
 

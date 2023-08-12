@@ -99,10 +99,8 @@ public class HeroStatus_Dash : HeroStatus
             case AgentCommandDefine.BE_HIT_BREAK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
-            case AgentCommandDefine.ATTACK_LONG:
-            case AgentCommandDefine.ATTACK_SHORT:
-            case AgentCommandDefine.ATTACK_LONG_INSTANT:
-            case AgentCommandDefine.ATTACK_SHORT_INSTANT:
+            case AgentCommandDefine.ACCUMULATING_ATTACK_START:
+            case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
