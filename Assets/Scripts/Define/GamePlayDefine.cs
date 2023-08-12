@@ -9,7 +9,7 @@ public static class GamePlayDefine
     /// <summary>
     /// 输入指令的节拍检测偏移
     /// </summary>
-    public const float InputCheckOffset = 0f;
+    public const float InputCheckOffset = 0.1f;
 
     /// <summary>
     /// 攻击指令执行的节拍进度判定
