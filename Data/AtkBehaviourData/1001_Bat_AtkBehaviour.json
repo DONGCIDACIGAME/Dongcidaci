@@ -10,7 +10,7 @@
 			"comboSteps": [
 				{
 					"input": 8, 
-					"agentActionData": {
+					"attackActionData": {
 						"statusName": "Attack",
 						"stateName": "Attack", 
 						"effectCollictions": [
@@ -40,7 +40,7 @@
 				},
 				{
 					"input": 8,
-					"agentActionData": {
+					"attackActionData": {
 						"statusName": "Attack",
 						"stateName": "Attack",
 						"effectCollictions": [
@@ -65,7 +65,7 @@
 				},
 				{
 					"input": 8,
-					"agentActionData": {
+					"attackActionData": {
 						"statusName": "Attack",
 						"stateName": "Attack",
 						"effectCollictions": [
@@ -103,7 +103,7 @@
 			"comboSteps": [
 				{
 					"input": 4, 
-					"agentActionData": {
+					"attackActionData": {
 						"statusName": "Dash",
 						"stateName": "Dash", 
 						"effectCollictions": [
@@ -133,7 +133,7 @@
 				},
 				{
 					"input": 8,
-					"agentActionData": {
+					"attackActionData": {
 						"statusName": "Attack",
 						"stateName": "Attack",
 						"effectCollictions": [

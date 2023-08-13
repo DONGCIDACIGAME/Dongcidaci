@@ -48,11 +48,11 @@
 				"hitPoints": []
 			}]
 		},
-		"Attack":{
-			"statusName": "Attack",
+		"Instant_Attack":{
+			"statusName": "Instant_Attack",
 			"defaultAciton":
 			{
-				"statusName": "Attack",
+				"statusName": "Instant_Attack",
 				"stateName": "Combo1_1",
 				"effectCollictions": [
 					{
@@ -196,6 +196,46 @@
 				"animLen": 0.5,
 				"movements": [{"distance": 0.2, "timeType": 1, "startTime":0, "endTime":0.2}],
 				"hitPoints": [] 
+			}]
+		},
+		"Accumulating":{
+			"statusName": "Accumulating",
+			"defaultAciton":
+			{
+				"statusName": "Accumulating",
+				"stateName": "Accumulating",
+				"effectCollictions": null
+			},
+			"animStates": [
+			{
+				"stateName": "Accumulating",
+				"loopTime": 0,
+				"meterLen": 2,
+				"normalizedTime": 0.05,
+				"layer": 0,
+				"animLen": 0.5,
+				"movements": [],
+				"hitPoints": []
+			}]
+		},
+		"AccumulatingAttack":{
+			"statusName": "AccumulatingAttack",
+			"defaultAciton":
+			{
+				"statusName": "AccumulatingAttack",
+				"stateName": "AccumulatingAttack",
+				"effectCollictions": null
+			},
+			"animStates": [
+			{
+				"stateName": "AccumulatingAttack",
+				"loopTime": 0,
+				"meterLen": 2,
+				"normalizedTime": 0.05,
+				"layer": 0,
+				"animLen": 0.5,
+				"movements": [],
+				"hitPoints": []
 			}]
 		}
 	}

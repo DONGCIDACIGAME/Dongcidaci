@@ -26,40 +26,35 @@ public static class AgentCommandDefine
     public const int INSTANT_ATTACK                         = 1 << 3;
 
     /// <summary>
-    /// 蓄力攻击-开始 16
+    /// 卡节拍的攻击 16
     /// </summary>
-    public const int ACCUMULATING_ATTACK_START              = 1 << 4;
+    public const int METER_ATTACK                           = 1 << 4;
 
     /// <summary>
-    /// 蓄力攻击-结束 32
+    /// 蓄力攻击-蓄力 32
     /// </summary>
-    public const int ACCUMULATING_ATTACK_END                = 1 << 5;
+    public const int ACCUMULATING                           = 1 << 5;
+
+    /// <summary>
+    /// 蓄力攻击-攻击 64
+    /// </summary>
+    public const int ACCUMULATING_ATTACK                    = 1 << 6;
 
 
     /// <summary>
-    /// 受击32 不打断当前行为
+    /// 受击128 不打断当前行为
     /// </summary>
-    public const int BE_HIT                                 = 1 << 6;
+    public const int BE_HIT                                 = 1 << 7;
 
     /// <summary>
-    /// 受击 64 打断当前行为
+    /// 受击 256 打断当前行为
     /// </summary>
-    public const int BE_HIT_BREAK                           = 1 << 7;
+    public const int BE_HIT_BREAK                           = 1 << 8;
 
     /// <summary>
-    /// 死亡 128
+    /// 死亡 512
     /// </summary>
-    public const int DEAD                                   = 1 << 8;
-
-    ///// <summary>
-    ///// 即时攻击-short
-    ///// </summary>
-    //public const int ATTACK_SHORT_INSTANT = 1 << 8;
-
-    ///// <summary>
-    ///// 即时攻击-long
-    ///// </summary>
-    //public const int ATTACK_LONG_INSTANT = 1 << 9;
+    public const int DEAD                                   = 1 << 9;
 
 
     /// <summary>
@@ -80,7 +75,7 @@ public static class AgentCommandDefine
     /// <summary>
     /// 所有可以触发combo的指令类型
     /// </summary>
-    private static int ComboTriggerCommands = DASH | INSTANT_ATTACK | ACCUMULATING_ATTACK_START;
+    private static int ComboTriggerCommands = DASH | INSTANT_ATTACK ;
 
     /// <summary>
     /// 是否是可以触发combo的指令

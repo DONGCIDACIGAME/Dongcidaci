@@ -67,8 +67,10 @@ public class HeroStatus_Transition : HeroStatus
             case AgentCommandDefine.BE_HIT_BREAK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
-            case AgentCommandDefine.ACCUMULATING_ATTACK_START:
             case AgentCommandDefine.INSTANT_ATTACK:
+            case AgentCommandDefine.METER_ATTACK:
+            case AgentCommandDefine.ACCUMULATING:
+            case AgentCommandDefine.ACCUMULATING_ATTACK:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.IDLE:
                 //PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
@@ -130,7 +132,9 @@ public class HeroStatus_Transition : HeroStatus
             {
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.INSTANT_ATTACK:
-                case AgentCommandDefine.ACCUMULATING_ATTACK_START:
+                case AgentCommandDefine.METER_ATTACK:
+                case AgentCommandDefine.ACCUMULATING:
+                case AgentCommandDefine.ACCUMULATING_ATTACK:
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.BE_HIT_BREAK:
                 case AgentCommandDefine.IDLE:

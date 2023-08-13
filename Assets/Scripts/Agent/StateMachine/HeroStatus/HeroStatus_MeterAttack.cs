@@ -2,16 +2,16 @@ using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroStatus_Attack : HeroStatus
+public class HeroStatus_MeterAttack : HeroStatus
 {
     private float mExitTime;
     private float mTimer;
     private Vector3 mAttackTowards;
-
+     
     private ComboStep mComboStep;
     public override string GetStatusName()
     {
-        return AgentStatusDefine.ATTACK;
+        return AgentStatusDefine.METER_ATTACK;
     }
 
     /// <summary>
@@ -52,8 +52,10 @@ public class HeroStatus_Attack : HeroStatus
             case AgentCommandDefine.BE_HIT_BREAK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
-            case AgentCommandDefine.ACCUMULATING_ATTACK_START:
             case AgentCommandDefine.INSTANT_ATTACK:
+            case AgentCommandDefine.METER_ATTACK:
+            case AgentCommandDefine.ACCUMULATING:
+            case AgentCommandDefine.ACCUMULATING_ATTACK:
             case AgentCommandDefine.DASH:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 //ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
@@ -91,7 +93,9 @@ public class HeroStatus_Attack : HeroStatus
                 case AgentCommandDefine.BE_HIT_BREAK:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.INSTANT_ATTACK:
-                case AgentCommandDefine.ACCUMULATING_ATTACK_START:
+                case AgentCommandDefine.METER_ATTACK:
+                case AgentCommandDefine.ACCUMULATING:
+                case AgentCommandDefine.ACCUMULATING_ATTACK:
                     ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
                     break;
                 case AgentCommandDefine.IDLE:
@@ -130,7 +134,9 @@ public class HeroStatus_Attack : HeroStatus
                     case AgentCommandDefine.BE_HIT_BREAK:
                     case AgentCommandDefine.DASH:
                     case AgentCommandDefine.INSTANT_ATTACK:
-                    case AgentCommandDefine.ACCUMULATING_ATTACK_START:
+                    case AgentCommandDefine.METER_ATTACK:
+                    case AgentCommandDefine.ACCUMULATING:
+                    case AgentCommandDefine.ACCUMULATING_ATTACK:
                         ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
                         return;
                     case AgentCommandDefine.RUN:

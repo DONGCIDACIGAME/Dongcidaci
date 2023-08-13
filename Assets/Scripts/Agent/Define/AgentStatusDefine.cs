@@ -2,14 +2,17 @@ using System.Collections.Generic;
 
 public static class AgentStatusDefine
 {
-    public static string EMPTY = "Empty";
-    public static string IDLE = "Idle";
-    public static string RUN = "Run";
-    public static string DASH = "Dash";
-    public static string TRANSITION = "Transition";
-    public static string ATTACK = "Attack";
-    public static string BEHIT = "BeHit";
-    public static string DEAD = "Dead";
+    public static string EMPTY                          = "Empty";
+    public static string IDLE                           = "Idle";
+    public static string RUN                            = "Run";
+    public static string DASH                           = "Dash";
+    public static string INSTANT_ATTACK                 = "Instant_Attack";
+    public static string METER_ATTACK                   = "Meter_Attack";
+    public static string CHARGING                       = "Charging";
+    public static string CHARGING_ATTACK                = "Charging_Attack";
+    public static string TRANSITION                     = "Transition";
+    public static string BEHIT                          = "BeHit";
+    public static string DEAD                           = "Dead";
 
     public static List<string> ALL_STATUS = new List<string>
     {
@@ -17,7 +20,9 @@ public static class AgentStatusDefine
         IDLE,
         RUN,
         DASH,
-        ATTACK,
+        INSTANT_ATTACK,
+        CHARGING,
+        CHARGING_ATTACK,
         BEHIT,
         DEAD
     };

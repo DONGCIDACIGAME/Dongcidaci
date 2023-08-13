@@ -8,8 +8,10 @@ public static class InputDef
     public const string AgentKeyboardInputHandle_Run                = "AgentKeyboardInputHandle_Run";
     public const string AgentKeyboardInputHandle_MeterRun           = "AgentKeyboardInputHandle_MeterRun";
     public const string AgentKeyboardInputHandle_Dash               = "AgentKeyboardInputHandle_Dash";
-    public const string AgentKeyboardInputHandle_Attack             = "AgentKeyboardInputHandle_Attack";
     public const string AgentKeyboardInputHandle_InstantAttack      = "AgentKeyboardInputHandle_InstantAttack";
+    public const string AgentKeyboardInputHandle_MeterAttack        = "AgentKeyboardInputHandle_MeterAttack";
+    public const string AgentKeyboardInputHandle_Charging           = "AgentKeyboardInputHandle_Charging";
+    public const string AgentKeyboardInputHandle_ChargingAttack     = "AgentKeyboardInputHandle_ChargingAttack";
     public const string AgentKeyboardInputHandle_BeHit              = "AgentKeyboardInputHandle_BeHit";
     public const string AgentKeyboardInputHandle_Transfer           = "AgentKeyboardInputHandle_Transfer";
     public const string AgentKeyboardInputHandle_Transition         = "AgentKeyboardInputHandle_Transition";
@@ -22,13 +24,10 @@ public static class InputDef
 
 
 
-
-
-
     public const string JoystickInput = "JoystickInput";
 
     public static KeyCode DashKeyCode = KeyCode.Space;
-    public static KeyCode AttackShortKeyCode = KeyCode.J;
-    public static KeyCode AttackLongKeyCode = KeyCode.K;
+    public static KeyCode InstantAttackKeyCode = KeyCode.J;
+    public static KeyCode ChargingAttackKeyCode = KeyCode.K;
 
 }

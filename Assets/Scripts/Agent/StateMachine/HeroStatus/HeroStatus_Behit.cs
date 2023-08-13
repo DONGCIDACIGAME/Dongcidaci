@@ -54,11 +54,13 @@ public class HeroStatus_Behit : HeroStatus
                 }
                 StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);
                 break;
-            case AgentCommandDefine.DASH:
-            case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.ACCUMULATING_ATTACK_START:
+            case AgentCommandDefine.RUN:
+            case AgentCommandDefine.DASH:
             case AgentCommandDefine.INSTANT_ATTACK:
+            case AgentCommandDefine.METER_ATTACK:
+            case AgentCommandDefine.ACCUMULATING:
+            case AgentCommandDefine.ACCUMULATING_ATTACK:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.BE_HIT:

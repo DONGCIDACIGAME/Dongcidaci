@@ -15,7 +15,7 @@ public class DataCenter : ModuleManager<DataCenter>
     /// <summary>
     /// combo配置中心
     /// </summary>
-    public AgentComboGraphCenter AgentComboGraphCenter;
+    public AgentAttackBehavoiourDataCenter AgentAtkBehaviourDataCenter;
 
     /// <summary>
     /// 行为树数据中心
@@ -37,10 +37,10 @@ public class DataCenter : ModuleManager<DataCenter>
             AgentStatusGraphCenter = null;
         }
 
-        if(AgentComboGraphCenter != null)
+        if(AgentAtkBehaviourDataCenter != null)
         {
-            AgentComboGraphCenter.Dispose();
-            AgentComboGraphCenter = null;
+            AgentAtkBehaviourDataCenter.Dispose();
+            AgentAtkBehaviourDataCenter = null;
         }
 
         if(BehaviourTreeCenter != null)
@@ -61,8 +61,8 @@ public class DataCenter : ModuleManager<DataCenter>
         AgentStatusGraphCenter.Initialize();
 
         // 加载所有combo配置
-        AgentComboGraphCenter = new AgentComboGraphCenter();
-        AgentComboGraphCenter.Initialize();
+        AgentAtkBehaviourDataCenter = new AgentAttackBehavoiourDataCenter();
+        AgentAtkBehaviourDataCenter.Initialize();
 
         // 加载所有行为树配置
         BehaviourTreeCenter = new BehaviourTreeCenter();

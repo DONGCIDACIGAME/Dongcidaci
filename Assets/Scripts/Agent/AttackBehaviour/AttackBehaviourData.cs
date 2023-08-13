@@ -1,7 +1,8 @@
 [System.Serializable]
-public class ComboDataGraph
+public class AttackBehaviourData
 {
     public string agentName;
     public uint agentId;
     public ComboData[] comboDatas;
+    public ChargeAttackData[] 
 }

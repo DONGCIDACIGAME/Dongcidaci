@@ -50,34 +50,34 @@ public class ComboTrigger : IMeterHandler, IGameUpdate
         mAgent = agent;
         mSortedTriggerableCombos = new List<TriggerableCombo>();
 
-        ComboDataGraph comboGraph = DataCenter.Ins.AgentComboGraphCenter.GetAgentComboGraph(agent.GetAgentId());
-        if (comboGraph == null)
+        AttackBehaviourData attackBehaviourDatas = DataCenter.Ins.AgentAtkBehaviourDataCenter.GetAgentAtkBehaviourData(agent.GetAgentId());
+        if (attackBehaviourDatas == null)
         {
-            Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, comboGraph is null! " + agent.GetName());
+            Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, AttackBehaviourData is null! " + agent.GetName());
             return;
         }
 
-        if (comboGraph.comboDatas == null)
+        if (attackBehaviourDatas.comboDatas == null)
         {
-            Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combos is null, agentId:{0},  agentName:{1}", comboGraph.agentId, comboGraph.agentName);
+            Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combos is null, agentId:{0},  agentName:{1}", attackBehaviourDatas.agentId, attackBehaviourDatas.agentName);
             return;
         }
 
         mSortedTriggerableCombos.Clear();
         comboLogicEndMeter = 0;
 
-        for (int i = 0; i < comboGraph.comboDatas.Length; i++)
+        for (int i = 0; i < attackBehaviourDatas.comboDatas.Length; i++)
         {
-            ComboData comboData = comboGraph.comboDatas[i];
+            ComboData comboData = attackBehaviourDatas.comboDatas[i];
             if (comboData == null)
             {
-                Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, ComboGraph has null combo at index {0}, agent id:{1}, agent Name:{2}", i, comboGraph.agentId, comboGraph.agentName);
+                Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, ComboGraph has null combo at index {0}, agent id:{1}, agent Name:{2}", i, attackBehaviourDatas.agentId, attackBehaviourDatas.agentName);
                 continue;
             }
 
             if (comboData.comboSteps == null || comboData.comboSteps.Length == 0)
             {
-                Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combo [{0}] comboStepDatas is null or emtpty, agent id:{1}, agent Name:{2}", comboData.comboName, comboGraph.agentId, comboGraph.agentName);
+                Log.Error(LogLevel.Normal, "ComboHandler Initialize Error, combo [{0}] comboStepDatas is null or emtpty, agent id:{1}, agent Name:{2}", comboData.comboName, attackBehaviourDatas.agentId, attackBehaviourDatas.agentName);
                 continue;
             }
 
@@ -125,7 +125,7 @@ public class ComboTrigger : IMeterHandler, IGameUpdate
                 ComboStep comboStep = tc.GetCurrentComboStep();
 
                 // combo的逻辑结束拍=combo触发拍+combo招式持续拍-1
-                comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, comboStep.agentActionData.statusName, comboStep.agentActionData.stateName) - 1;
+                comboLogicEndMeter = meterIndex + AgentHelper.GetAgentStateMeterLen(mAgent, comboStep.attackActionData.statusName, comboStep.attackActionData.stateName) - 1;
                 //Log.Error(LogLevel.Info, "Combo Trigger OnNewInput -------new triggered---meterIndex:{0}, comboLogicEndMeter:{1}", meterIndex, comboLogicEndMeter);
 
                 // 记录combo结束标签

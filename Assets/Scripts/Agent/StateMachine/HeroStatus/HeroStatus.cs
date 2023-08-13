@@ -7,8 +7,24 @@ public abstract class HeroStatus : AgentStatus
     /// <summary>
     /// 输入处理器
     /// </summary>
-    protected Stack<IInputHandle> mInputHandles;
     protected IInputHandle mInputHandle;
+
+    /// <summary>
+    /// 指令到角色状态间的切换关系
+    /// </summary>
+    private Dictionary<int, string> CmdToStatusMap = new Dictionary<int, string>
+    {
+        { AgentCommandDefine.IDLE, AgentStatusDefine.IDLE},
+        { AgentCommandDefine.RUN, AgentStatusDefine.RUN},
+        { AgentCommandDefine.DASH, AgentStatusDefine.DASH},
+        { AgentCommandDefine.INSTANT_ATTACK, AgentStatusDefine.INSTANT_ATTACK},
+        { AgentCommandDefine.METER_ATTACK, AgentStatusDefine.METER_ATTACK},
+        { AgentCommandDefine.ACCUMULATING, AgentStatusDefine.CHARGING},
+        { AgentCommandDefine.ACCUMULATING_ATTACK, AgentStatusDefine.CHARGING_ATTACK},
+        { AgentCommandDefine.BE_HIT, AgentStatusDefine.BEHIT},
+        { AgentCommandDefine.BE_HIT_BREAK, AgentStatusDefine.BEHIT},
+        { AgentCommandDefine.DEAD, AgentStatusDefine.DEAD},
+    };
 
     /// <summary>
     /// 根据指令获取要切换到的状态
@@ -17,24 +33,12 @@ public abstract class HeroStatus : AgentStatus
     /// <returns></returns>
     public override string GetChangeToStatus(int cmdType)
     {
-        switch(cmdType)
+        if (CmdToStatusMap.TryGetValue(cmdType, out string statusName))
         {
-            case AgentCommandDefine.IDLE:
-                return AgentStatusDefine.IDLE;
-            case AgentCommandDefine.RUN:
-                return AgentStatusDefine.RUN;
-            case AgentCommandDefine.INSTANT_ATTACK:
-            case AgentCommandDefine.ACCUMULATING_ATTACK_START:
-                return AgentStatusDefine.ATTACK;
-            case AgentCommandDefine.BE_HIT:
-                return AgentStatusDefine.BEHIT;
-            case AgentCommandDefine.DASH:
-                return AgentStatusDefine.DASH;
-            case AgentCommandDefine.DEAD:
-                return AgentStatusDefine.DEAD;
-            default:
-                return string.Empty;
+            return statusName;
         }
+
+        return string.Empty;
     }
 
     public abstract void RegisterInputHandle();
@@ -66,12 +70,7 @@ public abstract class HeroStatus : AgentStatus
         base.CustomDispose();
 
         UnregisterInputHandle();
-        mInputHandles = null;
-
-        foreach(InputHandle inputHandle in mInputHandles)
-        {
-
-        }
+        mInputHandle = null;
     }
 
     public override void OnGameUpdate(float deltaTime)

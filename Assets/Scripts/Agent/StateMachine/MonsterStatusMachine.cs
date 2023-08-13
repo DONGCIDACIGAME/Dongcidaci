@@ -6,7 +6,7 @@ public class MonsterStatusMachine : AgentStatusMachine
 
         AddStatus(AgentStatusDefine.IDLE, new MonsterStatus_Idle());
         AddStatus(AgentStatusDefine.RUN, new MonsterStatus_Run());
-        AddStatus(AgentStatusDefine.ATTACK, new MonsterStatus_Attack());
+        AddStatus(AgentStatusDefine.METER_ATTACK, new MonsterStatus_Attack());
         AddStatus(AgentStatusDefine.DASH, new MonsterStatus_Dash());
         AddStatus(AgentStatusDefine.BEHIT, new MonsterStatus_Behit());
     }

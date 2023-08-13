@@ -10,12 +10,12 @@ public class ComboStep
     public int input;
 
     /// <summary>
-    /// 角色的
+    /// 攻击行为数据
     /// </summary>
-    public AgentActionData agentActionData;
+    public AgentActionData attackActionData;
 
     /// <summary>
-    /// 过度动画名称
+    /// 过度行为数据
     /// </summary>
     public AgentActionData transitionData;
 

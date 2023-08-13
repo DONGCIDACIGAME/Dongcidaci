@@ -248,7 +248,7 @@ public abstract class AgentStatus : IAgentStatus
             ExcuteCombo(triggeredComboStep);
             if(triggeredComboStep != ComboDefine.EmptyComboStep)
             {
-                actionData = triggeredComboStep.comboStep.agentActionData;
+                actionData = triggeredComboStep.comboStep.attackActionData;
             }
         }
 
@@ -274,7 +274,7 @@ public abstract class AgentStatus : IAgentStatus
             return;
         }
 
-        AgentActionData actionData = triggeredComboStep.comboStep.agentActionData;
+        AgentActionData actionData = triggeredComboStep.comboStep.attackActionData;
         if (actionData == null)
         {
             Log.Error(LogLevel.Normal, "ExcuteCombo Error, actionData is null, combo name:{0}, index:{1}!", triggeredComboStep.comboData.comboName, triggeredComboStep.stepIndex);
