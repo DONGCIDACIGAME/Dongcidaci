@@ -94,7 +94,7 @@ public class Hero : Agent
 
         // 位置初始化
         // changed by weng 0626
-        SetPosition(new Vector3(20f,0.2f,5f));
+        SetPosition(new Vector3(14f,0.2f,10f));
         // 朝向初始化
         SetRotation(Vector3.zero);
         // 缩放初始化
@@ -106,7 +106,8 @@ public class Hero : Agent
             mCft = mainCam.gameObject.AddComponent<CamFollowTarget>();
             // changed by weng 0626
             // turn vector3(0,10,-10) to vector3(0,10,-6.5)
-            mCft.SetFollowTarget(Hero_View.GetGameObject(), new Vector3(0, 10f, -5f));
+            // changed by weng 0813
+            mCft.SetFollowTarget(Hero_View.GetGameObject(), new Vector3(0, 8f, -7f));
         }
 
         MoveControl = new PlayerMoveControl(this);

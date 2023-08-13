@@ -99,7 +99,7 @@ public class Monster : Agent
 
 
         // 位置初始化
-        SetPosition(new Vector3(22f, 0.2f, 5f));
+        SetPosition(new Vector3(22f, 0.2f, 15f));
         // 朝向初始化
         SetRotation(Vector3.zero);
         // 缩放初始化 modifiy by weng 0704
