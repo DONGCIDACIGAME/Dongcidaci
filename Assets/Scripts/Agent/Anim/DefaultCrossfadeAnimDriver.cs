@@ -1,4 +1,6 @@
-public class DefaultCrossfadeAnimDriver : AgentAnimDriver
+using GameEngine;
+
+public class DefaultCrossfadeAnimDriver : AgentAnimDriver, IGameUpdate
 {
     public DefaultCrossfadeAnimDriver(Agent agt) : base(agt)
     {
@@ -72,5 +74,10 @@ public class DefaultCrossfadeAnimDriver : AgentAnimDriver
         mAgent.AnimPlayer.CrossFadeToState(stateName, newStateInfo.layer, newStateInfo.normalizedTime, newStateInfo.animLen);
         mCurAnimState = newStateInfo;
         return newMeterIndex - 1;
+    }
+
+    public void OnGameUpdate(float deltaTime)
+    {
+       
     }
 }

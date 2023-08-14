@@ -1,4 +1,6 @@
-public class AgentAnimDriver
+using GameEngine;
+
+public abstract class AgentAnimDriver
 {
     protected Agent mAgent;
     protected AgentAnimStateInfo mCurAnimState;

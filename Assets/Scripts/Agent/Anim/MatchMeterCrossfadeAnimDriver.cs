@@ -1,7 +1,7 @@
 /// <summary>
 /// 卡节拍的融合动画驱动
 /// </summary>
-public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver
+public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver, IMeterHandler
 {
     public MatchMeterCrossfadeAnimDriver(Agent agt) : base(agt)
     {
@@ -68,6 +68,21 @@ public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver
         
         // 动画结束拍=当前拍+动画持续拍-1
         return newMeterIndex -1;
+    }
+
+    public void OnDisplayPointBeforeMeterEnter(int meterIndex)
+    {
+        
+    }
+
+    public void OnMeterEnd(int meterIndex)
+    {
+        
+    }
+
+    public void OnMeterEnter(int meterIndex)
+    {
+        
     }
 
     public void Reset()

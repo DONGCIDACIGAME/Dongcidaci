@@ -82,6 +82,9 @@ public class StepLoopAnimDriver : AgentAnimDriver
         return newMeterIndex -1;
     }
 
+    //public 
+
+
     public int MoveNext()
     {
         if (mAnimStates == null)

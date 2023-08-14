@@ -58,7 +58,6 @@ public class HeroStatus_InstantAttack : HeroStatus
             case AgentCommandDefine.ACCUMULATING_ATTACK:
             case AgentCommandDefine.DASH:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
-                //ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
@@ -179,8 +178,8 @@ public class HeroStatus_InstantAttack : HeroStatus
         string stateName = agentActionData.stateName;
 
         // 2. 播放攻击动画
-        //mDefaultCrossFadeAnimDriver.CrossFadeToState(statusName, stateName);
-        mDefaultCrossFadeAnimDriver.CrossFadeToState(stateName, 0, 1, 1, 0.1f ,0.2f);
+        mDefaultCrossFadeAnimDriver.CrossFadeToState(statusName, stateName);
+        //mDefaultCrossFadeAnimDriver.CrossFadeToState(stateName, 0, 1, 1, 0.1f ,0.2f);
 
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);

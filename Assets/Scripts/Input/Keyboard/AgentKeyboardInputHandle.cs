@@ -72,7 +72,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         return false;
     }
 
-    protected bool GetAccumulatingCmd(out AgentCommand cmd)
+    protected bool GetChargingCmd(out AgentCommand cmd)
     {
         cmd = null;
         int triggerMeter = -1;
@@ -89,7 +89,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         return false;
     }
 
-    protected bool GetAccumulatingAttackCmd(out AgentCommand cmd)
+    protected bool GetChargingAttackCmd(out AgentCommand cmd)
     {
         cmd = null;
         int triggerMeter = -1;
@@ -168,7 +168,11 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         if (mHero == null)
             return;
         AgentCommand cmd;
-        bool hasCmd = GetInstantAttackInputCmd(out cmd) || GetDashInputCommand(out cmd) || GetRunInputCmd(out cmd);
+        bool hasCmd = GetInstantAttackInputCmd(out cmd) 
+            || GetChargingCmd(out cmd)
+            || GetChargingAttackCmd(out cmd)
+            || GetDashInputCommand(out cmd) 
+            || GetRunInputCmd(out cmd);
         if (hasCmd)
         {
             mHero.OnCommand(cmd);

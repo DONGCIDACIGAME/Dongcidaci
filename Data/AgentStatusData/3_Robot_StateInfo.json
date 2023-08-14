@@ -198,19 +198,19 @@
 				"hitPoints": [] 
 			}]
 		},
-		"Accumulating":{
-			"statusName": "Accumulating",
+		"Charging":{
+			"statusName": "Charging",
 			"defaultAciton":
 			{
-				"statusName": "Accumulating",
-				"stateName": "Accumulating",
+				"statusName": "Charging",
+				"stateName": "Charging",
 				"effectCollictions": null
 			},
 			"animStates": [
 			{
-				"stateName": "Accumulating",
+				"stateName": "Charging",
 				"loopTime": 0,
-				"meterLen": 2,
+				"meterLen": 1,
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,
@@ -218,17 +218,17 @@
 				"hitPoints": []
 			}]
 		},
-		"AccumulatingAttack":{
-			"statusName": "AccumulatingAttack",
+		"ChargingAttack":{
+			"statusName": "ChargingAttack",
 			"defaultAciton":
 			{
-				"statusName": "AccumulatingAttack",
-				"stateName": "AccumulatingAttack",
+				"statusName": "ChargingAttack",
+				"stateName": "ChargingAttack",
 				"effectCollictions": null
 			},
 			"animStates": [
 			{
-				"stateName": "AccumulatingAttack",
+				"stateName": "ChargingAttack",
 				"loopTime": 0,
 				"meterLen": 2,
 				"normalizedTime": 0.05,

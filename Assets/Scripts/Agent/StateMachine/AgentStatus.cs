@@ -39,11 +39,6 @@ public abstract class AgentStatus : IAgentStatus
     protected AgentCommandBuffer cmdBuffer;
 
     /// <summary>
-    /// 当前触发的combo招式缓存
-    /// </summary>
-    //protected TriggeredComboStep mCurTriggeredComboStep;
-
-    /// <summary>
     /// 节拍结束时的待执行行为
     /// </summary>
     protected Stack<MeterEndAction> mMeterEndActions;
@@ -166,14 +161,15 @@ public abstract class AgentStatus : IAgentStatus
     public virtual void OnMeterEnter(int meterIndex)
     {
         CustomOnMeterEnter(meterIndex);
+        mMatchMeterCrossfadeAnimDriver.OnMeterEnter(meterIndex);
         cmdBuffer.ClearCommandBuffer();
     }
 
     public void OnMeterEnd(int meterIndex)
     {
         CustomOnMeterEnd(meterIndex);
-
-        while(mMeterEndActions.TryPop(out MeterEndAction action))
+        mMatchMeterCrossfadeAnimDriver.OnMeterEnd(meterIndex);
+        while (mMeterEndActions.TryPop(out MeterEndAction action))
         {
             action.CheckAndExcute(meterIndex);
         }
@@ -181,12 +177,12 @@ public abstract class AgentStatus : IAgentStatus
 
     public void OnDisplayPointBeforeMeterEnter(int meterIndex)
     {
-
+        mMatchMeterCrossfadeAnimDriver.OnDisplayPointBeforeMeterEnter(meterIndex);
     }
 
     public virtual void OnGameUpdate(float deltaTime)
     {
-        
+        mDefaultCrossFadeAnimDriver.OnGameUpdate(deltaTime);
     }
 
     /// <summary>
