@@ -199,7 +199,7 @@ public class MonsterStatus_Attack : MonsterStatus
         string stateName = agentActionData.stateName;
 
         // 2. 播放攻击动画
-        mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.CrossFadeToState(statusName, stateName);
+        mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.StartPlay(statusName, stateName);
 
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);

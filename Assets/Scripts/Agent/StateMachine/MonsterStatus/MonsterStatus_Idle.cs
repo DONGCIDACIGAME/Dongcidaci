@@ -43,8 +43,6 @@ public class MonsterStatus_Idle : MonsterStatus
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.IDLE:
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
-                break;
             case AgentCommandDefine.EMPTY:
             default:
                 break;
@@ -65,19 +63,13 @@ public class MonsterStatus_Idle : MonsterStatus
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.BE_HIT_BREAK:
-                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
+                    ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, comboStep);
                     break;
                 case AgentCommandDefine.IDLE:
-                    StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
-                    break;
                 case AgentCommandDefine.EMPTY:
                 default:
                     break;
             }
-        }
-        else
-        {
-            StatusDefaultAction(AgentCommandDefine.IDLE, DirectionDef.none, meterIndex, null, null);
         }
     }
 
@@ -96,24 +88,10 @@ public class MonsterStatus_Idle : MonsterStatus
     /// <param name="triggeredComboStep"></param>
     public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
     {
-        // 等待当前逻辑结束拍
-        if (triggerMeter <= mCurLogicStateEndMeter)
-            return;
-
-        if (agentActionData == null)
-        {
-            // 1. 转向移动放方向
-            mAgent.MoveControl.TurnTo(towards);
-
-            // 2. 步进式动画继续
-            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
-            return;
-        }
-
         // 1. 转向移动放方向
         mAgent.MoveControl.TurnTo(towards);
 
-        // 2. 播放动画
-        mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.CrossFadeToState(agentActionData.stateName, agentActionData.stateName);
+        // 2. 步进式动画继续
+        mStepLoopAnimDriver.StartPlay(GetStatusName());
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HeroStatus_Run : HeroStatus
 {
-    private bool mRunning;
+    //private bool mRunning;
 
     public override string GetStatusName()
     {
@@ -13,14 +13,14 @@ public class HeroStatus_Run : HeroStatus
     public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
-        mRunning = false;
+        //mRunning = false;
         StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        mRunning = false;
+        //mRunning = false;
     }
 
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
@@ -38,7 +38,10 @@ public class HeroStatus_Run : HeroStatus
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.RUN:
-                StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
+                // 1. 转向移动放方向
+                mAgent.MoveControl.TurnTo(towards);
+                //mRunning = true;
+                //StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -61,10 +64,13 @@ public class HeroStatus_Run : HeroStatus
                 case AgentCommandDefine.ACCUMULATING:
                 case AgentCommandDefine.ACCUMULATING_ATTACK:
                 case AgentCommandDefine.BE_HIT_BREAK:
-                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
+                    ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, comboStep);
                     break;
                 case AgentCommandDefine.RUN:
-                    StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
+                    // 1. 转向移动放方向
+                    mAgent.MoveControl.TurnTo(towards);
+                    //mRunning = true;
+                    //StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
                     break;
                 case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.EMPTY:
@@ -84,14 +90,14 @@ public class HeroStatus_Run : HeroStatus
     {
         base.OnGameUpdate(deltaTime);
 
-        if(!mRunning)
-        {
-            ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
-            return;
-        }
+        //if(!mRunning)
+        //{
+        //    ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
+        //    return;
+        //}
 
         mAgent.MoveControl.Move(deltaTime);
-        mRunning = false;
+        //mRunning = false;
     }
 
     /// <summary>
@@ -108,13 +114,10 @@ public class HeroStatus_Run : HeroStatus
         // 1. 转向移动放方向
         mAgent.MoveControl.TurnTo(towards);
 
-        // 2. 步进式动画继续
-        if(triggerMeter > mCurLogicStateEndMeter)
-        {
-            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
-        }
+        // 2. 步进式动画
+        mStepLoopAnimDriver.StartPlay(GetStatusName());
 
-        mRunning = true;
+        //mRunning = true;
     }
 
     public override void RegisterInputHandle()

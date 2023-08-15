@@ -115,10 +115,7 @@ public class MonsterStatus_Run : MonsterStatus
         mAgent.MoveControl.TurnTo(towards);
 
         // 2. 步进式动画继续
-        if (triggerMeter > mCurLogicStateEndMeter)
-        {
-            mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
-        }
+        mStepLoopAnimDriver.StartPlay(GetStatusName());
 
         mRunning = true;
     }

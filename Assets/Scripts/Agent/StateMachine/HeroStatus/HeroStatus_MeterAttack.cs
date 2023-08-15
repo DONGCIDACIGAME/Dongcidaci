@@ -181,8 +181,7 @@ public class HeroStatus_MeterAttack : HeroStatus
         string stateName = agentActionData.stateName;
 
         // 2. 播放攻击动画
-        //mDefaultCrossFadeAnimDriver.CrossFadeToState(statusName, stateName);
-        mDefaultCrossFadeAnimDriver.CrossFadeToState(stateName, 0, 1, 1, 0.1f ,0.2f);
+        mExitTime = mDefaultCrossFadeAnimDriver.StartPlay(statusName, stateName);
 
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
@@ -193,7 +192,6 @@ public class HeroStatus_MeterAttack : HeroStatus
         mCurLogicStateEndMeter = MeterManager.Ins.GetMeterIndex(triggerMeter, animStateInfo.meterLen) - 1;
 
         // 攻击动作的时长
-        mExitTime = animStateInfo.animLen;
         mTimer = 0;
         mAttackTowards = towards;
     }

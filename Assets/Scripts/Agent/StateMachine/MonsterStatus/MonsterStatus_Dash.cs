@@ -137,7 +137,7 @@ public class MonsterStatus_Dash : MonsterStatus
         string stateName = agentActionData.stateName;
 
         // 2. 播放冲刺动画
-        mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.CrossFadeToState(statusName, stateName);
+        mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.StartPlay(statusName, stateName);
 
         if (args != null)
         {

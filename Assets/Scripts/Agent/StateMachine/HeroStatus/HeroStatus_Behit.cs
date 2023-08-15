@@ -113,13 +113,8 @@ public class HeroStatus_Behit : HeroStatus
         string stateName = agentActionData.stateName;
 
         // 1. 播放受击动画
-        AgentAnimStateInfo animStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
-        if (animStateInfo != null)
-        {
-            mTimer = 0;
-            mDefaultCrossFadeAnimDriver.CrossFadeToState(statusName, stateName);
-            mExitTime = animStateInfo.animLen;
-        }
+        mExitTime = mDefaultCrossFadeAnimDriver.StartPlay(statusName, stateName);
+        mTimer = 0;
         // 2. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.FixedTowards, towards, moveMore);
     }

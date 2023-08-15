@@ -3,11 +3,14 @@
 /// </summary>
 public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver, IMeterHandler
 {
+    private int mCurLoopEndMeter;
+
+    private int mLoopRecord;
+
     public MatchMeterCrossfadeAnimDriver(Agent agt) : base(agt)
     {
 
     }
-
 
     /// <summary>
     /// 带截断的动画状态播放
@@ -15,60 +18,86 @@ public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver, IMeterHandler
     /// </summary>
     /// <param name="stateName"></param>
     /// <returns></returns>
-    public int CrossFadeToState(string statusName, string stateName)
+    public int StartPlay(string statusName, string stateName)
     {
         //Log.Error(LogLevel.Info, "PlayAnimStateWithCut=======================play {0}-{1}", statusName, stateName);
 
-        Log.Logic(LogLevel.Info, "<color=blue>{0} CrossFadeToState--statusName:{1}, stateName:{2}</color>", mAgent.GetAgentId(), statusName, stateName);
+        Log.Logic(LogLevel.Info, "<color=blue>{0} MatchMeterCrossfadeAnimDriver StartPlay--statusName:{1}, stateName:{2}</color>", mAgent.GetAgentId(), statusName, stateName);
 
         if (string.IsNullOrEmpty(statusName))
         {
-            Log.Error(LogLevel.Normal, "CrossFadeToState Error, statusName is null or empty!");
+            Log.Error(LogLevel.Normal, "MatchMeterCrossfadeAnimDriver StartPlay Error, statusName is null or empty!");
             return MeterManager.Ins.MeterIndex;
         }
 
         if (string.IsNullOrEmpty(stateName))
         {
-            Log.Error(LogLevel.Normal, "CrossFadeToState Error, stateName is null or empty!");
+            Log.Error(LogLevel.Normal, "MatchMeterCrossfadeAnimDriver StartPlay Error, stateName is null or empty!");
             return MeterManager.Ins.MeterIndex;
         }
 
         AgentAnimStateInfo newStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
         if (newStateInfo == null)
         {
-            Log.Error(LogLevel.Normal, "CrossFadeToState Error, status:{0} can not find state:{1}", statusName, stateName);
+            Log.Error(LogLevel.Normal, "MatchMeterCrossfadeAnimDriver StartPlay Error, status:{0} can not find state:{1}", statusName, stateName);
             return MeterManager.Ins.MeterIndex;
         }
 
-        float duration = MeterManager.Ins.GetTimeToMeterWithOffset(newStateInfo.meterLen);
-        if (duration == 0)
+        if (newStateInfo.meterLen == 0)
         {
-            Log.Error(LogLevel.Normal, "CrossFadeToState Error, time to target meter is 0,anim meter len:{0}", newStateInfo.meterLen);
+            Log.Error(LogLevel.Normal, "MatchMeterCrossfadeAnimDriver StartPlay Error, state {0} anim meter len = 0!", newStateInfo.stateName);
             return MeterManager.Ins.MeterIndex;
         }
 
+        Reset();
 
-        int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, newStateInfo.meterLen);
+        PlayOnce(newStateInfo);
 
-        // 同一个状态的动画无法进行融合
-        // 转为从头完整播放
-        if (mCurAnimState != null && mCurAnimState.stateName.Equals(stateName))
+        int endMeter = MeterManager.Ins.MeterIndex;
+        if(newStateInfo.loopTime == 0) //无限循环
         {
-            mAgent.AnimPlayer.PlayState(stateName, newStateInfo.animLen, newStateInfo.layer, 0, duration);
-            mCurAnimState = newStateInfo;
-            return newMeterIndex - 1;
+            endMeter = int.MaxValue;
+        }
+        else //有限循环
+        {
+            endMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, newStateInfo.meterLen * newStateInfo.loopTime);
         }
 
-        float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, newMeterIndex);
-        //Log.Error(LogLevel.Info, "CrossFadeToState ---------- {0} ---{1} ----{2} --- {3}", statusName, stateName, duration, totalMeterTime);
-
-        mAgent.AnimPlayer.CrossFadeToState(stateName, newStateInfo.layer, newStateInfo.normalizedTime, newStateInfo.animLen, duration, totalMeterTime);
-        
-        mCurAnimState = newStateInfo;
-        
-        // 动画结束拍=当前拍+动画持续拍-1
-        return newMeterIndex -1;
+        // 动画结束拍
+        return endMeter - 1;
     }
+
+    private void PlayOnce(AgentAnimStateInfo animState)
+    {
+        if (animState == null)
+            return;
+
+
+        // 动画播完一次的逻辑结束拍
+        int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, animState.meterLen);
+        // 当前到动画播完一次的逻辑结束拍的时长
+        float duration = MeterManager.Ins.GetTimeToMeter(newMeterIndex);
+        // 当前拍的起始位置到动画播完一次的逻辑结束拍的总时长
+        float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, newMeterIndex);
+
+        if (mCurAnimState == null)
+        {
+            mAgent.AnimPlayer.PlayState(animState.stateName, animState.animLen, animState.layer, 0, duration);
+        }
+        else if (mCurAnimState.stateName.Equals(animState.stateName))
+        {
+            mAgent.AnimPlayer.UpdateAnimSpeedWithFix(mCurAnimState.layer, mCurAnimState.animLen, duration);
+        }
+        else
+        {
+            mAgent.AnimPlayer.CrossFadeToState(animState.stateName, animState.layer, animState.normalizedTime, animState.animLen, duration, totalMeterTime);
+        }
+
+        mCurLoopEndMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, animState.meterLen) - 1;
+        mLoopRecord++;
+        mCurAnimState = animState;
+    }
+
 
     public void OnDisplayPointBeforeMeterEnter(int meterIndex)
     {
@@ -82,11 +111,19 @@ public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver, IMeterHandler
 
     public void OnMeterEnter(int meterIndex)
     {
-        
+        if (meterIndex <= mCurLoopEndMeter)
+            return;
+
+        if (mCurAnimState != null && mLoopRecord >= mCurAnimState.loopTime)
+            return;
+
+        PlayOnce(mCurAnimState);
     }
 
     public void Reset()
     {
+        mCurLoopEndMeter = 0;
+        mLoopRecord = 0;
         mCurAnimState = null;
     }
 }

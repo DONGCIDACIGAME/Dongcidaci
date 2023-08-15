@@ -103,7 +103,8 @@ public class HeroStatus_Transition : HeroStatus
         AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
         float timeToMeter = MeterManager.Ins.GetTimeToMeter(triggerMeter + 1);
         float totalTime = timeToMeter + GamePlayDefine.InputCheckOffset/2 + GamePlayDefine.InputCheckOffset;
-        mDefaultCrossFadeAnimDriver.CrossFadeToState(stateName, stateInfo.layer, stateInfo.loopTime, stateInfo.meterLen, stateInfo.normalizedTime, totalTime);
+        //mDefaultCrossFadeAnimDriver.CrossFadeToState(stateName, stateInfo.layer, stateInfo.loopTime, stateInfo.meterLen, stateInfo.normalizedTime, totalTime);
+        mExitTime = mDefaultCrossFadeAnimDriver.StartPlay(stateName, stateInfo.layer, stateInfo.loopTime, stateInfo.meterLen, stateInfo.normalizedTime, totalTime);
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
         mTimer = 0;
@@ -112,7 +113,7 @@ public class HeroStatus_Transition : HeroStatus
         //{
         //mExitTime = stateInfo.animLen;
         //}
-        mExitTime = totalTime;
+        //mExitTime = totalTime;
         mLastTowards = towards;
     }
 

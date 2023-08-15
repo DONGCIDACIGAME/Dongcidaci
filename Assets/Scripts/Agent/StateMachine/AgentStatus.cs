@@ -60,7 +60,7 @@ public abstract class AgentStatus : IAgentStatus
         cmdBuffer = new AgentCommandBuffer();
         mMeterEndActions = new Stack<MeterEndAction>();
         mMatchMeterCrossfadeAnimDriver = new MatchMeterCrossfadeAnimDriver(mAgent);
-        mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent, GetStatusName());
+        mStepLoopAnimDriver = new StepLoopAnimDriver(mAgent);
         mDefaultCrossFadeAnimDriver = new DefaultCrossfadeAnimDriver(mAgent);
     }
 
@@ -161,6 +161,7 @@ public abstract class AgentStatus : IAgentStatus
     public virtual void OnMeterEnter(int meterIndex)
     {
         CustomOnMeterEnter(meterIndex);
+        mStepLoopAnimDriver.OnMeterEnter(meterIndex);
         mMatchMeterCrossfadeAnimDriver.OnMeterEnter(meterIndex);
         cmdBuffer.ClearCommandBuffer();
     }
@@ -168,6 +169,7 @@ public abstract class AgentStatus : IAgentStatus
     public void OnMeterEnd(int meterIndex)
     {
         CustomOnMeterEnd(meterIndex);
+        mStepLoopAnimDriver.OnMeterEnd(meterIndex);
         mMatchMeterCrossfadeAnimDriver.OnMeterEnd(meterIndex);
         while (mMeterEndActions.TryPop(out MeterEndAction action))
         {
@@ -177,6 +179,7 @@ public abstract class AgentStatus : IAgentStatus
 
     public void OnDisplayPointBeforeMeterEnter(int meterIndex)
     {
+        mStepLoopAnimDriver.OnDisplayPointBeforeMeterEnter(meterIndex);
         mMatchMeterCrossfadeAnimDriver.OnDisplayPointBeforeMeterEnter(meterIndex);
     }
 

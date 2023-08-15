@@ -15,6 +15,7 @@ public static class AgentCommandDefine
     /// </summary>
     public const int RUN                                    = 1 << 1;
 
+
     /// <summary>
     /// 冲刺  4
     /// </summary>
@@ -40,7 +41,6 @@ public static class AgentCommandDefine
     /// </summary>
     public const int ACCUMULATING_ATTACK                    = 1 << 6;
 
-
     /// <summary>
     /// 受击128 不打断当前行为
     /// </summary>
@@ -55,7 +55,6 @@ public static class AgentCommandDefine
     /// 死亡 512
     /// </summary>
     public const int DEAD                                   = 1 << 9;
-
 
     /// <summary>
     /// 可以进行优化的指令集(1拍里多个相同指令时可以优化为1个)

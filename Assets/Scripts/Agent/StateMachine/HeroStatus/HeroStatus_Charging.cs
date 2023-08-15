@@ -40,7 +40,7 @@ public class HeroStatus_Charging : HeroStatus
         string stateName = agentActionData.stateName;
 
         // 2. 播放蓄力动画
-        mMatchMeterCrossfadeAnimDriver.CrossFadeToState(stateName, statusName);
+        mMatchMeterCrossfadeAnimDriver.StartPlay(stateName, statusName);
 
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);

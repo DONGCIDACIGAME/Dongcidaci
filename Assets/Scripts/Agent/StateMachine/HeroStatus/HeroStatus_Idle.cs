@@ -45,8 +45,6 @@ public class HeroStatus_Idle : HeroStatus
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.IDLE:
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
-                break;
             case AgentCommandDefine.EMPTY:
             default:
                 break;
@@ -68,20 +66,14 @@ public class HeroStatus_Idle : HeroStatus
                 case AgentCommandDefine.ACCUMULATING_ATTACK:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT_BREAK:
-                    ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
+                    ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, comboStep);
                     break;
                 case AgentCommandDefine.IDLE:
-                    StatusDefaultAction(cmdType, towards, triggerMeter, args, null);
-                    break;
                 case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.EMPTY:
                 default:
                     break;
             }
-        }
-        else
-        {
-            StatusDefaultAction(AgentCommandDefine.IDLE, DirectionDef.none, meterIndex, null, null);
         }
     }
 
@@ -100,15 +92,11 @@ public class HeroStatus_Idle : HeroStatus
     /// <param name="triggeredComboStep"></param>
     public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
     {
-        // 等待当前逻辑结束拍
-        if (triggerMeter <= mCurLogicStateEndMeter)
-            return;
-
         // 1. 转向移动放方向
         mAgent.MoveControl.TurnTo(towards);
 
         // 2. 步进式动画继续
-        mCurLogicStateEndMeter = mStepLoopAnimDriver.MoveNext();
+        mStepLoopAnimDriver.StartPlay(GetStatusName());
     }
 
     public override void RegisterInputHandle()

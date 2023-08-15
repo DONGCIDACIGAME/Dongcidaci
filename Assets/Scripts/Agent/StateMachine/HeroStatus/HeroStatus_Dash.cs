@@ -150,8 +150,7 @@ public class HeroStatus_Dash : HeroStatus
         string stateName = agentActionData.stateName;
 
         // 2. 播放冲刺动画
-        //mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.CrossFadeToState(statusName, stateName);
-        mDefaultCrossFadeAnimDriver.CrossFadeToState(statusName, stateName);
+        mExitTime = mDefaultCrossFadeAnimDriver.StartPlay(statusName, stateName);
 
         if (args != null 
             && args.TryGetValue("distance", out object distanceObj) 
@@ -161,7 +160,6 @@ public class HeroStatus_Dash : HeroStatus
             float dashDistance = (float)distanceObj;
             float startTime = (float)startTimeObj;
             float endTime = (float)endTimeObj;
-            mExitTime = endTime - startTime;
             // 3. 处理动画相关的位移
             mAgent.MovementExcutorCtl.Start(startTime, endTime, DirectionDef.RealTowards, DirectionDef.none, dashDistance);
         }
@@ -169,9 +167,6 @@ public class HeroStatus_Dash : HeroStatus
         {
             // 3. 处理动画相关的位移
             mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
-            AgentAnimStateInfo animStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
-            // 攻击动作的时长
-            mExitTime = animStateInfo.animLen;
         }
 
         mTimer = 0;
