@@ -54,8 +54,8 @@ public class HeroStatus_InstantAttack : HeroStatus
                 break;
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
-            case AgentCommandDefine.ACCUMULATING:
-            case AgentCommandDefine.ACCUMULATING_ATTACK:
+            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING_ATTACK:
             case AgentCommandDefine.DASH:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
@@ -93,9 +93,9 @@ public class HeroStatus_InstantAttack : HeroStatus
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.INSTANT_ATTACK:
                 case AgentCommandDefine.METER_ATTACK:
-                case AgentCommandDefine.ACCUMULATING:
-                case AgentCommandDefine.ACCUMULATING_ATTACK:
-                    ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
+                case AgentCommandDefine.CHARING:
+                case AgentCommandDefine.CHARGING_ATTACK:
+                    //ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
                     break;
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.RUN:
@@ -133,7 +133,7 @@ public class HeroStatus_InstantAttack : HeroStatus
                     case AgentCommandDefine.BE_HIT_BREAK:
                     case AgentCommandDefine.DASH:
                     case AgentCommandDefine.INSTANT_ATTACK:
-                    case AgentCommandDefine.ACCUMULATING:
+                    case AgentCommandDefine.CHARING:
                         ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
                         return;
                     case AgentCommandDefine.RUN:
@@ -182,11 +182,6 @@ public class HeroStatus_InstantAttack : HeroStatus
 
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
-
-        AgentAnimStateInfo animStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
-
-        // 攻击动作拍数
-        mCurLogicStateEndMeter = MeterManager.Ins.GetMeterIndex(triggerMeter, animStateInfo.meterLen) - 1;
 
         // 攻击动作的时长
         mTimer = 0;

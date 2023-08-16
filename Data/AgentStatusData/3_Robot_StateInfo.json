@@ -218,19 +218,19 @@
 				"hitPoints": []
 			}]
 		},
-		"ChargingAttack":{
-			"statusName": "ChargingAttack",
+		"Charging_Attack":{
+			"statusName": "Charging_Attack",
 			"defaultAciton":
 			{
-				"statusName": "ChargingAttack",
+				"statusName": "Charging_Attack",
 				"stateName": "ChargingAttack",
 				"effectCollictions": null
 			},
 			"animStates": [
 			{
 				"stateName": "ChargingAttack",
-				"loopTime": 0,
-				"meterLen": 2,
+				"loopTime": 2,
+				"meterLen": 1,
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.5,

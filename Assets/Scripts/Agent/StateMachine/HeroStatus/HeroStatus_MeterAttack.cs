@@ -54,8 +54,8 @@ public class HeroStatus_MeterAttack : HeroStatus
                 break;
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
-            case AgentCommandDefine.ACCUMULATING:
-            case AgentCommandDefine.ACCUMULATING_ATTACK:
+            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING_ATTACK:
             case AgentCommandDefine.DASH:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 //ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
@@ -94,8 +94,8 @@ public class HeroStatus_MeterAttack : HeroStatus
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.INSTANT_ATTACK:
                 case AgentCommandDefine.METER_ATTACK:
-                case AgentCommandDefine.ACCUMULATING:
-                case AgentCommandDefine.ACCUMULATING_ATTACK:
+                case AgentCommandDefine.CHARING:
+                case AgentCommandDefine.CHARGING_ATTACK:
                     ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
                     break;
                 case AgentCommandDefine.IDLE:
@@ -135,8 +135,8 @@ public class HeroStatus_MeterAttack : HeroStatus
                     case AgentCommandDefine.DASH:
                     case AgentCommandDefine.INSTANT_ATTACK:
                     case AgentCommandDefine.METER_ATTACK:
-                    case AgentCommandDefine.ACCUMULATING:
-                    case AgentCommandDefine.ACCUMULATING_ATTACK:
+                    case AgentCommandDefine.CHARING:
+                    case AgentCommandDefine.CHARGING_ATTACK:
                         ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
                         return;
                     case AgentCommandDefine.RUN:

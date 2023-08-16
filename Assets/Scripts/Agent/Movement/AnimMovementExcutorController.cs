@@ -25,10 +25,24 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
     /// <param name="stateName">动画状态</param>
     /// <param name="moveMore">位移加成</param>
     /// <param name="moveTorwards">位移方向</param>
+    public void Start(float startTime, float endTime, int towardsType, Vector3 moveTorwards, float distance, float singleLoopDuration, int loopTime)
+    {
+        AnimMovementExcutor excutor = GamePoolCenter.Ins.MovementExcutorPool.Pop();
+        excutor.Initialize(mAgt, startTime, endTime, towardsType, moveTorwards, distance, singleLoopDuration, loopTime);
+        mMovementExcutors.Add(excutor);
+    }
+
+    /// <summary>
+    /// 处理动画配置的移动
+    /// </summary>
+    /// <param name="statusName">角色状态</param>
+    /// <param name="stateName">动画状态</param>
+    /// <param name="moveMore">位移加成</param>
+    /// <param name="moveTorwards">位移方向</param>
     public void Start(float startTime, float endTime, int towardsType, Vector3 moveTorwards, float distance)
     {
         AnimMovementExcutor excutor = GamePoolCenter.Ins.MovementExcutorPool.Pop();
-        excutor.Initialize(mAgt, startTime, endTime, towardsType, moveTorwards, distance);
+        excutor.Initialize(mAgt, startTime, endTime, towardsType, moveTorwards, distance, endTime, 1);
         mMovementExcutors.Add(excutor);
     }
 
@@ -92,7 +106,7 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
                 if (startTime < 0)
                     startTime = 0;
 
-                Start(startTime, endTime, towardsType, moveTorwards, movement.distance + moveMore);
+                Start(startTime, endTime, towardsType, moveTorwards, movement.distance + moveMore, stateInfo.animLen, stateInfo.loopTime);
             }
             else if(movement.timeType == TimeDefine.TimeType_AbsoluteTime)
             {
@@ -101,7 +115,7 @@ public class AnimMovementExcutorController : IGameUpdate, IMeterHandler
                 if (startTime < 0)
                     startTime = 0;
 
-                Start(startTime, endTime, towardsType, moveTorwards, movement.distance + moveMore);
+                Start(startTime, endTime, towardsType, moveTorwards, movement.distance + moveMore, stateInfo.animLen, stateInfo.loopTime);
             }
         }
 

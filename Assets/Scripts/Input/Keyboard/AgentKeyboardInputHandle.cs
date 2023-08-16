@@ -81,7 +81,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         if (Input.GetKeyDown(InputDef.ChargingAttackKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset, out triggerMeter))
         {
             cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-            cmd.Initialize(AgentCommandDefine.ACCUMULATING, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
+            cmd.Initialize(AgentCommandDefine.CHARING, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
             //Log.Error(LogLevel.Info, "Trigger hard attack+++++++++++++++++++++++++++++++{0}", triggerMeter);
             return true;
         }
@@ -95,10 +95,18 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         int triggerMeter = -1;
         Vector3 towards = GetInputDirection();
 
-        if (Input.GetKeyUp(InputDef.ChargingAttackKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset, out triggerMeter))
+        if (Input.GetKeyUp(InputDef.ChargingAttackKeyCode))
         {
             cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-            cmd.Initialize(AgentCommandDefine.ACCUMULATING_ATTACK, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
+            if(MeterManager.Ins.CheckTriggered(GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset, out triggerMeter))
+            {
+                cmd.Initialize(AgentCommandDefine.CHARGING_ATTACK, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
+            }
+            else
+            {
+                cmd.Initialize(AgentCommandDefine.CHARGING_ATTACKFAILED, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
+            }
+
             //Log.Error(LogLevel.Info, "Trigger hard attack+++++++++++++++++++++++++++++++{0}", triggerMeter);
             return true;
         }
@@ -168,9 +176,8 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         if (mHero == null)
             return;
         AgentCommand cmd;
-        bool hasCmd = GetInstantAttackInputCmd(out cmd) 
+        bool hasCmd = GetInstantAttackInputCmd(out cmd)
             || GetChargingCmd(out cmd)
-            || GetChargingAttackCmd(out cmd)
             || GetDashInputCommand(out cmd) 
             || GetRunInputCmd(out cmd);
         if (hasCmd)

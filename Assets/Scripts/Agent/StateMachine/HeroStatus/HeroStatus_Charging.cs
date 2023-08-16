@@ -40,15 +40,10 @@ public class HeroStatus_Charging : HeroStatus
         string stateName = agentActionData.stateName;
 
         // 2. 播放蓄力动画
-        mMatchMeterCrossfadeAnimDriver.StartPlay(stateName, statusName);
+        mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.StartPlay(stateName, statusName);
 
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
-
-        AgentAnimStateInfo animStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
-
-        // 攻击动作拍数
-        mCurLogicStateEndMeter = MeterManager.Ins.GetMeterIndex(triggerMeter, animStateInfo.meterLen) - 1;
     }
 
     public override void UnregisterInputHandle()
@@ -58,7 +53,30 @@ public class HeroStatus_Charging : HeroStatus
 
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        
+        // 只响应打断型受击状态
+        switch (cmdType)
+        {
+            // 接收到打断型的受击指令，马上切换到受击状态
+            case AgentCommandDefine.BE_HIT_BREAK:
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                break;
+            case AgentCommandDefine.CHARGING_ATTACK:
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                break;
+            case AgentCommandDefine.CHARGING_ATTACKFAILED:
+                ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, triggerMeter, args, triggeredComboStep);
+                break;
+            case AgentCommandDefine.DASH:
+            case AgentCommandDefine.INSTANT_ATTACK:
+            case AgentCommandDefine.METER_ATTACK:
+            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.RUN:
+            case AgentCommandDefine.IDLE:
+            case AgentCommandDefine.BE_HIT://攻击状态下，非打断的受击行为不做处理
+            case AgentCommandDefine.EMPTY:
+            default:
+                break;
+        }
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)

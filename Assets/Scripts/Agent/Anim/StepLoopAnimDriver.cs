@@ -171,7 +171,8 @@ public class StepLoopAnimDriver : AgentAnimDriver, IMeterHandler
         }
         else if (mCurAnimState.stateName.Equals(animState.stateName))
         {
-            mAgent.AnimPlayer.UpdateAnimSpeedWithFix(mCurAnimState.layer, mCurAnimState.animLen, duration);
+            //mAgent.AnimPlayer.UpdateAnimSpeedWithFix(mCurAnimState.layer, mCurAnimState.animLen, duration);
+            mAgent.AnimPlayer.PlayState(animState.stateName, mCurAnimState.animLen, 0, 0f, duration);
         }
         else
         {
@@ -192,10 +193,13 @@ public class StepLoopAnimDriver : AgentAnimDriver, IMeterHandler
 
     public void OnMeterEnter(int meterIndex)
     {
+        if (mCurAnimState == null)
+            return;
+
         if (meterIndex <= mCurLoopEndMeter)
             return;
 
-        if (mCurAnimState != null && mLoopRecord >= mCurAnimState.loopTime)
+        if (mCurAnimState != null && mCurAnimState.loopTime > 0 && mLoopRecord >= mCurAnimState.loopTime)
         {
             AgentAnimStateInfo animState = MoveNext();
             PlayOnce(animState);

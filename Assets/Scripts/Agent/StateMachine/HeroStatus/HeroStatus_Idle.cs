@@ -38,8 +38,8 @@ public class HeroStatus_Idle : HeroStatus
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
-            case AgentCommandDefine.ACCUMULATING:
-            case AgentCommandDefine.ACCUMULATING_ATTACK:
+            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING_ATTACK:
             case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.BE_HIT_BREAK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
@@ -62,8 +62,8 @@ public class HeroStatus_Idle : HeroStatus
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.INSTANT_ATTACK:
                 case AgentCommandDefine.METER_ATTACK:
-                case AgentCommandDefine.ACCUMULATING:
-                case AgentCommandDefine.ACCUMULATING_ATTACK:
+                case AgentCommandDefine.CHARING:
+                case AgentCommandDefine.CHARGING_ATTACK:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT_BREAK:
                     ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, comboStep);

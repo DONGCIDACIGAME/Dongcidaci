@@ -34,27 +34,32 @@ public static class AgentCommandDefine
     /// <summary>
     /// 蓄力攻击-蓄力 32
     /// </summary>
-    public const int ACCUMULATING                           = 1 << 5;
+    public const int CHARING                                = 1 << 5;
 
     /// <summary>
     /// 蓄力攻击-攻击 64
     /// </summary>
-    public const int ACCUMULATING_ATTACK                    = 1 << 6;
+    public const int CHARGING_ATTACK                        = 1 << 6;
+
+    /// <summary>
+    /// 蓄力攻击触发失败
+    /// </summary>
+    public const int CHARGING_ATTACKFAILED                  = 1 << 7;
 
     /// <summary>
     /// 受击128 不打断当前行为
     /// </summary>
-    public const int BE_HIT                                 = 1 << 7;
+    public const int BE_HIT                                 = 1 << 8;
 
     /// <summary>
     /// 受击 256 打断当前行为
     /// </summary>
-    public const int BE_HIT_BREAK                           = 1 << 8;
+    public const int BE_HIT_BREAK                           = 1 << 9;
 
     /// <summary>
     /// 死亡 512
     /// </summary>
-    public const int DEAD                                   = 1 << 9;
+    public const int DEAD                                   = 1 << 10;
 
     /// <summary>
     /// 可以进行优化的指令集(1拍里多个相同指令时可以优化为1个)

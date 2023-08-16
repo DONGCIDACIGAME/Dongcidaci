@@ -47,6 +47,21 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
     /// </summary>
     private float mMoveStep;
 
+    /// <summary>
+    /// 单次循环的总时长
+    /// </summary>
+    private float mOneLoopDuration;
+
+    /// <summary>
+    /// 总循环次数
+    /// </summary>
+    private int mLoopTime;
+
+    /// <summary>
+    /// 循环次数记录
+    /// </summary>
+    private int mLoopRecord;
+
     public bool active { get; private set; }
 
     /// <summary>
@@ -58,7 +73,9 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
     /// <param name="towardsType">朝向类型 0：实时朝向 1：固定朝向</param>
     /// <param name="towards">朝哪个方向/param>
     /// <param name="distance">移动多远</param>
-    public void Initialize(Agent agt, float moveStartTime, float moveEndTime, int towardsType, Vector3 towards, float distance)
+    /// <param name="oneLoopDuration">单次循环的时长</param>
+    /// <param name="loopTime">循环次数</param>
+    public void Initialize(Agent agt, float moveStartTime, float moveEndTime, int towardsType, Vector3 towards, float distance, float oneLoopDuration, int loopTime)
     {
         // 如果移动距离<=0
         if (mMoveDistance <= 0)
@@ -83,6 +100,9 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
         mMoveTowardsType = towardsType;
         mMoveTowards = towards.normalized;
         mMoveStep = mMoveDistance / (moveEndTime - moveStartTime);
+        mOneLoopDuration = oneLoopDuration;
+        mLoopTime = loopTime;
+        mLoopRecord = 0;
         active = true;
     }
 
@@ -94,6 +114,9 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
         mAgt = null;
         mMoveDistance = 0;
         mMoveStartTime = 0;
+        mLoopTime = 0;
+        mLoopRecord = 0;
+        mOneLoopDuration = 0;
     }
 
     public void Recycle()
@@ -110,22 +133,31 @@ public class AnimMovementExcutor : IGameUpdate, IRecycle
         mTimer += deltaTime;
 
         Vector3 towards = DirectionDef.none;
-        if(mTimer >= mMoveStartTime && mTimer < mMoveEndTime)
+        if(mLoopTime == 0 || mLoopRecord < mLoopTime)
         {
-            if (mMoveTowardsType.Equals(DirectionDef.RealTowards))
+            if (mTimer >= mMoveStartTime && mTimer <= mMoveEndTime)
             {
-                towards = mAgt.GetTowards();
-            }
-            else if (mMoveTowardsType.Equals(DirectionDef.FixedTowards))
-            {
-                towards = mMoveTowards;
+                if (mMoveTowardsType.Equals(DirectionDef.RealTowards))
+                {
+                    towards = mAgt.GetTowards();
+                }
+                else if (mMoveTowardsType.Equals(DirectionDef.FixedTowards))
+                {
+                    towards = mMoveTowards;
+                }
+
+                Vector3 curPos = mAgt.GetPosition();
+                Vector3 targetPos = curPos + towards * mMoveStep * deltaTime;
+                mAgt.MoveControl.MoveToPosition(targetPos);
             }
 
-            Vector3 curPos = mAgt.GetPosition();
-            Vector3 targetPos = curPos + towards * mMoveStep * deltaTime;
-            mAgt.MoveControl.MoveToPosition(targetPos);
+            if(mTimer > mOneLoopDuration)
+            {
+                mTimer = 0;
+                mLoopRecord++;
+            }
         }
-        else if(mTimer > mMoveEndTime)
+        else
         {
             Recycle();
         }

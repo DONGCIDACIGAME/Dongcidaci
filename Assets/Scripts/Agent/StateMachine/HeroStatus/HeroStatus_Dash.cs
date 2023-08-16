@@ -75,8 +75,8 @@ public class HeroStatus_Dash : HeroStatus
                 break;
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
-            case AgentCommandDefine.ACCUMULATING:
-            case AgentCommandDefine.ACCUMULATING_ATTACK:
+            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING_ATTACK:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:

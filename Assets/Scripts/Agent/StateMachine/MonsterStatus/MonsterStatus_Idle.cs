@@ -38,7 +38,7 @@ public class MonsterStatus_Idle : MonsterStatus
             case AgentCommandDefine.BE_HIT_BREAK:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.DASH:
-            case AgentCommandDefine.ACCUMULATING:
+            case AgentCommandDefine.CHARING:
             case AgentCommandDefine.INSTANT_ATTACK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
@@ -59,7 +59,7 @@ public class MonsterStatus_Idle : MonsterStatus
             {
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.INSTANT_ATTACK:
-                case AgentCommandDefine.ACCUMULATING:
+                case AgentCommandDefine.CHARING:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.BE_HIT_BREAK:

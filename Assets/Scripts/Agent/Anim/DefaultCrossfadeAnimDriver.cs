@@ -118,18 +118,20 @@ public class DefaultCrossfadeAnimDriver : AgentAnimDriver, IGameUpdate
 
     private void PlayOnce(AgentAnimStateInfo animState)
     {
+        //Log.Logic("PlayOnce//{0}",animState.stateName);
         if (animState == null)
             return;
 
         // 当前到动画播完一次的逻辑结束拍的时长
         if (mCurAnimState == null)
         {
-            mAgent.AnimPlayer.PlayState(animState.stateName, animState.animLen, animState.layer, 0, animState.animLen);
+            //mAgent.AnimPlayer.PlayState(animState.stateName, animState.animLen, animState.layer, 0, animState.animLen);
+            mAgent.AnimPlayer.CrossFadeToState(animState.stateName, animState.layer, animState.normalizedTime, animState.animLen);
         }
         else if (mCurAnimState.stateName.Equals(animState.stateName))
         {
-            //mAgent.AnimPlayer.PlayState(animState.stateName, animState.animLen, animState.layer, 0, animState.animLen);
-            mAgent.AnimPlayer.UpdateAnimSpeedWithFix(mCurAnimState.layer, mCurAnimState.animLen, animState.animLen);
+            mAgent.AnimPlayer.PlayState(animState.stateName, animState.animLen, animState.layer, 0, animState.animLen);
+            //mAgent.AnimPlayer.UpdateAnimSpeedWithFix(mCurAnimState.layer, mCurAnimState.animLen, animState.animLen);
         }
         else
         {
@@ -145,11 +147,19 @@ public class DefaultCrossfadeAnimDriver : AgentAnimDriver, IGameUpdate
 
     public void OnGameUpdate(float deltaTime)
     {
+        if (mCurAnimState == null)
+            return;
+
+        mTimeRecord += deltaTime;
+
         if (mTimeRecord <= mCurLoopEndTime)
             return;
 
-        if (mCurAnimState != null && mLoopRecord >= mCurAnimState.loopTime)
+        if (mCurAnimState != null && mCurAnimState.loopTime > 0 && mLoopRecord >= mCurAnimState.loopTime)
+        {
+            Reset();
             return;
+        }
 
         PlayOnce(mCurAnimState);
     }
