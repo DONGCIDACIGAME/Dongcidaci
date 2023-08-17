@@ -40,7 +40,7 @@ public class HeroStatus_Charging : HeroStatus
         string stateName = agentActionData.stateName;
 
         // 2. 播放蓄力动画
-        mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.StartPlay(stateName, statusName);
+        mMatchMeterCrossfadeAnimDriver.StartPlay(stateName, statusName);
 
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
@@ -61,16 +61,18 @@ public class HeroStatus_Charging : HeroStatus
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.CHARGING_ATTACK:
-                ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.CHARGING_ATTACKFAILED:
                 ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, triggerMeter, args, triggeredComboStep);
+                break;
+            case AgentCommandDefine.RUN:
+                mAgent.MoveControl.TurnTo(towards);
                 break;
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
             case AgentCommandDefine.CHARING:
-            case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.BE_HIT://攻击状态下，非打断的受击行为不做处理
             case AgentCommandDefine.EMPTY:
@@ -86,6 +88,23 @@ public class HeroStatus_Charging : HeroStatus
 
     protected override void CustomOnMeterEnter(int meterIndex)
     {
-        
+        if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
+        {
+            switch (cmdType)
+            {
+                case AgentCommandDefine.CHARGING_ATTACK:
+                    ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, comboStep);
+                    break;
+                case AgentCommandDefine.BE_HIT_BREAK:
+                case AgentCommandDefine.DASH:
+                case AgentCommandDefine.INSTANT_ATTACK:
+                case AgentCommandDefine.RUN:
+                case AgentCommandDefine.IDLE:
+                case AgentCommandDefine.EMPTY:
+                case AgentCommandDefine.BE_HIT:
+                default:
+                    break;
+            }
+        }
     }
 }

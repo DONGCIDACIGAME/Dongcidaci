@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class HeroStatus_ChargingAttack : HeroStatus
 {
+    private float mExitTime;
+    private float mTimer;
+
+    private Vector3 mMoveTowards;
+
     public override string GetStatusName()
     {
         return AgentStatusDefine.CHARGING_ATTACK;
@@ -40,9 +45,12 @@ public class HeroStatus_ChargingAttack : HeroStatus
 
         // 2. 播放攻击动画
         mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.StartPlay(statusName, stateName);
+        //mExitTime = mDefaultCrossFadeAnimDriver.StartPlay(statusName, stateName);
+        //mTimer = 0;
 
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
+
     }
 
     public override void UnregisterInputHandle()
@@ -59,13 +67,13 @@ public class HeroStatus_ChargingAttack : HeroStatus
             case AgentCommandDefine.BE_HIT_BREAK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
+            case AgentCommandDefine.RUN:
+                mMoveTowards = towards;
+                break;
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
-            case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-                //PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
-                break;
             case AgentCommandDefine.BE_HIT://攻击状态下，非打断的受击行为不做处理
             case AgentCommandDefine.CHARING:
             case AgentCommandDefine.CHARGING_ATTACK:
@@ -117,5 +125,19 @@ public class HeroStatus_ChargingAttack : HeroStatus
         {
             ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
         }
+    }
+
+    public override void OnGameUpdate(float deltaTime)
+    {
+        base.OnGameUpdate(deltaTime);
+
+        //mTimer += deltaTime;
+
+        //if (mTimer >= mExitTime)
+        //{
+        //    ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
+        //}
+
+        mAgent.MoveControl.MoveTowards(mMoveTowards, deltaTime * 1.5f, deltaTime);
     }
 }

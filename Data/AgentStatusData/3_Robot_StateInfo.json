@@ -229,11 +229,11 @@
 			"animStates": [
 			{
 				"stateName": "ChargingAttack",
-				"loopTime": 2,
+				"loopTime": 10,
 				"meterLen": 1,
 				"normalizedTime": 0.05,
 				"layer": 0,
-				"animLen": 0.5,
+				"animLen": 0.25,
 				"movements": [],
 				"hitPoints": []
 			}]

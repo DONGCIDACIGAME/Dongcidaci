@@ -80,9 +80,11 @@ public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver, IMeterHandler
         // 当前拍的起始位置到动画播完一次的逻辑结束拍的总时长
         float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, newMeterIndex);
 
+        Log.Logic("PlayOnce-------anim:{0}---duration:{1}---curMeter:{2}----newMeter:{3}", animState.stateName, duration, MeterManager.Ins.MeterIndex, newMeterIndex);
         if (mCurAnimState == null)
         {
-            mAgent.AnimPlayer.PlayState(animState.stateName, animState.animLen, animState.layer, 0, duration);
+            //mAgent.AnimPlayer.PlayState(animState.stateName, animState.animLen, animState.layer, 0, duration);
+            mAgent.AnimPlayer.CrossFadeToState(animState.stateName, animState.layer, animState.normalizedTime, animState.animLen, duration, totalMeterTime);
         }
         else if (mCurAnimState.stateName.Equals(animState.stateName))
         {

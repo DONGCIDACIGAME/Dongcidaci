@@ -16,11 +16,8 @@ public class AgentKeyboardInputHandle_Charging : AgentKeyboardInputHandle
             return;
 
         AgentCommand cmd;
-        bool hasCmd = GetInstantAttackInputCmd(out cmd)
-            || GetChargingAttackCmd(out cmd)
-            || GetDashInputCommand(out cmd)
+        bool hasCmd = GetChargingAttackCmd(out cmd)
             || GetRunInputCmd(out cmd);
-
 
         if (hasCmd)
         {
