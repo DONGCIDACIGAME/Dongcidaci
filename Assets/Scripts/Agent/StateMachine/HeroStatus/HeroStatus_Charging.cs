@@ -3,6 +3,16 @@ using UnityEngine;
 
 public class HeroStatus_Charging : HeroStatus
 {
+    private int mStartChargingMeter;
+    private ChargeAttackTrigger mChargeAtkTrigger;
+
+    public override void CustomInitialize()
+    {
+        base.CustomInitialize();
+        mChargeAtkTrigger = new ChargeAttackTrigger();
+        mChargeAtkTrigger.Initialize(mAgent, "Charging");
+    }
+
     public override string GetStatusName()
     {
         return AgentStatusDefine.CHARGING;
@@ -18,6 +28,7 @@ public class HeroStatus_Charging : HeroStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
+        mStartChargingMeter = triggerMeter;
         StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
     }
 
@@ -62,6 +73,7 @@ public class HeroStatus_Charging : HeroStatus
                 break;
             case AgentCommandDefine.CHARGING_ATTACK:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                Log.Logic(cmdBuffer.GetHashCode().ToString() + "-------Charging");
                 break;
             case AgentCommandDefine.CHARGING_ATTACKFAILED:
                 ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, triggerMeter, args, triggeredComboStep);
@@ -90,10 +102,22 @@ public class HeroStatus_Charging : HeroStatus
     {
         if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
         {
+            cmdBuffer.ClearCommandBuffer();
             switch (cmdType)
             {
                 case AgentCommandDefine.CHARGING_ATTACK:
-                    ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, comboStep);
+                    // 共蓄力了几拍
+                    int totalChargeMeter = triggerMeter - mStartChargingMeter;
+                    ChargeAttackStep chargeAtkStep = mChargeAtkTrigger.Trigger(totalChargeMeter);
+                    if(chargeAtkStep != null)
+                    {
+                        args.Add("chargeAtkStep", chargeAtkStep);
+                        ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, comboStep);
+                    }
+                    else
+                    {
+                        ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, triggerMeter, null, null);
+                    }
                     break;
                 case AgentCommandDefine.BE_HIT_BREAK:
                 case AgentCommandDefine.DASH:

@@ -86,6 +86,7 @@ public class HeroStatus_MeterAttack : HeroStatus
         // 缓存区取指令
         if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
         {
+            cmdBuffer.ClearCommandBuffer();
             Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
 
             switch (cmdType)

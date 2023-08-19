@@ -80,20 +80,20 @@ public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver, IMeterHandler
         // 当前拍的起始位置到动画播完一次的逻辑结束拍的总时长
         float totalMeterTime = MeterManager.Ins.GetTotalMeterTime(MeterManager.Ins.MeterIndex, newMeterIndex);
 
-        Log.Logic("PlayOnce-------anim:{0}---duration:{1}---curMeter:{2}----newMeter:{3}", animState.stateName, duration, MeterManager.Ins.MeterIndex, newMeterIndex);
+        Log.Logic("PlayOnce-------anim:{0}---duration:{1}---curMeter:{2}----newMeter:{3}", animState.animName, duration, MeterManager.Ins.MeterIndex, newMeterIndex);
         if (mCurAnimState == null)
         {
             //mAgent.AnimPlayer.PlayState(animState.stateName, animState.animLen, animState.layer, 0, duration);
-            mAgent.AnimPlayer.CrossFadeToState(animState.stateName, animState.layer, animState.normalizedTime, animState.animLen, duration, totalMeterTime);
+            mAgent.AnimPlayer.CrossFadeToAnim(animState.animName, animState.layer, animState.normalizedTime, animState.animLen, duration, totalMeterTime);
         }
-        else if (mCurAnimState.stateName.Equals(animState.stateName))
+        else if (mCurAnimState.animName.Equals(animState.animName))
         {
             //mAgent.AnimPlayer.UpdateAnimSpeedWithFix(mCurAnimState.layer, mCurAnimState.animLen, duration);
-            mAgent.AnimPlayer.PlayState(animState.stateName, mCurAnimState.animLen, 0, 0f, duration);
+            mAgent.AnimPlayer.PlayAnim(animState.animName, mCurAnimState.animLen, 0, 0f, duration);
         }
         else
         {
-            mAgent.AnimPlayer.CrossFadeToState(animState.stateName, animState.layer, animState.normalizedTime, animState.animLen, duration, totalMeterTime);
+            mAgent.AnimPlayer.CrossFadeToAnim(animState.animName, animState.layer, animState.normalizedTime, animState.animLen, duration, totalMeterTime);
         }
 
         mCurLoopEndMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, animState.meterLen) - 1;

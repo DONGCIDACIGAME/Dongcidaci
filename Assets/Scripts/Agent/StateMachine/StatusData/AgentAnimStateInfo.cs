@@ -2,9 +2,14 @@
 public class AgentAnimStateInfo
 {
     /// <summary>
-    /// 动画状态名称
+    /// 状态名称
     /// </summary>
     public string stateName;
+
+    /// <summary>
+    /// 动画名称
+    /// </summary>
+    public string animName;
 
     /// <summary>
     /// 循环次数

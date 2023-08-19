@@ -16,6 +16,7 @@
 			},
 			"animStates": [{
 				"stateName": "Idle",
+				"animName": "Idle",
 				"loopTime": 0,
 				"meterLen": 2,
 				"minDuration": 0,
@@ -40,6 +41,7 @@
 			},
 			"animStates": [{
 				"stateName": "Run",
+				"animName": "Run",
 				"loopTime": 0,
 				"meterLen": 2,
 				"normalizedTime": 0.1,
@@ -65,6 +67,7 @@
 			},
 			"animStates": [{
 				"stateName": "Attack",
+				"animName": "Attack",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0.05,
@@ -88,6 +91,7 @@
 			},
 			"animStates": [{
 				"stateName": "Dash",
+				"animName": "Dash",
 				"loopTime": 1,
 				"meterLen": 2,
 				"normalizedTime": 0.1,
@@ -111,6 +115,7 @@
 			},
 			"animStates": [{
 				"stateName": "Empty",
+				"animName": "Empty",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0.5,
@@ -130,6 +135,7 @@
 			},
 			"animStates": [{
 				"stateName": "BeHit",
+				"animName": "BeHit",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0.05,

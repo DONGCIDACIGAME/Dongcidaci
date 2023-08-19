@@ -48,7 +48,6 @@ public class ComboTrigger : IMeterHandler, IGameUpdate
         }
 
         mAgent = agent;
-        mSortedTriggerableCombos = new List<TriggerableCombo>();
 
         AttackBehaviourData attackBehaviourDatas = DataCenter.Ins.AgentAtkBehaviourDataCenter.GetAgentAtkBehaviourData(agent.GetAgentId());
         if (attackBehaviourDatas == null)
@@ -63,7 +62,7 @@ public class ComboTrigger : IMeterHandler, IGameUpdate
             return;
         }
 
-        mSortedTriggerableCombos.Clear();
+        mSortedTriggerableCombos = new List<TriggerableCombo>();
         comboLogicEndMeter = 0;
 
         for (int i = 0; i < attackBehaviourDatas.comboDatas.Length; i++)

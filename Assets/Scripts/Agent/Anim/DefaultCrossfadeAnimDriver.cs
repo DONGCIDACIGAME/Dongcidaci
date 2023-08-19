@@ -78,11 +78,11 @@ public class DefaultCrossfadeAnimDriver : AgentAnimDriver, IGameUpdate
         return endTime;
     }
 
-    public float StartPlay(string stateName, int layer, int loopTime, int meterLen, float normalizedTime, float animLen)
+    public float StartPlay(string stateName, string animName, int layer, int loopTime, int meterLen, float normalizedTime, float animLen)
     {
         if(animLen == 0)
         {
-            Log.Error(LogLevel.Normal, "DefaultCrossfadeAnimDriver StartPlay {0} Error, anim len = 0!", stateName);
+            Log.Error(LogLevel.Normal, "DefaultCrossfadeAnimDriver StartPlay {0} Error, anim len = 0!", animName);
             return 0;
         }
 
@@ -90,6 +90,7 @@ public class DefaultCrossfadeAnimDriver : AgentAnimDriver, IGameUpdate
         AgentAnimStateInfo newStateInfo = new AgentAnimStateInfo()
         {
             stateName = stateName,
+            animName = animName,
             layer = layer,
             loopTime = loopTime,
             meterLen = meterLen,
@@ -126,16 +127,16 @@ public class DefaultCrossfadeAnimDriver : AgentAnimDriver, IGameUpdate
         if (mCurAnimState == null)
         {
             //mAgent.AnimPlayer.PlayState(animState.stateName, animState.animLen, animState.layer, 0, animState.animLen);
-            mAgent.AnimPlayer.CrossFadeToState(animState.stateName, animState.layer, animState.normalizedTime, animState.animLen);
+            mAgent.AnimPlayer.CrossFadeToState(animState.animName, animState.layer, animState.normalizedTime, animState.animLen);
         }
-        else if (mCurAnimState.stateName.Equals(animState.stateName))
+        else if (mCurAnimState.animName.Equals(animState.animName))
         {
-            mAgent.AnimPlayer.PlayState(animState.stateName, animState.animLen, animState.layer, 0, animState.animLen);
+            mAgent.AnimPlayer.PlayAnim(animState.animName, animState.animLen, animState.layer, 0, animState.animLen);
             //mAgent.AnimPlayer.UpdateAnimSpeedWithFix(mCurAnimState.layer, mCurAnimState.animLen, animState.animLen);
         }
         else
         {
-            mAgent.AnimPlayer.CrossFadeToState(animState.stateName, animState.layer, animState.normalizedTime, animState.animLen);
+            mAgent.AnimPlayer.CrossFadeToState(animState.animName, animState.layer, animState.normalizedTime, animState.animLen);
         }
 
         mCurLoopEndTime = animState.animLen;

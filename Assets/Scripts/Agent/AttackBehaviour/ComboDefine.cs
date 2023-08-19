@@ -30,9 +30,4 @@ public static class ComboDefine
     /// 叠加模式
     /// </summary>
     public const int ComboMode_Overlay= 1;
-
-    /// <summary>
-    /// 空招式
-    /// </summary>
-    public static TriggeredComboStep EmptyComboStep = new TriggeredComboStep();
 }

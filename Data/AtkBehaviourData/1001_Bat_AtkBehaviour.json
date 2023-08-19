@@ -164,5 +164,6 @@
 			],
 			"transferStateDuration": 0.5
 		}
-	]
+	],
+	"chargeAttackDatas":null
 }

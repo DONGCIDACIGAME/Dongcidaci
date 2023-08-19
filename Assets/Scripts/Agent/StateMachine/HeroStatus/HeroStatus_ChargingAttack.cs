@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class HeroStatus_ChargingAttack : HeroStatus
 {
-    private float mExitTime;
-    private float mTimer;
-
     private Vector3 mMoveTowards;
 
     public override string GetStatusName()
@@ -34,23 +31,25 @@ public class HeroStatus_ChargingAttack : HeroStatus
 
     public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
     {
-        if (agentActionData == null)
-            return;
-
         // 1. 转向被攻击的方向
         mAgent.MoveControl.TurnTo(towards);
 
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;
 
+        if (args.TryGetValue("chargeAtkStep", out object v))
+        {
+            ChargeAttackStep chargeAtkStep = v as ChargeAttackStep;
+
+            statusName = chargeAtkStep.attackAction.statusName;
+            stateName = chargeAtkStep.attackAction.stateName;
+        }
+
         // 2. 播放攻击动画
         mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.StartPlay(statusName, stateName);
-        //mExitTime = mDefaultCrossFadeAnimDriver.StartPlay(statusName, stateName);
-        //mTimer = 0;
 
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
-
     }
 
     public override void UnregisterInputHandle()

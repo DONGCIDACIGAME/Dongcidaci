@@ -16,6 +16,7 @@
 			},
 			"animStates": [{
 				"stateName": "Idle",
+				"animName":"Idle",
 				"loopTime": 0,
 				"meterLen": 2,
 				"normalizedTime": 0.5,
@@ -39,6 +40,7 @@
 			},
 			"animStates": [{
 				"stateName": "Run",
+				"animName":"Run",
 				"loopTime": 0,
 				"meterLen": 2,
 				"normalizedTime": 0.1,
@@ -64,6 +66,7 @@
 			},
 			"animStates": [{
 				"stateName": "DashAtk1_Inplace",
+				"animName":"DashAtk1_Inplace",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0.05,
@@ -74,6 +77,7 @@
 			},
 			{
 				"stateName": "Combo1_1",
+				"animName":"Combo1_1",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0.05,
@@ -84,6 +88,7 @@
 			},
 			{
 				"stateName": "Combo1_2",
+				"animName":"Combo1_2",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0,
@@ -94,6 +99,7 @@
 			},
 			{
 				"stateName": "Combo1_3",
+				"animName":"Combo1_3",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0,
@@ -117,6 +123,7 @@
 			},
 			"animStates": [{
 				"stateName": "Dash",
+				"animName":"Dash",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0.1,
@@ -140,6 +147,7 @@
 			},
 			"animStates": [{
 				"stateName": "Empty",
+				"animName":"Empty",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0.1,
@@ -150,6 +158,7 @@
 			},
 			{
 				"stateName": "Combo1TansToCombo2",
+				"animName":"Combo1TansToCombo2",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0.25,
@@ -160,6 +169,7 @@
 			},
 			{
 				"stateName": "Combo2TansToCombo3",
+				"animName":"Combo2TansToCombo3",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0.05,
@@ -170,6 +180,7 @@
 			},
 			{
 				"stateName": "Combo3TransToIdle",
+				"animName":"Combo3TransToIdle",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0.05,
@@ -189,6 +200,7 @@
 			},
 			"animStates": [{
 				"stateName": "BeHit",
+				"animName":"BeHit",
 				"loopTime": 1,
 				"meterLen": 1,
 				"normalizedTime": 0.05,
@@ -209,6 +221,7 @@
 			"animStates": [
 			{
 				"stateName": "Charging",
+				"animName":"Charging",
 				"loopTime": 0,
 				"meterLen": 1,
 				"normalizedTime": 0.05,
@@ -223,13 +236,25 @@
 			"defaultAciton":
 			{
 				"statusName": "Charging_Attack",
-				"stateName": "ChargingAttack",
+				"stateName": "ChargingAttack_2Meter",
 				"effectCollictions": null
 			},
 			"animStates": [
 			{
-				"stateName": "ChargingAttack",
-				"loopTime": 10,
+				"stateName": "ChargingAttack_2Meter",
+				"animName":"ChargingAttack",
+				"loopTime": 2,
+				"meterLen": 1,
+				"normalizedTime": 0.05,
+				"layer": 0,
+				"animLen": 0.25,
+				"movements": [],
+				"hitPoints": []
+			},
+			{
+				"stateName": "ChargingAttack_4Meter",
+				"animName":"ChargingAttack",
+				"loopTime": 4,
 				"meterLen": 1,
 				"normalizedTime": 0.05,
 				"layer": 0,

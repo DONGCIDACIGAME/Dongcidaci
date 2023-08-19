@@ -44,6 +44,4 @@ public class ComboData
     /// combo的转换状态时间（占拍子的百分比时间）
     /// </summary>
     public float transferStateDuration;
-
-
 }

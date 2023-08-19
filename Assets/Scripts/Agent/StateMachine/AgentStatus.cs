@@ -163,7 +163,7 @@ public abstract class AgentStatus : IAgentStatus
         CustomOnMeterEnter(meterIndex);
         mStepLoopAnimDriver.OnMeterEnter(meterIndex);
         mMatchMeterCrossfadeAnimDriver.OnMeterEnter(meterIndex);
-        cmdBuffer.ClearCommandBuffer();
+        //cmdBuffer.ClearCommandBuffer();
     }
 
     public void OnMeterEnd(int meterIndex)
@@ -216,10 +216,6 @@ public abstract class AgentStatus : IAgentStatus
     public void PushInputCommandToBuffer(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         cmdBuffer.AddInputCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
-        //if(triggeredComboStep != null)
-        //{
-        //    mCurTriggeredComboStep = triggeredComboStep;
-        //}
     }
 
     protected abstract void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep);
@@ -245,7 +241,7 @@ public abstract class AgentStatus : IAgentStatus
         {
             Log.Error(LogLevel.Info, "ExcuteComboTriggerCmd-----------{0}-{1}", triggeredComboStep.comboData.comboName, triggeredComboStep.stepIndex);
             ExcuteCombo(triggeredComboStep);
-            if(triggeredComboStep != ComboDefine.EmptyComboStep)
+            if(triggeredComboStep != null)
             {
                 actionData = triggeredComboStep.comboStep.attackActionData;
             }

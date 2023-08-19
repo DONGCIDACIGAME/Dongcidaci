@@ -167,16 +167,16 @@ public class StepLoopAnimDriver : AgentAnimDriver, IMeterHandler
 
         if (mCurAnimState == null)
         {
-            mAgent.AnimPlayer.CrossFadeToState(animState.stateName, animState.layer, animState.normalizedTime, animState.animLen, duration, totalMeterTime);
+            mAgent.AnimPlayer.CrossFadeToAnim(animState.animName, animState.layer, animState.normalizedTime, animState.animLen, duration, totalMeterTime);
         }
-        else if (mCurAnimState.stateName.Equals(animState.stateName))
+        else if (mCurAnimState.animName.Equals(animState.animName))
         {
             //mAgent.AnimPlayer.UpdateAnimSpeedWithFix(mCurAnimState.layer, mCurAnimState.animLen, duration);
-            mAgent.AnimPlayer.PlayState(animState.stateName, mCurAnimState.animLen, 0, 0f, duration);
+            mAgent.AnimPlayer.PlayAnim(animState.animName, mCurAnimState.animLen, 0, 0f, duration);
         }
         else
         {
-            mAgent.AnimPlayer.CrossFadeToState(animState.stateName, animState.layer, animState.normalizedTime, animState.animLen, duration, totalMeterTime);
+            mAgent.AnimPlayer.CrossFadeToAnim(animState.animName, animState.layer, animState.normalizedTime, animState.animLen, duration, totalMeterTime);
         }
 
         mCurLoopEndMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, animState.meterLen) - 1;

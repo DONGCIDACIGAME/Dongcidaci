@@ -34,16 +34,13 @@ public class ColorLoopOnce : MyMonoBehaviour
         if (!mRunning)
             return;
 
-        if (GamePlayDefine.DisplayTimeToMatchMeter <= 0)
-            return;
-
         mTimeRecord += deltaTime;
 
-        if(mTimeRecord < GamePlayDefine.DisplayTimeToMatchMeter)
+        if (mTimeRecord < GamePlayDefine.DisplayTimeToMatchMeter)
         {
             target.color = Color.Lerp(startColor, endColor, mTimeRecord / GamePlayDefine.DisplayTimeToMatchMeter);
         }
-        else if(mTimeRecord >= GamePlayDefine.DisplayTimeToMatchMeter && mTimeRecord < 2 * GamePlayDefine.DisplayTimeToMatchMeter)
+        else if (mTimeRecord >= GamePlayDefine.DisplayTimeToMatchMeter && mTimeRecord < 2 * GamePlayDefine.DisplayTimeToMatchMeter)
         {
             target.color = Color.Lerp(endColor, startColor, (mTimeRecord - GamePlayDefine.DisplayTimeToMatchMeter) / GamePlayDefine.DisplayTimeToMatchMeter);
         }

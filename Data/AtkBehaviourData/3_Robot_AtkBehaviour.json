@@ -2,8 +2,7 @@
 	"agentName": "Robot",
 	"agentId": 3,
 	"comboDatas": 
-	[
-	{
+	[{
 			"comboUID": 1,
 			"comboName": "JJJ",
 			"comboType": 0,
@@ -214,6 +213,25 @@
 				}
 			],
 			"transferStateDuration": 0.5
-		}
-		]
+		}],
+		"chargeAttackDatas":[{
+			"chargeAttackUID":1,
+			"chargeStateName":"Charging",
+			"ChargeAttackSteps":[{
+				"chargeMeterLen":2,
+				"attackAction":{
+					"statusName": "Charging_Attack",
+					"stateName": "ChargingAttack_2Meter",
+					"effectCollictions": []
+				}
+			},
+			{
+				"chargeMeterLen":4,
+				"attackAction":{
+					"statusName": "Charging_Attack",
+					"stateName": "ChargingAttack_4Meter",
+					"effectCollictions": []
+				}
+			}]
+		}]
 }

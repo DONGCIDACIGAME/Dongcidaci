@@ -23,7 +23,7 @@ public class AgentCommandBuffer : IGameDisposable
             directionList[i] = DirectionDef.none;
             triggerMeterList[i] = 0;
             argsList[i] = new Dictionary<string, object>();
-            comboStepList[i] = ComboDefine.EmptyComboStep;
+            comboStepList[i] = null;
         }
     }
 
@@ -84,7 +84,7 @@ public class AgentCommandBuffer : IGameDisposable
             directionList[index] = DirectionDef.none;
             triggerMeterList[index] = 0;
             argsList[index].Clear();
-            comboStepList[index] = ComboDefine.EmptyComboStep;
+            comboStepList[index] = null;
         }
     }
 
@@ -92,7 +92,7 @@ public class AgentCommandBuffer : IGameDisposable
     {
         cmdType = AgentCommandDefine.EMPTY;
         towards = DirectionDef.none;
-        comboStep = ComboDefine.EmptyComboStep;
+        comboStep = null;
         triggerMeter = 0;
         args = null;
 
@@ -113,7 +113,12 @@ public class AgentCommandBuffer : IGameDisposable
             cmdType = _cmdType;
             triggerMeter = _triggerMeter;
             towards = directionList[index];
-            args = argsList[index];
+            args = new Dictionary<string, object>();
+            // 复制参数
+            foreach (KeyValuePair<string, object> kv in argsList[index])
+            {
+                args[kv.Key] = kv.Value;
+            }
             comboStep = comboStepList[index];
             return true;
         }
@@ -129,7 +134,7 @@ public class AgentCommandBuffer : IGameDisposable
             directionList[i] = DirectionDef.none;
             triggerMeterList[i] = 0;
             argsList[i].Clear();
-            comboStepList[i] = ComboDefine.EmptyComboStep;
+            comboStepList[i] = null;
         }
     }
 

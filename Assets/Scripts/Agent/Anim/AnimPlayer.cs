@@ -8,9 +8,9 @@ public class AnimPlayer
     public Animator mAnimator;
 
     /// <summary>
-    /// 当前状态名称
+    /// 当前动画名称
     /// </summary>
-    public string CurStateName { get; private set; }
+    public string CurAnimName { get; private set; }
 
     /// <summary>
     /// 当前状态的播放进度
@@ -33,7 +33,7 @@ public class AnimPlayer
 
     public AnimPlayer()
     {
-        CurStateName = string.Empty;
+        CurAnimName = string.Empty;
     }
 
     public void Dispose()
@@ -142,15 +142,15 @@ public class AnimPlayer
     /// 动画的融合起始帧将会前移以保证在targetDuration之后动画刚好播完
     /// 该方法的融合后动画的起始帧是动态的
     /// </summary>
-    /// <param name="stateName">状态名称</param>
+    /// <param name="animName">动画名称</param>
     /// <param name="layer">动画所在层级</param>
     /// <param name="normalizedTime">动画融合所占时间(归一化)</param>
     /// <param name="animLen">动画的原始时长（播放速度为1时）</param>
     /// <param name="targetDuration">新动画要播放的时间</param>
     /// <param name="targetFullTime">动画完全播完所需要的预期时长（即假设融合后从第0帧开始播放）</param>
-    public void CrossFadeToState(string stateName, int layer, float normalizedTime, float animLen, float targetDuration, float targetFullTime)
+    public void CrossFadeToAnim(string animName, int layer, float normalizedTime, float animLen, float targetDuration, float targetFullTime)
     {
-        if (stateName.Equals("Empty"))
+        if (animName.Equals("Empty"))
             return;
 
         if (targetFullTime <= 0)
@@ -166,17 +166,17 @@ public class AnimPlayer
         }
 
         // 不能和同一个状态进行动画融合，直接播放
-        if (CurStateName.Equals(stateName))
+        if (CurAnimName.Equals(animName))
         {
-            PlayState(stateName, animLen, layer, 0, targetDuration);
+            PlayAnim(animName, animLen, layer, 0, targetDuration);
             return;
         }
 
-        CurStateName = stateName;
+        CurAnimName = animName;
         // 归一化时间为0，就是不融合，直接播放
         if (normalizedTime == 0)
         {
-            PlayState(stateName, animLen, layer, 0, targetDuration);
+            PlayAnim(animName, animLen, layer, 0, targetDuration);
             return;
         }
 
@@ -209,7 +209,7 @@ public class AnimPlayer
 
         // 计算新动画的偏移时长（即按照上面的播放速度去播放动画又需要在结束拍卡点时，新动画的融合起点时间需要后移）
         float timeOffset = targetFullTime - targetDuration;
-        mAnimator.CrossFadeInFixedTime(stateName, normalizedTime * targetDuration, layer, timeOffset);
+        mAnimator.CrossFadeInFixedTime(animName, normalizedTime * targetDuration, layer, timeOffset);
     }
 
     /// <summary>
@@ -227,17 +227,17 @@ public class AnimPlayer
             return;
 
         // 不能和同一个状态进行动画融合，直接播放
-        if (CurStateName.Equals(stateName))
+        if (CurAnimName.Equals(stateName))
         {
-            PlayState(stateName, animLen, layer, 0, animLen);
+            PlayAnim(stateName, animLen, layer, 0, animLen);
             return;
         }
 
-        CurStateName = stateName;
+        CurAnimName = stateName;
         // 归一化时间为0，就是不融合，直接播放
         if (normalizedTime == 0)
         {
-            PlayState(stateName, animLen, layer, 0, animLen);
+            PlayAnim(stateName, animLen, layer, 0, animLen);
             return;
         }
 
@@ -251,14 +251,14 @@ public class AnimPlayer
     /// <summary>
     /// 在规定时间内播放完指定动画
     /// </summary>
-    /// <param name="stateName">状态名称</param>
+    /// <param name="animName">动画名称</param>
     /// <param name="animLen">动画的原始时长（播放速度为1时）</param>
     /// <param name="layer">动画所在层级</param>
     /// <param name="normalizedTime">动画开始时间(归一化)</param>
     /// <param name="targetDuration">新动画的预期播放时间</param>
-    public void PlayState(string stateName, float animLen, int layer, float normalizedTime, float targetDuration)
+    public void PlayAnim(string animName, float animLen, int layer, float normalizedTime, float targetDuration)
     {
-        if (stateName.Equals("Empty"))
+        if (animName.Equals("Empty"))
             return;
 
         if (targetDuration <= 0)
@@ -267,7 +267,7 @@ public class AnimPlayer
             return;
         }
 
-        CurStateName = stateName;
+        CurAnimName = animName;
         // 按照播放进度计算，剩余动画的播放完成的原始动画时间
         float animTime = animLen * (1-normalizedTime);
         // 计算动画播放速度
@@ -275,6 +275,6 @@ public class AnimPlayer
         // 更新动画播放速度
         UpdateAnimSpeed(speed);
 
-        mAnimator.Play(stateName, layer, normalizedTime);
+        mAnimator.Play(animName, layer, normalizedTime);
     }
 }

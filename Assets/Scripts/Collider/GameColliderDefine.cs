@@ -34,12 +34,12 @@ public static class GameColliderDefine
     /// 对应所有的事件类型，目前最多支持32种
     /// 如果不够用，扩展为long类型
     /// </summary>
-    public const int CollliderType_None             = 0;
-    public const int ColliderType_Hero               = 1 << 0;
-    public const int ColliderType_Monster         = 1 << 1;
-    public const int ColliderType_NPC                = 1 << 2;
-    public const int ColliderType_Block              = 1 << 3;
-    public const int ColliderType_Trap                = 1 << 4;
+    public const int CollliderType_None                 = 0;
+    public const int ColliderType_Hero                  = 1 << 0;
+    public const int ColliderType_Monster               = 1 << 1;
+    public const int ColliderType_NPC                   = 1 << 2;
+    public const int ColliderType_Block                 = 1 << 3;
+    public const int ColliderType_Trap                  = 1 << 4;
 
     /// <summary>
     /// 可以移动过去的碰撞类型
