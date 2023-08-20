@@ -22,8 +22,7 @@ public class HeroStatus_InstantAttack : HeroStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
-        mComboStep = triggeredComboStep.comboStep;
+        StatusDefaultAction(towards, triggeredComboStep);
     }
 
     /// <summary>
@@ -54,7 +53,7 @@ public class HeroStatus_InstantAttack : HeroStatus
                 break;
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
-            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING:
             case AgentCommandDefine.CHARGING_ATTACK:
             case AgentCommandDefine.DASH:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
@@ -94,7 +93,7 @@ public class HeroStatus_InstantAttack : HeroStatus
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.INSTANT_ATTACK:
                 case AgentCommandDefine.METER_ATTACK:
-                case AgentCommandDefine.CHARING:
+                case AgentCommandDefine.CHARGING:
                 case AgentCommandDefine.CHARGING_ATTACK:
                     //ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
                     break;
@@ -134,8 +133,8 @@ public class HeroStatus_InstantAttack : HeroStatus
                     case AgentCommandDefine.BE_HIT_BREAK:
                     case AgentCommandDefine.DASH:
                     case AgentCommandDefine.INSTANT_ATTACK:
-                    case AgentCommandDefine.CHARING:
-                        ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
+                    case AgentCommandDefine.CHARGING:
+                        StatusDefaultAction(towards, comboStep);
                         return;
                     case AgentCommandDefine.RUN:
                     case AgentCommandDefine.IDLE:
@@ -167,13 +166,18 @@ public class HeroStatus_InstantAttack : HeroStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
+    public void StatusDefaultAction(Vector3 towards, TriggeredComboStep triggeredComboStep)
     {
-        if (agentActionData == null)
-            return;
-
-        // 1. 转向被攻击的方向
+        // 1. 转向
         mAgent.MoveControl.TurnTo(towards);
+
+        AgentActionData agentActionData = GetStatusDefaultActionData();
+        if (triggeredComboStep != null)
+        {
+            agentActionData = triggeredComboStep.comboStep.attackActionData;
+            ExcuteCombo(triggeredComboStep);
+            mComboStep = triggeredComboStep.comboStep;
+        }
 
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;

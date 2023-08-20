@@ -29,7 +29,7 @@ public class HeroStatus_Charging : HeroStatus
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
         mStartChargingMeter = triggerMeter;
-        StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
+        StatusDefaultAction(towards);
     }
 
     public override void OnExit()
@@ -39,14 +39,13 @@ public class HeroStatus_Charging : HeroStatus
     }
 
 
-    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
+    public void StatusDefaultAction(Vector3 towards)
     {
-        if (agentActionData == null)
-            return;
-
         // 1. 转向被攻击的方向
         mAgent.MoveControl.TurnTo(towards);
 
+
+        AgentActionData agentActionData = mChargeAtkTrigger.GetChargeActionData();
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;
 
@@ -73,7 +72,21 @@ public class HeroStatus_Charging : HeroStatus
                 break;
             case AgentCommandDefine.CHARGING_ATTACK:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
-                Log.Logic(cmdBuffer.GetHashCode().ToString() + "-------Charging");
+
+                //// 共蓄力了几拍
+                //int totalChargeMeter = triggerMeter - mStartChargingMeter;
+                //ChargeAttackStep chargeAtkStep = mChargeAtkTrigger.Trigger(totalChargeMeter);
+                //if (chargeAtkStep != null)
+                //{
+                //    Dictionary<string, object> _args = new Dictionary<string, object>();
+                //    _args.Add("chargeAtkStep", chargeAtkStep);
+                //    ChangeStatusOnCommand(cmdType, towards, triggerMeter, _args, triggeredComboStep);
+                //}
+                //else
+                //{
+                //    ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, triggerMeter, null, null);
+                //}
+
                 break;
             case AgentCommandDefine.CHARGING_ATTACKFAILED:
                 ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, triggerMeter, args, triggeredComboStep);
@@ -84,7 +97,7 @@ public class HeroStatus_Charging : HeroStatus
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
-            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.BE_HIT://攻击状态下，非打断的受击行为不做处理
             case AgentCommandDefine.EMPTY:

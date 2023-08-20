@@ -75,13 +75,7 @@ public abstract class AgentStatus : IAgentStatus
     /// <returns></returns>
     public abstract string GetStatusName();
 
-    
-
-    /// <summary>
-    /// 状态默认的行为逻辑
-    /// </summary>
-    public abstract void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string,object> args, AgentActionData agentActionData);
-
+   
     /// <summary>
     /// 获取指令切换的状态类型
     /// </summary>
@@ -233,28 +227,28 @@ public abstract class AgentStatus : IAgentStatus
         mCurExcutingCmdType = cmd.CmdType;
     }
 
-    protected void ExcuteComboTriggerCmd(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
-    {
-        AgentActionData actionData = mStatusDefaultActionData;
+    //protected void ExcuteComboTriggerCmd(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    //{
+    //    AgentActionData actionData = mStatusDefaultActionData;
 
-        if (triggeredComboStep != null)
-        {
-            Log.Error(LogLevel.Info, "ExcuteComboTriggerCmd-----------{0}-{1}", triggeredComboStep.comboData.comboName, triggeredComboStep.stepIndex);
-            ExcuteCombo(triggeredComboStep);
-            if(triggeredComboStep != null)
-            {
-                actionData = triggeredComboStep.comboStep.attackActionData;
-            }
-        }
+    //    if (triggeredComboStep != null)
+    //    {
+    //        Log.Error(LogLevel.Info, "ExcuteComboTriggerCmd-----------{0}-{1}", triggeredComboStep.comboData.comboName, triggeredComboStep.stepIndex);
+    //        ExcuteCombo(triggeredComboStep);
+    //        if(triggeredComboStep != null)
+    //        {
+    //            actionData = triggeredComboStep.comboStep.attackActionData;
+    //        }
+    //    }
 
-        StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);
-    }
+    //    //StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);
+    //}
 
     /// <summary>
     /// 执行Combo
     /// </summary>
     /// <param name="triggeredComboAction"></param>
-    private void ExcuteCombo(TriggeredComboStep triggeredComboStep)
+    public void ExcuteCombo(TriggeredComboStep triggeredComboStep)
     {
         if (triggeredComboStep == null)
         {
@@ -298,35 +292,6 @@ public abstract class AgentStatus : IAgentStatus
             //    GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSFER, AgentCommandDefine.EMPTY, DirectionDef.none, triggerMeter, _args, _triggeredComboStep);
             //}));
         //}
-    }
-
-
-    /// <summary>
-    /// 根据节拍进度执行
-    /// 如果本拍的剩余时间占比=waitMeterProgress,就直接执指令，否则等下拍执行指令
-    /// 其他情况等待下一拍执行
-    /// </summary>
-    /// <param name="cmdType"></param>
-    /// <param name="towards"></param>
-    /// <param name="triggerMeter"></param>
-    /// <param name="triggeredComboStep"></param>
-    protected bool ConditionalExcute(int cmdType, Vector3 towards, int triggerMeter,  Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
-    {
-        if (triggerMeter <= mCurLogicStateEndMeter)
-            return false;
-
-        // 当前节拍的进度
-        float progress = MeterManager.Ins.GetCurrentMeterProgress();
-        if (progress <= GamePlayDefine.AttackMeterProgressWait)
-        {
-            ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
-            return true;
-        }
-        else
-        {
-            PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
-            return false;
-        }
     }
 
     /// <summary>

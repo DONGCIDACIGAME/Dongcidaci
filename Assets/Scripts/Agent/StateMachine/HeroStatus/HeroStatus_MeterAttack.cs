@@ -22,8 +22,7 @@ public class HeroStatus_MeterAttack : HeroStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, triggeredComboStep);
-        mComboStep = triggeredComboStep.comboStep;
+        StatusDefaultAction(towards, triggerMeter, triggeredComboStep);
     }
 
     /// <summary>
@@ -54,7 +53,7 @@ public class HeroStatus_MeterAttack : HeroStatus
                 break;
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
-            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING:
             case AgentCommandDefine.CHARGING_ATTACK:
             case AgentCommandDefine.DASH:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
@@ -95,10 +94,10 @@ public class HeroStatus_MeterAttack : HeroStatus
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.INSTANT_ATTACK:
                 case AgentCommandDefine.METER_ATTACK:
-                case AgentCommandDefine.CHARING:
-                case AgentCommandDefine.CHARGING_ATTACK:
-                    ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
+                case AgentCommandDefine.CHARGING:
+                    ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, comboStep);
                     break;
+                case AgentCommandDefine.CHARGING_ATTACK:
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.EMPTY:
@@ -107,57 +106,16 @@ public class HeroStatus_MeterAttack : HeroStatus
                     break;
             }
         }
-        //else
-        //{
-        //    ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
-        //}
+        else
+        {
+            ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
+        }
 
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)
     {
 
-    }
-
-    public override void OnGameUpdate(float deltaTime)
-    {
-        base.OnGameUpdate(deltaTime);
-
-        mTimer += deltaTime;
-
-        if (mTimer >= mExitTime)
-        {
-            // 缓存区取指令
-            if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
-            {
-                switch (cmdType)
-                {
-                    case AgentCommandDefine.BE_HIT_BREAK:
-                    case AgentCommandDefine.DASH:
-                    case AgentCommandDefine.INSTANT_ATTACK:
-                    case AgentCommandDefine.METER_ATTACK:
-                    case AgentCommandDefine.CHARING:
-                    case AgentCommandDefine.CHARGING_ATTACK:
-                        ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
-                        return;
-                    case AgentCommandDefine.RUN:
-                    case AgentCommandDefine.IDLE:
-                    case AgentCommandDefine.EMPTY:
-                    case AgentCommandDefine.BE_HIT:
-                    default:
-                        break;
-                }
-            }
-            //else
-            //{
-            //    ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
-            //}
-
-            Dictionary<string, object> _args = new Dictionary<string, object>();
-            _args.Add("transitionAction", mComboStep.transitionData);
-            TriggeredComboStep _triggeredComboStep = null;
-            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSITION, AgentCommandDefine.EMPTY, mAttackTowards, MeterManager.Ins.MeterIndex, _args, _triggeredComboStep);
-        }
     }
 
     /// <summary>
@@ -170,31 +128,27 @@ public class HeroStatus_MeterAttack : HeroStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
+    public void StatusDefaultAction(Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
     {
-        if (agentActionData == null)
-            return;
-
-        // 1. 转向被攻击的方向
+        // 1. 转向
         mAgent.MoveControl.TurnTo(towards);
+
+        AgentActionData agentActionData = GetStatusDefaultActionData();
+        if (triggeredComboStep != null)
+        {
+            agentActionData = triggeredComboStep.comboStep.attackActionData;
+            ExcuteCombo(triggeredComboStep);
+            mComboStep = triggeredComboStep.comboStep;
+        }
 
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;
 
         // 2. 播放攻击动画
-        mExitTime = mDefaultCrossFadeAnimDriver.StartPlay(statusName, stateName);
+        mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.StartPlay(statusName, stateName);
 
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
-
-        AgentAnimStateInfo animStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
-
-        // 攻击动作拍数
-        mCurLogicStateEndMeter = MeterManager.Ins.GetMeterIndex(triggerMeter, animStateInfo.meterLen) - 1;
-
-        // 攻击动作的时长
-        mTimer = 0;
-        mAttackTowards = towards;
     }
 
     public override void RegisterInputHandle()

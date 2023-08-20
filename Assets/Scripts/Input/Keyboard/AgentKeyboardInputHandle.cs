@@ -81,7 +81,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         if (Input.GetKeyDown(InputDef.ChargingAttackKeyCode) && MeterManager.Ins.CheckTriggered(GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset, out triggerMeter))
         {
             cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-            cmd.Initialize(AgentCommandDefine.CHARING, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
+            cmd.Initialize(AgentCommandDefine.CHARGING, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
             //Log.Error(LogLevel.Info, "Trigger hard attack+++++++++++++++++++++++++++++++{0}", triggerMeter);
             return true;
         }
@@ -92,21 +92,21 @@ public abstract class AgentKeyboardInputHandle : InputHandle
     protected bool GetChargingAttackCmd(out AgentCommand cmd)
     {
         cmd = null;
-        int triggerMeter = -1;
+        //int triggerMeter = -1;
         Vector3 towards = GetInputDirection();
 
         if (Input.GetKeyUp(InputDef.ChargingAttackKeyCode))
         {
             cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
-            if(MeterManager.Ins.CheckTriggered(GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset, out triggerMeter))
-            {
-                cmd.Initialize(AgentCommandDefine.CHARGING_ATTACK, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
-            }
-            else
-            {
-                cmd.Initialize(AgentCommandDefine.CHARGING_ATTACKFAILED, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
-            }
-
+            //if(MeterManager.Ins.CheckTriggered(GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset, out triggerMeter))
+            //{
+            //    cmd.Initialize(AgentCommandDefine.CHARGING_ATTACK, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
+            //}
+            //else
+            //{
+            //    cmd.Initialize(AgentCommandDefine.CHARGING_ATTACKFAILED, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
+            //}
+            cmd.Initialize(AgentCommandDefine.CHARGING_ATTACK, MeterManager.Ins.MeterIndex, TimeMgr.Ins.FrameIndex, towards);
             //Log.Error(LogLevel.Info, "Trigger hard attack+++++++++++++++++++++++++++++++{0}", triggerMeter);
             return true;
         }

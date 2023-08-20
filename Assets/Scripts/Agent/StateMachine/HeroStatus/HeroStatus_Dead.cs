@@ -9,7 +9,7 @@ public class HeroStatus_Dead : HeroStatus
         return AgentStatusDefine.DEAD;
     }
 
-    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
+    public void StatusDefaultAction()
     {
        
     }

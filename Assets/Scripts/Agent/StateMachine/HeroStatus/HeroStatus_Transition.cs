@@ -32,8 +32,8 @@ public class HeroStatus_Transition : HeroStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        AgentActionData actionData = args["transitionAction"] as AgentActionData;
-        StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);
+        
+        StatusDefaultAction(towards, triggerMeter, args);
     }
 
     public override void OnExit()
@@ -69,7 +69,7 @@ public class HeroStatus_Transition : HeroStatus
                 break;
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
-            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING:
             case AgentCommandDefine.CHARGING_ATTACK:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.IDLE:
@@ -94,11 +94,16 @@ public class HeroStatus_Transition : HeroStatus
 
     }
 
-    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
+    public void StatusDefaultAction(Vector3 towards, int triggerMeter, Dictionary<string, object> args)
     {
+        AgentActionData agentActionData = GetStatusDefaultActionData();
+        if(args != null && args.TryGetValue("transitionAction", out object action))
+        {
+            agentActionData = action as AgentActionData;
+        }
+
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;
-        //mDefaultCrossFadeAnimDriver.CrossFadeToState(statusName, stateName);
 
         AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
         float timeToMeter = MeterManager.Ins.GetTimeToMeter(triggerMeter + 1);
@@ -134,7 +139,7 @@ public class HeroStatus_Transition : HeroStatus
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.INSTANT_ATTACK:
                 case AgentCommandDefine.METER_ATTACK:
-                case AgentCommandDefine.CHARING:
+                case AgentCommandDefine.CHARGING:
                 case AgentCommandDefine.CHARGING_ATTACK:
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.BE_HIT_BREAK:

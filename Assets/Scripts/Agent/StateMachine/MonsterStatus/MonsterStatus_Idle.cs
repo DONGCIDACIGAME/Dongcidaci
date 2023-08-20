@@ -22,7 +22,7 @@ public class MonsterStatus_Idle : MonsterStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
+        StatusDefaultAction();
     }
 
     public override void OnExit()
@@ -38,7 +38,7 @@ public class MonsterStatus_Idle : MonsterStatus
             case AgentCommandDefine.BE_HIT_BREAK:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.DASH:
-            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING:
             case AgentCommandDefine.INSTANT_ATTACK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
@@ -59,7 +59,7 @@ public class MonsterStatus_Idle : MonsterStatus
             {
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.INSTANT_ATTACK:
-                case AgentCommandDefine.CHARING:
+                case AgentCommandDefine.CHARGING:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.BE_HIT_BREAK:
@@ -82,16 +82,9 @@ public class MonsterStatus_Idle : MonsterStatus
     /// Idle状态的默认逻辑
     /// 播放动作
     /// </summary>
-    /// <param name="cmdType"></param>
-    /// <param name="towards"></param>
-    /// <param name="triggerMeter"></param>
-    /// <param name="triggeredComboStep"></param>
-    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
+    public void StatusDefaultAction()
     {
-        // 1. 转向移动放方向
-        mAgent.MoveControl.TurnTo(towards);
-
-        // 2. 步进式动画继续
+        // 1. 步进式动画继续
         mStepLoopAnimDriver.StartPlay(GetStatusName());
     }
 }

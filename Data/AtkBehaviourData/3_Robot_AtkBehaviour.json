@@ -216,7 +216,11 @@
 		}],
 		"chargeAttackDatas":[{
 			"chargeAttackUID":1,
-			"chargeStateName":"Charging",
+			"chargeActionData":{
+				"statusName": "Charging",
+				"stateName": "Charging",
+				"effectCollictions": []
+			},
 			"ChargeAttackSteps":[{
 				"chargeMeterLen":2,
 				"attackAction":{

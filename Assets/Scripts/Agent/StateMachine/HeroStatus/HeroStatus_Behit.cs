@@ -26,12 +26,7 @@ public class HeroStatus_Behit : HeroStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        AgentActionData actionData = GetStatusDefaultActionData();
-        if (args != null && args.TryGetValue("beHitAction", out object obj1))
-        {
-            actionData = obj1 as AgentActionData;
-        }
-        StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);
+        StatusDefaultAction(args, towards);
     }
 
     public override void OnExit()
@@ -47,19 +42,14 @@ public class HeroStatus_Behit : HeroStatus
         switch (cmdType)
         {
             case AgentCommandDefine.BE_HIT_BREAK:
-                AgentActionData actionData = GetStatusDefaultActionData();
-                if (args != null && args.TryGetValue("beHitAction", out object obj1))
-                {
-                    actionData = obj1 as AgentActionData;
-                }
-                StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);
+                StatusDefaultAction(args, towards);
                 break;
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
-            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING:
             case AgentCommandDefine.CHARGING_ATTACK:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
@@ -90,18 +80,13 @@ public class HeroStatus_Behit : HeroStatus
         Log.Error(LogLevel.Normal, "CustomOnMeterEnd--{0}", meterIndex);
     }
 
-    /// <summary>
-    /// 受击状态默认逻辑
-    /// 1. 播放受击动作
-    /// </summary>
-    /// <param name="cmdType"></param>
-    /// <param name="towards"></param>
-    /// <param name="triggerMeter"></param>
-    /// <param name="agentActionData"></param>
-    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
+    public void StatusDefaultAction(Dictionary<string, object> args, Vector3 towards)
     {
-        if (agentActionData == null)
-            return;
+        AgentActionData actionData = GetStatusDefaultActionData();
+        if (args != null && args.TryGetValue("beHitAction", out object obj1))
+        {
+            actionData = obj1 as AgentActionData;
+        }
 
         float moveMore = 0;
         if (args != null && args.TryGetValue("moveMore", out object obj2))
@@ -109,8 +94,8 @@ public class HeroStatus_Behit : HeroStatus
             moveMore = (float)obj2;
         }
 
-        string statusName = agentActionData.statusName;
-        string stateName = agentActionData.stateName;
+        string statusName = actionData.statusName;
+        string stateName = actionData.stateName;
 
         // 1. 播放受击动画
         mExitTime = mDefaultCrossFadeAnimDriver.StartPlay(statusName, stateName);

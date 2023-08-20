@@ -9,9 +9,9 @@ public class ChargeAttackData
     public uint chargeAttackUID;
 
     /// <summary>
-    /// 蓄力动画
+    /// 蓄力行为数据
     /// </summary>
-    public string chargeStateName;
+    public AgentActionData chargeActionData;
 
     /// <summary>
     /// 所有蓄力攻击招式

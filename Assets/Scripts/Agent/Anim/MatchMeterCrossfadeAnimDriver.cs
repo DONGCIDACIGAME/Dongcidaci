@@ -12,9 +12,60 @@ public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver, IMeterHandler
 
     }
 
+    public int StartPlay(string statusName, string stateName, int loopMore)
+    {
+        //Log.Error(LogLevel.Info, "PlayAnimStateWithCut=======================play {0}-{1}", statusName, stateName);
+
+        Log.Logic(LogLevel.Info, "<color=blue>{0} MatchMeterCrossfadeAnimDriver StartPlay--statusName:{1}, stateName:{2}</color>", mAgent.GetAgentId(), statusName, stateName);
+
+        if (string.IsNullOrEmpty(statusName))
+        {
+            Log.Error(LogLevel.Normal, "MatchMeterCrossfadeAnimDriver StartPlay Error, statusName is null or empty!");
+            return MeterManager.Ins.MeterIndex;
+        }
+
+        if (string.IsNullOrEmpty(stateName))
+        {
+            Log.Error(LogLevel.Normal, "MatchMeterCrossfadeAnimDriver StartPlay Error, stateName is null or empty!");
+            return MeterManager.Ins.MeterIndex;
+        }
+
+        AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
+        if (stateInfo == null)
+        {
+            Log.Error(LogLevel.Normal, "MatchMeterCrossfadeAnimDriver StartPlay Error, status:{0} can not find state:{1}", statusName, stateName);
+            return MeterManager.Ins.MeterIndex;
+        }
+
+        if (stateInfo.meterLen == 0)
+        {
+            Log.Error(LogLevel.Normal, "MatchMeterCrossfadeAnimDriver StartPlay Error, state {0} anim meter len = 0!", stateInfo.stateName);
+            return MeterManager.Ins.MeterIndex;
+        }
+
+        AgentAnimStateInfo newStateInfo = stateInfo.Copy();
+        newStateInfo.loopTime = stateInfo.loopTime + loopMore;
+
+        Reset();
+
+        PlayOnce(newStateInfo);
+
+        int endMeter = MeterManager.Ins.MeterIndex;
+        if (stateInfo.loopTime == 0) //无限循环
+        {
+            endMeter = int.MaxValue;
+        }
+        else //有限循环
+        {
+            endMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, newStateInfo.meterLen * newStateInfo.loopTime);
+        }
+
+        // 动画结束拍
+        return endMeter - 1;
+    }
+
     /// <summary>
     /// 带截断的动画状态播放
-    /// 
     /// </summary>
     /// <param name="stateName"></param>
     /// <returns></returns>
@@ -36,31 +87,31 @@ public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver, IMeterHandler
             return MeterManager.Ins.MeterIndex;
         }
 
-        AgentAnimStateInfo newStateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
-        if (newStateInfo == null)
+        AgentAnimStateInfo stateInfo = AgentHelper.GetAgentAnimStateInfo(mAgent, statusName, stateName);
+        if (stateInfo == null)
         {
             Log.Error(LogLevel.Normal, "MatchMeterCrossfadeAnimDriver StartPlay Error, status:{0} can not find state:{1}", statusName, stateName);
             return MeterManager.Ins.MeterIndex;
         }
 
-        if (newStateInfo.meterLen == 0)
+        if (stateInfo.meterLen == 0)
         {
-            Log.Error(LogLevel.Normal, "MatchMeterCrossfadeAnimDriver StartPlay Error, state {0} anim meter len = 0!", newStateInfo.stateName);
+            Log.Error(LogLevel.Normal, "MatchMeterCrossfadeAnimDriver StartPlay Error, state {0} anim meter len = 0!", stateInfo.stateName);
             return MeterManager.Ins.MeterIndex;
         }
 
         Reset();
 
-        PlayOnce(newStateInfo);
+        PlayOnce(stateInfo);
 
         int endMeter = MeterManager.Ins.MeterIndex;
-        if(newStateInfo.loopTime == 0) //无限循环
+        if(stateInfo.loopTime == 0) //无限循环
         {
             endMeter = int.MaxValue;
         }
         else //有限循环
         {
-            endMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, newStateInfo.meterLen * newStateInfo.loopTime);
+            endMeter = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, stateInfo.meterLen * stateInfo.loopTime);
         }
 
         // 动画结束拍
@@ -71,7 +122,6 @@ public class MatchMeterCrossfadeAnimDriver : AgentAnimDriver, IMeterHandler
     {
         if (animState == null)
             return;
-
 
         // 动画播完一次的逻辑结束拍
         int newMeterIndex = MeterManager.Ins.GetMeterIndex(MeterManager.Ins.MeterIndex, animState.meterLen);

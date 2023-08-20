@@ -26,12 +26,7 @@ public class MonsterStatus_Behit : MonsterStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        AgentActionData actionData = GetStatusDefaultActionData();
-        if (args != null && args.TryGetValue("beHitAction", out object obj1))
-        {
-            actionData = obj1 as AgentActionData;
-        }
-        StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);
+        StatusDefaultAction(towards, args);
     }
 
     public override void OnExit()
@@ -48,17 +43,12 @@ public class MonsterStatus_Behit : MonsterStatus
         {
             case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.BE_HIT_BREAK:
-                AgentActionData actionData = GetStatusDefaultActionData();
-                if (args != null && args.TryGetValue("beHitAction", out object obj1))
-                {
-                    actionData = obj1 as AgentActionData;
-                }
-                StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);
+                StatusDefaultAction(towards, args);
                 break;
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING:
             case AgentCommandDefine.INSTANT_ATTACK:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
@@ -86,10 +76,13 @@ public class MonsterStatus_Behit : MonsterStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
+    public void StatusDefaultAction(Vector3 towards, Dictionary<string, object> args)
     {
-        if (agentActionData == null)
-            return;
+        AgentActionData actionData = GetStatusDefaultActionData();
+        if (args != null && args.TryGetValue("beHitAction", out object obj1))
+        {
+            actionData = obj1 as AgentActionData;
+        }
 
         float moveMore = 0;
         if (args != null && args.TryGetValue("moveMore", out object obj2))
@@ -97,13 +90,12 @@ public class MonsterStatus_Behit : MonsterStatus
             moveMore = (float)obj2;
         }
 
-        string statusName = agentActionData.statusName;
-        string stateName = agentActionData.stateName;
+        string statusName = actionData.statusName;
+        string stateName = actionData.stateName;
 
         // 1. 播放受击动画
         mExitTime = mDefaultCrossFadeAnimDriver.StartPlay(statusName, stateName);
         mTimer = 0;
-
         // 2. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.FixedTowards, towards, moveMore);
     }

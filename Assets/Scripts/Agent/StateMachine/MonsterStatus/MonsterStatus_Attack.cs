@@ -51,7 +51,7 @@ public class MonsterStatus_Attack : MonsterStatus
             case AgentCommandDefine.BE_HIT_BREAK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
-            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING:
             case AgentCommandDefine.INSTANT_ATTACK:
                 ConditionalExcute(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
@@ -97,8 +97,8 @@ public class MonsterStatus_Attack : MonsterStatus
                     //ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
                     break;
                 case AgentCommandDefine.INSTANT_ATTACK:
-                case AgentCommandDefine.CHARING:
-                    ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
+                case AgentCommandDefine.CHARGING:
+                    StatusDefaultAction(towards, triggerMeter, comboStep);
                     break;
                 case AgentCommandDefine.EMPTY:
                 case AgentCommandDefine.BE_HIT:
@@ -145,7 +145,7 @@ public class MonsterStatus_Attack : MonsterStatus
                             ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
                             break;
                         case AgentCommandDefine.INSTANT_ATTACK:
-                        case AgentCommandDefine.CHARING:
+                        case AgentCommandDefine.CHARGING:
                         //if (mCurTriggeredComboStep != null)
                         //{
                         //    ExcuteCombo(cmdType, towards, triggerMeter, args, ref mCurTriggeredComboStep);
@@ -187,13 +187,18 @@ public class MonsterStatus_Attack : MonsterStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
-    {
-        if (agentActionData == null)
-            return;
+    public void StatusDefaultAction(Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
 
-        // 1. 转向被攻击的方向
+    {
+        // 1. 转向
         mAgent.MoveControl.TurnTo(towards);
+
+        AgentActionData agentActionData = GetStatusDefaultActionData();
+        if (triggeredComboStep != null)
+        {
+            agentActionData = triggeredComboStep.comboStep.attackActionData;
+            ExcuteCombo(triggeredComboStep);
+        }
 
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;

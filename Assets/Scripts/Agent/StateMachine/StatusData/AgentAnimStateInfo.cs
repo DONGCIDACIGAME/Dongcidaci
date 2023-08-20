@@ -47,4 +47,22 @@ public class AgentAnimStateInfo
     /// 和hit点对应 movements[1] 表示 hitPoints[0] 到 hitPoints[1]的移动距离
     /// </summary>
     public Movement[] movements;
+
+    public AgentAnimStateInfo Copy()
+    {
+        AgentAnimStateInfo newStateInfo = new AgentAnimStateInfo()
+        {
+            stateName = this.stateName,
+            animName = this.animName,
+            layer = this.layer,
+            loopTime = this.loopTime,
+            animLen = this.animLen,
+            meterLen = this.meterLen,
+            normalizedTime = this.normalizedTime,
+            hitPoints = this.hitPoints,
+            movements = this.movements
+        };
+
+        return newStateInfo;
+    }
 }

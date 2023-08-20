@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class MonsterStatus : AgentStatus
 {
@@ -12,7 +13,7 @@ public abstract class MonsterStatus : AgentStatus
         { AgentCommandDefine.DASH, AgentStatusDefine.DASH},
         { AgentCommandDefine.INSTANT_ATTACK, AgentStatusDefine.INSTANT_ATTACK},
         { AgentCommandDefine.METER_ATTACK, AgentStatusDefine.METER_ATTACK},
-        { AgentCommandDefine.CHARING, AgentStatusDefine.CHARGING},
+        { AgentCommandDefine.CHARGING, AgentStatusDefine.CHARGING},
         { AgentCommandDefine.CHARGING_ATTACK, AgentStatusDefine.CHARGING_ATTACK},
         { AgentCommandDefine.BE_HIT, AgentStatusDefine.BEHIT},
         { AgentCommandDefine.BE_HIT_BREAK, AgentStatusDefine.BEHIT},
@@ -32,5 +33,33 @@ public abstract class MonsterStatus : AgentStatus
         }
 
         return string.Empty;
+    }
+
+    /// <summary>
+    /// 根据节拍进度执行
+    /// 如果本拍的剩余时间占比=waitMeterProgress,就直接执指令，否则等下拍执行指令
+    /// 其他情况等待下一拍执行
+    /// </summary>
+    /// <param name="cmdType"></param>
+    /// <param name="towards"></param>
+    /// <param name="triggerMeter"></param>
+    /// <param name="triggeredComboStep"></param>
+    protected bool ConditionalExcute(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    {
+        if (triggerMeter <= mCurLogicStateEndMeter)
+            return false;
+
+        // 当前节拍的进度
+        float progress = MeterManager.Ins.GetCurrentMeterProgress();
+        if (progress <= GamePlayDefine.AttackMeterProgressWait)
+        {
+            ExcuteCombo(triggeredComboStep);
+            return true;
+        }
+        else
+        {
+            PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
+            return false;
+        }
     }
 }

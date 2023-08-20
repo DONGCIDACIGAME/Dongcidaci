@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class MonsterStatus_Run : MonsterStatus
 {
-    private bool mRunning;
     public override string GetStatusName()
     {
         return AgentStatusDefine.RUN;
@@ -22,14 +21,12 @@ public class MonsterStatus_Run : MonsterStatus
     public override void OnEnter(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
-        mRunning = false;
-        StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
+        StatusDefaultAction(towards);
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        mRunning = false;
     }
 
     protected override void CustomOnCommand(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
@@ -40,12 +37,12 @@ public class MonsterStatus_Run : MonsterStatus
             case AgentCommandDefine.BE_HIT_BREAK:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.DASH:
-            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING:
             case AgentCommandDefine.INSTANT_ATTACK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.RUN:
-                StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
+                StatusDefaultAction(towards);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -64,7 +61,7 @@ public class MonsterStatus_Run : MonsterStatus
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.INSTANT_ATTACK:
-                case AgentCommandDefine.CHARING:
+                case AgentCommandDefine.CHARGING:
                 case AgentCommandDefine.BE_HIT:
                 case AgentCommandDefine.BE_HIT_BREAK:
                     ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
@@ -90,14 +87,7 @@ public class MonsterStatus_Run : MonsterStatus
     {
         base.OnGameUpdate(deltaTime);
 
-        if (!mRunning)
-        {
-            ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
-            return;
-        }
-
         mAgent.MoveControl.Move(deltaTime);
-        mRunning = false;
     }
 
     /// <summary>
@@ -109,14 +99,12 @@ public class MonsterStatus_Run : MonsterStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
+    public void StatusDefaultAction(Vector3 towards)
     {
         // 1. 转向移动放方向
         mAgent.MoveControl.TurnTo(towards);
 
         // 2. 步进式动画继续
         mStepLoopAnimDriver.StartPlay(GetStatusName());
-
-        mRunning = true;
     }
 }

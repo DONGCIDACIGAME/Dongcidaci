@@ -4,6 +4,7 @@ using System.Collections.Generic;
 /// </summary>
 public class ChargeAttackTrigger
 {
+    private AgentActionData mChargeActionData;
     private List<ChargeAttackStep> mSortChargeAttackSteps;
 
     public void Initialize(Agent agent, string chargeStateName)
@@ -39,15 +40,16 @@ public class ChargeAttackTrigger
                 continue;
             }
 
-            if (!chargeAttackData.chargeStateName.Equals(chargeStateName))
+            if (!chargeAttackData.chargeActionData.stateName.Equals(chargeStateName))
                 continue;
 
             if (chargeAttackData.ChargeAttackSteps == null || chargeAttackData.ChargeAttackSteps.Length == 0)
             {
-                Log.Error(LogLevel.Normal, "ChargeAttackTrigger Initialize Error, chargeAttackData [{0}] ChargeAttackSteps is null or emtpty, agent id:{1}, agent Name:{2}", chargeAttackData.chargeStateName, attackBehaviourDatas.agentId, attackBehaviourDatas.agentName);
+                Log.Error(LogLevel.Normal, "ChargeAttackTrigger Initialize Error, chargeAttackData [{0}] ChargeAttackSteps is null or emtpty, agent id:{1}, agent Name:{2}", chargeAttackData.chargeActionData.stateName, attackBehaviourDatas.agentId, attackBehaviourDatas.agentName);
                 continue;
             }
 
+            mChargeActionData = chargeAttackData.chargeActionData;
             for (int j = 0; j < chargeAttackData.ChargeAttackSteps.Length; j++)
             {
                 mSortChargeAttackSteps.Add(chargeAttackData.ChargeAttackSteps[j]);
@@ -68,6 +70,11 @@ public class ChargeAttackTrigger
                 }
             }
         }
+    }
+
+    public AgentActionData GetChargeActionData()
+    {
+        return mChargeActionData;
     }
 
     public ChargeAttackStep Trigger(int meterLen)

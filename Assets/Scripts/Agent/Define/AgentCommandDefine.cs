@@ -34,7 +34,7 @@ public static class AgentCommandDefine
     /// <summary>
     /// 蓄力攻击-蓄力 32
     /// </summary>
-    public const int CHARING                                = 1 << 5;
+    public const int CHARGING                                = 1 << 5;
 
     /// <summary>
     /// 蓄力攻击-攻击 64

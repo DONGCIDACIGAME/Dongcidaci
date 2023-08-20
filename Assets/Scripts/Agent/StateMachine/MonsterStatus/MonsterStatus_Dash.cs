@@ -22,7 +22,16 @@ public class MonsterStatus_Dash : MonsterStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        ConditionalExcute(cmdType, towards, triggerMeter, args, triggeredComboStep);
+        // 当前节拍的进度
+        float progress = MeterManager.Ins.GetCurrentMeterProgress();
+        if (progress <= GamePlayDefine.AttackMeterProgressWait)
+        {
+            StatusDefaultAction(towards, args, triggeredComboStep);
+        }
+        else
+        {
+            PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
+        }
     }
 
     public override void OnExit()
@@ -62,7 +71,7 @@ public class MonsterStatus_Dash : MonsterStatus
             // 其他指令类型，都要等本次冲刺结束后执行，先放入指令缓存区
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.CHARING:
+            case AgentCommandDefine.CHARGING:
             case AgentCommandDefine.INSTANT_ATTACK:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
@@ -93,11 +102,11 @@ public class MonsterStatus_Dash : MonsterStatus
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.INSTANT_ATTACK:
-                case AgentCommandDefine.CHARING:
+                case AgentCommandDefine.CHARGING:
                     ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
                     break;
                 case AgentCommandDefine.DASH:
-                    ExcuteComboTriggerCmd(cmdType, towards, meterIndex, args, comboStep);
+                    StatusDefaultAction(towards, args, comboStep);
                     break;
                 case AgentCommandDefine.BE_HIT:// 冲刺状态下，非打断的受击指令不处理
                 case AgentCommandDefine.EMPTY:
@@ -125,13 +134,17 @@ public class MonsterStatus_Dash : MonsterStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public override void StatusDefaultAction(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, AgentActionData agentActionData)
+    public void StatusDefaultAction(Vector3 towards, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
-        if (agentActionData == null)
-            return;
-
         // 1. 转向
         mAgent.MoveControl.TurnTo(towards);
+
+        AgentActionData agentActionData = GetStatusDefaultActionData();
+        if (triggeredComboStep != null)
+        {
+            agentActionData = triggeredComboStep.comboStep.attackActionData;
+            ExcuteCombo(triggeredComboStep);
+        }
 
         string statusName = agentActionData.statusName;
         string stateName = agentActionData.stateName;
@@ -139,18 +152,19 @@ public class MonsterStatus_Dash : MonsterStatus
         // 2. 播放冲刺动画
         mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.StartPlay(statusName, stateName);
 
-        if (args != null)
+        if (args != null
+            && args.TryGetValue("distance", out object distanceObj)
+            && args.TryGetValue("startTime", out object startTimeObj)
+            && args.TryGetValue("endTime", out object endTimeObj))
         {
-            float dashDistance = (float)args["distance"];
-            float startTime = (float)args["startTime"];
-            float endTime = (float)args["endTime"];
-
+            float dashDistance = (float)distanceObj;
+            float startTime = (float)startTimeObj;
+            float endTime = (float)endTimeObj;
             // 3. 处理动画相关的位移
             mAgent.MovementExcutorCtl.Start(startTime, endTime, DirectionDef.RealTowards, DirectionDef.none, dashDistance);
         }
         else
         {
-
             // 3. 处理动画相关的位移
             mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
         }
