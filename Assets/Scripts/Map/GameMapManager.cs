@@ -29,7 +29,7 @@ public class GameMapManager : IMeterHandler
     public void Initialize()
     {
         // 1 从 datacenter 获取地图数据
-        string mapDataPath = Path.Combine(PathDefine.MAP_DATA_DIR_PATH, "_Level_0_1.json");
+        string mapDataPath = Path.Combine(PathDefine.MAP_DATA_DIR_PATH, "_Level_0_2.json");
         if (File.Exists(mapDataPath) == false)
         {
             Debug.LogError("目标路径没有地图数据");
@@ -49,7 +49,7 @@ public class GameMapManager : IMeterHandler
         }
 
         // 2 生成 map grid
-        this._mapGridConfig = new MapGridInfo(_mapData.mapColCount, _mapData.mapRowCount, _mapData.mapCellWidth, _mapData.mapCellHeight, 30);
+        this._mapGridConfig = new MapGridInfo(_mapData.mapColCount, _mapData.mapRowCount, _mapData.mapCellWidth, _mapData.mapCellHeight, 0);
 
         _mapGrounds = new List<MapGround>();
         _mapBlocks = new List<MapBlock>();

@@ -1,0 +1,12 @@
+{
+    "mapUID": 2,
+    "mapName": "_Level_0_2",
+    "roomType": 10,
+    "roomIconName": "",
+    "mapColCount": 15,
+    "mapRowCount": 15,
+    "mapCellWidth": 3.0,
+    "mapCellHeight": 3.0,
+    "mapBasePrefabName": "_Level_0_2",
+    "mapEventDatas": []
+}
