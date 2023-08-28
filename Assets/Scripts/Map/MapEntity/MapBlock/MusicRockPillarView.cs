@@ -28,7 +28,8 @@ public class MusicRockPillarView : MapBlockView, IMeterHandler
     {
         var crtRotateY = tgtT.localEulerAngles.y;
         var tgtRotateY = crtRotateY + 90 > 360 ? (crtRotateY - 270) : crtRotateY + 90;
-        tgtT.transform.DOLocalRotate(new Vector3(0,tgtRotateY,0),0.1f);
+        tgtT.transform.DOLocalRotate(new Vector3(0,tgtRotateY,0),0.1f).SetEase(Ease.InOutSine);
+        
     }
 
     public void OnMeterEnd(int meterIndex)
