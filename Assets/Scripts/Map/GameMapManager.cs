@@ -11,6 +11,12 @@ public class GameMapManager : IMeterHandler
     private List<MapGround> _mapGrounds;
     private List<MapBlock> _mapBlocks;
 
+    /// <summary>
+    /// 地图上需要响应节拍的物件
+    /// </summary>
+    private List<IMeterHandler> _mapMeterHandlers;
+
+
     private MavMeshOnLoad _navMeshLoad;
 
 
@@ -53,7 +59,15 @@ public class GameMapManager : IMeterHandler
 
         _mapGrounds = new List<MapGround>();
         _mapBlocks = new List<MapBlock>();
+        _mapMeterHandlers = new List<IMeterHandler>();
 
+
+        // 3 注册节奏事件
+        if (MeterManager.Ins !=null)
+        {
+            MeterManager.Ins.RegisterMeterHandler(this);
+        }
+        
     }
 
     public void LoadMap()
@@ -64,6 +78,9 @@ public class GameMapManager : IMeterHandler
         //_navMeshLoad = gameObject.AddComponent<MavMeshOnLoad>();
         //_navMeshLoad.GetSurfaceComponent();
         //_navMeshLoad.Bake();
+
+
+
     }
 
     public bool IsPosOnGround(Vector3 worldPos)
@@ -114,6 +131,11 @@ public class GameMapManager : IMeterHandler
                     if (blockView != null)
                     {
                         this._mapBlocks.Add(new MapBlock(blockView));
+                        // 判断这个障碍物是否节拍事件
+                        if(blockView is IMeterHandler)
+                        {
+                            _mapMeterHandlers.Add(blockView as IMeterHandler);
+                        }
                     }
                 }
             }
@@ -149,7 +171,11 @@ public class GameMapManager : IMeterHandler
 
     public void OnDisplayPointBeforeMeterEnter(int meterIndex)
     {
-        
+        if (_mapMeterHandlers.Count == 0) return;
+        for (int i=0;i<_mapMeterHandlers.Count;i++)
+        {
+            _mapMeterHandlers[i].OnDisplayPointBeforeMeterEnter(meterIndex);
+        }
     }
 
     public void Dispose()
