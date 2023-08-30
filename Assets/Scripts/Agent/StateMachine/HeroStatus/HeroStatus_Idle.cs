@@ -63,10 +63,12 @@ public class HeroStatus_Idle : HeroStatus
                 case AgentCommandDefine.INSTANT_ATTACK:
                 case AgentCommandDefine.METER_ATTACK:
                 case AgentCommandDefine.CHARGING:
-                case AgentCommandDefine.CHARGING_ATTACK:
                 case AgentCommandDefine.DASH:
                 case AgentCommandDefine.BE_HIT_BREAK:
                     ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, comboStep);
+                    break;
+                case AgentCommandDefine.CHARGING_ATTACK:
+                    Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
                     break;
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.BE_HIT:

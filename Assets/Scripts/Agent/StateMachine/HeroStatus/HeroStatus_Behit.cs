@@ -50,8 +50,10 @@ public class HeroStatus_Behit : HeroStatus
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
             case AgentCommandDefine.CHARGING:
-            case AgentCommandDefine.CHARGING_ATTACK:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                break;
+            case AgentCommandDefine.CHARGING_ATTACK:
+                Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
                 break;
             case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.EMPTY:

@@ -26,7 +26,7 @@ public class MonsterStatus_Dash : MonsterStatus
         float progress = MeterManager.Ins.GetCurrentMeterProgress();
         if (progress <= GamePlayDefine.AttackMeterProgressWait)
         {
-            StatusDefaultAction(towards, args, triggeredComboStep);
+            StatusDefaultAction(towards, triggerMeter, args, triggeredComboStep);
         }
         else
         {
@@ -102,11 +102,15 @@ public class MonsterStatus_Dash : MonsterStatus
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.INSTANT_ATTACK:
+                case AgentCommandDefine.METER_ATTACK:
                 case AgentCommandDefine.CHARGING:
                     ChangeStatusOnCommand(cmdType, towards, meterIndex, args, comboStep);
                     break;
                 case AgentCommandDefine.DASH:
-                    StatusDefaultAction(towards, args, comboStep);
+                    StatusDefaultAction(towards, triggerMeter, args, comboStep);
+                    break;
+                case AgentCommandDefine.CHARGING_ATTACK:
+                    Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
                     break;
                 case AgentCommandDefine.BE_HIT:// 冲刺状态下，非打断的受击指令不处理
                 case AgentCommandDefine.EMPTY:
@@ -134,7 +138,7 @@ public class MonsterStatus_Dash : MonsterStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public void StatusDefaultAction(Vector3 towards, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    public void StatusDefaultAction(Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         // 1. 转向
         mAgent.MoveControl.TurnTo(towards);
@@ -143,7 +147,7 @@ public class MonsterStatus_Dash : MonsterStatus
         if (triggeredComboStep != null)
         {
             agentActionData = triggeredComboStep.comboStep.attackActionData;
-            ExcuteCombo(triggeredComboStep);
+            ExcuteCombo(triggerMeter, triggeredComboStep);
         }
 
         string statusName = agentActionData.statusName;

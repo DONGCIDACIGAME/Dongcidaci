@@ -70,11 +70,13 @@ public class HeroStatus_Transition : HeroStatus
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
             case AgentCommandDefine.CHARGING:
-            case AgentCommandDefine.CHARGING_ATTACK:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.IDLE:
                 //PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                break;
+            case AgentCommandDefine.CHARGING_ATTACK:
+                Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
                 break;
             // 其他指令类型，都要等本次攻击结束后执行，先放入指令缓存区
             case AgentCommandDefine.RUN:

@@ -91,4 +91,12 @@ public class ChargeAttackTrigger
         return null;
     }
 
+    public ChargeAttackStep GetMaxChargeStep()
+    {
+        if (mSortChargeAttackSteps == null || mSortChargeAttackSteps.Count == 0)
+            return null;
+
+        return mSortChargeAttackSteps[mSortChargeAttackSteps.Count - 1];
+    }
+
 }

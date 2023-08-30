@@ -37,9 +37,13 @@ public class MonsterStatus_Run : MonsterStatus
             case AgentCommandDefine.BE_HIT_BREAK:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.DASH:
-            case AgentCommandDefine.CHARGING:
             case AgentCommandDefine.INSTANT_ATTACK:
+            case AgentCommandDefine.METER_ATTACK:
+            case AgentCommandDefine.CHARGING:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                break;
+            case AgentCommandDefine.CHARGING_ATTACK:
+                Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
                 break;
             case AgentCommandDefine.RUN:
                 StatusDefaultAction(towards);

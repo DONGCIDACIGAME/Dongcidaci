@@ -41,17 +41,21 @@ public class MonsterStatus_Behit : MonsterStatus
     {
         switch (cmdType)
         {
-            case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.BE_HIT_BREAK:
                 StatusDefaultAction(towards, args);
                 break;
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
-            case AgentCommandDefine.CHARGING:
             case AgentCommandDefine.INSTANT_ATTACK:
+            case AgentCommandDefine.METER_ATTACK:
+            case AgentCommandDefine.CHARGING:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
+            case AgentCommandDefine.CHARGING_ATTACK:
+                Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
+                break;
+            case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.EMPTY:
             default:
                 break;

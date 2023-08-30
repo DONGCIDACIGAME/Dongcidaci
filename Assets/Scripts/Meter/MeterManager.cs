@@ -58,7 +58,7 @@ public class MeterManager : ModuleManager<MeterManager>
         int meterIndexInMusic = GetMeterIndexInMusic(MeterIndex, true);
         float timeInMusic = GetTimeInMusic(timeRecord);
         float gap = timeInMusic - mCurAudioMeterData.baseMeters[meterIndexInMusic];
-        return gap > 0 ? gap : 0;
+        return gap > 0 ? gap / speedScaler : 0;
     }
 
     /// <summary>
@@ -387,6 +387,23 @@ public class MeterManager : ModuleManager<MeterManager>
         return GetTimeToMeter(newMeter);
     }
 
+    public float GetTimePassed(int toMeter)
+    {
+        if (mCurAudioMeterData == null)
+            return -1f;
+
+        int meterIndexInMusic = GetMeterIndexInMusic(toMeter, true);
+
+        float timeInMusic = GetTimeInMusic(timeRecord);
+        float time = mCurAudioMeterData.baseMeters[meterIndexInMusic] - timeInMusic;
+
+        if (time < 0)
+            time = 0;
+
+        //Log.Logic(LogLevel.Info, "GetTimePassed--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
+        return time / speedScaler;
+    }
+
     /// <summary>
     /// 获取到meterIndex拍的时间
     /// </summary>
@@ -414,7 +431,7 @@ public class MeterManager : ModuleManager<MeterManager>
             time = mCurAudioMeterData.baseMeters[meterIndexInMusic_new] - timeInMusic;
         }
 
-        //Log.Logic(LogLevel.Info, "GetTimeToBaseMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
+        //Log.Logic(LogLevel.Info, "GetTimeToMeter--baseMeterIndex:{0},targetMeter:{1}, time:{2}, curTime:{3}", BaseMeterIndex, targetIndex, time, timeRecord);
         return time / speedScaler;
     }
 

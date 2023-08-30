@@ -227,39 +227,16 @@ public abstract class AgentStatus : IAgentStatus
         mCurExcutingCmdType = cmd.CmdType;
     }
 
-    //protected void ExcuteComboTriggerCmd(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
-    //{
-    //    AgentActionData actionData = mStatusDefaultActionData;
-
-    //    if (triggeredComboStep != null)
-    //    {
-    //        Log.Error(LogLevel.Info, "ExcuteComboTriggerCmd-----------{0}-{1}", triggeredComboStep.comboData.comboName, triggeredComboStep.stepIndex);
-    //        ExcuteCombo(triggeredComboStep);
-    //        if(triggeredComboStep != null)
-    //        {
-    //            actionData = triggeredComboStep.comboStep.attackActionData;
-    //        }
-    //    }
-
-    //    //StatusDefaultAction(cmdType, towards, triggerMeter, args, actionData);
-    //}
 
     /// <summary>
     /// 执行Combo
     /// </summary>
-    /// <param name="triggeredComboAction"></param>
-    public void ExcuteCombo(TriggeredComboStep triggeredComboStep)
+    /// <param name="triggeredComboStep"></param>
+    public void ExcuteCombo(int triggerMeter, TriggeredComboStep triggeredComboStep)
     {
         if (triggeredComboStep == null)
         {
             Log.Error(LogLevel.Normal, "ExcuteCombo Error, combo is null!");
-            return;
-        }
-
-        ComboStep comboStep = triggeredComboStep.comboStep;
-        if (comboStep == null)
-        {
-            Log.Error(LogLevel.Normal, "ExcuteCombo Error, comboStep is null, combo name:{0}, index:{1}!", triggeredComboStep.comboData.comboName, triggeredComboStep.stepIndex);
             return;
         }
 
@@ -270,28 +247,12 @@ public abstract class AgentStatus : IAgentStatus
             return;
         }
 
+        float timeLost = MeterManager.Ins.GetTimePassed(triggerMeter);
+
         // 2. 效果执行器开始执行
         // changed by weng 0708
         // 执行效果时，需要把combo的一些信息同时传入
-        mAgent.EffectExcutorCtl.Start(actionData.statusName, actionData.stateName, triggeredComboStep.comboData.comboUID,triggeredComboStep.comboData.comboType,
-            triggeredComboStep.comboStep.endFlag, actionData.effectCollictions);
-
-
-        //// 3. 如果是结束招式
-        //if (comboStep.endFlag)
-        //{
-            //float transferStateDuration = triggeredComboStep.comboData.transferStateDuration;
-
-            //// 在节拍结束时切换到过度状态
-            //mMeterEndActions.Push(new MeterEndAction(mCurLogicStateEndMeter, () =>
-            //{
-                
-            //    Dictionary<string, object> _args = new Dictionary<string, object>();
-            //    _args.Add("duration", transferStateDuration);
-            //    TriggeredComboStep _triggeredComboStep = null;
-            //    GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.TRANSFER, AgentCommandDefine.EMPTY, DirectionDef.none, triggerMeter, _args, _triggeredComboStep);
-            //}));
-        //}
+        mAgent.EffectExcutorCtl.Start(actionData.statusName, actionData.stateName, timeLost, actionData.effectCollictions);
     }
 
     /// <summary>
@@ -302,20 +263,4 @@ public abstract class AgentStatus : IAgentStatus
     {
         return mStatusDefaultActionData;
     }
-
-    /// <summary>
-    /// 获取角色的行为数据
-    /// 如果当前触发了combo，就使用combo的行为数据
-    /// 否则，使用状态默认的行为数据
-    /// </summary>
-    /// <returns></returns>
-    //protected AgentActionData GetAgentActionData()
-    //{
-    //    if (mCurTriggeredComboStep != null)
-    //    {
-    //        return mCurTriggeredComboStep.comboStep.agentActionData;
-    //    }
-
-    //    return AgentHelper.GetAgentDefaultStatusActionData(mAgent, GetStatusName());
-    //}
 }

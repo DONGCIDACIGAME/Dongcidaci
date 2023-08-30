@@ -28,7 +28,7 @@ public class HeroStatus_Dash : HeroStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        StatusDefaultAction(towards, args, triggeredComboStep);
+        StatusDefaultAction(towards, triggerMeter, args, triggeredComboStep);
     }
 
     public override void OnExit()
@@ -71,10 +71,12 @@ public class HeroStatus_Dash : HeroStatus
             case AgentCommandDefine.BE_HIT_BREAK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
+            case AgentCommandDefine.CHARGING_ATTACK:
+                Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
+                break;
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
             case AgentCommandDefine.CHARGING:
-            case AgentCommandDefine.CHARGING_ATTACK:
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
@@ -136,7 +138,7 @@ public class HeroStatus_Dash : HeroStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public void StatusDefaultAction(Vector3 towards,Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    public void StatusDefaultAction(Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
     {
         // 1. 转向
         mAgent.MoveControl.TurnTo(towards);
@@ -145,7 +147,7 @@ public class HeroStatus_Dash : HeroStatus
         if(triggeredComboStep != null)
         {
             agentActionData = triggeredComboStep.comboStep.attackActionData;
-            ExcuteCombo(triggeredComboStep);
+            ExcuteCombo(triggerMeter, triggeredComboStep);
             mComboStep = triggeredComboStep.comboStep;
         }
 

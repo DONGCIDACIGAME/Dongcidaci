@@ -1,4 +1,5 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using GameEngine;
 using TMPro;
@@ -12,6 +13,8 @@ public class PanelDemo : UIPanel, IMeterHandler
     private GameObject Node_AttackTowards;
     private GameObject Image_AttackArrow;
     private Button Btn_Quit;
+    private GameObject Node_ChargingStatus;
+    private Image Image_Charging;
 
     private float attack_arrow_min_radius = 150f;
     private float attack_arrow_max_radius = 400f;
@@ -49,6 +52,8 @@ public class PanelDemo : UIPanel, IMeterHandler
         }
         Node_AttackTowards = BindNode("Node_AttackTowards");
         Image_AttackArrow = BindNode("Image_AttackArrow");
+        Node_ChargingStatus = BindNode("Node_ChargingStatus");
+        Image_Charging = BindImageNode("Node_ChargingStatus/Image_Charging");
         Btn_Quit = BindButtonNode("Btn_Quit", OnBtnQuitClick);
     }
 
@@ -62,6 +67,52 @@ public class PanelDemo : UIPanel, IMeterHandler
         base.BindEvents();
 
         mEventListener.Listen<Vector3>("ChangeAttackTowards", OnChangeAttackTowards);
+
+        mEventListener.Listen<float>("HeroStartCharging", OnHeroStartCharging);
+        mEventListener.Listen("HeroEndCharging", OnHeroEndCharging);
+    }
+
+    private float timer;
+    private GameCoroutine mChargingImageCoroutine;
+
+    private void OnHeroStartCharging(float fullChargingTime)
+    {
+        if (mChargingImageCoroutine != null)
+            return;
+
+        Node_ChargingStatus.SetActive(true);
+        timer = 0;
+        mChargingImageCoroutine = CoroutineManager.Ins.StartCoroutine(ChargingImageGrow(fullChargingTime));
+    }
+
+    private void OnHeroEndCharging()
+    {
+        Node_ChargingStatus.SetActive(false);
+        Image_Charging.fillAmount = 0;
+        CoroutineManager.Ins.StopCoroutine(mChargingImageCoroutine);
+        mChargingImageCoroutine = null;
+    }
+
+    private IEnumerator ChargingImageGrow(float fullTime)
+    {
+        if(fullTime <= 0)
+        {
+            CoroutineManager.Ins.StopCoroutine(mChargingImageCoroutine);
+            mChargingImageCoroutine = null;
+            yield break;
+        }
+
+
+        while(timer <= fullTime)
+        {
+            timer += TimeMgr.Ins.DeltaTime;
+            float fill = timer / fullTime;
+            Image_Charging.fillAmount = fill;
+            yield return null;
+        }
+
+        CoroutineManager.Ins.StopCoroutine(mChargingImageCoroutine);
+        mChargingImageCoroutine = null;
     }
 
     private Vector2 GetArrowPos(Vector2 mouseLocalPos)

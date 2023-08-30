@@ -16,7 +16,6 @@ public class AgentKeyboardInputHandle_Run : AgentKeyboardInputHandle
         AgentCommand cmd;
         bool hasCmd = GetInstantAttackInputCmd(out cmd)
             || GetChargingCmd(out cmd)
-            || GetChargingAttackCmd(out cmd)
             || GetDashInputCommand(out cmd)
             || GetRunInputCmd(out cmd);
 

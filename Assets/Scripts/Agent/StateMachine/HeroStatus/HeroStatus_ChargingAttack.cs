@@ -89,14 +89,15 @@ public class HeroStatus_ChargingAttack : HeroStatus
             case AgentCommandDefine.RUN:
                 mMoveTowards = towards;
                 break;
+            case AgentCommandDefine.CHARGING_ATTACK:
+                Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
+                break;
             case AgentCommandDefine.DASH:
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.BE_HIT://攻击状态下，非打断的受击行为不做处理
             case AgentCommandDefine.CHARGING:
-            case AgentCommandDefine.CHARGING_ATTACK:
-            case AgentCommandDefine.CHARGING_ATTACKFAILED:
             case AgentCommandDefine.EMPTY:
             default:
                 break;

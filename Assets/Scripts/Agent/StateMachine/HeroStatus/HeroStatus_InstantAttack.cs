@@ -22,7 +22,7 @@ public class HeroStatus_InstantAttack : HeroStatus
     {
         base.OnEnter(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-        StatusDefaultAction(towards, triggeredComboStep);
+        StatusDefaultAction(towards, triggerMeter, triggeredComboStep);
     }
 
     /// <summary>
@@ -54,9 +54,11 @@ public class HeroStatus_InstantAttack : HeroStatus
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
             case AgentCommandDefine.CHARGING:
-            case AgentCommandDefine.CHARGING_ATTACK:
             case AgentCommandDefine.DASH:
                 PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                break;
+            case AgentCommandDefine.CHARGING_ATTACK:
+                Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
                 break;
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.IDLE:
@@ -134,7 +136,7 @@ public class HeroStatus_InstantAttack : HeroStatus
                     case AgentCommandDefine.DASH:
                     case AgentCommandDefine.INSTANT_ATTACK:
                     case AgentCommandDefine.CHARGING:
-                        StatusDefaultAction(towards, comboStep);
+                        StatusDefaultAction(towards, triggerMeter, comboStep);
                         return;
                     case AgentCommandDefine.RUN:
                     case AgentCommandDefine.IDLE:
@@ -166,7 +168,7 @@ public class HeroStatus_InstantAttack : HeroStatus
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
-    public void StatusDefaultAction(Vector3 towards, TriggeredComboStep triggeredComboStep)
+    public void StatusDefaultAction(Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
     {
         // 1. 转向
         mAgent.MoveControl.TurnTo(towards);
@@ -175,7 +177,7 @@ public class HeroStatus_InstantAttack : HeroStatus
         if (triggeredComboStep != null)
         {
             agentActionData = triggeredComboStep.comboStep.attackActionData;
-            ExcuteCombo(triggeredComboStep);
+            ExcuteCombo(triggerMeter, triggeredComboStep);
             mComboStep = triggeredComboStep.comboStep;
         }
 

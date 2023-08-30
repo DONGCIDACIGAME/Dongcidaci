@@ -1,4 +1,4 @@
-﻿using GameEngine;
+using GameEngine;
 
 public class TimeMgr : ModuleManager<TimeMgr>
 {
@@ -11,6 +11,11 @@ public class TimeMgr : ModuleManager<TimeMgr>
     /// 当前时间
     /// </summary>
     public float Now { get; private set; }
+
+    /// <summary>
+    /// 当前帧的deltaTime
+    /// </summary>
+    public float DeltaTime { get; private set; }
 
     public override void Dispose()
     {
@@ -29,5 +34,6 @@ public class TimeMgr : ModuleManager<TimeMgr>
         base.OnGameUpdate(deltaTime);
         FrameIndex++;
         Now += deltaTime;
+        DeltaTime = deltaTime;
     }
 }

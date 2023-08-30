@@ -5,7 +5,7 @@ using GameSkillEffect;
 /// 每一个 combo hit点的效果执行器
 /// 由外部驱动，如果外部被打断则不会执行效果
 /// </summary>
-public class ComboEffectExcutor : IGameUpdate, IRecycle
+public class GameEffectExcutor : IGameUpdate, IRecycle
 {
     /// <summary>
     /// 计时器
@@ -27,7 +27,7 @@ public class ComboEffectExcutor : IGameUpdate, IRecycle
     /// 描述某一个combo在hit点打出的效果
     /// Modified by Weng 0708
     /// </summary>
-    private ComboHitEffectsData mEffects;
+    private GameEffectsData mEffects;
 
 
     public bool active { get; private set; }
@@ -37,8 +37,9 @@ public class ComboEffectExcutor : IGameUpdate, IRecycle
     /// </summary>
     /// <param name="agt">谁</param>
     /// <param name="excuteTime">多久之后</param>
-    /// <param name="effect">执行什么效果</param>
-    public void Initialize(Agent agt, float excuteTime, ComboHitEffectsData hitEffects)
+    /// <param name="hitEffects">执行什么效果</param>
+    /// <param name="loopTime">执行几次</param>
+    public void Initialize(Agent agt, float excuteTime, GameEffectsData hitEffects)
     {
         mTimer = 0;
         mAgt = agt;
@@ -56,7 +57,7 @@ public class ComboEffectExcutor : IGameUpdate, IRecycle
         mEffects = null;
     }
 
-    private void Excute(Agent agt, ComboHitEffectsData hitEffects)
+    private void Excute(Agent agt, GameEffectsData hitEffects)
     {
         //Log.Logic(LogLevel.Info, "{0} excute effect {1}", agt.GetAgentId(), effect.effectType);
         // Added by weng 0703

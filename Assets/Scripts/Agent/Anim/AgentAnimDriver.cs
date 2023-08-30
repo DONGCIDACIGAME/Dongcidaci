@@ -1,5 +1,3 @@
-using GameEngine;
-
 public abstract class AgentAnimDriver
 {
     protected Agent mAgent;

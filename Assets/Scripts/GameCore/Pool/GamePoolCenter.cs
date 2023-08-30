@@ -4,7 +4,7 @@ using GameSkillEffect;
 public class GamePoolCenter : Singleton<GamePoolCenter>
 {
     // Changed by weng 0704
-    public GeneralGamePool<ComboEffectExcutor> ComboEffectExcutorPool = new GeneralGamePool<ComboEffectExcutor>();
+    public GeneralGamePool<GameEffectExcutor> ComboEffectExcutorPool = new GeneralGamePool<GameEffectExcutor>();
     
     public GeneralGamePool<AnimMovementExcutor> MovementExcutorPool = new GeneralGamePool<AnimMovementExcutor>();
 

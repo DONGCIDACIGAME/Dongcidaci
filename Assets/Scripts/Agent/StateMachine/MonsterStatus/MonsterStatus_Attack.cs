@@ -97,8 +97,12 @@ public class MonsterStatus_Attack : MonsterStatus
                     //ChangeStatusOnCommand(cmdType, towards, meterIndex, args, mCurTriggeredComboStep);
                     break;
                 case AgentCommandDefine.INSTANT_ATTACK:
+                case AgentCommandDefine.METER_ATTACK:
                 case AgentCommandDefine.CHARGING:
                     StatusDefaultAction(towards, triggerMeter, comboStep);
+                    break;
+                case AgentCommandDefine.CHARGING_ATTACK:
+                    Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
                     break;
                 case AgentCommandDefine.EMPTY:
                 case AgentCommandDefine.BE_HIT:
@@ -197,7 +201,7 @@ public class MonsterStatus_Attack : MonsterStatus
         if (triggeredComboStep != null)
         {
             agentActionData = triggeredComboStep.comboStep.attackActionData;
-            ExcuteCombo(triggeredComboStep);
+            ExcuteCombo(triggerMeter, triggeredComboStep);
         }
 
         string statusName = agentActionData.statusName;

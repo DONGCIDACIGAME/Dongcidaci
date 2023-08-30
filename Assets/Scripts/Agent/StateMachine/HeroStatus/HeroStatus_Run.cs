@@ -28,7 +28,6 @@ public class HeroStatus_Run : HeroStatus
             case AgentCommandDefine.INSTANT_ATTACK:
             case AgentCommandDefine.METER_ATTACK:
             case AgentCommandDefine.CHARGING:
-            case AgentCommandDefine.CHARGING_ATTACK:
             case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.BE_HIT_BREAK:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
@@ -38,6 +37,9 @@ public class HeroStatus_Run : HeroStatus
                 mAgent.MoveControl.TurnTo(towards);
                 //mRunning = true;
                 //StatusDefaultAction(cmdType, towards, triggerMeter, args, GetStatusDefaultActionData());
+                break;
+            case AgentCommandDefine.CHARGING_ATTACK:
+                Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
                 break;
             case AgentCommandDefine.EMPTY:
             default:

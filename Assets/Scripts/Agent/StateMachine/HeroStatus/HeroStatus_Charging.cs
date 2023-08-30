@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using GameEngine;
 public class HeroStatus_Charging : HeroStatus
 {
     private int mStartChargingMeter;
@@ -36,6 +36,7 @@ public class HeroStatus_Charging : HeroStatus
     {
         base.OnExit();
 
+        GameEventSystem.Ins.Fire("HeroEndCharging");
     }
 
 
@@ -51,6 +52,13 @@ public class HeroStatus_Charging : HeroStatus
 
         // 2. 播放蓄力动画
         mMatchMeterCrossfadeAnimDriver.StartPlay(stateName, statusName);
+
+        ChargeAttackStep maxChargeStep = mChargeAtkTrigger.GetMaxChargeStep();
+        if(maxChargeStep != null)
+        {
+            float fullTime = MeterManager.Ins.GetTimeToMeterWithOffset(maxChargeStep.chargeMeterLen);
+            GameEventSystem.Ins.Fire("HeroStartCharging", fullTime);
+        }
 
         // 3. 处理动画相关的位移
         mAgent.MovementExcutorCtl.Start(statusName, stateName, DirectionDef.RealTowards, DirectionDef.none, 0);
@@ -71,25 +79,22 @@ public class HeroStatus_Charging : HeroStatus
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.CHARGING_ATTACK:
-                PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                // PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
 
-                //// 共蓄力了几拍
-                //int totalChargeMeter = triggerMeter - mStartChargingMeter;
-                //ChargeAttackStep chargeAtkStep = mChargeAtkTrigger.Trigger(totalChargeMeter);
-                //if (chargeAtkStep != null)
-                //{
-                //    Dictionary<string, object> _args = new Dictionary<string, object>();
-                //    _args.Add("chargeAtkStep", chargeAtkStep);
-                //    ChangeStatusOnCommand(cmdType, towards, triggerMeter, _args, triggeredComboStep);
-                //}
-                //else
-                //{
-                //    ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, triggerMeter, null, null);
-                //}
+                // 共蓄力了几拍
+                int totalChargeMeter = triggerMeter - mStartChargingMeter;
+                ChargeAttackStep chargeAtkStep = mChargeAtkTrigger.Trigger(totalChargeMeter);
+                if (chargeAtkStep != null)
+                {
+                    Dictionary<string, object> _args = new Dictionary<string, object>();
+                    _args.Add("chargeAtkStep", chargeAtkStep);
+                    ChangeStatusOnCommand(cmdType, towards, triggerMeter, _args, triggeredComboStep);
+                }
+                else
+                {
+                    ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, triggerMeter, null, null);
+                }
 
-                break;
-            case AgentCommandDefine.CHARGING_ATTACKFAILED:
-                ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.RUN:
                 mAgent.MoveControl.TurnTo(towards);

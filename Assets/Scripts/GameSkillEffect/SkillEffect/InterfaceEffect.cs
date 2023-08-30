@@ -67,7 +67,7 @@ namespace GameSkillEffect
         /// <param name="user"></param>
         /// <param name="eftWaitForTrig"></param>
         /// <returns></returns>
-        public void OnExcuteComboEfts(Agent user, ComboHitEffectsData comboHitData);
+        public void OnExcuteComboEfts(Agent user, GameEffectsData comboHitData);
 
     }
 

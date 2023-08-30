@@ -34,14 +34,18 @@ public class MonsterStatus_Idle : MonsterStatus
     {
         switch (cmdType)
         {
-            case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.BE_HIT_BREAK:
             case AgentCommandDefine.RUN:
             case AgentCommandDefine.DASH:
-            case AgentCommandDefine.CHARGING:
             case AgentCommandDefine.INSTANT_ATTACK:
+            case AgentCommandDefine.METER_ATTACK:
+            case AgentCommandDefine.CHARGING:
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
+            case AgentCommandDefine.CHARGING_ATTACK:
+                Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
+                break;
+            case AgentCommandDefine.BE_HIT:
             case AgentCommandDefine.IDLE:
             case AgentCommandDefine.EMPTY:
             default:

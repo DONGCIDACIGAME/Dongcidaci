@@ -98,6 +98,8 @@ public class HeroStatus_MeterAttack : HeroStatus
                     ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, comboStep);
                     break;
                 case AgentCommandDefine.CHARGING_ATTACK:
+                    Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
+                    break;
                 case AgentCommandDefine.IDLE:
                 case AgentCommandDefine.RUN:
                 case AgentCommandDefine.EMPTY:
@@ -124,10 +126,9 @@ public class HeroStatus_MeterAttack : HeroStatus
     /// 2. 播放攻击动画
     /// 3. 造成伤害
     /// </summary>
-    /// <param name="cmdType"></param>
     /// <param name="towards"></param>
     /// <param name="triggerMeter"></param>
-    /// <param name="agentActionData"></param>
+    /// <param name="triggeredComboStep"></param>
     public void StatusDefaultAction(Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
     {
         // 1. 转向
@@ -137,7 +138,7 @@ public class HeroStatus_MeterAttack : HeroStatus
         if (triggeredComboStep != null)
         {
             agentActionData = triggeredComboStep.comboStep.attackActionData;
-            ExcuteCombo(triggeredComboStep);
+            ExcuteCombo(triggerMeter, triggeredComboStep);
             mComboStep = triggeredComboStep.comboStep;
         }
 

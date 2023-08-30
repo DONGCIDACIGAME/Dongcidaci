@@ -52,7 +52,7 @@ namespace GameSkillEffect
         /// 当执行触发一个combo的打击点效果时
         /// </summary>
         /// <param name="hitEffects"></param>
-        public void OnExcHitPointComboEffects(ComboHitEffectsData hitEffects)
+        public void OnExcHitPointComboEffects(GameEffectsData hitEffects)
         {
             // 需要修改这里的逻辑
             if (hitEffects == null || hitEffects.effectsForRls == null || hitEffects.effectsForRls.Count == 0) return;
