@@ -8,9 +8,10 @@ public class GameMapManager : IMeterHandler
 {
     private MapGridInfo _mapGridConfig;
     private GameMapData _mapData;
+
     private List<MapGround> _mapGrounds;
     private List<MapBlock> _mapBlocks;
-
+    
     /// <summary>
     /// 地图上需要响应节拍的物件
     /// </summary>
@@ -135,6 +136,27 @@ public class GameMapManager : IMeterHandler
                         if(blockView is IMeterHandler)
                         {
                             _mapMeterHandlers.Add(blockView as IMeterHandler);
+                        }
+                    }
+                }
+            }
+        }
+
+        // 从dec 层获取需要更新的 IMeterHandler
+        var decNodeT = go.transform.Find("_DECO_LAYER");
+        if (decNodeT != null)
+        {
+            if (decNodeT.childCount > 0)
+            {
+                for (int i = 0; i < decNodeT.childCount; i++)
+                {
+                    decNodeT.GetChild(i).TryGetComponent<MapDecView>(out MapDecView decView);
+                    if (decView != null)
+                    {
+                        // 判断这个障碍物是否节拍事件
+                        if (decView is IMeterHandler)
+                        {
+                            _mapMeterHandlers.Add(decView as IMeterHandler);
                         }
                     }
                 }
