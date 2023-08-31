@@ -53,7 +53,8 @@ public abstract class MonsterStatus : AgentStatus
         float progress = MeterManager.Ins.GetCurrentMeterProgress();
         if (progress <= GamePlayDefine.AttackMeterProgressWait)
         {
-            ExcuteCombo(triggerMeter, triggeredComboStep);
+            float timeLost = MeterManager.Ins.GetTimePassed(triggerMeter);
+            ExcuteCombo(triggerMeter, timeLost, triggeredComboStep);
             return true;
         }
         else

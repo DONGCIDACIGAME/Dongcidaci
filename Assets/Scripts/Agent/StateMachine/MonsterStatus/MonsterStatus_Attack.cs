@@ -192,7 +192,6 @@ public class MonsterStatus_Attack : MonsterStatus
     /// <param name="triggerMeter"></param>
     /// <param name="agentActionData"></param>
     public void StatusDefaultAction(Vector3 towards, int triggerMeter, TriggeredComboStep triggeredComboStep)
-
     {
         // 1. 转向
         mAgent.MoveControl.TurnTo(towards);
@@ -201,7 +200,8 @@ public class MonsterStatus_Attack : MonsterStatus
         if (triggeredComboStep != null)
         {
             agentActionData = triggeredComboStep.comboStep.attackActionData;
-            ExcuteCombo(triggerMeter, triggeredComboStep);
+            float timeLost = MeterManager.Ins.GetTimePassed(triggerMeter);
+            ExcuteCombo(triggerMeter, timeLost, triggeredComboStep);
         }
 
         string statusName = agentActionData.statusName;

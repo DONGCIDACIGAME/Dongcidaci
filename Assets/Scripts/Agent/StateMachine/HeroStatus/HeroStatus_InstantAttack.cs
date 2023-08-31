@@ -177,7 +177,7 @@ public class HeroStatus_InstantAttack : HeroStatus
         if (triggeredComboStep != null)
         {
             agentActionData = triggeredComboStep.comboStep.attackActionData;
-            ExcuteCombo(triggerMeter, triggeredComboStep);
+            ExcuteCombo(triggerMeter, 0, triggeredComboStep);
             mComboStep = triggeredComboStep.comboStep;
         }
 
