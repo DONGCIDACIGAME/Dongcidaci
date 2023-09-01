@@ -98,7 +98,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 1
-    - _AlphaClipValue: 0.3
+    - _AlphaClipValue: 0.5
     - _Blend: 0
     - _BlendOp: 0
     - _BumpScale: 1
@@ -142,8 +142,8 @@ Material:
     - _BaseColor: {r: 0.9063317, g: 0.9063317, b: 0.9063317, a: 1}
     - _Color: {r: 0.9063317, g: 0.9063317, b: 0.9063317, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GrassColor: {r: 0.7490566, g: 1, b: 0.91971403, a: 0}
-    - _ShadowColor: {r: 0.3679245, g: 0.21124987, b: 0.13675684, a: 0}
+    - _GrassColor: {r: 0.65471697, g: 1, b: 0.9212008, a: 0}
+    - _ShadowColor: {r: 0.4056604, g: 0.1802648, b: 0.16609114, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _WindMovement: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
