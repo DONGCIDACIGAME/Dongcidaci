@@ -102,14 +102,20 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
                 // 总时长
                 float totalTime = timeLost + mCurLoopEndTime;
                 if (timeLost / totalTime > hitpoint.progress)
+                {
+                    Log.Error(LogLevel.Info, "lost hit point,TimeType_MeterRelated====  time lost progress:{0}, hitPoint progress:{1}", timeLost / totalTime, hitpoint.progress);
                     continue;
+                }
 
                 excuteTime = hitpoint.progress * totalTime - timeLost;
             }
             else if (hitpoint.timeType == TimeDefine.TimeType_AbsoluteTime)// 绝对时间的
             {
                 if (timeLost > hitpoint.progress)
+                {
+                    Log.Error(LogLevel.Info, "lost hit point,TimeType_AbsoluteTime====  timeLost:{0}, hitPoint time:{1}", timeLost, hitpoint.progress);
                     continue;
+                }
 
                 excuteTime = hitpoint.progress - timeLost;
             }
@@ -169,6 +175,12 @@ public class EffectExcutorController : IGameUpdate, IMeterHandler
         if (!mEnable)
             return;
 
+        for (int i = 0; i < mEffectExcutors.Count; i++)
+        {
+            GameEffectExcutor excutor = mEffectExcutors[i];
+
+            excutor.OnGameUpdate(deltaTime);
+        }
 
         if (mTimeRecord <= mCurLoopEndTime)
             return;

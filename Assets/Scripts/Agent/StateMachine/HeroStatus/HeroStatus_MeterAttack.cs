@@ -138,7 +138,8 @@ public class HeroStatus_MeterAttack : HeroStatus
         if (triggeredComboStep != null)
         {
             agentActionData = triggeredComboStep.comboStep.attackActionData;
-            ExcuteCombo(triggerMeter, triggeredComboStep);
+            float timeLost = MeterManager.Ins.GetTimePassed(triggerMeter);
+            ExcuteCombo(triggerMeter, timeLost, triggeredComboStep);
             mComboStep = triggeredComboStep.comboStep;
         }
 

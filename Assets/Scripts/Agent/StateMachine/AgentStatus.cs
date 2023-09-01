@@ -232,7 +232,7 @@ public abstract class AgentStatus : IAgentStatus
     /// 执行Combo
     /// </summary>
     /// <param name="triggeredComboStep"></param>
-    public void ExcuteCombo(int triggerMeter, TriggeredComboStep triggeredComboStep)
+    public void ExcuteCombo(int triggerMeter, float timeLost, TriggeredComboStep triggeredComboStep)
     {
         if (triggeredComboStep == null)
         {
@@ -246,8 +246,6 @@ public abstract class AgentStatus : IAgentStatus
             Log.Error(LogLevel.Normal, "ExcuteCombo Error, actionData is null, combo name:{0}, index:{1}!", triggeredComboStep.comboData.comboName, triggeredComboStep.stepIndex);
             return;
         }
-
-        float timeLost = MeterManager.Ins.GetTimePassed(triggerMeter);
 
         // 2. 效果执行器开始执行
         // changed by weng 0708
