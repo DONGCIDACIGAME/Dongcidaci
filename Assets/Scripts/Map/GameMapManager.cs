@@ -66,7 +66,7 @@ public class GameMapManager : IMeterHandler
         // 3 注册节奏事件
         if (MeterManager.Ins !=null)
         {
-            MeterManager.Ins.RegisterMeterHandler(this);
+            //MeterManager.Ins.RegisterMeterHandler(this);
         }
         
     }
@@ -144,6 +144,7 @@ public class GameMapManager : IMeterHandler
 
         // 从dec 层获取需要更新的 IMeterHandler
         var decNodeT = go.transform.Find("_DECO_LAYER");
+        
         if (decNodeT != null)
         {
             if (decNodeT.childCount > 0)
@@ -163,8 +164,10 @@ public class GameMapManager : IMeterHandler
             }
         }
 
-
+        
     }
+
+
 
     private void LoadMapEvents()
     {

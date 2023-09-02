@@ -98,7 +98,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 1
-    - _AlphaClipValue: 0.5
+    - _AlphaClipValue: 0.33
     - _Blend: 0
     - _BlendOp: 0
     - _BumpScale: 1
@@ -133,7 +133,7 @@ Material:
     - _Surface: 0
     - _UVSec: 0
     - _WindDensity: 1
-    - _WindStrength: 0.5
+    - _WindStrength: 1
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
