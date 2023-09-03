@@ -44,6 +44,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: ce57056ffa528e94c81ec5f9b479deb8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DecTex2_D:
+        m_Texture: {fileID: 2800000, guid: 3273739cd00db12499b453c6c2a85f6e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DecTex2_N:
+        m_Texture: {fileID: 2800000, guid: f030c60756d34fd4fa33a7b4780b277f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -95,6 +103,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
+    - _AmbientFactor: 0.54
     - _BaseNormalStrength: 1.5
     - _BaseTexContrast: 0.95
     - _Blend: 0
@@ -103,7 +112,11 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DecTex1_NormalStrength: 15
+    - _Dec2MixRatio: 0.75
+    - _Dec2NormalStrength: 2
+    - _Dec2NosieScale: -1
+    - _Dec2Sat: 0.15
+    - _DecTex1_NormalStrength: 10
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -113,9 +126,9 @@ Material:
     - _GlossinessSource: 0
     - _GlossyReflections: 1
     - _Metallic: 0
-    - _MixRatio: 1.5
+    - _MixRatio: 2
     - _Mode: 0
-    - _NoiseScale: 10
+    - _NoiseScale: 2
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueControl: 0
@@ -123,6 +136,7 @@ Material:
     - _ReceiveShadows: 1
     - _RotateDegrees: 0
     - _Shininess: 0
+    - _SmoothFactor: 0
     - _Smoothness: 0.5
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
