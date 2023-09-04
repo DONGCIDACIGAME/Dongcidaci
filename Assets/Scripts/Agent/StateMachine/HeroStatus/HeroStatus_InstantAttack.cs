@@ -76,37 +76,37 @@ public class HeroStatus_InstantAttack : HeroStatus
     /// <param name="meterIndex"></param>
     protected override void CustomOnMeterEnter(int meterIndex)
     {
-        // 逻辑拍结束前，不能响应缓存区指令
-        if (meterIndex <= mCurLogicStateEndMeter)
-        {
-            //Log.Error(LogLevel.Info, "CustomOnMeterEnter--- meterIndex:{0}, logicMeterEnd:{1}", meterIndex, mCurLogicStateEndMeter);
-            return;
-        }
+        //// 逻辑拍结束前，不能响应缓存区指令
+        //if (meterIndex <= mCurLogicStateEndMeter)
+        //{
+        //    //Log.Error(LogLevel.Info, "CustomOnMeterEnter--- meterIndex:{0}, logicMeterEnd:{1}", meterIndex, mCurLogicStateEndMeter);
+        //    return;
+        //}
 
-        // 缓存区取指令
-        if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
-        {
-            cmdBuffer.ClearCommandBuffer();
-            Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
+        //// 缓存区取指令
+        //if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
+        //{
+        //    cmdBuffer.ClearCommandBuffer();
+        //    Log.Logic(LogLevel.Info, "PeekCommand:{0}-----cur meter:{1}", cmdType, meterIndex);
 
-            switch (cmdType)
-            {
-                case AgentCommandDefine.BE_HIT_BREAK:
-                case AgentCommandDefine.DASH:
-                case AgentCommandDefine.INSTANT_ATTACK:
-                case AgentCommandDefine.METER_ATTACK:
-                case AgentCommandDefine.CHARGING:
-                case AgentCommandDefine.CHARGING_ATTACK:
-                    //ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
-                    break;
-                case AgentCommandDefine.IDLE:
-                case AgentCommandDefine.RUN:
-                case AgentCommandDefine.EMPTY:
-                case AgentCommandDefine.BE_HIT:
-                default:
-                    break;
-            }
-        }
+        //    switch (cmdType)
+        //    {
+        //        case AgentCommandDefine.BE_HIT_BREAK:
+        //        case AgentCommandDefine.DASH:
+        //        case AgentCommandDefine.INSTANT_ATTACK:
+        //        case AgentCommandDefine.METER_ATTACK:
+        //        case AgentCommandDefine.CHARGING:
+        //        case AgentCommandDefine.CHARGING_ATTACK:
+        //            //ExcuteComboTriggerCmd(cmdType, towards, triggerMeter, args, comboStep);
+        //            break;
+        //        case AgentCommandDefine.IDLE:
+        //        case AgentCommandDefine.RUN:
+        //        case AgentCommandDefine.EMPTY:
+        //        case AgentCommandDefine.BE_HIT:
+        //        default:
+        //            break;
+        //    }
+        //}
         //else
         //{
         //    ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, null, null);
@@ -130,6 +130,7 @@ public class HeroStatus_InstantAttack : HeroStatus
             // 缓存区取指令
             if (cmdBuffer.PeekCommand(mCurLogicStateEndMeter, out int cmdType, out Vector3 towards, out int triggerMeter, out Dictionary<string, object> args, out TriggeredComboStep comboStep))
             {
+                cmdBuffer.ClearCommandBuffer();
                 switch (cmdType)
                 {
                     case AgentCommandDefine.BE_HIT_BREAK:

@@ -59,6 +59,7 @@ public abstract class AgentKeyboardInputHandle : InputHandle
         {
             if(MeterManager.Ins.CheckTriggered(GamePlayDefine.InputCheckTolerance, GamePlayDefine.InputCheckOffset, out triggerMeter))
             {
+                Log.Error(LogLevel.Info, "GetInstantAttackInputCmd--------------{0}", TimeMgr.Ins.FrameIndex);
                 cmd = GamePoolCenter.Ins.AgentInputCommandPool.Pop();
                 cmd.Initialize(AgentCommandDefine.INSTANT_ATTACK, triggerMeter, TimeMgr.Ins.FrameIndex, towards);
                 return true;

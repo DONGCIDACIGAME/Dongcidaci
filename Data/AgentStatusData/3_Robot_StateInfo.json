@@ -83,7 +83,7 @@
 				"normalizedTime": 0.05,
 				"layer": 0,
 				"animLen": 0.3,
-				"movements": [{"distance": 0.5, "timeType": 1, "startTime":0, "endTime":0.05}],
+				"movements": [{"distance": 0.5, "timeType": 1, "startTime":0, "endTime":0.25}],
 				"hitPoints": [{"progress": 0.05, "timeType": 1}]
 			},
 			{
@@ -94,7 +94,7 @@
 				"normalizedTime": 0,
 				"layer": 0,
 				"animLen": 0.233,
-				"movements": [{"distance": 0.5, "timeType": 1, "startTime":0, "endTime":0.05}],
+				"movements": [{"distance": 0.5, "timeType": 1, "startTime":0, "endTime":0.25}],
 				"hitPoints": [{"progress": 0.05, "timeType": 1}]
 			},
 			{
@@ -105,7 +105,7 @@
 				"normalizedTime": 0,
 				"layer": 0,
 				"animLen": 0.433,
-				"movements": [{"distance": 2, "timeType": 1, "startTime":0, "endTime":0.05}],
+				"movements": [{"distance": 2, "timeType": 1, "startTime":0, "endTime":0.25}],
 				"hitPoints": [{"progress": 0.05, "timeType": 1}]
 			}]
 		},
