@@ -107,7 +107,7 @@ public class Hero : Agent
             // changed by weng 0626
             // turn vector3(0,10,-10) to vector3(0,10,-6.5)
             // changed by weng 0813
-            mCft.SetFollowTarget(Hero_View.GetGameObject(), new Vector3(0, 8f, -7f));
+            mCft.SetFollowTarget(Hero_View.GetGameObject(), new Vector3(0, 20f, -20f));
         }
 
         MoveControl = new PlayerMoveControl(this);
