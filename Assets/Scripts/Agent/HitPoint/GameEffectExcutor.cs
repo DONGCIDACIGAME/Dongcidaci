@@ -59,7 +59,6 @@ public class GameEffectExcutor : IGameUpdate, IRecycle
 
     private void Excute(Agent agt, GameEffectsData hitEffects)
     {
-        //Log.Logic(LogLevel.Info, "{0} excute effect {1}", agt.GetAgentId(), effect.effectType);
         // Added by weng 0703
         agt.SkillEftHandler.OnExcHitPointComboEffects(hitEffects);
     }

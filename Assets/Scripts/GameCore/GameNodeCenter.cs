@@ -64,4 +64,22 @@ public class GameNodeCenter: Singleton<GameNodeCenter>
     }
 
     #endregion
+
+
+    #region Effect
+    public GameObject FXPoolNode { get; private set; }
+    public GameObject FXDefaultCarryNode { get; private set; }
+
+    public void InitializeEffectNodes()
+    {
+        FXPoolNode = GameObject.Find("_FX_POOL");
+        FXDefaultCarryNode = GameObject.Find("_FX_DEFAULT");
+    }
+
+    public void DisposeEffectNodes()
+    {
+        MainCamNode = null;
+        UICamNode = null;
+    }
+    #endregion
 }

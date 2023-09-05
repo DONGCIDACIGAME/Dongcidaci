@@ -54,4 +54,9 @@ public static class Log
     {
         Debug.Assert(condition, msg);
     }
+
+    public static void Break()
+    {
+        Debug.Break();
+    }
 }

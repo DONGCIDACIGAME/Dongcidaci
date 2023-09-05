@@ -107,6 +107,7 @@ public class Monster : Agent
 
         MoveControl = new MonsterMoveControl(this);
         SetSpeed(mMonsterCfg.Speed);
+        SetTurnSpeed(mMonsterCfg.TurnSpeed);
         SetDashDistance(mMonsterCfg.DashDistance);
         SetName(mMonsterCfg.Name);
         SetAttackRadius(mMonsterCfg.AttackRadius);

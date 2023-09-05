@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using GameEngine;
 using GameSkillEffect;
@@ -112,6 +113,7 @@ public class Hero : Agent
 
         MoveControl = new PlayerMoveControl(this);
         SetSpeed(mHeroCfg.Speed);
+        SetTurnSpeed(mHeroCfg.TurnSpeed);
         SetDashDistance(mHeroCfg.DashDistance);
         SetName(mHeroCfg.Name);
 

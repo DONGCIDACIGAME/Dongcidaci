@@ -32,5 +32,5 @@ public static class GameDifficuty
 
 public static class GameCommonConfig
 {
-    public static float AgentTurnSpeed = 1920f;
+    public static float AgentTurnSpeed = 1080f;
 }

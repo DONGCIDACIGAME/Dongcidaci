@@ -24,6 +24,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>uint32 ID = 1;</code>
+     * @return The iD.
      */
     int getID();
 
@@ -33,6 +34,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string ChName = 2;</code>
+     * @return The chName.
      */
     java.lang.String getChName();
     /**
@@ -41,6 +43,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string ChName = 2;</code>
+     * @return The bytes for chName.
      */
     com.google.protobuf.ByteString
         getChNameBytes();
@@ -51,6 +54,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string EnName = 3;</code>
+     * @return The enName.
      */
     java.lang.String getEnName();
     /**
@@ -59,6 +63,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string EnName = 3;</code>
+     * @return The bytes for enName.
      */
     com.google.protobuf.ByteString
         getEnNameBytes();
@@ -69,6 +74,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string ClassName = 4;</code>
+     * @return The className.
      */
     java.lang.String getClassName();
     /**
@@ -77,6 +83,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string ClassName = 4;</code>
+     * @return The bytes for className.
      */
     com.google.protobuf.ByteString
         getClassNameBytes();
@@ -87,6 +94,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string ChDescrip = 5;</code>
+     * @return The chDescrip.
      */
     java.lang.String getChDescrip();
     /**
@@ -95,6 +103,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string ChDescrip = 5;</code>
+     * @return The bytes for chDescrip.
      */
     com.google.protobuf.ByteString
         getChDescripBytes();
@@ -105,6 +114,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string EnDescrip = 6;</code>
+     * @return The enDescrip.
      */
     java.lang.String getEnDescrip();
     /**
@@ -113,6 +123,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string EnDescrip = 6;</code>
+     * @return The bytes for enDescrip.
      */
     com.google.protobuf.ByteString
         getEnDescripBytes();
@@ -123,6 +134,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string IconPath = 7;</code>
+     * @return The iconPath.
      */
     java.lang.String getIconPath();
     /**
@@ -131,6 +143,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string IconPath = 7;</code>
+     * @return The bytes for iconPath.
      */
     com.google.protobuf.ByteString
         getIconPathBytes();
@@ -141,6 +154,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string VFXPrefabPath = 8;</code>
+     * @return The vFXPrefabPath.
      */
     java.lang.String getVFXPrefabPath();
     /**
@@ -149,6 +163,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string VFXPrefabPath = 8;</code>
+     * @return The bytes for vFXPrefabPath.
      */
     com.google.protobuf.ByteString
         getVFXPrefabPathBytes();
@@ -159,6 +174,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string AudioPath = 9;</code>
+     * @return The audioPath.
      */
     java.lang.String getAudioPath();
     /**
@@ -167,6 +183,7 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string AudioPath = 9;</code>
+     * @return The bytes for audioPath.
      */
     com.google.protobuf.ByteString
         getAudioPathBytes();
@@ -174,7 +191,7 @@ public final class SkillEffectCfg {
   /**
    * Protobuf type {@code DongciDaci.SkEftBaseCfg}
    */
-  public  static final class SkEftBaseCfg extends
+  public static final class SkEftBaseCfg extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:DongciDaci.SkEftBaseCfg)
       SkEftBaseCfgOrBuilder {
@@ -184,7 +201,6 @@ public final class SkillEffectCfg {
       super(builder);
     }
     private SkEftBaseCfg() {
-      iD_ = 0;
       chName_ = "";
       enName_ = "";
       className_ = "";
@@ -193,6 +209,13 @@ public final class SkillEffectCfg {
       iconPath_ = "";
       vFXPrefabPath_ = "";
       audioPath_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SkEftBaseCfg();
     }
 
     @java.lang.Override
@@ -208,7 +231,6 @@ public final class SkillEffectCfg {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -273,7 +295,7 @@ public final class SkillEffectCfg {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -312,7 +334,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>uint32 ID = 1;</code>
+     * @return The iD.
      */
+    @java.lang.Override
     public int getID() {
       return iD_;
     }
@@ -325,7 +349,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string ChName = 2;</code>
+     * @return The chName.
      */
+    @java.lang.Override
     public java.lang.String getChName() {
       java.lang.Object ref = chName_;
       if (ref instanceof java.lang.String) {
@@ -344,7 +370,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string ChName = 2;</code>
+     * @return The bytes for chName.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getChNameBytes() {
       java.lang.Object ref = chName_;
@@ -367,7 +395,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string EnName = 3;</code>
+     * @return The enName.
      */
+    @java.lang.Override
     public java.lang.String getEnName() {
       java.lang.Object ref = enName_;
       if (ref instanceof java.lang.String) {
@@ -386,7 +416,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string EnName = 3;</code>
+     * @return The bytes for enName.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getEnNameBytes() {
       java.lang.Object ref = enName_;
@@ -409,7 +441,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string ClassName = 4;</code>
+     * @return The className.
      */
+    @java.lang.Override
     public java.lang.String getClassName() {
       java.lang.Object ref = className_;
       if (ref instanceof java.lang.String) {
@@ -428,7 +462,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string ClassName = 4;</code>
+     * @return The bytes for className.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getClassNameBytes() {
       java.lang.Object ref = className_;
@@ -451,7 +487,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string ChDescrip = 5;</code>
+     * @return The chDescrip.
      */
+    @java.lang.Override
     public java.lang.String getChDescrip() {
       java.lang.Object ref = chDescrip_;
       if (ref instanceof java.lang.String) {
@@ -470,7 +508,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string ChDescrip = 5;</code>
+     * @return The bytes for chDescrip.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getChDescripBytes() {
       java.lang.Object ref = chDescrip_;
@@ -493,7 +533,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string EnDescrip = 6;</code>
+     * @return The enDescrip.
      */
+    @java.lang.Override
     public java.lang.String getEnDescrip() {
       java.lang.Object ref = enDescrip_;
       if (ref instanceof java.lang.String) {
@@ -512,7 +554,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string EnDescrip = 6;</code>
+     * @return The bytes for enDescrip.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getEnDescripBytes() {
       java.lang.Object ref = enDescrip_;
@@ -535,7 +579,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string IconPath = 7;</code>
+     * @return The iconPath.
      */
+    @java.lang.Override
     public java.lang.String getIconPath() {
       java.lang.Object ref = iconPath_;
       if (ref instanceof java.lang.String) {
@@ -554,7 +600,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string IconPath = 7;</code>
+     * @return The bytes for iconPath.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIconPathBytes() {
       java.lang.Object ref = iconPath_;
@@ -577,7 +625,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string VFXPrefabPath = 8;</code>
+     * @return The vFXPrefabPath.
      */
+    @java.lang.Override
     public java.lang.String getVFXPrefabPath() {
       java.lang.Object ref = vFXPrefabPath_;
       if (ref instanceof java.lang.String) {
@@ -596,7 +646,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string VFXPrefabPath = 8;</code>
+     * @return The bytes for vFXPrefabPath.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getVFXPrefabPathBytes() {
       java.lang.Object ref = vFXPrefabPath_;
@@ -619,7 +671,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string AudioPath = 9;</code>
+     * @return The audioPath.
      */
+    @java.lang.Override
     public java.lang.String getAudioPath() {
       java.lang.Object ref = audioPath_;
       if (ref instanceof java.lang.String) {
@@ -638,7 +692,9 @@ public final class SkillEffectCfg {
      * </pre>
      *
      * <code>string AudioPath = 9;</code>
+     * @return The bytes for audioPath.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getAudioPathBytes() {
       java.lang.Object ref = audioPath_;
@@ -746,27 +802,26 @@ public final class SkillEffectCfg {
       }
       com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg other = (com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg) obj;
 
-      boolean result = true;
-      result = result && (getID()
-          == other.getID());
-      result = result && getChName()
-          .equals(other.getChName());
-      result = result && getEnName()
-          .equals(other.getEnName());
-      result = result && getClassName()
-          .equals(other.getClassName());
-      result = result && getChDescrip()
-          .equals(other.getChDescrip());
-      result = result && getEnDescrip()
-          .equals(other.getEnDescrip());
-      result = result && getIconPath()
-          .equals(other.getIconPath());
-      result = result && getVFXPrefabPath()
-          .equals(other.getVFXPrefabPath());
-      result = result && getAudioPath()
-          .equals(other.getAudioPath());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getID()
+          != other.getID()) return false;
+      if (!getChName()
+          .equals(other.getChName())) return false;
+      if (!getEnName()
+          .equals(other.getEnName())) return false;
+      if (!getClassName()
+          .equals(other.getClassName())) return false;
+      if (!getChDescrip()
+          .equals(other.getChDescrip())) return false;
+      if (!getEnDescrip()
+          .equals(other.getEnDescrip())) return false;
+      if (!getIconPath()
+          .equals(other.getIconPath())) return false;
+      if (!getVFXPrefabPath()
+          .equals(other.getVFXPrefabPath())) return false;
+      if (!getAudioPath()
+          .equals(other.getAudioPath())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -986,35 +1041,35 @@ public final class SkillEffectCfg {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1099,7 +1154,9 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>uint32 ID = 1;</code>
+       * @return The iD.
        */
+      @java.lang.Override
       public int getID() {
         return iD_;
       }
@@ -1109,6 +1166,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>uint32 ID = 1;</code>
+       * @param value The iD to set.
+       * @return This builder for chaining.
        */
       public Builder setID(int value) {
         
@@ -1122,6 +1181,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>uint32 ID = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearID() {
         
@@ -1137,6 +1197,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ChName = 2;</code>
+       * @return The chName.
        */
       public java.lang.String getChName() {
         java.lang.Object ref = chName_;
@@ -1156,6 +1217,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ChName = 2;</code>
+       * @return The bytes for chName.
        */
       public com.google.protobuf.ByteString
           getChNameBytes() {
@@ -1176,6 +1238,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ChName = 2;</code>
+       * @param value The chName to set.
+       * @return This builder for chaining.
        */
       public Builder setChName(
           java.lang.String value) {
@@ -1193,6 +1257,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ChName = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearChName() {
         
@@ -1206,6 +1271,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ChName = 2;</code>
+       * @param value The bytes for chName to set.
+       * @return This builder for chaining.
        */
       public Builder setChNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1226,6 +1293,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string EnName = 3;</code>
+       * @return The enName.
        */
       public java.lang.String getEnName() {
         java.lang.Object ref = enName_;
@@ -1245,6 +1313,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string EnName = 3;</code>
+       * @return The bytes for enName.
        */
       public com.google.protobuf.ByteString
           getEnNameBytes() {
@@ -1265,6 +1334,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string EnName = 3;</code>
+       * @param value The enName to set.
+       * @return This builder for chaining.
        */
       public Builder setEnName(
           java.lang.String value) {
@@ -1282,6 +1353,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string EnName = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEnName() {
         
@@ -1295,6 +1367,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string EnName = 3;</code>
+       * @param value The bytes for enName to set.
+       * @return This builder for chaining.
        */
       public Builder setEnNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1315,6 +1389,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ClassName = 4;</code>
+       * @return The className.
        */
       public java.lang.String getClassName() {
         java.lang.Object ref = className_;
@@ -1334,6 +1409,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ClassName = 4;</code>
+       * @return The bytes for className.
        */
       public com.google.protobuf.ByteString
           getClassNameBytes() {
@@ -1354,6 +1430,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ClassName = 4;</code>
+       * @param value The className to set.
+       * @return This builder for chaining.
        */
       public Builder setClassName(
           java.lang.String value) {
@@ -1371,6 +1449,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ClassName = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearClassName() {
         
@@ -1384,6 +1463,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ClassName = 4;</code>
+       * @param value The bytes for className to set.
+       * @return This builder for chaining.
        */
       public Builder setClassNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1404,6 +1485,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ChDescrip = 5;</code>
+       * @return The chDescrip.
        */
       public java.lang.String getChDescrip() {
         java.lang.Object ref = chDescrip_;
@@ -1423,6 +1505,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ChDescrip = 5;</code>
+       * @return The bytes for chDescrip.
        */
       public com.google.protobuf.ByteString
           getChDescripBytes() {
@@ -1443,6 +1526,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ChDescrip = 5;</code>
+       * @param value The chDescrip to set.
+       * @return This builder for chaining.
        */
       public Builder setChDescrip(
           java.lang.String value) {
@@ -1460,6 +1545,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ChDescrip = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearChDescrip() {
         
@@ -1473,6 +1559,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string ChDescrip = 5;</code>
+       * @param value The bytes for chDescrip to set.
+       * @return This builder for chaining.
        */
       public Builder setChDescripBytes(
           com.google.protobuf.ByteString value) {
@@ -1493,6 +1581,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string EnDescrip = 6;</code>
+       * @return The enDescrip.
        */
       public java.lang.String getEnDescrip() {
         java.lang.Object ref = enDescrip_;
@@ -1512,6 +1601,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string EnDescrip = 6;</code>
+       * @return The bytes for enDescrip.
        */
       public com.google.protobuf.ByteString
           getEnDescripBytes() {
@@ -1532,6 +1622,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string EnDescrip = 6;</code>
+       * @param value The enDescrip to set.
+       * @return This builder for chaining.
        */
       public Builder setEnDescrip(
           java.lang.String value) {
@@ -1549,6 +1641,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string EnDescrip = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEnDescrip() {
         
@@ -1562,6 +1655,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string EnDescrip = 6;</code>
+       * @param value The bytes for enDescrip to set.
+       * @return This builder for chaining.
        */
       public Builder setEnDescripBytes(
           com.google.protobuf.ByteString value) {
@@ -1582,6 +1677,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string IconPath = 7;</code>
+       * @return The iconPath.
        */
       public java.lang.String getIconPath() {
         java.lang.Object ref = iconPath_;
@@ -1601,6 +1697,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string IconPath = 7;</code>
+       * @return The bytes for iconPath.
        */
       public com.google.protobuf.ByteString
           getIconPathBytes() {
@@ -1621,6 +1718,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string IconPath = 7;</code>
+       * @param value The iconPath to set.
+       * @return This builder for chaining.
        */
       public Builder setIconPath(
           java.lang.String value) {
@@ -1638,6 +1737,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string IconPath = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIconPath() {
         
@@ -1651,6 +1751,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string IconPath = 7;</code>
+       * @param value The bytes for iconPath to set.
+       * @return This builder for chaining.
        */
       public Builder setIconPathBytes(
           com.google.protobuf.ByteString value) {
@@ -1671,6 +1773,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string VFXPrefabPath = 8;</code>
+       * @return The vFXPrefabPath.
        */
       public java.lang.String getVFXPrefabPath() {
         java.lang.Object ref = vFXPrefabPath_;
@@ -1690,6 +1793,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string VFXPrefabPath = 8;</code>
+       * @return The bytes for vFXPrefabPath.
        */
       public com.google.protobuf.ByteString
           getVFXPrefabPathBytes() {
@@ -1710,6 +1814,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string VFXPrefabPath = 8;</code>
+       * @param value The vFXPrefabPath to set.
+       * @return This builder for chaining.
        */
       public Builder setVFXPrefabPath(
           java.lang.String value) {
@@ -1727,6 +1833,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string VFXPrefabPath = 8;</code>
+       * @return This builder for chaining.
        */
       public Builder clearVFXPrefabPath() {
         
@@ -1740,6 +1847,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string VFXPrefabPath = 8;</code>
+       * @param value The bytes for vFXPrefabPath to set.
+       * @return This builder for chaining.
        */
       public Builder setVFXPrefabPathBytes(
           com.google.protobuf.ByteString value) {
@@ -1760,6 +1869,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string AudioPath = 9;</code>
+       * @return The audioPath.
        */
       public java.lang.String getAudioPath() {
         java.lang.Object ref = audioPath_;
@@ -1779,6 +1889,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string AudioPath = 9;</code>
+       * @return The bytes for audioPath.
        */
       public com.google.protobuf.ByteString
           getAudioPathBytes() {
@@ -1799,6 +1910,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string AudioPath = 9;</code>
+       * @param value The audioPath to set.
+       * @return This builder for chaining.
        */
       public Builder setAudioPath(
           java.lang.String value) {
@@ -1816,6 +1929,7 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string AudioPath = 9;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAudioPath() {
         
@@ -1829,6 +1943,8 @@ public final class SkillEffectCfg {
        * </pre>
        *
        * <code>string AudioPath = 9;</code>
+       * @param value The bytes for audioPath to set.
+       * @return This builder for chaining.
        */
       public Builder setAudioPathBytes(
           com.google.protobuf.ByteString value) {
@@ -1844,7 +1960,7 @@ public final class SkillEffectCfg {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -1935,7 +2051,7 @@ public final class SkillEffectCfg {
   /**
    * Protobuf type {@code DongciDaci.SkillEffectCfg_Data}
    */
-  public  static final class SkillEffectCfg_Data extends
+  public static final class SkillEffectCfg_Data extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:DongciDaci.SkillEffectCfg_Data)
       SkillEffectCfg_DataOrBuilder {
@@ -1945,6 +2061,13 @@ public final class SkillEffectCfg {
       super(builder);
     }
     private SkillEffectCfg_Data() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SkillEffectCfg_Data();
     }
 
     @java.lang.Override
@@ -1972,7 +2095,7 @@ public final class SkillEffectCfg {
               done = true;
               break;
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 skEftBaseCfgItems_ = com.google.protobuf.MapField.newMapField(
                     SkEftBaseCfgItemsDefaultEntryHolder.defaultEntry);
                 mutable_bitField0_ |= 0x00000001;
@@ -1985,7 +2108,7 @@ public final class SkillEffectCfg {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -2058,6 +2181,7 @@ public final class SkillEffectCfg {
      * <code>map&lt;uint32, .DongciDaci.SkEftBaseCfg&gt; SkEftBaseCfg_items = 1;</code>
      */
 
+    @java.lang.Override
     public boolean containsSkEftBaseCfgItems(
         int key) {
       
@@ -2066,6 +2190,7 @@ public final class SkillEffectCfg {
     /**
      * Use {@link #getSkEftBaseCfgItemsMap()} instead.
      */
+    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg> getSkEftBaseCfgItems() {
       return getSkEftBaseCfgItemsMap();
@@ -2073,6 +2198,7 @@ public final class SkillEffectCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.SkEftBaseCfg&gt; SkEftBaseCfg_items = 1;</code>
      */
+    @java.lang.Override
 
     public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg> getSkEftBaseCfgItemsMap() {
       return internalGetSkEftBaseCfgItems().getMap();
@@ -2080,6 +2206,7 @@ public final class SkillEffectCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.SkEftBaseCfg&gt; SkEftBaseCfg_items = 1;</code>
      */
+    @java.lang.Override
 
     public com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg getSkEftBaseCfgItemsOrDefault(
         int key,
@@ -2092,6 +2219,7 @@ public final class SkillEffectCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.SkEftBaseCfg&gt; SkEftBaseCfg_items = 1;</code>
      */
+    @java.lang.Override
 
     public com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg getSkEftBaseCfgItemsOrThrow(
         int key) {
@@ -2158,11 +2286,10 @@ public final class SkillEffectCfg {
       }
       com.trinitigames.server.conf.auto.SkillEffectCfg.SkillEffectCfg_Data other = (com.trinitigames.server.conf.auto.SkillEffectCfg.SkillEffectCfg_Data) obj;
 
-      boolean result = true;
-      result = result && internalGetSkEftBaseCfgItems().equals(
-          other.internalGetSkEftBaseCfgItems());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!internalGetSkEftBaseCfgItems().equals(
+          other.internalGetSkEftBaseCfgItems())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2367,35 +2494,35 @@ public final class SkillEffectCfg {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -2471,6 +2598,7 @@ public final class SkillEffectCfg {
        * <code>map&lt;uint32, .DongciDaci.SkEftBaseCfg&gt; SkEftBaseCfg_items = 1;</code>
        */
 
+      @java.lang.Override
       public boolean containsSkEftBaseCfgItems(
           int key) {
         
@@ -2479,6 +2607,7 @@ public final class SkillEffectCfg {
       /**
        * Use {@link #getSkEftBaseCfgItemsMap()} instead.
        */
+      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg> getSkEftBaseCfgItems() {
         return getSkEftBaseCfgItemsMap();
@@ -2486,6 +2615,7 @@ public final class SkillEffectCfg {
       /**
        * <code>map&lt;uint32, .DongciDaci.SkEftBaseCfg&gt; SkEftBaseCfg_items = 1;</code>
        */
+      @java.lang.Override
 
       public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg> getSkEftBaseCfgItemsMap() {
         return internalGetSkEftBaseCfgItems().getMap();
@@ -2493,6 +2623,7 @@ public final class SkillEffectCfg {
       /**
        * <code>map&lt;uint32, .DongciDaci.SkEftBaseCfg&gt; SkEftBaseCfg_items = 1;</code>
        */
+      @java.lang.Override
 
       public com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg getSkEftBaseCfgItemsOrDefault(
           int key,
@@ -2505,6 +2636,7 @@ public final class SkillEffectCfg {
       /**
        * <code>map&lt;uint32, .DongciDaci.SkEftBaseCfg&gt; SkEftBaseCfg_items = 1;</code>
        */
+      @java.lang.Override
 
       public com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg getSkEftBaseCfgItemsOrThrow(
           int key) {
@@ -2566,7 +2698,7 @@ public final class SkillEffectCfg {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -2653,18 +2785,10 @@ public final class SkillEffectCfg {
       ":\0028\001B#\n!com.trinitigames.server.conf.aut" +
       "ob\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_DongciDaci_SkEftBaseCfg_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_DongciDaci_SkEftBaseCfg_fieldAccessorTable = new

@@ -24,48 +24,57 @@ namespace DongciDaci {
     static HeroCfgReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg1IZXJvQ2ZnLnByb3RvEgpEb25nY2lEYWNpIvACCgtIZXJvQmFzZUNmZxIK",
+            "Cg1IZXJvQ2ZnLnByb3RvEgpEb25nY2lEYWNpIoMDCgtIZXJvQmFzZUNmZxIK",
             "CgJJRBgBIAEoDRIMCgROYW1lGAIgASgJEg4KBlByZWZhYhgDIAEoCRINCgVT",
             "cGVlZBgEIAEoAhIUCgxEYXNoRGlzdGFuY2UYBSABKAISFAoMQXR0YWNrUmFk",
             "aXVzGAYgASgCEhYKDkludGVyYWN0UmFkaXVzGAcgASgCEhQKDEZvbGxvd1Jh",
-            "ZGl1cxgIIAEoAhINCgVNYXhIcBgJIAEoBRISCgpCYXNlQXR0YWNrGAogASgF",
-            "EhMKC0RlZmVuc2VSYXRlGAsgASgCEhQKDENyaXRpY2FsUmF0ZRgMIAEoAhIX",
-            "Cg9Dcml0aWNhbERtZ1JhdGUYDSABKAISEQoJRG9kZ2VSYXRlGA4gASgCEhEK",
-            "CU1vdmVTcGVlZBgPIAEoAhIXCg9FeHRyYUVuZXJneUdhaW4YECABKAUSFQoN",
-            "QmVhdFRvbGVyYW5jZRgRIAEoAhIRCglMdWNreVJhdGUYEiABKAUiqwEKDEhl",
-            "cm9DZmdfRGF0YRJJChFIZXJvQmFzZUNmZ19pdGVtcxgBIAMoCzIuLkRvbmdj",
-            "aURhY2kuSGVyb0NmZ19EYXRhLkhlcm9CYXNlQ2ZnSXRlbXNFbnRyeRpQChVI",
-            "ZXJvQmFzZUNmZ0l0ZW1zRW50cnkSCwoDa2V5GAEgASgNEiYKBXZhbHVlGAIg",
-            "ASgLMhcuRG9uZ2NpRGFjaS5IZXJvQmFzZUNmZzoCOAFCIwohY29tLnRyaW5p",
-            "dGlnYW1lcy5zZXJ2ZXIuY29uZi5hdXRvYgZwcm90bzM="));
+            "ZGl1cxgIIAEoAhIRCglUdXJuU3BlZWQYCSABKAISDQoFTWF4SHAYCiABKAUS",
+            "EgoKQmFzZUF0dGFjaxgLIAEoBRITCgtEZWZlbnNlUmF0ZRgMIAEoAhIUCgxD",
+            "cml0aWNhbFJhdGUYDSABKAISFwoPQ3JpdGljYWxEbWdSYXRlGA4gASgCEhEK",
+            "CURvZGdlUmF0ZRgPIAEoAhIRCglNb3ZlU3BlZWQYECABKAISFwoPRXh0cmFF",
+            "bmVyZ3lHYWluGBIgASgFEhUKDUJlYXRUb2xlcmFuY2UYEyABKAISEQoJTHVj",
+            "a3lSYXRlGBQgASgFIqsBCgxIZXJvQ2ZnX0RhdGESSQoRSGVyb0Jhc2VDZmdf",
+            "aXRlbXMYASADKAsyLi5Eb25nY2lEYWNpLkhlcm9DZmdfRGF0YS5IZXJvQmFz",
+            "ZUNmZ0l0ZW1zRW50cnkaUAoVSGVyb0Jhc2VDZmdJdGVtc0VudHJ5EgsKA2tl",
+            "eRgBIAEoDRImCgV2YWx1ZRgCIAEoCzIXLkRvbmdjaURhY2kuSGVyb0Jhc2VD",
+            "Zmc6AjgBQiMKIWNvbS50cmluaXRpZ2FtZXMuc2VydmVyLmNvbmYuYXV0b2IG",
+            "cHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::DongciDaci.HeroBaseCfg), global::DongciDaci.HeroBaseCfg.Parser, new[]{ "ID", "Name", "Prefab", "Speed", "DashDistance", "AttackRadius", "InteractRadius", "FollowRadius", "MaxHp", "BaseAttack", "DefenseRate", "CriticalRate", "CriticalDmgRate", "DodgeRate", "MoveSpeed", "ExtraEnergyGain", "BeatTolerance", "LuckyRate" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::DongciDaci.HeroCfg_Data), global::DongciDaci.HeroCfg_Data.Parser, new[]{ "HeroBaseCfgItems" }, null, null, new pbr::GeneratedClrTypeInfo[] { null, })
+          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::DongciDaci.HeroBaseCfg), global::DongciDaci.HeroBaseCfg.Parser, new[]{ "ID", "Name", "Prefab", "Speed", "DashDistance", "AttackRadius", "InteractRadius", "FollowRadius", "TurnSpeed", "MaxHp", "BaseAttack", "DefenseRate", "CriticalRate", "CriticalDmgRate", "DodgeRate", "MoveSpeed", "ExtraEnergyGain", "BeatTolerance", "LuckyRate" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DongciDaci.HeroCfg_Data), global::DongciDaci.HeroCfg_Data.Parser, new[]{ "HeroBaseCfgItems" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, })
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class HeroBaseCfg : pb::IMessage<HeroBaseCfg> {
+  public sealed partial class HeroBaseCfg : pb::IMessage<HeroBaseCfg>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<HeroBaseCfg> _parser = new pb::MessageParser<HeroBaseCfg>(() => new HeroBaseCfg());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<HeroBaseCfg> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::DongciDaci.HeroCfgReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public HeroBaseCfg() {
       OnConstruction();
     }
@@ -73,6 +82,7 @@ namespace DongciDaci {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public HeroBaseCfg(HeroBaseCfg other) : this() {
       iD_ = other.iD_;
       name_ = other.name_;
@@ -82,6 +92,7 @@ namespace DongciDaci {
       attackRadius_ = other.attackRadius_;
       interactRadius_ = other.interactRadius_;
       followRadius_ = other.followRadius_;
+      turnSpeed_ = other.turnSpeed_;
       maxHp_ = other.maxHp_;
       baseAttack_ = other.baseAttack_;
       defenseRate_ = other.defenseRate_;
@@ -96,6 +107,7 @@ namespace DongciDaci {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public HeroBaseCfg Clone() {
       return new HeroBaseCfg(this);
     }
@@ -107,6 +119,7 @@ namespace DongciDaci {
     ///* ID 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public uint ID {
       get { return iD_; }
       set {
@@ -121,6 +134,7 @@ namespace DongciDaci {
     ///* 名称 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Name {
       get { return name_; }
       set {
@@ -135,6 +149,7 @@ namespace DongciDaci {
     ///* 预制体路径 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Prefab {
       get { return prefab_; }
       set {
@@ -149,6 +164,7 @@ namespace DongciDaci {
     ///* 角色的移动速度 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float Speed {
       get { return speed_; }
       set {
@@ -163,6 +179,7 @@ namespace DongciDaci {
     ///* 角色的冲刺距离 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float DashDistance {
       get { return dashDistance_; }
       set {
@@ -177,6 +194,7 @@ namespace DongciDaci {
     ///* 攻击半径 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float AttackRadius {
       get { return attackRadius_; }
       set {
@@ -191,6 +209,7 @@ namespace DongciDaci {
     ///* 交互半径 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float InteractRadius {
       get { return interactRadius_; }
       set {
@@ -205,6 +224,7 @@ namespace DongciDaci {
     ///* 跟随半径 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float FollowRadius {
       get { return followRadius_; }
       set {
@@ -212,13 +232,29 @@ namespace DongciDaci {
       }
     }
 
+    /// <summary>Field number for the "TurnSpeed" field.</summary>
+    public const int TurnSpeedFieldNumber = 9;
+    private float turnSpeed_;
+    /// <summary>
+    ///* 转身速率 
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float TurnSpeed {
+      get { return turnSpeed_; }
+      set {
+        turnSpeed_ = value;
+      }
+    }
+
     /// <summary>Field number for the "MaxHp" field.</summary>
-    public const int MaxHpFieldNumber = 9;
+    public const int MaxHpFieldNumber = 10;
     private int maxHp_;
     /// <summary>
     ///* 最大生命 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int MaxHp {
       get { return maxHp_; }
       set {
@@ -227,12 +263,13 @@ namespace DongciDaci {
     }
 
     /// <summary>Field number for the "BaseAttack" field.</summary>
-    public const int BaseAttackFieldNumber = 10;
+    public const int BaseAttackFieldNumber = 11;
     private int baseAttack_;
     /// <summary>
     ///* 基础攻击值 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int BaseAttack {
       get { return baseAttack_; }
       set {
@@ -241,12 +278,13 @@ namespace DongciDaci {
     }
 
     /// <summary>Field number for the "DefenseRate" field.</summary>
-    public const int DefenseRateFieldNumber = 11;
+    public const int DefenseRateFieldNumber = 12;
     private float defenseRate_;
     /// <summary>
     ///* 伤害减免系数 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float DefenseRate {
       get { return defenseRate_; }
       set {
@@ -255,12 +293,13 @@ namespace DongciDaci {
     }
 
     /// <summary>Field number for the "CriticalRate" field.</summary>
-    public const int CriticalRateFieldNumber = 12;
+    public const int CriticalRateFieldNumber = 13;
     private float criticalRate_;
     /// <summary>
     ///* 暴击率 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float CriticalRate {
       get { return criticalRate_; }
       set {
@@ -269,12 +308,13 @@ namespace DongciDaci {
     }
 
     /// <summary>Field number for the "CriticalDmgRate" field.</summary>
-    public const int CriticalDmgRateFieldNumber = 13;
+    public const int CriticalDmgRateFieldNumber = 14;
     private float criticalDmgRate_;
     /// <summary>
     ///* 暴击伤害 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float CriticalDmgRate {
       get { return criticalDmgRate_; }
       set {
@@ -283,12 +323,13 @@ namespace DongciDaci {
     }
 
     /// <summary>Field number for the "DodgeRate" field.</summary>
-    public const int DodgeRateFieldNumber = 14;
+    public const int DodgeRateFieldNumber = 15;
     private float dodgeRate_;
     /// <summary>
     ///* 闪避率 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float DodgeRate {
       get { return dodgeRate_; }
       set {
@@ -297,12 +338,13 @@ namespace DongciDaci {
     }
 
     /// <summary>Field number for the "MoveSpeed" field.</summary>
-    public const int MoveSpeedFieldNumber = 15;
+    public const int MoveSpeedFieldNumber = 16;
     private float moveSpeed_;
     /// <summary>
     ///* 移动速度 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float MoveSpeed {
       get { return moveSpeed_; }
       set {
@@ -311,12 +353,13 @@ namespace DongciDaci {
     }
 
     /// <summary>Field number for the "ExtraEnergyGain" field.</summary>
-    public const int ExtraEnergyGainFieldNumber = 16;
+    public const int ExtraEnergyGainFieldNumber = 18;
     private int extraEnergyGain_;
     /// <summary>
     ///* 额外能量获取 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int ExtraEnergyGain {
       get { return extraEnergyGain_; }
       set {
@@ -325,12 +368,13 @@ namespace DongciDaci {
     }
 
     /// <summary>Field number for the "BeatTolerance" field.</summary>
-    public const int BeatToleranceFieldNumber = 17;
+    public const int BeatToleranceFieldNumber = 19;
     private float beatTolerance_;
     /// <summary>
     ///* 节拍容差 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float BeatTolerance {
       get { return beatTolerance_; }
       set {
@@ -339,12 +383,13 @@ namespace DongciDaci {
     }
 
     /// <summary>Field number for the "LuckyRate" field.</summary>
-    public const int LuckyRateFieldNumber = 18;
+    public const int LuckyRateFieldNumber = 20;
     private int luckyRate_;
     /// <summary>
     ///* 幸运值 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int LuckyRate {
       get { return luckyRate_; }
       set {
@@ -353,11 +398,13 @@ namespace DongciDaci {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as HeroBaseCfg);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(HeroBaseCfg other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -373,6 +420,7 @@ namespace DongciDaci {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(AttackRadius, other.AttackRadius)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(InteractRadius, other.InteractRadius)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(FollowRadius, other.FollowRadius)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(TurnSpeed, other.TurnSpeed)) return false;
       if (MaxHp != other.MaxHp) return false;
       if (BaseAttack != other.BaseAttack) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(DefenseRate, other.DefenseRate)) return false;
@@ -387,6 +435,7 @@ namespace DongciDaci {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (ID != 0) hash ^= ID.GetHashCode();
@@ -397,6 +446,7 @@ namespace DongciDaci {
       if (AttackRadius != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(AttackRadius);
       if (InteractRadius != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(InteractRadius);
       if (FollowRadius != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(FollowRadius);
+      if (TurnSpeed != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(TurnSpeed);
       if (MaxHp != 0) hash ^= MaxHp.GetHashCode();
       if (BaseAttack != 0) hash ^= BaseAttack.GetHashCode();
       if (DefenseRate != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(DefenseRate);
@@ -414,12 +464,17 @@ namespace DongciDaci {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (ID != 0) {
         output.WriteRawTag(8);
         output.WriteUInt32(ID);
@@ -452,52 +507,144 @@ namespace DongciDaci {
         output.WriteRawTag(69);
         output.WriteFloat(FollowRadius);
       }
+      if (TurnSpeed != 0F) {
+        output.WriteRawTag(77);
+        output.WriteFloat(TurnSpeed);
+      }
       if (MaxHp != 0) {
-        output.WriteRawTag(72);
+        output.WriteRawTag(80);
         output.WriteInt32(MaxHp);
       }
       if (BaseAttack != 0) {
-        output.WriteRawTag(80);
+        output.WriteRawTag(88);
         output.WriteInt32(BaseAttack);
       }
       if (DefenseRate != 0F) {
-        output.WriteRawTag(93);
+        output.WriteRawTag(101);
         output.WriteFloat(DefenseRate);
       }
       if (CriticalRate != 0F) {
-        output.WriteRawTag(101);
+        output.WriteRawTag(109);
         output.WriteFloat(CriticalRate);
       }
       if (CriticalDmgRate != 0F) {
-        output.WriteRawTag(109);
+        output.WriteRawTag(117);
         output.WriteFloat(CriticalDmgRate);
       }
       if (DodgeRate != 0F) {
-        output.WriteRawTag(117);
+        output.WriteRawTag(125);
         output.WriteFloat(DodgeRate);
       }
       if (MoveSpeed != 0F) {
-        output.WriteRawTag(125);
+        output.WriteRawTag(133, 1);
         output.WriteFloat(MoveSpeed);
       }
       if (ExtraEnergyGain != 0) {
-        output.WriteRawTag(128, 1);
+        output.WriteRawTag(144, 1);
         output.WriteInt32(ExtraEnergyGain);
       }
       if (BeatTolerance != 0F) {
-        output.WriteRawTag(141, 1);
+        output.WriteRawTag(157, 1);
         output.WriteFloat(BeatTolerance);
       }
       if (LuckyRate != 0) {
-        output.WriteRawTag(144, 1);
+        output.WriteRawTag(160, 1);
         output.WriteInt32(LuckyRate);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
 
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (ID != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(ID);
+      }
+      if (Name.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Name);
+      }
+      if (Prefab.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Prefab);
+      }
+      if (Speed != 0F) {
+        output.WriteRawTag(37);
+        output.WriteFloat(Speed);
+      }
+      if (DashDistance != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(DashDistance);
+      }
+      if (AttackRadius != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(AttackRadius);
+      }
+      if (InteractRadius != 0F) {
+        output.WriteRawTag(61);
+        output.WriteFloat(InteractRadius);
+      }
+      if (FollowRadius != 0F) {
+        output.WriteRawTag(69);
+        output.WriteFloat(FollowRadius);
+      }
+      if (TurnSpeed != 0F) {
+        output.WriteRawTag(77);
+        output.WriteFloat(TurnSpeed);
+      }
+      if (MaxHp != 0) {
+        output.WriteRawTag(80);
+        output.WriteInt32(MaxHp);
+      }
+      if (BaseAttack != 0) {
+        output.WriteRawTag(88);
+        output.WriteInt32(BaseAttack);
+      }
+      if (DefenseRate != 0F) {
+        output.WriteRawTag(101);
+        output.WriteFloat(DefenseRate);
+      }
+      if (CriticalRate != 0F) {
+        output.WriteRawTag(109);
+        output.WriteFloat(CriticalRate);
+      }
+      if (CriticalDmgRate != 0F) {
+        output.WriteRawTag(117);
+        output.WriteFloat(CriticalDmgRate);
+      }
+      if (DodgeRate != 0F) {
+        output.WriteRawTag(125);
+        output.WriteFloat(DodgeRate);
+      }
+      if (MoveSpeed != 0F) {
+        output.WriteRawTag(133, 1);
+        output.WriteFloat(MoveSpeed);
+      }
+      if (ExtraEnergyGain != 0) {
+        output.WriteRawTag(144, 1);
+        output.WriteInt32(ExtraEnergyGain);
+      }
+      if (BeatTolerance != 0F) {
+        output.WriteRawTag(157, 1);
+        output.WriteFloat(BeatTolerance);
+      }
+      if (LuckyRate != 0) {
+        output.WriteRawTag(160, 1);
+        output.WriteInt32(LuckyRate);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (ID != 0) {
@@ -524,6 +671,9 @@ namespace DongciDaci {
       if (FollowRadius != 0F) {
         size += 1 + 4;
       }
+      if (TurnSpeed != 0F) {
+        size += 1 + 4;
+      }
       if (MaxHp != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxHp);
       }
@@ -543,7 +693,7 @@ namespace DongciDaci {
         size += 1 + 4;
       }
       if (MoveSpeed != 0F) {
-        size += 1 + 4;
+        size += 2 + 4;
       }
       if (ExtraEnergyGain != 0) {
         size += 2 + pb::CodedOutputStream.ComputeInt32Size(ExtraEnergyGain);
@@ -561,6 +711,7 @@ namespace DongciDaci {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(HeroBaseCfg other) {
       if (other == null) {
         return;
@@ -588,6 +739,9 @@ namespace DongciDaci {
       }
       if (other.FollowRadius != 0F) {
         FollowRadius = other.FollowRadius;
+      }
+      if (other.TurnSpeed != 0F) {
+        TurnSpeed = other.TurnSpeed;
       }
       if (other.MaxHp != 0) {
         MaxHp = other.MaxHp;
@@ -623,7 +777,11 @@ namespace DongciDaci {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -662,69 +820,173 @@ namespace DongciDaci {
             FollowRadius = input.ReadFloat();
             break;
           }
-          case 72: {
-            MaxHp = input.ReadInt32();
+          case 77: {
+            TurnSpeed = input.ReadFloat();
             break;
           }
           case 80: {
+            MaxHp = input.ReadInt32();
+            break;
+          }
+          case 88: {
             BaseAttack = input.ReadInt32();
             break;
           }
-          case 93: {
+          case 101: {
             DefenseRate = input.ReadFloat();
             break;
           }
-          case 101: {
+          case 109: {
             CriticalRate = input.ReadFloat();
             break;
           }
-          case 109: {
+          case 117: {
             CriticalDmgRate = input.ReadFloat();
             break;
           }
-          case 117: {
+          case 125: {
             DodgeRate = input.ReadFloat();
             break;
           }
-          case 125: {
+          case 133: {
             MoveSpeed = input.ReadFloat();
             break;
           }
-          case 128: {
+          case 144: {
             ExtraEnergyGain = input.ReadInt32();
             break;
           }
-          case 141: {
+          case 157: {
             BeatTolerance = input.ReadFloat();
             break;
           }
+          case 160: {
+            LuckyRate = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            ID = input.ReadUInt32();
+            break;
+          }
+          case 18: {
+            Name = input.ReadString();
+            break;
+          }
+          case 26: {
+            Prefab = input.ReadString();
+            break;
+          }
+          case 37: {
+            Speed = input.ReadFloat();
+            break;
+          }
+          case 45: {
+            DashDistance = input.ReadFloat();
+            break;
+          }
+          case 53: {
+            AttackRadius = input.ReadFloat();
+            break;
+          }
+          case 61: {
+            InteractRadius = input.ReadFloat();
+            break;
+          }
+          case 69: {
+            FollowRadius = input.ReadFloat();
+            break;
+          }
+          case 77: {
+            TurnSpeed = input.ReadFloat();
+            break;
+          }
+          case 80: {
+            MaxHp = input.ReadInt32();
+            break;
+          }
+          case 88: {
+            BaseAttack = input.ReadInt32();
+            break;
+          }
+          case 101: {
+            DefenseRate = input.ReadFloat();
+            break;
+          }
+          case 109: {
+            CriticalRate = input.ReadFloat();
+            break;
+          }
+          case 117: {
+            CriticalDmgRate = input.ReadFloat();
+            break;
+          }
+          case 125: {
+            DodgeRate = input.ReadFloat();
+            break;
+          }
+          case 133: {
+            MoveSpeed = input.ReadFloat();
+            break;
+          }
           case 144: {
+            ExtraEnergyGain = input.ReadInt32();
+            break;
+          }
+          case 157: {
+            BeatTolerance = input.ReadFloat();
+            break;
+          }
+          case 160: {
             LuckyRate = input.ReadInt32();
             break;
           }
         }
       }
     }
+    #endif
 
   }
 
-  public sealed partial class HeroCfg_Data : pb::IMessage<HeroCfg_Data> {
+  public sealed partial class HeroCfg_Data : pb::IMessage<HeroCfg_Data>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<HeroCfg_Data> _parser = new pb::MessageParser<HeroCfg_Data>(() => new HeroCfg_Data());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<HeroCfg_Data> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::DongciDaci.HeroCfgReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public HeroCfg_Data() {
       OnConstruction();
     }
@@ -732,12 +994,14 @@ namespace DongciDaci {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public HeroCfg_Data(HeroCfg_Data other) : this() {
       heroBaseCfgItems_ = other.heroBaseCfgItems_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public HeroCfg_Data Clone() {
       return new HeroCfg_Data(this);
     }
@@ -745,19 +1009,22 @@ namespace DongciDaci {
     /// <summary>Field number for the "HeroBaseCfg_items" field.</summary>
     public const int HeroBaseCfgItemsFieldNumber = 1;
     private static readonly pbc::MapField<uint, global::DongciDaci.HeroBaseCfg>.Codec _map_heroBaseCfgItems_codec
-        = new pbc::MapField<uint, global::DongciDaci.HeroBaseCfg>.Codec(pb::FieldCodec.ForUInt32(8), pb::FieldCodec.ForMessage(18, global::DongciDaci.HeroBaseCfg.Parser), 10);
+        = new pbc::MapField<uint, global::DongciDaci.HeroBaseCfg>.Codec(pb::FieldCodec.ForUInt32(8, 0), pb::FieldCodec.ForMessage(18, global::DongciDaci.HeroBaseCfg.Parser), 10);
     private readonly pbc::MapField<uint, global::DongciDaci.HeroBaseCfg> heroBaseCfgItems_ = new pbc::MapField<uint, global::DongciDaci.HeroBaseCfg>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pbc::MapField<uint, global::DongciDaci.HeroBaseCfg> HeroBaseCfgItems {
       get { return heroBaseCfgItems_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as HeroCfg_Data);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(HeroCfg_Data other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -770,6 +1037,7 @@ namespace DongciDaci {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       hash ^= HeroBaseCfgItems.GetHashCode();
@@ -780,19 +1048,37 @@ namespace DongciDaci {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       heroBaseCfgItems_.WriteTo(output, _map_heroBaseCfgItems_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
 
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      heroBaseCfgItems_.WriteTo(ref output, _map_heroBaseCfgItems_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       size += heroBaseCfgItems_.CalculateSize(_map_heroBaseCfgItems_codec);
@@ -803,6 +1089,7 @@ namespace DongciDaci {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(HeroCfg_Data other) {
       if (other == null) {
         return;
@@ -812,7 +1099,11 @@ namespace DongciDaci {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -825,7 +1116,27 @@ namespace DongciDaci {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            heroBaseCfgItems_.AddEntriesFrom(ref input, _map_heroBaseCfgItems_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
   }
 

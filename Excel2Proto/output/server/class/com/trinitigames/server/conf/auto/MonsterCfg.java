@@ -24,6 +24,7 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>uint32 ID = 1;</code>
+     * @return The iD.
      */
     int getID();
 
@@ -33,6 +34,7 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string Name = 2;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -41,6 +43,7 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string Name = 2;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -51,6 +54,7 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string NickName = 3;</code>
+     * @return The nickName.
      */
     java.lang.String getNickName();
     /**
@@ -59,6 +63,7 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string NickName = 3;</code>
+     * @return The bytes for nickName.
      */
     com.google.protobuf.ByteString
         getNickNameBytes();
@@ -69,6 +74,7 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string Prefab = 4;</code>
+     * @return The prefab.
      */
     java.lang.String getPrefab();
     /**
@@ -77,6 +83,7 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string Prefab = 4;</code>
+     * @return The bytes for prefab.
      */
     com.google.protobuf.ByteString
         getPrefabBytes();
@@ -87,6 +94,7 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>float Speed = 5;</code>
+     * @return The speed.
      */
     float getSpeed();
 
@@ -96,6 +104,7 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>float DashDistance = 6;</code>
+     * @return The dashDistance.
      */
     float getDashDistance();
 
@@ -105,6 +114,7 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string BehaviourTree = 7;</code>
+     * @return The behaviourTree.
      */
     java.lang.String getBehaviourTree();
     /**
@@ -113,6 +123,7 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string BehaviourTree = 7;</code>
+     * @return The bytes for behaviourTree.
      */
     com.google.protobuf.ByteString
         getBehaviourTreeBytes();
@@ -123,6 +134,7 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>float AttackRadius = 8;</code>
+     * @return The attackRadius.
      */
     float getAttackRadius();
 
@@ -132,6 +144,7 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>float InteractRadius = 9;</code>
+     * @return The interactRadius.
      */
     float getInteractRadius();
 
@@ -141,15 +154,27 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>float FollowRadius = 10;</code>
+     * @return The followRadius.
      */
     float getFollowRadius();
+
+    /**
+     * <pre>
+     ** 转身速率 
+     * </pre>
+     *
+     * <code>float TurnSpeed = 11;</code>
+     * @return The turnSpeed.
+     */
+    float getTurnSpeed();
 
     /**
      * <pre>
      ** 最大生命 
      * </pre>
      *
-     * <code>int32 MaxHp = 11;</code>
+     * <code>int32 MaxHp = 12;</code>
+     * @return The maxHp.
      */
     int getMaxHp();
 
@@ -158,7 +183,8 @@ public final class MonsterCfg {
      ** 基础攻击值 
      * </pre>
      *
-     * <code>int32 BaseAttack = 12;</code>
+     * <code>int32 BaseAttack = 13;</code>
+     * @return The baseAttack.
      */
     int getBaseAttack();
 
@@ -167,7 +193,8 @@ public final class MonsterCfg {
      ** 伤害减免系数 
      * </pre>
      *
-     * <code>float DefenseRate = 13;</code>
+     * <code>float DefenseRate = 14;</code>
+     * @return The defenseRate.
      */
     float getDefenseRate();
 
@@ -176,7 +203,8 @@ public final class MonsterCfg {
      ** 暴击率 
      * </pre>
      *
-     * <code>float CriticalRate = 14;</code>
+     * <code>float CriticalRate = 15;</code>
+     * @return The criticalRate.
      */
     float getCriticalRate();
 
@@ -185,7 +213,8 @@ public final class MonsterCfg {
      ** 暴击伤害 
      * </pre>
      *
-     * <code>float CriticalDmgRate = 15;</code>
+     * <code>float CriticalDmgRate = 16;</code>
+     * @return The criticalDmgRate.
      */
     float getCriticalDmgRate();
 
@@ -194,7 +223,8 @@ public final class MonsterCfg {
      ** 闪避率 
      * </pre>
      *
-     * <code>float DodgeRate = 16;</code>
+     * <code>float DodgeRate = 17;</code>
+     * @return The dodgeRate.
      */
     float getDodgeRate();
 
@@ -203,14 +233,15 @@ public final class MonsterCfg {
      ** 移动速度 
      * </pre>
      *
-     * <code>float MoveSpeed = 17;</code>
+     * <code>float MoveSpeed = 18;</code>
+     * @return The moveSpeed.
      */
     float getMoveSpeed();
   }
   /**
    * Protobuf type {@code DongciDaci.MonsterBaseCfg}
    */
-  public  static final class MonsterBaseCfg extends
+  public static final class MonsterBaseCfg extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:DongciDaci.MonsterBaseCfg)
       MonsterBaseCfgOrBuilder {
@@ -220,23 +251,17 @@ public final class MonsterCfg {
       super(builder);
     }
     private MonsterBaseCfg() {
-      iD_ = 0;
       name_ = "";
       nickName_ = "";
       prefab_ = "";
-      speed_ = 0F;
-      dashDistance_ = 0F;
       behaviourTree_ = "";
-      attackRadius_ = 0F;
-      interactRadius_ = 0F;
-      followRadius_ = 0F;
-      maxHp_ = 0;
-      baseAttack_ = 0;
-      defenseRate_ = 0F;
-      criticalRate_ = 0F;
-      criticalDmgRate_ = 0F;
-      dodgeRate_ = 0F;
-      moveSpeed_ = 0F;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MonsterBaseCfg();
     }
 
     @java.lang.Override
@@ -252,7 +277,6 @@ public final class MonsterCfg {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -317,43 +341,48 @@ public final class MonsterCfg {
               followRadius_ = input.readFloat();
               break;
             }
-            case 88: {
+            case 93: {
 
-              maxHp_ = input.readInt32();
+              turnSpeed_ = input.readFloat();
               break;
             }
             case 96: {
 
-              baseAttack_ = input.readInt32();
+              maxHp_ = input.readInt32();
               break;
             }
-            case 109: {
+            case 104: {
 
-              defenseRate_ = input.readFloat();
+              baseAttack_ = input.readInt32();
               break;
             }
             case 117: {
 
-              criticalRate_ = input.readFloat();
+              defenseRate_ = input.readFloat();
               break;
             }
             case 125: {
 
-              criticalDmgRate_ = input.readFloat();
+              criticalRate_ = input.readFloat();
               break;
             }
             case 133: {
 
-              dodgeRate_ = input.readFloat();
+              criticalDmgRate_ = input.readFloat();
               break;
             }
             case 141: {
+
+              dodgeRate_ = input.readFloat();
+              break;
+            }
+            case 149: {
 
               moveSpeed_ = input.readFloat();
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -392,7 +421,9 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>uint32 ID = 1;</code>
+     * @return The iD.
      */
+    @java.lang.Override
     public int getID() {
       return iD_;
     }
@@ -405,7 +436,9 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string Name = 2;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -424,7 +457,9 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string Name = 2;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -447,7 +482,9 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string NickName = 3;</code>
+     * @return The nickName.
      */
+    @java.lang.Override
     public java.lang.String getNickName() {
       java.lang.Object ref = nickName_;
       if (ref instanceof java.lang.String) {
@@ -466,7 +503,9 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string NickName = 3;</code>
+     * @return The bytes for nickName.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNickNameBytes() {
       java.lang.Object ref = nickName_;
@@ -489,7 +528,9 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string Prefab = 4;</code>
+     * @return The prefab.
      */
+    @java.lang.Override
     public java.lang.String getPrefab() {
       java.lang.Object ref = prefab_;
       if (ref instanceof java.lang.String) {
@@ -508,7 +549,9 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string Prefab = 4;</code>
+     * @return The bytes for prefab.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPrefabBytes() {
       java.lang.Object ref = prefab_;
@@ -531,7 +574,9 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>float Speed = 5;</code>
+     * @return The speed.
      */
+    @java.lang.Override
     public float getSpeed() {
       return speed_;
     }
@@ -544,7 +589,9 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>float DashDistance = 6;</code>
+     * @return The dashDistance.
      */
+    @java.lang.Override
     public float getDashDistance() {
       return dashDistance_;
     }
@@ -557,7 +604,9 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string BehaviourTree = 7;</code>
+     * @return The behaviourTree.
      */
+    @java.lang.Override
     public java.lang.String getBehaviourTree() {
       java.lang.Object ref = behaviourTree_;
       if (ref instanceof java.lang.String) {
@@ -576,7 +625,9 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>string BehaviourTree = 7;</code>
+     * @return The bytes for behaviourTree.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getBehaviourTreeBytes() {
       java.lang.Object ref = behaviourTree_;
@@ -599,7 +650,9 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>float AttackRadius = 8;</code>
+     * @return The attackRadius.
      */
+    @java.lang.Override
     public float getAttackRadius() {
       return attackRadius_;
     }
@@ -612,7 +665,9 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>float InteractRadius = 9;</code>
+     * @return The interactRadius.
      */
+    @java.lang.Override
     public float getInteractRadius() {
       return interactRadius_;
     }
@@ -625,98 +680,129 @@ public final class MonsterCfg {
      * </pre>
      *
      * <code>float FollowRadius = 10;</code>
+     * @return The followRadius.
      */
+    @java.lang.Override
     public float getFollowRadius() {
       return followRadius_;
     }
 
-    public static final int MAXHP_FIELD_NUMBER = 11;
+    public static final int TURNSPEED_FIELD_NUMBER = 11;
+    private float turnSpeed_;
+    /**
+     * <pre>
+     ** 转身速率 
+     * </pre>
+     *
+     * <code>float TurnSpeed = 11;</code>
+     * @return The turnSpeed.
+     */
+    @java.lang.Override
+    public float getTurnSpeed() {
+      return turnSpeed_;
+    }
+
+    public static final int MAXHP_FIELD_NUMBER = 12;
     private int maxHp_;
     /**
      * <pre>
      ** 最大生命 
      * </pre>
      *
-     * <code>int32 MaxHp = 11;</code>
+     * <code>int32 MaxHp = 12;</code>
+     * @return The maxHp.
      */
+    @java.lang.Override
     public int getMaxHp() {
       return maxHp_;
     }
 
-    public static final int BASEATTACK_FIELD_NUMBER = 12;
+    public static final int BASEATTACK_FIELD_NUMBER = 13;
     private int baseAttack_;
     /**
      * <pre>
      ** 基础攻击值 
      * </pre>
      *
-     * <code>int32 BaseAttack = 12;</code>
+     * <code>int32 BaseAttack = 13;</code>
+     * @return The baseAttack.
      */
+    @java.lang.Override
     public int getBaseAttack() {
       return baseAttack_;
     }
 
-    public static final int DEFENSERATE_FIELD_NUMBER = 13;
+    public static final int DEFENSERATE_FIELD_NUMBER = 14;
     private float defenseRate_;
     /**
      * <pre>
      ** 伤害减免系数 
      * </pre>
      *
-     * <code>float DefenseRate = 13;</code>
+     * <code>float DefenseRate = 14;</code>
+     * @return The defenseRate.
      */
+    @java.lang.Override
     public float getDefenseRate() {
       return defenseRate_;
     }
 
-    public static final int CRITICALRATE_FIELD_NUMBER = 14;
+    public static final int CRITICALRATE_FIELD_NUMBER = 15;
     private float criticalRate_;
     /**
      * <pre>
      ** 暴击率 
      * </pre>
      *
-     * <code>float CriticalRate = 14;</code>
+     * <code>float CriticalRate = 15;</code>
+     * @return The criticalRate.
      */
+    @java.lang.Override
     public float getCriticalRate() {
       return criticalRate_;
     }
 
-    public static final int CRITICALDMGRATE_FIELD_NUMBER = 15;
+    public static final int CRITICALDMGRATE_FIELD_NUMBER = 16;
     private float criticalDmgRate_;
     /**
      * <pre>
      ** 暴击伤害 
      * </pre>
      *
-     * <code>float CriticalDmgRate = 15;</code>
+     * <code>float CriticalDmgRate = 16;</code>
+     * @return The criticalDmgRate.
      */
+    @java.lang.Override
     public float getCriticalDmgRate() {
       return criticalDmgRate_;
     }
 
-    public static final int DODGERATE_FIELD_NUMBER = 16;
+    public static final int DODGERATE_FIELD_NUMBER = 17;
     private float dodgeRate_;
     /**
      * <pre>
      ** 闪避率 
      * </pre>
      *
-     * <code>float DodgeRate = 16;</code>
+     * <code>float DodgeRate = 17;</code>
+     * @return The dodgeRate.
      */
+    @java.lang.Override
     public float getDodgeRate() {
       return dodgeRate_;
     }
 
-    public static final int MOVESPEED_FIELD_NUMBER = 17;
+    public static final int MOVESPEED_FIELD_NUMBER = 18;
     private float moveSpeed_;
     /**
      * <pre>
      ** 移动速度 
      * </pre>
      *
-     * <code>float MoveSpeed = 17;</code>
+     * <code>float MoveSpeed = 18;</code>
+     * @return The moveSpeed.
      */
+    @java.lang.Override
     public float getMoveSpeed() {
       return moveSpeed_;
     }
@@ -765,26 +851,29 @@ public final class MonsterCfg {
       if (followRadius_ != 0F) {
         output.writeFloat(10, followRadius_);
       }
+      if (turnSpeed_ != 0F) {
+        output.writeFloat(11, turnSpeed_);
+      }
       if (maxHp_ != 0) {
-        output.writeInt32(11, maxHp_);
+        output.writeInt32(12, maxHp_);
       }
       if (baseAttack_ != 0) {
-        output.writeInt32(12, baseAttack_);
+        output.writeInt32(13, baseAttack_);
       }
       if (defenseRate_ != 0F) {
-        output.writeFloat(13, defenseRate_);
+        output.writeFloat(14, defenseRate_);
       }
       if (criticalRate_ != 0F) {
-        output.writeFloat(14, criticalRate_);
+        output.writeFloat(15, criticalRate_);
       }
       if (criticalDmgRate_ != 0F) {
-        output.writeFloat(15, criticalDmgRate_);
+        output.writeFloat(16, criticalDmgRate_);
       }
       if (dodgeRate_ != 0F) {
-        output.writeFloat(16, dodgeRate_);
+        output.writeFloat(17, dodgeRate_);
       }
       if (moveSpeed_ != 0F) {
-        output.writeFloat(17, moveSpeed_);
+        output.writeFloat(18, moveSpeed_);
       }
       unknownFields.writeTo(output);
     }
@@ -831,33 +920,37 @@ public final class MonsterCfg {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(10, followRadius_);
       }
+      if (turnSpeed_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(11, turnSpeed_);
+      }
       if (maxHp_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(11, maxHp_);
+          .computeInt32Size(12, maxHp_);
       }
       if (baseAttack_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(12, baseAttack_);
+          .computeInt32Size(13, baseAttack_);
       }
       if (defenseRate_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(13, defenseRate_);
+          .computeFloatSize(14, defenseRate_);
       }
       if (criticalRate_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(14, criticalRate_);
+          .computeFloatSize(15, criticalRate_);
       }
       if (criticalDmgRate_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(15, criticalDmgRate_);
+          .computeFloatSize(16, criticalDmgRate_);
       }
       if (dodgeRate_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(16, dodgeRate_);
+          .computeFloatSize(17, dodgeRate_);
       }
       if (moveSpeed_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(17, moveSpeed_);
+          .computeFloatSize(18, moveSpeed_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -874,63 +967,55 @@ public final class MonsterCfg {
       }
       com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg other = (com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg) obj;
 
-      boolean result = true;
-      result = result && (getID()
-          == other.getID());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && getNickName()
-          .equals(other.getNickName());
-      result = result && getPrefab()
-          .equals(other.getPrefab());
-      result = result && (
-          java.lang.Float.floatToIntBits(getSpeed())
-          == java.lang.Float.floatToIntBits(
-              other.getSpeed()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getDashDistance())
-          == java.lang.Float.floatToIntBits(
-              other.getDashDistance()));
-      result = result && getBehaviourTree()
-          .equals(other.getBehaviourTree());
-      result = result && (
-          java.lang.Float.floatToIntBits(getAttackRadius())
-          == java.lang.Float.floatToIntBits(
-              other.getAttackRadius()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getInteractRadius())
-          == java.lang.Float.floatToIntBits(
-              other.getInteractRadius()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getFollowRadius())
-          == java.lang.Float.floatToIntBits(
-              other.getFollowRadius()));
-      result = result && (getMaxHp()
-          == other.getMaxHp());
-      result = result && (getBaseAttack()
-          == other.getBaseAttack());
-      result = result && (
-          java.lang.Float.floatToIntBits(getDefenseRate())
-          == java.lang.Float.floatToIntBits(
-              other.getDefenseRate()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getCriticalRate())
-          == java.lang.Float.floatToIntBits(
-              other.getCriticalRate()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getCriticalDmgRate())
-          == java.lang.Float.floatToIntBits(
-              other.getCriticalDmgRate()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getDodgeRate())
-          == java.lang.Float.floatToIntBits(
-              other.getDodgeRate()));
-      result = result && (
-          java.lang.Float.floatToIntBits(getMoveSpeed())
-          == java.lang.Float.floatToIntBits(
-              other.getMoveSpeed()));
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getID()
+          != other.getID()) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!getNickName()
+          .equals(other.getNickName())) return false;
+      if (!getPrefab()
+          .equals(other.getPrefab())) return false;
+      if (java.lang.Float.floatToIntBits(getSpeed())
+          != java.lang.Float.floatToIntBits(
+              other.getSpeed())) return false;
+      if (java.lang.Float.floatToIntBits(getDashDistance())
+          != java.lang.Float.floatToIntBits(
+              other.getDashDistance())) return false;
+      if (!getBehaviourTree()
+          .equals(other.getBehaviourTree())) return false;
+      if (java.lang.Float.floatToIntBits(getAttackRadius())
+          != java.lang.Float.floatToIntBits(
+              other.getAttackRadius())) return false;
+      if (java.lang.Float.floatToIntBits(getInteractRadius())
+          != java.lang.Float.floatToIntBits(
+              other.getInteractRadius())) return false;
+      if (java.lang.Float.floatToIntBits(getFollowRadius())
+          != java.lang.Float.floatToIntBits(
+              other.getFollowRadius())) return false;
+      if (java.lang.Float.floatToIntBits(getTurnSpeed())
+          != java.lang.Float.floatToIntBits(
+              other.getTurnSpeed())) return false;
+      if (getMaxHp()
+          != other.getMaxHp()) return false;
+      if (getBaseAttack()
+          != other.getBaseAttack()) return false;
+      if (java.lang.Float.floatToIntBits(getDefenseRate())
+          != java.lang.Float.floatToIntBits(
+              other.getDefenseRate())) return false;
+      if (java.lang.Float.floatToIntBits(getCriticalRate())
+          != java.lang.Float.floatToIntBits(
+              other.getCriticalRate())) return false;
+      if (java.lang.Float.floatToIntBits(getCriticalDmgRate())
+          != java.lang.Float.floatToIntBits(
+              other.getCriticalDmgRate())) return false;
+      if (java.lang.Float.floatToIntBits(getDodgeRate())
+          != java.lang.Float.floatToIntBits(
+              other.getDodgeRate())) return false;
+      if (java.lang.Float.floatToIntBits(getMoveSpeed())
+          != java.lang.Float.floatToIntBits(
+              other.getMoveSpeed())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -965,6 +1050,9 @@ public final class MonsterCfg {
       hash = (37 * hash) + FOLLOWRADIUS_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getFollowRadius());
+      hash = (37 * hash) + TURNSPEED_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getTurnSpeed());
       hash = (37 * hash) + MAXHP_FIELD_NUMBER;
       hash = (53 * hash) + getMaxHp();
       hash = (37 * hash) + BASEATTACK_FIELD_NUMBER;
@@ -1137,6 +1225,8 @@ public final class MonsterCfg {
 
         followRadius_ = 0F;
 
+        turnSpeed_ = 0F;
+
         maxHp_ = 0;
 
         baseAttack_ = 0;
@@ -1187,6 +1277,7 @@ public final class MonsterCfg {
         result.attackRadius_ = attackRadius_;
         result.interactRadius_ = interactRadius_;
         result.followRadius_ = followRadius_;
+        result.turnSpeed_ = turnSpeed_;
         result.maxHp_ = maxHp_;
         result.baseAttack_ = baseAttack_;
         result.defenseRate_ = defenseRate_;
@@ -1200,35 +1291,35 @@ public final class MonsterCfg {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1275,6 +1366,9 @@ public final class MonsterCfg {
         }
         if (other.getFollowRadius() != 0F) {
           setFollowRadius(other.getFollowRadius());
+        }
+        if (other.getTurnSpeed() != 0F) {
+          setTurnSpeed(other.getTurnSpeed());
         }
         if (other.getMaxHp() != 0) {
           setMaxHp(other.getMaxHp());
@@ -1333,7 +1427,9 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>uint32 ID = 1;</code>
+       * @return The iD.
        */
+      @java.lang.Override
       public int getID() {
         return iD_;
       }
@@ -1343,6 +1439,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>uint32 ID = 1;</code>
+       * @param value The iD to set.
+       * @return This builder for chaining.
        */
       public Builder setID(int value) {
         
@@ -1356,6 +1454,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>uint32 ID = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearID() {
         
@@ -1371,6 +1470,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -1390,6 +1490,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -1410,6 +1511,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -1427,6 +1530,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -1440,6 +1544,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string Name = 2;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1460,6 +1566,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string NickName = 3;</code>
+       * @return The nickName.
        */
       public java.lang.String getNickName() {
         java.lang.Object ref = nickName_;
@@ -1479,6 +1586,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string NickName = 3;</code>
+       * @return The bytes for nickName.
        */
       public com.google.protobuf.ByteString
           getNickNameBytes() {
@@ -1499,6 +1607,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string NickName = 3;</code>
+       * @param value The nickName to set.
+       * @return This builder for chaining.
        */
       public Builder setNickName(
           java.lang.String value) {
@@ -1516,6 +1626,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string NickName = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNickName() {
         
@@ -1529,6 +1640,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string NickName = 3;</code>
+       * @param value The bytes for nickName to set.
+       * @return This builder for chaining.
        */
       public Builder setNickNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1549,6 +1662,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string Prefab = 4;</code>
+       * @return The prefab.
        */
       public java.lang.String getPrefab() {
         java.lang.Object ref = prefab_;
@@ -1568,6 +1682,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string Prefab = 4;</code>
+       * @return The bytes for prefab.
        */
       public com.google.protobuf.ByteString
           getPrefabBytes() {
@@ -1588,6 +1703,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string Prefab = 4;</code>
+       * @param value The prefab to set.
+       * @return This builder for chaining.
        */
       public Builder setPrefab(
           java.lang.String value) {
@@ -1605,6 +1722,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string Prefab = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPrefab() {
         
@@ -1618,6 +1736,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string Prefab = 4;</code>
+       * @param value The bytes for prefab to set.
+       * @return This builder for chaining.
        */
       public Builder setPrefabBytes(
           com.google.protobuf.ByteString value) {
@@ -1638,7 +1758,9 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float Speed = 5;</code>
+       * @return The speed.
        */
+      @java.lang.Override
       public float getSpeed() {
         return speed_;
       }
@@ -1648,6 +1770,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float Speed = 5;</code>
+       * @param value The speed to set.
+       * @return This builder for chaining.
        */
       public Builder setSpeed(float value) {
         
@@ -1661,6 +1785,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float Speed = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSpeed() {
         
@@ -1676,7 +1801,9 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float DashDistance = 6;</code>
+       * @return The dashDistance.
        */
+      @java.lang.Override
       public float getDashDistance() {
         return dashDistance_;
       }
@@ -1686,6 +1813,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float DashDistance = 6;</code>
+       * @param value The dashDistance to set.
+       * @return This builder for chaining.
        */
       public Builder setDashDistance(float value) {
         
@@ -1699,6 +1828,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float DashDistance = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDashDistance() {
         
@@ -1714,6 +1844,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string BehaviourTree = 7;</code>
+       * @return The behaviourTree.
        */
       public java.lang.String getBehaviourTree() {
         java.lang.Object ref = behaviourTree_;
@@ -1733,6 +1864,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string BehaviourTree = 7;</code>
+       * @return The bytes for behaviourTree.
        */
       public com.google.protobuf.ByteString
           getBehaviourTreeBytes() {
@@ -1753,6 +1885,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string BehaviourTree = 7;</code>
+       * @param value The behaviourTree to set.
+       * @return This builder for chaining.
        */
       public Builder setBehaviourTree(
           java.lang.String value) {
@@ -1770,6 +1904,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string BehaviourTree = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearBehaviourTree() {
         
@@ -1783,6 +1918,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>string BehaviourTree = 7;</code>
+       * @param value The bytes for behaviourTree to set.
+       * @return This builder for chaining.
        */
       public Builder setBehaviourTreeBytes(
           com.google.protobuf.ByteString value) {
@@ -1803,7 +1940,9 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float AttackRadius = 8;</code>
+       * @return The attackRadius.
        */
+      @java.lang.Override
       public float getAttackRadius() {
         return attackRadius_;
       }
@@ -1813,6 +1952,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float AttackRadius = 8;</code>
+       * @param value The attackRadius to set.
+       * @return This builder for chaining.
        */
       public Builder setAttackRadius(float value) {
         
@@ -1826,6 +1967,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float AttackRadius = 8;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAttackRadius() {
         
@@ -1841,7 +1983,9 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float InteractRadius = 9;</code>
+       * @return The interactRadius.
        */
+      @java.lang.Override
       public float getInteractRadius() {
         return interactRadius_;
       }
@@ -1851,6 +1995,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float InteractRadius = 9;</code>
+       * @param value The interactRadius to set.
+       * @return This builder for chaining.
        */
       public Builder setInteractRadius(float value) {
         
@@ -1864,6 +2010,7 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float InteractRadius = 9;</code>
+       * @return This builder for chaining.
        */
       public Builder clearInteractRadius() {
         
@@ -1879,7 +2026,9 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float FollowRadius = 10;</code>
+       * @return The followRadius.
        */
+      @java.lang.Override
       public float getFollowRadius() {
         return followRadius_;
       }
@@ -1889,6 +2038,8 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float FollowRadius = 10;</code>
+       * @param value The followRadius to set.
+       * @return This builder for chaining.
        */
       public Builder setFollowRadius(float value) {
         
@@ -1902,10 +2053,54 @@ public final class MonsterCfg {
        * </pre>
        *
        * <code>float FollowRadius = 10;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFollowRadius() {
         
         followRadius_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float turnSpeed_ ;
+      /**
+       * <pre>
+       ** 转身速率 
+       * </pre>
+       *
+       * <code>float TurnSpeed = 11;</code>
+       * @return The turnSpeed.
+       */
+      @java.lang.Override
+      public float getTurnSpeed() {
+        return turnSpeed_;
+      }
+      /**
+       * <pre>
+       ** 转身速率 
+       * </pre>
+       *
+       * <code>float TurnSpeed = 11;</code>
+       * @param value The turnSpeed to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTurnSpeed(float value) {
+        
+        turnSpeed_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       ** 转身速率 
+       * </pre>
+       *
+       * <code>float TurnSpeed = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTurnSpeed() {
+        
+        turnSpeed_ = 0F;
         onChanged();
         return this;
       }
@@ -1916,8 +2111,10 @@ public final class MonsterCfg {
        ** 最大生命 
        * </pre>
        *
-       * <code>int32 MaxHp = 11;</code>
+       * <code>int32 MaxHp = 12;</code>
+       * @return The maxHp.
        */
+      @java.lang.Override
       public int getMaxHp() {
         return maxHp_;
       }
@@ -1926,7 +2123,9 @@ public final class MonsterCfg {
        ** 最大生命 
        * </pre>
        *
-       * <code>int32 MaxHp = 11;</code>
+       * <code>int32 MaxHp = 12;</code>
+       * @param value The maxHp to set.
+       * @return This builder for chaining.
        */
       public Builder setMaxHp(int value) {
         
@@ -1939,7 +2138,8 @@ public final class MonsterCfg {
        ** 最大生命 
        * </pre>
        *
-       * <code>int32 MaxHp = 11;</code>
+       * <code>int32 MaxHp = 12;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaxHp() {
         
@@ -1954,8 +2154,10 @@ public final class MonsterCfg {
        ** 基础攻击值 
        * </pre>
        *
-       * <code>int32 BaseAttack = 12;</code>
+       * <code>int32 BaseAttack = 13;</code>
+       * @return The baseAttack.
        */
+      @java.lang.Override
       public int getBaseAttack() {
         return baseAttack_;
       }
@@ -1964,7 +2166,9 @@ public final class MonsterCfg {
        ** 基础攻击值 
        * </pre>
        *
-       * <code>int32 BaseAttack = 12;</code>
+       * <code>int32 BaseAttack = 13;</code>
+       * @param value The baseAttack to set.
+       * @return This builder for chaining.
        */
       public Builder setBaseAttack(int value) {
         
@@ -1977,7 +2181,8 @@ public final class MonsterCfg {
        ** 基础攻击值 
        * </pre>
        *
-       * <code>int32 BaseAttack = 12;</code>
+       * <code>int32 BaseAttack = 13;</code>
+       * @return This builder for chaining.
        */
       public Builder clearBaseAttack() {
         
@@ -1992,8 +2197,10 @@ public final class MonsterCfg {
        ** 伤害减免系数 
        * </pre>
        *
-       * <code>float DefenseRate = 13;</code>
+       * <code>float DefenseRate = 14;</code>
+       * @return The defenseRate.
        */
+      @java.lang.Override
       public float getDefenseRate() {
         return defenseRate_;
       }
@@ -2002,7 +2209,9 @@ public final class MonsterCfg {
        ** 伤害减免系数 
        * </pre>
        *
-       * <code>float DefenseRate = 13;</code>
+       * <code>float DefenseRate = 14;</code>
+       * @param value The defenseRate to set.
+       * @return This builder for chaining.
        */
       public Builder setDefenseRate(float value) {
         
@@ -2015,7 +2224,8 @@ public final class MonsterCfg {
        ** 伤害减免系数 
        * </pre>
        *
-       * <code>float DefenseRate = 13;</code>
+       * <code>float DefenseRate = 14;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDefenseRate() {
         
@@ -2030,8 +2240,10 @@ public final class MonsterCfg {
        ** 暴击率 
        * </pre>
        *
-       * <code>float CriticalRate = 14;</code>
+       * <code>float CriticalRate = 15;</code>
+       * @return The criticalRate.
        */
+      @java.lang.Override
       public float getCriticalRate() {
         return criticalRate_;
       }
@@ -2040,7 +2252,9 @@ public final class MonsterCfg {
        ** 暴击率 
        * </pre>
        *
-       * <code>float CriticalRate = 14;</code>
+       * <code>float CriticalRate = 15;</code>
+       * @param value The criticalRate to set.
+       * @return This builder for chaining.
        */
       public Builder setCriticalRate(float value) {
         
@@ -2053,7 +2267,8 @@ public final class MonsterCfg {
        ** 暴击率 
        * </pre>
        *
-       * <code>float CriticalRate = 14;</code>
+       * <code>float CriticalRate = 15;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCriticalRate() {
         
@@ -2068,8 +2283,10 @@ public final class MonsterCfg {
        ** 暴击伤害 
        * </pre>
        *
-       * <code>float CriticalDmgRate = 15;</code>
+       * <code>float CriticalDmgRate = 16;</code>
+       * @return The criticalDmgRate.
        */
+      @java.lang.Override
       public float getCriticalDmgRate() {
         return criticalDmgRate_;
       }
@@ -2078,7 +2295,9 @@ public final class MonsterCfg {
        ** 暴击伤害 
        * </pre>
        *
-       * <code>float CriticalDmgRate = 15;</code>
+       * <code>float CriticalDmgRate = 16;</code>
+       * @param value The criticalDmgRate to set.
+       * @return This builder for chaining.
        */
       public Builder setCriticalDmgRate(float value) {
         
@@ -2091,7 +2310,8 @@ public final class MonsterCfg {
        ** 暴击伤害 
        * </pre>
        *
-       * <code>float CriticalDmgRate = 15;</code>
+       * <code>float CriticalDmgRate = 16;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCriticalDmgRate() {
         
@@ -2106,8 +2326,10 @@ public final class MonsterCfg {
        ** 闪避率 
        * </pre>
        *
-       * <code>float DodgeRate = 16;</code>
+       * <code>float DodgeRate = 17;</code>
+       * @return The dodgeRate.
        */
+      @java.lang.Override
       public float getDodgeRate() {
         return dodgeRate_;
       }
@@ -2116,7 +2338,9 @@ public final class MonsterCfg {
        ** 闪避率 
        * </pre>
        *
-       * <code>float DodgeRate = 16;</code>
+       * <code>float DodgeRate = 17;</code>
+       * @param value The dodgeRate to set.
+       * @return This builder for chaining.
        */
       public Builder setDodgeRate(float value) {
         
@@ -2129,7 +2353,8 @@ public final class MonsterCfg {
        ** 闪避率 
        * </pre>
        *
-       * <code>float DodgeRate = 16;</code>
+       * <code>float DodgeRate = 17;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDodgeRate() {
         
@@ -2144,8 +2369,10 @@ public final class MonsterCfg {
        ** 移动速度 
        * </pre>
        *
-       * <code>float MoveSpeed = 17;</code>
+       * <code>float MoveSpeed = 18;</code>
+       * @return The moveSpeed.
        */
+      @java.lang.Override
       public float getMoveSpeed() {
         return moveSpeed_;
       }
@@ -2154,7 +2381,9 @@ public final class MonsterCfg {
        ** 移动速度 
        * </pre>
        *
-       * <code>float MoveSpeed = 17;</code>
+       * <code>float MoveSpeed = 18;</code>
+       * @param value The moveSpeed to set.
+       * @return This builder for chaining.
        */
       public Builder setMoveSpeed(float value) {
         
@@ -2167,7 +2396,8 @@ public final class MonsterCfg {
        ** 移动速度 
        * </pre>
        *
-       * <code>float MoveSpeed = 17;</code>
+       * <code>float MoveSpeed = 18;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMoveSpeed() {
         
@@ -2178,7 +2408,7 @@ public final class MonsterCfg {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -2269,7 +2499,7 @@ public final class MonsterCfg {
   /**
    * Protobuf type {@code DongciDaci.MonsterCfg_Data}
    */
-  public  static final class MonsterCfg_Data extends
+  public static final class MonsterCfg_Data extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:DongciDaci.MonsterCfg_Data)
       MonsterCfg_DataOrBuilder {
@@ -2279,6 +2509,13 @@ public final class MonsterCfg {
       super(builder);
     }
     private MonsterCfg_Data() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MonsterCfg_Data();
     }
 
     @java.lang.Override
@@ -2306,7 +2543,7 @@ public final class MonsterCfg {
               done = true;
               break;
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 monsterBaseCfgItems_ = com.google.protobuf.MapField.newMapField(
                     MonsterBaseCfgItemsDefaultEntryHolder.defaultEntry);
                 mutable_bitField0_ |= 0x00000001;
@@ -2319,7 +2556,7 @@ public final class MonsterCfg {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -2392,6 +2629,7 @@ public final class MonsterCfg {
      * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
      */
 
+    @java.lang.Override
     public boolean containsMonsterBaseCfgItems(
         int key) {
       
@@ -2400,6 +2638,7 @@ public final class MonsterCfg {
     /**
      * Use {@link #getMonsterBaseCfgItemsMap()} instead.
      */
+    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg> getMonsterBaseCfgItems() {
       return getMonsterBaseCfgItemsMap();
@@ -2407,6 +2646,7 @@ public final class MonsterCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
      */
+    @java.lang.Override
 
     public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg> getMonsterBaseCfgItemsMap() {
       return internalGetMonsterBaseCfgItems().getMap();
@@ -2414,6 +2654,7 @@ public final class MonsterCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
      */
+    @java.lang.Override
 
     public com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrDefault(
         int key,
@@ -2426,6 +2667,7 @@ public final class MonsterCfg {
     /**
      * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
      */
+    @java.lang.Override
 
     public com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrThrow(
         int key) {
@@ -2492,11 +2734,10 @@ public final class MonsterCfg {
       }
       com.trinitigames.server.conf.auto.MonsterCfg.MonsterCfg_Data other = (com.trinitigames.server.conf.auto.MonsterCfg.MonsterCfg_Data) obj;
 
-      boolean result = true;
-      result = result && internalGetMonsterBaseCfgItems().equals(
-          other.internalGetMonsterBaseCfgItems());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!internalGetMonsterBaseCfgItems().equals(
+          other.internalGetMonsterBaseCfgItems())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2701,35 +2942,35 @@ public final class MonsterCfg {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -2805,6 +3046,7 @@ public final class MonsterCfg {
        * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
        */
 
+      @java.lang.Override
       public boolean containsMonsterBaseCfgItems(
           int key) {
         
@@ -2813,6 +3055,7 @@ public final class MonsterCfg {
       /**
        * Use {@link #getMonsterBaseCfgItemsMap()} instead.
        */
+      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg> getMonsterBaseCfgItems() {
         return getMonsterBaseCfgItemsMap();
@@ -2820,6 +3063,7 @@ public final class MonsterCfg {
       /**
        * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
        */
+      @java.lang.Override
 
       public java.util.Map<java.lang.Integer, com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg> getMonsterBaseCfgItemsMap() {
         return internalGetMonsterBaseCfgItems().getMap();
@@ -2827,6 +3071,7 @@ public final class MonsterCfg {
       /**
        * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
        */
+      @java.lang.Override
 
       public com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrDefault(
           int key,
@@ -2839,6 +3084,7 @@ public final class MonsterCfg {
       /**
        * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
        */
+      @java.lang.Override
 
       public com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrThrow(
           int key) {
@@ -2900,7 +3146,7 @@ public final class MonsterCfg {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -2974,41 +3220,33 @@ public final class MonsterCfg {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020MonsterCfg.proto\022\nDongciDaci\"\331\002\n\016Monst" +
+      "\n\020MonsterCfg.proto\022\nDongciDaci\"\354\002\n\016Monst" +
       "erBaseCfg\022\n\n\002ID\030\001 \001(\r\022\014\n\004Name\030\002 \001(\t\022\020\n\010N" +
       "ickName\030\003 \001(\t\022\016\n\006Prefab\030\004 \001(\t\022\r\n\005Speed\030\005" +
       " \001(\002\022\024\n\014DashDistance\030\006 \001(\002\022\025\n\rBehaviourT" +
       "ree\030\007 \001(\t\022\024\n\014AttackRadius\030\010 \001(\002\022\026\n\016Inter" +
-      "actRadius\030\t \001(\002\022\024\n\014FollowRadius\030\n \001(\002\022\r\n" +
-      "\005MaxHp\030\013 \001(\005\022\022\n\nBaseAttack\030\014 \001(\005\022\023\n\013Defe" +
-      "nseRate\030\r \001(\002\022\024\n\014CriticalRate\030\016 \001(\002\022\027\n\017C" +
-      "riticalDmgRate\030\017 \001(\002\022\021\n\tDodgeRate\030\020 \001(\002\022" +
-      "\021\n\tMoveSpeed\030\021 \001(\002\"\275\001\n\017MonsterCfg_Data\022R" +
-      "\n\024MonsterBaseCfg_items\030\001 \003(\01324.DongciDac" +
-      "i.MonsterCfg_Data.MonsterBaseCfgItemsEnt" +
-      "ry\032V\n\030MonsterBaseCfgItemsEntry\022\013\n\003key\030\001 " +
-      "\001(\r\022)\n\005value\030\002 \001(\0132\032.DongciDaci.MonsterB" +
-      "aseCfg:\0028\001B#\n!com.trinitigames.server.co" +
-      "nf.autob\006proto3"
+      "actRadius\030\t \001(\002\022\024\n\014FollowRadius\030\n \001(\002\022\021\n" +
+      "\tTurnSpeed\030\013 \001(\002\022\r\n\005MaxHp\030\014 \001(\005\022\022\n\nBaseA" +
+      "ttack\030\r \001(\005\022\023\n\013DefenseRate\030\016 \001(\002\022\024\n\014Crit" +
+      "icalRate\030\017 \001(\002\022\027\n\017CriticalDmgRate\030\020 \001(\002\022" +
+      "\021\n\tDodgeRate\030\021 \001(\002\022\021\n\tMoveSpeed\030\022 \001(\002\"\275\001" +
+      "\n\017MonsterCfg_Data\022R\n\024MonsterBaseCfg_item" +
+      "s\030\001 \003(\01324.DongciDaci.MonsterCfg_Data.Mon" +
+      "sterBaseCfgItemsEntry\032V\n\030MonsterBaseCfgI" +
+      "temsEntry\022\013\n\003key\030\001 \001(\r\022)\n\005value\030\002 \001(\0132\032." +
+      "DongciDaci.MonsterBaseCfg:\0028\001B#\n!com.tri" +
+      "nitigames.server.conf.autob\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_DongciDaci_MonsterBaseCfg_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_DongciDaci_MonsterBaseCfg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DongciDaci_MonsterBaseCfg_descriptor,
-        new java.lang.String[] { "ID", "Name", "NickName", "Prefab", "Speed", "DashDistance", "BehaviourTree", "AttackRadius", "InteractRadius", "FollowRadius", "MaxHp", "BaseAttack", "DefenseRate", "CriticalRate", "CriticalDmgRate", "DodgeRate", "MoveSpeed", });
+        new java.lang.String[] { "ID", "Name", "NickName", "Prefab", "Speed", "DashDistance", "BehaviourTree", "AttackRadius", "InteractRadius", "FollowRadius", "TurnSpeed", "MaxHp", "BaseAttack", "DefenseRate", "CriticalRate", "CriticalDmgRate", "DodgeRate", "MoveSpeed", });
     internal_static_DongciDaci_MonsterCfg_Data_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_DongciDaci_MonsterCfg_Data_fieldAccessorTable = new

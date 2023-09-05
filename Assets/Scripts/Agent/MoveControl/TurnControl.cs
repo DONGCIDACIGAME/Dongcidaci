@@ -40,21 +40,22 @@ public class TurnControl
         TurnFromTowards = mAgent.GetTowards();
         TurnToTowards = towards;
 
-        //if (GameCommonConfig.AgentTurnSpeed == 0)
-        //{
-        //    TurnTime = 0;
-        //}
-        //else
-        //{
-        //    float rotation = Quaternion.FromToRotation(TurnFromTowards, TurnToTowards).eulerAngles.y;
-        //    if (rotation > 180)
-        //    {
-        //        rotation -= 180;
-        //    }
+        float turnSpeed = mAgent.GetTurnSpeed();
 
-        //    TurnTime = rotation / GameCommonConfig.AgentTurnSpeed;
-        //}
-        TurnTime = 0.2f;
+        if (turnSpeed == 0)
+        {
+            TurnTime = 0;
+        }
+        else
+        {
+            float rotation = Quaternion.FromToRotation(TurnFromTowards, TurnToTowards).eulerAngles.y;
+            if (rotation > 180)
+            {
+                rotation -= 180;
+            }
+
+            TurnTime = rotation / turnSpeed;
+        }
         TurnRecord = 0;
     }
 

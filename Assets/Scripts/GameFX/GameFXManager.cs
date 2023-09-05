@@ -5,9 +5,6 @@ using GameEngine;
 
 public class GameFXManager : ModuleManager<GameFXManager>
 {
-    public GameObject FXPoolNode => GameObject.Find("_FX_POOL");
-    public GameObject FXDefaultCarryNode => GameObject.Find("_FX_DEFAULT");
-
     private List<GameObject> _fxObjs = new List<GameObject>();
 
     public void ShowAFXUnderDefaultNode(FXConfigData fxCfg, Vector3 anchorPos,Vector3 anchorRotate)
@@ -16,12 +13,11 @@ public class GameFXManager : ModuleManager<GameFXManager>
         if (popRet == null)
         {
             popRet = PrefabUtil.LoadPrefab(GameFXDefine.FXPathPreffix + fxCfg.fxName,"Load a fx obj");
-            popRet.transform.SetParent(FXDefaultCarryNode.transform,false);
+            popRet.transform.SetParent(GameNodeCenter.Ins.FXDefaultCarryNode.transform,false);
         }
         else
         {
-            
-            popRet.transform.SetParent(FXDefaultCarryNode.transform, false);
+            popRet.transform.SetParent(GameNodeCenter.Ins.FXDefaultCarryNode.transform, false);
             //popRet.SetActive(true);
         }
         popRet.name = fxCfg.fxName;
@@ -108,7 +104,10 @@ public class GameFXManager : ModuleManager<GameFXManager>
     public void RecycleAFX(GameObject fxObj)
     {
         fxObj.SetActive(false);
-        fxObj.transform.SetParent(FXPoolNode.transform,false);
+        if(GameNodeCenter.Ins.FXPoolNode != null)
+        {
+            fxObj.transform.SetParent(GameNodeCenter.Ins.FXPoolNode.transform,false);
+        }
         fxObj.transform.position = Vector3.zero;
         fxObj.transform.eulerAngles = Vector3.zero;
         fxObj.transform.localScale = Vector3.one;
@@ -120,7 +119,7 @@ public class GameFXManager : ModuleManager<GameFXManager>
     public override void Initialize()
     {
         _fxObjs = new List<GameObject>();
-
+        GameNodeCenter.Ins.InitializeEffectNodes();
     }
 
 
@@ -135,6 +134,8 @@ public class GameFXManager : ModuleManager<GameFXManager>
         }
         
         _fxObjs = null;
+
+        GameNodeCenter.Ins.DisposeEffectNodes();
     }
 
     

@@ -81,6 +81,8 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
 
     // 角色移动速度
     protected float mSpeed;
+    // 角色转身速率
+    protected float mTurnSpeed;
     // 角色的冲刺速度
     protected float mDashDistance;
     protected string mName;
@@ -111,6 +113,16 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
     public void SetSpeed(float speed)
     {
         mSpeed = speed;
+    }
+
+    public void SetTurnSpeed(float turnSpeed)
+    {
+        mTurnSpeed = turnSpeed;
+    }
+
+    public float GetTurnSpeed()
+    {
+        return mTurnSpeed;
     }
 
     public float GetDashDistance()
