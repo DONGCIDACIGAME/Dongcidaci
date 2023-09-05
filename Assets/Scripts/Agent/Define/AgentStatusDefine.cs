@@ -8,9 +8,10 @@ public static class AgentStatusDefine
     public static string DASH                           = "Dash";
     public static string INSTANT_ATTACK                 = "Instant_Attack";
     public static string METER_ATTACK                   = "Meter_Attack";
+    public static string ATTACK_TRANSITION              = "Attack_Transition";
     public static string CHARGING                       = "Charging";
+    public static string CHARGING_TRANSITION            = "Charging_Transition";
     public static string CHARGING_ATTACK                = "Charging_Attack";
-    public static string TRANSITION                     = "Transition";
     public static string BEHIT                          = "BeHit";
     public static string DEAD                           = "Dead";
 
@@ -21,7 +22,10 @@ public static class AgentStatusDefine
         RUN,
         DASH,
         INSTANT_ATTACK,
+        METER_ATTACK,
+        ATTACK_TRANSITION,
         CHARGING,
+        CHARGING_TRANSITION,
         CHARGING_ATTACK,
         BEHIT,
         DEAD

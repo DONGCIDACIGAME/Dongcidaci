@@ -89,6 +89,8 @@ public class HeroStatus_Charging : HeroStatus
                     Dictionary<string, object> _args = new Dictionary<string, object>();
                     _args.Add("chargeAtkStep", chargeAtkStep);
                     ChangeStatusOnCommand(cmdType, towards, triggerMeter, _args, triggeredComboStep);
+                    //TriggeredComboStep _triggeredComboStep = null;
+                    //GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.CHARGING_TRANSITION, AgentCommandDefine.EMPTY, towards, MeterManager.Ins.MeterIndex, _args, _triggeredComboStep);
                 }
                 else
                 {

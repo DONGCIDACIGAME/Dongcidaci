@@ -1,8 +1,7 @@
-using GameEngine;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroStatus_Transition : HeroStatus
+public class HeroStatus_AttackTransition : HeroStatus
 {
     private float mTimer;
     private float mExitTime;
@@ -11,7 +10,7 @@ public class HeroStatus_Transition : HeroStatus
 
     public override string GetStatusName()
     {
-        return AgentStatusDefine.TRANSITION;
+        return AgentStatusDefine.ATTACK_TRANSITION;
     }
 
 
@@ -163,7 +162,7 @@ public class HeroStatus_Transition : HeroStatus
 
     public override void RegisterInputHandle()
     {
-        mInputHandle = new AgentKeyboardInputHandle_Transition(mAgent as Hero);
+        mInputHandle = new AgentKeyboardInputHandle_AttackTransition(mAgent as Hero);
         InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 

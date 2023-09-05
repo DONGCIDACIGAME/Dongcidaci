@@ -63,6 +63,9 @@ public class HeroStatus_ChargingAttack : HeroStatus
             mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.StartPlay(statusName, stateName, 1);
         }
 
+        //mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.StartPlay(statusName, stateName);
+
+
 
         //mCurLogicStateEndMeter = mMatchMeterCrossfadeAnimDriver.StartPlay(statusName, stateName);
         //mExitTime = mDefaultCrossFadeAnimDriver.StartPlay(statusName, stateName);

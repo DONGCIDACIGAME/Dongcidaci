@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,11 +30,12 @@ public class HeroStatus_Dead : HeroStatus
 
     public override void RegisterInputHandle()
     {
-
+        mInputHandle = new AgentKeyboardInputHandle_Dead(mAgent as Hero);
+        InputControlCenter.KeyboardInputCtl.RegisterInputHandle(mInputHandle.GetHandleName(), mInputHandle);
     }
 
     public override void UnregisterInputHandle()
     {
-        
+        InputControlCenter.KeyboardInputCtl.UnregisterInputHandle(mInputHandle.GetHandleName());
     }
 }
