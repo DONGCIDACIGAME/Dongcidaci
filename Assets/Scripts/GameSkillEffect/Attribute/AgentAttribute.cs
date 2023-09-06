@@ -50,7 +50,6 @@ namespace GameSkillEffect
 
         /// <summary>
         /// 指令禁用状态记录
-        /// 目前指令数量不足8个，数组大小只做到8
         /// 每一个int代表这种类型的指令被禁用的次数
         /// </summary>
         public int[] cmdDisableRecord = new int[32];

@@ -9,7 +9,7 @@
 			"comboType": 0,
 			"comboSteps": [
 				{
-					"input": 8, 
+					"input": 16, 
 					"attackActionData": {
 						"statusName": "Attack",
 						"stateName": "Attack", 

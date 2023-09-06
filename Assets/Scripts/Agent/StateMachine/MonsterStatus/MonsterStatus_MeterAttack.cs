@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterStatus_Attack : MonsterStatus
+public class MonsterStatus_MeterAttack : MonsterStatus
 {
     /// <summary>
     /// 初始化
@@ -31,6 +31,35 @@ public class MonsterStatus_Attack : MonsterStatus
     }
 
     /// <summary>
+    /// 根据节拍进度执行
+    /// 如果本拍的剩余时间占比=waitMeterProgress,就直接执指令，否则等下拍执行指令
+    /// 其他情况等待下一拍执行
+    /// </summary>
+    /// <param name="cmdType"></param>
+    /// <param name="towards"></param>
+    /// <param name="triggerMeter"></param>
+    /// <param name="triggeredComboStep"></param>
+    protected bool ConditionalExcute(int cmdType, Vector3 towards, int triggerMeter, Dictionary<string, object> args, TriggeredComboStep triggeredComboStep)
+    {
+        if (triggerMeter <= mCurLogicStateEndMeter)
+            return false;
+
+        // 当前节拍的进度
+        float progress = MeterManager.Ins.GetCurrentMeterProgress();
+        if (progress <= GamePlayDefine.AttackMeterProgressWait)
+        {
+            StatusDefaultAction(towards, triggerMeter, triggeredComboStep);
+            return true;
+        }
+        else
+        {
+            PushInputCommandToBuffer(cmdType, towards, triggerMeter, args, triggeredComboStep);
+            return false;
+        }
+    }
+
+
+    /// <summary>
     /// 状态退出
     /// </summary>
     public override void OnExit()
@@ -52,8 +81,11 @@ public class MonsterStatus_Attack : MonsterStatus
                 ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             case AgentCommandDefine.CHARGING:
-            case AgentCommandDefine.INSTANT_ATTACK:
+            case AgentCommandDefine.METER_ATTACK:
                 ConditionalExcute(cmdType, towards, triggerMeter, args, triggeredComboStep);
+                break;
+            case AgentCommandDefine.INSTANT_ATTACK:
+                ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
                 break;
             // 其他指令类型，都要等本次攻击结束后执行，先放入指令缓存区
             case AgentCommandDefine.DASH:

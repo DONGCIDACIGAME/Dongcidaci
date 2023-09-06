@@ -9,7 +9,7 @@
 			"comboType": 0,
 			"comboSteps": [
 				{
-					"input": 8, 
+					"input": 16, 
 					"attackActionData": {
 						"statusName": "Attack",
 						"stateName": "Attack", 
@@ -39,7 +39,7 @@
 					"endFlag": false
 				},
 				{
-					"input": 8,
+					"input": 16,
 					"attackActionData": {
 						"statusName": "Attack",
 						"stateName": "Attack",
@@ -61,10 +61,15 @@
 							}
 						]
 					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Empty",
+						"effectCollictions": null
+					},
 					"endFlag": false
 				},
 				{
-					"input": 8,
+					"input": 16,
 					"attackActionData": {
 						"statusName": "Attack",
 						"stateName": "Attack",

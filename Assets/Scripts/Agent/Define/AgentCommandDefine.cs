@@ -74,7 +74,7 @@ public static class AgentCommandDefine
     /// <summary>
     /// 所有可以触发combo的指令类型
     /// </summary>
-    private static int ComboTriggerCommands = DASH | INSTANT_ATTACK ;
+    private static int ComboTriggerCommands = DASH | INSTANT_ATTACK | METER_ATTACK;
 
     /// <summary>
     /// 是否是可以触发combo的指令

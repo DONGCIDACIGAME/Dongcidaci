@@ -114,8 +114,8 @@ public class Monster : Agent
         SetInteractRadius(mMonsterCfg.InteractRadius);
         SetFollowRadius(mMonsterCfg.FollowRadius);
 
-        //Combo_Trigger.SetComboActive("JJJ", true);
-        //Combo_Trigger.SetComboActive("DashAttack", true);
+        Combo_Trigger.SetComboActive("JJJ", true);
+        Combo_Trigger.SetComboActive("DashAttack", true);
 
 
         // 加载行为树
