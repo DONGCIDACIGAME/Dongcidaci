@@ -28,10 +28,12 @@ public class CustomMapEditor : Editor
 
         GUILayout.Space(20f);
 
+        /**
         if (GUILayout.Button("填充事件数据"))
         {
             //myScript.SaveMapDataToDisk();
         }
+        */
 
         if (GUILayout.Button("保存地图数据"))
         {
