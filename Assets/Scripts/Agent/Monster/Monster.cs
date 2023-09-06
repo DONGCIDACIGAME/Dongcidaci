@@ -127,15 +127,16 @@ public class Monster : Agent
 
     public override void OnUpdate(float deltaTime)
     {
+        // modified by weng
+        // 0906
         base.OnUpdate(deltaTime);
         if (BehaviourTree != null)
         {
-            //BehaviourTree.Excute(deltaTime);
+            BehaviourTree.Excute(deltaTime);
         }
         //随机游走
         //if (m_Agent.pathPending || m_Agent.remainingDistance > 0.1f)
-        //    return;
-
+            //return;
         //m_Agent.destination = m_Range * Random.insideUnitCircle;
     }
 

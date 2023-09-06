@@ -30,7 +30,10 @@ public class DemoScene : GameScene, IMeterHandler
         UIManager.Ins.OpenPanel<PanelDemo>("Prefabs/UI/Panel_Demo");
 
         mAgtMgr.LoadHero(3);
-        //mAgtMgr.LoadMonster(1001);
+        // added by weng 
+        // test forest cyclops
+        mAgtMgr.LoadMonster(1001);
+        mAgtMgr.LoadMonster(1002);
         mMapMgr.LoadMap();
 
         MeterManager.Ins.RegisterMeterHandler(this);
