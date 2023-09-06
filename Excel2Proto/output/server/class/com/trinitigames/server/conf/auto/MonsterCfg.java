@@ -392,6 +392,8 @@ public final class MonsterCfg {
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
+      } catch (com.google.protobuf.UninitializedMessageException e) {
+        throw e.asInvalidProtocolBufferException().setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
@@ -824,34 +826,34 @@ public final class MonsterCfg {
       if (iD_ != 0) {
         output.writeUInt32(1, iD_);
       }
-      if (!getNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
       }
-      if (!getNickNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(nickName_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, nickName_);
       }
-      if (!getPrefabBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(prefab_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, prefab_);
       }
-      if (speed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
         output.writeFloat(5, speed_);
       }
-      if (dashDistance_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(dashDistance_) != 0) {
         output.writeFloat(6, dashDistance_);
       }
-      if (!getBehaviourTreeBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(behaviourTree_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 7, behaviourTree_);
       }
-      if (attackRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(attackRadius_) != 0) {
         output.writeFloat(8, attackRadius_);
       }
-      if (interactRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(interactRadius_) != 0) {
         output.writeFloat(9, interactRadius_);
       }
-      if (followRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(followRadius_) != 0) {
         output.writeFloat(10, followRadius_);
       }
-      if (turnSpeed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(turnSpeed_) != 0) {
         output.writeFloat(11, turnSpeed_);
       }
       if (maxHp_ != 0) {
@@ -860,19 +862,19 @@ public final class MonsterCfg {
       if (baseAttack_ != 0) {
         output.writeInt32(13, baseAttack_);
       }
-      if (defenseRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(defenseRate_) != 0) {
         output.writeFloat(14, defenseRate_);
       }
-      if (criticalRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(criticalRate_) != 0) {
         output.writeFloat(15, criticalRate_);
       }
-      if (criticalDmgRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(criticalDmgRate_) != 0) {
         output.writeFloat(16, criticalDmgRate_);
       }
-      if (dodgeRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(dodgeRate_) != 0) {
         output.writeFloat(17, dodgeRate_);
       }
-      if (moveSpeed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(moveSpeed_) != 0) {
         output.writeFloat(18, moveSpeed_);
       }
       unknownFields.writeTo(output);
@@ -888,39 +890,39 @@ public final class MonsterCfg {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, iD_);
       }
-      if (!getNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
       }
-      if (!getNickNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(nickName_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, nickName_);
       }
-      if (!getPrefabBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(prefab_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, prefab_);
       }
-      if (speed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(5, speed_);
       }
-      if (dashDistance_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(dashDistance_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(6, dashDistance_);
       }
-      if (!getBehaviourTreeBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(behaviourTree_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, behaviourTree_);
       }
-      if (attackRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(attackRadius_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(8, attackRadius_);
       }
-      if (interactRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(interactRadius_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(9, interactRadius_);
       }
-      if (followRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(followRadius_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(10, followRadius_);
       }
-      if (turnSpeed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(turnSpeed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(11, turnSpeed_);
       }
@@ -932,23 +934,23 @@ public final class MonsterCfg {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(13, baseAttack_);
       }
-      if (defenseRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(defenseRate_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(14, defenseRate_);
       }
-      if (criticalRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(criticalRate_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(15, criticalRate_);
       }
-      if (criticalDmgRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(criticalDmgRate_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(16, criticalDmgRate_);
       }
-      if (dodgeRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(dodgeRate_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(17, dodgeRate_);
       }
-      if (moveSpeed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(moveSpeed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(18, moveSpeed_);
       }
@@ -2486,9 +2488,11 @@ public final class MonsterCfg {
      * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
      */
 
-    com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrDefault(
+    /* nullable */
+com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg getMonsterBaseCfgItemsOrDefault(
         int key,
-        com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue);
+        /* nullable */
+com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg defaultValue);
     /**
      * <code>map&lt;uint32, .DongciDaci.MonsterBaseCfg&gt; MonsterBaseCfg_items = 1;</code>
      */
@@ -2566,6 +2570,8 @@ public final class MonsterCfg {
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
+      } catch (com.google.protobuf.UninitializedMessageException e) {
+        throw e.asInvalidProtocolBufferException().setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
@@ -3128,7 +3134,10 @@ public final class MonsterCfg {
           int key,
           com.trinitigames.server.conf.auto.MonsterCfg.MonsterBaseCfg value) {
         
-        if (value == null) { throw new java.lang.NullPointerException(); }
+        if (value == null) {
+  throw new NullPointerException("map value");
+}
+
         internalGetMutableMonsterBaseCfgItems().getMutableMap()
             .put(key, value);
         return this;

@@ -305,6 +305,8 @@ public final class SkillEffectCfg {
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
+      } catch (com.google.protobuf.UninitializedMessageException e) {
+        throw e.asInvalidProtocolBufferException().setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
@@ -726,28 +728,28 @@ public final class SkillEffectCfg {
       if (iD_ != 0) {
         output.writeUInt32(1, iD_);
       }
-      if (!getChNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(chName_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, chName_);
       }
-      if (!getEnNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(enName_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, enName_);
       }
-      if (!getClassNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(className_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, className_);
       }
-      if (!getChDescripBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(chDescrip_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, chDescrip_);
       }
-      if (!getEnDescripBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(enDescrip_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, enDescrip_);
       }
-      if (!getIconPathBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(iconPath_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 7, iconPath_);
       }
-      if (!getVFXPrefabPathBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(vFXPrefabPath_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 8, vFXPrefabPath_);
       }
-      if (!getAudioPathBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(audioPath_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 9, audioPath_);
       }
       unknownFields.writeTo(output);
@@ -763,28 +765,28 @@ public final class SkillEffectCfg {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, iD_);
       }
-      if (!getChNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(chName_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, chName_);
       }
-      if (!getEnNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(enName_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, enName_);
       }
-      if (!getClassNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(className_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, className_);
       }
-      if (!getChDescripBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(chDescrip_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, chDescrip_);
       }
-      if (!getEnDescripBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(enDescrip_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, enDescrip_);
       }
-      if (!getIconPathBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(iconPath_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, iconPath_);
       }
-      if (!getVFXPrefabPathBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(vFXPrefabPath_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, vFXPrefabPath_);
       }
-      if (!getAudioPathBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(audioPath_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, audioPath_);
       }
       size += unknownFields.getSerializedSize();
@@ -2038,9 +2040,11 @@ public final class SkillEffectCfg {
      * <code>map&lt;uint32, .DongciDaci.SkEftBaseCfg&gt; SkEftBaseCfg_items = 1;</code>
      */
 
-    com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg getSkEftBaseCfgItemsOrDefault(
+    /* nullable */
+com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg getSkEftBaseCfgItemsOrDefault(
         int key,
-        com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg defaultValue);
+        /* nullable */
+com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg defaultValue);
     /**
      * <code>map&lt;uint32, .DongciDaci.SkEftBaseCfg&gt; SkEftBaseCfg_items = 1;</code>
      */
@@ -2118,6 +2122,8 @@ public final class SkillEffectCfg {
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
+      } catch (com.google.protobuf.UninitializedMessageException e) {
+        throw e.asInvalidProtocolBufferException().setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
@@ -2680,7 +2686,10 @@ public final class SkillEffectCfg {
           int key,
           com.trinitigames.server.conf.auto.SkillEffectCfg.SkEftBaseCfg value) {
         
-        if (value == null) { throw new java.lang.NullPointerException(); }
+        if (value == null) {
+  throw new NullPointerException("map value");
+}
+
         internalGetMutableSkEftBaseCfgItems().getMutableMap()
             .put(key, value);
         return this;

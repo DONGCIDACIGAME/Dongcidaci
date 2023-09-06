@@ -80,7 +80,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: ba90399f80ba83e4fa02c2d7a501606a, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -120,7 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ada0a45ff597a6499b19cb7978b5145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InstantAttack: 0
   _HIT_FX: {fileID: 6710498499859621763}
   _FRONT_ATK_FX: {fileID: 0}
   _WEAPON_FX: {fileID: 0}

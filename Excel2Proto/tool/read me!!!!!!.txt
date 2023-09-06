@@ -4,4 +4,8 @@ pip install google
 
 pip install protobuf==3.20.0
 
+Download protoc on your disk and then add to system path
+https://blog.csdn.net/menghaocheng/article/details/80176763
+
 Pyhthon version must <3.10
+

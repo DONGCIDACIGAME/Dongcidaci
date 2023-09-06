@@ -383,6 +383,8 @@ public final class HeroCfg {
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
+      } catch (com.google.protobuf.UninitializedMessageException e) {
+        throw e.asInvalidProtocolBufferException().setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
@@ -768,28 +770,28 @@ public final class HeroCfg {
       if (iD_ != 0) {
         output.writeUInt32(1, iD_);
       }
-      if (!getNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
       }
-      if (!getPrefabBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(prefab_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, prefab_);
       }
-      if (speed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
         output.writeFloat(4, speed_);
       }
-      if (dashDistance_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(dashDistance_) != 0) {
         output.writeFloat(5, dashDistance_);
       }
-      if (attackRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(attackRadius_) != 0) {
         output.writeFloat(6, attackRadius_);
       }
-      if (interactRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(interactRadius_) != 0) {
         output.writeFloat(7, interactRadius_);
       }
-      if (followRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(followRadius_) != 0) {
         output.writeFloat(8, followRadius_);
       }
-      if (turnSpeed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(turnSpeed_) != 0) {
         output.writeFloat(9, turnSpeed_);
       }
       if (maxHp_ != 0) {
@@ -798,25 +800,25 @@ public final class HeroCfg {
       if (baseAttack_ != 0) {
         output.writeInt32(11, baseAttack_);
       }
-      if (defenseRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(defenseRate_) != 0) {
         output.writeFloat(12, defenseRate_);
       }
-      if (criticalRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(criticalRate_) != 0) {
         output.writeFloat(13, criticalRate_);
       }
-      if (criticalDmgRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(criticalDmgRate_) != 0) {
         output.writeFloat(14, criticalDmgRate_);
       }
-      if (dodgeRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(dodgeRate_) != 0) {
         output.writeFloat(15, dodgeRate_);
       }
-      if (moveSpeed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(moveSpeed_) != 0) {
         output.writeFloat(16, moveSpeed_);
       }
       if (extraEnergyGain_ != 0) {
         output.writeInt32(18, extraEnergyGain_);
       }
-      if (beatTolerance_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(beatTolerance_) != 0) {
         output.writeFloat(19, beatTolerance_);
       }
       if (luckyRate_ != 0) {
@@ -835,33 +837,33 @@ public final class HeroCfg {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, iD_);
       }
-      if (!getNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
       }
-      if (!getPrefabBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(prefab_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, prefab_);
       }
-      if (speed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(4, speed_);
       }
-      if (dashDistance_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(dashDistance_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(5, dashDistance_);
       }
-      if (attackRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(attackRadius_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(6, attackRadius_);
       }
-      if (interactRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(interactRadius_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(7, interactRadius_);
       }
-      if (followRadius_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(followRadius_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(8, followRadius_);
       }
-      if (turnSpeed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(turnSpeed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(9, turnSpeed_);
       }
@@ -873,23 +875,23 @@ public final class HeroCfg {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(11, baseAttack_);
       }
-      if (defenseRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(defenseRate_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(12, defenseRate_);
       }
-      if (criticalRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(criticalRate_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(13, criticalRate_);
       }
-      if (criticalDmgRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(criticalDmgRate_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(14, criticalDmgRate_);
       }
-      if (dodgeRate_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(dodgeRate_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(15, dodgeRate_);
       }
-      if (moveSpeed_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(moveSpeed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(16, moveSpeed_);
       }
@@ -897,7 +899,7 @@ public final class HeroCfg {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(18, extraEnergyGain_);
       }
-      if (beatTolerance_ != 0F) {
+      if (java.lang.Float.floatToRawIntBits(beatTolerance_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(19, beatTolerance_);
       }
@@ -2386,9 +2388,11 @@ public final class HeroCfg {
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
 
-    com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
+    /* nullable */
+com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg getHeroBaseCfgItemsOrDefault(
         int key,
-        com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue);
+        /* nullable */
+com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg defaultValue);
     /**
      * <code>map&lt;uint32, .DongciDaci.HeroBaseCfg&gt; HeroBaseCfg_items = 1;</code>
      */
@@ -2466,6 +2470,8 @@ public final class HeroCfg {
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
+      } catch (com.google.protobuf.UninitializedMessageException e) {
+        throw e.asInvalidProtocolBufferException().setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
@@ -3028,7 +3034,10 @@ public final class HeroCfg {
           int key,
           com.trinitigames.server.conf.auto.HeroCfg.HeroBaseCfg value) {
         
-        if (value == null) { throw new java.lang.NullPointerException(); }
+        if (value == null) {
+  throw new NullPointerException("map value");
+}
+
         internalGetMutableHeroBaseCfgItems().getMutableMap()
             .put(key, value);
         return this;

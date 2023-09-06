@@ -1,0 +1,46 @@
+{
+	"agentName": "ForestCyclops",
+	"agentId": 1002,
+	"comboDatas": 
+	[
+		{
+			"comboUID": 1,
+			"comboName": "JJJ",
+			"comboType": 0,
+			"comboSteps": [
+				{
+					"input": 8, 
+					"attackActionData": {
+						"statusName": "Attack",
+						"stateName": "Attack", 
+						"effectCollictions": [
+							{
+								"rlsFxCfg":{
+									"fxName":"", 
+									"carryNodeName":"", 
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
+								"hitFxCfg":{
+									"fxName":"",
+									"carryNodeName":"",
+									"transInfo":{"posX":0, "posY":0, "posZ":0, "angleX":0, "angleY":0, "angleZ":0, "scaleX":1, "scaleY":1, "scaleZ":1}
+								},
+								"effects": [
+									
+								]
+							}
+						]
+					},
+					"transitionData":{
+						"statusName": "Transition",
+						"stateName": "Empty",
+						"effectCollictions": null
+					},
+					"endFlag": true
+				}
+			],
+			"transferStateDuration": 0.5
+		}
+	],
+	"chargeAttackDatas":null
+}

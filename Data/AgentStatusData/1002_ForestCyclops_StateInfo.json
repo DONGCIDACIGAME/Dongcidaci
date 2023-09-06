@@ -1,0 +1,125 @@
+{
+	"agentName": "ForestCyclops",
+	"agentId": 1002,
+	"statusMap": {
+		"Idle": {
+			"statusName": "Idle",
+			"defaultAciton":
+			{
+				"statusName": "Idle",
+				"stateName": "Idle",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "Idle",
+				"animName": "Idle",
+				"loopTime": 0,
+				"meterLen": 2,
+				"minDuration": 0,
+				"normalizedTime": 0.5,
+				"layer": 0,
+				"animLen": 1.0,
+				"movements": [],
+				"hitPoints": []
+			}]
+		},
+		"Run": {
+			"statusName": "Run",
+			"defaultAciton":
+			{
+				"statusName": "Run",
+				"stateName": "Run",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "Run",
+				"animName": "Run",
+				"loopTime": 0,
+				"meterLen": 1,
+				"normalizedTime": 0.1,
+				"layer": 0,
+				"animLen": 0.5,
+				"movements": [],
+				"hitPoints": []
+			}]
+		},
+		"Attack":{
+			"statusName": "Attack",
+			"defaultAciton":
+			{
+				"statusName": "Attack",
+				"stateName": "Attack",
+				"effectCollictions": [
+					{
+						"effects":[
+							{ "effectType": 1, "effectValue": 0, "hitRectWidth": 1, "hitRectHeight": 0.5, "hitRectOffsetX": 0, "hitRectOffsetY": 0.5}
+						]
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "Attack",
+				"animName": "Attack",
+				"loopTime": 1,
+				"meterLen": 1,
+				"normalizedTime": 0.05,
+				"layer": 0,
+				"animLen": 0.5,
+				"movements": [{"distance": 0.05, "timeType": 0, "startTime":0.8, "endTime":1}],
+				"hitPoints": [{"progress": 1, "timeType": 0}]
+			}]
+		},
+		"Transfer": {
+			"statusName": "Transfer",
+			"defaultAciton":
+			{
+				"statusName": "Transfer",
+				"stateName": "Empty",
+				"effectCollictions": [
+					{
+						"effects": []
+					}
+				]
+			},
+			"animStates": [{
+				"stateName": "Empty",
+				"animName": "Empty",
+				"loopTime": 1,
+				"meterLen": 1,
+				"normalizedTime": 0.5,
+				"layer": 0,
+				"animLen": 0.5,
+				"movements": [],
+				"hitPoints": []
+			}]
+		},
+		"BeHit":{
+			"statusName": "BeHit",
+			"defaultAciton":
+			{
+				"statusName": "BeHit",
+				"stateName": "BeHit",
+				"effectCollictions": []
+			},
+			"animStates": [{
+				"stateName": "BeHit",
+				"animName": "BeHit",
+				"loopTime": 1,
+				"meterLen": 1,
+				"normalizedTime": 0.05,
+				"layer": 0,
+				"animLen": 0.5,
+				"movements": [{"distance": 1, "timeType": 1, "startTime":0, "endTime":0.2}],
+				"hitPoints": [{"progress": 0.2, "timeType": 1}]
+			}]
+		}
+	}
+}
