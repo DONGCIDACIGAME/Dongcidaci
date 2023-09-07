@@ -219,14 +219,15 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
 
     /// <summary>
     /// 自定义的初始化
+    /// Modified by weng add new param position
     /// </summary>
-    protected abstract void CustomInitialize();
+    protected abstract void CustomInitialize(Vector3 position);
 
 
     /// <summary>
     /// 初始化
     /// </summary>
-    public virtual void Initialize()
+    public virtual void Initialize(Vector3 initPos)
     {
         // 加载角色基础配置数据
         LoadAgentCfg(mAgentId);
@@ -250,7 +251,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
 
 
         // 其他自定义初始化
-        CustomInitialize();
+        CustomInitialize(initPos);
 
         // 状态机 初始化
         StatusMachine.Initialize(this);

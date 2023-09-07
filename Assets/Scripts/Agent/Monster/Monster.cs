@@ -86,7 +86,7 @@ public class Monster : Agent
         }
     }
 
-    protected override void CustomInitialize()
+    protected override void CustomInitialize(Vector3 initPos)
     {
         // added by weng 0704
         _mAgtAttr = new AgentAttribute(
@@ -99,7 +99,7 @@ public class Monster : Agent
 
 
         // 位置初始化
-        SetPosition(new Vector3(22f, 0.2f, 15f));
+        SetPosition(initPos);
         // 朝向初始化
         SetRotation(Vector3.zero);
         // 缩放初始化 modifiy by weng 0704

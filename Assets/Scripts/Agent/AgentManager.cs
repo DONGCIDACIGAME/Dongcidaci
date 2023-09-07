@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class AgentManager : IMeterHandler
 {
@@ -12,10 +13,10 @@ public class AgentManager : IMeterHandler
     }
 
 
-    public void LoadHero(uint heroId)
+    public void LoadHero(uint heroId, Vector3 position)
     {
         mHero = new Hero(heroId);
-        mHero.Initialize();
+        mHero.Initialize(position);
     }
 
     public void RemoveHero()
@@ -24,10 +25,10 @@ public class AgentManager : IMeterHandler
         mHero = null;
     }
 
-    public void LoadMonster(uint monsterId)
+    public void LoadMonster(uint monsterId, Vector3 position)
     {
         Monster monster = new Monster(monsterId);
-        monster.Initialize();
+        monster.Initialize(position);
         mMonsters.Add(monster);
     }
 

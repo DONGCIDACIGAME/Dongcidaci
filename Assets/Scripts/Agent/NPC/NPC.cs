@@ -1,3 +1,4 @@
+using UnityEngine;
 public class NPC : Agent
 {
     public NPC(uint agentId) : base(agentId)
@@ -11,7 +12,7 @@ public class NPC : Agent
         return EntityTypeDefine.NPC;
     }
 
-    protected override void CustomInitialize()
+    protected override void CustomInitialize(Vector3 initPos)
     {
         
     }

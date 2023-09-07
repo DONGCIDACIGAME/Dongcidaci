@@ -33,28 +33,14 @@ public class GameMapManager : IMeterHandler
         return this._mapGridConfig.GetMapIndex(WorldPos);
     }
 
-    public void Initialize()
+    public void Initialize(GameMapData loadedMapData)
     {
-        // 1 从 datacenter 获取地图数据
-        string mapDataPath = Path.Combine(PathDefine.MAP_DATA_DIR_PATH, "_Level_0_2.json");
-        if (File.Exists(mapDataPath) == false)
+        if (loadedMapData == null)
         {
-            Debug.LogError("目标路径没有地图数据");
-            return;
+            Log.Error(LogLevel.Critical,"the map data is null");
         }
-
-        StreamReader sw = new StreamReader(mapDataPath);
-        var jsonStr = sw.ReadToEnd();
-        try
-        {
-            this._mapData = JsonUtility.FromJson<GameMapData>(jsonStr);
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError(ex.Message);
-            return;
-        }
-
+        this._mapData = loadedMapData;
+        
         // 2 生成 map grid
         this._mapGridConfig = new MapGridInfo(_mapData.mapColCount, _mapData.mapRowCount, _mapData.mapCellWidth, _mapData.mapCellHeight, 0);
 
@@ -62,13 +48,6 @@ public class GameMapManager : IMeterHandler
         _mapBlocks = new List<MapBlock>();
         _mapMeterHandlers = new List<IMeterHandler>();
 
-
-        // 3 注册节奏事件
-        if (MeterManager.Ins !=null)
-        {
-            //MeterManager.Ins.RegisterMeterHandler(this);
-        }
-        
     }
 
     public void LoadMap()
@@ -79,8 +58,6 @@ public class GameMapManager : IMeterHandler
         //_navMeshLoad = gameObject.AddComponent<MavMeshOnLoad>();
         //_navMeshLoad.GetSurfaceComponent();
         //_navMeshLoad.Bake();
-
-
 
     }
 

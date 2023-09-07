@@ -78,7 +78,7 @@ public class Hero : Agent
 
     private IInputHandle attackmouseInput;
 
-    protected override void CustomInitialize()
+    protected override void CustomInitialize(Vector3 initPos)
     {
         // added by weng 0704
         // 英雄属性和属性管理器，和 agtAttr 和 attrHandler是同一个对象
@@ -95,7 +95,7 @@ public class Hero : Agent
 
         // 位置初始化
         // changed by weng 0626
-        SetPosition(new Vector3(14f,0.2f,10f));
+        SetPosition(initPos);
         // 朝向初始化
         SetRotation(Vector3.zero);
         // 缩放初始化
