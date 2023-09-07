@@ -1,0 +1,1 @@
+{"nodeName":"ForestCylops","nodeDesc":null,"nodeType":0,"nodeDetailType":0,"Args":null,"ChildNodes":[{"nodeName":"test","nodeDesc":null,"nodeType":1,"nodeDetailType":101,"Args":null,"ChildNodes":[{"nodeName":"wait","nodeDesc":null,"nodeType":3,"nodeDetailType":301,"Args":[{"ArgName":"WaitTime","ArgType":"float","ArgContent":"2"}],"ChildNodes":null}]}]}
