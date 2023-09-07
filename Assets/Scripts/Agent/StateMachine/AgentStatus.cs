@@ -199,7 +199,7 @@ public abstract class AgentStatus : IAgentStatus
         }
 
         // 默认切换状态都带有 指令类型，指令方向，指令所属节拍信息, 触发的combo招式数据
-        GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), status, cmdType, towards, triggerMeter, args, triggeredComboStep);
+        GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetEntityId(), status, cmdType, towards, triggerMeter, args, triggeredComboStep);
     }
 
     /// <summary>

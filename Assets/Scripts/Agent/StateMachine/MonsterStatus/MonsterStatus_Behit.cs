@@ -112,7 +112,7 @@ public class MonsterStatus_Behit : MonsterStatus
         {
             Dictionary<string, object> args = null;
             TriggeredComboStep triggeredComboStep = null;
-            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep);
+            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetEntityId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep);
             return;
         }
 

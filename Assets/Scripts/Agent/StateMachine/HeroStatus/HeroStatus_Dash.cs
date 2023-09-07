@@ -59,7 +59,7 @@ public class HeroStatus_Dash : HeroStatus
             Dictionary<string, object> _args = new Dictionary<string, object>();
             _args.Add("transitionAction", mComboStep.transitionData);
             TriggeredComboStep _triggeredComboStep = null;
-            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.ATTACK_TRANSITION, AgentCommandDefine.EMPTY, mAttackTowards, MeterManager.Ins.MeterIndex, _args, _triggeredComboStep);
+            GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetEntityId(), AgentStatusDefine.ATTACK_TRANSITION, AgentCommandDefine.EMPTY, mAttackTowards, MeterManager.Ins.MeterIndex, _args, _triggeredComboStep);
         }
     }
 

@@ -82,7 +82,7 @@ public class HeroStatus_AttackTransition : HeroStatus
                 if (CheckTowardsBigChange(towards, mLastTowards, 1f))
                 {
                     ChangeStatusOnCommand(cmdType, towards, triggerMeter, args, triggeredComboStep);
-                    //GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetAgentId(), AgentStatusDefine.RUN, cmdType, towards, triggerMeter, args, triggeredComboStep);
+                    //GameEventSystem.Ins.Fire("ChangeAgentStatus", mAgent.GetEntityId(), AgentStatusDefine.RUN, cmdType, towards, triggerMeter, args, triggeredComboStep);
                     mLastTowards = towards;
                 }
                 break;

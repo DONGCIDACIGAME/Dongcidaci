@@ -259,7 +259,7 @@ public abstract class Agent : MapEntityWithCollider, IMeterHandler
         // 加载完成后默认进入idle状态
         TriggeredComboStep triggeredComboStep = null;
         Dictionary<string, object> args = null;
-        StatusMachine.SwitchToStatus(GetAgentId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep);
+        StatusMachine.SwitchToStatus(GetEntityId(), AgentStatusDefine.IDLE, AgentCommandDefine.IDLE, DirectionDef.none, MeterManager.Ins.MeterIndex, args, triggeredComboStep);
     }
 
     /// <summary>
