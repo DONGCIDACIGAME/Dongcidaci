@@ -38,14 +38,14 @@ public class MapEventData
     /// <summary>
     /// 自定义字符串参数
     /// </summary>
-    public Dictionary<string, string> customStrParam;
+    public Dictionary<string, string> customStrParams;
     /// <summary>
     /// 自定义浮点参数
     /// </summary>
-    public Dictionary<string, float> customFloatParam;
+    public Dictionary<string, float> customFloatParams;
     /// <summary>
     /// 自定义整形参数
     /// </summary>
-    public Dictionary<string, int> customIntParam;
+    public Dictionary<string, int> customIntParams;
 
 }

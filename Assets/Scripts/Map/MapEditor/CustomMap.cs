@@ -198,6 +198,47 @@ public class CustomMap : MonoBehaviour
 
     }
 
+    public void SaveMapEventData()
+    {
+        if(this.mapData.mapEventDatas == null)
+        {
+            this.mapData.mapEventDatas = new List<MapEventData>();
+        }
+        else
+        {
+            this.mapData.mapEventDatas.Clear();
+        }
+        
+
+        var mapEventLayerT = GameObject.Find("_EVENT_LAYER").transform;
+        if (mapEventLayerT == null)
+        {
+            Debug.Log("未能找到事件层");
+            return;
+        }
+        else
+        {
+            Debug.Log("找到事件层");
+        }
+
+        if (mapEventLayerT.childCount == 0) return;
+        for (int i = 0; i < mapEventLayerT.childCount; i++)
+        {
+            mapEventLayerT.GetChild(i).TryGetComponent<MapEventDataConfig>(out MapEventDataConfig eventConfig);
+            if (eventConfig == null)
+            {
+                continue;
+            }
+
+            eventConfig.SyncPositionInfo();
+            eventConfig.SyncCustomDictData();
+            this.mapData.mapEventDatas.Add(eventConfig.configData);
+        }
+    }
+
+
+
+
 
 #if UNITY_EDITOR
 

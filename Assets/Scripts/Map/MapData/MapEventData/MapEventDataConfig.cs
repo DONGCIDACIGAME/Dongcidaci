@@ -3,9 +3,83 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+
 public class MapEventDataConfig : MonoBehaviour
 {
     public MapEventData configData;
+
+    [System.Serializable]
+    public struct StrDict
+    {
+        public string keyStr;
+        public string valueStr;
+    }
+
+    [System.Serializable]
+    public struct FloatDict
+    {
+        public string keyStr;
+        public float valueFloat;
+    }
+
+    [System.Serializable]
+    public struct IntDict
+    {
+        public string keyStr;
+        public int valueInt;
+    }
+
+    [SerializeField]
+    public List<StrDict> customStrDictList;
+    [SerializeField]
+    public List<FloatDict> customFloatDictList;
+    [SerializeField]
+    public List<IntDict> customIntDictList;
+
+
+    public void SyncPositionInfo()
+    {
+        configData.initPosX = transform.position.x;
+        configData.initPosY = transform.position.y;
+        configData.initPosZ = transform.position.z;
+
+        configData.initRotateX = transform.eulerAngles.x;
+        configData.initRotateY = transform.eulerAngles.y;
+        configData.initRotateZ = transform.eulerAngles.z;
+
+        configData.initLocalScaleX = transform.localScale.x;
+        configData.initLocalScaleY = transform.localScale.y;
+        configData.initLocalScaleZ = transform.localScale.z;
+    }
+
+
+    public void SyncCustomDictData()
+    {
+        if (configData.customStrParams == null) configData.customStrParams = new Dictionary<string, string>();
+        if (configData.customFloatParams == null) configData.customFloatParams = new Dictionary<string, float>();
+        if (configData.customIntParams == null) configData.customIntParams = new Dictionary<string, int>();
+
+        configData.customStrParams.Clear();
+        configData.customFloatParams.Clear();
+        configData.customIntParams.Clear();
+
+        foreach (var strPair in customStrDictList)
+        {
+            configData.customStrParams.Add(strPair.keyStr,strPair.valueStr);
+        }
+
+        foreach (var floatPair in customFloatDictList)
+        {
+            configData.customFloatParams.Add(floatPair.keyStr, floatPair.valueFloat);
+        }
+
+        foreach (var intPair in customIntDictList)
+        {
+            configData.customIntParams.Add(intPair.keyStr, intPair.valueInt);
+        }
+
+    }
+
 
 #if UNITY_EDITOR
 

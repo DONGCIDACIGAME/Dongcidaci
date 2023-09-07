@@ -182,6 +182,9 @@ MonoBehaviour:
     initLocalScaleX: 0
     initLocalScaleY: 0
     initLocalScaleZ: 0
+  customStrDictList: []
+  customFloatDictList: []
+  customIntDictList: []
   drawLabel: 1
 --- !u!65 &49863693
 BoxCollider:
@@ -305,6 +308,9 @@ MonoBehaviour:
     initLocalScaleX: 0
     initLocalScaleY: 0
     initLocalScaleZ: 0
+  customStrDictList: []
+  customFloatDictList: []
+  customIntDictList: []
   drawLabel: 1
 --- !u!65 &192173987
 BoxCollider:
@@ -428,6 +434,9 @@ MonoBehaviour:
     initLocalScaleX: 0
     initLocalScaleY: 0
     initLocalScaleZ: 0
+  customStrDictList: []
+  customFloatDictList: []
+  customIntDictList: []
   drawLabel: 1
 --- !u!65 &201687673
 BoxCollider:
@@ -777,6 +786,9 @@ MonoBehaviour:
     initLocalScaleX: 0
     initLocalScaleY: 0
     initLocalScaleZ: 0
+  customStrDictList: []
+  customFloatDictList: []
+  customIntDictList: []
   drawLabel: 1
 --- !u!1 &750285122
 GameObject:
@@ -837,6 +849,9 @@ MonoBehaviour:
     initLocalScaleX: 0
     initLocalScaleY: 0
     initLocalScaleZ: 0
+  customStrDictList: []
+  customFloatDictList: []
+  customIntDictList: []
   drawLabel: 1
 --- !u!65 &750285125
 BoxCollider:
@@ -1075,6 +1090,9 @@ MonoBehaviour:
     initLocalScaleX: 0
     initLocalScaleY: 0
     initLocalScaleZ: 0
+  customStrDictList: []
+  customFloatDictList: []
+  customIntDictList: []
   drawLabel: 1
 --- !u!65 &1626378878
 BoxCollider:
