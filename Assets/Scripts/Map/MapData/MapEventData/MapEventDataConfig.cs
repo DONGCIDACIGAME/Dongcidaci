@@ -65,16 +65,19 @@ public class MapEventDataConfig : MonoBehaviour
 
         foreach (var strPair in customStrDictList)
         {
+            Log.Logic(LogLevel.Normal,"添加自定义字符串参数");
             configData.customStrParams.Add(strPair.keyStr,strPair.valueStr);
         }
 
         foreach (var floatPair in customFloatDictList)
         {
+            Log.Logic(LogLevel.Normal, "添加自定义浮点参数");
             configData.customFloatParams.Add(floatPair.keyStr, floatPair.valueFloat);
         }
 
         foreach (var intPair in customIntDictList)
         {
+            Log.Logic(LogLevel.Normal, "添加自定义整形参数");
             configData.customIntParams.Add(intPair.keyStr, intPair.valueInt);
         }
 

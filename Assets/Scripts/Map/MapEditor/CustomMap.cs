@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-//using LitJson;
+using LitJson;
+using System.Text;
 
 [DisallowMultipleComponent]
 [ExecuteInEditMode]
@@ -179,6 +180,9 @@ public class CustomMap : MonoBehaviour
     public void SaveMapDataToDisk()
     {
         if (mapData.mapName == string.Empty) return;
+
+        SaveMapEventData();
+
         string filePath = Path.Combine(PathDefine.MAP_DATA_DIR_PATH,mapData.mapName + ".json");
         Debug.Log(filePath);
 
@@ -189,7 +193,14 @@ public class CustomMap : MonoBehaviour
 
         FileInfo file = new FileInfo(filePath);
         StreamWriter sw = file.CreateText();
-        string saveJsonStr = JsonUtility.ToJson(this.mapData, true);
+
+        //string saveJsonStr = JsonUtility.ToJson(this.mapData, true);
+        StringBuilder sb = new StringBuilder();
+        JsonWriter jr = new JsonWriter(sb);
+        jr.PrettyPrint = true;
+        jr.IndentValue = 4;//缩进空格个数
+        JsonMapper.ToJson(this.mapData, jr);
+        string saveJsonStr = sb.ToString();
         Debug.Log("开始写入地图数据 ----");
         sw.Write(saveJsonStr);
         sw.Close();

@@ -1,12 +1,131 @@
+
 {
-    "mapUID": 2,
-    "mapName": "_Level_0_2",
-    "roomType": 10,
-    "roomIconName": "",
-    "mapColCount": 15,
-    "mapRowCount": 15,
-    "mapCellWidth": 3.0,
-    "mapCellHeight": 3.0,
-    "mapBasePrefabName": "_Level_0_2",
-    "mapEventDatas": []
+    "mapUID" : 2,
+    "mapName" : "_Level_0_2",
+    "roomType" : 10,
+    "roomIconName" : "",
+    "mapColCount"  : 15,
+    "mapRowCount"  : 15,
+    "mapCellWidth" : 3,
+    "mapCellHeight" : 3,
+    "mapBasePrefabName" : "_Level_0_2",
+    "mapEventDatas"     : [
+        {
+            "eventType" : 0,
+            "eventPrefabName" : "",
+            "initPosX"        : 16.87,
+            "initPosY"        : 0,
+            "initPosZ"        : 13.42,
+            "initRotateX"     : 0,
+            "initRotateY"     : 0,
+            "initRotateZ"     : 0,
+            "initLocalScaleX" : 1,
+            "initLocalScaleY" : 1,
+            "initLocalScaleZ" : 1,
+            "customStrParams" : {
+            },
+            "customFloatParams" : {
+            },
+            "customIntParams"   : {
+            }
+        },
+        {
+            "eventType" : 1,
+            "eventPrefabName" : "",
+            "initPosX"        : 13.24,
+            "initPosY"        : 0,
+            "initPosZ"        : 25.3,
+            "initRotateX"     : 0,
+            "initRotateY"     : 0,
+            "initRotateZ"     : 0,
+            "initLocalScaleX" : 1,
+            "initLocalScaleY" : 1,
+            "initLocalScaleZ" : 1,
+            "customStrParams" : {
+            },
+            "customFloatParams" : {
+            },
+            "customIntParams"   : {
+            }
+        },
+        {
+            "eventType" : 1,
+            "eventPrefabName" : "",
+            "initPosX"        : 9.14,
+            "initPosY"        : 0,
+            "initPosZ"        : 19.11,
+            "initRotateX"     : 0,
+            "initRotateY"     : 0,
+            "initRotateZ"     : 0,
+            "initLocalScaleX" : 1,
+            "initLocalScaleY" : 1,
+            "initLocalScaleZ" : 1,
+            "customStrParams" : {
+                "testkey" : "keyvalue"
+            },
+            "customFloatParams" : {
+                "test" : 0
+            },
+            "customIntParams"   : {
+                "testInt" : 0
+            }
+        },
+        {
+            "eventType" : 1,
+            "eventPrefabName" : "",
+            "initPosX"        : 18.54,
+            "initPosY"        : 0,
+            "initPosZ"        : 19.01,
+            "initRotateX"     : 0,
+            "initRotateY"     : 0,
+            "initRotateZ"     : 0,
+            "initLocalScaleX" : 1,
+            "initLocalScaleY" : 1,
+            "initLocalScaleZ" : 1,
+            "customStrParams" : {
+            },
+            "customFloatParams" : {
+            },
+            "customIntParams"   : {
+            }
+        },
+        {
+            "eventType" : 1,
+            "eventPrefabName" : "",
+            "initPosX"        : 23.49,
+            "initPosY"        : 0,
+            "initPosZ"        : 27.73,
+            "initRotateX"     : 0,
+            "initRotateY"     : 0,
+            "initRotateZ"     : 0,
+            "initLocalScaleX" : 1,
+            "initLocalScaleY" : 1,
+            "initLocalScaleZ" : 1,
+            "customStrParams" : {
+            },
+            "customFloatParams" : {
+            },
+            "customIntParams"   : {
+            }
+        },
+        {
+            "eventType" : 1,
+            "eventPrefabName" : "",
+            "initPosX"        : 27.49,
+            "initPosY"        : 0,
+            "initPosZ"        : 18.2,
+            "initRotateX"     : 0,
+            "initRotateY"     : 0,
+            "initRotateZ"     : 0,
+            "initLocalScaleX" : 1,
+            "initLocalScaleY" : 1,
+            "initLocalScaleZ" : 1,
+            "customStrParams" : {
+            },
+            "customFloatParams" : {
+            },
+            "customIntParams"   : {
+            }
+        }
+    ]
 }

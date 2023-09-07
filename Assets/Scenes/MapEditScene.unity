@@ -173,15 +173,15 @@ MonoBehaviour:
   configData:
     eventType: 1
     eventPrefabName: 
-    initPosX: 0
+    initPosX: 18.54
     initPosY: 0
-    initPosZ: 0
-    initRotateX: 0
+    initPosZ: 19.01
+    initRotateX: -0
     initRotateY: 0
     initRotateZ: 0
-    initLocalScaleX: 0
-    initLocalScaleY: 0
-    initLocalScaleZ: 0
+    initLocalScaleX: 1
+    initLocalScaleY: 1
+    initLocalScaleZ: 1
   customStrDictList: []
   customFloatDictList: []
   customIntDictList: []
@@ -299,15 +299,15 @@ MonoBehaviour:
   configData:
     eventType: 1
     eventPrefabName: 
-    initPosX: 0
+    initPosX: 27.49
     initPosY: 0
-    initPosZ: 0
-    initRotateX: 0
+    initPosZ: 18.2
+    initRotateX: -0
     initRotateY: 0
     initRotateZ: 0
-    initLocalScaleX: 0
-    initLocalScaleY: 0
-    initLocalScaleZ: 0
+    initLocalScaleX: 1
+    initLocalScaleY: 1
+    initLocalScaleZ: 1
   customStrDictList: []
   customFloatDictList: []
   customIntDictList: []
@@ -425,15 +425,15 @@ MonoBehaviour:
   configData:
     eventType: 1
     eventPrefabName: 
-    initPosX: 0
+    initPosX: 13.24
     initPosY: 0
-    initPosZ: 0
-    initRotateX: 0
+    initPosZ: 25.3
+    initRotateX: -0
     initRotateY: 0
     initRotateZ: 0
-    initLocalScaleX: 0
-    initLocalScaleY: 0
-    initLocalScaleZ: 0
+    initLocalScaleX: 1
+    initLocalScaleY: 1
+    initLocalScaleZ: 1
   customStrDictList: []
   customFloatDictList: []
   customIntDictList: []
@@ -598,7 +598,73 @@ MonoBehaviour:
     mapCellWidth: 3
     mapCellHeight: 3
     mapBasePrefabName: _Level_0_2
-    mapEventDatas: []
+    mapEventDatas:
+    - eventType: 0
+      eventPrefabName: 
+      initPosX: 16.87
+      initPosY: 0
+      initPosZ: 13.42
+      initRotateX: -0
+      initRotateY: 0
+      initRotateZ: 0
+      initLocalScaleX: 1
+      initLocalScaleY: 1
+      initLocalScaleZ: 1
+    - eventType: 1
+      eventPrefabName: 
+      initPosX: 13.24
+      initPosY: 0
+      initPosZ: 25.3
+      initRotateX: -0
+      initRotateY: 0
+      initRotateZ: 0
+      initLocalScaleX: 1
+      initLocalScaleY: 1
+      initLocalScaleZ: 1
+    - eventType: 1
+      eventPrefabName: 
+      initPosX: 9.14
+      initPosY: 0
+      initPosZ: 19.11
+      initRotateX: -0
+      initRotateY: 0
+      initRotateZ: 0
+      initLocalScaleX: 1
+      initLocalScaleY: 1
+      initLocalScaleZ: 1
+    - eventType: 1
+      eventPrefabName: 
+      initPosX: 18.54
+      initPosY: 0
+      initPosZ: 19.01
+      initRotateX: -0
+      initRotateY: 0
+      initRotateZ: 0
+      initLocalScaleX: 1
+      initLocalScaleY: 1
+      initLocalScaleZ: 1
+    - eventType: 1
+      eventPrefabName: 
+      initPosX: 23.49
+      initPosY: 0
+      initPosZ: 27.73
+      initRotateX: -0
+      initRotateY: 0
+      initRotateZ: 0
+      initLocalScaleX: 1
+      initLocalScaleY: 1
+      initLocalScaleZ: 1
+    - eventType: 1
+      eventPrefabName: 
+      initPosX: 27.49
+      initPosY: 0
+      initPosZ: 18.2
+      initRotateX: -0
+      initRotateY: 0
+      initRotateZ: 0
+      initLocalScaleX: 1
+      initLocalScaleY: 1
+      initLocalScaleZ: 1
   isAutoSnap: 1
   drawGrid: 0
   lineThickness: 0.5
@@ -777,15 +843,15 @@ MonoBehaviour:
   configData:
     eventType: 0
     eventPrefabName: 
-    initPosX: 0
+    initPosX: 16.87
     initPosY: 0
-    initPosZ: 0
-    initRotateX: 0
+    initPosZ: 13.42
+    initRotateX: -0
     initRotateY: 0
     initRotateZ: 0
-    initLocalScaleX: 0
-    initLocalScaleY: 0
-    initLocalScaleZ: 0
+    initLocalScaleX: 1
+    initLocalScaleY: 1
+    initLocalScaleZ: 1
   customStrDictList: []
   customFloatDictList: []
   customIntDictList: []
@@ -840,18 +906,24 @@ MonoBehaviour:
   configData:
     eventType: 1
     eventPrefabName: 
-    initPosX: 0
+    initPosX: 9.14
     initPosY: 0
-    initPosZ: 0
-    initRotateX: 0
+    initPosZ: 19.11
+    initRotateX: -0
     initRotateY: 0
     initRotateZ: 0
-    initLocalScaleX: 0
-    initLocalScaleY: 0
-    initLocalScaleZ: 0
-  customStrDictList: []
-  customFloatDictList: []
-  customIntDictList: []
+    initLocalScaleX: 1
+    initLocalScaleY: 1
+    initLocalScaleZ: 1
+  customStrDictList:
+  - keyStr: testkey
+    valueStr: keyvalue
+  customFloatDictList:
+  - keyStr: test
+    valueFloat: 0
+  customIntDictList:
+  - keyStr: testInt
+    valueInt: 0
   drawLabel: 1
 --- !u!65 &750285125
 BoxCollider:
@@ -1081,15 +1153,15 @@ MonoBehaviour:
   configData:
     eventType: 1
     eventPrefabName: 
-    initPosX: 0
+    initPosX: 23.49
     initPosY: 0
-    initPosZ: 0
-    initRotateX: 0
+    initPosZ: 27.73
+    initRotateX: -0
     initRotateY: 0
     initRotateZ: 0
-    initLocalScaleX: 0
-    initLocalScaleY: 0
-    initLocalScaleZ: 0
+    initLocalScaleX: 1
+    initLocalScaleY: 1
+    initLocalScaleZ: 1
   customStrDictList: []
   customFloatDictList: []
   customIntDictList: []
