@@ -46,7 +46,8 @@ public class MonsterStatus_Run : MonsterStatus
                 Log.Error(LogLevel.Normal, "Invalid Cmd, get charging attack on {0}!", GetStatusName());
                 break;
             case AgentCommandDefine.RUN:
-                StatusDefaultAction(towards);
+                // 1. 转向移动放方向
+                mAgent.MoveControl.TurnTo(towards);
                 break;
             case AgentCommandDefine.EMPTY:
             default:
@@ -76,10 +77,10 @@ public class MonsterStatus_Run : MonsterStatus
                     break;
             }
         }
-        else
-        {
-            ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, meterIndex, null, null);
-        }
+        //else
+        //{
+        //    ChangeStatusOnCommand(AgentCommandDefine.IDLE, DirectionDef.none, meterIndex, null, null);
+        //}
     }
 
     protected override void CustomOnMeterEnd(int meterIndex)
