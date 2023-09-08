@@ -9,6 +9,25 @@ public class MapGroundView : MapEntityView
     [SerializeField] private int[] _occupyMapIndexs;
     public int[] OccupyMapIndexs => _occupyMapIndexs;
 
+    /// <summary>
+    /// 检查某个点是否在这个地板面上
+    /// </summary>
+    /// <param name="checkPos"></param>
+    /// <returns></returns>
+    public bool IsPosOnGround(Vector3 checkPos)
+    {
+        if (transform.childCount == 0) return false;
+
+        for (int i=0;i<transform.childCount;i++)
+        {
+            var ret  = transform.GetChild(i).TryGetComponent<MeshRenderer>(out MeshRenderer groundMesh);
+            if (ret == false) continue;
+            if (groundMesh.bounds.Contains(checkPos)) return true;
+        }
+
+        return false;
+    }
+
 
 #if UNITY_EDITOR
 
@@ -33,6 +52,8 @@ public class MapGroundView : MapEntityView
 
     private void OnDrawGizmos()
     {
+        
+        return;
         if (_occupyMapIndexs == null || _occupyMapIndexs.Length == 0) return;
         if (transform.childCount == 0) return;
         if (EditorApplication.isPlaying) return;

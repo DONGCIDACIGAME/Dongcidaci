@@ -588,6 +588,8 @@ MonoBehaviour:
   gridRowCount: 15
   gridCellWidth: 3
   gridCellHeight: 3
+  drawGridGizmos: 0
+  subLevel: 4
   mapData:
     mapUID: 2
     mapName: _Level_0_2
@@ -666,7 +668,6 @@ MonoBehaviour:
       initLocalScaleY: 1
       initLocalScaleZ: 1
   isAutoSnap: 1
-  drawGrid: 0
   lineThickness: 0.5
 --- !u!1001 &444590689
 PrefabInstance:
@@ -915,15 +916,9 @@ MonoBehaviour:
     initLocalScaleX: 1
     initLocalScaleY: 1
     initLocalScaleZ: 1
-  customStrDictList:
-  - keyStr: testkey
-    valueStr: keyvalue
-  customFloatDictList:
-  - keyStr: test
-    valueFloat: 0
-  customIntDictList:
-  - keyStr: testInt
-    valueInt: 0
+  customStrDictList: []
+  customFloatDictList: []
+  customIntDictList: []
   drawLabel: 1
 --- !u!65 &750285125
 BoxCollider:

@@ -6,6 +6,7 @@ using UnityEditor;
 [CustomEditor(typeof(MapGroundView))]
 public class MapGroundViewEditor : Editor
 {
+    /**
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -22,4 +23,5 @@ public class MapGroundViewEditor : Editor
         
 
     }
+    */
 }

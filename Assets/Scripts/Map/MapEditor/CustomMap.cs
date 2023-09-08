@@ -12,15 +12,13 @@ public class CustomMap : MonoBehaviour
 {
     public static CustomMap Ins;
 
+    [Header("地图基础网格信息")]
     public int gridColCount = 10;
     public int gridRowCount = 10;
-
     public float gridCellWidth = 2;
     public float gridCellHeight = 2;
-
-    //private static string MapJsonSavePath = Application.dataPath;
-    public GameMapData mapData;
-
+    public bool drawGridGizmos = false;
+    private List<GridCell> gridCells = new List<GridCell>();
 
     public class GridCell
     {
@@ -31,20 +29,17 @@ public class CustomMap : MonoBehaviour
         public int cellMapIndex = -1;
         public Vector3 anchorPos;
 
-        public GridCell(Vector3 ldV3,Vector3 rdV3,Vector3 ruV3,Vector3 luV3,int index)
+        public GridCell(Vector3 ldV3, Vector3 rdV3, Vector3 ruV3, Vector3 luV3, int index)
         {
             this.ldV3 = ldV3;
             this.rdV3 = rdV3;
             this.ruV3 = ruV3;
             this.luV3 = luV3;
             this.cellMapIndex = index;
-            this.anchorPos = new Vector3(ldV3.x + (rdV3.x-ldV3.x)/2, 0, ldV3.z + (luV3.z - ldV3.z)/2);
+            this.anchorPos = new Vector3(ldV3.x + (rdV3.x - ldV3.x) / 2, 0, ldV3.z + (luV3.z - ldV3.z) / 2);
         }
 
     }
-
-
-    private List<GridCell> gridCells = new List<GridCell>();
 
     public void CaculateGridCells()
     {
@@ -52,21 +47,85 @@ public class CustomMap : MonoBehaviour
         if (gridColCount <= 0 || gridRowCount <= 0 || gridCellWidth <= 0 || gridCellHeight <= 0) return;
 
         int mapIndex = 0;
-        for (int i =0;i<gridColCount;i++)
+        for (int i = 0; i < gridColCount; i++)
         {
-            for (int j= 0;j<gridRowCount;j++)
+            for (int j = 0; j < gridRowCount; j++)
             {
-                var ldV3 = new Vector3(i*gridCellWidth,0,j*gridCellHeight);
-                var rdV3 = new Vector3((i+1) * gridCellWidth, 0, j * gridCellHeight);
-                var ruV3 = new Vector3((i + 1) * gridCellWidth, 0, (j+1) * gridCellHeight);
-                var luV3 = new Vector3(i * gridCellWidth, 0, (j+1) * gridCellHeight);
+                var ldV3 = new Vector3(i * gridCellWidth, 0, j * gridCellHeight);
+                var rdV3 = new Vector3((i + 1) * gridCellWidth, 0, j * gridCellHeight);
+                var ruV3 = new Vector3((i + 1) * gridCellWidth, 0, (j + 1) * gridCellHeight);
+                var luV3 = new Vector3(i * gridCellWidth, 0, (j + 1) * gridCellHeight);
 
-                var cell = new GridCell(ldV3,rdV3,ruV3,luV3,mapIndex);
+                var cell = new GridCell(ldV3, rdV3, ruV3, luV3, mapIndex);
                 gridCells.Add(cell);
                 mapIndex++;
             }
         }
     }
+
+
+    [Header("导航信息")]
+    [Range(2,5)]
+    public int naviSubLevel = 4;
+    public bool drawNaviGrids = false;
+    private List<NaviGridCell> naviCells = new List<NaviGridCell>();
+
+    public class NaviGridCell
+    {
+        public Vector3 ldV3;
+        public Vector3 rdV3;
+        public Vector3 ruV3;
+        public Vector3 luV3;
+        public int xIndex = -1;
+        public int yIndex = -1;
+        public Vector3 anchorPos;
+
+        /// <summary>
+        /// 该导航网格的最大通过半径
+        /// </summary>
+        public float maxPassRadius;
+
+        /// <summary>
+        /// 该导航网格的优先级
+        /// 如果网格上存在负面事件，那么该优先级会更低
+        /// </summary>
+        public int priority;
+
+        /// <summary>
+        /// 是否被事件障碍物阻挡着
+        /// </summary>
+        public bool isEventBlocked;
+    }
+
+    public void CaculateNaviGridCells()
+    {
+        naviCells.Clear();
+        if (gridColCount <= 0 || gridRowCount <= 0 || gridCellWidth <= 0 || gridCellHeight <= 0) return;
+
+        int mapIndex = 0;
+        for (int i = 0; i < gridColCount* naviSubLevel; i++)
+        {
+            for (int j = 0; j < gridRowCount*naviSubLevel; j++)
+            {
+                var ldV3 = new Vector3(i * gridCellWidth, 0, j * gridCellHeight);
+                var rdV3 = new Vector3((i + 1) * gridCellWidth, 0, j * gridCellHeight);
+                var ruV3 = new Vector3((i + 1) * gridCellWidth, 0, (j + 1) * gridCellHeight);
+                var luV3 = new Vector3(i * gridCellWidth, 0, (j + 1) * gridCellHeight);
+
+                var cell = new GridCell(ldV3, rdV3, ruV3, luV3, mapIndex);
+                gridCells.Add(cell);
+                mapIndex++;
+            }
+        }
+    }
+
+
+
+    //private static string MapJsonSavePath = Application.dataPath;
+    public GameMapData mapData;
+
+
+    
 
     private void OnEnable()
     {
@@ -253,12 +312,12 @@ public class CustomMap : MonoBehaviour
 
 #if UNITY_EDITOR
 
-    public bool drawGrid = false;
+    
     public float lineThickness = 2f;
 
     private void OnDrawGizmos()
     {
-        if (drawGrid == false) return;
+        if (drawGridGizmos == false) return;
 
         if (gridColCount <= 0 || gridRowCount <= 0 || gridCellWidth <= 0 || gridCellHeight <= 0) return;
 
