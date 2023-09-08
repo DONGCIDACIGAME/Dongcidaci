@@ -65,17 +65,14 @@ public class CustomMap : MonoBehaviour
 
 
     [Header("导航信息")]
-    [Range(2,5)]
+    [Range(2,10)]
     public int naviSubLevel = 4;
     public bool drawNaviGrids = false;
     private List<NaviGridCell> naviCells = new List<NaviGridCell>();
 
     public class NaviGridCell
     {
-        public Vector3 ldV3;
-        public Vector3 rdV3;
-        public Vector3 ruV3;
-        public Vector3 luV3;
+        public Vector2 size;
         public int xIndex = -1;
         public int yIndex = -1;
         public Vector3 anchorPos;
@@ -102,19 +99,120 @@ public class CustomMap : MonoBehaviour
         naviCells.Clear();
         if (gridColCount <= 0 || gridRowCount <= 0 || gridCellWidth <= 0 || gridCellHeight <= 0) return;
 
-        int mapIndex = 0;
-        for (int i = 0; i < gridColCount* naviSubLevel; i++)
+        // 获取所有的地板信息MapGroundView
+        List<MapGroundView> grounds = new List<MapGroundView>();
+        var groundLayerT = GameObject.Find("_GROUND_LAYER").transform;
+        if (groundLayerT == null)
         {
-            for (int j = 0; j < gridRowCount*naviSubLevel; j++)
+            Debug.Log("未能找到地板层");
+            return;
+        }
+        else
+        {
+            Debug.Log("找到地板层");
+            if (groundLayerT.childCount == 0) return;
+            
+            for (int i = 0; i < groundLayerT.childCount; i++)
             {
-                var ldV3 = new Vector3(i * gridCellWidth, 0, j * gridCellHeight);
-                var rdV3 = new Vector3((i + 1) * gridCellWidth, 0, j * gridCellHeight);
-                var ruV3 = new Vector3((i + 1) * gridCellWidth, 0, (j + 1) * gridCellHeight);
-                var luV3 = new Vector3(i * gridCellWidth, 0, (j + 1) * gridCellHeight);
+                groundLayerT.GetChild(i).TryGetComponent<MapGroundView>(out MapGroundView groundView);
+                if (groundView == null)
+                {
+                    continue;
+                }
+                grounds.Add(groundView);
+            }
+        }
 
-                var cell = new GridCell(ldV3, rdV3, ruV3, luV3, mapIndex);
-                gridCells.Add(cell);
-                mapIndex++;
+        
+
+        // 获取所有mapblock的碰撞信息
+        //List<GameColliderView> mapBlockColliders = new List<GameColliderView>();
+        List<IConvex2DShape> mapBlockShapes = new List<IConvex2DShape>();
+        var mapBlockLayerT = GameObject.Find("_BLOCK_LAYER").transform;
+        if (mapBlockLayerT == null)
+        {
+            Debug.Log("未能找到障碍层");
+            return;
+        }
+        else
+        {
+            Debug.Log("找到障碍层");
+            if (mapBlockLayerT.childCount > 0)
+            {
+                for (int i = 0; i < mapBlockLayerT.childCount; i++)
+                {
+                    mapBlockLayerT.GetChild(i).TryGetComponent<GameColliderView>(out GameColliderView blockCollider);
+                    if (blockCollider == null)
+                    {
+                        continue;
+                    }
+                    var shape = GameColliderHelper.GetRegularShapeWith(blockCollider.shapeType,blockCollider.offset, blockCollider.size);
+                    shape.AnchorPos = blockCollider.transform.position;
+                    shape.AnchorAngle = blockCollider.transform.eulerAngles.y;
+                    mapBlockShapes.Add(shape);
+                }
+            }
+
+        }
+
+        int naviColCount = gridColCount * naviSubLevel;
+        int naviRowCount = gridRowCount * naviSubLevel;
+        float naviCellWidth = gridCellWidth / (float)naviSubLevel;
+        float naviCellHeight = gridCellHeight / (float)naviSubLevel;
+
+        for (int i = 0; i < naviColCount; i++)
+        {
+            for (int j = 0; j < naviRowCount; j++)
+            {
+                var ldV3 = new Vector3(i * naviCellWidth, 0, j * naviCellHeight);
+                var rdV3 = new Vector3((i + 1) * naviCellWidth, 0, j * naviCellHeight);
+                var ruV3 = new Vector3((i + 1) * naviCellWidth, 0, (j + 1) * naviCellHeight);
+                var luV3 = new Vector3(i * naviCellWidth, 0, (j + 1) * naviCellHeight);
+                
+                var naviCellPos = new Vector3(ldV3.x + (rdV3.x - ldV3.x) / 2, 0, ldV3.z + (luV3.z - ldV3.z) / 2);
+                bool isNeeded = false;
+
+                //检查是否在地板上
+                foreach (var groundView in grounds)
+                {
+                    if (groundView.IsPosOnGround(naviCellPos))
+                    {
+                        Debug.Log("找到有效的导航网格");
+                        isNeeded = true;
+                        break;
+                    }
+                }
+                if (isNeeded == false) continue;
+
+                // 这个导航的格子在地面上
+                // 判断这个格子是否和障碍物相交
+                if (mapBlockShapes.Count > 0)
+                {
+                    foreach (var blockShape in mapBlockShapes)
+                    {
+                        var naviShape = GameColliderHelper.GetRegularShapeWith(Convex2DShapeType.Rect, Vector2.zero, new Vector2(naviCellWidth, naviCellHeight));
+                        naviShape.AnchorPos = naviCellPos;
+                        if (GameColliderHelper.CheckCollideSAT(naviShape, blockShape))
+                        {
+                            // 这个格子和障碍物产生了碰撞，不可用
+                            // 剔除这个导航的格子
+                            isNeeded = false;
+                            break;
+                        }
+                    }
+                }
+                if (isNeeded == false) continue;
+
+                // 检查事件层
+
+
+                var newNaviCell = new NaviGridCell();
+                newNaviCell.size = new Vector2(naviCellWidth, naviCellHeight);
+                newNaviCell.xIndex = naviColCount;
+                newNaviCell.yIndex = naviRowCount;
+                newNaviCell.anchorPos = naviCellPos;
+                this.naviCells.Add(newNaviCell);
+
             }
         }
     }
@@ -317,27 +415,48 @@ public class CustomMap : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (drawGridGizmos == false) return;
-
         if (gridColCount <= 0 || gridRowCount <= 0 || gridCellWidth <= 0 || gridCellHeight <= 0) return;
-
-        //画竖线
-        for (int i = 0; i <= gridColCount; i++)
+        if (drawGridGizmos)
         {
-            var startV3 = new Vector3(i*gridCellWidth,0,0);
-            var endV3 = new Vector3(i * gridCellWidth, 0, gridRowCount*gridCellHeight);
-            Handles.DrawDottedLine(startV3, endV3, lineThickness);
+            //画竖线
+            for (int i = 0; i <= gridColCount; i++)
+            {
+                var startV3 = new Vector3(i * gridCellWidth, 0, 0);
+                var endV3 = new Vector3(i * gridCellWidth, 0, gridRowCount * gridCellHeight);
+                Handles.DrawDottedLine(startV3, endV3, lineThickness);
+            }
+
+            //画横线
+            for (int i = 0; i <= gridRowCount; i++)
+            {
+                var startV3 = new Vector3(0, 0, i * gridCellHeight);
+                var endV3 = new Vector3(gridColCount * gridCellWidth, 0, i * gridCellHeight);
+                Handles.DrawDottedLine(startV3, endV3, lineThickness);
+            }
         }
 
-        //画横线
-        for (int i = 0; i <= gridRowCount; i++)
+        
+        // 绘制导航网格的信息
+        if (drawNaviGrids)
         {
-            var startV3 = new Vector3(0, 0, i*gridCellHeight);
-            var endV3 = new Vector3(gridColCount * gridCellWidth, 0, i * gridCellHeight);
-            Handles.DrawDottedLine(startV3, endV3, lineThickness);
+            if (naviCells != null && naviCells.Count > 0)
+            {
+                foreach (var naviCell in naviCells)
+                {
+                    /**
+                    Handles.DrawAAConvexPolygon(new Vector3[] { 
+                        naviCell.ldV3 + new Vector3(0.1f, 0, 0.1f), 
+                        naviCell.luV3 + new Vector3(0.1f,0,-0.1f), 
+                        naviCell.ruV3 + new Vector3(-0.1f,0,-0.1f), 
+                        naviCell.rdV3 + new Vector3(-0.1f,0,0.1f)});
+                    */
+
+                    Handles.DrawWireDisc(naviCell.anchorPos,Vector3.up, 0.1f);
+                }
+            }
         }
-
-
+        
+        
     }
 
 

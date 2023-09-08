@@ -32,7 +32,7 @@ public class CustomMapEditor : Editor
 
         if (GUILayout.Button("烘焙导航网格数据"))
         {
-            //myScript.CaculateGridCells();
+            myScript.CaculateNaviGridCells();
         }
         EditorGUILayout.Separator();
         #endregion

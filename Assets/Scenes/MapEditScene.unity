@@ -589,7 +589,8 @@ MonoBehaviour:
   gridCellWidth: 3
   gridCellHeight: 3
   drawGridGizmos: 0
-  subLevel: 4
+  naviSubLevel: 3
+  drawNaviGrids: 1
   mapData:
     mapUID: 2
     mapName: _Level_0_2
