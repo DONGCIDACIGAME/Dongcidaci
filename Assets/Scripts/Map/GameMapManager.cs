@@ -6,7 +6,7 @@ using System.IO;
 
 public class GameMapManager : IMeterHandler
 {
-    private MapGridInfo _mapGridConfig;
+    //private MapGridInfo _mapGridConfig;
     private GameMapData _mapData;
 
     private List<MapGround> _mapGrounds;
@@ -17,21 +17,8 @@ public class GameMapManager : IMeterHandler
     /// </summary>
     private List<IMeterHandler> _mapMeterHandlers;
 
-
-    private MavMeshOnLoad _navMeshLoad;
-
-
     private string mapBasePrefabPath = "Prefabs/Maps/Base/";
 
-    /// <summary>
-    /// 获取某个点的地图格子索引
-    /// </summary>
-    /// <param name="pos"></param>
-    /// <returns></returns>
-    public int GetMapGridIndexWithPoint(Vector3 WorldPos)
-    {
-        return this._mapGridConfig.GetMapIndex(WorldPos);
-    }
 
     public void Initialize(GameMapData loadedMapData)
     {
@@ -41,9 +28,6 @@ public class GameMapManager : IMeterHandler
         }
         this._mapData = loadedMapData;
         
-        // 2 生成 map grid
-        this._mapGridConfig = new MapGridInfo(_mapData.mapColCount, _mapData.mapRowCount, _mapData.mapCellWidth, _mapData.mapCellHeight, 0);
-
         _mapGrounds = new List<MapGround>();
         _mapBlocks = new List<MapBlock>();
         _mapMeterHandlers = new List<IMeterHandler>();
@@ -54,23 +38,21 @@ public class GameMapManager : IMeterHandler
     {
         LoadMapBase();
         LoadMapEvents();
-        //GameObject gameObject = new GameObject("MavMeshOnLoad");
-        //_navMeshLoad = gameObject.AddComponent<MavMeshOnLoad>();
-        //_navMeshLoad.GetSurfaceComponent();
-        //_navMeshLoad.Bake();
-
+        
     }
 
-    public bool IsPosOnGround(Vector3 worldPos)
+    
+    public bool GetNavRouteToPos(Vector3 tgtPos,out Vector3[] routes)
     {
-        var mapIndex = GetMapGridIndexWithPoint(worldPos);
-        if (mapIndex < 0) return false;
-        foreach (var ground in _mapGrounds)
-        {
-            if (ground.IsMapIndexInGround(mapIndex)) return true;
-        }
+
+
+
+
+        routes = new Vector3[0];
         return false;
     }
+
+
 
 
 

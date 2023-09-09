@@ -5,9 +5,10 @@ using UnityEngine.AI;
 using Unity.AI.Navigation;
 public class MavMeshOnLoad : MonoBehaviour
 {
-    private NavMeshSurface surface;//NavMeshSurface组件
+    //private NavMeshSurface surface;//NavMeshSurface组件
                                    // Start is called before the first frame update
 
+    /**
     public void GetSurfaceComponent()
     {
         surface = GetComponent<NavMeshSurface>();
@@ -21,5 +22,6 @@ public class MavMeshOnLoad : MonoBehaviour
     {
         surface.BuildNavMesh();
     }
+    */
 }
 

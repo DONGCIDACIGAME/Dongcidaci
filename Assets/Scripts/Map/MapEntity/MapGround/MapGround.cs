@@ -14,12 +14,13 @@ public class MapGround: MapEntity
         return EntityTypeDefine.Ground;
     }
 
-    
+    /**
     public bool IsMapIndexInGround(int mapIndex)
     {
         if (mapIndex < 0) return false;
         var groundView = this._mMapEntiyView as MapGroundView;
         return groundView.OccupyMapIndexs.Contains(mapIndex);
     }
+    */
 
 }

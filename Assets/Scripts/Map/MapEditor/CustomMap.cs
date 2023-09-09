@@ -12,6 +12,12 @@ public class CustomMap : MonoBehaviour
 {
     public static CustomMap Ins;
 
+    //private static string MapJsonSavePath = Application.dataPath;
+    public GameMapData mapData;
+
+
+
+    #region Base Grid Info
     [Header("地图基础网格信息")]
     public int gridColCount = 10;
     public int gridRowCount = 10;
@@ -62,41 +68,19 @@ public class CustomMap : MonoBehaviour
             }
         }
     }
+    #endregion
 
-
+    #region Navigation Info
     [Header("导航信息")]
     [Range(2,10)]
     public int naviSubLevel = 4;
     public bool drawNaviGrids = false;
-    private List<NaviGridCell> naviCells = new List<NaviGridCell>();
-
-    public class NaviGridCell
-    {
-        public Vector2 size;
-        public int xIndex = -1;
-        public int yIndex = -1;
-        public Vector3 anchorPos;
-
-        /// <summary>
-        /// 该导航网格的最大通过半径
-        /// </summary>
-        public float maxPassRadius;
-
-        /// <summary>
-        /// 该导航网格的优先级
-        /// 如果网格上存在负面事件，那么该优先级会更低
-        /// </summary>
-        public int priority;
-
-        /// <summary>
-        /// 是否被事件障碍物阻挡着
-        /// </summary>
-        public bool isEventBlocked;
-    }
+    //private List<NaviGridCell> naviCells = new List<NaviGridCell>();
 
     public void CaculateNaviGridCells()
     {
-        naviCells.Clear();
+        if (mapData == null) return;
+        mapData.naviCells.Clear();
         if (gridColCount <= 0 || gridRowCount <= 0 || gridCellWidth <= 0 || gridCellHeight <= 0) return;
 
         // 获取所有的地板信息MapGroundView
@@ -122,8 +106,6 @@ public class CustomMap : MonoBehaviour
                 grounds.Add(groundView);
             }
         }
-
-        
 
         // 获取所有mapblock的碰撞信息
         //List<GameColliderView> mapBlockColliders = new List<GameColliderView>();
@@ -207,24 +189,36 @@ public class CustomMap : MonoBehaviour
 
 
                 var newNaviCell = new NaviGridCell();
-                newNaviCell.size = new Vector2(naviCellWidth, naviCellHeight);
-                newNaviCell.xIndex = naviColCount;
-                newNaviCell.yIndex = naviRowCount;
-                newNaviCell.anchorPos = naviCellPos;
-                this.naviCells.Add(newNaviCell);
+                newNaviCell.sizeX = naviCellWidth;
+                newNaviCell.sizeY = naviCellHeight;
+                newNaviCell.xIndex = i;
+                newNaviCell.yIndex = j;
+                newNaviCell.anchorPosX = naviCellPos.x;
+                newNaviCell.anchorPosY = naviCellPos.y;
+                newNaviCell.anchorPosZ = naviCellPos.z;
+
+                // 计算这个点上的最大通过大小
+                // 这里可能需要加上事件层的
+                newNaviCell.maxPassRadius = 10000f;
+                foreach (var colliderShape in mapBlockShapes)
+                {
+                    var maxDis = GameColliderHelper.GetMinBoundDisFromPointToShape(naviCellPos, colliderShape);
+                    if (maxDis<newNaviCell.maxPassRadius)
+                    {
+                        newNaviCell.maxPassRadius = maxDis;
+                    }
+                }
+
+                mapData.naviCells.Add(newNaviCell);
 
             }
         }
     }
 
-
-
-    //private static string MapJsonSavePath = Application.dataPath;
-    public GameMapData mapData;
-
+    #endregion
 
     
-
+    
     private void OnEnable()
     {
         Ins = this;
@@ -306,7 +300,7 @@ public class CustomMap : MonoBehaviour
         return gridCells[realIndex];
     }
 
-
+    /**
     public void SaveGridIndexToGround()
     {
         var groundLayerT = GameObject.Find("_GROUND_LAYER").transform;
@@ -333,6 +327,7 @@ public class CustomMap : MonoBehaviour
         }
 
     }
+    */
 
     public void SaveMapDataToDisk()
     {
@@ -439,9 +434,9 @@ public class CustomMap : MonoBehaviour
         // 绘制导航网格的信息
         if (drawNaviGrids)
         {
-            if (naviCells != null && naviCells.Count > 0)
+            if (mapData != null && mapData.naviCells!=null && mapData.naviCells.Count > 0)
             {
-                foreach (var naviCell in naviCells)
+                foreach (var naviCell in mapData.naviCells)
                 {
                     /**
                     Handles.DrawAAConvexPolygon(new Vector3[] { 
@@ -451,7 +446,8 @@ public class CustomMap : MonoBehaviour
                         naviCell.rdV3 + new Vector3(-0.1f,0,0.1f)});
                     */
 
-                    Handles.DrawWireDisc(naviCell.anchorPos,Vector3.up, 0.1f);
+                    Handles.DrawWireDisc(new Vector3(naviCell.anchorPosX,naviCell.anchorPosY,naviCell.anchorPosZ),Vector3.up, 0.1f);
+                    //Handles.Label(naviCell.anchorPos,naviCell.maxPassRadius.ToString());
                 }
             }
         }

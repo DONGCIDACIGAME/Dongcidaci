@@ -6,8 +6,8 @@ public class MapGroundView : MapEntityView
     /// <summary>
     /// 这个地板占据的地图块索引信息
     /// </summary>
-    [SerializeField] private int[] _occupyMapIndexs;
-    public int[] OccupyMapIndexs => _occupyMapIndexs;
+    //[SerializeField] private int[] _occupyMapIndexs;
+    //public int[] OccupyMapIndexs => _occupyMapIndexs;
 
     /// <summary>
     /// 检查某个点是否在这个地板面上
@@ -28,7 +28,7 @@ public class MapGroundView : MapEntityView
         return false;
     }
 
-
+    /**
 #if UNITY_EDITOR
 
     public void GenerateMapIndexs()
@@ -75,7 +75,7 @@ public class MapGroundView : MapEntityView
     }
 
 #endif
-
+    */
 
 
 

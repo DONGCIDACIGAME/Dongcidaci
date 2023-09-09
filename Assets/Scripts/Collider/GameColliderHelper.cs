@@ -741,11 +741,26 @@ public static class GameColliderHelper
         GetVertexGroupRectEnvelope(vertexs, out envlpPos, out envlpSize);
     }
 
+    /// <summary>
+    /// 获取某个点到某个凸多边形形状上的点的最短包络距离
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="tgtShape"></param>
+    /// <returns></returns>
+    public static float GetMinBoundDisFromPointToShape(Vector3 pos,IConvex2DShape tgtShape)
+    {
+        var ret = 10000f;
+        foreach (var vertex in tgtShape.GetVertexs())
+        {
+            var minDis = Mathf.Max(Mathf.Abs(pos.x-vertex.x),Mathf.Abs(pos.z-vertex.y));
+            if (minDis < ret)
+            {
+                ret = minDis;
+            }
+        }
 
-
-
-
-
+        return ret;
+    }
 
 
 

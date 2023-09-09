@@ -11,6 +11,18 @@ public class CustomMapEditor : Editor
         CustomMap myScript = (CustomMap)target;
         this.serializedObject.Update();
 
+        #region MAP DATA
+        EditorGUILayout.PropertyField(this.serializedObject.FindProperty("mapData"));
+
+
+        if (GUILayout.Button("保存地图数据"))
+        {
+            myScript.SaveMapDataToDisk();
+        }
+        EditorGUILayout.Separator();
+
+        #endregion
+
         #region MAP GRID CONFIG
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("gridColCount"));
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("gridRowCount"));

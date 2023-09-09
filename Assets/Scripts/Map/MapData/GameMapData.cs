@@ -61,6 +61,39 @@ public enum MapRoomTypeDefine
 }
 
 [System.Serializable]
+public class NaviGridCell
+{
+    public int xIndex;
+    public int yIndex;
+
+    public float sizeX;
+    public float sizeY;
+    
+    public float anchorPosX;
+    public float anchorPosY;
+    public float anchorPosZ;
+
+    /// <summary>
+    /// 该导航网格的最大通过半径
+    /// </summary>
+    public float maxPassRadius;
+
+    /// <summary>
+    /// 该导航网格的优先级
+    /// 如果网格上存在负面事件，那么该优先级会更低
+    /// </summary>
+    public int priority;
+
+    /// <summary>
+    /// 是否被事件障碍物阻挡着
+    /// </summary>
+    public bool isEventBlocked;
+}
+
+
+
+
+[System.Serializable]
 public class GameMapData
 {
     /// <summary>
@@ -112,5 +145,10 @@ public class GameMapData
     /// 地图的事件数据
     /// </summary>
     public List<MapEventData> mapEventDatas;
+
+    /// <summary>
+    /// 地图的所有导航数据
+    /// </summary>
+    public List<NaviGridCell> naviCells;
 
 }
