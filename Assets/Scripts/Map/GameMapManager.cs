@@ -47,12 +47,16 @@ public class GameMapManager : IMeterHandler
 
 
 
-
         routes = new Vector3[0];
         return false;
     }
 
-
+    /**
+    public Vector3[] FindRouteAStar()
+    {
+        
+    }
+    */
 
 
 

@@ -3,7 +3,7 @@ using GameEngine;
 using System.Collections.Generic;
 using GameSkillEffect;
 
-public class GameManager:MonoBehaviour
+public class GameManager: MonoBehaviour
 {
     public static GameManager Ins;
 
