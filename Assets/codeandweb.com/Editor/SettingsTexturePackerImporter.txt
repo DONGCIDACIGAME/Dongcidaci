@@ -1,0 +1,26 @@
+version: 2
+tpsheetFileNames:
+- Assets/AssetBundles/2DRes/Monsters/01_PlantFlower/Attack/attack.tpsheet
+- Assets/AssetBundles/2DRes/Monsters/01_PlantFlower/BeHit/Behit.tpsheet
+- Assets/AssetBundles/2DRes/Monsters/01_PlantFlower/Die/Die.tpsheet
+- Assets/AssetBundles/2DRes/Monsters/01_PlantFlower/Idle/Idle-0.tpsheet
+- Assets/AssetBundles/2DRes/Monsters/01_PlantFlower/Idle/Idle-1.tpsheet
+- Assets/AssetBundles/2DRes/Monsters/01_PlantFlower/Run/run.tpsheet
+- Assets/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
+textureFileNames:
+- Assets/AssetBundles/2DRes/Monsters/01_PlantFlower/Attack/attack.png
+- Assets/AssetBundles/2DRes/Monsters/01_PlantFlower/BeHit/Behit.png
+- Assets/AssetBundles/2DRes/Monsters/01_PlantFlower/Die/Die.png
+- Assets/AssetBundles/2DRes/Monsters/01_PlantFlower/Idle/Idle-0.png
+- Assets/AssetBundles/2DRes/Monsters/01_PlantFlower/Idle/Idle-1.png
+- Assets/AssetBundles/2DRes/Monsters/01_PlantFlower/Run/run.png
+- Assets/codeandweb.com/Example/SpriteSheet/sprites.png
+normalmapFileNames:
+- 
+- 
+- 
+- 
+- 
+- 
+- Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
+enableDebugOutput: 0
